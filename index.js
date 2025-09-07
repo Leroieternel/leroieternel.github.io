@@ -396,7 +396,7 @@ function email(){
 function projects(){
   const store = document.createElement("p");
   store.textContent = "Most of the projects I have worked on are closed source,"
-      + " but my personal projets are available here: ";
+      + " but my personal projects are available here: ";
     
   store.className = "half";
   const link = document.createElement("a");
