@@ -88,7 +88,14 @@
       block.style.width = `${100 * (segment.end_frame - segment.start_frame + 1) / ep.frame_count}%`;
       block.style.background = colors[index % colors.length]; block.title = segment.subtask;
       const label = document.createElement("span"); label.textContent = `${index + 1}. ${segment.subtask}`; block.appendChild(label);
-      block.addEventListener("click", event => { event.stopPropagation(); selectedSegment = index; renderTimeline(); renderEditor(); });
+      block.addEventListener("click", event => {
+        event.stopPropagation();
+        selectedSegment = index;
+        video.pause();
+        renderTimeline();
+        renderEditor();
+        previewFrame(ep, segment.start_frame);
+      });
       track.appendChild(block);
       if (index < segments.length - 1) {
         const handle = document.createElement("div"); handle.className = `boundary-handle ${index === selectedBoundary ? "selected" : ""}`;
