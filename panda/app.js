@@ -12,6 +12,8 @@
   let selectedSegment = 0;
   let selectedBoundary = null;
   let draggingBoundary = null;
+  let pendingPreviewFrame = null;
+  let previewAnimationFrame = null;
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
   function episodeKey(ep) { return `${ep.task_id}/${ep.episode_id}`; }
@@ -37,6 +39,19 @@
   function frameNow(ep) { return Math.max(0, Math.min(ep.frame_count - 1, Math.round(video.currentTime * ep.fps))); }
   function seekFrame(ep, frame) { video.currentTime = Math.max(0, Math.min(ep.frame_count - 1, frame)) / ep.fps; }
   function pct(frame, ep) { return 100 * frame / Math.max(1, ep.frame_count - 1); }
+
+  function previewFrame(ep, frame) {
+    pendingPreviewFrame = Math.max(0, Math.min(ep.frame_count - 1, frame));
+    $("frame-readout").textContent = `frame ${pendingPreviewFrame} / ${ep.frame_count - 1}`;
+    $("playhead").style.left = `${pct(pendingPreviewFrame, ep)}%`;
+    if (previewAnimationFrame != null) return;
+    previewAnimationFrame = requestAnimationFrame(() => {
+      const target = pendingPreviewFrame;
+      pendingPreviewFrame = null;
+      previewAnimationFrame = null;
+      if (target != null) seekFrame(ep, target);
+    });
+  }
 
   function renderDirectory() {
     const groups = new Map();
@@ -68,7 +83,7 @@
     const ep = data.episodes[currentIndex], segments = record(ep).segments;
     const track = $("segments-track"); track.textContent = "";
     segments.forEach((segment, index) => {
-      const block = document.createElement("div"); block.className = `segment-block ${index === selectedSegment ? "selected" : ""}`;
+      const block = document.createElement("div"); block.className = `segment-block ${index === selectedSegment ? "selected" : ""}`; block.dataset.segment = index;
       block.style.left = `${pct(segment.start_frame, ep)}%`;
       block.style.width = `${100 * (segment.end_frame - segment.start_frame + 1) / ep.frame_count}%`;
       block.style.background = colors[index % colors.length]; block.title = segment.subtask;
@@ -79,10 +94,16 @@
         const handle = document.createElement("div"); handle.className = `boundary-handle ${index === selectedBoundary ? "selected" : ""}`;
         handle.style.left = `${pct(segment.end_frame + 0.5, ep)}%`; handle.dataset.boundary = index;
         handle.addEventListener("pointerdown", event => {
-          event.preventDefault(); event.stopPropagation(); draggingBoundary = index; selectedBoundary = index; handle.setPointerCapture(event.pointerId); renderTimeline(); updateBoundaryText();
+          event.preventDefault(); event.stopPropagation();
+          video.pause();
+          draggingBoundary = { index, pointerId: event.pointerId };
+          selectedBoundary = index;
+          document.querySelectorAll(".boundary-handle.selected").forEach(item => item.classList.remove("selected"));
+          handle.classList.add("selected");
+          handle.setPointerCapture(event.pointerId);
+          previewFrame(ep, segment.end_frame);
+          updateBoundaryText();
         });
-        handle.addEventListener("pointermove", event => { if (draggingBoundary === index) moveBoundaryFromPointer(event.clientX); });
-        handle.addEventListener("pointerup", () => { draggingBoundary = null; touch(ep); renderEditor(); });
         track.appendChild(handle);
       }
     });
@@ -96,7 +117,25 @@
     const raw = Math.round((clientX - rect.left) / rect.width * (ep.frame_count - 1));
     const left = r.segments[selectedBoundary], right = r.segments[selectedBoundary + 1];
     const frame = Math.max(left.start_frame, Math.min(right.end_frame - 1, raw));
-    left.end_frame = frame; right.start_frame = frame + 1; renderTimeline(); renderEditor();
+    left.end_frame = frame; right.start_frame = frame + 1;
+    const blocks = $("segments-track").querySelectorAll(".segment-block");
+    blocks.forEach((block, index) => {
+      const segment = r.segments[index];
+      block.style.left = `${pct(segment.start_frame, ep)}%`;
+      block.style.width = `${100 * (segment.end_frame - segment.start_frame + 1) / ep.frame_count}%`;
+    });
+    const handle = $("segments-track").querySelector(`.boundary-handle[data-boundary="${selectedBoundary}"]`);
+    if (handle) handle.style.left = `${pct(frame + 0.5, ep)}%`;
+    previewFrame(ep, frame);
+  }
+
+  function finishBoundaryDrag(event) {
+    if (!draggingBoundary || (event && event.pointerId !== draggingBoundary.pointerId)) return;
+    const ep = data.episodes[currentIndex];
+    draggingBoundary = null;
+    touch(ep);
+    renderTimeline();
+    renderEditor();
   }
 
   function renderEditor() {
@@ -173,6 +212,13 @@
   }
 
   timeline.addEventListener("click", event => { if (event.target.closest(".boundary-handle,.segment-block")) return; const ep = data.episodes[currentIndex], rect = timeline.getBoundingClientRect(); seekFrame(ep, Math.round((event.clientX - rect.left) / rect.width * (ep.frame_count - 1))); });
+  document.addEventListener("pointermove", event => {
+    if (!draggingBoundary || event.pointerId !== draggingBoundary.pointerId) return;
+    event.preventDefault();
+    moveBoundaryFromPointer(event.clientX);
+  }, { passive: false });
+  document.addEventListener("pointerup", finishBoundaryDrag);
+  document.addEventListener("pointercancel", finishBoundaryDrag);
   video.addEventListener("timeupdate", updatePlayhead); video.addEventListener("seeked", updatePlayhead); video.addEventListener("error", () => { $("video-error").hidden = false; $("video-error").textContent = "Video could not be loaded. Check RustFS public/download access and object URL."; });
   $("prev-episode").onclick = () => selectEpisode(currentIndex - 1); $("next-episode").onclick = () => selectEpisode(currentIndex + 1);
   $("step-back").onclick = () => seekFrame(data.episodes[currentIndex], frameNow(data.episodes[currentIndex]) - 1); $("step-forward").onclick = () => seekFrame(data.episodes[currentIndex], frameNow(data.episodes[currentIndex]) + 1);
