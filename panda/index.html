@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panda Subtask Review</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <header>
+        <h1>Panda review</h1>
+        <div id="progress" class="muted"></div>
+      </header>
+      <div id="task-list" class="task-list"></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div>
+          <h2 id="task-title">Loading…</h2>
+          <div id="episode-meta" class="muted"></div>
+        </div>
+        <div class="actions">
+          <button id="prev-episode" title="Previous episode (P / ↑)">Prev</button>
+          <button id="next-episode" title="Next episode (N / ↓)">Next</button>
+          <button id="mark-reviewed">Mark reviewed</button>
+          <button id="import-json">Import</button>
+          <button id="export-json" class="primary">Export JSON</button>
+          <input id="import-file" type="file" accept="application/json" hidden>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="video-wrap">
+          <video id="video" controls preload="metadata"></video>
+          <div id="video-error" class="video-error" hidden></div>
+        </div>
+
+        <div class="transport">
+          <button id="step-back" title="Previous frame (,)">−1 frame</button>
+          <span id="frame-readout">frame 0</span>
+          <button id="step-forward" title="Next frame (.)">+1 frame</button>
+          <span class="shortcut-hint">Space play · P/N episode · [/] boundary · B set boundary · Ctrl/Cmd+S review</span>
+        </div>
+
+        <div class="timeline-section">
+          <div id="timeline" class="timeline" aria-label="Editable subtask timeline">
+            <div id="segments-track" class="segments-track"></div>
+            <div id="playhead" class="playhead"></div>
+          </div>
+          <div class="timeline-axis"><span>0</span><span id="last-frame-label"></span></div>
+        </div>
+
+        <div class="segment-toolbar">
+          <span id="selected-boundary">No boundary selected</span>
+          <button id="set-boundary">Set selected boundary to current frame</button>
+          <button id="split-segment">Split at current frame</button>
+          <button id="delete-segment">Delete selected segment</button>
+          <button id="reset-episode">Reset episode</button>
+        </div>
+        <div id="segment-editor" class="segment-editor"></div>
+        <datalist id="label-options"></datalist>
+      </section>
+    </main>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
