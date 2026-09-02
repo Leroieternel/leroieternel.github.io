@@ -32,6 +32,14 @@
   function intervalLeft(frame, ep) { return 100 * frame / ep.total_frames; }
   function intervalWidth(start, end, ep) { return 100 * (end - start + 1) / ep.total_frames; }
 
+  function playableVideoUrl(ep) {
+    if (ep.dataset !== "fastumi_100k") return ep.video_url;
+    const separator = ep.video_url.includes("?") ? "&" : "?";
+    // FastUMI objects were replaced with H.264 versions on 2026-09-02.  The
+    // versioned request bypasses Cloudflare's cached MPEG-4 Part 2 objects.
+    return `${ep.video_url}${separator}codec=h264-20260902`;
+  }
+
   const databasePromise = new Promise((resolve, reject) => {
     const request = indexedDB.open("intention6600-review", 1);
     request.onupgradeneeded = () => request.result.createObjectStore("records", { keyPath: "parent_episode_key" });
@@ -446,7 +454,7 @@
     $("full-instruction").value = currentRecord.full_episode_instruction;
     $("episode-meta").textContent = `${ep.split || ""} · ${ep.total_frames} frames @ ${ep.fps.toFixed(3)} fps · ${currentRecord.missions.length} short missions · ${currentRecord.long_term_missions.length} long missions · ${currentRecord.atomic_tasks.length} atomic tasks`;
     $("long-horizon").checked = currentRecord.long_horizon;
-    video.src = ep.video_url; video.load();
+    video.src = playableVideoUrl(ep); video.load();
     $("video-error").hidden = true;
     $("mark-reviewed").textContent = currentRecord.reviewed ? "Reviewed ✓" : "Mark reviewed";
     $("mark-reviewed").classList.toggle("reviewed", currentRecord.reviewed);
