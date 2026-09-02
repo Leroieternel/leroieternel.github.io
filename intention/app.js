@@ -103,6 +103,7 @@
 
   async function persistCurrent() {
     if (!currentRecord) return;
+    syncMissionMembership(currentRecord);
     currentRecord.updated_at = new Date().toISOString();
     $("save-status").textContent = "Saving…";
     $("save-status").classList.add("saving");
@@ -111,19 +112,15 @@
     $("save-status").classList.remove("saving");
   }
 
-  function atomicById(id) { return currentRecord.atomic_tasks.find(item => item.atomic_task_id === id); }
-  function atomicIndexById(id) { return currentRecord.atomic_tasks.findIndex(item => item.atomic_task_id === id); }
-  function missionRange(mission) {
-    const atoms = mission.atomic_task_ids.map(atomicById).filter(Boolean);
-    return { start_frame: atoms[0].start_frame, end_frame: atoms[atoms.length - 1].end_frame };
+  function atomicsOverlappingMission(mission, record = currentRecord) {
+    return record.atomic_tasks.filter(atomic =>
+      atomic.end_frame >= mission.start_frame && atomic.start_frame <= mission.end_frame
+    );
   }
-  function refreshMissionRanges(record = currentRecord) {
-    const index = new Map(record.atomic_tasks.map(item => [item.atomic_task_id, item]));
+
+  function syncMissionMembership(record = currentRecord) {
     record.missions.forEach(mission => {
-      const atoms = mission.atomic_task_ids.map(id => index.get(id)).filter(Boolean);
-      if (!atoms.length) throw new Error(`Mission ${mission.mission_id} has no atomic tasks`);
-      mission.start_frame = atoms[0].start_frame;
-      mission.end_frame = atoms[atoms.length - 1].end_frame;
+      mission.atomic_task_ids = atomicsOverlappingMission(mission, record).map(atomic => atomic.atomic_task_id);
     });
   }
 
@@ -133,7 +130,6 @@
     atoms[0].start_frame = 0;
     for (let index = 1; index < atoms.length; index++) atoms[index].start_frame = atoms[index - 1].end_frame + 1;
     atoms[atoms.length - 1].end_frame = ep.total_frames - 1;
-    refreshMissionRanges();
   }
 
   function frameNow(ep) {
@@ -262,7 +258,6 @@
 
   function renderTimelines() {
     const ep = data.episodes[currentIndex];
-    refreshMissionRanges();
     const missionTrack = $("mission-track"); missionTrack.textContent = "";
     currentRecord.missions.forEach((mission, index) => {
       missionTrack.appendChild(makeBlock("mission", mission, index, ep));
@@ -291,7 +286,6 @@
   }
 
   function renderEditors() {
-    refreshMissionRanges();
     const missionRoot = $("mission-editor"); missionRoot.textContent = "";
     currentRecord.missions.forEach((mission, index) => {
       const row = document.createElement("div"); row.className = `editor-row ${selectedLane === "mission" && selectedIndex === index ? "selected" : ""}`; row.style.setProperty("--row-color", missionColors[index % 7]);
@@ -302,7 +296,7 @@
       const range = document.createElement("span"); range.className = "editor-range"; range.textContent = `${mission.start_frame}–${mission.end_frame}`;
       main.append(number, input, range); row.appendChild(main);
       const chips = document.createElement("div"); chips.className = "atomic-chips";
-      mission.atomic_task_ids.forEach(id => { const atomic = atomicById(id); const chip = document.createElement("span"); chip.className = "atomic-chip"; chip.textContent = atomic ? atomic.atomic_task : id; chips.appendChild(chip); });
+      atomicsOverlappingMission(mission).forEach(atomic => { const chip = document.createElement("span"); chip.className = "atomic-chip"; chip.textContent = atomic.atomic_task; chips.appendChild(chip); });
       row.appendChild(chips);
       row.addEventListener("click", event => { if (event.target !== input) selectFromEditor("mission", index, true); });
       missionRoot.appendChild(row);
@@ -332,7 +326,6 @@
     const values = lane === "mission" ? currentRecord.missions : currentRecord.atomic_tasks;
     selectedIndex = Math.max(0, Math.min(values.length - 1, selectedIndex));
     const segment = values[selectedIndex];
-    if (lane === "mission") refreshMissionRanges();
     $("selection-title").textContent = `${lane === "mission" ? "Mission M" : "Atomic task A"}${selectedIndex + 1}`;
     $("selection-range").textContent = `frames ${segment.start_frame}–${segment.end_frame}`;
     $("mission-tools").hidden = lane !== "mission";
@@ -371,19 +364,14 @@
     const frame = Math.max(left.start_frame, Math.min(right.end_frame - 1, rawFrame));
     left.end_frame = frame; right.start_frame = frame + 1;
     left.boundary_source = "manual_review";
-    refreshMissionRanges();
     return frame;
   }
 
   function moveMissionBoundary(index, rawFrame) {
     const left = currentRecord.missions[index], right = currentRecord.missions[index + 1];
-    const combined = [...left.atomic_task_ids, ...right.atomic_task_ids];
-    const candidates = combined.slice(0, -1).map((_, cut) => ({ cut: cut + 1, frame: atomicById(combined[cut]).end_frame }));
-    const choice = candidates.reduce((best, item) => Math.abs(item.frame - rawFrame) < Math.abs(best.frame - rawFrame) ? item : best);
-    left.atomic_task_ids = combined.slice(0, choice.cut);
-    right.atomic_task_ids = combined.slice(choice.cut);
-    refreshMissionRanges();
-    return choice.frame;
+    const frame = Math.max(left.start_frame, Math.min(right.end_frame - 1, rawFrame));
+    left.end_frame = frame; right.start_frame = frame + 1;
+    return frame;
   }
 
   function moveBoundaryFromPointer(clientX) {
@@ -439,50 +427,31 @@
     dialog.showModal(); setTimeout(() => form.elements[fields[0].id].select(), 0);
   }
 
-  function missionForAtomic(id) { return currentRecord.missions.find(mission => mission.atomic_task_ids.includes(id)); }
-
   function mergeMission() {
     const index = selectedIndex;
     if (index >= currentRecord.missions.length - 1) return;
     const left = currentRecord.missions[index], right = currentRecord.missions[index + 1];
-    openDialog("Merge two missions", "The atomic tasks and frame coverage are preserved. Enter the new predictable intention.", [
+    openDialog("Merge two missions", "Only the mission track changes. Atomic tasks and their boundaries stay unchanged.", [
       { id: "mission", label: "Merged mission", value: `${left.mission}; ${right.mission}` },
     ], async values => {
-      left.mission = values.mission; left.atomic_task_ids.push(...right.atomic_task_ids);
-      currentRecord.missions.splice(index + 1, 1); refreshMissionRanges(); selectedBoundary = null;
+      left.mission = values.mission; left.end_frame = right.end_frame;
+      currentRecord.missions.splice(index + 1, 1); selectedBoundary = null;
       await persistCurrent(); renderAll();
     });
   }
 
   function splitMission() {
     const ep = data.episodes[currentIndex], mission = currentRecord.missions[selectedIndex], frame = frameNow(ep);
-    refreshMissionRanges();
     if (frame < mission.start_frame || frame >= mission.end_frame) return alert("Move the video to a frame inside the selected mission, before its final frame.");
-    const atoms = mission.atomic_task_ids.map(atomicById);
-    const atomPosition = atoms.findIndex(atom => frame >= atom.start_frame && frame <= atom.end_frame);
-    const atom = atoms[atomPosition];
-    const splitInsideAtom = frame < atom.end_frame;
     const fields = [
       { id: "left_mission", label: "First mission", value: mission.mission },
       { id: "right_mission", label: "Second mission", value: mission.mission },
     ];
-    if (splitInsideAtom) fields.push(
-      { id: "left_atomic", label: "Atomic task before boundary", value: atom.atomic_task },
-      { id: "right_atomic", label: "Atomic task after boundary", value: atom.atomic_task },
-    );
-    openDialog("Split mission at current frame", `Create two missions at frame ${frame}.`, fields, async values => {
-      let cut = atomPosition + 1;
-      if (splitInsideAtom) {
-        const rightAtom = { ...atom, atomic_task_id: newId("atomic"), atomic_task: values.right_atomic, start_frame: frame + 1, end_frame: atom.end_frame, boundary_source: "manual_review" };
-        atom.atomic_task = values.left_atomic; atom.end_frame = frame; atom.boundary_source = "manual_review";
-        const globalIndex = atomicIndexById(atom.atomic_task_id); currentRecord.atomic_tasks.splice(globalIndex + 1, 0, rightAtom);
-        mission.atomic_task_ids.splice(atomPosition + 1, 0, rightAtom.atomic_task_id); cut = atomPosition + 1;
-      }
-      const rightIds = mission.atomic_task_ids.splice(cut);
-      const rightMission = { mission_id: newId("mission"), mission: values.right_mission, atomic_task_ids: rightIds };
-      mission.mission = values.left_mission;
+    openDialog("Split mission at current frame", `Create two missions at frame ${frame}. Atomic tasks stay unchanged.`, fields, async values => {
+      const rightMission = { mission_id: newId("mission"), mission: values.right_mission, start_frame: frame + 1, end_frame: mission.end_frame, atomic_task_ids: [] };
+      mission.mission = values.left_mission; mission.end_frame = frame;
       currentRecord.missions.splice(selectedIndex + 1, 0, rightMission);
-      refreshMissionRanges(); selectedBoundary = { lane: "mission", index: selectedIndex };
+      selectedBoundary = { lane: "mission", index: selectedIndex };
       await persistCurrent(); renderAll();
     });
   }
@@ -490,15 +459,14 @@
   function splitAtomic() {
     const ep = data.episodes[currentIndex], atom = currentRecord.atomic_tasks[selectedIndex], frame = frameNow(ep);
     if (frame < atom.start_frame || frame >= atom.end_frame) return alert("Move the video to a frame inside the selected atomic task, before its final frame.");
-    openDialog("Split atomic task", `Create two atomic tasks at frame ${frame}. They remain in the same mission.`, [
+    openDialog("Split atomic task", `Create two atomic tasks at frame ${frame}. Missions stay unchanged.`, [
       { id: "left", label: "Atomic task before boundary", value: atom.atomic_task },
       { id: "right", label: "Atomic task after boundary", value: atom.atomic_task },
     ], async values => {
       const right = { ...atom, atomic_task_id: newId("atomic"), atomic_task: values.right, start_frame: frame + 1, end_frame: atom.end_frame, boundary_source: "manual_review" };
       atom.atomic_task = values.left; atom.end_frame = frame; atom.boundary_source = "manual_review";
       currentRecord.atomic_tasks.splice(selectedIndex + 1, 0, right);
-      const mission = missionForAtomic(atom.atomic_task_id); const position = mission.atomic_task_ids.indexOf(atom.atomic_task_id);
-      mission.atomic_task_ids.splice(position + 1, 0, right.atomic_task_id); refreshMissionRanges(); selectedBoundary = { lane: "atomic", index: selectedIndex };
+      selectedBoundary = { lane: "atomic", index: selectedIndex };
       await persistCurrent(); renderAll();
     });
   }
@@ -507,15 +475,12 @@
     const index = selectedIndex;
     if (index >= currentRecord.atomic_tasks.length - 1) return;
     const left = currentRecord.atomic_tasks[index], right = currentRecord.atomic_tasks[index + 1];
-    const leftMission = missionForAtomic(left.atomic_task_id), rightMission = missionForAtomic(right.atomic_task_id);
-    if (leftMission !== rightMission) return alert("These atomic tasks belong to different missions. Merge the two missions first, then merge their atomic tasks if needed.");
-    openDialog("Merge two atomic tasks", "Their frame ranges will be joined inside the current mission.", [
+    openDialog("Merge two atomic tasks", "Only the atomic track changes. Missions and their boundaries stay unchanged.", [
       { id: "atomic", label: "Merged atomic task", value: `${left.atomic_task}; ${right.atomic_task}` },
     ], async values => {
       left.atomic_task = values.atomic; left.end_frame = right.end_frame; left.boundary_source = "manual_review";
       currentRecord.atomic_tasks.splice(index + 1, 1);
-      leftMission.atomic_task_ids = leftMission.atomic_task_ids.filter(id => id !== right.atomic_task_id);
-      refreshMissionRanges(); selectedBoundary = null; await persistCurrent(); renderAll();
+      selectedBoundary = null; await persistCurrent(); renderAll();
     });
   }
 
@@ -541,15 +506,16 @@
   }
 
   function exportRecord(ep, record) {
-    refreshMissionRanges(record);
+    const snapshot = clone(record);
+    syncMissionMembership(snapshot);
     return {
       dataset: ep.dataset, task_id: ep.task_id, episode_id: ep.episode_id,
       parent_episode_key: ep.parent_episode_key, split: ep.split,
-      full_episode_instruction: record.full_episode_instruction,
+      full_episode_instruction: snapshot.full_episode_instruction,
       video_url: ep.video_url, fps: ep.fps, total_frames: ep.total_frames,
-      reviewed: Boolean(record.reviewed), updated_at: record.updated_at,
-      atomic_tasks: record.atomic_tasks,
-      missions: record.missions,
+      reviewed: Boolean(snapshot.reviewed), updated_at: snapshot.updated_at,
+      atomic_tasks: snapshot.atomic_tasks,
+      missions: snapshot.missions,
     };
   }
 
@@ -559,9 +525,10 @@
       const stored = new Map((await dbGetAll()).map(record => [record.parent_episode_key, record]));
       const episodes = data.episodes.map(ep => exportRecord(ep, stored.get(episodeKey(ep)) || baseRecord(ep)));
       const payload = {
-        schema_version: 3,
+        schema_version: 4,
         exported_at_utc: new Date().toISOString(),
         hierarchy: "full episode instruction > missions > atomic tasks",
+        track_semantics: "mission and atomic timelines are edited independently; mission atomic_task_ids are derived from temporal overlap",
         frame_semantics: "inclusive continuous episode-local frame indices",
         episodes,
       };
@@ -573,9 +540,11 @@
 
   function validateImported(item, ep) {
     if (!Array.isArray(item.atomic_tasks) || !item.atomic_tasks.length || !Array.isArray(item.missions) || !item.missions.length) return false;
-    const atoms = item.atomic_tasks;
-    if (Number(atoms[0].start_frame) !== 0 || Number(atoms[atoms.length - 1].end_frame) !== ep.total_frames - 1) return false;
-    return atoms.every((atom, index) => Number(atom.end_frame) >= Number(atom.start_frame) && (!index || Number(atom.start_frame) === Number(atoms[index - 1].end_frame) + 1));
+    const validTrack = segments => {
+      if (Number(segments[0].start_frame) !== 0 || Number(segments[segments.length - 1].end_frame) !== ep.total_frames - 1) return false;
+      return segments.every((segment, index) => Number(segment.end_frame) >= Number(segment.start_frame) && (!index || Number(segment.start_frame) === Number(segments[index - 1].end_frame) + 1));
+    };
+    return validTrack(item.atomic_tasks) && validTrack(item.missions);
   }
 
   function importJson(file) {
