@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Review full-episode, mission, and atomic-task annotations for 6,600 robot manipulation episodes.">
+  <title>Intention 6600 Review</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <div class="eyebrow">ROBOT INTENTION DATASET</div>
+        <h1>Intention 6600</h1>
+        <div id="dataset-summary" class="summary-line">Loading annotations…</div>
+        <div class="search-wrap">
+          <input id="episode-search" type="search" placeholder="Search task, episode, instruction…" autocomplete="off">
+        </div>
+        <div class="directory-filters" role="group" aria-label="Review filter">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="pending">Pending</button>
+          <button class="filter" data-filter="reviewed">Reviewed</button>
+        </div>
+      </header>
+      <nav id="episode-directory" class="episode-directory" aria-label="Dataset and episode directory"></nav>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div class="title-block">
+          <div class="episode-kicker" id="episode-kicker">Dataset · Episode</div>
+          <input id="full-instruction" class="full-instruction" aria-label="Full episode instruction">
+          <div id="episode-meta" class="meta"></div>
+        </div>
+        <div class="top-actions">
+          <button id="prev-episode" title="Previous episode (P / ↑)">Prev</button>
+          <button id="next-episode" title="Next episode (N / ↓)">Next</button>
+          <button id="mark-reviewed" class="review-button">Mark reviewed</button>
+          <button id="import-json">Import</button>
+          <button id="export-json" class="primary">Export JSON</button>
+          <input id="import-file" type="file" accept="application/json" hidden>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="video-shell">
+          <video id="video" controls preload="metadata"></video>
+          <div id="video-error" class="video-error" hidden></div>
+        </div>
+
+        <div class="transport">
+          <button id="step-back" title="Previous frame (,)">−1 frame</button>
+          <strong id="frame-readout">frame 0 / 0</strong>
+          <button id="step-forward" title="Next frame (.)">+1 frame</button>
+          <span id="save-status" class="save-status">Saved locally</span>
+          <span class="shortcut-hint">Space play · P/N episode · B set boundary · Ctrl/Cmd+S review</span>
+        </div>
+
+        <section class="hierarchy-card">
+          <div class="hierarchy-heading">
+            <div>
+              <div class="eyebrow">EDITABLE HIERARCHY</div>
+              <h2>Full task → Missions → Atomic tasks</h2>
+            </div>
+            <div class="legend">
+              <span><i class="legend-mission"></i>Mission</span>
+              <span><i class="legend-atomic"></i>Atomic task</span>
+              <span><i class="legend-inferred"></i>Inferred boundary</span>
+            </div>
+          </div>
+
+          <div class="lane-label-row"><strong>Missions</strong><span>Merge or split intentions; mission boundaries snap to atomic boundaries.</span></div>
+          <div id="mission-timeline" class="timeline mission-timeline" aria-label="Mission timeline">
+            <div id="mission-track" class="segments-track"></div>
+            <div class="playhead"></div>
+          </div>
+
+          <div class="lane-label-row atomic-label-row"><strong>Atomic tasks</strong><span>Drag a boundary to refine the exact transition frame.</span></div>
+          <div id="atomic-timeline" class="timeline atomic-timeline" aria-label="Atomic task timeline">
+            <div id="atomic-track" class="segments-track"></div>
+            <div class="playhead"></div>
+          </div>
+          <div class="timeline-axis"><span>0</span><span id="last-frame-label">0</span></div>
+        </section>
+
+        <section class="edit-toolbar">
+          <div class="selection-status">
+            <strong id="selection-title">Mission M1</strong>
+            <span id="selection-range">frames 0–0</span>
+          </div>
+          <div id="mission-tools" class="tool-group">
+            <button id="merge-mission">Merge with next</button>
+            <button id="split-mission">Split at current frame</button>
+          </div>
+          <div id="atomic-tools" class="tool-group" hidden>
+            <button id="merge-atomic">Merge with next</button>
+            <button id="split-atomic">Split at current frame</button>
+          </div>
+          <button id="set-boundary">Set selected boundary to current frame</button>
+          <button id="reset-episode" class="danger-quiet">Reset episode</button>
+        </section>
+
+        <div class="editor-grid">
+          <section class="editor-panel">
+            <header><div><span class="panel-index">M</span><strong>Missions</strong></div><span id="mission-count" class="count-badge"></span></header>
+            <div id="mission-editor" class="editor-list"></div>
+          </section>
+          <section class="editor-panel">
+            <header><div><span class="panel-index atomic">A</span><strong>Atomic tasks</strong></div><span id="atomic-count" class="count-badge"></span></header>
+            <div id="atomic-editor" class="editor-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="edit-dialog">
+    <form method="dialog" id="edit-form">
+      <h3 id="dialog-title">Edit annotation</h3>
+      <p id="dialog-help" class="dialog-help"></p>
+      <div id="dialog-fields" class="dialog-fields"></div>
+      <div class="dialog-actions">
+        <button value="cancel">Cancel</button>
+        <button id="dialog-confirm" value="default" class="primary">Apply</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
