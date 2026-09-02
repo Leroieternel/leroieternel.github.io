@@ -17,6 +17,7 @@
   let selectedIndex = 0;
   let selectedBoundary = null;
   let dragging = null;
+  let draggingPlayhead = null;
   let currentFilter = "all";
   let selectionToken = 0;
   let pendingPreviewFrame = null;
@@ -401,6 +402,21 @@
     await persistCurrent(); renderAll();
   }
 
+  function movePlayheadFromPointer(clientX) {
+    if (!draggingPlayhead) return;
+    const ep = data.episodes[currentIndex];
+    const rect = draggingPlayhead.timeline.getBoundingClientRect();
+    const raw = Math.round((clientX - rect.left) / rect.width * (ep.total_frames - 1));
+    previewFrame(ep, raw);
+  }
+
+  function finishPlayheadDrag(event) {
+    if (!draggingPlayhead || (event && event.pointerId !== draggingPlayhead.pointerId)) return false;
+    draggingPlayhead.element.classList.remove("dragging");
+    draggingPlayhead = null;
+    return true;
+  }
+
   function openDialog(title, help, fields, apply) {
     const dialog = $("edit-dialog");
     $("dialog-title").textContent = title; $("dialog-help").textContent = help;
@@ -590,7 +606,7 @@
   }
 
   function timelineClick(event, lane) {
-    if (event.target.closest(".segment-block,.boundary-handle")) return;
+    if (event.target.closest(".segment-block,.boundary-handle,.playhead")) return;
     const ep = data.episodes[currentIndex], rect = event.currentTarget.getBoundingClientRect();
     seekFrame(ep, Math.round((event.clientX - rect.left) / rect.width * (ep.total_frames - 1)));
     selectedLane = lane; renderSelectionStatus();
@@ -598,8 +614,27 @@
 
   $("mission-timeline").addEventListener("click", event => timelineClick(event, "mission"));
   $("atomic-timeline").addEventListener("click", event => timelineClick(event, "atomic"));
-  document.addEventListener("pointermove", event => { if (dragging && event.pointerId === dragging.pointerId) { event.preventDefault(); moveBoundaryFromPointer(event.clientX); } }, { passive: false });
-  document.addEventListener("pointerup", finishDrag); document.addEventListener("pointercancel", finishDrag);
+  document.querySelectorAll(".playhead").forEach(element => {
+    element.title = "Drag to preview a video frame";
+    element.setAttribute("aria-label", "Current video frame; drag to seek");
+    element.addEventListener("pointerdown", event => {
+      event.preventDefault(); event.stopPropagation(); video.pause();
+      draggingPlayhead = { element, timeline: element.closest(".timeline"), pointerId: event.pointerId };
+      element.classList.add("dragging");
+      element.setPointerCapture(event.pointerId);
+      movePlayheadFromPointer(event.clientX);
+    });
+  });
+  document.addEventListener("pointermove", event => {
+    if (draggingPlayhead && event.pointerId === draggingPlayhead.pointerId) {
+      event.preventDefault(); movePlayheadFromPointer(event.clientX); return;
+    }
+    if (dragging && event.pointerId === dragging.pointerId) {
+      event.preventDefault(); moveBoundaryFromPointer(event.clientX);
+    }
+  }, { passive: false });
+  document.addEventListener("pointerup", event => { if (!finishPlayheadDrag(event)) finishDrag(event); });
+  document.addEventListener("pointercancel", event => { if (!finishPlayheadDrag(event)) finishDrag(event); });
   video.addEventListener("timeupdate", () => updatePlayheads()); video.addEventListener("seeked", () => updatePlayheads());
   video.addEventListener("error", () => { $("video-error").hidden = false; $("video-error").textContent = "Video could not be loaded from RustFS. This episode may still be uploading."; });
   $("full-instruction").addEventListener("change", async event => { currentRecord.full_episode_instruction = event.target.value.trim() || data.episodes[currentIndex].full_episode_instruction; await persistCurrent(); });
