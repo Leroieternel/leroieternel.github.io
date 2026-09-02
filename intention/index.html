@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Review full-episode, mission, and atomic-task annotations for 6,600 robot manipulation episodes.">
+  <meta name="description" content="Review full-episode, long-term mission, short-term mission, and atomic-task annotations for robot manipulation episodes.">
   <title>Intention 6600 Review</title>
-  <link rel="stylesheet" href="styles.css?v=20260902-independent-tracks">
+  <link rel="stylesheet" href="styles.css?v=20260902-long-horizon">
 </head>
 <body>
   <div id="app">
@@ -37,6 +37,10 @@
           <button id="prev-episode" title="Previous episode (P / ↑)">Prev</button>
           <button id="next-episode" title="Next episode (N / ↓)">Next</button>
           <button id="mark-reviewed" class="review-button">Mark reviewed</button>
+          <label class="long-horizon-toggle" title="Enable a set-level mission after repeated object-specific transfers">
+            <input id="long-horizon" type="checkbox">
+            <span>Long horizon</span>
+          </label>
           <button id="import-json">Import</button>
           <button id="export-json" class="primary">Export JSON</button>
           <input id="import-file" type="file" accept="application/json" hidden>
@@ -61,16 +65,25 @@
           <div class="hierarchy-heading">
             <div>
               <div class="eyebrow">EDITABLE HIERARCHY</div>
-              <h2>Full task → Missions → Atomic tasks</h2>
+              <h2>Full task → Long-term mission → Short-term missions → Atomic tasks</h2>
             </div>
             <div class="legend">
-              <span><i class="legend-mission"></i>Mission</span>
+              <span><i class="legend-long"></i>Long-term mission</span>
+              <span><i class="legend-mission"></i>Short-term mission</span>
               <span><i class="legend-atomic"></i>Atomic task</span>
               <span><i class="legend-inferred"></i>Inferred boundary</span>
             </div>
           </div>
 
-          <div class="lane-label-row"><strong>Missions</strong><span>Merge, split, or drag this track independently of atomic tasks.</span></div>
+          <div id="long-mission-lane" hidden>
+            <div class="lane-label-row"><strong>Long-term missions</strong><span>Set-level intention; active for prediction from its third member short-term mission.</span></div>
+            <div id="long-mission-timeline" class="timeline long-mission-timeline" aria-label="Long-term mission timeline">
+              <div id="long-mission-track" class="segments-track"></div>
+              <div class="playhead"></div>
+            </div>
+          </div>
+
+          <div class="lane-label-row"><strong>Short-term missions</strong><span>Merge, split, or drag this track independently of atomic tasks.</span></div>
           <div id="mission-timeline" class="timeline mission-timeline" aria-label="Mission timeline">
             <div id="mission-track" class="segments-track"></div>
             <div class="playhead"></div>
@@ -86,7 +99,7 @@
 
         <section class="edit-toolbar">
           <div class="selection-status">
-            <strong id="selection-title">Mission M1</strong>
+            <strong id="selection-title">Short-term mission M1</strong>
             <span id="selection-range">frames 0–0</span>
           </div>
           <div id="mission-tools" class="tool-group">
@@ -97,13 +110,20 @@
             <button id="merge-atomic">Merge with next</button>
             <button id="split-atomic">Split at current frame</button>
           </div>
+          <div id="long-tools" class="tool-group" hidden>
+            <span class="toolbar-note">Edit the long-term label below; its activation is derived from member short-term missions.</span>
+          </div>
           <button id="set-boundary">Set selected boundary to current frame</button>
           <button id="reset-episode" class="danger-quiet">Reset episode</button>
         </section>
 
         <div class="editor-grid">
+          <section id="long-editor-panel" class="editor-panel" hidden>
+            <header><div><span class="panel-index long">L</span><strong>Long-term missions</strong></div><span id="long-count" class="count-badge"></span></header>
+            <div id="long-editor" class="editor-list"></div>
+          </section>
           <section class="editor-panel">
-            <header><div><span class="panel-index">M</span><strong>Missions</strong></div><span id="mission-count" class="count-badge"></span></header>
+            <header><div><span class="panel-index">M</span><strong>Short-term missions</strong></div><span id="mission-count" class="count-badge"></span></header>
             <div id="mission-editor" class="editor-list"></div>
           </section>
           <section class="editor-panel">
@@ -128,6 +148,6 @@
   </dialog>
 
   <script src="data.js"></script>
-  <script src="app.js?v=20260902-independent-tracks"></script>
+  <script src="app.js?v=20260902-long-horizon"></script>
 </body>
 </html>
