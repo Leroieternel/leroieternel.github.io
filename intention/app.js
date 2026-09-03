@@ -105,7 +105,7 @@
       long_term_missions: clone(ep.long_term_missions || []),
       reviewed: false,
       updated_at: null,
-      record_schema_version: 7,
+      record_schema_version: 8,
     };
   }
 
@@ -113,7 +113,7 @@
     // Reviewed records are user-owned: preserve their labels and boundaries.
     // Old unreviewed records are stale pre-reanalysis cache entries and should
     // adopt the new video-derived base annotation once.
-    if (!stored || (!isReviewed && Number(stored.record_schema_version || 0) < 7)) return baseRecord(ep);
+    if (!stored || (!isReviewed && Number(stored.record_schema_version || 0) < 8)) return baseRecord(ep);
     const record = clone(stored);
     if (!Array.isArray(record.missions) || !record.missions.length) {
       record.missions = clone(record.short_term_missions || ep.short_term_missions || ep.missions);
@@ -121,7 +121,7 @@
     if (!Array.isArray(record.atomic_tasks) || !record.atomic_tasks.length) record.atomic_tasks = clone(ep.atomic_tasks);
     if (!("long_horizon" in record)) record.long_horizon = isReviewed ? false : Boolean(ep.long_horizon);
     if (!Array.isArray(record.long_term_missions)) record.long_term_missions = isReviewed ? [] : clone(ep.long_term_missions || []);
-    record.record_schema_version = 7;
+    record.record_schema_version = 8;
     return record;
   }
 
@@ -723,7 +723,7 @@
             atomic_tasks: clone(item.atomic_tasks), missions: clone(item.short_term_missions || item.missions),
             long_horizon: Boolean(item.long_horizon), long_term_missions: clone(item.long_term_missions || []),
             reviewed: Boolean(item.reviewed), updated_at: item.updated_at || new Date().toISOString(),
-            record_schema_version: 7,
+            record_schema_version: 8,
           });
           item.reviewed ? reviewed.add(item.parent_episode_key) : reviewed.delete(item.parent_episode_key);
         }
