@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Panda OA+OM TensorRT NVFP4 与 Unsloth BF16 输出对比">
-  <title>Panda OA+OM · NVFP4 vs BF16</title>
+  <meta name="description" content="Panda OA+OM TensorRT、Unsloth、GPT-5.6 Luna 与 GPT-4o 输出对比">
+  <title>Panda OA+OM · 四模型输出对比</title>
   <style>
     :root { color-scheme: dark; --bg:#080c14; --panel:#111827; --line:#263247;
-      --text:#e8edf6; --muted:#98a7bd; --trt:#8b5cf6; --uns:#f59e0b; --gt:#10b981;
+      --text:#e8edf6; --muted:#98a7bd; --trt:#8b5cf6; --uns:#f59e0b; --gpt56:#38bdf8;
+      --gpt4o:#ec4899; --gt:#10b981;
       --ok:#22c55e; --miss:#f87171; }
     * { box-sizing:border-box; }
     body { margin:0; background:radial-gradient(circle at top,#162038 0,#080c14 42%);
@@ -20,7 +21,10 @@
     .metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:24px 0; }
     .metric-card,.sample-card { background:rgba(17,24,39,.94); border:1px solid var(--line);
       border-radius:18px; box-shadow:0 14px 42px #0006; }
-    .metric-card { padding:20px; } .metric-card dl { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:0; }
+    .metric-card { padding:20px; border-top:4px solid var(--line); }
+    .metric-card.trt { border-top-color:var(--trt); } .metric-card.unsloth { border-top-color:var(--uns); }
+    .metric-card.gpt56 { border-top-color:var(--gpt56); } .metric-card.gpt4o { border-top-color:var(--gpt4o); }
+    .metric-card dl { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:0; }
     .metric-card dl div { background:#0b1220; padding:10px; border-radius:10px; }
     dt,.field-label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
     dd { margin:3px 0 0; font-size:20px; font-weight:750; }
@@ -45,6 +49,7 @@
     .gt-panel p,.prediction-row p { margin:2px 0; font-weight:650; }
     .outputs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
     .output-panel.trt { border-left:4px solid var(--trt); } .output-panel.unsloth { border-left:4px solid var(--uns); }
+    .output-panel.gpt56 { border-left:4px solid var(--gpt56); } .output-panel.gpt4o { border-left:4px solid var(--gpt4o); }
     .prediction-row { display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--line); padding:9px 0; }
     .prediction-row:first-of-type { border-top:0; } .badges { text-align:right; }
     details summary { cursor:pointer; color:#cbd5e1; } pre { white-space:pre-wrap; overflow-wrap:anywhere;
@@ -61,12 +66,12 @@
 <main>
   <header class="hero">
     <h1>Panda OA+OM 输出对比</h1>
-    <p class="lede"><strong>TensorRT Edge-LLM · NVFP4</strong> vs Unsloth · BF16，严格使用同一批 32 个样本与相同 4 帧输入。</p>
-    <p class="note">这是前 32 条、handoff=0.5s 的 smoke test；两者 exact accuracy 都为 0%。它适合检查真实输出差异，不能代替完整 6062 样本的最终精度结论。</p>
+    <p class="lede"><strong>TensorRT Edge-LLM · NVFP4</strong>、Unsloth · BF16、GPT-5.6 Luna 与 GPT-4o，严格使用同一批 32 个样本与相同 4 帧输入。</p>
+    <p class="note">这是前 32 条、handoff=0.5s 的 smoke test；四个模型的 action/mission exact accuracy 均为 0%，请重点比较 token F1 与实际措辞。它不能代替完整 6062 样本的最终精度结论。</p>
   </header>
   <section class="metrics">
-    
-      <article class="metric-card">
+
+      <article class="metric-card trt">
         <h3>TensorRT Edge-LLM · NVFP4</h3>
         <dl>
           <div><dt>Format valid</dt><dd>100.00%</dd></div>
@@ -75,11 +80,14 @@
           <div><dt>Mission exact</dt><dd>0.00%</dd></div>
           <div><dt>Mission token F1</dt><dd>0.379</dd></div>
           <div><dt>Inference / sample</dt><dd>1.743s</dd></div>
+          <div><dt>Wall / sample</dt><dd>1.975s</dd></div>
+          <div><dt>Wall throughput</dt><dd>0.506/s</dd></div>
+
         </dl>
       </article>
-    
-    
-      <article class="metric-card">
+
+
+      <article class="metric-card unsloth">
         <h3>Unsloth · BF16</h3>
         <dl>
           <div><dt>Format valid</dt><dd>100.00%</dd></div>
@@ -88,24 +96,62 @@
           <div><dt>Mission exact</dt><dd>0.00%</dd></div>
           <div><dt>Mission token F1</dt><dd>0.366</dd></div>
           <div><dt>Inference / sample</dt><dd>6.789s</dd></div>
+          <div><dt>Wall / sample</dt><dd>9.356s</dd></div>
+          <div><dt>Wall throughput</dt><dd>0.107/s</dd></div>
+
         </dl>
       </article>
-    
+
+
+      <article class="metric-card gpt56">
+        <h3>GPT-5.6 Luna · API</h3>
+        <dl>
+          <div><dt>Format valid</dt><dd>100.00%</dd></div>
+          <div><dt>Action exact</dt><dd>0.00%</dd></div>
+          <div><dt>Action token F1</dt><dd>0.251</dd></div>
+          <div><dt>Mission exact</dt><dd>0.00%</dd></div>
+          <div><dt>Mission token F1</dt><dd>0.294</dd></div>
+          <div><dt>API latency / sample</dt><dd>1.498s</dd></div>
+          <div><dt>Wall / sample</dt><dd>1.024s</dd></div>
+          <div><dt>Wall throughput</dt><dd>0.977/s</dd></div>
+          <div><dt>Estimated API cost</dt><dd>$0.0129</dd></div>
+        </dl>
+      </article>
+
+
+      <article class="metric-card gpt4o">
+        <h3>GPT-4o · API</h3>
+        <dl>
+          <div><dt>Format valid</dt><dd>100.00%</dd></div>
+          <div><dt>Action exact</dt><dd>0.00%</dd></div>
+          <div><dt>Action token F1</dt><dd>0.037</dd></div>
+          <div><dt>Mission exact</dt><dd>0.00%</dd></div>
+          <div><dt>Mission token F1</dt><dd>0.061</dd></div>
+          <div><dt>API latency / sample</dt><dd>2.571s</dd></div>
+          <div><dt>Wall / sample</dt><dd>1.061s</dd></div>
+          <div><dt>Wall throughput</dt><dd>0.943/s</dd></div>
+          <div><dt>Estimated API cost</dt><dd>$0.2576</dd></div>
+        </dl>
+      </article>
+
   </section>
   <div class="wins">
-    <span>Action F1 逐样本胜出：TensorRT 15 · Unsloth 7 · 平局 10</span>
-    <span>Mission F1 逐样本胜出：TensorRT 13 · Unsloth 9 · 平局 10</span>
+    <span>四模型 Action F1 最高次数（并列各计）：TensorRT 17 · Unsloth 12 · Luna 23 · GPT-4o 1 · 并列样本 17</span>
+    <span>四模型 Mission F1 最高次数（并列各计）：TensorRT 10 · Unsloth 10 · Luna 19 · GPT-4o 0 · 并列样本 6</span>
+    <span>原两模型 Action F1：TensorRT 15 · Unsloth 7 · 平局 10；Mission F1：TensorRT 13 · Unsloth 9 · 平局 10</span>
   </div>
   <section class="controls" aria-label="过滤器">
     <input id="search" type="search" placeholder="搜索 task 或 sample id">
     <select id="view"><option value="all">全部视角</option><option value="front">front</option><option value="wrist">wrist</option></select>
-    <select id="winner"><option value="all">全部 F1 对比</option><option value="trt-action">TensorRT Action 更高</option>
-      <option value="unsloth-action">Unsloth Action 更高</option><option value="trt-mission">TensorRT Mission 更高</option>
-      <option value="unsloth-mission">Unsloth Mission 更高</option></select>
+    <select id="winner"><option value="all">全部 F1 对比</option>
+      <option value="trt-action">TensorRT Action 最高</option><option value="unsloth-action">Unsloth Action 最高</option>
+      <option value="gpt56-action">Luna Action 最高</option><option value="gpt4o-action">GPT-4o Action 最高</option>
+      <option value="trt-mission">TensorRT Mission 最高</option><option value="unsloth-mission">Unsloth Mission 最高</option>
+      <option value="gpt56-mission">Luna Mission 最高</option><option value="gpt4o-mission">GPT-4o Mission 最高</option></select>
   </section>
   <section id="samples">
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="unsloth"
+              data-action-winners="trt gpt56" data-mission-winners="unsloth gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_192708_x0y0_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -128,7 +174,7 @@
                     <span>704×528 · key 1787246803385336777</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-01-504d82499370/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-01-504d82499370/frame-2.jpg" loading="lazy"
@@ -138,7 +184,7 @@
                     <span>704×528 · key 1787246803518670110</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-01-504d82499370/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-01-504d82499370/frame-3.jpg" loading="lazy"
@@ -148,7 +194,7 @@
                     <span>704×528 · key 1787246803718670110</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-01-504d82499370/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-01-504d82499370/frame-4.jpg" loading="lazy"
@@ -165,7 +211,7 @@
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -182,8 +228,8 @@
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -200,7 +246,43 @@ Ongoing mission: put the apple on the white plate</pre>
 Ongoing mission: move the apple to the right</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place the apple on the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Pick up the apple
+Ongoing mission: Place the apple on the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>none</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>none</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: none
+Ongoing mission: none</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -212,9 +294,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="tie" data-mission-winner="unsloth"
+              data-action-winners="trt unsloth" data-mission-winners="unsloth gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_192708_x0y0_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -237,7 +319,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787246803385336777</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-02-92ee8fa66986/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-02-92ee8fa66986/frame-2.jpg" loading="lazy"
@@ -247,7 +329,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787246803518670110</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-02-92ee8fa66986/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-02-92ee8fa66986/frame-3.jpg" loading="lazy"
@@ -257,7 +339,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787246803718670110</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-02-92ee8fa66986/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-02-92ee8fa66986/frame-4.jpg" loading="lazy"
@@ -274,7 +356,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -291,8 +373,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the paper on the table onto the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -309,7 +391,43 @@ Ongoing mission: put the paper on the table onto the white plate</pre>
 Ongoing mission: put the sunglasses on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Pick up the USB cable</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Move the USB cable to the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Pick up the USB cable
+Ongoing mission: Move the USB cable to the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Organizing workspace</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Organizing workspace</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -321,9 +439,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_200214_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -346,7 +464,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787248907674904027</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-03-929f878701dd/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-03-929f878701dd/frame-2.jpg" loading="lazy"
@@ -356,7 +474,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787248907808237360</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-03-929f878701dd/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-03-929f878701dd/frame-3.jpg" loading="lazy"
@@ -366,7 +484,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787248908008237360</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-03-929f878701dd/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-03-929f878701dd/frame-4.jpg" loading="lazy"
@@ -383,7 +501,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -400,8 +518,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: move the apple to the right</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -418,7 +536,43 @@ Ongoing mission: move the apple to the right</pre>
 Ongoing mission: take the black box out of the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>None</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>None</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: None
+Ongoing mission: None</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -430,9 +584,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-action-winners="unsloth gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_200214_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -455,7 +609,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787248907674904027</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-04-047d5942ee97/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-04-047d5942ee97/frame-2.jpg" loading="lazy"
@@ -465,7 +619,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787248907808237360</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-04-047d5942ee97/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-04-047d5942ee97/frame-3.jpg" loading="lazy"
@@ -475,7 +629,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787248908008237360</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-04-047d5942ee97/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-04-047d5942ee97/frame-4.jpg" loading="lazy"
@@ -492,7 +646,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -509,8 +663,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the airpod case on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -527,7 +681,43 @@ Ongoing mission: put the airpod case on the white plate</pre>
 Ongoing mission: put the book on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Reach the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.286</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the plate
+Ongoing mission: Reach the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Aligning with target</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Positioning for task execution</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Aligning with target
+Ongoing mission: Positioning for task execution</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -539,9 +729,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_201554_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -564,7 +754,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787249704383449389</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-05-015d99b849c1/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-05-015d99b849c1/frame-2.jpg" loading="lazy"
@@ -574,7 +764,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787249704516782722</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-05-015d99b849c1/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-05-015d99b849c1/frame-3.jpg" loading="lazy"
@@ -584,7 +774,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787249704716782722</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-05-015d99b849c1/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-05-015d99b849c1/frame-4.jpg" loading="lazy"
@@ -601,7 +791,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -618,8 +808,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -636,7 +826,43 @@ Ongoing mission: put the apple on the white plate</pre>
 Ongoing mission: use the wax to rub the surface of the apple</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Move object to plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Move object to plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -648,9 +874,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-action-winners="unsloth" data-mission-winners="unsloth"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_201554_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -673,7 +899,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787249704383449389</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-06-8c6035d7dcfd/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-06-8c6035d7dcfd/frame-2.jpg" loading="lazy"
@@ -683,7 +909,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787249704516782722</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-06-8c6035d7dcfd/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-06-8c6035d7dcfd/frame-3.jpg" loading="lazy"
@@ -693,7 +919,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787249704716782722</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-06-8c6035d7dcfd/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-06-8c6035d7dcfd/frame-4.jpg" loading="lazy"
@@ -710,7 +936,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -727,8 +953,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the black box on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -745,7 +971,43 @@ Ongoing mission: put the black box on the white plate</pre>
 Ongoing mission: open the box</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Pick up the chocolate cube</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Arrange chocolates on the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Pick up the chocolate cube
+Ongoing mission: Arrange chocolates on the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up object from plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Pick up object from plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -757,9 +1019,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="trt unsloth gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_205344_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -782,7 +1044,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252001838020763</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-07-6fd4947f3d1e/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-07-6fd4947f3d1e/frame-2.jpg" loading="lazy"
@@ -792,7 +1054,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252001971354096</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-07-6fd4947f3d1e/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-07-6fd4947f3d1e/frame-3.jpg" loading="lazy"
@@ -802,7 +1064,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252002171354096</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-07-6fd4947f3d1e/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-07-6fd4947f3d1e/frame-4.jpg" loading="lazy"
@@ -819,7 +1081,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -836,8 +1098,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -854,7 +1116,43 @@ Ongoing mission: put the apple on the white plate</pre>
 Ongoing mission: put the apple in the white bowl</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>none</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>none</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: none
+Ongoing mission: none</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -866,9 +1164,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_205344_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -891,7 +1189,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252001838020763</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-08-4f69f25b3a6f/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-08-4f69f25b3a6f/frame-2.jpg" loading="lazy"
@@ -901,7 +1199,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252001971354096</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-08-4f69f25b3a6f/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-08-4f69f25b3a6f/frame-3.jpg" loading="lazy"
@@ -911,7 +1209,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252002171354096</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-08-4f69f25b3a6f/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-08-4f69f25b3a6f/frame-4.jpg" loading="lazy"
@@ -928,7 +1226,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -945,8 +1243,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: move the fork to the right</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -963,7 +1261,43 @@ Ongoing mission: move the fork to the right</pre>
 Ongoing mission: pick up the fork from the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the red apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the red apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the red apple
+Ongoing mission: Pick up the red apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>move towards apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>pick up apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: move towards apple
+Ongoing mission: pick up apple</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -975,9 +1309,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="trt unsloth" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210125_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1000,7 +1334,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252467470719993</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-09-67733438637a/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-09-67733438637a/frame-2.jpg" loading="lazy"
@@ -1010,7 +1344,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252467604053326</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-09-67733438637a/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-09-67733438637a/frame-3.jpg" loading="lazy"
@@ -1020,7 +1354,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252467804053326</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-09-67733438637a/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-09-67733438637a/frame-4.jpg" loading="lazy"
@@ -1037,7 +1371,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1054,8 +1388,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1072,7 +1406,43 @@ Ongoing mission: put the apple on the white plate</pre>
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the red object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the red object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the red object
+Ongoing mission: Pick up the red object</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>hovering</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>preparing to pick up an object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: hovering
+Ongoing mission: preparing to pick up an object</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1084,9 +1454,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="trt unsloth gpt56" data-mission-winners="trt unsloth gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210125_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1109,7 +1479,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252467470719993</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-10-32a119e7f7c7/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-10-32a119e7f7c7/frame-2.jpg" loading="lazy"
@@ -1119,7 +1489,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252467604053326</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-10-32a119e7f7c7/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-10-32a119e7f7c7/frame-3.jpg" loading="lazy"
@@ -1129,7 +1499,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252467804053326</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-10-32a119e7f7c7/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-10-32a119e7f7c7/frame-4.jpg" loading="lazy"
@@ -1146,7 +1516,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1163,8 +1533,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the strawberry on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1181,7 +1551,43 @@ Ongoing mission: put the strawberry on the white plate</pre>
 Ongoing mission: put the strawberry on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping the red object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place the red object on the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping the red object
+Ongoing mission: Place the red object on the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>place object on plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: grasping object
+Ongoing mission: place object on plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1193,9 +1599,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="tie"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210205_x1y3_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1218,7 +1624,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252509140052124</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-11-658b3d01ab22/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-11-658b3d01ab22/frame-2.jpg" loading="lazy"
@@ -1228,7 +1634,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252509273385457</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-11-658b3d01ab22/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-11-658b3d01ab22/frame-3.jpg" loading="lazy"
@@ -1238,7 +1644,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252509473385457</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-11-658b3d01ab22/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-11-658b3d01ab22/frame-4.jpg" loading="lazy"
@@ -1255,7 +1661,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1272,8 +1678,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: move the apple to the right</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1290,7 +1696,43 @@ Ongoing mission: move the apple to the right</pre>
 Ongoing mission: blow the air with the fan</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Move object to target location</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Move object to target location</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1302,9 +1744,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="trt unsloth gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210205_x1y3_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1327,7 +1769,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252509140052124</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-12-63b088a42e6a/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-12-63b088a42e6a/frame-2.jpg" loading="lazy"
@@ -1337,7 +1779,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252509273385457</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-12-63b088a42e6a/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-12-63b088a42e6a/frame-3.jpg" loading="lazy"
@@ -1347,7 +1789,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787252509473385457</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-12-63b088a42e6a/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-12-63b088a42e6a/frame-4.jpg" loading="lazy"
@@ -1364,7 +1806,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1381,8 +1823,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: move the apple to the right</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1399,7 +1841,43 @@ Ongoing mission: move the apple to the right</pre>
 Ongoing mission: put the pot on the table</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Move apple to plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping apple
+Ongoing mission: Move apple to plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1411,9 +1889,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_211926_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1436,7 +1914,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253550473059629</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-13-4e82e23f6a7f/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-13-4e82e23f6a7f/frame-2.jpg" loading="lazy"
@@ -1446,7 +1924,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253550606392962</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-13-4e82e23f6a7f/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-13-4e82e23f6a7f/frame-3.jpg" loading="lazy"
@@ -1456,7 +1934,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253550806392962</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-13-4e82e23f6a7f/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-13-4e82e23f6a7f/frame-4.jpg" loading="lazy"
@@ -1473,7 +1951,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1490,8 +1968,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1508,7 +1986,43 @@ Ongoing mission: put the apple on the white plate</pre>
 Ongoing mission: put the apple fruit on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place the apple on the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the apple
+Ongoing mission: Place the apple on the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place object on plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Place object on plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1520,9 +2034,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_211926_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1545,7 +2059,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253550473059629</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-14-04a37cefff16/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-14-04a37cefff16/frame-2.jpg" loading="lazy"
@@ -1555,7 +2069,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253550606392962</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-14-04a37cefff16/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-14-04a37cefff16/frame-3.jpg" loading="lazy"
@@ -1565,7 +2079,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253550806392962</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-14-04a37cefff16/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-14-04a37cefff16/frame-4.jpg" loading="lazy"
@@ -1582,7 +2096,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1599,8 +2113,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1617,7 +2131,43 @@ Ongoing mission: put the apple on the white plate</pre>
 Ongoing mission: put the apple fruit on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Approach the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.286</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the plate
+Ongoing mission: Approach the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place apple on plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping apple
+Ongoing mission: Place apple on plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1629,9 +2179,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="tie"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_212527_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1654,7 +2204,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253906874265509</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-15-5f6318078a5d/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-15-5f6318078a5d/frame-2.jpg" loading="lazy"
@@ -1664,7 +2214,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253907007598842</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-15-5f6318078a5d/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-15-5f6318078a5d/frame-3.jpg" loading="lazy"
@@ -1674,7 +2224,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253907207598842</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-15-5f6318078a5d/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-15-5f6318078a5d/frame-4.jpg" loading="lazy"
@@ -1691,7 +2241,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1708,8 +2258,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple in the black wire basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1726,7 +2276,43 @@ Ongoing mission: put the apple in the black wire basket</pre>
 Ongoing mission: put the black bowl on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Moving toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Moving toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>hovering</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>object inspection</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: hovering
+Ongoing mission: object inspection</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1738,9 +2324,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-action-winners="unsloth" data-mission-winners="unsloth"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_212527_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1763,7 +2349,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253906874265509</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-16-e91cce186cb7/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-16-e91cce186cb7/frame-2.jpg" loading="lazy"
@@ -1773,7 +2359,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253907007598842</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-16-e91cce186cb7/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-16-e91cce186cb7/frame-3.jpg" loading="lazy"
@@ -1783,7 +2369,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787253907207598842</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-16-e91cce186cb7/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-16-e91cce186cb7/frame-4.jpg" loading="lazy"
@@ -1800,7 +2386,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1817,8 +2403,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the apple fruit on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1835,7 +2421,43 @@ Ongoing mission: put the apple fruit on the white plate</pre>
 Ongoing mission: disassemble the object</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the red apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the red apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the red apple
+Ongoing mission: Pick up the red apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>grasping apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move apple to plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: grasping apple
+Ongoing mission: move apple to plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1847,9 +2469,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_213654_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1872,7 +2494,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787254598106731431</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-17-a6f89af189f5/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-17-a6f89af189f5/frame-2.jpg" loading="lazy"
@@ -1882,7 +2504,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787254598240064764</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-17-a6f89af189f5/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-17-a6f89af189f5/frame-3.jpg" loading="lazy"
@@ -1892,7 +2514,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787254598440064764</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-17-a6f89af189f5/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-17-a6f89af189f5/frame-4.jpg" loading="lazy"
@@ -1909,7 +2531,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -1926,8 +2548,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: take the book out of the bookcase</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -1944,7 +2566,43 @@ Ongoing mission: take the book out of the bookcase</pre>
 Ongoing mission: take the box out of the trash can</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the apple
+Ongoing mission: Pick up the apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Move apple to plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping apple
+Ongoing mission: Move apple to plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -1956,9 +2614,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="trt" data-mission-winner="unsloth"
+              data-action-winners="trt" data-mission-winners="unsloth"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_213654_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -1981,7 +2639,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787254598106731431</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-18-3ed2a5f280f3/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-18-3ed2a5f280f3/frame-2.jpg" loading="lazy"
@@ -1991,7 +2649,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787254598240064764</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-18-3ed2a5f280f3/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-18-3ed2a5f280f3/frame-3.jpg" loading="lazy"
@@ -2001,7 +2659,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787254598440064764</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-18-3ed2a5f280f3/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-18-3ed2a5f280f3/frame-4.jpg" loading="lazy"
@@ -2018,7 +2676,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2035,8 +2693,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the tomato inside the white bowl</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2053,7 +2711,43 @@ Ongoing mission: put the tomato inside the white bowl</pre>
 Ongoing mission: remove the sushi from the plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move the plate toward the red object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place the red object on the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move the plate toward the red object
+Ongoing mission: Place the red object on the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>move object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>place object on plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: move object
+Ongoing mission: place object on plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2065,9 +2759,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220109_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -2090,7 +2784,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256048237494744</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-19-c15e48af9684/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-19-c15e48af9684/frame-2.jpg" loading="lazy"
@@ -2100,7 +2794,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256048370828077</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-19-c15e48af9684/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-19-c15e48af9684/frame-3.jpg" loading="lazy"
@@ -2110,7 +2804,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256048570828077</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-19-c15e48af9684/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-19-c15e48af9684/frame-4.jpg" loading="lazy"
@@ -2127,7 +2821,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2144,8 +2838,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the black bowl on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2162,7 +2856,43 @@ Ongoing mission: put the black bowl on the white plate</pre>
 Ongoing mission: put the black bowl on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the red apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the red apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the red apple
+Ongoing mission: Pick up the red apple</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>None</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>None</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: None
+Ongoing mission: None</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2174,9 +2904,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-action-winners="gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220109_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -2199,7 +2929,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256048237494744</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-20-7f202f78a285/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-20-7f202f78a285/frame-2.jpg" loading="lazy"
@@ -2209,7 +2939,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256048370828077</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-20-7f202f78a285/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-20-7f202f78a285/frame-3.jpg" loading="lazy"
@@ -2219,7 +2949,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256048570828077</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-20-7f202f78a285/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-20-7f202f78a285/frame-4.jpg" loading="lazy"
@@ -2236,7 +2966,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2253,8 +2983,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: move the apple to the left side of the table</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2271,7 +3001,43 @@ Ongoing mission: move the apple to the left side of the table</pre>
 Ongoing mission: take the black cup off the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Place the fan into the bowl</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Put the fan in the bowl</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Place the fan into the bowl
+Ongoing mission: Put the fan in the bowl</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move object to plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: grasping object
+Ongoing mission: move object to plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2283,9 +3049,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="unsloth"
+              data-action-winners="trt gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220858_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -2308,7 +3074,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256515331780902</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-21-2fccf1a37bfa/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-21-2fccf1a37bfa/frame-2.jpg" loading="lazy"
@@ -2318,7 +3084,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256515465114235</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-21-2fccf1a37bfa/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-21-2fccf1a37bfa/frame-3.jpg" loading="lazy"
@@ -2328,7 +3094,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256515665114235</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-21-2fccf1a37bfa/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-21-2fccf1a37bfa/frame-4.jpg" loading="lazy"
@@ -2345,7 +3111,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2362,8 +3128,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: move the rxbar chocolate from the white plate into the brown box</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2380,7 +3146,43 @@ Ongoing mission: move the rxbar chocolate from the white plate into the brown bo
 Ongoing mission: take the rxbar chocolate out of the gift box</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the red fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up the red fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the red fruit
+Ongoing mission: Pick up the red fruit</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move towards apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move towards apple
+Ongoing mission: Pick up apple</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2392,9 +3194,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="gpt56" data-mission-winners="gpt56"
               data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220858_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
               <header class="sample-header">
                 <div>
@@ -2417,7 +3219,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256515331780902</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-22-89bca26d862b/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-22-89bca26d862b/frame-2.jpg" loading="lazy"
@@ -2427,7 +3229,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256515465114235</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-22-89bca26d862b/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-22-89bca26d862b/frame-3.jpg" loading="lazy"
@@ -2437,7 +3239,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787256515665114235</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-22-89bca26d862b/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-22-89bca26d862b/frame-4.jpg" loading="lazy"
@@ -2454,7 +3256,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2471,8 +3273,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the bottle on the white plate</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2489,7 +3291,43 @@ Ongoing mission: put the bottle on the white plate</pre>
 Ongoing mission: put the rxbar chocolate on the white plate</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move toward the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place the object on the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move toward the plate
+Ongoing mission: Place the object on the plate</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Pick up object from plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Pick up object from plate</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2501,9 +3339,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="trt gpt56" data-mission-winners="trt"
               data-search="put_all_the_fruits_in_the_basket/20260821_011625_acpgb_jpeg/oakd_frontview put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -2526,7 +3364,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787267727109657177</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-23-376a3e3fc176/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-23-376a3e3fc176/frame-2.jpg" loading="lazy"
@@ -2536,7 +3374,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787267727242990510</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-23-376a3e3fc176/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-23-376a3e3fc176/frame-3.jpg" loading="lazy"
@@ -2546,7 +3384,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787267727442990510</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-23-376a3e3fc176/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-23-376a3e3fc176/frame-4.jpg" loading="lazy"
@@ -2563,7 +3401,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2580,8 +3418,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2598,7 +3436,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit toy in the basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.545</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the fruit
+Ongoing mission: Place fruit in the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>none</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>none</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: none
+Ongoing mission: none</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2610,9 +3484,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="gpt56" data-mission-winners="trt"
               data-search="put_all_the_fruits_in_the_basket/20260821_011625_acpgb_jpeg/oakd_wrist put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -2635,7 +3509,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787267727109657177</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-24-17edc0f2365c/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-24-17edc0f2365c/frame-2.jpg" loading="lazy"
@@ -2645,7 +3519,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787267727242990510</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-24-17edc0f2365c/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-24-17edc0f2365c/frame-3.jpg" loading="lazy"
@@ -2655,7 +3529,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787267727442990510</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-24-17edc0f2365c/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-24-17edc0f2365c/frame-4.jpg" loading="lazy"
@@ -2672,7 +3546,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2689,8 +3563,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2707,7 +3581,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit toy in the white basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.400</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place objects into the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.364</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the basket
+Ongoing mission: Place objects into the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Sorting items into basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Sorting items into basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2719,9 +3629,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="tie" data-mission-winner="trt"
+              data-action-winners="gpt4o" data-mission-winners="trt"
               data-search="put_all_the_fruits_in_the_basket/20260821_015003_agcpb_jpeg/oakd_frontview put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -2744,7 +3654,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787269749722125827</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-25-9904c675cd46/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-25-9904c675cd46/frame-2.jpg" loading="lazy"
@@ -2754,7 +3664,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787269749855459160</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-25-9904c675cd46/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-25-9904c675cd46/frame-3.jpg" loading="lazy"
@@ -2764,7 +3674,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787269750055459160</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-25-9904c675cd46/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-25-9904c675cd46/frame-4.jpg" loading="lazy"
@@ -2781,7 +3691,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2798,8 +3708,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2816,7 +3726,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit inside the basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move gripper over basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place fruit in basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.400</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move gripper over basket
+Ongoing mission: Place fruit in basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Sorting fruit into basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping apple
+Ongoing mission: Sorting fruit into basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2828,9 +3774,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="gpt56" data-mission-winners="trt unsloth"
               data-search="put_all_the_fruits_in_the_basket/20260821_015003_agcpb_jpeg/oakd_wrist put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -2853,7 +3799,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787269749722125827</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-26-a2c3c1ae60d6/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-26-a2c3c1ae60d6/frame-2.jpg" loading="lazy"
@@ -2863,7 +3809,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787269749855459160</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-26-a2c3c1ae60d6/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-26-a2c3c1ae60d6/frame-3.jpg" loading="lazy"
@@ -2873,7 +3819,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787269750055459160</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-26-a2c3c1ae60d6/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-26-a2c3c1ae60d6/frame-4.jpg" loading="lazy"
@@ -2890,7 +3836,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -2907,8 +3853,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the white basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -2925,7 +3871,43 @@ Ongoing mission: put the fruit in the white basket</pre>
 Ongoing mission: put the fruit in the white basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move the red apple into the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.615</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Put the fruit into the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.667</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move the red apple into the basket
+Ongoing mission: Put the fruit into the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.444</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Picking up the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.400</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping the basket
+Ongoing mission: Picking up the basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -2937,9 +3919,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="tie" data-mission-winner="trt"
+              data-action-winners="gpt56" data-mission-winners="trt"
               data-search="put_all_the_fruits_in_the_basket/20260821_020549_gabcp_jpeg/oakd_frontview put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -2962,7 +3944,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787270703183426292</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-27-e880f3f6fdfe/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-27-e880f3f6fdfe/frame-2.jpg" loading="lazy"
@@ -2972,7 +3954,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787270703316759625</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-27-e880f3f6fdfe/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-27-e880f3f6fdfe/frame-3.jpg" loading="lazy"
@@ -2982,7 +3964,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787270703516759625</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-27-e880f3f6fdfe/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-27-e880f3f6fdfe/frame-4.jpg" loading="lazy"
@@ -2999,7 +3981,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the grape in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -3016,8 +3998,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -3034,7 +4016,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit inside the basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.400</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place fruit into the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.364</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the basket
+Ongoing mission: Place fruit into the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Sorting objects into basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping object
+Ongoing mission: Sorting objects into basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -3046,9 +4064,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="trt"
+              data-action-winners="unsloth" data-mission-winners="trt"
               data-search="put_all_the_fruits_in_the_basket/20260821_020549_gabcp_jpeg/oakd_wrist put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -3071,7 +4089,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787270703183426292</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-28-b3ec9db083db/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-28-b3ec9db083db/frame-2.jpg" loading="lazy"
@@ -3081,7 +4099,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787270703316759625</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-28-b3ec9db083db/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-28-b3ec9db083db/frame-3.jpg" loading="lazy"
@@ -3091,7 +4109,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787270703516759625</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-28-b3ec9db083db/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-28-b3ec9db083db/frame-4.jpg" loading="lazy"
@@ -3108,7 +4126,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the grape in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -3125,8 +4143,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -3143,7 +4161,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the apple fruit in the white basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Pick up the grapes</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place the grapes in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.667</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Pick up the grapes
+Ongoing mission: Place the grapes in the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place apple in basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.400</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping apple
+Ongoing mission: Place apple in basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -3155,9 +4209,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="trt" data-mission-winner="trt"
+              data-action-winners="trt gpt56" data-mission-winners="trt"
               data-search="put_all_the_fruits_in_the_basket/20260821_031656_bagcp_jpeg/oakd_frontview put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -3180,7 +4234,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787274961671891956</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-29-bf39f629d149/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-29-bf39f629d149/frame-2.jpg" loading="lazy"
@@ -3190,7 +4244,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787274961805225289</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-29-bf39f629d149/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-29-bf39f629d149/frame-3.jpg" loading="lazy"
@@ -3200,7 +4254,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787274962005225289</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-29-bf39f629d149/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-29-bf39f629d149/frame-4.jpg" loading="lazy"
@@ -3217,7 +4271,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -3234,8 +4288,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -3252,7 +4306,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit toy in the basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Collect fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.545</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the fruit
+Ongoing mission: Collect fruit in the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping an object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Sorting fruits into the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.364</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping an object
+Ongoing mission: Sorting fruits into the basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -3264,9 +4354,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-action-winners="unsloth" data-mission-winners="unsloth"
               data-search="put_all_the_fruits_in_the_basket/20260821_031656_bagcp_jpeg/oakd_wrist put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -3289,7 +4379,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787274961671891956</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-30-75f5eab02657/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-30-75f5eab02657/frame-2.jpg" loading="lazy"
@@ -3299,7 +4389,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787274961805225289</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-30-75f5eab02657/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-30-75f5eab02657/frame-3.jpg" loading="lazy"
@@ -3309,7 +4399,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787274962005225289</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-30-75f5eab02657/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-30-75f5eab02657/frame-4.jpg" loading="lazy"
@@ -3326,7 +4416,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -3343,8 +4433,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -3361,7 +4451,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the banana in the white basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Move the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.444</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Position the basket over the produce</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.500</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Move the basket
+Ongoing mission: Position the basket over the produce</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Prepare to move basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping basket
+Ongoing mission: Prepare to move basket</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -3373,9 +4499,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="front"
-              data-action-winner="tie" data-mission-winner="tie"
+              data-action-winners="trt unsloth gpt56" data-mission-winners="trt unsloth"
               data-search="put_all_the_fruits_in_the_basket/20260821_045442_bpacg_jpeg/oakd_frontview put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -3398,7 +4524,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787280827048041805</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-31-29198a70cb55/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-31-29198a70cb55/frame-2.jpg" loading="lazy"
@@ -3408,7 +4534,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787280827181375138</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-31-29198a70cb55/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-31-29198a70cb55/frame-3.jpg" loading="lazy"
@@ -3418,7 +4544,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787280827381375138</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-31-29198a70cb55/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-31-29198a70cb55/frame-4.jpg" loading="lazy"
@@ -3435,7 +4561,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -3452,8 +4578,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -3470,7 +4596,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Reach toward the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Place fruit into the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.364</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Reach toward the fruit
+Ongoing mission: Place fruit into the basket</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>None</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>None</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: None
+Ongoing mission: None</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -3482,9 +4644,9 @@ Ongoing action: &lt;atomic action&gt;
 Ongoing mission: &lt;mission&gt;</pre></div>
               </details>
             </article>
-            
+
             <article class="sample-card" data-view="wrist"
-              data-action-winner="unsloth" data-mission-winner="tie"
+              data-action-winners="unsloth" data-mission-winners="trt unsloth"
               data-search="put_all_the_fruits_in_the_basket/20260821_045442_bpacg_jpeg/oakd_wrist put all the fruits in the basket">
               <header class="sample-header">
                 <div>
@@ -3507,7 +4669,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787280827048041805</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-32-79dca23c5054/frame-2.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-32-79dca23c5054/frame-2.jpg" loading="lazy"
@@ -3517,7 +4679,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787280827181375138</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-32-79dca23c5054/frame-3.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-32-79dca23c5054/frame-3.jpg" loading="lazy"
@@ -3527,7 +4689,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                     <span>704×528 · key 1787280827381375138</span>
                   </figcaption>
                 </figure>
-                
+
                 <figure>
                   <a href="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-32-79dca23c5054/frame-4.jpg" target="_blank" rel="noreferrer">
                     <img src="https://s3-hot.liuzisen.com/videos/smoke/images/panda-oa-om-nvfp4-vs-unsloth32/sample-32-79dca23c5054/frame-4.jpg" loading="lazy"
@@ -3544,7 +4706,7 @@ Ongoing mission: &lt;mission&gt;</pre></div>
                 <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
               </section>
               <div class="outputs">
-                
+
       <section class="output-panel trt">
         <h4>TensorRT Edge-LLM · NVFP4</h4>
         <div class="prediction-row">
@@ -3561,8 +4723,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
-                
+
+
       <section class="output-panel unsloth">
         <h4>Unsloth · BF16</h4>
         <div class="prediction-row">
@@ -3579,7 +4741,43 @@ Ongoing mission: put the fruit in the basket</pre>
 Ongoing mission: put the fruit in the basket</pre>
         </details>
       </section>
-    
+
+
+      <section class="output-panel gpt56">
+        <h4>GPT-5.6 Luna · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>No action</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>No mission</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: No action
+Ongoing mission: No mission</pre>
+        </details>
+      </section>
+
+
+      <section class="output-panel gpt4o">
+        <h4>GPT-4o · API</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>Grasping basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>Collecting fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.000</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: Grasping basket
+Ongoing mission: Collecting fruit</pre>
+        </details>
+      </section>
+
               </div>
               <details class="prompt-details">
                 <summary>查看推理 Prompt</summary>
@@ -3605,7 +4803,8 @@ Ongoing mission: &lt;mission&gt;</pre></div>
     cards.forEach(card => {
       const searchMatch = !query || card.dataset.search.includes(query);
       const viewMatch = view.value === 'all' || card.dataset.view === view.value;
-      const winnerMatch = winner.value === 'all' || card.dataset[field + 'Winner'] === model;
+      const winners = winner.value === 'all' ? [] : card.dataset[field + 'Winners'].split(' ');
+      const winnerMatch = winner.value === 'all' || winners.includes(model);
       card.classList.toggle('hidden', !(searchMatch && viewMatch && winnerMatch));
     });
   }
