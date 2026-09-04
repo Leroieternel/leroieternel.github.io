@@ -1,13 +1,13 @@
 {
   "schema_version": 6,
-  "generated_at_utc": "2026-09-04T17:28:16.959806+00:00",
+  "generated_at_utc": "2026-09-04T17:43:01.845252+00:00",
   "frame_semantics": "inclusive continuous episode-local frame indices",
   "hierarchy": "full episode instruction > long-term missions > short-term missions > atomic tasks",
   "summary": {
     "episode_count": 6597,
     "dataset_count": 15,
-    "mission_count": 8968,
-    "atomic_task_count": 12858,
+    "mission_count": 8952,
+    "atomic_task_count": 12850,
     "inferred_atomic_boundaries_requiring_review": 4005,
     "atomic_grouping_provenance": {
       "reviewed_edges": 233,
@@ -31,11 +31,11 @@
       "TACO Play": 403,
       "UT Austin MUTEX": 43
     },
-    "short_term_mission_count": 8968,
+    "short_term_mission_count": 8952,
     "long_term_mission_count": 118,
     "long_horizon_episode_count": 117,
-    "v2_direct_visual_review_count": 564,
-    "v2_pending_bridge_droid_count": 4568,
+    "v2_direct_visual_review_count": 584,
+    "v2_pending_bridge_droid_count": 4548,
     "human_reviewed_episode_count": 182,
     "reviewed_episode_count": 182
   },
@@ -182719,66 +182719,32 @@
       "total_frames": 144,
       "video_object_key": "intention6600/videos/droid_fruit/task_10048/episode_25123.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10048/episode_25123.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the watermelon plushie in the box",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the watermelon plushie from the box",
           "start_frame": 0,
-          "end_frame": 37,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_1"
-        },
-        {
-          "atomic_task": "take the watermelon plushie out of the box",
-          "start_frame": 38,
-          "end_frame": 76,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_2"
-        },
-        {
-          "atomic_task": "pick up the watermelon plushie",
-          "start_frame": 77,
           "end_frame": 81,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the watermelon plushie in the black pot",
           "start_frame": 82,
           "end_frame": 143,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "take the watermelon plushie out of the box",
-          "start_frame": 0,
-          "end_frame": 76,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take the watermelon plushie out of the box",
+          "mission": "put the watermelon plushie from the box in the black pot",
+          "start_frame": 0,
+          "end_frame": 143,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place the watermelon plushie in the black pot",
-          "start_frame": 77,
-          "end_frame": 143,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the watermelon plushie in the black pot",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
@@ -182788,40 +182754,61 @@
       },
       "short_term_missions": [
         {
-          "mission": "take the watermelon plushie out of the box",
-          "start_frame": 0,
-          "end_frame": 76,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take the watermelon plushie out of the box",
+          "mission": "put the watermelon plushie from the box in the black pot",
+          "start_frame": 0,
+          "end_frame": 143,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place the watermelon plushie in the black pot",
-          "start_frame": 77,
-          "end_frame": 143,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the watermelon plushie in the black pot",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "no_gripper_signal_preserved_atomic_proposal"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          20,
+          34,
+          37,
+          40,
+          41,
+          61,
+          62,
+          66,
+          70,
+          73,
+          74,
+          76,
+          78,
+          79,
+          81,
+          82,
+          84,
+          102,
+          117,
+          121,
+          123,
+          125,
+          129,
+          133,
+          140,
+          143
+        ],
+        "decision_note": "Direct three-view review merges pickup, extraction, and redundant regrasp fragments. This is one watermelon transfer mission with a stable pickup followed by placement in the black pot."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -182835,34 +182822,29 @@
       "total_frames": 161,
       "video_object_key": "intention6600/videos/droid_fruit/task_6803/episode_25360.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_6803/episode_25360.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the plastic grape",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the plastic grapes",
           "start_frame": 0,
-          "end_frame": 117,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 120,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plastic grape in the pot in the sink",
-          "start_frame": 118,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the plastic grapes in the pot in the sink",
+          "start_frame": 121,
           "end_frame": 160,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "put the plastic grapes in the pot in the sink",
           "start_frame": 0,
           "end_frame": 160,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the plastic grapes in the pot in the sink",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -182875,13 +182857,10 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "put the plastic grapes in the pot in the sink",
           "start_frame": 0,
           "end_frame": 160,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the plastic grapes in the pot in the sink",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -182890,10 +182869,38 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          23,
+          46,
+          69,
+          91,
+          105,
+          109,
+          113,
+          114,
+          117,
+          120,
+          121,
+          137,
+          148,
+          152,
+          156,
+          157,
+          160
+        ],
+        "decision_note": "Direct multiview review places the atomic boundary after the grapes are securely grasped and lifted. Pickup and placement belong to one transfer mission."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -182907,47 +182914,31 @@
       "total_frames": 164,
       "video_object_key": "intention6600/videos/droid_fruit/task_10205/episode_25553.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10205/episode_25553.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the pineapple",
           "start_frame": 0,
-          "end_frame": 116,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 124,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "move the pineapple to the left",
-          "start_frame": 117,
+          "start_frame": 125,
           "end_frame": 163,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the pineapple",
-          "start_frame": 0,
-          "end_frame": 116,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the pineapple",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "move the pineapple to the left",
-          "start_frame": 117,
+          "start_frame": 0,
           "end_frame": 163,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the pineapple to the left",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -182958,36 +182949,49 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the pineapple",
-          "start_frame": 0,
-          "end_frame": 116,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the pineapple",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "move the pineapple to the left",
-          "start_frame": 117,
+          "start_frame": 0,
           "end_frame": 163,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the pineapple to the left",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          23,
+          47,
+          70,
+          93,
+          108,
+          112,
+          113,
+          116,
+          119,
+          120,
+          124,
+          140,
+          152,
+          156,
+          160,
+          163
+        ],
+        "decision_note": "Direct three-view review keeps the complete grasp sequence in pickup until the pineapple is stably held, followed by its leftward relocation."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -183001,66 +183005,32 @@
       "total_frames": 151,
       "video_object_key": "intention6600/videos/droid_fruit/task_10424/episode_26085.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10424/episode_26085.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up a lemon in the bowl",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lemon from the bowl",
           "start_frame": 0,
-          "end_frame": 43,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_1"
-        },
-        {
-          "atomic_task": "take a lemon out of the bowl",
-          "start_frame": 44,
-          "end_frame": 87,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_2"
-        },
-        {
-          "atomic_task": "pick up the lemon",
-          "start_frame": 88,
           "end_frame": 92,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the lemon on the table",
           "start_frame": 93,
           "end_frame": 150,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "take a lemon out of the bowl",
-          "start_frame": 0,
-          "end_frame": 87,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take a lemon out of the bowl",
+          "mission": "put the lemon from the bowl on the table",
+          "start_frame": 0,
+          "end_frame": 150,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place a lemon on the table",
-          "start_frame": 88,
-          "end_frame": 150,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place a lemon on the table",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
@@ -183070,40 +183040,60 @@
       },
       "short_term_missions": [
         {
-          "mission": "take a lemon out of the bowl",
-          "start_frame": 0,
-          "end_frame": 87,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take a lemon out of the bowl",
+          "mission": "put the lemon from the bowl on the table",
+          "start_frame": 0,
+          "end_frame": 150,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place a lemon on the table",
-          "start_frame": 88,
-          "end_frame": 150,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place a lemon on the table",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "no_gripper_signal_preserved_atomic_proposal"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          21,
+          40,
+          43,
+          46,
+          64,
+          65,
+          69,
+          73,
+          77,
+          81,
+          84,
+          86,
+          87,
+          89,
+          90,
+          92,
+          95,
+          107,
+          129,
+          131,
+          135,
+          139,
+          143,
+          147,
+          150
+        ],
+        "decision_note": "Direct review removes the artificial pick-up/take-out/regrasp fragments. The lemon is extracted in one pickup and then placed on the table."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -183117,66 +183107,32 @@
       "total_frames": 287,
       "video_object_key": "intention6600/videos/droid_fruit/task_10449/episode_26141.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10449/episode_26141.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the watermelon plushie in the box",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the watermelon plushie from the box",
           "start_frame": 0,
-          "end_frame": 83,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 190,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "take the watermelon plushie out of the box",
-          "start_frame": 84,
-          "end_frame": 168,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_2"
-        },
-        {
-          "atomic_task": "pick up the watermelon plushie",
-          "start_frame": 169,
-          "end_frame": 173,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
-        },
-        {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the watermelon plushie on the gray plate",
-          "start_frame": 174,
+          "start_frame": 191,
           "end_frame": 286,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "take the watermelon plushie out of the box",
-          "start_frame": 0,
-          "end_frame": 168,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take the watermelon plushie out of the box",
+          "mission": "put the watermelon plushie from the box on the gray plate",
+          "start_frame": 0,
+          "end_frame": 286,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place the watermelon plushie on the gray plate",
-          "start_frame": 169,
-          "end_frame": 286,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the watermelon plushie on the gray plate",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
@@ -183186,40 +183142,63 @@
       },
       "short_term_missions": [
         {
-          "mission": "take the watermelon plushie out of the box",
-          "start_frame": 0,
-          "end_frame": 168,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take the watermelon plushie out of the box",
+          "mission": "put the watermelon plushie from the box on the gray plate",
+          "start_frame": 0,
+          "end_frame": 286,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place the watermelon plushie on the gray plate",
-          "start_frame": 169,
-          "end_frame": 286,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the watermelon plushie on the gray plate",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "no_gripper_signal_preserved_atomic_proposal"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          32,
+          64,
+          80,
+          83,
+          86,
+          95,
+          127,
+          149,
+          153,
+          157,
+          159,
+          161,
+          165,
+          168,
+          170,
+          171,
+          173,
+          176,
+          191,
+          222,
+          239,
+          243,
+          247,
+          251,
+          254,
+          255,
+          283,
+          286
+        ],
+        "decision_note": "Dense three-view review delays the pickup boundary until the striped watermelon is visibly clear of the box at frame 190. The remaining interval is transport and stable placement on the gray plate."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -183233,34 +183212,29 @@
       "total_frames": 467,
       "video_object_key": "intention6600/videos/droid_fruit/task_10606/episode_26559.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10606/episode_26559.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the fruit at the bowl",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up a fruit from the bag",
           "start_frame": 0,
           "end_frame": 380,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "move the fruit at the bowl",
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the fruit in the bowl",
           "start_frame": 381,
           "end_frame": 466,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "put a fruit at the bowl",
+          "mission_id": "mission_1",
+          "mission": "put a fruit from the bag in the bowl",
           "start_frame": 0,
           "end_frame": 466,
-          "boundary_source": "final_release_after_transient_attempts",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put a fruit at the bowl",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -183273,13 +183247,10 @@
       },
       "short_term_missions": [
         {
-          "mission": "put a fruit at the bowl",
+          "mission_id": "mission_1",
+          "mission": "put a fruit from the bag in the bowl",
           "start_frame": 0,
           "end_frame": 466,
-          "boundary_source": "final_release_after_transient_attempts",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put a fruit at the bowl",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -183288,12 +183259,61 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "earlier_release_events_retained_inside_same_object_action"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          62,
+          93,
+          124,
+          155,
+          186,
+          216,
+          217,
+          220,
+          224,
+          228,
+          232,
+          249,
+          280,
+          294,
+          298,
+          302,
+          306,
+          310,
+          311,
+          342,
+          360,
+          364,
+          368,
+          372,
+          373,
+          376,
+          377,
+          380,
+          383,
+          404,
+          435,
+          452,
+          456,
+          460,
+          463,
+          464,
+          466
+        ],
+        "decision_note": "Full three-view review shows an intermediate unstable release and regrasp of the same fruit. Those attempts remain in one pickup, which ends only once the fruit is stably controlled for final placement in the bowl."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -183499,63 +183519,53 @@
       "total_frames": 407,
       "video_object_key": "intention6600/videos/droid_fruit/task_10649/episode_26669.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10649/episode_26669.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the pear",
           "start_frame": 0,
           "end_frame": 151,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the pear in the black pot",
           "start_frame": 152,
           "end_frame": 218,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_3",
           "atomic_task": "pick up the orange",
           "start_frame": 219,
           "end_frame": 306,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_4",
           "atomic_task": "place the orange in the blue pot",
           "start_frame": 307,
           "end_frame": 406,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "put the pear in the black pot",
           "start_frame": 0,
           "end_frame": 218,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the pear in the black pot",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
+          "mission_id": "mission_2",
           "mission": "put the orange in the blue pot",
           "start_frame": 219,
           "end_frame": 406,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the orange in the blue pot",
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
@@ -183568,26 +183578,20 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "put the pear in the black pot",
           "start_frame": 0,
           "end_frame": 218,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the pear in the black pot",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
+          "mission_id": "mission_2",
           "mission": "put the orange in the blue pot",
           "start_frame": 219,
           "end_frame": 406,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the orange in the blue pot",
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
@@ -183596,10 +183600,61 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          62,
+          94,
+          125,
+          138,
+          142,
+          146,
+          148,
+          150,
+          151,
+          154,
+          156,
+          187,
+          210,
+          214,
+          215,
+          218,
+          219,
+          221,
+          222,
+          226,
+          250,
+          281,
+          290,
+          294,
+          298,
+          302,
+          303,
+          306,
+          309,
+          312,
+          344,
+          347,
+          351,
+          355,
+          359,
+          363,
+          375,
+          403,
+          406
+        ],
+        "decision_note": "Direct multiview review confirms two distinct object-goal missions. Each mission has one stable pickup and one placement, aligned at the completed pear release before the orange action begins."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -183613,65 +183668,53 @@
       "total_frames": 340,
       "video_object_key": "intention6600/videos/droid_fruit/task_10718/episode_26867.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10718/episode_26867.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the pineapple plush toy",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the pineapple plush toy from the box",
           "start_frame": 0,
-          "end_frame": 163,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 184,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the pineapple plush toy on the table",
-          "start_frame": 164,
+          "start_frame": 185,
           "end_frame": 210,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the pineapple plush toy",
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the watermelon plush toy from the black pot",
           "start_frame": 211,
-          "end_frame": 267,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "end_frame": 280,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the pineapple plush toy on the table",
-          "start_frame": 268,
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the watermelon plush toy on the table",
+          "start_frame": 281,
           "end_frame": 339,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "put the pineapple plush toy on the table",
+          "mission_id": "mission_1",
+          "mission": "put the pineapple plush toy from the box on the table",
           "start_frame": 0,
           "end_frame": 210,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 1,
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the pineapple plush toy on the table",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "put the pineapple plush toy on the table",
+          "mission_id": "mission_2",
+          "mission": "put the watermelon plush toy from the black pot on the table",
           "start_frame": 211,
           "end_frame": 339,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 2,
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the pineapple plush toy on the table",
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
@@ -183684,28 +183727,20 @@
       },
       "short_term_missions": [
         {
-          "mission": "put the pineapple plush toy on the table",
+          "mission_id": "mission_1",
+          "mission": "put the pineapple plush toy from the box on the table",
           "start_frame": 0,
           "end_frame": 210,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 1,
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the pineapple plush toy on the table",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "put the pineapple plush toy on the table",
+          "mission_id": "mission_2",
+          "mission": "put the watermelon plush toy from the black pot on the table",
           "start_frame": 211,
           "end_frame": 339,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 2,
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the pineapple plush toy on the table",
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
@@ -183714,13 +183749,64 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "implicit_repeated_units_from_release_count",
         "repeated_category_needs_multiview_identity_check"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          62,
+          92,
+          123,
+          149,
+          153,
+          154,
+          157,
+          160,
+          161,
+          163,
+          165,
+          166,
+          185,
+          202,
+          206,
+          207,
+          210,
+          213,
+          214,
+          216,
+          218,
+          247,
+          249,
+          253,
+          257,
+          261,
+          264,
+          265,
+          267,
+          270,
+          277,
+          308,
+          313,
+          317,
+          321,
+          325,
+          329,
+          336,
+          339
+        ],
+        "decision_note": "Dense three-view review corrects the duplicated pineapple label and delays both pickup boundaries until the respective objects are visibly clear of their containers."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184098,47 +184184,31 @@
       "total_frames": 146,
       "video_object_key": "intention6600/videos/droid_fruit/task_10822/episode_27176.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10822/episode_27176.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the toy squishy pineapple",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the toy pineapple",
           "start_frame": 0,
-          "end_frame": 91,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 104,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the toy squishy pineapple in the brown box",
-          "start_frame": 92,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the toy pineapple in the brown box",
+          "start_frame": 105,
           "end_frame": 145,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the toy squishy pineapple",
-          "start_frame": 0,
-          "end_frame": 91,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the toy squishy pineapple",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the toy squishy pineapple in the brown box",
-          "start_frame": 92,
+          "mission": "put the toy pineapple in the brown box",
+          "start_frame": 0,
           "end_frame": 145,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the toy squishy pineapple in the brown box",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -184149,36 +184219,51 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the toy squishy pineapple",
-          "start_frame": 0,
-          "end_frame": 91,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the toy squishy pineapple",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the toy squishy pineapple in the brown box",
-          "start_frame": 92,
+          "mission": "put the toy pineapple in the brown box",
+          "start_frame": 0,
           "end_frame": 145,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the toy squishy pineapple in the brown box",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          21,
+          41,
+          62,
+          75,
+          79,
+          83,
+          87,
+          88,
+          91,
+          94,
+          104,
+          124,
+          128,
+          132,
+          136,
+          140,
+          142,
+          145
+        ],
+        "decision_note": "Direct three-view review uses the first frame at which the pineapple is stably lifted as the pickup endpoint, followed by placement in the brown box."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184192,87 +184277,55 @@
       "total_frames": 339,
       "video_object_key": "intention6600/videos/droid_fruit/task_10878/episode_27326.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10878/episode_27326.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the banana",
           "start_frame": 0,
-          "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 112,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "move the banana forwards",
-          "start_frame": 101,
-          "end_frame": 210,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "move the banana forward",
+          "start_frame": 113,
+          "end_frame": 153,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_3",
           "atomic_task": "pick up the fork",
-          "start_frame": 211,
+          "start_frame": 154,
           "end_frame": 310,
-          "boundary_source": "preserved_pick_only_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_4",
           "atomic_task": "move the fork to the right",
           "start_frame": 311,
           "end_frame": 338,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the banana",
-          "start_frame": 0,
-          "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the banana",
+          "mission": "move the banana forward",
+          "start_frame": 0,
+          "end_frame": 153,
           "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "move the banana forwards",
-          "start_frame": 101,
-          "end_frame": 210,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the banana forwards",
-          "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "pick up the fork",
-          "start_frame": 211,
-          "end_frame": 310,
-          "boundary_source": "preserved_pick_only_mission",
-          "mission_id": "mission_3",
-          "short_term_mission_id": "mission_3",
-          "short_term_mission": "pick up the fork",
-          "atomic_task_ids": [
-            "atomic_3"
-          ]
-        },
-        {
+          "mission_id": "mission_2",
           "mission": "move the fork to the right",
-          "start_frame": 311,
+          "start_frame": 154,
           "end_frame": 338,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_4",
-          "short_term_mission_id": "mission_4",
-          "short_term_mission": "move the fork to the right",
           "atomic_task_ids": [
+            "atomic_3",
             "atomic_4"
           ]
         }
@@ -184283,60 +184336,85 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the banana",
-          "start_frame": 0,
-          "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the banana",
+          "mission": "move the banana forward",
+          "start_frame": 0,
+          "end_frame": 153,
           "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "move the banana forwards",
-          "start_frame": 101,
-          "end_frame": 210,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the banana forwards",
-          "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "pick up the fork",
-          "start_frame": 211,
-          "end_frame": 310,
-          "boundary_source": "preserved_pick_only_mission",
-          "mission_id": "mission_3",
-          "short_term_mission_id": "mission_3",
-          "short_term_mission": "pick up the fork",
-          "atomic_task_ids": [
-            "atomic_3"
-          ]
-        },
-        {
+          "mission_id": "mission_2",
           "mission": "move the fork to the right",
-          "start_frame": 311,
+          "start_frame": 154,
           "end_frame": 338,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_4",
-          "short_term_mission_id": "mission_4",
-          "short_term_mission": "move the fork to the right",
           "atomic_task_ids": [
+            "atomic_3",
             "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          61,
+          92,
+          93,
+          97,
+          100,
+          101,
+          103,
+          105,
+          109,
+          123,
+          141,
+          145,
+          149,
+          153,
+          154,
+          157,
+          181,
+          184,
+          185,
+          189,
+          193,
+          197,
+          207,
+          210,
+          213,
+          215,
+          238,
+          242,
+          246,
+          250,
+          254,
+          265,
+          269,
+          273,
+          277,
+          281,
+          307,
+          310,
+          313,
+          335,
+          338
+        ],
+        "decision_note": "Direct full-video review aligns the object change immediately after the banana is released. The failed first fork attempt remains inside one fork pickup, which ends only after the later stable grasp."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184350,47 +184428,31 @@
       "total_frames": 100,
       "video_object_key": "intention6600/videos/droid_fruit/task_10923/episode_27463.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10923/episode_27463.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the fruit plush toy from the shelf",
           "start_frame": 0,
           "end_frame": 55,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the fruit plush toy on top of the cabinet",
           "start_frame": 56,
           "end_frame": 99,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the fruit plush toy from the shelf",
-          "start_frame": 0,
-          "end_frame": 55,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the fruit plush toy from the shelf",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the fruit plush toy on top of the cabinet",
-          "start_frame": 56,
+          "mission": "put the fruit plush toy from the shelf on top of the cabinet",
+          "start_frame": 0,
           "end_frame": 99,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the fruit plush toy on top of the cabinet",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -184401,36 +184463,53 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the fruit plush toy from the shelf",
-          "start_frame": 0,
-          "end_frame": 55,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the fruit plush toy from the shelf",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the fruit plush toy on top of the cabinet",
-          "start_frame": 56,
+          "mission": "put the fruit plush toy from the shelf on top of the cabinet",
+          "start_frame": 0,
           "end_frame": 99,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the fruit plush toy on top of the cabinet",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          14,
+          28,
+          29,
+          33,
+          37,
+          41,
+          42,
+          45,
+          52,
+          55,
+          57,
+          58,
+          71,
+          81,
+          85,
+          89,
+          93,
+          96,
+          97,
+          99
+        ],
+        "decision_note": "Direct three-view review confirms one transfer mission from the shelf to the cabinet top, with a stable pickup followed by placement."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184548,47 +184627,31 @@
       "total_frames": 169,
       "video_object_key": "intention6600/videos/droid_fruit/task_10977/episode_27611.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_10977/episode_27611.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the grape plush toy",
           "start_frame": 0,
-          "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 120,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the grape plush toy on the black tray",
-          "start_frame": 101,
+          "start_frame": 121,
           "end_frame": 168,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the grape plush toy",
-          "start_frame": 0,
-          "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the grape plush toy",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the grape plush toy on the black tray",
-          "start_frame": 101,
+          "mission": "put the grape plush toy on the black tray",
+          "start_frame": 0,
           "end_frame": 168,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the grape plush toy on the black tray",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -184599,36 +184662,52 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the grape plush toy",
-          "start_frame": 0,
-          "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the grape plush toy",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the grape plush toy on the black tray",
-          "start_frame": 101,
+          "mission": "put the grape plush toy on the black tray",
+          "start_frame": 0,
           "end_frame": 168,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the grape plush toy on the black tray",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          24,
+          48,
+          72,
+          92,
+          96,
+          97,
+          100,
+          103,
+          104,
+          108,
+          120,
+          144,
+          148,
+          152,
+          156,
+          160,
+          164,
+          165,
+          168
+        ],
+        "decision_note": "Direct multiview review moves the old early boundary past the completed grasp so placement starts only after the grapes are stably lifted."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184642,34 +184721,29 @@
       "total_frames": 101,
       "video_object_key": "intention6600/videos/droid_fruit/task_11099/episode_27954.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11099/episode_27954.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the purple toy grape",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the purple toy grapes",
           "start_frame": 0,
-          "end_frame": 49,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 71,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the purple toy grape inside the white bowl",
-          "start_frame": 50,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the purple toy grapes inside the white bowl",
+          "start_frame": 72,
           "end_frame": 100,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "put the purple toy grape inside the white bowl",
+          "mission_id": "mission_1",
+          "mission": "put the purple toy grapes inside the white bowl",
           "start_frame": 0,
           "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the purple toy grape inside the white bowl",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -184682,13 +184756,10 @@
       },
       "short_term_missions": [
         {
-          "mission": "put the purple toy grape inside the white bowl",
+          "mission_id": "mission_1",
+          "mission": "put the purple toy grapes inside the white bowl",
           "start_frame": 0,
           "end_frame": 100,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the purple toy grape inside the white bowl",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -184697,12 +184768,38 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "no_gripper_signal_preserved_atomic_proposal"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          14,
+          29,
+          43,
+          44,
+          46,
+          48,
+          49,
+          52,
+          56,
+          57,
+          60,
+          71,
+          86,
+          97,
+          100
+        ],
+        "decision_note": "Direct three-view review keeps the full lift in pickup and the approach and release inside the white bowl in placement."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184819,47 +184916,31 @@
       "total_frames": 193,
       "video_object_key": "intention6600/videos/droid_fruit/task_11161/episode_28123.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11161/episode_28123.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lemon",
           "start_frame": 0,
           "end_frame": 148,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "move the lemon forward",
           "start_frame": 149,
           "end_frame": 192,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the lemon",
-          "start_frame": 0,
-          "end_frame": 148,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the lemon",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "move the lemon forward",
-          "start_frame": 149,
+          "start_frame": 0,
           "end_frame": 192,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the lemon forward",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -184870,36 +184951,51 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the lemon",
-          "start_frame": 0,
-          "end_frame": 148,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the lemon",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "move the lemon forward",
-          "start_frame": 149,
+          "start_frame": 0,
           "end_frame": 192,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the lemon forward",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          27,
+          55,
+          82,
+          110,
+          127,
+          131,
+          135,
+          137,
+          139,
+          143,
+          145,
+          148,
+          151,
+          165,
+          181,
+          185,
+          189,
+          192
+        ],
+        "decision_note": "Direct multiview review confirms the stable lemon grasp before forward relocation and release. Pickup and relocation form one mission."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -184913,47 +185009,31 @@
       "total_frames": 380,
       "video_object_key": "intention6600/videos/droid_fruit/task_11171/episode_28146.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11171/episode_28146.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the toy squishy watermelon",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the toy watermelon",
           "start_frame": 0,
-          "end_frame": 193,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 330,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the toy squishy watermelon in the green pot",
-          "start_frame": 194,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the toy watermelon in the green pot",
+          "start_frame": 331,
           "end_frame": 379,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the toy squishy watermelon",
-          "start_frame": 0,
-          "end_frame": 193,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the toy squishy watermelon",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the toy squishy watermelon in the green pot",
-          "start_frame": 194,
+          "mission": "put the toy watermelon in the green pot",
+          "start_frame": 0,
           "end_frame": 379,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the toy squishy watermelon in the green pot",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -184964,36 +185044,58 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the toy squishy watermelon",
-          "start_frame": 0,
-          "end_frame": 193,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the toy squishy watermelon",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the toy squishy watermelon in the green pot",
-          "start_frame": 194,
+          "mission": "put the toy watermelon in the green pot",
+          "start_frame": 0,
           "end_frame": 379,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the toy squishy watermelon in the green pot",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          32,
+          63,
+          95,
+          126,
+          158,
+          190,
+          193,
+          196,
+          221,
+          253,
+          267,
+          271,
+          275,
+          279,
+          283,
+          284,
+          316,
+          347,
+          351,
+          355,
+          359,
+          363,
+          367,
+          376,
+          379
+        ],
+        "decision_note": "Dense three-view review fixes a severely premature old boundary at frame 193. The robot does not begin closing around the watermelon until frame 267 and the pickup remains active until the object is stably clear at frame 330."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -185197,47 +185299,31 @@
       "total_frames": 438,
       "video_object_key": "intention6600/videos/droid_fruit/task_11330/episode_28581.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11330/episode_28581.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the pineapple plushie",
           "start_frame": 0,
-          "end_frame": 225,
-          "boundary_source": "preserved_pick_only_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 330,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the pineapple plushie on the black plate",
-          "start_frame": 226,
+          "start_frame": 331,
           "end_frame": 437,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the pineapple plushie",
-          "start_frame": 0,
-          "end_frame": 225,
-          "boundary_source": "preserved_pick_only_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the pineapple plushie",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the pineapple plushie on the black plate",
-          "start_frame": 226,
+          "mission": "put the pineapple plushie on the black plate",
+          "start_frame": 0,
           "end_frame": 437,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the pineapple plushie on the black plate",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -185248,36 +185334,80 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the pineapple plushie",
-          "start_frame": 0,
-          "end_frame": 225,
-          "boundary_source": "preserved_pick_only_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the pineapple plushie",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the pineapple plushie on the black plate",
-          "start_frame": 226,
+          "mission": "put the pineapple plushie on the black plate",
+          "start_frame": 0,
           "end_frame": 437,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the pineapple plushie on the black plate",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          62,
+          94,
+          125,
+          156,
+          181,
+          185,
+          187,
+          189,
+          193,
+          197,
+          199,
+          203,
+          207,
+          211,
+          213,
+          215,
+          217,
+          218,
+          221,
+          222,
+          225,
+          228,
+          229,
+          243,
+          247,
+          250,
+          251,
+          255,
+          259,
+          281,
+          302,
+          306,
+          310,
+          312,
+          314,
+          318,
+          343,
+          375,
+          406,
+          417,
+          421,
+          425,
+          429,
+          433,
+          434,
+          437
+        ],
+        "decision_note": "Dense multiview review shows two early unsuccessful grasp-and-release attempts. They remain in the same pickup, which ends only after the final grasp lifts the pineapple clear around frame 330; placement then continues through stable release on the black plate."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -185291,66 +185421,32 @@
       "total_frames": 214,
       "video_object_key": "intention6600/videos/droid_fruit/task_11357/episode_28662.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11357/episode_28662.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the lemon in the bowl",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lemon from the bowl",
           "start_frame": 0,
-          "end_frame": 5,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 122,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "take the lemon out of the bowl",
-          "start_frame": 6,
-          "end_frame": 12,
-          "boundary_source": "uniform_within_mission_requires_review",
-          "confidence": "needs_visual_review",
-          "atomic_task_id": "atomic_2"
-        },
-        {
-          "atomic_task": "pick up the lemon",
-          "start_frame": 13,
-          "end_frame": 111,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
-        },
-        {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the lemon on the table",
-          "start_frame": 112,
+          "start_frame": 123,
           "end_frame": 213,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "take the lemon out of the bowl",
-          "start_frame": 0,
-          "end_frame": 12,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take the lemon out of the bowl",
+          "mission": "put the lemon from the bowl on the table",
+          "start_frame": 0,
+          "end_frame": 213,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place the lemon on the table",
-          "start_frame": 13,
-          "end_frame": 213,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lemon on the table",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
@@ -185360,40 +185456,60 @@
       },
       "short_term_missions": [
         {
-          "mission": "take the lemon out of the bowl",
-          "start_frame": 0,
-          "end_frame": 12,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "take the lemon out of the bowl",
+          "mission": "put the lemon from the bowl on the table",
+          "start_frame": 0,
+          "end_frame": 213,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
-          ]
-        },
-        {
-          "mission": "place the lemon on the table",
-          "start_frame": 13,
-          "end_frame": 213,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lemon on the table",
-          "atomic_task_ids": [
-            "atomic_3",
-            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "no_gripper_signal_preserved_atomic_proposal"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          2,
+          5,
+          8,
+          9,
+          12,
+          15,
+          30,
+          61,
+          91,
+          92,
+          96,
+          100,
+          104,
+          108,
+          111,
+          114,
+          122,
+          152,
+          183,
+          194,
+          198,
+          202,
+          206,
+          210,
+          213
+        ],
+        "decision_note": "Direct three-view review removes the artificial initial 0-12 extraction fragments. The actual pickup continues through stable lift from the bowl, followed by table placement."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -185407,47 +185523,31 @@
       "total_frames": 168,
       "video_object_key": "intention6600/videos/droid_fruit/task_11382/episode_28746.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11382/episode_28746.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the stuffed pineapple",
           "start_frame": 0,
-          "end_frame": 85,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 95,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the stuffed pineapple in the basket",
-          "start_frame": 86,
+          "start_frame": 96,
           "end_frame": 167,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the stuffed pineapple",
-          "start_frame": 0,
-          "end_frame": 85,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the stuffed pineapple",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the stuffed pineapple in the basket",
-          "start_frame": 86,
+          "mission": "put the stuffed pineapple in the basket",
+          "start_frame": 0,
           "end_frame": 167,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the stuffed pineapple in the basket",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -185458,36 +185558,53 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the stuffed pineapple",
-          "start_frame": 0,
-          "end_frame": 85,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the stuffed pineapple",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the stuffed pineapple in the basket",
-          "start_frame": 86,
+          "mission": "put the stuffed pineapple in the basket",
+          "start_frame": 0,
           "end_frame": 167,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the stuffed pineapple in the basket",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          24,
+          48,
+          61,
+          65,
+          69,
+          72,
+          73,
+          77,
+          82,
+          85,
+          88,
+          95,
+          119,
+          135,
+          139,
+          143,
+          147,
+          151,
+          164,
+          167
+        ],
+        "decision_note": "Direct multiview review shifts the boundary beyond the completed grasp and visible lift. This remains one transfer mission with pickup and basket placement."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -185501,47 +185618,31 @@
       "total_frames": 183,
       "video_object_key": "intention6600/videos/droid_fruit/task_11427/episode_28878.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11427/episode_28878.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the red fruit toy",
           "start_frame": 0,
-          "end_frame": 110,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 130,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "move the red fruit toy forward",
-          "start_frame": 111,
+          "start_frame": 131,
           "end_frame": 182,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the red fruit toy",
-          "start_frame": 0,
-          "end_frame": 110,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the red fruit toy",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "move the red fruit toy forward",
-          "start_frame": 111,
+          "start_frame": 0,
           "end_frame": 182,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the red fruit toy forward",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -185552,36 +185653,53 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the red fruit toy",
-          "start_frame": 0,
-          "end_frame": 110,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the red fruit toy",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "move the red fruit toy forward",
-          "start_frame": 111,
+          "start_frame": 0,
           "end_frame": 182,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "move the red fruit toy forward",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          26,
+          52,
+          78,
+          104,
+          107,
+          109,
+          110,
+          113,
+          117,
+          121,
+          125,
+          130,
+          153,
+          156,
+          157,
+          161,
+          165,
+          169,
+          179,
+          182
+        ],
+        "decision_note": "Direct three-view review waits until the red fruit is securely held before labeling forward relocation. The final release remains in the relocation atomic."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -185742,47 +185860,31 @@
       "total_frames": 245,
       "video_object_key": "intention6600/videos/droid_fruit/task_11526/episode_29211.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_11526/episode_29211.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up one tile",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up one letter tile",
           "start_frame": 0,
-          "end_frame": 75,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 80,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place one tile inside the banana purse",
-          "start_frame": 76,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the letter tile inside the banana purse",
+          "start_frame": 81,
           "end_frame": 244,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up one tile",
-          "start_frame": 0,
-          "end_frame": 75,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up one tile",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place one tile inside the banana purse",
-          "start_frame": 76,
+          "mission": "put one letter tile inside the banana purse",
+          "start_frame": 0,
           "end_frame": 244,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place one tile inside the banana purse",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -185793,36 +185895,55 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up one tile",
-          "start_frame": 0,
-          "end_frame": 75,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up one tile",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place one tile inside the banana purse",
-          "start_frame": 76,
+          "mission": "put one letter tile inside the banana purse",
+          "start_frame": 0,
           "end_frame": 244,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place one tile inside the banana purse",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          30,
+          52,
+          56,
+          60,
+          61,
+          64,
+          68,
+          72,
+          75,
+          78,
+          92,
+          122,
+          152,
+          183,
+          214,
+          215,
+          219,
+          223,
+          227,
+          231,
+          241,
+          244
+        ],
+        "decision_note": "Dense three-view review places the split after the small tile is visibly clear of the surrounding tiles. The long remaining motion and final release inside the purse form the placement atomic."
+      }
     },
     {
       "dataset": "droid_fruit",
