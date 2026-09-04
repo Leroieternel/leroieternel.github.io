@@ -1,12 +1,12 @@
 {
   "schema_version": 6,
-  "generated_at_utc": "2026-09-04T14:43:07.635168+00:00",
+  "generated_at_utc": "2026-09-04T15:06:10.034386+00:00",
   "frame_semantics": "inclusive continuous episode-local frame indices",
   "hierarchy": "full episode instruction > long-term missions > short-term missions > atomic tasks",
   "summary": {
     "episode_count": 6597,
     "dataset_count": 15,
-    "mission_count": 9022,
+    "mission_count": 9020,
     "atomic_task_count": 12855,
     "inferred_atomic_boundaries_requiring_review": 4005,
     "atomic_grouping_provenance": {
@@ -31,11 +31,11 @@
       "TACO Play": 403,
       "UT Austin MUTEX": 43
     },
-    "short_term_mission_count": 9022,
+    "short_term_mission_count": 9020,
     "long_term_mission_count": 118,
     "long_horizon_episode_count": 117,
-    "v2_direct_visual_review_count": 465,
-    "v2_pending_bridge_droid_count": 4667,
+    "v2_direct_visual_review_count": 468,
+    "v2_pending_bridge_droid_count": 4664,
     "human_reviewed_episode_count": 182,
     "reviewed_episode_count": 182
   },
@@ -166262,47 +166262,31 @@
       "total_frames": 218,
       "video_object_key": "intention6600/videos/droid_fruit/task_3492/episode_7738.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_3492/episode_7738.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lemon toy from the counter",
           "start_frame": 0,
-          "end_frame": 125,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 144,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the lemon toy at the stove",
-          "start_frame": 126,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lemon toy on the stove",
+          "start_frame": 145,
           "end_frame": 217,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the lemon toy from the counter",
-          "start_frame": 0,
-          "end_frame": 125,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the lemon toy from the counter",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the lemon toy at the stove",
-          "start_frame": 126,
+          "mission": "put the lemon toy on the stove",
+          "start_frame": 0,
           "end_frame": 217,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lemon toy at the stove",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -166313,36 +166297,53 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the lemon toy from the counter",
-          "start_frame": 0,
-          "end_frame": 125,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the lemon toy from the counter",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the lemon toy at the stove",
-          "start_frame": 126,
+          "mission": "put the lemon toy on the stove",
+          "start_frame": 0,
           "end_frame": 217,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lemon toy at the stove",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          62,
+          93,
+          117,
+          121,
+          122,
+          124,
+          125,
+          128,
+          129,
+          133,
+          155,
+          186,
+          194,
+          198,
+          202,
+          206,
+          210,
+          214,
+          217
+        ],
+        "decision_note": "Direct front and wrist review. The lemon is contacted around frames 121-140 and is first stably carried clear of the counter at frame 144; placement includes transport and the confirmed release at the stove. Pickup and placement form one object-transfer mission."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -166356,335 +166357,269 @@
       "total_frames": 752,
       "video_object_key": "intention6600/videos/droid_fruit/task_3615/episode_8057.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_3615/episode_8057.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the dark-green round plush fruit",
           "start_frame": 0,
-          "end_frame": 91,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 92,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 92,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the dark-green round plush fruit in a bowl",
+          "start_frame": 93,
           "end_frame": 124,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the light-green round plush fruit",
           "start_frame": 125,
           "end_frame": 168,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the light-green round plush fruit in a bowl",
           "start_frame": 169,
           "end_frame": 189,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the red conical plush fruit",
           "start_frame": 190,
-          "end_frame": 219,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_5"
+          "end_frame": 215,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 220,
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the red conical plush fruit in a bowl",
+          "start_frame": 216,
           "end_frame": 239,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_6"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_7",
+          "atomic_task": "pick up the red round plush fruit",
           "start_frame": 240,
-          "end_frame": 259,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_7"
+          "end_frame": 260,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 260,
+          "atomic_task_id": "atomic_8",
+          "atomic_task": "place the red round plush fruit in a bowl",
+          "start_frame": 261,
           "end_frame": 288,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_8"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_9",
+          "atomic_task": "pick up the burgundy root-shaped plush vegetable",
           "start_frame": 289,
-          "end_frame": 342,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_9"
+          "end_frame": 343,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 343,
+          "atomic_task_id": "atomic_10",
+          "atomic_task": "place the burgundy root-shaped plush vegetable in a bowl",
+          "start_frame": 344,
           "end_frame": 372,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_10"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_11",
+          "atomic_task": "pick up the yellow round plush fruit",
           "start_frame": 373,
           "end_frame": 419,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_11"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
+          "atomic_task_id": "atomic_12",
+          "atomic_task": "place the yellow round plush fruit in a bowl",
           "start_frame": 420,
           "end_frame": 443,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_12"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_13",
+          "atomic_task": "pick up the pale-green bumpy plush vegetable",
           "start_frame": 444,
-          "end_frame": 476,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_13"
+          "end_frame": 477,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 477,
+          "atomic_task_id": "atomic_14",
+          "atomic_task": "place the pale-green bumpy plush vegetable in a bowl",
+          "start_frame": 478,
           "end_frame": 503,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_14"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_15",
+          "atomic_task": "pick up the orange plush fruit",
           "start_frame": 504,
-          "end_frame": 550,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_15"
+          "end_frame": 551,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 551,
+          "atomic_task_id": "atomic_16",
+          "atomic_task": "place the orange plush fruit in a bowl",
+          "start_frame": 552,
           "end_frame": 574,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_16"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_17",
+          "atomic_task": "pick up the banana plushie",
           "start_frame": 575,
-          "end_frame": 612,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_17"
+          "end_frame": 613,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 613,
+          "atomic_task_id": "atomic_18",
+          "atomic_task": "place the banana plushie in a bowl",
+          "start_frame": 614,
           "end_frame": 649,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_18"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_19",
+          "atomic_task": "pick up the small green round plush fruit",
           "start_frame": 650,
-          "end_frame": 685,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_19"
+          "end_frame": 686,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 686,
+          "atomic_task_id": "atomic_20",
+          "atomic_task": "place the small green round plush fruit in a bowl",
+          "start_frame": 687,
           "end_frame": 702,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_20"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the plush fruit",
+          "atomic_task_id": "atomic_21",
+          "atomic_task": "pick up the large green round plush fruit",
           "start_frame": 703,
-          "end_frame": 716,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_21"
+          "end_frame": 718,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the plush fruit in one of the bowls",
-          "start_frame": 717,
+          "atomic_task_id": "atomic_22",
+          "atomic_task": "place the large green round plush fruit in a bowl",
+          "start_frame": 719,
           "end_frame": 751,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_22"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_1",
+          "mission": "put the dark-green round plush fruit in a bowl",
           "start_frame": 0,
           "end_frame": 124,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 1,
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_2",
+          "mission": "put the light-green round plush fruit in a bowl",
           "start_frame": 125,
           "end_frame": 189,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 2,
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_3",
+          "mission": "put the red conical plush fruit in a bowl",
           "start_frame": 190,
           "end_frame": 239,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 3,
-          "mission_id": "mission_3",
-          "short_term_mission_id": "mission_3",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_5",
             "atomic_6"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_4",
+          "mission": "put the red round plush fruit in a bowl",
           "start_frame": 240,
           "end_frame": 288,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 4,
-          "mission_id": "mission_4",
-          "short_term_mission_id": "mission_4",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_7",
             "atomic_8"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_5",
+          "mission": "put the burgundy root-shaped plush vegetable in a bowl",
           "start_frame": 289,
           "end_frame": 372,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 5,
-          "mission_id": "mission_5",
-          "short_term_mission_id": "mission_5",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_9",
             "atomic_10"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_6",
+          "mission": "put the yellow round plush fruit in a bowl",
           "start_frame": 373,
           "end_frame": 443,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 6,
-          "mission_id": "mission_6",
-          "short_term_mission_id": "mission_6",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_11",
             "atomic_12"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_7",
+          "mission": "put the pale-green bumpy plush vegetable in a bowl",
           "start_frame": 444,
           "end_frame": 503,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 7,
-          "mission_id": "mission_7",
-          "short_term_mission_id": "mission_7",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_13",
             "atomic_14"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_8",
+          "mission": "put the orange plush fruit in a bowl",
           "start_frame": 504,
           "end_frame": 574,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 8,
-          "mission_id": "mission_8",
-          "short_term_mission_id": "mission_8",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_15",
             "atomic_16"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_9",
+          "mission": "put the banana plushie in a bowl",
           "start_frame": 575,
           "end_frame": 649,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 9,
-          "mission_id": "mission_9",
-          "short_term_mission_id": "mission_9",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_17",
             "atomic_18"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_10",
+          "mission": "put the small green round plush fruit in a bowl",
           "start_frame": 650,
           "end_frame": 702,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 10,
-          "mission_id": "mission_10",
-          "short_term_mission_id": "mission_10",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_19",
             "atomic_20"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_11",
+          "mission": "put the large green round plush fruit in a bowl",
           "start_frame": 703,
           "end_frame": 751,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 11,
-          "mission_id": "mission_11",
-          "short_term_mission_id": "mission_11",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_21",
             "atomic_22"
@@ -166697,154 +166632,110 @@
       },
       "short_term_missions": [
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_1",
+          "mission": "put the dark-green round plush fruit in a bowl",
           "start_frame": 0,
           "end_frame": 124,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 1,
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_2",
+          "mission": "put the light-green round plush fruit in a bowl",
           "start_frame": 125,
           "end_frame": 189,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 2,
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_3",
+          "mission": "put the red conical plush fruit in a bowl",
           "start_frame": 190,
           "end_frame": 239,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 3,
-          "mission_id": "mission_3",
-          "short_term_mission_id": "mission_3",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_5",
             "atomic_6"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_4",
+          "mission": "put the red round plush fruit in a bowl",
           "start_frame": 240,
           "end_frame": 288,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 4,
-          "mission_id": "mission_4",
-          "short_term_mission_id": "mission_4",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_7",
             "atomic_8"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_5",
+          "mission": "put the burgundy root-shaped plush vegetable in a bowl",
           "start_frame": 289,
           "end_frame": 372,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 5,
-          "mission_id": "mission_5",
-          "short_term_mission_id": "mission_5",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_9",
             "atomic_10"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_6",
+          "mission": "put the yellow round plush fruit in a bowl",
           "start_frame": 373,
           "end_frame": 443,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 6,
-          "mission_id": "mission_6",
-          "short_term_mission_id": "mission_6",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_11",
             "atomic_12"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_7",
+          "mission": "put the pale-green bumpy plush vegetable in a bowl",
           "start_frame": 444,
           "end_frame": 503,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 7,
-          "mission_id": "mission_7",
-          "short_term_mission_id": "mission_7",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_13",
             "atomic_14"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_8",
+          "mission": "put the orange plush fruit in a bowl",
           "start_frame": 504,
           "end_frame": 574,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 8,
-          "mission_id": "mission_8",
-          "short_term_mission_id": "mission_8",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_15",
             "atomic_16"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_9",
+          "mission": "put the banana plushie in a bowl",
           "start_frame": 575,
           "end_frame": 649,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 9,
-          "mission_id": "mission_9",
-          "short_term_mission_id": "mission_9",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_17",
             "atomic_18"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_10",
+          "mission": "put the small green round plush fruit in a bowl",
           "start_frame": 650,
           "end_frame": 702,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 10,
-          "mission_id": "mission_10",
-          "short_term_mission_id": "mission_10",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_19",
             "atomic_20"
           ]
         },
         {
-          "mission": "put the plush fruit in one of the bowls",
+          "mission_id": "mission_11",
+          "mission": "put the large green round plush fruit in a bowl",
           "start_frame": 703,
           "end_frame": 751,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 11,
-          "mission_id": "mission_11",
-          "short_term_mission_id": "mission_11",
-          "short_term_mission": "put the plush fruit in one of the bowls",
           "atomic_task_ids": [
             "atomic_21",
             "atomic_22"
@@ -166855,25 +166746,12 @@
       "long_term_missions": [
         {
           "long_term_mission_id": "long_mission_1",
-          "mission": "put all the fruits in the bowls",
+          "mission": "put all the plush fruits in the bowls",
+          "long_term_mission": "put all the plush fruits in the bowls",
           "start_frame": 0,
           "end_frame": 751,
           "activation_member_index": 3,
           "activation_frame": 190,
-          "member_mission_indices": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11
-          ],
-          "boundary_source": "direct_repeated_completion_group",
           "member_mission_ids": [
             "mission_1",
             "mission_2",
@@ -166900,16 +166778,98 @@
             "mission_10",
             "mission_11"
           ],
-          "long_term_mission": "put all the fruits in the bowls"
+          "boundary_source": "codex_direct_repeated_object_completion_group"
         }
       ],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [
         "plural_category_expanded_from_release_count",
         "repeated_category_needs_multiview_identity_check"
       ],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          79,
+          83,
+          87,
+          88,
+          91,
+          94,
+          95,
+          116,
+          120,
+          121,
+          124,
+          127,
+          128,
+          132,
+          155,
+          159,
+          163,
+          165,
+          167,
+          168,
+          171,
+          181,
+          185,
+          186,
+          189,
+          192,
+          193,
+          197,
+          207,
+          211,
+          215,
+          216,
+          219,
+          222,
+          223,
+          231,
+          235,
+          236,
+          239,
+          242,
+          243,
+          247,
+          251,
+          255,
+          256,
+          259,
+          262,
+          263,
+          280,
+          284,
+          285,
+          288,
+          291,
+          292,
+          296,
+          330,
+          334,
+          338,
+          339,
+          342,
+          345,
+          346,
+          364,
+          368,
+          369,
+          372,
+          375,
+          376,
+          380,
+          407,
+          411,
+          415
+        ],
+        "decision_note": "Direct wrist and front review confirms eleven completed object transfers. Each short-term mission ends at its stable release; each pickup boundary is placed only after the corresponding object moves with the gripper. The third completed member activates the set-level long-horizon mission."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -166923,47 +166883,31 @@
       "total_frames": 235,
       "video_object_key": "intention6600/videos/droid_fruit/task_3633/episode_8092.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_3633/episode_8092.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the white paper towel",
           "start_frame": 0,
-          "end_frame": 109,
-          "boundary_source": "preserved_pick_only_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 123,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the white paper towel on top of the fruits on the plate",
-          "start_frame": 110,
+          "start_frame": 124,
           "end_frame": 234,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the white paper towel",
-          "start_frame": 0,
-          "end_frame": 109,
-          "boundary_source": "preserved_pick_only_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the white paper towel",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the white paper towel on top of the fruits on the plate",
-          "start_frame": 110,
+          "mission": "put the white paper towel on top of the fruits on the plate",
+          "start_frame": 0,
           "end_frame": 234,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the white paper towel on top of the fruits on the plate",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -166974,36 +166918,60 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the white paper towel",
-          "start_frame": 0,
-          "end_frame": 109,
-          "boundary_source": "preserved_pick_only_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the white paper towel",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the white paper towel on top of the fruits on the plate",
-          "start_frame": 110,
+          "mission": "put the white paper towel on top of the fruits on the plate",
+          "start_frame": 0,
           "end_frame": 234,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the white paper towel on top of the fruits on the plate",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          33,
+          61,
+          65,
+          67,
+          69,
+          73,
+          77,
+          88,
+          92,
+          96,
+          100,
+          101,
+          104,
+          105,
+          106,
+          109,
+          112,
+          113,
+          117,
+          134,
+          167,
+          201,
+          224,
+          228,
+          231,
+          232,
+          234
+        ],
+        "decision_note": "Direct front and wrist review. The first close-release cycle ending near frame 96 is a failed grasp and remains inside the pickup action. The towel is stably lifted only at frame 123; the second action continues through the final confirmed placement."
+      }
     },
     {
       "dataset": "droid_fruit",
