@@ -1,13 +1,13 @@
 {
   "schema_version": 6,
-  "generated_at_utc": "2026-09-04T04:55:56.523876+00:00",
+  "generated_at_utc": "2026-09-04T05:08:44.025750+00:00",
   "frame_semantics": "inclusive continuous episode-local frame indices",
   "hierarchy": "full episode instruction > long-term missions > short-term missions > atomic tasks",
   "summary": {
     "episode_count": 6597,
     "dataset_count": 15,
     "mission_count": 9123,
-    "atomic_task_count": 12730,
+    "atomic_task_count": 12755,
     "inferred_atomic_boundaries_requiring_review": 4005,
     "atomic_grouping_provenance": {
       "reviewed_edges": 233,
@@ -34,8 +34,8 @@
     "short_term_mission_count": 9123,
     "long_term_mission_count": 121,
     "long_horizon_episode_count": 120,
-    "v2_direct_visual_review_count": 23,
-    "v2_pending_bridge_droid_count": 5109
+    "v2_direct_visual_review_count": 63,
+    "v2_pending_bridge_droid_count": 5069
   },
   "episodes": [
     {
@@ -9562,14 +9562,21 @@
       "total_frames": 28,
       "video_object_key": "intention6600/videos/bridge_v2/task_654/episode_1225.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_654/episode_1225.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the sushi from the plate",
+          "atomic_task": "pick up the sushi from the plate",
           "start_frame": 0,
+          "end_frame": 15,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sushi on the table",
+          "start_frame": 16,
           "end_frame": 27,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -9579,13 +9586,48 @@
           "start_frame": 0,
           "end_frame": 27,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the sushi from the plate",
+          "start_frame": 0,
+          "end_frame": 27,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          7,
+          8,
+          11,
+          12,
+          15,
+          19,
+          23,
+          24,
+          27
+        ],
+        "decision_note": "The sushi is stably lifted clear of the plate at frame 15; the subsequent carry and set-down on the table are a separate placement outcome."
       }
     },
     {
@@ -19991,14 +20033,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_2854.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_2854.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -20008,13 +20057,52 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          9,
+          11,
+          13,
+          16,
+          17,
+          21,
+          25,
+          26,
+          28,
+          32,
+          34,
+          36,
+          37
+        ],
+        "decision_note": "The lid is fully clear and stable at frame 21; later frames move it left and release it onto the work surface."
       }
     },
     {
@@ -21959,14 +22047,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_3126.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_3126.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 20,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 21,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -21976,13 +22071,54 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          8,
+          11,
+          12,
+          16,
+          20,
+          21,
+          23,
+          24,
+          26,
+          27,
+          31,
+          32,
+          34,
+          35,
+          37
+        ],
+        "decision_note": "Frame 20 completes the stable lift-clear outcome; transport away from the pot begins at frame 21 and ends with the lid on the table."
       }
     },
     {
@@ -22919,27 +23055,27 @@
       "total_frames": 39,
       "video_object_key": "intention6600/videos/bridge_v2/task_1506/episode_3256.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_1506/episode_3256.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the pot lid",
           "start_frame": 0,
           "end_frame": 19,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "cover the pot on the left with the pot lid",
+          "atomic_task": "place the pot lid on the left pot",
           "start_frame": 20,
           "end_frame": 38,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "cover the pot on the left with the pot lid",
+          "mission": "cover the left pot with the pot lid",
           "start_frame": 0,
           "end_frame": 38,
           "atomic_task_ids": [
@@ -22951,6 +23087,42 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the left pot with the pot lid",
+          "start_frame": 0,
+          "end_frame": 38,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          7,
+          11,
+          15,
+          16,
+          19,
+          22,
+          23,
+          27,
+          33,
+          35,
+          38
+        ],
+        "decision_note": "The lid is lifted clear by frame 19; frames 20 onward transfer, align, and seat it on the pot at the left."
       }
     },
     {
@@ -23643,14 +23815,21 @@
       "total_frames": 43,
       "video_object_key": "intention6600/videos/bridge_v2/task_1558/episode_3370.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_1558/episode_3370.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "cover the silver pot with the lid",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the silver pot",
+          "start_frame": 22,
           "end_frame": 42,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -23660,13 +23839,54 @@
           "start_frame": 0,
           "end_frame": 42,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the lid",
+          "start_frame": 0,
+          "end_frame": 42,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          6,
+          9,
+          12,
+          13,
+          17,
+          18,
+          21,
+          24,
+          25,
+          26,
+          30,
+          34,
+          36,
+          38,
+          39,
+          42
+        ],
+        "decision_note": "The lid is stably held and clear at frame 21; the remaining trajectory carries it to the silver pot and releases it in place."
       }
     },
     {
@@ -24001,14 +24221,21 @@
       "total_frames": 35,
       "video_object_key": "intention6600/videos/bridge_v2/task_654/episode_3428.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_654/episode_3428.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the sushi from the plate",
+          "atomic_task": "pick up the sushi from the plate",
           "start_frame": 0,
+          "end_frame": 18,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sushi on the table",
+          "start_frame": 19,
           "end_frame": 34,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -24018,13 +24245,52 @@
           "start_frame": 0,
           "end_frame": 34,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the sushi from the plate",
+          "start_frame": 0,
+          "end_frame": 34,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          14,
+          15,
+          18,
+          19,
+          22,
+          24,
+          26,
+          28,
+          29,
+          31,
+          32,
+          34
+        ],
+        "decision_note": "The sushi is visibly clear of the plate at frame 18; the following motion carries and releases it on the table."
       }
     },
     {
@@ -24855,14 +25121,21 @@
       "total_frames": 37,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_3595.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_3595.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 36,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -24872,13 +25145,51 @@
           "start_frame": 0,
           "end_frame": 36,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 36,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          11,
+          15,
+          19,
+          21,
+          23,
+          26,
+          27,
+          31,
+          33,
+          35,
+          36
+        ],
+        "decision_note": "The lid reaches a stable fully clear state at frame 21; the later leftward transport and release constitute placement."
       }
     },
     {
@@ -25289,27 +25600,27 @@
       "total_frames": 24,
       "video_object_key": "intention6600/videos/bridge_v2/task_1691/episode_3657.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_1691/episode_3657.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "pick up the lid",
+          "atomic_task": "pick up the cooking pot",
           "start_frame": 0,
-          "end_frame": 11,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 13,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the lid on the cooking pot",
-          "start_frame": 12,
+          "atomic_task": "place the cooking pot together with the lid",
+          "start_frame": 14,
           "end_frame": 23,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "cover the cooking pot with the lid",
+          "mission": "put the cooking pot together with the lid",
           "start_frame": 0,
           "end_frame": 23,
           "atomic_task_ids": [
@@ -25321,6 +25632,44 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "put the cooking pot together with the lid",
+          "start_frame": 0,
+          "end_frame": 23,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          3,
+          5,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          16,
+          17,
+          20,
+          21,
+          23
+        ],
+        "decision_note": "Full-frame review shows the robot moves the cooking pot, not the lid: the pot is clear of the purple pad at frame 13, then is transported and placed together with the lid. No extra lid pickup occurs."
       }
     },
     {
@@ -26987,14 +27336,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_3940.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_3940.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -27004,13 +27360,53 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          11,
+          14,
+          16,
+          18,
+          21,
+          22,
+          25,
+          26,
+          29,
+          32,
+          33,
+          34,
+          37
+        ],
+        "decision_note": "Frame 21 completes stable lid removal; from frame 22 the robot transfers the lid left and sets it on the table."
       }
     },
     {
@@ -27627,27 +28023,27 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_1846/episode_4032.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_1846/episode_4032.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the silver pot cover",
           "start_frame": 0,
-          "end_frame": 18,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 15,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the silver pot cover on the silver pot",
-          "start_frame": 19,
+          "atomic_task": "place the silver pot cover on the silver pot",
+          "start_frame": 16,
           "end_frame": 37,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "put the silver pot cover on the silver pot",
+          "mission": "cover the silver pot with the silver pot cover",
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
@@ -27659,6 +28055,45 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the silver pot cover",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          7,
+          11,
+          15,
+          16,
+          18,
+          19,
+          21,
+          23,
+          26,
+          28,
+          32,
+          34,
+          36,
+          37
+        ],
+        "decision_note": "The cover is fully clear of its source at frame 15; transport over the pot, alignment, and release start at frame 16."
       }
     },
     {
@@ -28069,14 +28504,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_4114.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_4114.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 26,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 27,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -28086,13 +28528,49 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          11,
+          16,
+          20,
+          21,
+          24,
+          26,
+          28,
+          32,
+          34,
+          37
+        ],
+        "decision_note": "The lid is securely separated from the pot at frame 26; subsequent motion carries and releases it on the adjacent surface."
       }
     },
     {
@@ -28709,30 +29187,72 @@
       "total_frames": 25,
       "video_object_key": "intention6600/videos/bridge_v2/task_231/episode_4247.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_231/episode_4247.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot or pan",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 17,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the stove",
+          "start_frame": 18,
           "end_frame": 24,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "remove the lid from the pot or pan",
+          "mission": "remove the lid from the pot",
           "start_frame": 0,
           "end_frame": 24,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 24,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          3,
+          6,
+          7,
+          10,
+          14,
+          17,
+          18,
+          21,
+          22,
+          24
+        ],
+        "decision_note": "The lid is clear of the pot at frame 17; frames 18-24 move it onto the neighboring stove surface."
       }
     },
     {
@@ -29745,20 +30265,20 @@
       "total_frames": 44,
       "video_object_key": "intention6600/videos/bridge_v2/task_1997/episode_4399.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_1997/episode_4399.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "fold the cloth from the bottom-left toward the top-right to cover the white figure",
+          "atomic_task": "fold the cloth from bottom left to top right over the white figure",
           "start_frame": 0,
           "end_frame": 43,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "fold the cloth from the bottom-left toward the top-right to cover the white figure",
+          "mission": "fold the cloth from bottom left to top right over the white figure",
           "start_frame": 0,
           "end_frame": 43,
           "atomic_task_ids": [
@@ -29769,6 +30289,43 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "fold the cloth from bottom left to top right over the white figure",
+          "start_frame": 0,
+          "end_frame": 43,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          6,
+          12,
+          16,
+          18,
+          20,
+          24,
+          25,
+          28,
+          31,
+          32,
+          36,
+          37,
+          40,
+          43
+        ],
+        "decision_note": "This is a single continuous deformable-object folding outcome. It is not split into artificial pickup and placement actions."
       }
     },
     {
@@ -30385,27 +30942,27 @@
       "total_frames": 32,
       "video_object_key": "intention6600/videos/bridge_v2/task_2031/episode_4479.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_2031/episode_4479.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "pick up the pot lid",
+          "atomic_task": "pick up the pot cover",
           "start_frame": 0,
           "end_frame": 15,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "place the pot lid on the pot",
+          "atomic_task": "place the pot cover on the pot",
           "start_frame": 16,
           "end_frame": 31,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "cover the pot with the pot lid",
+          "mission": "cover the pot with the pot cover",
           "start_frame": 0,
           "end_frame": 31,
           "atomic_task_ids": [
@@ -30417,6 +30974,43 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the pot with the pot cover",
+          "start_frame": 0,
+          "end_frame": 31,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          5,
+          9,
+          12,
+          13,
+          15,
+          17,
+          18,
+          21,
+          22,
+          27,
+          28,
+          31
+        ],
+        "decision_note": "The cover is stably lifted at frame 15; frame 16 begins transfer toward the pot and the remainder completes seating and release."
       }
     },
     {
@@ -30667,14 +31261,21 @@
       "total_frames": 31,
       "video_object_key": "intention6600/videos/bridge_v2/task_654/episode_4506.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_654/episode_4506.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the sushi from the plate",
+          "atomic_task": "pick up the sushi from the plate",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sushi on the table",
+          "start_frame": 22,
           "end_frame": 30,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -30684,13 +31285,51 @@
           "start_frame": 0,
           "end_frame": 30,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the sushi from the plate",
+          "start_frame": 0,
+          "end_frame": 30,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          22,
+          23,
+          26,
+          27,
+          30
+        ],
+        "decision_note": "The sushi is securely held and fully clear at frame 21; it is then carried away and released on the table."
       }
     },
     {
@@ -31687,14 +32326,21 @@
       "total_frames": 37,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_4675.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_4675.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 36,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -31704,13 +32350,52 @@
           "start_frame": 0,
           "end_frame": 36,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 36,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          13,
+          15,
+          17,
+          21,
+          25,
+          26,
+          27,
+          29,
+          31,
+          33,
+          35,
+          36
+        ],
+        "decision_note": "The lid is stable and clear at frame 21; transport and the later release on the table are assigned to placement."
       }
     },
     {
@@ -32641,14 +33326,21 @@
       "total_frames": 34,
       "video_object_key": "intention6600/videos/bridge_v2/task_654/episode_4830.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_654/episode_4830.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the sushi from the plate",
+          "atomic_task": "pick up the sushi from the plate",
           "start_frame": 0,
+          "end_frame": 18,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sushi on the table",
+          "start_frame": 19,
           "end_frame": 33,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -32658,13 +33350,51 @@
           "start_frame": 0,
           "end_frame": 33,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the sushi from the plate",
+          "start_frame": 0,
+          "end_frame": 33,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          9,
+          10,
+          14,
+          18,
+          19,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          33
+        ],
+        "decision_note": "The sushi is clear of the plate at frame 18; the following motion transports and sets it beside the other food item."
       }
     },
     {
@@ -32991,14 +33721,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_4896.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_4896.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 22,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 23,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -33008,13 +33745,50 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          11,
+          14,
+          16,
+          18,
+          21,
+          22,
+          26,
+          30,
+          32,
+          34,
+          37
+        ],
+        "decision_note": "The lid is fully clear at frame 22; frames 23 onward transfer and place it on the adjacent work surface."
       }
     },
     {
@@ -35149,21 +35923,21 @@
       "total_frames": 58,
       "video_object_key": "intention6600/videos/bridge_v2/task_2313/episode_5219.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_2313/episode_5219.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "pick up the lid on the left burner",
+          "atomic_task": "pick up the lid from the left burner",
           "start_frame": 0,
-          "end_frame": 28,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 41,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "remove the lid from the left burner",
-          "start_frame": 29,
+          "atomic_task": "place the lid on the countertop",
+          "start_frame": 42,
           "end_frame": 57,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -35181,6 +35955,46 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the left burner",
+          "start_frame": 0,
+          "end_frame": 57,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          8,
+          16,
+          24,
+          25,
+          28,
+          30,
+          31,
+          33,
+          34,
+          38,
+          41,
+          42,
+          46,
+          49,
+          54,
+          57
+        ],
+        "decision_note": "The long approach and grasp remain within pickup; the lid is fully lifted and controlled by frame 41, then carried to and set on the left countertop."
       }
     },
     {
@@ -35195,21 +36009,21 @@
       "total_frames": 47,
       "video_object_key": "intention6600/videos/bridge_v2/task_2322/episode_5234.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_2322/episode_5234.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "pick up the silver lid from the table",
+          "atomic_task": "pick up the silver lid",
           "start_frame": 0,
-          "end_frame": 23,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 22,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "cover the pot with the silver lid",
-          "start_frame": 24,
+          "atomic_task": "place the silver lid on the pot",
+          "start_frame": 23,
           "end_frame": 46,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -35227,6 +36041,46 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the pot with the silver lid",
+          "start_frame": 0,
+          "end_frame": 46,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          7,
+          13,
+          14,
+          18,
+          20,
+          22,
+          23,
+          26,
+          30,
+          33,
+          36,
+          39,
+          40,
+          43,
+          44,
+          46
+        ],
+        "decision_note": "The silver lid is lifted clear at frame 22; frame 23 starts transport toward the pot, followed by placement and release."
       }
     },
     {
@@ -35469,14 +36323,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_5263.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_5263.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -35486,13 +36347,51 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          11,
+          14,
+          16,
+          18,
+          21,
+          22,
+          26,
+          30,
+          32,
+          34,
+          37
+        ],
+        "decision_note": "The lid is fully clear and stable at frame 21; later frames carry it away and set it on the work surface."
       }
     },
     {
@@ -37763,30 +38662,73 @@
       "total_frames": 22,
       "video_object_key": "intention6600/videos/bridge_v2/task_231/episode_5601.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_231/episode_5601.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot or pan",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 15,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid beside the pan",
+          "start_frame": 16,
           "end_frame": 21,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "remove the lid from the pot or pan",
+          "mission": "remove the lid from the pan",
           "start_frame": 0,
           "end_frame": 21,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pan",
+          "start_frame": 0,
+          "end_frame": 21,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          3,
+          4,
+          6,
+          8,
+          9,
+          12,
+          15,
+          16,
+          18,
+          20,
+          21
+        ],
+        "decision_note": "The lid is visibly clear of the pan at frame 15; the remaining motion places it on the neighboring sink surface."
       }
     },
     {
@@ -39281,14 +40223,21 @@
       "total_frames": 32,
       "video_object_key": "intention6600/videos/bridge_v2/task_654/episode_5816.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_654/episode_5816.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the sushi from the plate",
+          "atomic_task": "pick up the sushi from the plate",
           "start_frame": 0,
+          "end_frame": 22,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sushi on the table",
+          "start_frame": 23,
           "end_frame": 31,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -39298,13 +40247,50 @@
           "start_frame": 0,
           "end_frame": 31,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the sushi from the plate",
+          "start_frame": 0,
+          "end_frame": 31,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          9,
+          10,
+          13,
+          14,
+          18,
+          22,
+          23,
+          26,
+          27,
+          28,
+          31
+        ],
+        "decision_note": "The sushi is stably lifted clear of the plate by frame 22; subsequent transport and release form the placement action."
       }
     },
     {
@@ -40805,21 +41791,21 @@
       "total_frames": 28,
       "video_object_key": "intention6600/videos/bridge_v2/task_2656/episode_6049.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_2656/episode_6049.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lid",
           "start_frame": 0,
           "end_frame": 13,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the lid on the silver pot",
+          "atomic_task": "place the lid on the silver pot",
           "start_frame": 14,
           "end_frame": 27,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -40837,6 +41823,45 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the lid",
+          "start_frame": 0,
+          "end_frame": 27,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          5,
+          8,
+          9,
+          10,
+          12,
+          13,
+          15,
+          16,
+          17,
+          19,
+          21,
+          23,
+          24,
+          27
+        ],
+        "decision_note": "The lid is lifted clear at frame 13; frame 14 begins transfer toward the silver pot, followed by seating and release."
       }
     },
     {
@@ -42215,14 +43240,21 @@
       "total_frames": 58,
       "video_object_key": "intention6600/videos/bridge_v2/task_2745/episode_6275.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_2745/episode_6275.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "cover the pot with the lid",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 20,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the pot",
+          "start_frame": 21,
           "end_frame": 57,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -42232,13 +43264,51 @@
           "start_frame": 0,
           "end_frame": 57,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the pot with the lid",
+          "start_frame": 0,
+          "end_frame": 57,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          8,
+          12,
+          16,
+          20,
+          24,
+          33,
+          41,
+          42,
+          46,
+          49,
+          50,
+          54,
+          57
+        ],
+        "decision_note": "The lid is fully lifted from its source at frame 20; the longer second phase transfers, aligns, releases, and stabilizes it on the pot."
       }
     },
     {
@@ -42955,21 +44025,21 @@
       "total_frames": 28,
       "video_object_key": "intention6600/videos/bridge_v2/task_2780/episode_6362.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_2780/episode_6362.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the silver lid",
           "start_frame": 0,
-          "end_frame": 13,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 15,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
           "atomic_task": "place the silver lid on the silver pot",
-          "start_frame": 14,
+          "start_frame": 16,
           "end_frame": 27,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -42987,6 +44057,45 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the silver lid",
+          "start_frame": 0,
+          "end_frame": 27,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          6,
+          8,
+          10,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          22,
+          23,
+          24,
+          27
+        ],
+        "decision_note": "The lid is securely clear at frame 15; transfer toward the pot begins at frame 16 and ends with the lid seated."
       }
     },
     {
@@ -43657,14 +44766,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_6530.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_6530.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -43674,13 +44790,52 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          11,
+          14,
+          16,
+          18,
+          21,
+          22,
+          26,
+          28,
+          32,
+          34,
+          36,
+          37
+        ],
+        "decision_note": "Frame 21 completes stable lid pickup; later frames carry and release the lid beside the pot."
       }
     },
     {
@@ -44227,21 +45382,21 @@
       "total_frames": 48,
       "video_object_key": "intention6600/videos/bridge_v2/task_153/episode_6616.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_153/episode_6616.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the silver lid",
           "start_frame": 0,
-          "end_frame": 23,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 30,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the silver lid on the silver pot",
-          "start_frame": 24,
+          "atomic_task": "place the silver lid on the silver pot",
+          "start_frame": 31,
           "end_frame": 47,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -44259,6 +45414,43 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the silver lid",
+          "start_frame": 0,
+          "end_frame": 47,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          7,
+          13,
+          20,
+          22,
+          23,
+          26,
+          27,
+          30,
+          34,
+          38,
+          40,
+          44,
+          47
+        ],
+        "decision_note": "The lid is clearly lifted and under stable control at frame 30; the remaining frames transfer and place it onto the rear silver pot."
       }
     },
     {
@@ -47159,14 +48351,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_7133.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_7133.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -47176,13 +48375,53 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          10,
+          11,
+          14,
+          16,
+          18,
+          21,
+          22,
+          26,
+          27,
+          31,
+          32,
+          34,
+          35,
+          37
+        ],
+        "decision_note": "The lid is fully separated at frame 21; from frame 22 it is carried rightward and set down."
       }
     },
     {
@@ -47539,14 +48778,21 @@
       "total_frames": 38,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_7231.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_7231.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 37,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -47556,13 +48802,52 @@
           "start_frame": 0,
           "end_frame": 37,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 37,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          5,
+          9,
+          11,
+          13,
+          16,
+          17,
+          21,
+          25,
+          26,
+          28,
+          32,
+          34,
+          36,
+          37
+        ],
+        "decision_note": "Stable lift-clear completion occurs at frame 21; transport and release on the table comprise the second atomic action."
       }
     },
     {
@@ -47661,30 +48946,72 @@
       "total_frames": 23,
       "video_object_key": "intention6600/videos/bridge_v2/task_231/episode_7257.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_231/episode_7257.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot or pan",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 19,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid beside the pan",
+          "start_frame": 20,
           "end_frame": 22,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "remove the lid from the pot or pan",
+          "mission": "remove the lid from the pan",
           "start_frame": 0,
           "end_frame": 22,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pan",
+          "start_frame": 0,
+          "end_frame": 22,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          3,
+          6,
+          8,
+          9,
+          12,
+          13,
+          16,
+          19,
+          20,
+          22
+        ],
+        "decision_note": "The lid is fully clear by frame 19; the short final motion moves and settles it on the adjacent sink surface."
       }
     },
     {
@@ -48401,14 +49728,21 @@
       "total_frames": 31,
       "video_object_key": "intention6600/videos/bridge_v2/task_33/episode_7401.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_33/episode_7401.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 21,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 22,
           "end_frame": 30,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -48418,13 +49752,47 @@
           "start_frame": 0,
           "end_frame": 30,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 30,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          9,
+          13,
+          17,
+          21,
+          25,
+          26,
+          27,
+          30
+        ],
+        "decision_note": "Frame 21 shows stable lid separation; the lid is then moved to the right and set down."
       }
     },
     {
@@ -50817,30 +52185,71 @@
       "total_frames": 26,
       "video_object_key": "intention6600/videos/bridge_v2/task_231/episode_7894.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_231/episode_7894.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot or pan",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 18,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the counter",
+          "start_frame": 19,
           "end_frame": 25,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "remove the lid from the pot or pan",
+          "mission": "remove the lid from the pan",
           "start_frame": 0,
           "end_frame": 25,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pan",
+          "start_frame": 0,
+          "end_frame": 25,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          7,
+          10,
+          11,
+          14,
+          18,
+          21,
+          22,
+          25
+        ],
+        "decision_note": "The lid is clear of the pan at frame 18; frames 19-25 carry it away and settle it on the counter."
       }
     },
     {
@@ -51007,30 +52416,75 @@
       "total_frames": 48,
       "video_object_key": "intention6600/videos/bridge_v2/task_3399/episode_7925.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_3399/episode_7925.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the cylinder from the top of the other cylinder",
+          "atomic_task": "pick up the upper cylinder",
           "start_frame": 0,
+          "end_frame": 25,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the upper cylinder on the table",
+          "start_frame": 26,
           "end_frame": 47,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "remove the cylinder from the top of the other cylinder",
+          "mission": "remove the upper cylinder from the lower cylinder",
           "start_frame": 0,
           "end_frame": 47,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the upper cylinder from the lower cylinder",
+          "start_frame": 0,
+          "end_frame": 47,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          7,
+          13,
+          17,
+          20,
+          21,
+          25,
+          27,
+          29,
+          33,
+          34,
+          40,
+          44,
+          47
+        ],
+        "decision_note": "The upper cylinder is stably separated by frame 25; it is then transported away and released on the table. This is the same physical remove pattern as a lid task."
       }
     },
     {
@@ -51677,21 +53131,21 @@
       "total_frames": 36,
       "video_object_key": "intention6600/videos/bridge_v2/task_3438/episode_8030.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_3438/episode_8030.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lid",
           "start_frame": 0,
-          "end_frame": 17,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 15,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the lid on the silver pot",
-          "start_frame": 18,
+          "atomic_task": "place the lid on the silver pot",
+          "start_frame": 16,
           "end_frame": 35,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -51709,6 +53163,46 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the lid",
+          "start_frame": 0,
+          "end_frame": 35,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          5,
+          8,
+          10,
+          12,
+          14,
+          15,
+          16,
+          17,
+          20,
+          25,
+          26,
+          30,
+          32,
+          34,
+          35
+        ],
+        "decision_note": "The lid is clear and stably held at frame 15; frame 16 starts transfer to the pot, followed by alignment and release."
       }
     },
     {
@@ -52035,21 +53529,21 @@
       "total_frames": 48,
       "video_object_key": "intention6600/videos/bridge_v2/task_495/episode_8087.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_495/episode_8087.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lid",
           "start_frame": 0,
-          "end_frame": 23,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 29,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the lid on the silver pot",
-          "start_frame": 24,
+          "atomic_task": "place the lid on the silver pot",
+          "start_frame": 30,
           "end_frame": 47,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -52067,6 +53561,47 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the lid",
+          "start_frame": 0,
+          "end_frame": 47,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          7,
+          13,
+          20,
+          21,
+          23,
+          25,
+          26,
+          27,
+          29,
+          33,
+          34,
+          37,
+          39,
+          40,
+          43,
+          44,
+          47
+        ],
+        "decision_note": "The lid is fully lifted from the cloth at frame 29; subsequent transport and seating on the pot begin at frame 30."
       }
     },
     {
@@ -52417,27 +53952,27 @@
       "total_frames": 28,
       "video_object_key": "intention6600/videos/bridge_v2/task_3498/episode_8181.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_3498/episode_8181.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the silver lid",
           "start_frame": 0,
-          "end_frame": 13,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 15,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "place the silver lid back on the pot",
-          "start_frame": 14,
+          "atomic_task": "place the silver lid on the pot",
+          "start_frame": 16,
           "end_frame": 27,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "put the silver lid back on the pot",
+          "mission": "cover the pot with the silver lid",
           "start_frame": 0,
           "end_frame": 27,
           "atomic_task_ids": [
@@ -52449,6 +53984,45 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the pot with the silver lid",
+          "start_frame": 0,
+          "end_frame": 27,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          6,
+          8,
+          10,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          22,
+          23,
+          24,
+          27
+        ],
+        "decision_note": "The lid is visibly clear of the cloth at frame 15; the remaining motion places it back on the pot."
       }
     },
     {
@@ -53523,21 +55097,21 @@
       "total_frames": 32,
       "video_object_key": "intention6600/videos/bridge_v2/task_495/episode_8313.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_495/episode_8313.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lid",
           "start_frame": 0,
-          "end_frame": 15,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "end_frame": 18,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
           "atomic_task_id": "atomic_2",
-          "atomic_task": "put the lid on the silver pot",
-          "start_frame": 16,
+          "atomic_task": "place the lid on the silver pot",
+          "start_frame": 19,
           "end_frame": 31,
-          "boundary_source": "uniform_within_mission_requires_review"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
@@ -53555,6 +55129,45 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "cover the silver pot with the lid",
+          "start_frame": 0,
+          "end_frame": 31,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          8,
+          9,
+          12,
+          13,
+          15,
+          16,
+          18,
+          20,
+          22,
+          23,
+          24,
+          27,
+          28,
+          31
+        ],
+        "decision_note": "The lid is securely lifted from the cloth at frame 18; placement on the rear pot begins at frame 19."
       }
     },
     {
@@ -53761,20 +55374,20 @@
       "total_frames": 48,
       "video_object_key": "intention6600/videos/bridge_v2/task_3554/episode_8332.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_3554/episode_8332.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "fold the cloth from the bottom-right toward the top-left over the green object",
+          "atomic_task": "fold the cloth from bottom right to top left over the green object",
           "start_frame": 0,
           "end_frame": 47,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "fold the cloth from the bottom-right toward the top-left over the green object",
+          "mission": "fold the cloth from bottom right to top left over the green object",
           "start_frame": 0,
           "end_frame": 47,
           "atomic_task_ids": [
@@ -53785,6 +55398,42 @@
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "fold the cloth from bottom right to top left over the green object",
+          "start_frame": 0,
+          "end_frame": 47,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          7,
+          13,
+          20,
+          21,
+          25,
+          27,
+          29,
+          33,
+          34,
+          37,
+          40,
+          44,
+          47
+        ],
+        "decision_note": "This is a continuous cloth-folding outcome rather than a rigid-object pick-and-place sequence, so it remains one atomic action."
       }
     },
     {
@@ -55623,30 +57272,75 @@
       "total_frames": 28,
       "video_object_key": "intention6600/videos/bridge_v2/task_231/episode_8617.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/bridge_v2/task_231/episode_8617.mp4",
-      "atomic_grouping_provenance": "reviewed_groups",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
           "atomic_task_id": "atomic_1",
-          "atomic_task": "remove the lid from the pot or pan",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 22,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid beside the pot",
+          "start_frame": 23,
           "end_frame": 27,
-          "boundary_source": "qwen_mission_boundary"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
           "mission_id": "mission_1",
-          "mission": "remove the lid from the pot or pan",
+          "mission": "remove the lid from the pot",
           "start_frame": 0,
           "end_frame": 27,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "segmentation": {
         "method": "single_subtask_full_episode_no_api",
         "imputed": false
+      },
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "remove the lid from the pot",
+          "start_frame": 0,
+          "end_frame": 27,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": [],
+      "hierarchy_confidence": "high",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front"
+        ],
+        "visual_frame_ids": [
+          0,
+          4,
+          8,
+          10,
+          12,
+          14,
+          15,
+          18,
+          19,
+          22,
+          23,
+          24,
+          26,
+          27
+        ],
+        "decision_note": "The lid is fully clear at frame 22; the final frames move and settle it beside the pot."
       }
     },
     {
