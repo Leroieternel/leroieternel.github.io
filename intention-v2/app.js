@@ -10,7 +10,11 @@
   const longColors = ["#25a986", "#287fae", "#699d42", "#a26938"];
   const atomicColors = ["#7257d5", "#9270d8", "#5d6fc4", "#8062a8", "#555ec2", "#9266b4", "#626bb0"];
   const reviewedStorageKey = "intention6600-v2-reviewed-v1";
-  const reviewed = new Set(JSON.parse(localStorage.getItem(reviewedStorageKey) || "[]"));
+  const serverReviewed = new Set(data.episodes.filter(ep => ep.reviewed).map(ep => ep.parent_episode_key));
+  const reviewed = new Set([
+    ...serverReviewed,
+    ...JSON.parse(localStorage.getItem(reviewedStorageKey) || "[]"),
+  ]);
   const directoryButtons = new Map();
   let currentIndex = 0;
   let currentRecord = null;
@@ -105,11 +109,16 @@
       long_term_missions: clone(ep.long_term_missions || []),
       reviewed: false,
       updated_at: null,
+      server_review_revision: ep.human_review_revision || null,
       record_schema_version: 10,
     };
   }
 
   function migrateRecord(stored, ep, isReviewed) {
+    const serverRevision = ep.human_review_revision || null;
+    if (serverRevision && (!stored || stored.server_review_revision !== serverRevision)) {
+      return baseRecord(ep);
+    }
     // Reviewed records are user-owned: preserve their labels and boundaries.
     // Old unreviewed records are stale pre-reanalysis cache entries and should
     // adopt the new video-derived base annotation once.
@@ -121,6 +130,7 @@
     if (!Array.isArray(record.atomic_tasks) || !record.atomic_tasks.length) record.atomic_tasks = clone(ep.atomic_tasks);
     if (!("long_horizon" in record)) record.long_horizon = isReviewed ? false : Boolean(ep.long_horizon);
     if (!Array.isArray(record.long_term_missions)) record.long_term_missions = isReviewed ? [] : clone(ep.long_term_missions || []);
+    if (!("server_review_revision" in record)) record.server_review_revision = serverRevision;
     record.record_schema_version = 10;
     return record;
   }
@@ -596,7 +606,9 @@
 
   async function resetEpisode() {
     if (!confirm("Reset this episode to the original pre-annotation?")) return;
-    const ep = data.episodes[currentIndex]; await dbDelete(episodeKey(ep)); reviewed.delete(episodeKey(ep)); saveReviewedIndex(); await selectEpisode(currentIndex);
+    const ep = data.episodes[currentIndex]; await dbDelete(episodeKey(ep));
+    ep.reviewed ? reviewed.add(episodeKey(ep)) : reviewed.delete(episodeKey(ep));
+    saveReviewedIndex(); await selectEpisode(currentIndex);
   }
 
   async function toggleReviewed() {
