@@ -1,13 +1,13 @@
 {
   "schema_version": 6,
-  "generated_at_utc": "2026-09-04T10:56:00.335934+00:00",
+  "generated_at_utc": "2026-09-04T11:17:56.021348+00:00",
   "frame_semantics": "inclusive continuous episode-local frame indices",
   "hierarchy": "full episode instruction > long-term missions > short-term missions > atomic tasks",
   "summary": {
     "episode_count": 6597,
     "dataset_count": 15,
-    "mission_count": 9092,
-    "atomic_task_count": 12942,
+    "mission_count": 9089,
+    "atomic_task_count": 12960,
     "inferred_atomic_boundaries_requiring_review": 4005,
     "atomic_grouping_provenance": {
       "reviewed_edges": 233,
@@ -31,11 +31,11 @@
       "TACO Play": 403,
       "UT Austin MUTEX": 43
     },
-    "short_term_mission_count": 9092,
+    "short_term_mission_count": 9089,
     "long_term_mission_count": 122,
     "long_horizon_episode_count": 121,
-    "v2_direct_visual_review_count": 305,
-    "v2_pending_bridge_droid_count": 4827
+    "v2_direct_visual_review_count": 325,
+    "v2_pending_bridge_droid_count": 4807
   },
   "episodes": [
     {
@@ -279839,28 +279839,56 @@
       "total_frames": 321,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_8974/episode_22042.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_8974/episode_22042.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "uncover the pots on the table",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the rear pot",
           "start_frame": 0,
+          "end_frame": 155,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 156,
+          "end_frame": 190,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lid from the front pot",
+          "start_frame": 191,
+          "end_frame": 275,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lid on the table",
+          "start_frame": 276,
           "end_frame": 320,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "uncover the pots on the table",
-          "start_frame": 0,
-          "end_frame": 320,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the pots on the table",
+          "mission": "uncover the rear pot and put its lid on the table",
+          "start_frame": 0,
+          "end_frame": 190,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "uncover the front pot and put its lid on the table",
+          "start_frame": 191,
+          "end_frame": 320,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
@@ -279870,24 +279898,73 @@
       },
       "short_term_missions": [
         {
-          "mission": "uncover the pots on the table",
-          "start_frame": 0,
-          "end_frame": 320,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the pots on the table",
+          "mission": "uncover the rear pot and put its lid on the table",
+          "start_frame": 0,
+          "end_frame": 190,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "uncover the front pot and put its lid on the table",
+          "start_frame": 191,
+          "end_frame": 320,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          32,
+          64,
+          94,
+          96,
+          98,
+          102,
+          106,
+          110,
+          128,
+          160,
+          174,
+          178,
+          182,
+          186,
+          190,
+          192,
+          224,
+          239,
+          243,
+          247,
+          251,
+          255,
+          256,
+          288,
+          304,
+          308,
+          312,
+          316,
+          317,
+          320
+        ],
+        "decision_note": "Two different pots are uncovered in sequence. Each lid first becomes stably clear of its pot and is then released on the table, so the plural instruction is represented by two short-term missions and four atomic outcomes."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -279901,57 +279978,56 @@
       "total_frames": 827,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9019/episode_22166.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9019/episode_22166.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the spoon",
           "start_frame": 0,
-          "end_frame": 121,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 130,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the spoon on the table",
-          "start_frame": 122,
+          "start_frame": 131,
           "end_frame": 180,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "cover the pot with the lid",
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lid",
           "start_frame": 181,
+          "end_frame": 500,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place and secure the lid on the pot",
+          "start_frame": 501,
           "end_frame": 826,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "place the spoon on the table",
+          "mission_id": "mission_1",
+          "mission": "put the spoon on the table",
           "start_frame": 0,
           "end_frame": 180,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "place the spoon on the table",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
+          "mission_id": "mission_2",
           "mission": "cover the pot with the lid",
           "start_frame": 181,
           "end_frame": 826,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the pot with the lid",
           "atomic_task_ids": [
-            "atomic_3"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
@@ -279961,37 +280037,74 @@
       },
       "short_term_missions": [
         {
-          "mission": "place the spoon on the table",
+          "mission_id": "mission_1",
+          "mission": "put the spoon on the table",
           "start_frame": 0,
           "end_frame": 180,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "place the spoon on the table",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
+          "mission_id": "mission_2",
           "mission": "cover the pot with the lid",
           "start_frame": 181,
           "end_frame": 826,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the pot with the lid",
           "atomic_task_ids": [
-            "atomic_3"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          103,
+          107,
+          111,
+          115,
+          118,
+          119,
+          121,
+          124,
+          161,
+          165,
+          169,
+          173,
+          177,
+          180,
+          183,
+          291,
+          295,
+          299,
+          303,
+          307,
+          350,
+          354,
+          358,
+          362,
+          366,
+          408,
+          412,
+          416,
+          420,
+          424,
+          620,
+          624
+        ],
+        "decision_note": "The first short close cycle during the lid phase does not retain the lid. The later stable lift completes pickup; the set-down, corrective regrasp, final alignment, and release remain one placement action."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280005,28 +280118,32 @@
       "total_frames": 365,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9255/episode_22851.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9255/episode_22851.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the pink wallet on the table with the lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 275,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid over the pink wallet",
+          "start_frame": 276,
           "end_frame": 364,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "cover the pink wallet on the table with the lid",
+          "mission_id": "mission_1",
+          "mission": "cover the pink wallet with the lid",
           "start_frame": 0,
           "end_frame": 364,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pink wallet on the table with the lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -280036,24 +280153,56 @@
       },
       "short_term_missions": [
         {
-          "mission": "cover the pink wallet on the table with the lid",
+          "mission_id": "mission_1",
+          "mission": "cover the pink wallet with the lid",
           "start_frame": 0,
           "end_frame": 364,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pink wallet on the table with the lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          30,
+          61,
+          91,
+          121,
+          152,
+          182,
+          212,
+          225,
+          229,
+          233,
+          237,
+          241,
+          243,
+          273,
+          303,
+          334,
+          336,
+          340,
+          344,
+          348,
+          352,
+          361,
+          364
+        ],
+        "decision_note": "The lid is visibly lifted clear before transport to the wallet; placement includes alignment, release, and the stable covered state."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280067,57 +280216,56 @@
       "total_frames": 282,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9261/episode_22868.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9261/episode_22868.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the cup backward",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the cup",
           "start_frame": 0,
-          "end_frame": 86,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 90,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "move the cup backward",
-          "start_frame": 87,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the cup farther back",
+          "start_frame": 91,
           "end_frame": 130,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "cover the cup",
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lid",
           "start_frame": 131,
+          "end_frame": 190,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lid on the cup",
+          "start_frame": 191,
           "end_frame": 281,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "move the cup backward",
+          "mission_id": "mission_1",
+          "mission": "move the cup backwards",
           "start_frame": 0,
           "end_frame": 130,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "move the cup backward",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "cover the cup",
+          "mission_id": "mission_2",
+          "mission": "cover the cup with the lid",
           "start_frame": 131,
           "end_frame": 281,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the cup",
           "atomic_task_ids": [
-            "atomic_3"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
@@ -280127,37 +280275,74 @@
       },
       "short_term_missions": [
         {
-          "mission": "move the cup backward",
+          "mission_id": "mission_1",
+          "mission": "move the cup backwards",
           "start_frame": 0,
           "end_frame": 130,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "move the cup backward",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "cover the cup",
+          "mission_id": "mission_2",
+          "mission": "cover the cup with the lid",
           "start_frame": 131,
           "end_frame": 281,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the cup",
           "atomic_task_ids": [
-            "atomic_3"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          62,
+          68,
+          72,
+          76,
+          80,
+          83,
+          84,
+          86,
+          89,
+          109,
+          113,
+          117,
+          121,
+          125,
+          127,
+          130,
+          133,
+          155,
+          156,
+          159,
+          163,
+          167,
+          171,
+          187,
+          250,
+          268,
+          272,
+          276,
+          278,
+          280,
+          281
+        ],
+        "decision_note": "The cup relocation and covering are separate intentions. Within each mission, the grasped object is first stably lifted and then released at its goal."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280171,47 +280356,31 @@
       "total_frames": 463,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9617/episode_23906.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9617/episode_23906.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the cloth",
           "start_frame": 0,
-          "end_frame": 175,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 200,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "cover the pot with the cloth",
-          "start_frame": 176,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place and spread the cloth over the pot",
+          "start_frame": 201,
           "end_frame": 462,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the cloth",
-          "start_frame": 0,
-          "end_frame": 175,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the cloth",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "cover the pot with the cloth",
-          "start_frame": 176,
+          "start_frame": 0,
           "end_frame": 462,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the pot with the cloth",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -280222,36 +280391,64 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the cloth",
-          "start_frame": 0,
-          "end_frame": 175,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the cloth",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
           "mission": "cover the pot with the cloth",
-          "start_frame": 176,
+          "start_frame": 0,
           "end_frame": 462,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the pot with the cloth",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          62,
+          135,
+          139,
+          143,
+          147,
+          151,
+          154,
+          172,
+          175,
+          178,
+          216,
+          277,
+          303,
+          307,
+          311,
+          315,
+          319,
+          320,
+          324,
+          328,
+          332,
+          336,
+          370,
+          431,
+          436,
+          440,
+          444,
+          448,
+          452,
+          459,
+          462
+        ],
+        "decision_note": "The cloth is controllably lifted before it reaches the pot. The later regrasp adjusts the same cover placement and is not a new atomic action."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280265,28 +280462,32 @@
       "total_frames": 297,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9723/episode_24193.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9723/episode_24193.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the teapot with the silver lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the silver lid",
           "start_frame": 0,
+          "end_frame": 170,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the silver lid on the teapot",
+          "start_frame": 171,
           "end_frame": 296,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the teapot with the silver lid",
           "start_frame": 0,
           "end_frame": 296,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the teapot with the silver lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -280296,24 +280497,53 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the teapot with the silver lid",
           "start_frame": 0,
           "end_frame": 296,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the teapot with the silver lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          33,
+          66,
+          99,
+          129,
+          132,
+          133,
+          137,
+          141,
+          145,
+          164,
+          197,
+          230,
+          261,
+          263,
+          265,
+          269,
+          273,
+          277,
+          293,
+          296
+        ],
+        "decision_note": "The pickup boundary follows the first stable clear lift, while transport, alignment, release, and settling on the teapot belong to placement."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280327,28 +280557,32 @@
       "total_frames": 165,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9789/episode_24368.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9789/episode_24368.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "uncover the lid of the clear container",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the clear container",
           "start_frame": 0,
+          "end_frame": 90,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid beside the clear container",
+          "start_frame": 91,
           "end_frame": 164,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "uncover the lid of the clear container",
+          "mission_id": "mission_1",
+          "mission": "uncover the clear container and put its lid beside it",
           "start_frame": 0,
           "end_frame": 164,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the lid of the clear container",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -280358,24 +280592,41 @@
       },
       "short_term_missions": [
         {
-          "mission": "uncover the lid of the clear container",
+          "mission_id": "mission_1",
+          "mission": "uncover the clear container and put its lid beside it",
           "start_frame": 0,
           "end_frame": 164,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the lid of the clear container",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          23,
+          47,
+          70,
+          94,
+          117,
+          141,
+          161,
+          164
+        ],
+        "decision_note": "Despite unavailable gripper telemetry, the lid is visibly removed from the clear container and left as a separate stable object beside it."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280389,48 +280640,56 @@
       "total_frames": 453,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9809/episode_24410.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9809/episode_24410.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "remove the cooking stick from the grey pot",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the cooking stick from the grey pot",
           "start_frame": 0,
-          "end_frame": 175,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 155,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "cover the grey pot with the lid",
-          "start_frame": 176,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the cooking stick beside the grey pot",
+          "start_frame": 156,
+          "end_frame": 250,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lid",
+          "start_frame": 251,
+          "end_frame": 365,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lid on the grey pot",
+          "start_frame": 366,
           "end_frame": 452,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "remove the cooking stick from the grey pot",
           "start_frame": 0,
-          "end_frame": 175,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "remove the cooking stick from the grey pot",
+          "end_frame": 250,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         },
         {
-          "mission": "cover the grey pot with the lid",
-          "start_frame": 176,
-          "end_frame": 452,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the grey pot with the lid",
+          "mission": "cover the grey pot with the lid",
+          "start_frame": 251,
+          "end_frame": 452,
           "atomic_task_ids": [
-            "atomic_2"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
@@ -280440,36 +280699,74 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "remove the cooking stick from the grey pot",
           "start_frame": 0,
-          "end_frame": 175,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "remove the cooking stick from the grey pot",
+          "end_frame": 250,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         },
         {
-          "mission": "cover the grey pot with the lid",
-          "start_frame": 176,
-          "end_frame": 452,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the grey pot with the lid",
+          "mission": "cover the grey pot with the lid",
+          "start_frame": 251,
+          "end_frame": 452,
           "atomic_task_ids": [
-            "atomic_2"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          60,
+          114,
+          118,
+          121,
+          122,
+          126,
+          130,
+          172,
+          175,
+          178,
+          181,
+          227,
+          231,
+          235,
+          239,
+          243,
+          271,
+          328,
+          331,
+          332,
+          336,
+          340,
+          344,
+          392,
+          418,
+          422,
+          426,
+          430,
+          434,
+          449,
+          452
+        ],
+        "decision_note": "The cooking stick is first lifted out and released beside the pot. A new grasp then lifts the lid and the final phase aligns and releases it over the grey pot."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -280545,28 +280842,32 @@
       "total_frames": 186,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_9888/episode_24666.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_9888/episode_24666.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the small silver pot with a lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 115,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the small silver pot",
+          "start_frame": 116,
           "end_frame": 185,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the small silver pot with a lid",
           "start_frame": 0,
           "end_frame": 185,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the small silver pot with a lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -280576,24 +280877,48 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the small silver pot with a lid",
           "start_frame": 0,
           "end_frame": 185,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the small silver pot with a lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          26,
+          53,
+          77,
+          79,
+          81,
+          85,
+          89,
+          93,
+          106,
+          132,
+          159,
+          174,
+          178,
+          182,
+          185
+        ],
+        "decision_note": "The lid is stably held clear by the pickup boundary; the remaining motion places, releases, and leaves it seated on the small silver pot."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -282882,28 +283207,32 @@
       "total_frames": 197,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_5068/episode_33207.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_5068/episode_33207.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the pot with the lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the table",
           "start_frame": 0,
+          "end_frame": 110,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the pot",
+          "start_frame": 111,
           "end_frame": 196,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "cover the pot with the lid",
+          "mission_id": "mission_1",
+          "mission": "cover the pot with the lid from the table",
           "start_frame": 0,
           "end_frame": 196,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -282913,24 +283242,46 @@
       },
       "short_term_missions": [
         {
-          "mission": "cover the pot with the lid",
+          "mission_id": "mission_1",
+          "mission": "cover the pot with the lid from the table",
           "start_frame": 0,
           "end_frame": 196,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          28,
+          56,
+          77,
+          81,
+          84,
+          85,
+          89,
+          93,
+          112,
+          140,
+          168,
+          193,
+          196
+        ],
+        "decision_note": "The glass lid is lifted clear before approaching the pot; seating and final gripper separation define the placement phase."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -284681,28 +285032,32 @@
       "total_frames": 218,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_976/episode_38002.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_976/episode_38002.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the pot with the clear lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the clear lid",
           "start_frame": 0,
+          "end_frame": 105,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the clear lid on the pot",
+          "start_frame": 106,
           "end_frame": 217,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the pot with the clear lid",
           "start_frame": 0,
           "end_frame": 217,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the clear lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -284712,24 +285067,51 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the pot with the clear lid",
           "start_frame": 0,
           "end_frame": 217,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the clear lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          31,
+          59,
+          62,
+          63,
+          67,
+          71,
+          75,
+          93,
+          124,
+          155,
+          186,
+          195,
+          199,
+          203,
+          207,
+          211,
+          214,
+          217
+        ],
+        "decision_note": "The transparent lid is visibly clear of its support by frame 105; the long approach, alignment, release, and stable covered state form placement."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -287932,57 +288314,32 @@
       "total_frames": 160,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_8694/episode_48455.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_8694/episode_48455.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "uncover the jar",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the jar",
           "start_frame": 0,
-          "end_frame": 110,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 100,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the lid",
-          "start_frame": 111,
-          "end_frame": 121,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
-        },
-        {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the lid on the table",
-          "start_frame": 122,
+          "start_frame": 101,
           "end_frame": 159,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "uncover the jar",
-          "start_frame": 0,
-          "end_frame": 110,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the jar",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the lid on the table",
-          "start_frame": 111,
+          "mission": "uncover the jar and put its lid on the table",
+          "start_frame": 0,
           "end_frame": 159,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lid on the table",
           "atomic_task_ids": [
-            "atomic_2",
-            "atomic_3"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -287992,37 +288349,60 @@
       },
       "short_term_missions": [
         {
-          "mission": "uncover the jar",
-          "start_frame": 0,
-          "end_frame": 110,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the jar",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the lid on the table",
-          "start_frame": 111,
+          "mission": "uncover the jar and put its lid on the table",
+          "start_frame": 0,
           "end_frame": 159,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lid on the table",
           "atomic_task_ids": [
-            "atomic_2",
-            "atomic_3"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          23,
+          45,
+          68,
+          74,
+          78,
+          82,
+          86,
+          90,
+          91,
+          107,
+          109,
+          110,
+          113,
+          114,
+          117,
+          118,
+          121,
+          124,
+          125,
+          136,
+          141,
+          145,
+          149,
+          153,
+          156,
+          157,
+          159
+        ],
+        "decision_note": "The brief second close is a corrective hold during the same transfer. The jar is already uncovered, and the action ends when the lid is released and stable on the table."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -288624,28 +289004,32 @@
       "total_frames": 510,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_584/episode_51735.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_584/episode_51735.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the salt cellar",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the salt-cellar lid",
           "start_frame": 0,
+          "end_frame": 280,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the salt cellar",
+          "start_frame": 281,
           "end_frame": 509,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the salt cellar",
           "start_frame": 0,
           "end_frame": 509,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the salt cellar",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -288655,24 +289039,56 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the salt cellar",
           "start_frame": 0,
           "end_frame": 509,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the salt cellar",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          34,
+          68,
+          102,
+          136,
+          170,
+          200,
+          204,
+          208,
+          212,
+          216,
+          238,
+          271,
+          305,
+          339,
+          373,
+          407,
+          441,
+          475,
+          494,
+          498,
+          502,
+          506,
+          509
+        ],
+        "decision_note": "The long approach precedes one stable lid pickup. The remaining trajectory transports, aligns, and releases the lid on the salt cellar."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -291010,28 +291426,32 @@
       "total_frames": 199,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_8026/episode_59609.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_8026/episode_59609.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the pot with the lid on the table",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the table",
           "start_frame": 0,
+          "end_frame": 110,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the pot",
+          "start_frame": 111,
           "end_frame": 198,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the pot with the lid on the table",
           "start_frame": 0,
           "end_frame": 198,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the lid on the table",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -291041,24 +291461,51 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the pot with the lid on the table",
           "start_frame": 0,
           "end_frame": 198,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the lid on the table",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          28,
+          57,
+          74,
+          78,
+          82,
+          85,
+          86,
+          90,
+          113,
+          141,
+          170,
+          173,
+          177,
+          181,
+          185,
+          189,
+          195,
+          198
+        ],
+        "decision_note": "The lid is securely lifted before the pot approach; final placement includes release and the stable covered pose."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -291491,28 +291938,32 @@
       "total_frames": 160,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_332/episode_60737.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_332/episode_60737.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the pot with the silver lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the silver lid",
           "start_frame": 0,
+          "end_frame": 90,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the silver lid on the pot",
+          "start_frame": 91,
           "end_frame": 159,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the pot with the silver lid",
           "start_frame": 0,
           "end_frame": 159,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the silver lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -291522,24 +291973,51 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the pot with the silver lid",
           "start_frame": 0,
           "end_frame": 159,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the pot with the silver lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          23,
+          45,
+          51,
+          55,
+          59,
+          63,
+          67,
+          68,
+          91,
+          114,
+          134,
+          136,
+          138,
+          142,
+          146,
+          150,
+          156,
+          159
+        ],
+        "decision_note": "The silver lid is stably clear at the pickup boundary; approach, seating, release, and retreat are assigned to placement."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -293279,28 +293757,32 @@
       "total_frames": 172,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_980/episode_70417.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_980/episode_70417.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "uncover the pan",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the pan",
           "start_frame": 0,
+          "end_frame": 115,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid beside the pan",
+          "start_frame": 116,
           "end_frame": 171,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "uncover the pan",
+          "mission_id": "mission_1",
+          "mission": "uncover the pan and put its lid beside it",
           "start_frame": 0,
           "end_frame": 171,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the pan",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -293310,24 +293792,49 @@
       },
       "short_term_missions": [
         {
-          "mission": "uncover the pan",
+          "mission_id": "mission_1",
+          "mission": "uncover the pan and put its lid beside it",
           "start_frame": 0,
           "end_frame": 171,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the pan",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          24,
+          49,
+          65,
+          69,
+          73,
+          77,
+          81,
+          98,
+          122,
+          147,
+          152,
+          156,
+          160,
+          164,
+          168,
+          171
+        ],
+        "decision_note": "The lid becomes visibly clear of the pan before it is carried aside and released into a stable pose."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -293341,47 +293848,31 @@
       "total_frames": 225,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_24859/episode_70458.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_24859/episode_70458.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the lid",
           "start_frame": 0,
-          "end_frame": 117,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 150,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "cover the pot",
-          "start_frame": 118,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the pot",
+          "start_frame": 151,
           "end_frame": 224,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the lid",
-          "start_frame": 0,
-          "end_frame": 117,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the lid",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "cover the pot",
-          "start_frame": 118,
+          "mission": "cover the pot with the lid",
+          "start_frame": 0,
           "end_frame": 224,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the pot",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -293392,36 +293883,53 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the lid",
-          "start_frame": 0,
-          "end_frame": 117,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the lid",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "cover the pot",
-          "start_frame": 118,
+          "mission": "cover the pot with the lid",
+          "start_frame": 0,
           "end_frame": 224,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the pot",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          32,
+          64,
+          96,
+          109,
+          113,
+          114,
+          117,
+          120,
+          121,
+          125,
+          128,
+          160,
+          192,
+          199,
+          203,
+          207,
+          211,
+          215,
+          221,
+          224
+        ],
+        "decision_note": "The lid is stably lifted before reaching the pot; the second phase performs alignment, release, and visible completion of covering."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -293435,57 +293943,32 @@
       "total_frames": 189,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_577/episode_70469.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_577/episode_70469.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "uncover the pot",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid from the pot",
           "start_frame": 0,
-          "end_frame": 124,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 125,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "pick up the lid",
-          "start_frame": 125,
-          "end_frame": 146,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
-        },
-        {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the lid on the table",
-          "start_frame": 147,
+          "start_frame": 126,
           "end_frame": 188,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "uncover the pot",
-          "start_frame": 0,
-          "end_frame": 124,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the pot",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the lid on the table",
-          "start_frame": 125,
+          "mission": "uncover the pot and put its lid on the table",
+          "start_frame": 0,
           "end_frame": 188,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lid on the table",
           "atomic_task_ids": [
-            "atomic_2",
-            "atomic_3"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -293495,37 +293978,57 @@
       },
       "short_term_missions": [
         {
-          "mission": "uncover the pot",
-          "start_frame": 0,
-          "end_frame": 124,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "uncover the pot",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the lid on the table",
-          "start_frame": 125,
+          "mission": "uncover the pot and put its lid on the table",
+          "start_frame": 0,
           "end_frame": 188,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the lid on the table",
           "atomic_task_ids": [
-            "atomic_2",
-            "atomic_3"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          27,
+          54,
+          81,
+          98,
+          102,
+          106,
+          107,
+          110,
+          114,
+          121,
+          124,
+          127,
+          134,
+          143,
+          146,
+          149,
+          159,
+          161,
+          163,
+          167,
+          171,
+          175,
+          185,
+          188
+        ],
+        "decision_note": "The lid is clear of the pot at the pickup boundary and is then transported, released, and left stable on the table."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -293539,48 +294042,56 @@
       "total_frames": 612,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_24905/episode_70612.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_24905/episode_70612.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "place the blade in the clear bowl",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the blade",
           "start_frame": 0,
-          "end_frame": 130,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 145,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "cover the clear bowl with the grey lid",
-          "start_frame": 131,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the blade in the clear bowl",
+          "start_frame": 146,
+          "end_frame": 320,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the grey lid",
+          "start_frame": 321,
+          "end_frame": 440,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place and secure the grey lid on the clear bowl",
+          "start_frame": 441,
           "end_frame": 611,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "place the blade in the clear bowl",
-          "start_frame": 0,
-          "end_frame": 130,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "place the blade in the clear bowl",
+          "mission": "put the blade in the clear bowl",
+          "start_frame": 0,
+          "end_frame": 320,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         },
         {
-          "mission": "cover the clear bowl with the grey lid",
-          "start_frame": 131,
-          "end_frame": 611,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the clear bowl with the grey lid",
+          "mission": "cover the clear bowl with the grey lid",
+          "start_frame": 321,
+          "end_frame": 611,
           "atomic_task_ids": [
-            "atomic_2"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
@@ -293590,36 +294101,74 @@
       },
       "short_term_missions": [
         {
-          "mission": "place the blade in the clear bowl",
-          "start_frame": 0,
-          "end_frame": 130,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "place the blade in the clear bowl",
+          "mission": "put the blade in the clear bowl",
+          "start_frame": 0,
+          "end_frame": 320,
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         },
         {
-          "mission": "cover the clear bowl with the grey lid",
-          "start_frame": 131,
-          "end_frame": 611,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "cover the clear bowl with the grey lid",
+          "mission": "cover the clear bowl with the grey lid",
+          "start_frame": 321,
+          "end_frame": 611,
           "atomic_task_ids": [
-            "atomic_2"
+            "atomic_3",
+            "atomic_4"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          83,
+          87,
+          91,
+          95,
+          99,
+          127,
+          130,
+          133,
+          296,
+          300,
+          304,
+          308,
+          312,
+          375,
+          379,
+          383,
+          387,
+          391,
+          497,
+          501,
+          505,
+          506,
+          509,
+          510,
+          513,
+          514,
+          518,
+          522,
+          578,
+          582,
+          586,
+          590
+        ],
+        "decision_note": "The blade transfer and bowl covering are separate intentions. The final close cycle is a corrective lid adjustment and remains inside the same cover placement."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
@@ -293787,28 +294336,32 @@
       "total_frames": 257,
       "video_object_key": "intention6600/videos/droid_obstacle_occlusion/task_25381/episode_72067.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_obstacle_occlusion/task_25381/episode_72067.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "cover the teapot with the lid",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lid",
           "start_frame": 0,
+          "end_frame": 150,
+          "boundary_source": "codex_visual_outcome_transition"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lid on the teapot",
+          "start_frame": 151,
           "end_frame": 256,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the teapot with the lid",
           "start_frame": 0,
           "end_frame": 256,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the teapot with the lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
@@ -293818,24 +294371,52 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "cover the teapot with the lid",
           "start_frame": 0,
           "end_frame": 256,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "cover the teapot with the lid",
           "atomic_task_ids": [
-            "atomic_1"
+            "atomic_1",
+            "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          32,
+          64,
+          96,
+          109,
+          113,
+          117,
+          121,
+          125,
+          128,
+          160,
+          192,
+          224,
+          232,
+          236,
+          240,
+          244,
+          248,
+          253,
+          256
+        ],
+        "decision_note": "The lid is stably held clear before approaching the teapot; placement includes alignment, release, settling, and retreat."
+      }
     },
     {
       "dataset": "droid_obstacle_occlusion",
