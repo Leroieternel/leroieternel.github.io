@@ -1,12 +1,12 @@
 {
   "schema_version": 6,
-  "generated_at_utc": "2026-09-04T15:16:11.034419+00:00",
+  "generated_at_utc": "2026-09-04T15:26:48.427348+00:00",
   "frame_semantics": "inclusive continuous episode-local frame indices",
   "hierarchy": "full episode instruction > long-term missions > short-term missions > atomic tasks",
   "summary": {
     "episode_count": 6597,
     "dataset_count": 15,
-    "mission_count": 9018,
+    "mission_count": 9016,
     "atomic_task_count": 12855,
     "inferred_atomic_boundaries_requiring_review": 4005,
     "atomic_grouping_provenance": {
@@ -31,11 +31,11 @@
       "TACO Play": 403,
       "UT Austin MUTEX": 43
     },
-    "short_term_mission_count": 9018,
+    "short_term_mission_count": 9016,
     "long_term_mission_count": 118,
     "long_horizon_episode_count": 117,
-    "v2_direct_visual_review_count": 472,
-    "v2_pending_bridge_droid_count": 4660,
+    "v2_direct_visual_review_count": 476,
+    "v2_pending_bridge_droid_count": 4656,
     "human_reviewed_episode_count": 182,
     "reviewed_episode_count": 182
   },
@@ -168063,47 +168063,31 @@
       "total_frames": 362,
       "video_object_key": "intention6600/videos/droid_fruit/task_4117/episode_9298.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_4117/episode_9298.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the banana from the orange box",
           "start_frame": 0,
-          "end_frame": 265,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 268,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the banana on the table",
-          "start_frame": 266,
+          "start_frame": 269,
           "end_frame": 361,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the banana from the orange box",
-          "start_frame": 0,
-          "end_frame": 265,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the banana from the orange box",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the banana on the table",
-          "start_frame": 266,
+          "mission": "take the banana out of the orange box and put it on the table",
+          "start_frame": 0,
           "end_frame": 361,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the banana on the table",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -168114,36 +168098,58 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the banana from the orange box",
-          "start_frame": 0,
-          "end_frame": 265,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the banana from the orange box",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the banana on the table",
-          "start_frame": 266,
+          "mission": "take the banana out of the orange box and put it on the table",
+          "start_frame": 0,
           "end_frame": 361,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the banana on the table",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          30,
+          60,
+          90,
+          120,
+          150,
+          180,
+          211,
+          232,
+          236,
+          240,
+          241,
+          244,
+          248,
+          262,
+          265,
+          268,
+          271,
+          301,
+          319,
+          323,
+          327,
+          331,
+          335,
+          358,
+          361
+        ],
+        "decision_note": "Direct wrist and exterior-2 review. This is one transfer mission, not separate pickup and placement missions. The banana becomes stably supported by the gripper and clears the box at frame 268; placement starts at frame 269 and includes transport through the final release."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -168157,47 +168163,31 @@
       "total_frames": 173,
       "video_object_key": "intention6600/videos/droid_fruit/task_4131/episode_9326.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_4131/episode_9326.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the purple fruit",
           "start_frame": 0,
-          "end_frame": 81,
-          "boundary_source": "preserved_reviewed_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 104,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_2",
           "atomic_task": "place the purple fruit in the white bowl",
-          "start_frame": 82,
+          "start_frame": 105,
           "end_frame": 172,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "pick up the purple fruit",
-          "start_frame": 0,
-          "end_frame": 81,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the purple fruit",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the purple fruit in the white bowl",
-          "start_frame": 82,
+          "mission": "put the purple fruit in the white bowl",
+          "start_frame": 0,
           "end_frame": 172,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the purple fruit in the white bowl",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
@@ -168208,36 +168198,53 @@
       },
       "short_term_missions": [
         {
-          "mission": "pick up the purple fruit",
-          "start_frame": 0,
-          "end_frame": 81,
-          "boundary_source": "preserved_reviewed_mission",
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "pick up the purple fruit",
-          "atomic_task_ids": [
-            "atomic_1"
-          ]
-        },
-        {
-          "mission": "place the purple fruit in the white bowl",
-          "start_frame": 82,
+          "mission": "put the purple fruit in the white bowl",
+          "start_frame": 0,
           "end_frame": 172,
-          "boundary_source": "preserved_noncombinable_atomic_mission",
-          "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "place the purple fruit in the white bowl",
           "atomic_task_ids": [
+            "atomic_1",
             "atomic_2"
           ]
         }
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          25,
+          49,
+          74,
+          78,
+          81,
+          84,
+          93,
+          97,
+          98,
+          101,
+          105,
+          109,
+          123,
+          147,
+          151,
+          155,
+          159,
+          163,
+          169,
+          172
+        ],
+        "decision_note": "Direct wrist and exterior-2 review. The previous frame-81 split was before the grasp. The fruit is visibly lifted and begins moving stably with the gripper at frame 104; the second atomic action continues through release in the white bowl."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -168251,65 +168258,53 @@
       "total_frames": 636,
       "video_object_key": "intention6600/videos/droid_fruit/task_4182/episode_9451.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_4182/episode_9451.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
+          "atomic_task_id": "atomic_1",
           "atomic_task": "pick up the green and red object",
           "start_frame": 0,
-          "end_frame": 280,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 390,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the green and red object in black basket",
-          "start_frame": 281,
-          "end_frame": 293,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the green and red object in the black basket",
+          "start_frame": 391,
+          "end_frame": 440,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
+          "atomic_task_id": "atomic_3",
           "atomic_task": "pick up the grapes",
-          "start_frame": 294,
-          "end_frame": 543,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_3"
+          "start_frame": 441,
+          "end_frame": 556,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the grapes in black basket",
-          "start_frame": 544,
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the grapes in the black basket",
+          "start_frame": 557,
           "end_frame": 635,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_4"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
-          "mission": "put the green and red object in black basket",
-          "start_frame": 0,
-          "end_frame": 293,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 1,
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the green and red object in black basket",
+          "mission": "put the green and red object in the black basket",
+          "start_frame": 0,
+          "end_frame": 440,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "put the grapes in black basket",
-          "start_frame": 294,
-          "end_frame": 635,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 2,
           "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the grapes in black basket",
+          "mission": "put the grapes in the black basket",
+          "start_frame": 441,
+          "end_frame": 635,
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
@@ -168322,28 +168317,20 @@
       },
       "short_term_missions": [
         {
-          "mission": "put the green and red object in black basket",
-          "start_frame": 0,
-          "end_frame": 293,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 1,
           "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the green and red object in black basket",
+          "mission": "put the green and red object in the black basket",
+          "start_frame": 0,
+          "end_frame": 440,
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
           ]
         },
         {
-          "mission": "put the grapes in black basket",
-          "start_frame": 294,
-          "end_frame": 635,
-          "boundary_source": "direct_release_event",
-          "long_horizon_member_index": 2,
           "mission_id": "mission_2",
-          "short_term_mission_id": "mission_2",
-          "short_term_mission": "put the grapes in black basket",
+          "mission": "put the grapes in the black basket",
+          "start_frame": 441,
+          "end_frame": 635,
           "atomic_task_ids": [
             "atomic_3",
             "atomic_4"
@@ -168352,10 +168339,73 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          42,
+          85,
+          127,
+          169,
+          212,
+          254,
+          267,
+          271,
+          275,
+          277,
+          279,
+          280,
+          283,
+          285,
+          289,
+          290,
+          293,
+          296,
+          297,
+          301,
+          312,
+          316,
+          320,
+          324,
+          328,
+          339,
+          381,
+          423,
+          432,
+          436,
+          440,
+          444,
+          448,
+          466,
+          508,
+          520,
+          524,
+          528,
+          532,
+          536,
+          540,
+          543,
+          546,
+          550,
+          591,
+          593,
+          595,
+          599,
+          603,
+          607,
+          632,
+          635
+        ],
+        "decision_note": "Direct wrist and exterior-2 review. The brief close/release at frames 271-293 is a failed attempt: the green-red object remains on the table, so it stays inside the same pickup atomic action and does not create a mission. The successful object pickup becomes stable at frame 390 and releases at frame 440. The grapes are then stably lifted at frame 556 and released at frame 599; the placement interval continues to episode end."
+      }
     },
     {
       "dataset": "droid_fruit",
@@ -168369,34 +168419,29 @@
       "total_frames": 180,
       "video_object_key": "intention6600/videos/droid_fruit/task_4188/episode_9469.mp4",
       "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_fruit/task_4188/episode_9469.mp4",
-      "atomic_grouping_provenance": "codex_direct_droid_video_reanalysis",
+      "atomic_grouping_provenance": "codex_in_chat_direct_video_review_no_external_model",
       "atomic_tasks": [
         {
-          "atomic_task": "pick up the green grape",
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the green grapes",
           "start_frame": 0,
-          "end_frame": 134,
-          "boundary_source": "gripper_close_plus_state_motion",
-          "confidence": "high",
-          "atomic_task_id": "atomic_1"
+          "end_frame": 137,
+          "boundary_source": "codex_visual_outcome_transition"
         },
         {
-          "atomic_task": "place the green grape inside the silver pot in the sink",
-          "start_frame": 135,
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the green grapes inside the silver pot in the sink",
+          "start_frame": 138,
           "end_frame": 179,
-          "boundary_source": "release_confirmation",
-          "confidence": "high",
-          "atomic_task_id": "atomic_2"
+          "boundary_source": "codex_visual_outcome_transition"
         }
       ],
       "missions": [
         {
+          "mission_id": "mission_1",
           "mission": "put the green grapes inside the silver pot in the sink",
           "start_frame": 0,
           "end_frame": 179,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the green grapes inside the silver pot in the sink",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -168409,13 +168454,10 @@
       },
       "short_term_missions": [
         {
+          "mission_id": "mission_1",
           "mission": "put the green grapes inside the silver pot in the sink",
           "start_frame": 0,
           "end_frame": 179,
-          "boundary_source": "preserved_reviewed_mission",
-          "mission_id": "mission_1",
-          "short_term_mission_id": "mission_1",
-          "short_term_mission": "put the green grapes inside the silver pot in the sink",
           "atomic_task_ids": [
             "atomic_1",
             "atomic_2"
@@ -168424,10 +168466,41 @@
       ],
       "long_horizon": false,
       "long_term_missions": [],
-      "hierarchy_confidence": null,
+      "hierarchy_confidence": "high",
       "hierarchy_reason": null,
       "direct_review_reasons": [],
-      "direct_annotation_provenance": "codex_direct_video_evidence_v1"
+      "direct_annotation_provenance": "codex_direct_video_evidence_v1",
+      "v2_review_evidence": {
+        "reviewed_views": [
+          "front",
+          "exterior-2",
+          "wrist"
+        ],
+        "visual_frame_ids": [
+          0,
+          26,
+          51,
+          77,
+          102,
+          117,
+          121,
+          125,
+          128,
+          129,
+          131,
+          133,
+          134,
+          137,
+          153,
+          165,
+          169,
+          173,
+          176,
+          177,
+          179
+        ],
+        "decision_note": "Direct wrist and exterior-2 review. The grapes first move stably with the gripper and visibly clear the stove surface at frame 137. Placement begins at frame 138 and continues through the confirmed release into the pot."
+      }
     },
     {
       "dataset": "droid_fruit",
