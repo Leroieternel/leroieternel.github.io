@@ -1,0 +1,3615 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Panda OA+OM TensorRT NVFP4 与 Unsloth BF16 输出对比">
+  <title>Panda OA+OM · NVFP4 vs BF16</title>
+  <style>
+    :root { color-scheme: dark; --bg:#080c14; --panel:#111827; --line:#263247;
+      --text:#e8edf6; --muted:#98a7bd; --trt:#8b5cf6; --uns:#f59e0b; --gt:#10b981;
+      --ok:#22c55e; --miss:#f87171; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at top,#162038 0,#080c14 42%);
+      color:var(--text); font:15px/1.55 Inter,ui-sans-serif,system-ui,sans-serif; }
+    main { width:min(1440px,calc(100% - 32px)); margin:auto; padding:42px 0 80px; }
+    h1,h2,h3,h4,p { margin-top:0; } h1 { font-size:clamp(30px,5vw,54px); margin-bottom:8px; }
+    .lede,.note,.sample-id,figcaption { color:var(--muted); }
+    .hero { margin-bottom:28px; } .hero strong { color:#c4b5fd; }
+    .note { border:1px solid #66551d; background:#261f0d; padding:12px 16px; border-radius:12px; }
+    .metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:24px 0; }
+    .metric-card,.sample-card { background:rgba(17,24,39,.94); border:1px solid var(--line);
+      border-radius:18px; box-shadow:0 14px 42px #0006; }
+    .metric-card { padding:20px; } .metric-card dl { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:0; }
+    .metric-card dl div { background:#0b1220; padding:10px; border-radius:10px; }
+    dt,.field-label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+    dd { margin:3px 0 0; font-size:20px; font-weight:750; }
+    .wins { display:flex; gap:18px; flex-wrap:wrap; color:var(--muted); margin-bottom:24px; }
+    .controls { position:sticky; top:0; z-index:3; display:grid; grid-template-columns:2fr 1fr 1fr;
+      gap:10px; padding:12px; margin:0 0 18px; border:1px solid var(--line); border-radius:14px;
+      background:#0b1220ee; backdrop-filter:blur(14px); }
+    input,select { width:100%; border:1px solid #344258; border-radius:10px; padding:10px 12px;
+      color:var(--text); background:#111827; }
+    .sample-card { padding:20px; margin-bottom:20px; } .sample-header { display:flex; justify-content:space-between; gap:18px; }
+    .sample-index { color:#c4b5fd; font-weight:800; } .sample-header h3 { margin:3px 0; font-size:21px; }
+    .sample-id { overflow-wrap:anywhere; font:12px/1.4 ui-monospace,monospace; }
+    .badge { display:inline-block; padding:3px 8px; margin:2px; border-radius:999px; font-size:12px; white-space:nowrap; }
+    .badge.ok { color:#bbf7d0; background:#14532d; } .badge.miss { color:#fecaca; background:#5f1b25; }
+    .badge.neutral { color:#cbd5e1; background:#263247; }
+    .frames { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:18px 0; }
+    figure { margin:0; background:#080c14; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+    figure img { display:block; width:100%; aspect-ratio:4/3; object-fit:contain; background:#000; }
+    figcaption { padding:7px 9px; font-size:12px; } figcaption span { font-size:10px; overflow-wrap:anywhere; }
+    .gt-panel,.output-panel,.prompt-details { border:1px solid var(--line); border-radius:13px; padding:15px; }
+    .gt-panel { display:grid; grid-template-columns:130px 1fr 1fr; gap:14px; border-left:4px solid var(--gt); }
+    .gt-panel p,.prediction-row p { margin:2px 0; font-weight:650; }
+    .outputs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
+    .output-panel.trt { border-left:4px solid var(--trt); } .output-panel.unsloth { border-left:4px solid var(--uns); }
+    .prediction-row { display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--line); padding:9px 0; }
+    .prediction-row:first-of-type { border-top:0; } .badges { text-align:right; }
+    details summary { cursor:pointer; color:#cbd5e1; } pre { white-space:pre-wrap; overflow-wrap:anywhere;
+      background:#080c14; border-radius:9px; padding:10px; color:#dbeafe; }
+    .prompt-details { margin-top:12px; } .hidden { display:none; }
+    footer { color:var(--muted); text-align:center; padding-top:24px; }
+    @media (max-width:900px) { .metrics,.outputs { grid-template-columns:1fr; } .frames { grid-template-columns:repeat(2,1fr); }
+      .metric-card dl { grid-template-columns:repeat(2,1fr); } .gt-panel { grid-template-columns:1fr; } }
+    @media (max-width:600px) { main { width:min(100% - 18px,1440px); padding-top:24px; } .controls { grid-template-columns:1fr; }
+      .frames { grid-template-columns:1fr; } .sample-header { display:block; } }
+  </style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <h1>Panda OA+OM 输出对比</h1>
+    <p class="lede"><strong>TensorRT Edge-LLM · NVFP4</strong> vs Unsloth · BF16，严格使用同一批 32 个样本与相同 4 帧输入。</p>
+    <p class="note">这是前 32 条、handoff=0.5s 的 smoke test；两者 exact accuracy 都为 0%。它适合检查真实输出差异，不能代替完整 6062 样本的最终精度结论。</p>
+  </header>
+  <section class="metrics">
+    
+      <article class="metric-card">
+        <h3>TensorRT Edge-LLM · NVFP4</h3>
+        <dl>
+          <div><dt>Format valid</dt><dd>100.00%</dd></div>
+          <div><dt>Action exact</dt><dd>0.00%</dd></div>
+          <div><dt>Action token F1</dt><dd>0.216</dd></div>
+          <div><dt>Mission exact</dt><dd>0.00%</dd></div>
+          <div><dt>Mission token F1</dt><dd>0.379</dd></div>
+          <div><dt>Inference / sample</dt><dd>1.743s</dd></div>
+        </dl>
+      </article>
+    
+    
+      <article class="metric-card">
+        <h3>Unsloth · BF16</h3>
+        <dl>
+          <div><dt>Format valid</dt><dd>100.00%</dd></div>
+          <div><dt>Action exact</dt><dd>0.00%</dd></div>
+          <div><dt>Action token F1</dt><dd>0.258</dd></div>
+          <div><dt>Mission exact</dt><dd>0.00%</dd></div>
+          <div><dt>Mission token F1</dt><dd>0.366</dd></div>
+          <div><dt>Inference / sample</dt><dd>6.789s</dd></div>
+        </dl>
+      </article>
+    
+  </section>
+  <div class="wins">
+    <span>Action F1 逐样本胜出：TensorRT 15 · Unsloth 7 · 平局 10</span>
+    <span>Mission F1 逐样本胜出：TensorRT 13 · Unsloth 9 · 平局 10</span>
+  </div>
+  <section class="controls" aria-label="过滤器">
+    <input id="search" type="search" placeholder="搜索 task 或 sample id">
+    <select id="view"><option value="all">全部视角</option><option value="front">front</option><option value="wrist">wrist</option></select>
+    <select id="winner"><option value="all">全部 F1 对比</option><option value="trt-action">TensorRT Action 更高</option>
+      <option value="unsloth-action">Unsloth Action 更高</option><option value="trt-mission">TensorRT Mission 更高</option>
+      <option value="unsloth-mission">Unsloth Mission 更高</option></select>
+  </section>
+  <section id="samples">
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_192708_x0y0_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 01</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_192708_x0y0_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-01-504d82499370/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-01-504d82499370/frame-1.jpg" loading="lazy"
+                         alt="Sample 1, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787246803385336777</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-01-504d82499370/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-01-504d82499370/frame-2.jpg" loading="lazy"
+                         alt="Sample 1, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787246803518670110</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-01-504d82499370/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-01-504d82499370/frame-3.jpg" loading="lazy"
+                         alt="Sample 1, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787246803718670110</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-01-504d82499370/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-01-504d82499370/frame-4.jpg" loading="lazy"
+                         alt="Sample 1, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787246803852003444</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>move the apple to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the apple to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: move the apple to the right
+Ongoing mission: move the apple to the right</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="tie" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_192708_x0y0_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 02</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_192708_x0y0_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-02-92ee8fa66986/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-02-92ee8fa66986/frame-1.jpg" loading="lazy"
+                         alt="Sample 2, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787246803385336777</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-02-92ee8fa66986/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-02-92ee8fa66986/frame-2.jpg" loading="lazy"
+                         alt="Sample 2, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787246803518670110</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-02-92ee8fa66986/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-02-92ee8fa66986/frame-3.jpg" loading="lazy"
+                         alt="Sample 2, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787246803718670110</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-02-92ee8fa66986/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-02-92ee8fa66986/frame-4.jpg" loading="lazy"
+                         alt="Sample 2, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787246803852003444</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the paper</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the paper on the table onto the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.143</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the paper
+Ongoing mission: put the paper on the table onto the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the sunglasses</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the sunglasses on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the sunglasses
+Ongoing mission: put the sunglasses on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_200214_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 03</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_200214_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-03-929f878701dd/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-03-929f878701dd/frame-1.jpg" loading="lazy"
+                         alt="Sample 3, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787248907674904027</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-03-929f878701dd/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-03-929f878701dd/frame-2.jpg" loading="lazy"
+                         alt="Sample 3, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787248907808237360</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-03-929f878701dd/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-03-929f878701dd/frame-3.jpg" loading="lazy"
+                         alt="Sample 3, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787248908008237360</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-03-929f878701dd/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-03-929f878701dd/frame-4.jpg" loading="lazy"
+                         alt="Sample 3, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787248908141570694</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the apple to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: move the apple to the right</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>take the black box out of the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.154</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>take the black box out of the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.154</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: take the black box out of the white plate
+Ongoing mission: take the black box out of the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_200214_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 04</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_200214_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-04-047d5942ee97/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-04-047d5942ee97/frame-1.jpg" loading="lazy"
+                         alt="Sample 4, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787248907674904027</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-04-047d5942ee97/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-04-047d5942ee97/frame-2.jpg" loading="lazy"
+                         alt="Sample 4, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787248907808237360</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-04-047d5942ee97/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-04-047d5942ee97/frame-3.jpg" loading="lazy"
+                         alt="Sample 4, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787248908008237360</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-04-047d5942ee97/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-04-047d5942ee97/frame-4.jpg" loading="lazy"
+                         alt="Sample 4, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787248908141570694</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the airpod case</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the airpod case on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the airpod case
+Ongoing mission: put the airpod case on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the book</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the book on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the book
+Ongoing mission: put the book on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_201554_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 05</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_201554_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-05-015d99b849c1/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-05-015d99b849c1/frame-1.jpg" loading="lazy"
+                         alt="Sample 5, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787249704383449389</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-05-015d99b849c1/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-05-015d99b849c1/frame-2.jpg" loading="lazy"
+                         alt="Sample 5, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787249704516782722</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-05-015d99b849c1/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-05-015d99b849c1/frame-3.jpg" loading="lazy"
+                         alt="Sample 5, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787249704716782722</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-05-015d99b849c1/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-05-015d99b849c1/frame-4.jpg" loading="lazy"
+                         alt="Sample 5, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787249704850116056</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>use the wax to rub the surface of the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.143</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>use the wax to rub the surface of the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.143</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: use the wax to rub the surface of the apple
+Ongoing mission: use the wax to rub the surface of the apple</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_201554_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 06</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_201554_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-06-8c6035d7dcfd/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-06-8c6035d7dcfd/frame-1.jpg" loading="lazy"
+                         alt="Sample 6, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787249704383449389</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-06-8c6035d7dcfd/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-06-8c6035d7dcfd/frame-2.jpg" loading="lazy"
+                         alt="Sample 6, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787249704516782722</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-06-8c6035d7dcfd/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-06-8c6035d7dcfd/frame-3.jpg" loading="lazy"
+                         alt="Sample 6, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787249704716782722</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-06-8c6035d7dcfd/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-06-8c6035d7dcfd/frame-4.jpg" loading="lazy"
+                         alt="Sample 6, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787249704850116056</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the black box on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the black box on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the black box on the white plate
+Ongoing mission: put the black box on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>open the box</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.286</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>open the box</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.286</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: open the box
+Ongoing mission: open the box</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_205344_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 07</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_205344_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-07-6fd4947f3d1e/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-07-6fd4947f3d1e/frame-1.jpg" loading="lazy"
+                         alt="Sample 7, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787252001838020763</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-07-6fd4947f3d1e/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-07-6fd4947f3d1e/frame-2.jpg" loading="lazy"
+                         alt="Sample 7, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787252001971354096</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-07-6fd4947f3d1e/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-07-6fd4947f3d1e/frame-3.jpg" loading="lazy"
+                         alt="Sample 7, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787252002171354096</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-07-6fd4947f3d1e/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-07-6fd4947f3d1e/frame-4.jpg" loading="lazy"
+                         alt="Sample 7, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787252002304687430</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple in the white bowl</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple in the white bowl</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_205344_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 08</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_205344_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-08-4f69f25b3a6f/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-08-4f69f25b3a6f/frame-1.jpg" loading="lazy"
+                         alt="Sample 8, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787252001838020763</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-08-4f69f25b3a6f/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-08-4f69f25b3a6f/frame-2.jpg" loading="lazy"
+                         alt="Sample 8, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787252001971354096</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-08-4f69f25b3a6f/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-08-4f69f25b3a6f/frame-3.jpg" loading="lazy"
+                         alt="Sample 8, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787252002171354096</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-08-4f69f25b3a6f/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-08-4f69f25b3a6f/frame-4.jpg" loading="lazy"
+                         alt="Sample 8, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787252002304687430</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>move the fork to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the fork to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: move the fork to the right
+Ongoing mission: move the fork to the right</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fork from the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>pick up the fork from the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fork from the white plate
+Ongoing mission: pick up the fork from the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210125_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 09</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210125_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-09-67733438637a/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-09-67733438637a/frame-1.jpg" loading="lazy"
+                         alt="Sample 9, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787252467470719993</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-09-67733438637a/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-09-67733438637a/frame-2.jpg" loading="lazy"
+                         alt="Sample 9, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787252467604053326</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-09-67733438637a/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-09-67733438637a/frame-3.jpg" loading="lazy"
+                         alt="Sample 9, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787252467804053326</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-09-67733438637a/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-09-67733438637a/frame-4.jpg" loading="lazy"
+                         alt="Sample 9, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787252467937386660</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210125_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 10</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210125_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-10-32a119e7f7c7/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-10-32a119e7f7c7/frame-1.jpg" loading="lazy"
+                         alt="Sample 10, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787252467470719993</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-10-32a119e7f7c7/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-10-32a119e7f7c7/frame-2.jpg" loading="lazy"
+                         alt="Sample 10, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787252467604053326</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-10-32a119e7f7c7/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-10-32a119e7f7c7/frame-3.jpg" loading="lazy"
+                         alt="Sample 10, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787252467804053326</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-10-32a119e7f7c7/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-10-32a119e7f7c7/frame-4.jpg" loading="lazy"
+                         alt="Sample 10, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787252467937386660</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the strawberry</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the strawberry on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the strawberry
+Ongoing mission: put the strawberry on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the strawberry</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the strawberry on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the strawberry
+Ongoing mission: put the strawberry on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210205_x1y3_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 11</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210205_x1y3_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-11-658b3d01ab22/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-11-658b3d01ab22/frame-1.jpg" loading="lazy"
+                         alt="Sample 11, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787252509140052124</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-11-658b3d01ab22/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-11-658b3d01ab22/frame-2.jpg" loading="lazy"
+                         alt="Sample 11, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787252509273385457</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-11-658b3d01ab22/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-11-658b3d01ab22/frame-3.jpg" loading="lazy"
+                         alt="Sample 11, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787252509473385457</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-11-658b3d01ab22/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-11-658b3d01ab22/frame-4.jpg" loading="lazy"
+                         alt="Sample 11, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787252509606718791</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the apple to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: move the apple to the right</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>blow the air with the fan</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>blow the air with the fan</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: blow the air with the fan
+Ongoing mission: blow the air with the fan</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210205_x1y3_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 12</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_210205_x1y3_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-12-63b088a42e6a/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-12-63b088a42e6a/frame-1.jpg" loading="lazy"
+                         alt="Sample 12, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787252509140052124</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-12-63b088a42e6a/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-12-63b088a42e6a/frame-2.jpg" loading="lazy"
+                         alt="Sample 12, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787252509273385457</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-12-63b088a42e6a/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-12-63b088a42e6a/frame-3.jpg" loading="lazy"
+                         alt="Sample 12, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787252509473385457</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-12-63b088a42e6a/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-12-63b088a42e6a/frame-4.jpg" loading="lazy"
+                         alt="Sample 12, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787252509606718791</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the apple to the right</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: move the apple to the right</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the pot</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the pot on the table</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the pot
+Ongoing mission: put the pot on the table</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_211926_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 13</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_211926_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-13-4e82e23f6a7f/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-13-4e82e23f6a7f/frame-1.jpg" loading="lazy"
+                         alt="Sample 13, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787253550473059629</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-13-4e82e23f6a7f/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-13-4e82e23f6a7f/frame-2.jpg" loading="lazy"
+                         alt="Sample 13, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787253550606392962</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-13-4e82e23f6a7f/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-13-4e82e23f6a7f/frame-3.jpg" loading="lazy"
+                         alt="Sample 13, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787253550806392962</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-13-4e82e23f6a7f/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-13-4e82e23f6a7f/frame-4.jpg" loading="lazy"
+                         alt="Sample 13, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787253550939726296</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the apple fruit on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple fruit on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the apple fruit on the white plate
+Ongoing mission: put the apple fruit on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_211926_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 14</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_211926_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-14-04a37cefff16/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-14-04a37cefff16/frame-1.jpg" loading="lazy"
+                         alt="Sample 14, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787253550473059629</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-14-04a37cefff16/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-14-04a37cefff16/frame-2.jpg" loading="lazy"
+                         alt="Sample 14, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787253550606392962</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-14-04a37cefff16/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-14-04a37cefff16/frame-3.jpg" loading="lazy"
+                         alt="Sample 14, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787253550806392962</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-14-04a37cefff16/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-14-04a37cefff16/frame-4.jpg" loading="lazy"
+                         alt="Sample 14, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787253550939726296</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the apple fruit on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple fruit on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the apple fruit on the white plate
+Ongoing mission: put the apple fruit on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_212527_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 15</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_212527_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-15-5f6318078a5d/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-15-5f6318078a5d/frame-1.jpg" loading="lazy"
+                         alt="Sample 15, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787253906874265509</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-15-5f6318078a5d/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-15-5f6318078a5d/frame-2.jpg" loading="lazy"
+                         alt="Sample 15, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787253907007598842</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-15-5f6318078a5d/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-15-5f6318078a5d/frame-3.jpg" loading="lazy"
+                         alt="Sample 15, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787253907207598842</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-15-5f6318078a5d/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-15-5f6318078a5d/frame-4.jpg" loading="lazy"
+                         alt="Sample 15, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787253907340932176</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the apple</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple in the black wire basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the apple
+Ongoing mission: put the apple in the black wire basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the black bowl on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the black bowl on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the black bowl on the white plate
+Ongoing mission: put the black bowl on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_212527_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 16</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_212527_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-16-e91cce186cb7/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-16-e91cce186cb7/frame-1.jpg" loading="lazy"
+                         alt="Sample 16, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787253906874265509</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-16-e91cce186cb7/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-16-e91cce186cb7/frame-2.jpg" loading="lazy"
+                         alt="Sample 16, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787253907007598842</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-16-e91cce186cb7/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-16-e91cce186cb7/frame-3.jpg" loading="lazy"
+                         alt="Sample 16, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787253907207598842</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-16-e91cce186cb7/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-16-e91cce186cb7/frame-4.jpg" loading="lazy"
+                         alt="Sample 16, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787253907340932176</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the apple fruit on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple fruit on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the apple fruit on the white plate
+Ongoing mission: put the apple fruit on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>disassemble the object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.286</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>disassemble the object</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.286</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: disassemble the object
+Ongoing mission: disassemble the object</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_213654_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 17</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_213654_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-17-a6f89af189f5/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-17-a6f89af189f5/frame-1.jpg" loading="lazy"
+                         alt="Sample 17, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787254598106731431</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-17-a6f89af189f5/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-17-a6f89af189f5/frame-2.jpg" loading="lazy"
+                         alt="Sample 17, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787254598240064764</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-17-a6f89af189f5/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-17-a6f89af189f5/frame-3.jpg" loading="lazy"
+                         alt="Sample 17, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787254598440064764</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-17-a6f89af189f5/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-17-a6f89af189f5/frame-4.jpg" loading="lazy"
+                         alt="Sample 17, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787254598573398098</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>take the book out of the bookcase</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>take the book out of the bookcase</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: take the book out of the bookcase
+Ongoing mission: take the book out of the bookcase</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>take the box out of the trash can</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>take the box out of the trash can</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: take the box out of the trash can
+Ongoing mission: take the box out of the trash can</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="trt" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_213654_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 18</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_213654_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-18-3ed2a5f280f3/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-18-3ed2a5f280f3/frame-1.jpg" loading="lazy"
+                         alt="Sample 18, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787254598106731431</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-18-3ed2a5f280f3/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-18-3ed2a5f280f3/frame-2.jpg" loading="lazy"
+                         alt="Sample 18, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787254598240064764</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-18-3ed2a5f280f3/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-18-3ed2a5f280f3/frame-3.jpg" loading="lazy"
+                         alt="Sample 18, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787254598440064764</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-18-3ed2a5f280f3/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-18-3ed2a5f280f3/frame-4.jpg" loading="lazy"
+                         alt="Sample 18, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787254598573398098</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the tomato</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.250</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the tomato inside the white bowl</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the tomato
+Ongoing mission: put the tomato inside the white bowl</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>remove the sushi from the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>remove the sushi from the plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: remove the sushi from the plate
+Ongoing mission: remove the sushi from the plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220109_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 19</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220109_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-19-c15e48af9684/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-19-c15e48af9684/frame-1.jpg" loading="lazy"
+                         alt="Sample 19, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787256048237494744</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-19-c15e48af9684/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-19-c15e48af9684/frame-2.jpg" loading="lazy"
+                         alt="Sample 19, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787256048370828077</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-19-c15e48af9684/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-19-c15e48af9684/frame-3.jpg" loading="lazy"
+                         alt="Sample 19, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787256048570828077</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-19-c15e48af9684/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-19-c15e48af9684/frame-4.jpg" loading="lazy"
+                         alt="Sample 19, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787256048704161411</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the black bowl on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the black bowl on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the black bowl on the white plate
+Ongoing mission: put the black bowl on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the black bowl on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the black bowl on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the black bowl on the white plate
+Ongoing mission: put the black bowl on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220109_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 20</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220109_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-20-7f202f78a285/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-20-7f202f78a285/frame-1.jpg" loading="lazy"
+                         alt="Sample 20, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787256048237494744</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-20-7f202f78a285/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-20-7f202f78a285/frame-2.jpg" loading="lazy"
+                         alt="Sample 20, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787256048370828077</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-20-7f202f78a285/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-20-7f202f78a285/frame-3.jpg" loading="lazy"
+                         alt="Sample 20, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787256048570828077</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-20-7f202f78a285/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-20-7f202f78a285/frame-4.jpg" loading="lazy"
+                         alt="Sample 20, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787256048704161411</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>move the apple to the left side of the table</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.143</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the apple to the left side of the table</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.143</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: move the apple to the left side of the table
+Ongoing mission: move the apple to the left side of the table</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>take the black cup off the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>take the black cup off the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: take the black cup off the white plate
+Ongoing mission: take the black cup off the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="unsloth"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220858_jpeg/oakd_frontview push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 21</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220858_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-21-2fccf1a37bfa/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-21-2fccf1a37bfa/frame-1.jpg" loading="lazy"
+                         alt="Sample 21, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787256515331780902</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-21-2fccf1a37bfa/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-21-2fccf1a37bfa/frame-2.jpg" loading="lazy"
+                         alt="Sample 21, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787256515465114235</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-21-2fccf1a37bfa/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-21-2fccf1a37bfa/frame-3.jpg" loading="lazy"
+                         alt="Sample 21, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787256515665114235</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-21-2fccf1a37bfa/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-21-2fccf1a37bfa/frame-4.jpg" loading="lazy"
+                         alt="Sample 21, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787256515798447569</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the rxbar chocolate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.222</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>move the rxbar chocolate from the white plate into the brown box</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.125</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the rxbar chocolate
+Ongoing mission: move the rxbar chocolate from the white plate into the brown box</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>take the rxbar chocolate out of the gift box</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.154</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>take the rxbar chocolate out of the gift box</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.154</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: take the rxbar chocolate out of the gift box
+Ongoing mission: take the rxbar chocolate out of the gift box</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220858_jpeg/oakd_wrist push the obstacle aside and put the apple in the plate">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 22</span>
+                  <h3>push the obstacle aside and put the apple in the plate</h3>
+                  <p class="sample-id">push_the_obstacle_aside_and_put_the_apple_in_the_plate/20260820_220858_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-22-89bca26d862b/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-22-89bca26d862b/frame-1.jpg" loading="lazy"
+                         alt="Sample 22, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787256515331780902</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-22-89bca26d862b/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-22-89bca26d862b/frame-2.jpg" loading="lazy"
+                         alt="Sample 22, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787256515465114235</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-22-89bca26d862b/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-22-89bca26d862b/frame-3.jpg" loading="lazy"
+                         alt="Sample 22, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787256515665114235</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-22-89bca26d862b/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-22-89bca26d862b/frame-4.jpg" loading="lazy"
+                         alt="Sample 22, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787256515798447569</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>push the obstacle away</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>push the obstacle away</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the bottle on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the bottle on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the bottle on the white plate
+Ongoing mission: put the bottle on the white plate</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the rxbar chocolate on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the rxbar chocolate on the white plate</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.167</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the rxbar chocolate on the white plate
+Ongoing mission: put the rxbar chocolate on the white plate</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="put_all_the_fruits_in_the_basket/20260821_011625_acpgb_jpeg/oakd_frontview put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 23</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_011625_acpgb_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-23-376a3e3fc176/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-23-376a3e3fc176/frame-1.jpg" loading="lazy"
+                         alt="Sample 23, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787267727109657177</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-23-376a3e3fc176/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-23-376a3e3fc176/frame-2.jpg" loading="lazy"
+                         alt="Sample 23, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787267727242990510</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-23-376a3e3fc176/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-23-376a3e3fc176/frame-3.jpg" loading="lazy"
+                         alt="Sample 23, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787267727442990510</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-23-376a3e3fc176/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-23-376a3e3fc176/frame-4.jpg" loading="lazy"
+                         alt="Sample 23, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787267727576323844</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the apple in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit toy</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit toy in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.769</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit toy
+Ongoing mission: put the fruit toy in the basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="put_all_the_fruits_in_the_basket/20260821_011625_acpgb_jpeg/oakd_wrist put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 24</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_011625_acpgb_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-24-17edc0f2365c/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-24-17edc0f2365c/frame-1.jpg" loading="lazy"
+                         alt="Sample 24, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787267727109657177</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-24-17edc0f2365c/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-24-17edc0f2365c/frame-2.jpg" loading="lazy"
+                         alt="Sample 24, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787267727242990510</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-24-17edc0f2365c/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-24-17edc0f2365c/frame-3.jpg" loading="lazy"
+                         alt="Sample 24, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787267727442990510</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-24-17edc0f2365c/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-24-17edc0f2365c/frame-4.jpg" loading="lazy"
+                         alt="Sample 24, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787267727576323844</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the apple in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit toy</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit toy in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.714</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit toy
+Ongoing mission: put the fruit toy in the white basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="tie" data-mission-winner="trt"
+              data-search="put_all_the_fruits_in_the_basket/20260821_015003_agcpb_jpeg/oakd_frontview put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 25</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_015003_agcpb_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-25-9904c675cd46/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-25-9904c675cd46/frame-1.jpg" loading="lazy"
+                         alt="Sample 25, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787269749722125827</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-25-9904c675cd46/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-25-9904c675cd46/frame-2.jpg" loading="lazy"
+                         alt="Sample 25, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787269749855459160</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-25-9904c675cd46/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-25-9904c675cd46/frame-3.jpg" loading="lazy"
+                         alt="Sample 25, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787269750055459160</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-25-9904c675cd46/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-25-9904c675cd46/frame-4.jpg" loading="lazy"
+                         alt="Sample 25, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787269750188792494</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the apple in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit inside the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.667</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit inside the basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="put_all_the_fruits_in_the_basket/20260821_015003_agcpb_jpeg/oakd_wrist put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 26</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_015003_agcpb_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-26-a2c3c1ae60d6/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-26-a2c3c1ae60d6/frame-1.jpg" loading="lazy"
+                         alt="Sample 26, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787269749722125827</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-26-a2c3c1ae60d6/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-26-a2c3c1ae60d6/frame-2.jpg" loading="lazy"
+                         alt="Sample 26, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787269749855459160</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-26-a2c3c1ae60d6/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-26-a2c3c1ae60d6/frame-3.jpg" loading="lazy"
+                         alt="Sample 26, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787269750055459160</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-26-a2c3c1ae60d6/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-26-a2c3c1ae60d6/frame-4.jpg" loading="lazy"
+                         alt="Sample 26, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787269750188792494</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the apple in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the apple in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.769</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the white basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.769</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the white basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="tie" data-mission-winner="trt"
+              data-search="put_all_the_fruits_in_the_basket/20260821_020549_gabcp_jpeg/oakd_frontview put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 27</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_020549_gabcp_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-27-e880f3f6fdfe/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-27-e880f3f6fdfe/frame-1.jpg" loading="lazy"
+                         alt="Sample 27, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787270703183426292</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-27-e880f3f6fdfe/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-27-e880f3f6fdfe/frame-2.jpg" loading="lazy"
+                         alt="Sample 27, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787270703316759625</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-27-e880f3f6fdfe/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-27-e880f3f6fdfe/frame-3.jpg" loading="lazy"
+                         alt="Sample 27, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787270703516759625</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-27-e880f3f6fdfe/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-27-e880f3f6fdfe/frame-4.jpg" loading="lazy"
+                         alt="Sample 27, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787270703650092959</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the grape in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the grape in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit inside the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.667</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit inside the basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="trt"
+              data-search="put_all_the_fruits_in_the_basket/20260821_020549_gabcp_jpeg/oakd_wrist put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 28</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_020549_gabcp_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-28-b3ec9db083db/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-28-b3ec9db083db/frame-1.jpg" loading="lazy"
+                         alt="Sample 28, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787270703183426292</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-28-b3ec9db083db/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-28-b3ec9db083db/frame-2.jpg" loading="lazy"
+                         alt="Sample 28, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787270703316759625</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-28-b3ec9db083db/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-28-b3ec9db083db/frame-3.jpg" loading="lazy"
+                         alt="Sample 28, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787270703516759625</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-28-b3ec9db083db/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-28-b3ec9db083db/frame-4.jpg" loading="lazy"
+                         alt="Sample 28, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787270703650092959</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the grape in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the grape in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the apple fruit in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.714</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the apple fruit in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.714</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the apple fruit in the white basket
+Ongoing mission: put the apple fruit in the white basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="trt" data-mission-winner="trt"
+              data-search="put_all_the_fruits_in_the_basket/20260821_031656_bagcp_jpeg/oakd_frontview put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 29</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_031656_bagcp_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-29-bf39f629d149/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-29-bf39f629d149/frame-1.jpg" loading="lazy"
+                         alt="Sample 29, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787274961671891956</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-29-bf39f629d149/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-29-bf39f629d149/frame-2.jpg" loading="lazy"
+                         alt="Sample 29, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787274961805225289</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-29-bf39f629d149/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-29-bf39f629d149/frame-3.jpg" loading="lazy"
+                         alt="Sample 29, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787274962005225289</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-29-bf39f629d149/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-29-bf39f629d149/frame-4.jpg" loading="lazy"
+                         alt="Sample 29, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787274962138558623</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the banana in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit toy</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.182</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit toy in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.769</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit toy
+Ongoing mission: put the fruit toy in the basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="unsloth"
+              data-search="put_all_the_fruits_in_the_basket/20260821_031656_bagcp_jpeg/oakd_wrist put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 30</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_031656_bagcp_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-30-75f5eab02657/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-30-75f5eab02657/frame-1.jpg" loading="lazy"
+                         alt="Sample 30, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787274961671891956</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-30-75f5eab02657/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-30-75f5eab02657/frame-2.jpg" loading="lazy"
+                         alt="Sample 30, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787274961805225289</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-30-75f5eab02657/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-30-75f5eab02657/frame-3.jpg" loading="lazy"
+                         alt="Sample 30, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787274962005225289</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-30-75f5eab02657/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-30-75f5eab02657/frame-4.jpg" loading="lazy"
+                         alt="Sample 30, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787274962138558623</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the banana in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the banana in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.923</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the banana in the white basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.923</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the banana in the white basket
+Ongoing mission: put the banana in the white basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="front"
+              data-action-winner="tie" data-mission-winner="tie"
+              data-search="put_all_the_fruits_in_the_basket/20260821_045442_bpacg_jpeg/oakd_frontview put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 31</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_045442_bpacg_jpeg/oakd_frontview</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">front</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-31-29198a70cb55/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-31-29198a70cb55/frame-1.jpg" loading="lazy"
+                         alt="Sample 31, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787280827048041805</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-31-29198a70cb55/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-31-29198a70cb55/frame-2.jpg" loading="lazy"
+                         alt="Sample 31, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787280827181375138</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-31-29198a70cb55/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-31-29198a70cb55/frame-3.jpg" loading="lazy"
+                         alt="Sample 31, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787280827381375138</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-31-29198a70cb55/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-31-29198a70cb55/frame-4.jpg" loading="lazy"
+                         alt="Sample 31, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787280827514708472</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the banana in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            
+            <article class="sample-card" data-view="wrist"
+              data-action-winner="unsloth" data-mission-winner="tie"
+              data-search="put_all_the_fruits_in_the_basket/20260821_045442_bpacg_jpeg/oakd_wrist put all the fruits in the basket">
+              <header class="sample-header">
+                <div>
+                  <span class="sample-index">Sample 32</span>
+                  <h3>put all the fruits in the basket</h3>
+                  <p class="sample-id">put_all_the_fruits_in_the_basket/20260821_045442_bpacg_jpeg/oakd_wrist</p>
+                </div>
+                <div class="meta-badges">
+                  <span class="badge neutral">wrist</span>
+                  <span class="badge neutral">handoff 0.5s</span>
+                </div>
+              </header>
+              <div class="frames">
+                <figure>
+                  <a href="assets/sample-32-79dca23c5054/frame-1.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-32-79dca23c5054/frame-1.jpg" loading="lazy"
+                         alt="Sample 32, frame 1">
+                  </a>
+                  <figcaption>Frame 0 · 0.000s<br>
+                    <span>704×528 · key 1787280827048041805</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-32-79dca23c5054/frame-2.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-32-79dca23c5054/frame-2.jpg" loading="lazy"
+                         alt="Sample 32, frame 2">
+                  </a>
+                  <figcaption>Frame 2 · 0.133s<br>
+                    <span>704×528 · key 1787280827181375138</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-32-79dca23c5054/frame-3.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-32-79dca23c5054/frame-3.jpg" loading="lazy"
+                         alt="Sample 32, frame 3">
+                  </a>
+                  <figcaption>Frame 5 · 0.333s<br>
+                    <span>704×528 · key 1787280827381375138</span>
+                  </figcaption>
+                </figure>
+                
+                <figure>
+                  <a href="assets/sample-32-79dca23c5054/frame-4.jpg" target="_blank" rel="noreferrer">
+                    <img src="assets/sample-32-79dca23c5054/frame-4.jpg" loading="lazy"
+                         alt="Sample 32, frame 4">
+                  </a>
+                  <figcaption>Frame 7 · 0.467s<br>
+                    <span>704×528 · key 1787280827514708472</span>
+                  </figcaption>
+                </figure>
+                </div>
+              <section class="gt-panel">
+                <h4>Ground truth</h4>
+                <div><span class="field-label">Ongoing action</span><p>put the banana in the basket</p></div>
+                <div><span class="field-label">Ongoing mission</span><p>put the banana in the basket</p></div>
+              </section>
+              <div class="outputs">
+                
+      <section class="output-panel trt">
+        <h4>TensorRT Edge-LLM · NVFP4</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>pick up the fruit</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.200</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: pick up the fruit
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+                
+      <section class="output-panel unsloth">
+        <h4>Unsloth · BF16</h4>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing action</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <div class="prediction-row">
+          <div><span class="field-label">Ongoing mission</span><p>put the fruit in the basket</p></div>
+          <div class="badges"><span class="badge miss">Not exact</span><span class="badge neutral">F1 0.833</span></div>
+        </div>
+        <details>
+          <summary>Raw output</summary>
+          <pre>Ongoing action: put the fruit in the basket
+Ongoing mission: put the fruit in the basket</pre>
+        </details>
+      </section>
+    
+              </div>
+              <details class="prompt-details">
+                <summary>查看推理 Prompt</summary>
+                <div><span class="field-label">System</span><pre>You infer hierarchical robot intent from four chronological observations. An atomic action is one indivisible manipulation step; a mission is the immediate goal completed by one or more atomic actions. Use the execution context, follow the requested format exactly, and do not explain.</pre></div>
+                <div><span class="field-label">User</span><pre>Robot has no previous actions.
+Infer the intention shown in the four observations.
+Return exactly:
+Ongoing action: &lt;atomic action&gt;
+Ongoing mission: &lt;mission&gt;</pre></div>
+              </details>
+            </article>
+            </section>
+  <footer>Generated from frozen Panda manifests · Sample ID SHA-256: 8af1d7fb12aab367ab68b8cc84eb5460eb221dd39b751f392da7e55bd4394c4d</footer>
+</main>
+<script>
+  const cards = [...document.querySelectorAll('.sample-card')];
+  const search = document.querySelector('#search');
+  const view = document.querySelector('#view');
+  const winner = document.querySelector('#winner');
+  function filter() {
+    const query = search.value.trim().toLowerCase();
+    const [model, field] = winner.value.split('-');
+    cards.forEach(card => {
+      const searchMatch = !query || card.dataset.search.includes(query);
+      const viewMatch = view.value === 'all' || card.dataset.view === view.value;
+      const winnerMatch = winner.value === 'all' || card.dataset[field + 'Winner'] === model;
+      card.classList.toggle('hidden', !(searchMatch && viewMatch && winnerMatch));
+    });
+  }
+  search.addEventListener('input', filter); view.addEventListener('change', filter); winner.addEventListener('change', filter);
+</script>
+</body>
+</html>
