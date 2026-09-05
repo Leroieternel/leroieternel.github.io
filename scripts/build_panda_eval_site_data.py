@@ -101,19 +101,69 @@ def make_mission(index: int, label: str, atoms: list[dict[str, Any]]) -> dict[st
     }
 
 
+def refined_all_fruits_hierarchy(
+    record_id: str,
+    total_frames: int,
+    refinements: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    refinement = refinements.get(record_id)
+    if refinement is None:
+        raise KeyError(f"Missing dual-view all-fruits refinement for {record_id}")
+    fruits = [str(value) for value in refinement["fruit_order"]]
+    pick_ends = [int(value) for value in refinement["pick_end_frames"]]
+    mission_ends = [int(value) for value in refinement["mission_end_frames"]]
+    if not (len(fruits) == len(pick_ends) == len(mission_ends) == 5):
+        raise ValueError(f"All-fruits refinement must contain five transfers: {record_id}")
+    if mission_ends[-1] != total_frames - 1:
+        raise ValueError(f"Final all-fruits mission must end on the last frame: {record_id}")
+
+    atoms: list[dict[str, Any]] = []
+    missions: list[dict[str, Any]] = []
+    mission_start = 0
+    for mission_index, (fruit, pick_end, mission_end) in enumerate(
+        zip(fruits, pick_ends, mission_ends), start=1
+    ):
+        if not mission_start <= pick_end < mission_end < total_frames:
+            raise ValueError(
+                f"Invalid all-fruits boundaries for {record_id} mission {mission_index}: "
+                f"{mission_start}, {pick_end}, {mission_end}"
+            )
+        pick_id = f"atomic_{len(atoms) + 1}"
+        place_id = f"atomic_{len(atoms) + 2}"
+        atoms.extend([
+            {
+                "atomic_task_id": pick_id,
+                "atomic_task": f"pick up the {fruit}",
+                "start_frame": mission_start,
+                "end_frame": pick_end,
+                "boundary_source": "codex_manual_dual_view_review",
+            },
+            {
+                "atomic_task_id": place_id,
+                "atomic_task": f"place the {fruit} in the basket",
+                "start_frame": pick_end + 1,
+                "end_frame": mission_end,
+                "boundary_source": "codex_manual_dual_view_review",
+            },
+        ])
+        mission_label = f"put the {fruit} in the basket"
+        missions.append(make_mission(mission_index, mission_label, atoms[-2:]))
+        mission_start = mission_end + 1
+
+    long_term = [{
+        "long_term_mission_id": "long_mission_1",
+        "long_term_mission": "put all the fruits in the basket",
+        "start_frame": 0,
+        "end_frame": total_frames - 1,
+        "member_short_term_mission_ids": [mission["mission_id"] for mission in missions],
+        "activation_member_position": 3,
+        "activation_short_term_mission_id": missions[2]["mission_id"],
+        "activation_frame": missions[2]["start_frame"],
+    }]
+    return atoms, missions, long_term
+
+
 def hierarchy(full_task: str, overall_task: str, atoms: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], bool, list[dict[str, Any]]]:
-    if overall_task == "put all the fruits in the basket":
-        missions = [make_mission(index + 1, atom["atomic_task"], [atom]) for index, atom in enumerate(atoms)]
-        return missions, True, [{
-            "long_term_mission_id": "long_mission_1",
-            "long_term_mission": full_task,
-            "start_frame": 0,
-            "end_frame": atoms[-1]["end_frame"],
-            "member_short_term_mission_ids": [mission["mission_id"] for mission in missions],
-            "activation_member_position": 3,
-            "activation_short_term_mission_id": missions[2]["mission_id"] if len(missions) >= 3 else missions[-1]["mission_id"],
-            "activation_frame": missions[2]["start_frame"] if len(missions) >= 3 else missions[-1]["start_frame"],
-        }]
     if overall_task == "push the obstacle aside and put the apple in the plate" and len(atoms) >= 3:
         return [
             make_mission(1, "push the obstacle away", atoms[:1]),
@@ -133,6 +183,8 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any]]:
         raise ValueError(f"Expected 75 physical episodes, found {len(grouped)}")
 
     sources = source_index(args.source_segments)
+    refinement_payload = json.loads(args.all_fruits_refinement.read_text(encoding="utf-8"))
+    all_fruits_refinements = refinement_payload["episodes"]
     ordered = sorted(grouped.values(), key=lambda row: (TASK_ORDER.get(str(row["overall_task"]), 999), str(row["record_id"])))
     tasks = sorted({str(row["overall_task"]) for row in ordered}, key=lambda value: TASK_ORDER.get(value, 999))
     task_ids = {task: index + 1 for index, task in enumerate(tasks)}
@@ -152,7 +204,13 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any]]:
         atoms = scale_atomic_tasks(source, h5_path)
         full_task = str(row["gt_full_task"])
         overall_task = str(row["overall_task"])
-        missions, long_horizon, long_term = hierarchy(full_task, overall_task, atoms)
+        if overall_task == "put all the fruits in the basket":
+            atoms, missions, long_term = refined_all_fruits_hierarchy(
+                record_id, int(media["total_frames"]), all_fruits_refinements
+            )
+            long_horizon = True
+        else:
+            missions, long_horizon, long_term = hierarchy(full_task, overall_task, atoms)
         object_keys = {
             "front": f"{args.object_prefix.strip('/')}/{record_id}/front.mp4",
             "wrist": f"{args.object_prefix.strip('/')}/{record_id}/wrist.mp4",
@@ -176,14 +234,30 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any]]:
             "video_urls": video_urls,
             "video_object_keys": object_keys,
             "evaluation_views": ["front", "wrist"],
-            "atomic_grouping_provenance": "panda_6062_frozen_ground_truth",
+            **(
+                {"human_review_revision": "panda-all-fruits-dual-view-20260905"}
+                if overall_task == "put all the fruits in the basket"
+                else {}
+            ),
+            "atomic_grouping_provenance": (
+                "codex_manual_dual_view_review"
+                if overall_task == "put all the fruits in the basket"
+                else "panda_6062_frozen_ground_truth"
+            ),
             "atomic_tasks": atoms,
             "missions": missions,
             "short_term_missions": missions,
             "long_horizon": long_horizon,
             "long_term_missions": long_term,
             "reviewed": False,
-            "segmentation": {"method": "frozen_panda_6062_source_segments", "imputed": False},
+            "segmentation": {
+                "method": (
+                    "codex_manual_dual_view_review_with_gripper_event_anchors"
+                    if overall_task == "put all the fruits in the basket"
+                    else "frozen_panda_6062_source_segments"
+                ),
+                "imputed": False,
+            },
         })
         private_rows.append({
             "record_id": record_id,
@@ -210,7 +284,7 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any]]:
         },
         "episodes": episodes,
         "ongoing_mission_policy": "Use the short-term mission containing the sample frame; for a long-horizon group, use the long-term label from its third member short-term mission onward.",
-        "annotation_version": "panda_eval_6062_v2",
+        "annotation_version": "panda_eval_6062_v2_all_fruits_manual_20260905",
     }
     private_manifest = {
         "schema_version": 1,
@@ -227,6 +301,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--eval-manifest", type=Path, required=True)
     parser.add_argument("--source-segments", type=Path, required=True)
+    parser.add_argument(
+        "--all-fruits-refinement",
+        type=Path,
+        default=Path(__file__).resolve().parent.parent / "panda-eval-v2" / "all_fruits_refinement.json",
+    )
     parser.add_argument("--site-output", type=Path, required=True)
     parser.add_argument("--video-manifest-output", type=Path, required=True)
     parser.add_argument("--object-prefix", default="panda-eval-6062")
