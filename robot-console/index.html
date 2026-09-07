@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Intent-to-Action · System Start</title>
+  <style>
+    :root {
+      --bg: #05080b;
+      --surface: #0b1117;
+      --surface-2: #101922;
+      --line: #23313c;
+      --text: #eef5f7;
+      --muted: #8da0ab;
+      --green: #69dfb4;
+      --blue: #61adff;
+      --amber: #f1b95c;
+      --red: #ff746c;
+      --ring: rgba(105, 223, 180, .16);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% 38%, rgba(51, 111, 117, .19), transparent 30rem),
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, 64px 64px, 64px 64px, auto;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+    }
+    button, input { font: inherit; }
+    button { touch-action: manipulation; }
+    .shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+    header {
+      min-height: 68px; padding: 0 28px; display: flex; align-items: center;
+      justify-content: space-between; border-bottom: 1px solid var(--line);
+      background: rgba(5, 8, 11, .88); backdrop-filter: blur(18px);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .mark {
+      width: 36px; height: 36px; border: 1px solid #34505c; border-radius: 10px;
+      display: grid; place-items: center; color: var(--green); font-weight: 800;
+      background: linear-gradient(145deg, #10202a, #091016);
+    }
+    h1 { font-size: 1rem; margin: 0 0 2px; letter-spacing: .01em; }
+    .subtitle { margin: 0; color: var(--muted); font-size: .78rem; }
+    .secure { color: var(--green); font-size: .78rem; border: 1px solid #24453d; border-radius: 99px; padding: 8px 12px; }
+    main { width: min(1380px, calc(100% - 36px)); margin: 0 auto; padding: 30px 0 42px; }
+    .stage { display: grid; grid-template-columns: minmax(430px, .9fr) minmax(520px, 1.1fr); gap: 22px; align-items: stretch; }
+    .launch {
+      min-height: 670px; border: 1px solid var(--line); border-radius: 24px;
+      background: linear-gradient(155deg, rgba(16,25,34,.97), rgba(7,11,15,.97));
+      position: relative; overflow: hidden; display: grid; place-items: center; padding: 42px;
+    }
+    .launch::before, .launch::after {
+      content: ""; position: absolute; border: 1px solid var(--ring); border-radius: 50%; pointer-events: none;
+    }
+    .launch::before { width: 620px; height: 620px; }
+    .launch::after { width: 450px; height: 450px; border-color: rgba(97,173,255,.12); }
+    .launch-core { width: min(100%, 410px); text-align: center; position: relative; z-index: 1; }
+    .eyebrow { color: var(--green); font-size: .76rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    .launch h2 { font-size: clamp(2rem, 5vw, 4.25rem); margin: 14px 0 10px; letter-spacing: -.055em; line-height: .98; }
+    .launch-copy { color: var(--muted); line-height: 1.55; margin: 0 auto 26px; max-width: 34rem; }
+    .start {
+      width: 196px; height: 196px; border-radius: 50%; border: 1px solid #4f816f;
+      color: #03110c; background: var(--green); font-size: 1.25rem; font-weight: 900;
+      letter-spacing: .13em; cursor: pointer; position: relative; transition: transform .2s, box-shadow .2s, opacity .2s;
+      box-shadow: 0 0 0 16px rgba(105,223,180,.07), 0 22px 70px rgba(33,167,123,.22);
+    }
+    .start:hover:not(:disabled) { transform: scale(1.025); box-shadow: 0 0 0 21px rgba(105,223,180,.1), 0 26px 80px rgba(33,167,123,.3); }
+    .start:disabled { cursor: not-allowed; opacity: .36; }
+    .start.busy { color: transparent; background: #152a27; }
+    .start.busy::after {
+      content: ""; position: absolute; inset: 29px; border-radius: 50%;
+      border: 5px solid rgba(105,223,180,.16); border-top-color: var(--green);
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .confirm { margin: 28px auto 12px; display: flex; align-items: flex-start; gap: 10px; text-align: left; color: #b9c6cc; max-width: 360px; font-size: .88rem; line-height: 1.45; }
+    .confirm input { width: 18px; height: 18px; accent-color: var(--green); margin-top: 1px; flex: 0 0 auto; }
+    .mode-row { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
+    .mode {
+      border: 1px solid var(--line); border-radius: 99px; padding: 8px 14px;
+      color: var(--muted); background: #091017; cursor: pointer; font-size: .78rem;
+    }
+    .mode.active { border-color: #4f816f; color: var(--green); background: #0c1b18; }
+    .mode.live.active { color: var(--amber); border-color: #66502d; background: #1b160c; }
+    .progress-wrap { margin-top: 27px; }
+    .progress-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: .78rem; margin-bottom: 8px; }
+    .track { height: 7px; background: #152029; border-radius: 99px; overflow: hidden; }
+    .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--green)); border-radius: inherit; transition: width .45s ease; }
+    .message { min-height: 43px; margin: 15px 0 0; color: #c9d4d9; font-size: .88rem; line-height: 1.45; }
+    .panel { border: 1px solid var(--line); border-radius: 24px; background: rgba(10,16,22,.95); overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; }
+    .panel-head { padding: 22px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+    .panel h3 { margin: 0; font-size: 1rem; }
+    .phase { color: var(--amber); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .components { padding: 12px; display: grid; gap: 8px; align-content: start; }
+    .component {
+      display: grid; grid-template-columns: 12px 1fr auto; gap: 12px; align-items: center;
+      border: 1px solid #1b2832; border-radius: 13px; padding: 13px 14px; background: #090f14;
+      cursor: pointer; text-align: left; color: inherit;
+    }
+    .component:hover, .component.selected { border-color: #35505f; background: #0d151c; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #42515a; box-shadow: 0 0 0 4px rgba(66,81,90,.08); }
+    .dot.ready { background: var(--green); box-shadow: 0 0 0 4px rgba(105,223,180,.08); }
+    .dot.starting, .dot.checking { background: var(--amber); animation: pulse 1.2s ease-in-out infinite; }
+    .dot.failed, .dot.degraded { background: var(--red); }
+    @keyframes pulse { 50% { opacity: .35; } }
+    .component-name { display: block; font-weight: 750; font-size: .88rem; }
+    .component-detail { display: block; color: var(--muted); font-size: .72rem; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 420px; }
+    .host { color: #708793; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; }
+    .log { border-top: 1px solid var(--line); background: #05090c; }
+    .log-head { padding: 11px 15px; display: flex; justify-content: space-between; color: #8da0ab; font-size: .72rem; }
+    pre { margin: 0; padding: 0 15px 15px; height: 145px; overflow: auto; color: #a9bac2; font: .72rem/1.45 "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; }
+    .actions { margin-top: 18px; display: flex; gap: 10px; justify-content: center; }
+    .button { border: 1px solid var(--line); border-radius: 10px; padding: 11px 16px; background: #101820; color: #cbd7dc; cursor: pointer; font-weight: 720; font-size: .82rem; }
+    .button:hover { border-color: #476173; }
+    .button.danger { color: var(--red); border-color: #683630; background: #21100f; }
+    .button:disabled { opacity: .35; cursor: not-allowed; }
+    .ready-link { display: none; margin-top: 18px; color: #06130f; background: var(--green); text-decoration: none; border-radius: 12px; padding: 13px 18px; font-weight: 850; }
+    .ready-link.show { display: inline-block; }
+    .toast { position: fixed; right: 22px; bottom: 22px; padding: 13px 16px; border: 1px solid #5b3432; border-radius: 11px; background: #21100f; color: #ffd3cf; opacity: 0; transform: translateY(10px); pointer-events: none; transition: .2s; max-width: 420px; }
+    .toast.show { opacity: 1; transform: none; }
+    dialog { width: min(470px, calc(100% - 32px)); border: 1px solid #4b3330; border-radius: 18px; padding: 24px; background: #0d1318; color: var(--text); }
+    dialog::backdrop { background: rgba(0,0,0,.75); backdrop-filter: blur(4px); }
+    dialog h3 { margin: 0 0 10px; }
+    dialog p { color: var(--muted); line-height: 1.5; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+    @media (max-width: 980px) {
+      .stage { grid-template-columns: 1fr; }
+      .launch { min-height: 570px; }
+    }
+    @media (max-width: 560px) {
+      header { padding: 0 16px; }
+      main { width: min(100% - 20px, 1380px); padding-top: 10px; }
+      .launch { padding: 28px 18px; min-height: 520px; }
+      .start { width: 168px; height: 168px; }
+      .component-detail { max-width: 230px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><div class="mark">IA</div><div><h1>Intent-to-Action Console</h1><p class="subtitle">Supervised three-host startup</p></div></div>
+      <div class="secure">Local control · loopback only</div>
+    </header>
+    <main>
+      <div class="stage">
+        <section class="launch">
+          <div class="launch-core">
+            <div class="eyebrow">Franka · Qwen · PI0.5</div>
+            <h2>System start</h2>
+            <p class="launch-copy">Bring the NUC control path, Thor perception stack, and RTX 5090 inference service online in a guarded sequence.</p>
+            <button id="start" class="start" disabled>START</button>
+            <label class="confirm"><input id="confirmed" type="checkbox"><span>I confirm the robot workspace is clear, the arm is not pressed against a hard limit, and the physical emergency stop is reachable.</span></label>
+            <div class="mode-row" role="group" aria-label="Control output mode">
+              <button id="dry-mode" class="mode active" type="button">Dry run</button>
+              <button id="live-mode" class="mode live" type="button">Live control</button>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-meta"><span id="progress-label">Waiting to start</span><span id="progress-count">0 / 9</span></div>
+              <div class="track"><div id="bar" class="bar"></div></div>
+            </div>
+            <p id="message" class="message">The first action is always a HOLD request.</p>
+            <a id="open-console" class="ready-link" href="http://127.0.0.1:8780">Open operator console</a>
+            <div class="actions">
+              <button id="hold" class="button danger" type="button">Emergency HOLD</button>
+              <button id="stop" class="button" type="button" disabled>Stop managed processes</button>
+            </div>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h3>Startup sequence</h3><span id="phase" class="phase">Idle</span></div>
+          <div id="components" class="components"></div>
+          <div class="log"><div class="log-head"><span id="log-title">Supervisor log</span><span>Last 80 lines</span></div><pre id="log-output">No startup activity yet.</pre></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <dialog id="live-dialog"><h3>Enable live robot output?</h3><p>Live mode allows PI0.5 commands to reach the independent NUC guard after human approval. Start with Dry run unless this exact stack has already passed its safety checks.</p><div class="dialog-actions"><button id="live-cancel" class="button">Cancel</button><button id="live-confirm" class="button danger">Use live control</button></div></dialog>
+  <dialog id="stop-dialog"><h3>Stop managed processes?</h3><p>The supervisor requests HOLD first, then stops only processes that it started. Processes it adopted because they were already running remain untouched.</p><div class="dialog-actions"><button id="stop-cancel" class="button">Cancel</button><button id="stop-confirm" class="button danger">HOLD and stop</button></div></dialog>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let liveControl = false;
+    let selectedLog = "supervisor";
+    let redirected = false;
+    let lastState = null;
+    const initialComponents = [
+      ["nuc_controller", "Franka controller", "NUC"], ["nuc_guard", "Command guard", "NUC"],
+      ["nuc_bridge", "ROS1/ROS2 bridge", "NUC"], ["qwen_5090", "Qwen TensorRT service", "RTX 5090"],
+      ["qwen_tunnel", "Secure Qwen tunnel", "Thor"], ["pi05_server", "PI0.5 policy service", "Thor"],
+      ["thor_control", "Cameras & control graph", "Thor"], ["qwen_relay", "Dual-view Qwen relay", "Thor"],
+      ["operator_console", "Operator console", "Thor"],
+    ];
+    function escapeText(value) { return String(value ?? ""); }
+    function toast(message) { const box = $("toast"); box.textContent = message; box.classList.add("show"); setTimeout(() => box.classList.remove("show"), 3500); }
+    function publicHost() { return !["127.0.0.1", "localhost", "::1"].includes(location.hostname); }
+    function renderComponents(items) {
+      const rows = items.length ? items : initialComponents.map(([key,label,host]) => ({key,label,host,status:"pending",detail:"Waiting to start"}));
+      $("components").replaceChildren(...rows.map((item) => {
+        const button = document.createElement("button"); button.type = "button";
+        button.className = `component${selectedLog === item.key ? " selected" : ""}`;
+        button.innerHTML = `<span class="dot ${escapeText(item.status)}"></span><span><span class="component-name"></span><span class="component-detail"></span></span><span class="host"></span>`;
+        button.querySelector(".component-name").textContent = item.label;
+        button.querySelector(".component-detail").textContent = item.detail;
+        button.querySelector(".host").textContent = item.host;
+        button.addEventListener("click", () => { selectedLog = item.key; refresh(); });
+        return button;
+      }));
+    }
+    function render(data) {
+      lastState = data;
+      renderComponents(data.components || []);
+      const total = data.total || 9, ready = data.ready || 0;
+      $("phase").textContent = String(data.phase || "idle").toUpperCase();
+      $("progress-label").textContent = data.phase === "ready" ? "All systems ready" : data.phase === "starting" ? "Starting components" : data.phase === "failed" ? "Startup stopped" : "Waiting to start";
+      $("progress-count").textContent = `${ready} / ${total}`;
+      $("bar").style.width = `${Math.max(0, Math.min(100, Number(data.progress || 0) * 100))}%`;
+      $("message").textContent = data.message || "";
+      $("log-title").textContent = selectedLog === "supervisor" ? "Supervisor log" : `${selectedLog} log`;
+      $("log-output").textContent = (data.logs || []).join("").trim() || "No log output yet.";
+      $("start").classList.toggle("busy", data.phase === "starting");
+      $("start").disabled = !$("confirmed").checked || data.phase === "starting" || data.phase === "ready";
+      $("stop").disabled = !["starting", "ready", "degraded", "failed"].includes(data.phase);
+      $("open-console").classList.toggle("show", data.phase === "ready");
+      if (data.operator_url) $("open-console").href = data.operator_url;
+      if (data.phase === "ready" && !redirected && !publicHost()) {
+        redirected = true;
+        setTimeout(() => location.assign(data.operator_url || "http://127.0.0.1:8780"), 1200);
+      }
+    }
+    async function post(path, payload = {}) {
+      const response = await fetch(path, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)});
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || `Request failed (${response.status})`);
+      toast(result.message || "Request accepted"); return result;
+    }
+    async function refresh() {
+      if (publicHost()) {
+        renderComponents([]); $("phase").textContent = "LOCAL AGENT REQUIRED";
+        $("message").textContent = "Robot commands remain local. START opens the Thor supervisor without exposing control APIs to the internet.";
+        $("start").disabled = !$("confirmed").checked; return;
+      }
+      try {
+        const response = await fetch(`/api/system/status?component=${encodeURIComponent(selectedLog)}`, {cache:"no-store"});
+        if (!response.ok) throw new Error(`Supervisor HTTP ${response.status}`);
+        render(await response.json());
+      } catch (error) { $("phase").textContent = "OFFLINE"; $("message").textContent = error.message; }
+    }
+    $("confirmed").addEventListener("change", refresh);
+    $("dry-mode").addEventListener("click", () => { liveControl = false; $("dry-mode").classList.add("active"); $("live-mode").classList.remove("active"); });
+    $("live-mode").addEventListener("click", () => $("live-dialog").showModal());
+    $("live-cancel").addEventListener("click", () => $("live-dialog").close());
+    $("live-confirm").addEventListener("click", () => { liveControl = true; $("live-dialog").close(); $("live-mode").classList.add("active"); $("dry-mode").classList.remove("active"); });
+    $("start").addEventListener("click", async () => {
+      if (publicHost()) { location.href = "http://127.0.0.1:8779"; return; }
+      try { redirected = false; await post("/api/system/start", {confirmed:$("confirmed").checked, live_control:liveControl}); await refresh(); }
+      catch (error) { toast(error.message); }
+    });
+    $("hold").addEventListener("click", async () => { if (publicHost()) return toast("Open the local Thor supervisor to request HOLD."); try { await post("/api/system/hold"); } catch (error) { toast(error.message); } });
+    $("stop").addEventListener("click", () => $("stop-dialog").showModal());
+    $("stop-cancel").addEventListener("click", () => $("stop-dialog").close());
+    $("stop-confirm").addEventListener("click", async () => { $("stop-dialog").close(); try { await post("/api/system/stop", {confirmed:true}); await refresh(); } catch (error) { toast(error.message); } });
+    renderComponents([]); refresh(); setInterval(refresh, 1000);
+  </script>
+</body>
+</html>
