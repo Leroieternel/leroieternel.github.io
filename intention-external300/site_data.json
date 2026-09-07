@@ -1,18 +1,18 @@
 {
   "schema_version": 5,
-  "generated_at_utc": "2026-09-07T11:15:06.728951+00:00",
+  "generated_at_utc": "2026-09-07T11:31:30.241612+00:00",
   "annotation_version": "external300-v1",
   "frame_semantics": "zero-based inclusive continuous episode-local frame indices",
   "hierarchy": "full episode > long-term missions > short-term missions > atomic actions",
   "summary": {
     "dataset_count": 7,
     "episode_count": 300,
-    "chat_annotated": 250,
-    "pending_visual_review": 50,
+    "chat_annotated": 271,
+    "pending_visual_review": 29,
     "needs_boundary_review": 3,
-    "atomic_actions": 943,
-    "missions": 490,
-    "long_term_missions": 26,
+    "atomic_actions": 1075,
+    "missions": 556,
+    "long_term_missions": 28,
     "datasets": {
       "austin_sirius_dataset": 2,
       "bc_z_lerobot": 90,
@@ -31091,19 +31091,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 0,
+          "end_frame": 148,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 149,
+          "end_frame": 268,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the mushroom",
+          "start_frame": 269,
+          "end_frame": 376,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the mushroom in the bowl",
+          "start_frame": 377,
+          "end_frame": 464,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 465,
+          "end_frame": 532,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 533,
+          "end_frame": 893,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 0,
+          "end_frame": 268,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the mushroom in the bowl",
+          "short_term_mission": "put the mushroom in the bowl",
+          "start_frame": 269,
+          "end_frame": 464,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 465,
+          "end_frame": 893,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 0,
+          "end_frame": 268,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the mushroom in the bowl",
+          "short_term_mission": "put the mushroom in the bowl",
+          "start_frame": 269,
+          "end_frame": 464,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 465,
+          "end_frame": 893,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "9396045c57aa",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Chicken first, mushroom second. Closes123/355/499; stable lifts148/376/532. Releases239/428; food supported and brief withdrawal complete268/464. Bowl release854 and independently visible on fridge shelf893. Fridge already open, no invented open/close or cooling action. Two food-collection missions then container relocation, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "both foods collected; bowl released inside open fridge",
+      "evidence": [
+        "evidence/233/overview_00.jpg",
+        "evidence/233/overview_01.jpg",
+        "evidence/233/detail_233_f132-540_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31146,19 +31267,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the avocado",
+          "start_frame": 0,
+          "end_frame": 96,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the avocado in the bowl",
+          "start_frame": 97,
+          "end_frame": 196,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 197,
+          "end_frame": 368,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 369,
+          "end_frame": 544,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 545,
+          "end_frame": 616,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 617,
+          "end_frame": 881,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the bowl",
+          "short_term_mission": "put the avocado in the bowl",
+          "start_frame": 0,
+          "end_frame": 196,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 197,
+          "end_frame": 544,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 545,
+          "end_frame": 881,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the bowl",
+          "short_term_mission": "put the avocado in the bowl",
+          "start_frame": 0,
+          "end_frame": 196,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 197,
+          "end_frame": 544,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 545,
+          "end_frame": 881,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a38e8326a453",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Actual avocado first, chicken second. Closes80/349/583; stable lifts96/368/616, not immediate closure. Opens146/507; support and retreat196/544. Bowl carries both foods into already-open fridge, releases839 and hand withdraws by881. Rendered bowl tilts but no extra rotation goal inferred. Not all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "avocado and chicken collected; bowl released in fridge",
+      "evidence": [
+        "evidence/234/overview_00.jpg",
+        "evidence/234/overview_01.jpg",
+        "evidence/234/detail_234_f88-624_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31201,19 +31443,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the bell pepper",
+          "start_frame": 0,
+          "end_frame": 72,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the bell pepper in the bowl",
+          "start_frame": 73,
+          "end_frame": 168,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 169,
+          "end_frame": 312,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 313,
+          "end_frame": 464,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 465,
+          "end_frame": 532,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 533,
+          "end_frame": 908,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the bell pepper in the bowl",
+          "short_term_mission": "put the bell pepper in the bowl",
+          "start_frame": 0,
+          "end_frame": 168,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 169,
+          "end_frame": 464,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 465,
+          "end_frame": 908,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the bell pepper in the bowl",
+          "short_term_mission": "put the bell pepper in the bowl",
+          "start_frame": 0,
+          "end_frame": 168,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 169,
+          "end_frame": 464,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 465,
+          "end_frame": 908,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "d151cd745f4d",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Bell pepper first despite instruction listing chicken first. Closes57/286/500; retained lifts72/312/532. Opens129/436, food resting and retreat complete168/464; release858 then independent bowl visible908 in already-open fridge. Two food transfers plus container relocation, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "food transfers observed; bowl released inside fridge",
+      "evidence": [
+        "evidence/235/overview_00.jpg",
+        "evidence/235/overview_01.jpg",
+        "evidence/235/detail_235_f64-540_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31256,19 +31619,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the onion",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the onion in the bowl",
+          "start_frame": 133,
+          "end_frame": 200,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 201,
+          "end_frame": 356,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 357,
+          "end_frame": 504,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 505,
+          "end_frame": 572,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 573,
+          "end_frame": 927,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the onion in the bowl",
+          "short_term_mission": "put the onion in the bowl",
+          "start_frame": 0,
+          "end_frame": 200,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 201,
+          "end_frame": 504,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 505,
+          "end_frame": 927,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the onion in the bowl",
+          "short_term_mission": "put the onion in the bowl",
+          "start_frame": 0,
+          "end_frame": 200,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 201,
+          "end_frame": 504,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 505,
+          "end_frame": 927,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "161dd4482976",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "First rough brown-green bulb is named onion using source instruction; shape is not visually diagnostic, identity confidence medium. Then chicken transferred. Closes108/331/541; stable lifts132/356/572. Opens161/459, settled foods and withdrawal200/504; bowl release891 then hand clear927. Fridge already open. Two food transfers plus container relocation, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "food transfers observed; bowl released inside fridge",
+      "evidence": [
+        "evidence/236/overview_00.jpg",
+        "evidence/236/overview_01.jpg",
+        "evidence/236/detail_236_f116-580_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31311,19 +31795,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the potato",
+          "start_frame": 0,
+          "end_frame": 148,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the potato in the bowl",
+          "start_frame": 149,
+          "end_frame": 228,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 229,
+          "end_frame": 304,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 305,
+          "end_frame": 392,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 393,
+          "end_frame": 452,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 453,
+          "end_frame": 882,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the bowl",
+          "short_term_mission": "put the potato in the bowl",
+          "start_frame": 0,
+          "end_frame": 228,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 229,
+          "end_frame": 392,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 393,
+          "end_frame": 882,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the bowl",
+          "short_term_mission": "put the potato in the bowl",
+          "start_frame": 0,
+          "end_frame": 228,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 229,
+          "end_frame": 392,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 393,
+          "end_frame": 882,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "9bbf8cd521df",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Potato then chicken, source listing reversed. Closes135/283/417; stable lifts148/304/452. Opens193/354, food settled and hand retreat through228/392. Bowl released821 inside already-open fridge, no separate rotation/cooling action. Two food transfers plus container relocation, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "food transfers observed; bowl released inside fridge",
+      "evidence": [
+        "evidence/237/overview_00.jpg",
+        "evidence/237/overview_01.jpg",
+        "evidence/237/detail_237_f140-460_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31366,19 +31971,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the sweet potato",
+          "start_frame": 0,
+          "end_frame": 96,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sweet potato in the bowl",
+          "start_frame": 97,
+          "end_frame": 212,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 213,
+          "end_frame": 352,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 353,
+          "end_frame": 544,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 545,
+          "end_frame": 612,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 613,
+          "end_frame": 906,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the sweet potato in the bowl",
+          "short_term_mission": "put the sweet potato in the bowl",
+          "start_frame": 0,
+          "end_frame": 212,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 213,
+          "end_frame": 544,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 545,
+          "end_frame": 906,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the sweet potato in the bowl",
+          "short_term_mission": "put the sweet potato in the bowl",
+          "start_frame": 0,
+          "end_frame": 212,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 213,
+          "end_frame": 544,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 545,
+          "end_frame": 906,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "1e5cc49b42d7",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Sweet potato then chicken. Closes72/321/573; support-clearing lifts96/352/612. Opens166/516; resting foods and withdrawal212/544. Sweet potato low contrast against tan bowl and partly occluded by chicken later; initial transfer visible. Bowl released870 into already-open fridge, independently visible906. Two food transfers plus container relocation, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "food transfers observed; bowl released inside fridge",
+      "evidence": [
+        "evidence/238/overview_00.jpg",
+        "evidence/238/overview_01.jpg",
+        "evidence/238/detail_238_f80-620_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31421,19 +32147,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the squash",
+          "start_frame": 0,
+          "end_frame": 92,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the squash in the bowl",
+          "start_frame": 93,
+          "end_frame": 172,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 173,
+          "end_frame": 308,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 309,
+          "end_frame": 388,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 389,
+          "end_frame": 456,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 457,
+          "end_frame": 891,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the bowl",
+          "short_term_mission": "put the squash in the bowl",
+          "start_frame": 0,
+          "end_frame": 172,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 173,
+          "end_frame": 388,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 389,
+          "end_frame": 891,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the bowl",
+          "short_term_mission": "put the squash in the bowl",
+          "start_frame": 0,
+          "end_frame": 172,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 173,
+          "end_frame": 388,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 389,
+          "end_frame": 891,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "28aa47626cfe",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Yellow bumpy squash first, chicken second. Source names first object squash; render resembles small yellow squash, not a butternut. Closes76/285/422; visually retained lifts92/308/456. First separation near0.08 despite successful retention; not interpreted as failed pickup. Opens124/349; support and withdrawal172/388. Bowl release849 into already-open fridge. No all-set horizon; two foods then container. Boundary uncertainty8 frames.",
+      "outcome": "two food transfers; bowl released in fridge",
+      "evidence": [
+        "evidence/239/overview_00.jpg",
+        "evidence/239/overview_01.jpg",
+        "evidence/239/detail_239_f84-464_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31476,19 +32323,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the corn",
+          "start_frame": 0,
+          "end_frame": 140,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the corn in the bowl",
+          "start_frame": 141,
+          "end_frame": 236,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 237,
+          "end_frame": 320,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 321,
+          "end_frame": 392,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 393,
+          "end_frame": 472,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 473,
+          "end_frame": 873,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the corn in the bowl",
+          "short_term_mission": "put the corn in the bowl",
+          "start_frame": 0,
+          "end_frame": 236,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 237,
+          "end_frame": 392,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 393,
+          "end_frame": 873,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the corn in the bowl",
+          "short_term_mission": "put the corn in the bowl",
+          "start_frame": 0,
+          "end_frame": 236,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 237,
+          "end_frame": 392,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 393,
+          "end_frame": 873,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a54cb913aa4a",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Corn cob with husk then chicken. Closes122/292/435; stable support-clearing lifts140/320/472. Opens189/361, food resting and brief withdrawal236/392 before next targets244/400. Bowl release829 followed by independent shelf view873; fridge open beforehand, no door action. Two food transfers then bowl relocation, no all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "corn and chicken collected; bowl released inside fridge",
+      "evidence": [
+        "evidence/240/overview_00.jpg",
+        "evidence/240/overview_01.jpg",
+        "evidence/240/detail_240_f132-480_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31531,19 +32499,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 133,
+          "end_frame": 280,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the carrot",
+          "start_frame": 281,
+          "end_frame": 380,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the carrot in the bowl",
+          "start_frame": 381,
+          "end_frame": 488,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 489,
+          "end_frame": 564,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 565,
+          "end_frame": 898,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 0,
+          "end_frame": 280,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the carrot in the bowl",
+          "short_term_mission": "put the carrot in the bowl",
+          "start_frame": 281,
+          "end_frame": 488,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 489,
+          "end_frame": 898,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 0,
+          "end_frame": 280,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the carrot in the bowl",
+          "short_term_mission": "put the carrot in the bowl",
+          "start_frame": 281,
+          "end_frame": 488,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 489,
+          "end_frame": 898,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "c21f6606ac6a",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Chicken first, carrot second. Closures114/364/524 are earlier than stable lifts132/380/564. Food placements include settling and short withdrawal through280/488. Bowl released858, resting in already-open fridge by898. No door action or all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "two foods collected; bowl released in fridge",
+      "evidence": [
+        "evidence/241/overview_00.jpg",
+        "evidence/241/overview_01.jpg",
+        "evidence/241/detail_241_f124-572_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31586,19 +32675,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the garlic",
+          "start_frame": 0,
+          "end_frame": 80,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the garlic in the bowl",
+          "start_frame": 81,
+          "end_frame": 144,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 145,
+          "end_frame": 300,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 301,
+          "end_frame": 484,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 485,
+          "end_frame": 556,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 557,
+          "end_frame": 901,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the garlic in the bowl",
+          "short_term_mission": "put the garlic in the bowl",
+          "start_frame": 0,
+          "end_frame": 144,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 145,
+          "end_frame": 484,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 485,
+          "end_frame": 901,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the garlic in the bowl",
+          "short_term_mission": "put the garlic in the bowl",
+          "start_frame": 0,
+          "end_frame": 144,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 145,
+          "end_frame": 484,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 485,
+          "end_frame": 901,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "46925d4ebde2",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "White garlic bulb first, chicken second; actual order differs from source listing. Closures64/275/516 precede stable lifts80/300/556. Releases112/439; resting foods and withdrawal144/484. Bowl released854 and supported in already-open fridge by901. No all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "garlic and chicken collected; bowl released in fridge",
+      "evidence": [
+        "evidence/242/overview_00.jpg",
+        "evidence/242/overview_01.jpg",
+        "evidence/242/detail_242_f72-564_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31641,19 +32851,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the tomato",
+          "start_frame": 0,
+          "end_frame": 92,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the tomato in the bowl",
+          "start_frame": 93,
+          "end_frame": 168,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 169,
+          "end_frame": 300,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 301,
+          "end_frame": 448,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 449,
+          "end_frame": 512,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 513,
+          "end_frame": 891,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the tomato in the bowl",
+          "short_term_mission": "put the tomato in the bowl",
+          "start_frame": 0,
+          "end_frame": 168,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 169,
+          "end_frame": 448,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 449,
+          "end_frame": 891,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the tomato in the bowl",
+          "short_term_mission": "put the tomato in the bowl",
+          "start_frame": 0,
+          "end_frame": 168,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 169,
+          "end_frame": 448,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 449,
+          "end_frame": 891,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "e3d3776efe49",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Tomato first, chicken second. Tomato visibly clear of plate92, chicken lifted300, bowl clear512; not closures68/279/478. Food releases131/417 followed by settling and withdrawal168/448. Bowl released844, independently resting at891. Fridge already open. No set-level horizon. Boundary uncertainty8 frames.",
+      "outcome": "tomato and chicken collected; bowl released in fridge",
+      "evidence": [
+        "evidence/243/overview_00.jpg",
+        "evidence/243/overview_01.jpg",
+        "evidence/243/detail_243_f76-520_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31696,19 +33027,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the eggplant",
+          "start_frame": 0,
+          "end_frame": 92,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the eggplant in the bowl",
+          "start_frame": 93,
+          "end_frame": 180,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 181,
+          "end_frame": 304,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 305,
+          "end_frame": 468,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 469,
+          "end_frame": 536,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 537,
+          "end_frame": 899,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the bowl",
+          "short_term_mission": "put the eggplant in the bowl",
+          "start_frame": 0,
+          "end_frame": 180,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 181,
+          "end_frame": 468,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 469,
+          "end_frame": 899,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the bowl",
+          "short_term_mission": "put the eggplant in the bowl",
+          "start_frame": 0,
+          "end_frame": 180,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 181,
+          "end_frame": 468,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 469,
+          "end_frame": 899,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a3f419c8be2e",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Eggplant first, chicken second. Stable plate-clearing lifts92/304 and bowl lift536, not closure71/283/501. Food releases132/439 followed by settling and withdrawal180/468. Bowl released846, independent shelf placement visible899. Fridge already open. Boundary uncertainty8 frames.",
+      "outcome": "two food transfers followed by bowl placement in fridge",
+      "evidence": [
+        "evidence/244/overview_00.jpg",
+        "evidence/244/overview_01.jpg",
+        "evidence/244/detail_244_f76-544_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31751,19 +33203,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 0,
+          "end_frame": 176,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 177,
+          "end_frame": 232,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the cucumber",
+          "start_frame": 233,
+          "end_frame": 320,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the cucumber in the bowl",
+          "start_frame": 321,
+          "end_frame": 428,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 429,
+          "end_frame": 552,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 553,
+          "end_frame": 891,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 0,
+          "end_frame": 232,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the bowl",
+          "short_term_mission": "put the cucumber in the bowl",
+          "start_frame": 233,
+          "end_frame": 428,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 429,
+          "end_frame": 891,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 0,
+          "end_frame": 232,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the bowl",
+          "short_term_mission": "put the cucumber in the bowl",
+          "start_frame": 233,
+          "end_frame": 428,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 429,
+          "end_frame": 891,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "1c9e78b07ae9",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Chicken first, cucumber second. Retained lifts176/320/552 after closures145/292/507. Food releases208/363. Second placement has settling and pause before bowl-rim approach about436; cut428. Bowl released851, resting shelf891. Fridge already open. Boundary uncertainty8 frames; pause-to-rim transition is approximate.",
+      "outcome": "two food transfers followed by bowl placement in fridge",
+      "evidence": [
+        "evidence/245/overview_00.jpg",
+        "evidence/245/overview_01.jpg",
+        "evidence/245/detail_245_f168-560_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31806,19 +33379,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lime",
+          "start_frame": 0,
+          "end_frame": 92,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lime in the bowl",
+          "start_frame": 93,
+          "end_frame": 172,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 173,
+          "end_frame": 304,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 305,
+          "end_frame": 464,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 465,
+          "end_frame": 556,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 557,
+          "end_frame": 894,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the bowl",
+          "short_term_mission": "put the lime in the bowl",
+          "start_frame": 0,
+          "end_frame": 172,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 173,
+          "end_frame": 464,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 465,
+          "end_frame": 894,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the bowl",
+          "short_term_mission": "put the lime in the bowl",
+          "start_frame": 0,
+          "end_frame": 172,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 173,
+          "end_frame": 464,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 465,
+          "end_frame": 894,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "b00a88138783",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Lime first, chicken second. Stable lifts92/304/556 versus closures74/279/515. Food releases127/429 with withdrawal172/464, next bowl-target motion472. Bowl released853 in open fridge; tilted but retained contents at894. No invented door action. Boundary uncertainty8 frames.",
+      "outcome": "two food transfers followed by bowl placement in fridge",
+      "evidence": [
+        "evidence/246/overview_00.jpg",
+        "evidence/246/overview_01.jpg",
+        "evidence/246/detail_246_f84-572_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31861,19 +33555,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lemon",
+          "start_frame": 0,
+          "end_frame": 116,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lemon in the bowl",
+          "start_frame": 117,
+          "end_frame": 200,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 201,
+          "end_frame": 360,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 361,
+          "end_frame": 488,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 489,
+          "end_frame": 572,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 573,
+          "end_frame": 889,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lemon in the bowl",
+          "short_term_mission": "put the lemon in the bowl",
+          "start_frame": 0,
+          "end_frame": 200,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 201,
+          "end_frame": 488,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 489,
+          "end_frame": 889,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lemon in the bowl",
+          "short_term_mission": "put the lemon in the bowl",
+          "start_frame": 0,
+          "end_frame": 200,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 201,
+          "end_frame": 488,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 489,
+          "end_frame": 889,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "ec3f7c5cb370",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Lemon first, chicken second. Stable lifts116/360/572, after closures90/335/524. Food releases160/456 and withdrawal200/488. Bowl release850; resting independently889. Fridge open before arrival; no door action. Boundary uncertainty8 frames.",
+      "outcome": "two foods collected; bowl released in fridge",
+      "evidence": [
+        "evidence/247/overview_00.jpg",
+        "evidence/247/overview_01.jpg",
+        "evidence/247/detail_247_f100-580_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31916,19 +33731,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the citrus wedge",
+          "start_frame": 0,
+          "end_frame": 92,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the citrus wedge in the bowl",
+          "start_frame": 93,
+          "end_frame": 196,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 197,
+          "end_frame": 352,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 353,
+          "end_frame": 420,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 421,
+          "end_frame": 516,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 517,
+          "end_frame": 920,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the citrus wedge in the bowl",
+          "short_term_mission": "put the citrus wedge in the bowl",
+          "start_frame": 0,
+          "end_frame": 196,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 197,
+          "end_frame": 420,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 421,
+          "end_frame": 920,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the citrus wedge in the bowl",
+          "short_term_mission": "put the citrus wedge in the bowl",
+          "start_frame": 0,
+          "end_frame": 196,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 197,
+          "end_frame": 420,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 421,
+          "end_frame": 920,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "52b9a974601e",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Green citrus wedge visually resembles lime; source says lemon wedge, so generic citrus wedge used rather than asserting species. Wedge first then chicken. Stable lifts92/352/516 after closures75/325/477; food releases145/376 and withdrawal196/420. Bowl released879 in already-open fridge and supported920. Boundary uncertainty8 frames.",
+      "outcome": "two foods collected; bowl released in fridge",
+      "evidence": [
+        "evidence/248/overview_00.jpg",
+        "evidence/248/overview_01.jpg",
+        "evidence/248/detail_248_f84-524_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -31971,19 +33907,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StoreLeftoversInBowl",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the broccoli",
+          "start_frame": 0,
+          "end_frame": 104,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the broccoli in the bowl",
+          "start_frame": 105,
+          "end_frame": 188,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick",
+          "start_frame": 189,
+          "end_frame": 312,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the bowl",
+          "start_frame": 313,
+          "end_frame": 456,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the bowl",
+          "start_frame": 457,
+          "end_frame": 532,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the bowl in the fridge",
+          "start_frame": 533,
+          "end_frame": 903,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the broccoli in the bowl",
+          "short_term_mission": "put the broccoli in the bowl",
+          "start_frame": 0,
+          "end_frame": 188,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 189,
+          "end_frame": 456,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 457,
+          "end_frame": 903,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the broccoli in the bowl",
+          "short_term_mission": "put the broccoli in the bowl",
+          "start_frame": 0,
+          "end_frame": 188,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the bowl",
+          "short_term_mission": "put the chicken drumstick in the bowl",
+          "start_frame": 189,
+          "end_frame": 456,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the bowl in the fridge",
+          "short_term_mission": "put the bowl in the fridge",
+          "start_frame": 457,
+          "end_frame": 903,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "83ae16738527",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Broccoli first, chicken second. Stable lifts104/312/532, not closures81/287/494. Food releases135/423, withdrawal188/456 before next target motion. Bowl released854; independently supported903. Fridge open throughout. Boundary uncertainty8 frames.",
+      "outcome": "two foods collected; bowl released in fridge",
+      "evidence": [
+        "evidence/249/overview_00.jpg",
+        "evidence/249/overview_01.jpg",
+        "evidence/249/detail_249_f88-540_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -32026,19 +34083,92 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "WaffleReheat",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "open the microwave door",
+          "start_frame": 0,
+          "end_frame": 228,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "pick up the bowl of waffle",
+          "start_frame": 229,
+          "end_frame": 368,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 369,
+          "end_frame": 552,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "close the microwave door",
+          "start_frame": 553,
+          "end_frame": 716,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 717,
+          "end_frame": 900,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "heat the waffle in the microwave",
+          "short_term_mission": "heat the waffle in the microwave",
+          "start_frame": 0,
+          "end_frame": 900,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2",
+            "atomic_3",
+            "atomic_4",
+            "atomic_5"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "heat the waffle in the microwave",
+          "short_term_mission": "heat the waffle in the microwave",
+          "start_frame": 0,
+          "end_frame": 900,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2",
+            "atomic_3",
+            "atomic_4",
+            "atomic_5"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "6a07add72fd0",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Door swings and reaches fully-open pose228; not initial grasp69 or release132. Bowl closure341 with retained lift368 (4-frame refinement), release495 and withdrawal552. Closing finishes716 (4-frame refinement), then arm reorients to keypad and presses control. Source bowl is shallow/fluted. Heating is intended goal, not verified temperature or timer activation. One consistent microwave-preparation mission; not repeated-set long horizon.",
+      "outcome": "bowl loaded, door closed, control pressed; heating outcome not independently confirmed",
+      "evidence": [
+        "evidence/250/overview_00.jpg",
+        "evidence/250/overview_01.jpg",
+        "evidence/250/detail_250_f220-900_00.jpg",
+        "evidence/250/detail_250_f352-724_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -32081,19 +34211,170 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "WashFruitColander",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the colander",
+          "start_frame": 0,
+          "end_frame": 120,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the colander in the sink",
+          "start_frame": 121,
+          "end_frame": 272,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the first pear",
+          "start_frame": 273,
+          "end_frame": 356,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the first pear in the colander",
+          "start_frame": 357,
+          "end_frame": 528,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the second pear",
+          "start_frame": 529,
+          "end_frame": 656,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the second pear in the colander",
+          "start_frame": 657,
+          "end_frame": 792,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_7",
+          "atomic_task": "turn on the sink faucet",
+          "start_frame": 793,
+          "end_frame": 1039,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the colander in the sink",
+          "short_term_mission": "put the colander in the sink",
+          "start_frame": 0,
+          "end_frame": 272,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the first pear in the colander",
+          "short_term_mission": "put the first pear in the colander",
+          "start_frame": 273,
+          "end_frame": 528,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the second pear in the colander",
+          "short_term_mission": "put the second pear in the colander",
+          "start_frame": 529,
+          "end_frame": 792,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        },
+        {
+          "mission_id": "mission_4",
+          "short_term_mission_id": "mission_4",
+          "mission": "rinse the pears under the faucet",
+          "short_term_mission": "rinse the pears under the faucet",
+          "start_frame": 793,
+          "end_frame": 1039,
+          "atomic_task_ids": [
+            "atomic_7"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the colander in the sink",
+          "short_term_mission": "put the colander in the sink",
+          "start_frame": 0,
+          "end_frame": 272,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the first pear in the colander",
+          "short_term_mission": "put the first pear in the colander",
+          "start_frame": 273,
+          "end_frame": 528,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the second pear in the colander",
+          "short_term_mission": "put the second pear in the colander",
+          "start_frame": 529,
+          "end_frame": 792,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        },
+        {
+          "mission_id": "mission_4",
+          "short_term_mission_id": "mission_4",
+          "mission": "rinse the pears under the faucet",
+          "short_term_mission": "rinse the pears under the faucet",
+          "start_frame": 793,
+          "end_frame": 1039,
+          "atomic_task_ids": [
+            "atomic_7"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "367a71d346b4",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Two distinct pears: first on left countertop, second on right. Stable lifts120/356/656 after closures93/339/637. Releases227/479/757 with settled placements and withdrawal272/528/792. Colander stays in sink; final hand manipulates faucet lever, no separate pouring-container action. Water flow is not clearly rendered; faucet-on label denotes observed intended manipulation, washing success not asserted. Only two repeated fruit missions, no all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "colander and two pears placed; faucet manipulation observed, rinsing outcome unverified",
+      "evidence": [
+        "evidence/251/overview_00.jpg",
+        "evidence/251/overview_01.jpg",
+        "evidence/251/overview_02.jpg",
+        "evidence/251/detail_251_f112-800_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -32136,19 +34417,223 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "WashFruitColander",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
-      "long_horizon": false,
-      "long_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the colander",
+          "start_frame": 0,
+          "end_frame": 208,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the colander in the sink",
+          "start_frame": 209,
+          "end_frame": 356,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the tangerine",
+          "start_frame": 357,
+          "end_frame": 452,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the tangerine in the colander",
+          "start_frame": 453,
+          "end_frame": 572,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the apple",
+          "start_frame": 573,
+          "end_frame": 696,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the apple in the colander",
+          "start_frame": 697,
+          "end_frame": 816,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_7",
+          "atomic_task": "pick up the peach",
+          "start_frame": 817,
+          "end_frame": 1024,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_8",
+          "atomic_task": "place the peach in the colander",
+          "start_frame": 1025,
+          "end_frame": 1160,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_9",
+          "atomic_task": "turn on the sink faucet",
+          "start_frame": 1161,
+          "end_frame": 1390,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the colander in the sink",
+          "short_term_mission": "put the colander in the sink",
+          "start_frame": 0,
+          "end_frame": 356,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the tangerine in the colander",
+          "short_term_mission": "put the tangerine in the colander",
+          "start_frame": 357,
+          "end_frame": 572,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the apple in the colander",
+          "short_term_mission": "put the apple in the colander",
+          "start_frame": 573,
+          "end_frame": 816,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        },
+        {
+          "mission_id": "mission_4",
+          "short_term_mission_id": "mission_4",
+          "mission": "put the peach in the colander",
+          "short_term_mission": "put the peach in the colander",
+          "start_frame": 817,
+          "end_frame": 1160,
+          "atomic_task_ids": [
+            "atomic_7",
+            "atomic_8"
+          ]
+        },
+        {
+          "mission_id": "mission_5",
+          "short_term_mission_id": "mission_5",
+          "mission": "rinse the fruits under the faucet",
+          "short_term_mission": "rinse the fruits under the faucet",
+          "start_frame": 1161,
+          "end_frame": 1390,
+          "atomic_task_ids": [
+            "atomic_9"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the colander in the sink",
+          "short_term_mission": "put the colander in the sink",
+          "start_frame": 0,
+          "end_frame": 356,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the tangerine in the colander",
+          "short_term_mission": "put the tangerine in the colander",
+          "start_frame": 357,
+          "end_frame": 572,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the apple in the colander",
+          "short_term_mission": "put the apple in the colander",
+          "start_frame": 573,
+          "end_frame": 816,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        },
+        {
+          "mission_id": "mission_4",
+          "short_term_mission_id": "mission_4",
+          "mission": "put the peach in the colander",
+          "short_term_mission": "put the peach in the colander",
+          "start_frame": 817,
+          "end_frame": 1160,
+          "atomic_task_ids": [
+            "atomic_7",
+            "atomic_8"
+          ]
+        },
+        {
+          "mission_id": "mission_5",
+          "short_term_mission_id": "mission_5",
+          "mission": "rinse the fruits under the faucet",
+          "short_term_mission": "rinse the fruits under the faucet",
+          "start_frame": 1161,
+          "end_frame": 1390,
+          "atomic_task_ids": [
+            "atomic_9"
+          ]
+        }
+      ],
+      "long_horizon": true,
+      "long_term_missions": [
+        {
+          "long_term_mission_id": "long_1",
+          "long_term_mission": "put all the fruits in the colander",
+          "start_frame": 357,
+          "end_frame": 1160,
+          "member_short_term_mission_ids": [
+            "mission_2",
+            "mission_3",
+            "mission_4"
+          ],
+          "activation_member_position": 3,
+          "activation_short_term_mission_id": "mission_4",
+          "activation_frame": 817
+        }
+      ],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "f0218cd118df",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Actual order tangerine, apple, peach; not source listing order. Stable lifts208/452/696/1024 after closures175/432/670/1001. Placements and brief withdrawal356/572/816/1160 after releases311/533/765/1108. Three visible target fruits all collected, long horizon covers only fruit missions, not colander setup or faucet. Final lever motion observed, visible water-flow evidence weak; rinsing is intention rather than confirmed cleanliness. Boundary uncertainty8 frames.",
+      "outcome": "all three target fruits collected; faucet manipulation observed",
+      "evidence": [
+        "evidence/252/overview_00.jpg",
+        "evidence/252/overview_01.jpg",
+        "evidence/252/overview_02.jpg",
+        "evidence/252/detail_252_f200-1168_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -32191,19 +34676,224 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "WashFruitColander",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
-      "long_horizon": false,
-      "long_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the colander",
+          "start_frame": 0,
+          "end_frame": 128,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the colander in the sink",
+          "start_frame": 129,
+          "end_frame": 288,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the first peach",
+          "start_frame": 289,
+          "end_frame": 408,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the first peach in the colander",
+          "start_frame": 409,
+          "end_frame": 536,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the apple",
+          "start_frame": 537,
+          "end_frame": 696,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "place the apple in the colander",
+          "start_frame": 697,
+          "end_frame": 840,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_7",
+          "atomic_task": "pick up the second peach",
+          "start_frame": 841,
+          "end_frame": 976,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_8",
+          "atomic_task": "place the second peach in the colander",
+          "start_frame": 977,
+          "end_frame": 1148,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_9",
+          "atomic_task": "turn on the sink faucet",
+          "start_frame": 1149,
+          "end_frame": 1618,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the colander in the sink",
+          "short_term_mission": "put the colander in the sink",
+          "start_frame": 0,
+          "end_frame": 288,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the first peach in the colander",
+          "short_term_mission": "put the first peach in the colander",
+          "start_frame": 289,
+          "end_frame": 536,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the apple in the colander",
+          "short_term_mission": "put the apple in the colander",
+          "start_frame": 537,
+          "end_frame": 840,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        },
+        {
+          "mission_id": "mission_4",
+          "short_term_mission_id": "mission_4",
+          "mission": "put the second peach in the colander",
+          "short_term_mission": "put the second peach in the colander",
+          "start_frame": 841,
+          "end_frame": 1148,
+          "atomic_task_ids": [
+            "atomic_7",
+            "atomic_8"
+          ]
+        },
+        {
+          "mission_id": "mission_5",
+          "short_term_mission_id": "mission_5",
+          "mission": "rinse the fruits under the faucet",
+          "short_term_mission": "rinse the fruits under the faucet",
+          "start_frame": 1149,
+          "end_frame": 1618,
+          "atomic_task_ids": [
+            "atomic_9"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the colander in the sink",
+          "short_term_mission": "put the colander in the sink",
+          "start_frame": 0,
+          "end_frame": 288,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the first peach in the colander",
+          "short_term_mission": "put the first peach in the colander",
+          "start_frame": 289,
+          "end_frame": 536,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "put the apple in the colander",
+          "short_term_mission": "put the apple in the colander",
+          "start_frame": 537,
+          "end_frame": 840,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        },
+        {
+          "mission_id": "mission_4",
+          "short_term_mission_id": "mission_4",
+          "mission": "put the second peach in the colander",
+          "short_term_mission": "put the second peach in the colander",
+          "start_frame": 841,
+          "end_frame": 1148,
+          "atomic_task_ids": [
+            "atomic_7",
+            "atomic_8"
+          ]
+        },
+        {
+          "mission_id": "mission_5",
+          "short_term_mission_id": "mission_5",
+          "mission": "rinse the fruits under the faucet",
+          "short_term_mission": "rinse the fruits under the faucet",
+          "start_frame": 1149,
+          "end_frame": 1618,
+          "atomic_task_ids": [
+            "atomic_9"
+          ]
+        }
+      ],
+      "long_horizon": true,
+      "long_term_missions": [
+        {
+          "long_term_mission_id": "long_1",
+          "long_term_mission": "put all the fruits in the colander",
+          "start_frame": 289,
+          "end_frame": 1148,
+          "member_short_term_mission_ids": [
+            "mission_2",
+            "mission_3",
+            "mission_4"
+          ],
+          "activation_member_position": 3,
+          "activation_short_term_mission_id": "mission_4",
+          "activation_frame": 841
+        }
+      ],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "5ae0a96f044f",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Left peach first, right-side red apple second, remaining right peach third. Stable lifts128/408/696/976 after closures100/388/674/944. Colander/fruit placements and withdrawal288/536/840/1148 after releases247/489/783/1083. Three targets cleared into colander; long horizon limited to three fruit missions. Faucet segment includes extended positioning and pause at lever, closure1542 and final lever motion; thin stream visible by1618. No separate held-container pouring action. Boundary uncertainty8 frames.",
+      "outcome": "all three fruits in colander; faucet activated with visible stream at end",
+      "evidence": [
+        "evidence/253/overview_00.jpg",
+        "evidence/253/overview_01.jpg",
+        "evidence/253/overview_02.jpg",
+        "evidence/253/overview_03.jpg",
+        "evidence/253/detail_253_f120-1156_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
