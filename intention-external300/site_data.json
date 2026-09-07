@@ -1,17 +1,17 @@
 {
   "schema_version": 5,
-  "generated_at_utc": "2026-09-07T10:52:06.076835+00:00",
+  "generated_at_utc": "2026-09-07T11:15:06.728951+00:00",
   "annotation_version": "external300-v1",
   "frame_semantics": "zero-based inclusive continuous episode-local frame indices",
   "hierarchy": "full episode > long-term missions > short-term missions > atomic actions",
   "summary": {
     "dataset_count": 7,
     "episode_count": 300,
-    "chat_annotated": 218,
-    "pending_visual_review": 82,
+    "chat_annotated": 250,
+    "pending_visual_review": 50,
     "needs_boundary_review": 3,
-    "atomic_actions": 751,
-    "missions": 404,
+    "atomic_actions": 943,
+    "missions": 490,
     "long_term_missions": 26,
     "datasets": {
       "austin_sirius_dataset": 2,
@@ -25639,19 +25639,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lime from the sink",
+          "start_frame": 0,
+          "end_frame": 124,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lime in the bowl",
+          "start_frame": 125,
+          "end_frame": 254,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of lime",
+          "start_frame": 255,
+          "end_frame": 308,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 309,
+          "end_frame": 692,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 693,
+          "end_frame": 772,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave control button",
+          "start_frame": 773,
+          "end_frame": 894,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the bowl",
+          "short_term_mission": "put the lime in the bowl",
+          "start_frame": 0,
+          "end_frame": 254,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the lime in the microwave",
+          "short_term_mission": "heat the lime in the microwave",
+          "start_frame": 255,
+          "end_frame": 894,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the bowl",
+          "short_term_mission": "put the lime in the bowl",
+          "start_frame": 0,
+          "end_frame": 254,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the lime in the microwave",
+          "short_term_mission": "heat the lime in the microwave",
+          "start_frame": 255,
+          "end_frame": 894,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "957f3252d52a",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Lime closes85, stable lift120-128; release228, settled248-254, rim approach260+. Bowl closes273, stable lift304-312; release619, withdrawal through692, door approach700+. Door fully shut by772 after angled760. Final control interaction visible but exact button obscured; no verified activation/cooking claim. No all-set horizon. Boundary uncertainty4-8 frames, closure12 frames.",
+      "outcome": "loaded bowl placed, door closed, control interaction observed; activation unverified",
+      "evidence": [
+        "evidence/201/overview_00.jpg",
+        "evidence/201/overview_01.jpg",
+        "evidence/201/detail_201_f116-804_00.jpg",
+        "evidence/201/detail_201_f116-804_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -25694,19 +25796,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the avocado from the sink",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the avocado in the bowl",
+          "start_frame": 133,
+          "end_frame": 266,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of avocado",
+          "start_frame": 267,
+          "end_frame": 320,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 321,
+          "end_frame": 684,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 685,
+          "end_frame": 778,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave control button",
+          "start_frame": 779,
+          "end_frame": 894,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the bowl",
+          "short_term_mission": "put the avocado in the bowl",
+          "start_frame": 0,
+          "end_frame": 266,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the avocado in the microwave",
+          "short_term_mission": "heat the avocado in the microwave",
+          "start_frame": 267,
+          "end_frame": 894,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the bowl",
+          "short_term_mission": "put the avocado in the bowl",
+          "start_frame": 0,
+          "end_frame": 266,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the avocado in the microwave",
+          "short_term_mission": "heat the avocado in the microwave",
+          "start_frame": 267,
+          "end_frame": 894,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "e57524698cd4",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Avocado closes97, stable lift128-136; release223, settled260-266, rim approach272+. Bowl closes286, stable lift316-324; release616, supported and withdrawal through684, door approach692+. Door fully shut774-780. Final panel reach/press partly occluded, use control button without asserting exact key or heating outcome. No all-set horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "avocado bowl loaded and door closed; control interaction, activation unverified",
+      "evidence": [
+        "evidence/202/overview_00.jpg",
+        "evidence/202/overview_01.jpg",
+        "evidence/202/detail_202_f120-796_00.jpg",
+        "evidence/202/detail_202_f120-796_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -25749,19 +25953,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lemon from the sink",
+          "start_frame": 0,
+          "end_frame": 140,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lemon in the bowl",
+          "start_frame": 141,
+          "end_frame": 243,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of lemon",
+          "start_frame": 244,
+          "end_frame": 316,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 317,
+          "end_frame": 600,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 601,
+          "end_frame": 716,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 717,
+          "end_frame": 876,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lemon in the bowl",
+          "short_term_mission": "put the lemon in the bowl",
+          "start_frame": 0,
+          "end_frame": 243,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the lemon in the microwave",
+          "short_term_mission": "heat the lemon in the microwave",
+          "start_frame": 244,
+          "end_frame": 876,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lemon in the bowl",
+          "short_term_mission": "put the lemon in the bowl",
+          "start_frame": 0,
+          "end_frame": 243,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the lemon in the microwave",
+          "short_term_mission": "heat the lemon in the microwave",
+          "start_frame": 244,
+          "end_frame": 876,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "f5cdec0e5ccb",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Lemon closes109, stable lift136-144; release207, settled236-243, rim approach250+. Bowl closes264, stable lift312-320; release545, withdrawal through600 before door approach608. Door reaches closed state712-720; later button press860-876. Keep transport, closure and start within heating mission; no cooking completion claim or all-set horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "lemon loaded, door closed and start-button press observed",
+      "evidence": [
+        "evidence/203/overview_00.jpg",
+        "evidence/203/overview_01.jpg",
+        "evidence/203/detail_203_f132-740_00.jpg",
+        "evidence/203/detail_203_f132-740_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -25804,19 +26110,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the tomato from the sink",
+          "start_frame": 0,
+          "end_frame": 140,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the tomato in the bowl",
+          "start_frame": 141,
+          "end_frame": 311,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of tomato",
+          "start_frame": 312,
+          "end_frame": 368,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 369,
+          "end_frame": 648,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 649,
+          "end_frame": 744,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave control button",
+          "start_frame": 745,
+          "end_frame": 897,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the tomato in the bowl",
+          "short_term_mission": "put the tomato in the bowl",
+          "start_frame": 0,
+          "end_frame": 311,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the tomato in the microwave",
+          "short_term_mission": "heat the tomato in the microwave",
+          "start_frame": 312,
+          "end_frame": 897,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the tomato in the bowl",
+          "short_term_mission": "put the tomato in the bowl",
+          "start_frame": 0,
+          "end_frame": 311,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the tomato in the microwave",
+          "short_term_mission": "heat the tomato in the microwave",
+          "start_frame": 312,
+          "end_frame": 897,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "b82d743dee5a",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Tomato closes103, stable lift136-144; release239, tomato settled304-311, bowl-rim approach318+. Bowl closes330, stable lift364-372; release593 and supported bowl/withdrawal through648 before door approach656. Door fully shut740-748. Final control-button reach/touch is visible but exact key obscured by wrist crop; activation not asserted. No all-set horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "tomato bowl loaded and door closed; control interaction, activation unverified",
+      "evidence": [
+        "evidence/204/overview_00.jpg",
+        "evidence/204/overview_01.jpg",
+        "evidence/204/detail_204_f132-760_00.jpg",
+        "evidence/204/detail_204_f132-760_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -25859,19 +26267,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the eggplant from the sink",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the eggplant in the bowl",
+          "start_frame": 133,
+          "end_frame": 247,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of eggplant",
+          "start_frame": 248,
+          "end_frame": 300,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 301,
+          "end_frame": 648,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 649,
+          "end_frame": 744,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 745,
+          "end_frame": 917,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the bowl",
+          "short_term_mission": "put the eggplant in the bowl",
+          "start_frame": 0,
+          "end_frame": 247,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the eggplant in the microwave",
+          "short_term_mission": "heat the eggplant in the microwave",
+          "start_frame": 248,
+          "end_frame": 917,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the bowl",
+          "short_term_mission": "put the eggplant in the bowl",
+          "start_frame": 0,
+          "end_frame": 247,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the eggplant in the microwave",
+          "short_term_mission": "heat the eggplant in the microwave",
+          "start_frame": 248,
+          "end_frame": 917,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "4e6999f5bf0f",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Eggplant closes97, stable lift128-136; release214, settled through247 before rim approach254. Bowl closes268, stable lift296-304. Release568, supported bowl and withdrawal through648, door approach656. Door fully closed744, final start-region press visible917. Heating is the goal, not a claim of cooking completion. Boundary uncertainty4-8 frames.",
+      "outcome": "eggplant bowl loaded, door closed and start-button press observed",
+      "evidence": [
+        "evidence/205/overview_00.jpg",
+        "evidence/205/overview_01.jpg",
+        "evidence/205/detail_205_f120-756_00.jpg",
+        "evidence/205/detail_205_f120-756_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -25914,19 +26424,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the mushroom from the sink",
+          "start_frame": 0,
+          "end_frame": 176,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the mushroom in the bowl",
+          "start_frame": 177,
+          "end_frame": 338,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of mushroom",
+          "start_frame": 339,
+          "end_frame": 400,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 401,
+          "end_frame": 712,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 713,
+          "end_frame": 804,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 805,
+          "end_frame": 902,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the mushroom in the bowl",
+          "short_term_mission": "put the mushroom in the bowl",
+          "start_frame": 0,
+          "end_frame": 338,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the mushroom in the microwave",
+          "short_term_mission": "heat the mushroom in the microwave",
+          "start_frame": 339,
+          "end_frame": 902,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the mushroom in the bowl",
+          "short_term_mission": "put the mushroom in the bowl",
+          "start_frame": 0,
+          "end_frame": 338,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the mushroom in the microwave",
+          "short_term_mission": "heat the mushroom in the microwave",
+          "start_frame": 339,
+          "end_frame": 902,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "1786c3c2cc1c",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Mushroom closes141, stable lift172-180. Release248; settled in bowl332-338 before rim approach344. Bowl closes357; stable lift396-404 seen from wrist as support recedes. Release645; bowl supported and withdrawal through712, door approach720. Door fully shut804-812; start-button touch at900-902. Do not infer completed cooking. Boundary uncertainty4-8 frames.",
+      "outcome": "mushroom bowl loaded, door closed and start-button press observed",
+      "evidence": [
+        "evidence/206/overview_00.jpg",
+        "evidence/206/overview_01.jpg",
+        "evidence/206/detail_206_f164-820_00.jpg",
+        "evidence/206/detail_206_f164-820_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -25969,19 +26581,120 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the corn from the sink",
+          "start_frame": 0,
+          "end_frame": 168,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the corn in the bowl",
+          "start_frame": 169,
+          "end_frame": 284,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of corn",
+          "start_frame": 285,
+          "end_frame": 332,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 333,
+          "end_frame": 648,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 649,
+          "end_frame": 749,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 750,
+          "end_frame": 908,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the corn in the bowl",
+          "short_term_mission": "put the corn in the bowl",
+          "start_frame": 0,
+          "end_frame": 284,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the corn in the microwave",
+          "short_term_mission": "heat the corn in the microwave",
+          "start_frame": 285,
+          "end_frame": 908,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the corn in the bowl",
+          "short_term_mission": "put the corn in the bowl",
+          "start_frame": 0,
+          "end_frame": 284,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the corn in the microwave",
+          "short_term_mission": "heat the corn in the microwave",
+          "start_frame": 285,
+          "end_frame": 908,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "0edfac5b8b4c",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Closes130 and301, opens253 and582. Stable corn lift160-176, deposited corn and retreat through284 before bowl rim approach292. Bowl rises324-340. Released bowl stationary in microwave; withdrawal648 then door approach656. Door flush749-756. Start-region press visible900-908; no heating-completion inference. Boundary uncertainty7-8 frames.",
+      "outcome": "corn loaded, door closed and start press observed",
+      "evidence": [
+        "evidence/207/overview_00.jpg",
+        "evidence/207/overview_01.jpg",
+        "evidence/207/detail_207_f152-756_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26024,19 +26737,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the squash from the sink",
+          "start_frame": 0,
+          "end_frame": 160,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the squash in the bowl",
+          "start_frame": 161,
+          "end_frame": 267,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of squash",
+          "start_frame": 268,
+          "end_frame": 324,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 325,
+          "end_frame": 672,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 673,
+          "end_frame": 776,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave control button",
+          "start_frame": 777,
+          "end_frame": 880,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the bowl",
+          "short_term_mission": "put the squash in the bowl",
+          "start_frame": 0,
+          "end_frame": 267,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the squash in the microwave",
+          "short_term_mission": "heat the squash in the microwave",
+          "start_frame": 268,
+          "end_frame": 880,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the bowl",
+          "short_term_mission": "put the squash in the bowl",
+          "start_frame": 0,
+          "end_frame": 267,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the squash in the microwave",
+          "short_term_mission": "heat the squash in the microwave",
+          "start_frame": 268,
+          "end_frame": 880,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "606ddf810d17",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Closes125/291, opens236/604. Squash stable lift152-168; placed squash at260-267 before rim approach274. Bowl stable lift316-332. Microwave support and withdrawal through672 before door reach680. Door closed768-784. Last frames show control interaction but exact key partly outside wrist crop; activation unverified. Boundary uncertainty7-8 frames.",
+      "outcome": "squash bowl loaded and door shut; control interaction observed",
+      "evidence": [
+        "evidence/208/overview_00.jpg",
+        "evidence/208/overview_01.jpg",
+        "evidence/208/detail_208_f144-784_00.jpg",
+        "evidence/208/detail_208_f144-784_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26079,19 +26894,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the cucumber from the sink",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the cucumber in the bowl",
+          "start_frame": 133,
+          "end_frame": 290,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of cucumber",
+          "start_frame": 291,
+          "end_frame": 340,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 341,
+          "end_frame": 646,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 647,
+          "end_frame": 754,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 755,
+          "end_frame": 892,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the cucumber in the bowl",
+          "short_term_mission": "put the cucumber in the bowl",
+          "start_frame": 0,
+          "end_frame": 290,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the cucumber in the microwave",
+          "short_term_mission": "heat the cucumber in the microwave",
+          "start_frame": 291,
+          "end_frame": 892,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the cucumber in the bowl",
+          "short_term_mission": "put the cucumber in the bowl",
+          "start_frame": 0,
+          "end_frame": 290,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the cucumber in the microwave",
+          "short_term_mission": "heat the cucumber in the microwave",
+          "start_frame": 291,
+          "end_frame": 892,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "5737c5740c3f",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Closes96/307, opens240/565. Stable cucumber lift126-138, cucumber settled and hand retreat through290 before bowl approach296+. Bowl stable lift334-346. Released bowl stays on turntable as gripper withdraws through646, door approach653. Door closed748-760. Start-region touch visible880-892. No cooked-result claim. Boundary uncertainty6-7 frames.",
+      "outcome": "cucumber loaded, door closed and start press observed",
+      "evidence": [
+        "evidence/209/overview_00.jpg",
+        "evidence/209/overview_01.jpg",
+        "evidence/209/detail_209_f120-772_00.jpg",
+        "evidence/209/detail_209_f120-772_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26134,19 +27051,121 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SteamInMicrowave",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the sweet potato from the sink",
+          "start_frame": 0,
+          "end_frame": 156,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sweet potato in the bowl",
+          "start_frame": 157,
+          "end_frame": 294,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the bowl of sweet potato",
+          "start_frame": 295,
+          "end_frame": 350,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the bowl in the microwave",
+          "start_frame": 351,
+          "end_frame": 644,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "close the microwave door",
+          "start_frame": 645,
+          "end_frame": 756,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "press the microwave start button",
+          "start_frame": 757,
+          "end_frame": 897,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the sweet potato in the bowl",
+          "short_term_mission": "put the sweet potato in the bowl",
+          "start_frame": 0,
+          "end_frame": 294,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the sweet potato in the microwave",
+          "short_term_mission": "heat the sweet potato in the microwave",
+          "start_frame": 295,
+          "end_frame": 897,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the sweet potato in the bowl",
+          "short_term_mission": "put the sweet potato in the bowl",
+          "start_frame": 0,
+          "end_frame": 294,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "heat the sweet potato in the microwave",
+          "short_term_mission": "heat the sweet potato in the microwave",
+          "start_frame": 295,
+          "end_frame": 897,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4",
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "5fcb59029f49",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Closes120/311, opens253/576. Stable potato lift148-164; settled potato288-294 then rim approach300. Bowl stable lift343-357. Bowl supported on microwave turntable after release; retreat through644 then door reach650. Door fully closed748-764. Start button press visible897, heating completion unobserved. Boundary uncertainty6-8 frames.",
+      "outcome": "sweet potato loaded, microwave closed and start press observed",
+      "evidence": [
+        "evidence/210/overview_00.jpg",
+        "evidence/210/overview_01.jpg",
+        "evidence/210/detail_210_f140-772_00.jpg",
+        "evidence/210/detail_210_f140-772_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26189,19 +27208,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the avocado",
+          "start_frame": 0,
+          "end_frame": 116,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the avocado in the pot",
+          "start_frame": 117,
+          "end_frame": 201,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the sweet potato",
+          "start_frame": 202,
+          "end_frame": 294,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the sweet potato in the pot",
+          "start_frame": 295,
+          "end_frame": 410,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 411,
+          "end_frame": 518,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 519,
+          "end_frame": 637,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the pot",
+          "short_term_mission": "put the avocado in the pot",
+          "start_frame": 0,
+          "end_frame": 201,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the sweet potato in the pot",
+          "short_term_mission": "put the sweet potato in the pot",
+          "start_frame": 202,
+          "end_frame": 410,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 411,
+          "end_frame": 637,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the pot",
+          "short_term_mission": "put the avocado in the pot",
+          "start_frame": 0,
+          "end_frame": 201,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the sweet potato in the pot",
+          "short_term_mission": "put the sweet potato in the pot",
+          "start_frame": 202,
+          "end_frame": 410,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 411,
+          "end_frame": 637,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a34c54d36935",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Observed order avocado then sweet potato then spatula. Closures96/273/484 are not pickup endpoints: stable lifts110-122,287-301,511-525. Releases176/366; support visible and retreats through201/410 before next targeted reaches. Spatula is carried into pot and stirs through637, not placed down. Each food transfer is one short mission; tool acquisition and use grouped. Two foods plus a tool-use goal do not make an all-set long horizon. Boundary uncertainty5-7 frames.",
+      "outcome": "both ingredients placed in pot; spatula acquired and stirring observed",
+      "evidence": [
+        "evidence/211/overview_00.jpg",
+        "evidence/211/overview_01.jpg",
+        "evidence/211/detail_211_f104-532_00.jpg",
+        "evidence/211/detail_211_f104-532_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26244,19 +27385,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the avocado",
+          "start_frame": 0,
+          "end_frame": 116,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the avocado in the pot",
+          "start_frame": 117,
+          "end_frame": 242,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the garlic",
+          "start_frame": 243,
+          "end_frame": 338,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the garlic in the pot",
+          "start_frame": 339,
+          "end_frame": 456,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 457,
+          "end_frame": 548,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 549,
+          "end_frame": 837,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the pot",
+          "short_term_mission": "put the avocado in the pot",
+          "start_frame": 0,
+          "end_frame": 242,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 243,
+          "end_frame": 456,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 457,
+          "end_frame": 837,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the avocado in the pot",
+          "short_term_mission": "put the avocado in the pot",
+          "start_frame": 0,
+          "end_frame": 242,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 243,
+          "end_frame": 456,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 457,
+          "end_frame": 837,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "4489a5683bf8",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Avocado first, garlic second. Closures95/309/520; stable lifts110-122,331-345,542-554 seen from wrist despite front occlusion. Releases189/408; both foods visible supported in pot, retreat through242/456 before next approach. Continuous stirring with acquired spatula from later pot approach to837 remains one tool-use atomic segment after pickup, one mission for acquisition+use. Not long-horizon all-set. Boundary uncertainty6-7 frames.",
+      "outcome": "avocado and garlic transferred to pot; stirring observed",
+      "evidence": [
+        "evidence/212/overview_00.jpg",
+        "evidence/212/overview_01.jpg",
+        "evidence/212/detail_212_f104-560_00.jpg",
+        "evidence/212/detail_212_f104-560_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26299,19 +27562,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the potato",
+          "start_frame": 0,
+          "end_frame": 144,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the potato in the pot",
+          "start_frame": 145,
+          "end_frame": 244,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the onion",
+          "start_frame": 245,
+          "end_frame": 340,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the onion in the pot",
+          "start_frame": 341,
+          "end_frame": 472,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 473,
+          "end_frame": 608,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 609,
+          "end_frame": 880,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the pot",
+          "short_term_mission": "put the potato in the pot",
+          "start_frame": 0,
+          "end_frame": 244,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 245,
+          "end_frame": 472,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 473,
+          "end_frame": 880,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the pot",
+          "short_term_mission": "put the potato in the pot",
+          "start_frame": 0,
+          "end_frame": 244,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 245,
+          "end_frame": 472,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 473,
+          "end_frame": 880,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "eb9a93d6b0d1",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Potato then onion transferred to red pot; both remain visible before stirring. Closures126/313/569, stable lifts138-150/334-346/600-616. Large onion finger separation stays near0.08 but wrist retention and counter receding confirm grasp. Releases194/408 with retreat through244/472 before next target. Continuous stirring is one action; spatula pickup grouped with use. No all-set long horizon. Boundary uncertainty6-8 frames.",
+      "outcome": "potato and onion in pot; stirring observed",
+      "evidence": [
+        "evidence/213/overview_00.jpg",
+        "evidence/213/overview_01.jpg",
+        "evidence/213/detail_213_f132-624_00.jpg",
+        "evidence/213/detail_213_f132-624_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26354,19 +27739,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the bell pepper",
+          "start_frame": 0,
+          "end_frame": 108,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the bell pepper in the pot",
+          "start_frame": 109,
+          "end_frame": 190,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lemon wedge",
+          "start_frame": 191,
+          "end_frame": 282,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lemon wedge in the pot",
+          "start_frame": 283,
+          "end_frame": 376,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 377,
+          "end_frame": 528,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 529,
+          "end_frame": 794,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the bell pepper in the pot",
+          "short_term_mission": "put the bell pepper in the pot",
+          "start_frame": 0,
+          "end_frame": 190,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon wedge in the pot",
+          "short_term_mission": "put the lemon wedge in the pot",
+          "start_frame": 191,
+          "end_frame": 376,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 377,
+          "end_frame": 794,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the bell pepper in the pot",
+          "short_term_mission": "put the bell pepper in the pot",
+          "start_frame": 0,
+          "end_frame": 190,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon wedge in the pot",
+          "short_term_mission": "put the lemon wedge in the pot",
+          "start_frame": 191,
+          "end_frame": 376,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 377,
+          "end_frame": 794,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "fcf3aa44cf7e",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Bell pepper then citrus wedge visibly enter red pot. Wedge rendered green but source identifies lemon wedge; retain source name with visual-color caveat. Closures85/258/498; stable lifts102-114/276-288/520-536. Releases159/334, retreat ends190/376. Spatula handle low in wrist image but stays with gripper as counter recedes, front confirms raised tool544 before pot stirring. Acquisition and stirring one mission; not all-set horizon. Boundary uncertainty6-8 frames.",
+      "outcome": "pepper and wedge in pot; spatula stirring observed",
+      "evidence": [
+        "evidence/214/overview_00.jpg",
+        "evidence/214/overview_01.jpg",
+        "evidence/214/detail_214_f96-544_00.jpg",
+        "evidence/214/detail_214_f96-544_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26409,19 +27916,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the carrot",
+          "start_frame": 0,
+          "end_frame": 122,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the carrot in the pot",
+          "start_frame": 123,
+          "end_frame": 303,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lemon",
+          "start_frame": 304,
+          "end_frame": 435,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lemon in the pot",
+          "start_frame": 436,
+          "end_frame": 614,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 615,
+          "end_frame": 740,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 741,
+          "end_frame": 878,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the carrot in the pot",
+          "short_term_mission": "put the carrot in the pot",
+          "start_frame": 0,
+          "end_frame": 303,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 304,
+          "end_frame": 614,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 615,
+          "end_frame": 878,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the carrot in the pot",
+          "short_term_mission": "put the carrot in the pot",
+          "start_frame": 0,
+          "end_frame": 303,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 304,
+          "end_frame": 614,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 615,
+          "end_frame": 878,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "fac8b9a641d1",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Carrot first then lemon, both supported in dark pot before teal spatula is acquired. Closures98/408/695; stable lifts116-128/428-442/734-746. Releases243/565; retreats through303/614 before next approaches310/620. Spatula transfer and visible stirring form one atomic use action after pickup. No long horizon for two transfers plus different tool-use goal. Boundary uncertainty6-7 frames.",
+      "outcome": "carrot and lemon placed in pot; stirring observed",
+      "evidence": [
+        "evidence/215/overview_00.jpg",
+        "evidence/215/overview_01.jpg",
+        "evidence/215/detail_215_f116-752_00.jpg",
+        "evidence/215/detail_215_f116-752_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26464,19 +28093,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the garlic",
+          "start_frame": 0,
+          "end_frame": 120,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the garlic in the pot",
+          "start_frame": 121,
+          "end_frame": 259,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the onion",
+          "start_frame": 260,
+          "end_frame": 368,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the onion in the pot",
+          "start_frame": 369,
+          "end_frame": 500,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 501,
+          "end_frame": 614,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 615,
+          "end_frame": 907,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 0,
+          "end_frame": 259,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 260,
+          "end_frame": 500,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 501,
+          "end_frame": 907,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 0,
+          "end_frame": 259,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 260,
+          "end_frame": 500,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 501,
+          "end_frame": 907,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "849f48a037a8",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Garlic then onion followed by blue spatula. Closes89/342/570, stable lifts114-126/362-374/607-621. Opens198/441; both ingredients remain in silver pot as hand withdraws through259/500. Spatula is not put down, later motions stir pot repeatedly through907 and stay one atomic use segment. Not all-set long horizon. Boundary uncertainty6-7 frames.",
+      "outcome": "garlic and onion in pot; acquired spatula stirring observed",
+      "evidence": [
+        "evidence/216/overview_00.jpg",
+        "evidence/216/overview_01.jpg",
+        "evidence/216/detail_216_f108-628_00.jpg",
+        "evidence/216/detail_216_f108-628_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26519,19 +28270,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the eggplant",
+          "start_frame": 0,
+          "end_frame": 120,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the eggplant in the pot",
+          "start_frame": 121,
+          "end_frame": 284,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the cucumber",
+          "start_frame": 285,
+          "end_frame": 364,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the cucumber in the pot",
+          "start_frame": 365,
+          "end_frame": 468,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 469,
+          "end_frame": 564,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 565,
+          "end_frame": 985,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the pot",
+          "short_term_mission": "put the eggplant in the pot",
+          "start_frame": 0,
+          "end_frame": 284,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the pot",
+          "short_term_mission": "put the cucumber in the pot",
+          "start_frame": 285,
+          "end_frame": 468,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 469,
+          "end_frame": 985,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the pot",
+          "short_term_mission": "put the eggplant in the pot",
+          "start_frame": 0,
+          "end_frame": 284,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the pot",
+          "short_term_mission": "put the cucumber in the pot",
+          "start_frame": 285,
+          "end_frame": 468,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 469,
+          "end_frame": 985,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "8dcef9a4b3eb",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Eggplant then cucumber, both supported on pot base before stirring. Closes92/338/537; stable lifts112-128/356-372/556-572 rather than closure. Releases247/410; retreats through284/468 before next approach292/476. Long continuous final stirring persists through985 and is one use action, with pickup+use one short mission. No long-horizon all-set group. Boundary uncertainty8 frames.",
+      "outcome": "eggplant and cucumber in pot; prolonged stirring observed",
+      "evidence": [
+        "evidence/217/overview_00.jpg",
+        "evidence/217/overview_01.jpg",
+        "evidence/217/overview_02.jpg",
+        "evidence/217/detail_217_f104-580_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26574,19 +28447,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the squash",
+          "start_frame": 0,
+          "end_frame": 140,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the squash in the pot",
+          "start_frame": 141,
+          "end_frame": 292,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the onion",
+          "start_frame": 293,
+          "end_frame": 380,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the onion in the pot",
+          "start_frame": 381,
+          "end_frame": 500,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 501,
+          "end_frame": 664,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 665,
+          "end_frame": 960,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the pot",
+          "short_term_mission": "put the squash in the pot",
+          "start_frame": 0,
+          "end_frame": 292,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 293,
+          "end_frame": 500,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 501,
+          "end_frame": 960,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the pot",
+          "short_term_mission": "put the squash in the pot",
+          "start_frame": 0,
+          "end_frame": 292,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 293,
+          "end_frame": 500,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 501,
+          "end_frame": 960,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "355a7b8d069e",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Squash then purple onion transferred to silver pot; spatula acquired after both. Closes117/350/635; stable lifts132-148/372-388/656-672. Opens238/446; hand retreats through292/500 before targeted motion300/508. Continuous stirring to960 remains single use action after pickup. Not an all-set long-horizon mission. Boundary uncertainty8 frames.",
+      "outcome": "squash and onion placed; stirring observed",
+      "evidence": [
+        "evidence/218/overview_00.jpg",
+        "evidence/218/overview_01.jpg",
+        "evidence/218/overview_02.jpg",
+        "evidence/218/detail_218_f132-680_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26629,19 +28624,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the first garlic bulb",
+          "start_frame": 0,
+          "end_frame": 108,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the first garlic bulb in the pot",
+          "start_frame": 109,
+          "end_frame": 224,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the second garlic bulb",
+          "start_frame": 225,
+          "end_frame": 320,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the second garlic bulb in the pot",
+          "start_frame": 321,
+          "end_frame": 424,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 425,
+          "end_frame": 532,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the garlic in the pot with the spatula",
+          "start_frame": 533,
+          "end_frame": 733,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the first garlic bulb in the pot",
+          "short_term_mission": "put the first garlic bulb in the pot",
+          "start_frame": 0,
+          "end_frame": 224,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the second garlic bulb in the pot",
+          "short_term_mission": "put the second garlic bulb in the pot",
+          "start_frame": 225,
+          "end_frame": 424,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the garlic in the pot with the spatula",
+          "short_term_mission": "stir the garlic in the pot with the spatula",
+          "start_frame": 425,
+          "end_frame": 733,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the first garlic bulb in the pot",
+          "short_term_mission": "put the first garlic bulb in the pot",
+          "start_frame": 0,
+          "end_frame": 224,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the second garlic bulb in the pot",
+          "short_term_mission": "put the second garlic bulb in the pot",
+          "start_frame": 225,
+          "end_frame": 424,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the garlic in the pot with the spatula",
+          "short_term_mission": "stir the garlic in the pot with the spatula",
+          "start_frame": 425,
+          "end_frame": 733,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "bbb46ba13f7d",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Two distinct garlic bulbs, frontmost one first then remaining one near spatula. Closes79/296/494; stable lifts100-116/312-328/524-540. Releases157/373; both bulbs visibly in red pot, withdrawal through224/424 before next reach. Source repeats garlic deliberately; do not collapse transfers or fabricate a third object. Tool pickup+stirring one mission. No >=3 member collection horizon. Boundary uncertainty8 frames.",
+      "outcome": "two garlic bulbs placed in pot; stirring observed",
+      "evidence": [
+        "evidence/219/overview_00.jpg",
+        "evidence/219/overview_01.jpg",
+        "evidence/219/detail_219_f100-548_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26684,19 +28800,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lemon",
+          "start_frame": 0,
+          "end_frame": 116,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lemon in the pot",
+          "start_frame": 117,
+          "end_frame": 236,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the tomato",
+          "start_frame": 237,
+          "end_frame": 332,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the tomato in the pot",
+          "start_frame": 333,
+          "end_frame": 440,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 441,
+          "end_frame": 556,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 557,
+          "end_frame": 990,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 0,
+          "end_frame": 236,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the tomato in the pot",
+          "short_term_mission": "put the tomato in the pot",
+          "start_frame": 237,
+          "end_frame": 440,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 441,
+          "end_frame": 990,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 0,
+          "end_frame": 236,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the tomato in the pot",
+          "short_term_mission": "put the tomato in the pot",
+          "start_frame": 237,
+          "end_frame": 440,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 441,
+          "end_frame": 990,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "311b2b65678d",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Lemon first, tomato second, teal/yellow spatula third. Closes98/306/522; stable lifts108-124/324-340/548-564. Releases197/392; visible settled ingredients and withdrawal ends236/440 before next target244/448. Prolonged final stirring through990 stays one atomic use action after pickup, acquisition+use one mission. Not all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "lemon and tomato in pot; stirring observed",
+      "evidence": [
+        "evidence/220/overview_00.jpg",
+        "evidence/220/overview_01.jpg",
+        "evidence/220/overview_02.jpg",
+        "evidence/220/detail_220_f108-572_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26739,19 +28977,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the sweet potato",
+          "start_frame": 0,
+          "end_frame": 120,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the sweet potato in the pot",
+          "start_frame": 121,
+          "end_frame": 188,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the carrot",
+          "start_frame": 189,
+          "end_frame": 252,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the carrot in the pot",
+          "start_frame": 253,
+          "end_frame": 352,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 353,
+          "end_frame": 448,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 449,
+          "end_frame": 650,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the sweet potato in the pot",
+          "short_term_mission": "put the sweet potato in the pot",
+          "start_frame": 0,
+          "end_frame": 188,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the carrot in the pot",
+          "short_term_mission": "put the carrot in the pot",
+          "start_frame": 189,
+          "end_frame": 352,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 353,
+          "end_frame": 650,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the sweet potato in the pot",
+          "short_term_mission": "put the sweet potato in the pot",
+          "start_frame": 0,
+          "end_frame": 188,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the carrot in the pot",
+          "short_term_mission": "put the carrot in the pot",
+          "start_frame": 189,
+          "end_frame": 352,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 353,
+          "end_frame": 650,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "08fb94aef84c",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Sweet potato then long carrot transferred into silver pot. Closes97/226/421; stable lifts112-128/244-260/440-456. Opens160/325; vegetables supported and hand retreats through188/352 before next target196/360. Retained teal spatula used for stirring through650. No all-set horizon, pickup+use grouped into stirring mission. Boundary uncertainty8 frames.",
+      "outcome": "sweet potato and carrot in pot; stirring observed",
+      "evidence": [
+        "evidence/221/overview_00.jpg",
+        "evidence/221/overview_01.jpg",
+        "evidence/221/detail_221_f104-464_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26794,19 +29153,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lime",
+          "start_frame": 0,
+          "end_frame": 104,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lime in the pot",
+          "start_frame": 105,
+          "end_frame": 224,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the cucumber",
+          "start_frame": 225,
+          "end_frame": 308,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the cucumber in the pot",
+          "start_frame": 309,
+          "end_frame": 440,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 441,
+          "end_frame": 536,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 537,
+          "end_frame": 853,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the pot",
+          "short_term_mission": "put the lime in the pot",
+          "start_frame": 0,
+          "end_frame": 224,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the pot",
+          "short_term_mission": "put the cucumber in the pot",
+          "start_frame": 225,
+          "end_frame": 440,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 441,
+          "end_frame": 853,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the pot",
+          "short_term_mission": "put the lime in the pot",
+          "start_frame": 0,
+          "end_frame": 224,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the pot",
+          "short_term_mission": "put the cucumber in the pot",
+          "start_frame": 225,
+          "end_frame": 440,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 441,
+          "end_frame": 853,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "21a42e34c3f3",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Lime then cucumber visibly placed in saucepan before blue spatula retrieval. Closes77/281/505; stable lifts96-112/300-316/528-544. Releases174/380; settled ingredients seen216/432, withdrawal through224/440 before next reaches232/448. Final stirring continues853, one tool-use action after pickup and same short mission. Not all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "lime and cucumber placed; stirring observed",
+      "evidence": [
+        "evidence/222/overview_00.jpg",
+        "evidence/222/overview_01.jpg",
+        "evidence/222/detail_222_f88-552_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26849,19 +29329,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the potato",
+          "start_frame": 0,
+          "end_frame": 88,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the potato in the pot",
+          "start_frame": 89,
+          "end_frame": 212,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the carrot",
+          "start_frame": 213,
+          "end_frame": 300,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the carrot in the pot",
+          "start_frame": 301,
+          "end_frame": 456,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 457,
+          "end_frame": 600,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 601,
+          "end_frame": 755,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the pot",
+          "short_term_mission": "put the potato in the pot",
+          "start_frame": 0,
+          "end_frame": 212,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the carrot in the pot",
+          "short_term_mission": "put the carrot in the pot",
+          "start_frame": 213,
+          "end_frame": 456,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 457,
+          "end_frame": 755,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the pot",
+          "short_term_mission": "put the potato in the pot",
+          "start_frame": 0,
+          "end_frame": 212,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the carrot in the pot",
+          "short_term_mission": "put the carrot in the pot",
+          "start_frame": 213,
+          "end_frame": 456,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 457,
+          "end_frame": 755,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "df1aad0a6601",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Potato then carrot lifted and transferred into pot. Closes68/266/568 precede stable lifts88/292-300/600; releases155/404 precede supported placement and withdrawal through212/456. Carrot transport remains part of placement, not an extra action. Spatula stays held during final stirring. Two collection missions plus tool use, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "potato and carrot placed; stirring observed",
+      "evidence": [
+        "evidence/223/overview_00.jpg",
+        "evidence/223/overview_01.jpg",
+        "evidence/223/detail_223_f80-616_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26904,19 +29505,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the first squash",
+          "start_frame": 0,
+          "end_frame": 100,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the first squash in the pot",
+          "start_frame": 101,
+          "end_frame": 216,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the second squash",
+          "start_frame": 217,
+          "end_frame": 288,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the second squash in the pot",
+          "start_frame": 289,
+          "end_frame": 412,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 413,
+          "end_frame": 540,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 541,
+          "end_frame": 784,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the first squash in the pot",
+          "short_term_mission": "put the first squash in the pot",
+          "start_frame": 0,
+          "end_frame": 216,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the second squash in the pot",
+          "short_term_mission": "put the second squash in the pot",
+          "start_frame": 217,
+          "end_frame": 412,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 413,
+          "end_frame": 784,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the first squash in the pot",
+          "short_term_mission": "put the first squash in the pot",
+          "start_frame": 0,
+          "end_frame": 216,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the second squash in the pot",
+          "short_term_mission": "put the second squash in the pot",
+          "start_frame": 217,
+          "end_frame": 412,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 413,
+          "end_frame": 784,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "9ed95a458314",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Two separate whole squashes transferred before stirring; first/second refer to observed order. Closes83/270/513, stable lifts100/288/540. Releases166/351; supported placements and withdrawals completed216/412 before next reaches224/420. Spatula held and used through784. Two squashes does not justify all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "two squashes placed; stirring observed",
+      "evidence": [
+        "evidence/224/overview_00.jpg",
+        "evidence/224/overview_01.jpg",
+        "evidence/224/detail_224_f92-556_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -26959,19 +29681,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the squash",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the squash in the pot",
+          "start_frame": 133,
+          "end_frame": 208,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the mushroom",
+          "start_frame": 209,
+          "end_frame": 280,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the mushroom in the pot",
+          "start_frame": 281,
+          "end_frame": 380,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 381,
+          "end_frame": 520,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 521,
+          "end_frame": 713,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the pot",
+          "short_term_mission": "put the squash in the pot",
+          "start_frame": 0,
+          "end_frame": 208,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the mushroom in the pot",
+          "short_term_mission": "put the mushroom in the pot",
+          "start_frame": 209,
+          "end_frame": 380,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 381,
+          "end_frame": 713,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the squash in the pot",
+          "short_term_mission": "put the squash in the pot",
+          "start_frame": 0,
+          "end_frame": 208,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the mushroom in the pot",
+          "short_term_mission": "put the mushroom in the pot",
+          "start_frame": 209,
+          "end_frame": 380,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 381,
+          "end_frame": 713,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "f7518ee4ea24",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Squash then brown mushroom. Closes111/265/498 precede stable lifts132/280/520; opens180/324 followed by settled placements and withdrawal208/380. Short withdrawal remains with placing. Front confirms spatula use through713, wrist partially crops tool. No all-set horizon; two food transfers then tool use. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/225/overview_00.jpg",
+        "evidence/225/overview_01.jpg",
+        "evidence/225/detail_225_f116-536_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27014,19 +29857,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the bell pepper",
+          "start_frame": 0,
+          "end_frame": 112,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the bell pepper in the pot",
+          "start_frame": 113,
+          "end_frame": 316,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the garlic",
+          "start_frame": 317,
+          "end_frame": 404,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the garlic in the pot",
+          "start_frame": 405,
+          "end_frame": 532,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 533,
+          "end_frame": 628,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 629,
+          "end_frame": 944,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the bell pepper in the pot",
+          "short_term_mission": "put the bell pepper in the pot",
+          "start_frame": 0,
+          "end_frame": 316,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 317,
+          "end_frame": 532,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 533,
+          "end_frame": 944,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the bell pepper in the pot",
+          "short_term_mission": "put the bell pepper in the pot",
+          "start_frame": 0,
+          "end_frame": 316,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 317,
+          "end_frame": 532,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 533,
+          "end_frame": 944,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "1b24c0035b36",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Actual order bell pepper then garlic reverses instruction listing. Closes94/386/597; stable retained lifts112/404/628. Opens269/490, supported placement followed by withdrawal316/532 before next reaches324/540. Spatula retained for stirring through944. No long horizon; continuous final stirring is one action. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/226/overview_00.jpg",
+        "evidence/226/overview_01.jpg",
+        "evidence/226/overview_02.jpg",
+        "evidence/226/detail_226_f104-636_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27069,19 +30034,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the eggplant",
+          "start_frame": 0,
+          "end_frame": 140,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the eggplant in the pot",
+          "start_frame": 141,
+          "end_frame": 264,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lemon",
+          "start_frame": 265,
+          "end_frame": 392,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lemon in the pot",
+          "start_frame": 393,
+          "end_frame": 528,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 529,
+          "end_frame": 684,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 685,
+          "end_frame": 857,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the pot",
+          "short_term_mission": "put the eggplant in the pot",
+          "start_frame": 0,
+          "end_frame": 264,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 265,
+          "end_frame": 528,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 529,
+          "end_frame": 857,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the eggplant in the pot",
+          "short_term_mission": "put the eggplant in the pot",
+          "start_frame": 0,
+          "end_frame": 264,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 265,
+          "end_frame": 528,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 529,
+          "end_frame": 857,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "c1003a776367",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Observed eggplant first, lemon second despite reversed instruction listing. Closes118/367/653; stable lifts140/392/684. Releases213/479, support visible by256/512 and withdrawal through264/528. Tool carried then used continuously to857. No all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/227/overview_00.jpg",
+        "evidence/227/overview_01.jpg",
+        "evidence/227/detail_227_f124-692_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27124,19 +30210,141 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the lime",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the lime in the pot",
+          "start_frame": 133,
+          "end_frame": 312,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the garlic",
+          "start_frame": 313,
+          "end_frame": 428,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the garlic in the pot",
+          "start_frame": 429,
+          "end_frame": 612,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 613,
+          "end_frame": 756,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 757,
+          "end_frame": 1131,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the pot",
+          "short_term_mission": "put the lime in the pot",
+          "start_frame": 0,
+          "end_frame": 312,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 313,
+          "end_frame": 612,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 613,
+          "end_frame": 1131,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the lime in the pot",
+          "short_term_mission": "put the lime in the pot",
+          "start_frame": 0,
+          "end_frame": 312,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the garlic in the pot",
+          "short_term_mission": "put the garlic in the pot",
+          "start_frame": 313,
+          "end_frame": 612,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 613,
+          "end_frame": 1131,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "0cc13cdd58c9",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Lime then garlic transferred, with long continuous transport and tool stirring retained rather than arbitrary time-based cuts. Closes115/409/723, stable lifts132/428/756. Opens259/547; supported ingredients and retreat confirmed through312/612. Final stirring continues1131. Two transfers plus tool use is not all-set horizon. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/228/overview_00.jpg",
+        "evidence/228/overview_01.jpg",
+        "evidence/228/overview_02.jpg",
+        "evidence/228/detail_228_f124-764_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27179,19 +30387,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the potato",
+          "start_frame": 0,
+          "end_frame": 104,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the potato in the pot",
+          "start_frame": 105,
+          "end_frame": 196,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the eggplant",
+          "start_frame": 197,
+          "end_frame": 272,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the eggplant in the pot",
+          "start_frame": 273,
+          "end_frame": 372,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 373,
+          "end_frame": 552,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 553,
+          "end_frame": 711,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the pot",
+          "short_term_mission": "put the potato in the pot",
+          "start_frame": 0,
+          "end_frame": 196,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the eggplant in the pot",
+          "short_term_mission": "put the eggplant in the pot",
+          "start_frame": 197,
+          "end_frame": 372,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 373,
+          "end_frame": 711,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the potato in the pot",
+          "short_term_mission": "put the potato in the pot",
+          "start_frame": 0,
+          "end_frame": 196,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the eggplant in the pot",
+          "short_term_mission": "put the eggplant in the pot",
+          "start_frame": 197,
+          "end_frame": 372,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 373,
+          "end_frame": 711,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "ce2971374c0a",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Closes90/254/517, stable retained lifts104/272/552. Opens167/335, supported placements and withdrawal196/372. Spatula approach includes repositioning and closure interval until actual stable lift; not cut at517. Tool then enters pot and stirs through711. Two food transfers plus tool use, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/229/overview_00.jpg",
+        "evidence/229/overview_01.jpg",
+        "evidence/229/detail_229_f96-560_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27234,19 +30563,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the tomato",
+          "start_frame": 0,
+          "end_frame": 88,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the tomato in the pot",
+          "start_frame": 89,
+          "end_frame": 192,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the lemon",
+          "start_frame": 193,
+          "end_frame": 276,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the lemon in the pot",
+          "start_frame": 277,
+          "end_frame": 380,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 381,
+          "end_frame": 504,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the ingredients in the pot with the spatula",
+          "start_frame": 505,
+          "end_frame": 645,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the tomato in the pot",
+          "short_term_mission": "put the tomato in the pot",
+          "start_frame": 0,
+          "end_frame": 192,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 193,
+          "end_frame": 380,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 381,
+          "end_frame": 645,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the tomato in the pot",
+          "short_term_mission": "put the tomato in the pot",
+          "start_frame": 0,
+          "end_frame": 192,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the lemon in the pot",
+          "short_term_mission": "put the lemon in the pot",
+          "start_frame": 193,
+          "end_frame": 380,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the ingredients in the pot with the spatula",
+          "short_term_mission": "stir the ingredients in the pot with the spatula",
+          "start_frame": 381,
+          "end_frame": 645,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "3ce1154b7324",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Tomato then lemon; closes75/254/468, stable lifts88/276/504. Opens159/336 followed by settling and retreat192/380. Spatula head enters pot for continuous stirring, both ingredients remain visible by645. Two food transfers plus tool use, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/230/overview_00.jpg",
+        "evidence/230/overview_01.jpg",
+        "evidence/230/detail_230_f80-512_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27289,19 +30739,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the mushroom",
+          "start_frame": 0,
+          "end_frame": 96,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the mushroom in the pot",
+          "start_frame": 97,
+          "end_frame": 192,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the onion",
+          "start_frame": 193,
+          "end_frame": 256,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the onion in the pot",
+          "start_frame": 257,
+          "end_frame": 348,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 349,
+          "end_frame": 464,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 465,
+          "end_frame": 782,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the mushroom in the pot",
+          "short_term_mission": "put the mushroom in the pot",
+          "start_frame": 0,
+          "end_frame": 192,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 193,
+          "end_frame": 348,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 349,
+          "end_frame": 782,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the mushroom in the pot",
+          "short_term_mission": "put the mushroom in the pot",
+          "start_frame": 0,
+          "end_frame": 192,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the onion in the pot",
+          "short_term_mission": "put the onion in the pot",
+          "start_frame": 193,
+          "end_frame": 348,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 349,
+          "end_frame": 782,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "f789b147b2dd",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Brown mushroom then purple onion. Closes84/242/446, stable lifts96/256/464. Opens163/305, support visible184/340, withdrawal completed192/348 before next targets200/356. Wood-handled spatula remains held during stirring through782. Two food transfers plus tool use, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/231/overview_00.jpg",
+        "evidence/231/overview_01.jpg",
+        "evidence/231/detail_231_f88-480_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -27344,19 +30915,140 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "StirVegetables",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the broccoli",
+          "start_frame": 0,
+          "end_frame": 104,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the broccoli in the pot",
+          "start_frame": 105,
+          "end_frame": 208,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the cucumber",
+          "start_frame": 209,
+          "end_frame": 308,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the cucumber in the pot",
+          "start_frame": 309,
+          "end_frame": 412,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "pick up the spatula",
+          "start_frame": 413,
+          "end_frame": 492,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_6",
+          "atomic_task": "stir the vegetables in the pot with the spatula",
+          "start_frame": 493,
+          "end_frame": 651,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the broccoli in the pot",
+          "short_term_mission": "put the broccoli in the pot",
+          "start_frame": 0,
+          "end_frame": 208,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the pot",
+          "short_term_mission": "put the cucumber in the pot",
+          "start_frame": 209,
+          "end_frame": 412,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 413,
+          "end_frame": 651,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the broccoli in the pot",
+          "short_term_mission": "put the broccoli in the pot",
+          "start_frame": 0,
+          "end_frame": 208,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the cucumber in the pot",
+          "short_term_mission": "put the cucumber in the pot",
+          "start_frame": 209,
+          "end_frame": 412,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "stir the vegetables in the pot with the spatula",
+          "short_term_mission": "stir the vegetables in the pot with the spatula",
+          "start_frame": 413,
+          "end_frame": 651,
+          "atomic_task_ids": [
+            "atomic_5",
+            "atomic_6"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "de4c4246e3be",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Broccoli then elongated cucumber; closes82/284/467 precede stable lifts104/308/492. Opens176/383; settled broccoli200, cucumber falling404 then resting412 before tool reach420. Final stirring visible640-651. Tool pickup not merged into cucumber placement. Two food transfers plus tool use, not all-set long horizon. Boundary uncertainty8 frames.",
+      "outcome": "both ingredients placed in pot; stirring observed",
+      "evidence": [
+        "evidence/232/overview_00.jpg",
+        "evidence/232/overview_01.jpg",
+        "evidence/232/detail_232_f88-500_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
