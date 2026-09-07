@@ -1,17 +1,17 @@
 {
   "schema_version": 5,
-  "generated_at_utc": "2026-09-07T10:23:50.157693+00:00",
+  "generated_at_utc": "2026-09-07T10:37:57.193804+00:00",
   "annotation_version": "external300-v1",
   "frame_semantics": "zero-based inclusive continuous episode-local frame indices",
   "hierarchy": "full episode > long-term missions > short-term missions > atomic actions",
   "summary": {
     "dataset_count": 7,
     "episode_count": 300,
-    "chat_annotated": 183,
-    "pending_visual_review": 117,
+    "chat_annotated": 201,
+    "pending_visual_review": 99,
     "needs_boundary_review": 3,
-    "atomic_actions": 595,
-    "missions": 332,
+    "atomic_actions": 669,
+    "missions": 370,
     "long_term_missions": 26,
     "datasets": {
       "austin_sirius_dataset": 2,
@@ -20605,19 +20605,131 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SearingMeat",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the pan from the cabinet",
+          "start_frame": 0,
+          "end_frame": 152,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the pan on the center burner",
+          "start_frame": 153,
+          "end_frame": 540,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the steak from the plate",
+          "start_frame": 541,
+          "end_frame": 652,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the steak in the pan",
+          "start_frame": 653,
+          "end_frame": 752,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "turn on the center burner",
+          "start_frame": 753,
+          "end_frame": 877,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the pan on the center burner",
+          "short_term_mission": "put the pan on the center burner",
+          "start_frame": 0,
+          "end_frame": 540,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the steak in the pan",
+          "short_term_mission": "put the steak in the pan",
+          "start_frame": 541,
+          "end_frame": 752,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "turn on the center burner",
+          "short_term_mission": "turn on the center burner",
+          "start_frame": 753,
+          "end_frame": 877,
+          "atomic_task_ids": [
+            "atomic_5"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the pan on the center burner",
+          "short_term_mission": "put the pan on the center burner",
+          "start_frame": 0,
+          "end_frame": 540,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the steak in the pan",
+          "short_term_mission": "put the steak in the pan",
+          "start_frame": 541,
+          "end_frame": 752,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "turn on the center burner",
+          "short_term_mission": "turn on the center burner",
+          "start_frame": 753,
+          "end_frame": 877,
+          "atomic_task_ids": [
+            "atomic_5"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "623fc62454f8",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Pan125 closure followed by tilt140-152 and settled grip, with no drop despite finger width varying.482 release; withdrawal/reorientation ends536-544 before food approach. Steak closes635 and lifts648-656 from plate.717 release into pan, food settled740-748 before control approach752.832 closure rotates control. Pan uncertainty8 frames owing to tilt, steak4, mission transitions8.",
+      "outcome": "pan and steak positioned; burner control turned",
+      "evidence": [
+        "evidence/166/overview_00.jpg",
+        "evidence/166/overview_01.jpg",
+        "evidence/166/detail_166_f136-764_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20660,19 +20772,132 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SearingMeat",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the pan from the cabinet",
+          "start_frame": 0,
+          "end_frame": 184,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the pan on the front left burner",
+          "start_frame": 185,
+          "end_frame": 480,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the chicken drumstick from the plate",
+          "start_frame": 481,
+          "end_frame": 560,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the chicken drumstick in the pan",
+          "start_frame": 561,
+          "end_frame": 704,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_5",
+          "atomic_task": "turn on the front left burner",
+          "start_frame": 705,
+          "end_frame": 911,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the pan on the front left burner",
+          "short_term_mission": "put the pan on the front left burner",
+          "start_frame": 0,
+          "end_frame": 480,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the pan",
+          "short_term_mission": "put the chicken drumstick in the pan",
+          "start_frame": 481,
+          "end_frame": 704,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "turn on the front left burner",
+          "short_term_mission": "turn on the front left burner",
+          "start_frame": 705,
+          "end_frame": 911,
+          "atomic_task_ids": [
+            "atomic_5"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the pan on the front left burner",
+          "short_term_mission": "put the pan on the front left burner",
+          "start_frame": 0,
+          "end_frame": 480,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the chicken drumstick in the pan",
+          "short_term_mission": "put the chicken drumstick in the pan",
+          "start_frame": 481,
+          "end_frame": 704,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "short_term_mission_id": "mission_3",
+          "mission": "turn on the front left burner",
+          "short_term_mission": "turn on the front left burner",
+          "start_frame": 705,
+          "end_frame": 911,
+          "atomic_task_ids": [
+            "atomic_5"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "4c29f5fd2442",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Initial idle and cabinet approach remain pickup. Pan closes161, stable raised pan172-188 before transport;184 conservative completion.432 release; hand approaches turquoise plate after480. Drumstick closes538 and lifts556-564 with background plate receding.656 release into pan, supported692-700, controls approached704+.854 closure followed by final rotation911. No invented opening (cabinet already open) or finished cooking. Boundary uncertainty4-8 frames.",
+      "outcome": "pan and drumstick positioned; burner control turned",
+      "evidence": [
+        "evidence/167/overview_00.jpg",
+        "evidence/167/overview_01.jpg",
+        "evidence/167/detail_167_f172-716_00.jpg",
+        "evidence/167/detail_167_f172-716_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20715,19 +20940,103 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of broccoli and eggplant",
+          "start_frame": 0,
+          "end_frame": 92,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of broccoli and eggplant on the highest freezer rack",
+          "start_frame": 93,
+          "end_frame": 268,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of fish",
+          "start_frame": 269,
+          "end_frame": 396,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of fish on the second highest freezer rack",
+          "start_frame": 397,
+          "end_frame": 578,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of broccoli and eggplant on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and eggplant on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 268,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 269,
+          "end_frame": 578,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of broccoli and eggplant on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and eggplant on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 268,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 269,
+          "end_frame": 578,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "1b7c43a94c38",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Actual video transfers the vegetable container FIRST, contrary to instruction order. Gripper closes66; rim held and container rises88-96 from counter.223 release on top occupied rack, withdrawal to268. Fish-container closure367 followed by clear lift392-400; release546 and supported tray568-578 on next rack down. Container+contents move as one object, no individual food pickups. Freezer starts open; no opening/closing invented. Two distinct destination transfers only, not set-level all mission. Pickup uncertainty4 frames, transition8.",
+      "outcome": "both loaded containers placed on their respective freezer shelves",
+      "evidence": [
+        "evidence/168/overview_00.jpg",
+        "evidence/168/overview_01.jpg",
+        "evidence/168/detail_168_f72-576_00.jpg",
+        "evidence/168/detail_168_f72-576_01.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20770,19 +21079,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of fish",
+          "start_frame": 0,
+          "end_frame": 112,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of fish on the second highest freezer rack",
+          "start_frame": 113,
+          "end_frame": 364,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of broccoli and lemon",
+          "start_frame": 365,
+          "end_frame": 588,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of broccoli and lemon on the highest freezer rack",
+          "start_frame": 589,
+          "end_frame": 859,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 364,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of broccoli and lemon on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and lemon on the highest freezer rack",
+          "start_frame": 365,
+          "end_frame": 859,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 364,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of broccoli and lemon on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and lemon on the highest freezer rack",
+          "start_frame": 365,
+          "end_frame": 859,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "9ccd0cb02592",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Fish tray closes64, remains close to counter until lift108-116.305 release, tray supported and fish retained320-356; retreat ends364 before turn back to vegetables372+. Vegetable tray closes557 and lifts584-592;826 release on upper shelf, both trays supported859. Food identities visible before transport. No freezer opening/closing occurs on-screen. Two missions, not all-set long-horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/169/overview_00.jpg",
+        "evidence/169/overview_01.jpg",
+        "evidence/169/detail_169_f88-604_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20825,19 +21217,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of steak",
+          "start_frame": 0,
+          "end_frame": 128,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of steak on the second highest freezer rack",
+          "start_frame": 129,
+          "end_frame": 360,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of sweet potato and cucumber",
+          "start_frame": 361,
+          "end_frame": 512,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of sweet potato and cucumber on the highest freezer rack",
+          "start_frame": 513,
+          "end_frame": 765,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 360,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of sweet potato and cucumber on the highest freezer rack",
+          "short_term_mission": "put the container of sweet potato and cucumber on the highest freezer rack",
+          "start_frame": 361,
+          "end_frame": 765,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 360,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of sweet potato and cucumber on the highest freezer rack",
+          "short_term_mission": "put the container of sweet potato and cucumber on the highest freezer rack",
+          "start_frame": 361,
+          "end_frame": 765,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "7921ecb5f502",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Steak container closes90 then stable rim-held lift124-132.302 release; supported tray through352 and retreat changes to return-to-counter motion360-368. Vegetable container closes471 but continues settling until lift508-516.723 release on upper rack, supported loaded containers at final frame. Both foods stay in each tray; no separate food-transfer atoms. Cucumber is stylized patterned green asset. First lift uncertainty4, second4-8, mission transition8.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/170/overview_00.jpg",
+        "evidence/170/overview_01.jpg",
+        "evidence/170/detail_170_f108-528_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20880,19 +21355,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of chicken drumstick",
+          "start_frame": 0,
+          "end_frame": 64,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of chicken drumstick on the second highest freezer rack",
+          "start_frame": 65,
+          "end_frame": 316,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of potato and broccoli",
+          "start_frame": 317,
+          "end_frame": 472,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of potato and broccoli on the highest freezer rack",
+          "start_frame": 473,
+          "end_frame": 777,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "short_term_mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 316,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of potato and broccoli on the highest freezer rack",
+          "short_term_mission": "put the container of potato and broccoli on the highest freezer rack",
+          "start_frame": 317,
+          "end_frame": 777,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "short_term_mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 316,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of potato and broccoli on the highest freezer rack",
+          "short_term_mission": "put the container of potato and broccoli on the highest freezer rack",
+          "start_frame": 317,
+          "end_frame": 777,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "76043b1c9f06",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Chicken-tray close37 precedes stable lift60-68; source counter partly at frame edge so front and wrist used jointly.258 release on second-highest rack; empty retreat ends316 before turning to other tray324. Vegetable-tray closure443, lift468-476;732 release at upper shelf, both containers supported at777. Cabinet/freezer starts open. Two transfers only, no long-horizon all label. Pickup uncertainty4-8 frames, transition8.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/171/overview_00.jpg",
+        "evidence/171/overview_01.jpg",
+        "evidence/171/detail_171_f48-488_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20935,19 +21493,105 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of shrimp",
+          "start_frame": 0,
+          "end_frame": 112,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the meat container on the second highest freezer rack",
+          "start_frame": 113,
+          "end_frame": 648,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of squash and carrot",
+          "start_frame": 649,
+          "end_frame": 880,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of squash and carrot on the highest freezer rack",
+          "start_frame": 881,
+          "end_frame": 1203,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 648,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of squash and carrot on the highest freezer rack",
+          "short_term_mission": "put the container of squash and carrot on the highest freezer rack",
+          "start_frame": 649,
+          "end_frame": 1203,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 648,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of squash and carrot on the highest freezer rack",
+          "short_term_mission": "put the container of squash and carrot on the highest freezer rack",
+          "start_frame": 649,
+          "end_frame": 1203,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a3c606f51c61",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "First rim grasp commanded75 but stable lift around108-116. Prolonged transport/repositioning belongs to placement. Release578: container tips steeply; enlarged front640,680,1203 shows an apparently empty meat tray on the rack. Shrimp retention failed or cannot be verified, so this is not a clean successful food-storage demonstration. Exact food-loss instant is occluded; no invented robot drop/regrasp atom. Retreat ends around648 before counter return. Second tray closes843, clear stable lift876-884; release1160 and vegetable tray supported at1203. Two transfers, no all-set mission. Boundary uncertainty4-8 frames.",
+      "outcome": "containers placed; shrimp appears absent from the meat tray after release",
+      "evidence": [
+        "evidence/172/overview_00.jpg",
+        "evidence/172/overview_01.jpg",
+        "evidence/172/overview_02.jpg",
+        "evidence/172/detail_172_f104-896_00.jpg",
+        "evidence/172/detail_172_f104-896_01.jpg",
+        "evidence/172/detail_172_f560-1203_front_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -20990,19 +21634,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of shrimp",
+          "start_frame": 0,
+          "end_frame": 100,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of shrimp on the second highest freezer rack",
+          "start_frame": 101,
+          "end_frame": 404,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of potato and lemon wedge",
+          "start_frame": 405,
+          "end_frame": 592,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of potato and lemon wedge on the highest freezer rack",
+          "start_frame": 593,
+          "end_frame": 881,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 404,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of potato and lemon wedge on the highest freezer rack",
+          "short_term_mission": "put the container of potato and lemon wedge on the highest freezer rack",
+          "start_frame": 405,
+          "end_frame": 881,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 404,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of potato and lemon wedge on the highest freezer rack",
+          "short_term_mission": "put the container of potato and lemon wedge on the highest freezer rack",
+          "start_frame": 405,
+          "end_frame": 881,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "7e79ef5eda06",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Rim closure65 precedes stable lifted tray around96-104. First tray releases323 and shrimp remains visible on supported tray360-404; return to counter begins404-412. Vegetable tray closes556, stable lift588-596. Release843 followed by supported loaded tray860-881. No individual food pickup and no freezer-door manipulation. Two short missions, not all-set long horizon. Boundaries uncertain4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/173/overview_00.jpg",
+        "evidence/173/overview_01.jpg",
+        "evidence/173/detail_173_f88-612_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21045,19 +21772,103 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of steak",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of steak on the second highest freezer rack",
+          "start_frame": 133,
+          "end_frame": 540,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of squash and lemon",
+          "start_frame": 541,
+          "end_frame": 800,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of squash and lemon on the highest freezer rack",
+          "start_frame": 801,
+          "end_frame": 1113,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 540,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of squash and lemon on the highest freezer rack",
+          "short_term_mission": "put the container of squash and lemon on the highest freezer rack",
+          "start_frame": 541,
+          "end_frame": 1113,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 540,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of squash and lemon on the highest freezer rack",
+          "short_term_mission": "put the container of squash and lemon on the highest freezer rack",
+          "start_frame": 541,
+          "end_frame": 1113,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "68f66ef0d42b",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Steak tray closure103, clear stable lift128-136. Release436, supported steak tray460-532; retreat finishes540 then return rotation548+. Vegetable tray closes760, stable lift796-804. Release1072, both loaded trays supported1113. Contents travel with trays, not separate atoms. Two transfers, no all-set long horizon. Boundaries4-8 frame uncertainty.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/174/overview_00.jpg",
+        "evidence/174/overview_01.jpg",
+        "evidence/174/overview_02.jpg",
+        "evidence/174/detail_174_f124-812_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21100,19 +21911,103 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of fish",
+          "start_frame": 0,
+          "end_frame": 96,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of fish on the second highest freezer rack",
+          "start_frame": 97,
+          "end_frame": 520,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of eggplant and lime",
+          "start_frame": 521,
+          "end_frame": 764,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of eggplant and lime on the highest freezer rack",
+          "start_frame": 765,
+          "end_frame": 1152,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 520,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of eggplant and lime on the highest freezer rack",
+          "short_term_mission": "put the container of eggplant and lime on the highest freezer rack",
+          "start_frame": 521,
+          "end_frame": 1152,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 520,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of eggplant and lime on the highest freezer rack",
+          "short_term_mission": "put the container of eggplant and lime on the highest freezer rack",
+          "start_frame": 521,
+          "end_frame": 1152,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "8e438dcc84da",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Fish tray closes60 but lifted stable only92-100. Release371; long withdrawal through512, counter-return rotation528 after520. Vegetable tray closes727 and lifts760-768. Release1101, both loaded trays remain on racks1152. Fish tilts during release but stays in tray. No separate food pickups or freezer-door action. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/175/overview_00.jpg",
+        "evidence/175/overview_01.jpg",
+        "evidence/175/overview_02.jpg",
+        "evidence/175/detail_175_f88-780_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21155,19 +22050,103 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of shrimp",
+          "start_frame": 0,
+          "end_frame": 136,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of shrimp on the second highest freezer rack",
+          "start_frame": 137,
+          "end_frame": 508,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of tomato and cucumber",
+          "start_frame": 509,
+          "end_frame": 740,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of tomato and cucumber on the highest freezer rack",
+          "start_frame": 741,
+          "end_frame": 1034,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 508,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of tomato and cucumber on the highest freezer rack",
+          "short_term_mission": "put the container of tomato and cucumber on the highest freezer rack",
+          "start_frame": 509,
+          "end_frame": 1034,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 508,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of tomato and cucumber on the highest freezer rack",
+          "short_term_mission": "put the container of tomato and cucumber on the highest freezer rack",
+          "start_frame": 509,
+          "end_frame": 1034,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "5c602e3ca003",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Curled orange shrimp in first tray, not separate pickup. Closure102, stable lift132-140. Release438; loaded tray supported480-508, return rotation516+. Vegetable tray closes694 and lifts736-744. Release989, both loaded trays visible1034. Cucumber is stylized mottled green asset. No door action. Two distinct storage goals, no all-set long horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/176/overview_00.jpg",
+        "evidence/176/overview_01.jpg",
+        "evidence/176/overview_02.jpg",
+        "evidence/176/detail_176_f128-752_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21210,19 +22189,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of broccoli and avocado",
+          "start_frame": 0,
+          "end_frame": 76,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of broccoli and avocado on the highest freezer rack",
+          "start_frame": 77,
+          "end_frame": 284,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of fish",
+          "start_frame": 285,
+          "end_frame": 508,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of fish on the second highest freezer rack",
+          "start_frame": 509,
+          "end_frame": 702,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of broccoli and avocado on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and avocado on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 284,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 285,
+          "end_frame": 702,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of broccoli and avocado on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and avocado on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 284,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 285,
+          "end_frame": 702,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "d3cd1f602edc",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Actual order is vegetables then fish, opposite instruction ordering. First closes43, stable lift72-80; release224, supported tray260-284, counter turn292+. Fish tray closes471 and lifts504-512; release666, fish remains visible680-702. Whole loaded containers are transported. No door manipulation or all-set mission. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed, vegetables first",
+      "evidence": [
+        "evidence/177/overview_00.jpg",
+        "evidence/177/overview_01.jpg",
+        "evidence/177/detail_177_f64-520_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21265,19 +22327,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of steak",
+          "start_frame": 0,
+          "end_frame": 132,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of steak on the second highest freezer rack",
+          "start_frame": 133,
+          "end_frame": 424,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of corn and tomato",
+          "start_frame": 425,
+          "end_frame": 648,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of corn and tomato on the highest freezer rack",
+          "start_frame": 649,
+          "end_frame": 919,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 424,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of corn and tomato on the highest freezer rack",
+          "short_term_mission": "put the container of corn and tomato on the highest freezer rack",
+          "start_frame": 425,
+          "end_frame": 919,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 424,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of corn and tomato on the highest freezer rack",
+          "short_term_mission": "put the container of corn and tomato on the highest freezer rack",
+          "start_frame": 425,
+          "end_frame": 919,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a8de17cff4e9",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Steak tray closes96, lifted stable128-136; release350 with steak retained380-424. Counter-directed turn432 follows retreat424. Corn/tomato tray closes613, lifts644-652; release876, both loaded trays supported919. Foods move inside trays, no individual food pickups or door action. No all-set long horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/178/overview_00.jpg",
+        "evidence/178/overview_01.jpg",
+        "evidence/178/detail_178_f124-664_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21320,19 +22465,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of sweet potato and eggplant",
+          "start_frame": 0,
+          "end_frame": 116,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of sweet potato and eggplant on the highest freezer rack",
+          "start_frame": 117,
+          "end_frame": 372,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of steak",
+          "start_frame": 373,
+          "end_frame": 540,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of steak on the second highest freezer rack",
+          "start_frame": 541,
+          "end_frame": 787,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of sweet potato and eggplant on the highest freezer rack",
+          "short_term_mission": "put the container of sweet potato and eggplant on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 372,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 373,
+          "end_frame": 787,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of sweet potato and eggplant on the highest freezer rack",
+          "short_term_mission": "put the container of sweet potato and eggplant on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 372,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of steak on the second highest freezer rack",
+          "short_term_mission": "put the container of steak on the second highest freezer rack",
+          "start_frame": 373,
+          "end_frame": 787,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "0504519533dc",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Vegetables move first, contrary to instruction order. Closure83, stable lift112-120; release330. Loaded tray supported360-372; return begins380. Steak tray closes503 and lifts536-544, release747; steak remains on supported tray787. No individual food transfer or door action. Two goals, no all-set mission. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed, vegetables first",
+      "evidence": [
+        "evidence/179/overview_00.jpg",
+        "evidence/179/overview_01.jpg",
+        "evidence/179/detail_179_f104-552_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21375,19 +22603,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of shrimp",
+          "start_frame": 0,
+          "end_frame": 108,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of shrimp on the second highest freezer rack",
+          "start_frame": 109,
+          "end_frame": 368,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of broccoli and mushroom",
+          "start_frame": 369,
+          "end_frame": 556,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of broccoli and mushroom on the highest freezer rack",
+          "start_frame": 557,
+          "end_frame": 830,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 368,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of broccoli and mushroom on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and mushroom on the highest freezer rack",
+          "start_frame": 369,
+          "end_frame": 830,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 368,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of broccoli and mushroom on the highest freezer rack",
+          "short_term_mission": "put the container of broccoli and mushroom on the highest freezer rack",
+          "start_frame": 369,
+          "end_frame": 830,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "7602c8d5888c",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Shrimp tray closes70, clear lift104-112; release293 and supported tray320-368. Counter-return rotation376+. Vegetable tray closes517, lift552-560. Release767, both loaded trays supported800-830. No door manipulation or individual food pickup. Two transfers, no all-set mission. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/180/overview_00.jpg",
+        "evidence/180/overview_01.jpg",
+        "evidence/180/detail_180_f96-572_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21430,19 +22741,102 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of shrimp",
+          "start_frame": 0,
+          "end_frame": 112,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of shrimp on the second highest freezer rack",
+          "start_frame": 113,
+          "end_frame": 328,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of corn and broccoli",
+          "start_frame": 329,
+          "end_frame": 472,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of corn and broccoli on the highest freezer rack",
+          "start_frame": 473,
+          "end_frame": 700,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 328,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of corn and broccoli on the highest freezer rack",
+          "short_term_mission": "put the container of corn and broccoli on the highest freezer rack",
+          "start_frame": 329,
+          "end_frame": 700,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of shrimp on the second highest freezer rack",
+          "short_term_mission": "put the container of shrimp on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 328,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of corn and broccoli on the highest freezer rack",
+          "short_term_mission": "put the container of corn and broccoli on the highest freezer rack",
+          "start_frame": 329,
+          "end_frame": 700,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "a3c71d48f870",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "First tray closes80, stable lift108-116. Release263, shrimp retained280-328; return to counter336+. Vegetable tray closes435, lifted stable468-476; release639, both containers supported at700. Whole-tray transport, no separate food actions or door action. No all-set long horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/181/overview_00.jpg",
+        "evidence/181/overview_01.jpg",
+        "evidence/181/detail_181_f104-488_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21485,19 +22879,103 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of chicken drumstick",
+          "start_frame": 0,
+          "end_frame": 124,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of chicken drumstick on the second highest freezer rack",
+          "start_frame": 125,
+          "end_frame": 572,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of lemon and avocado",
+          "start_frame": 573,
+          "end_frame": 784,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of lemon and avocado on the highest freezer rack",
+          "start_frame": 785,
+          "end_frame": 1087,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "short_term_mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 572,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of lemon and avocado on the highest freezer rack",
+          "short_term_mission": "put the container of lemon and avocado on the highest freezer rack",
+          "start_frame": 573,
+          "end_frame": 1087,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "short_term_mission": "put the container of chicken drumstick on the second highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 572,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of lemon and avocado on the highest freezer rack",
+          "short_term_mission": "put the container of lemon and avocado on the highest freezer rack",
+          "start_frame": 573,
+          "end_frame": 1087,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "658f1a24c5a9",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "high",
+      "annotation_notes": "Chicken tray closes85, stable lift120-128. Long room-crossing transport remains placement. Release493; loaded tray supported520-572, return rotation580+. Vegetable tray closes742 but grip settles and stable lift780-788. Release1036, both loaded trays supported1087. Dark avocado asset, rounded cooked chicken asset labeled according to verified source identity. No door manipulation or all-set mission. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed on distinct freezer racks",
+      "evidence": [
+        "evidence/182/overview_00.jpg",
+        "evidence/182/overview_01.jpg",
+        "evidence/182/overview_02.jpg",
+        "evidence/182/detail_182_f112-796_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
@@ -21540,19 +23018,103 @@
       "source_repo": "nvidia/PhysicalAI-Robotics-Manipulation-Kitchen-Demos",
       "source_revision": "522e4ffa3bb9d9729f79b241c65fc9e589f2659c",
       "source_task_family": "SeparateFreezerRack",
-      "atomic_tasks": [],
-      "missions": [],
-      "short_term_missions": [],
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the container of mushroom and citrus wedge",
+          "start_frame": 0,
+          "end_frame": 108,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the container of mushroom and citrus wedge on the highest freezer rack",
+          "start_frame": 109,
+          "end_frame": 424,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "pick up the container of fish",
+          "start_frame": 425,
+          "end_frame": 684,
+          "boundary_source": "direct_chat_visual_review"
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "place the container of fish on the second highest freezer rack",
+          "start_frame": 685,
+          "end_frame": 990,
+          "boundary_source": "direct_chat_visual_review"
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of mushroom and citrus wedge on the highest freezer rack",
+          "short_term_mission": "put the container of mushroom and citrus wedge on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 424,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 425,
+          "end_frame": 990,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
+      "short_term_missions": [
+        {
+          "mission_id": "mission_1",
+          "short_term_mission_id": "mission_1",
+          "mission": "put the container of mushroom and citrus wedge on the highest freezer rack",
+          "short_term_mission": "put the container of mushroom and citrus wedge on the highest freezer rack",
+          "start_frame": 0,
+          "end_frame": 424,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "short_term_mission_id": "mission_2",
+          "mission": "put the container of fish on the second highest freezer rack",
+          "short_term_mission": "put the container of fish on the second highest freezer rack",
+          "start_frame": 425,
+          "end_frame": 990,
+          "atomic_task_ids": [
+            "atomic_3",
+            "atomic_4"
+          ]
+        }
+      ],
       "long_horizon": false,
       "long_term_missions": [],
       "reviewed": false,
-      "annotation_status": "pending_visual_review",
-      "annotation_revision": "pending",
-      "annotation_method": null,
-      "hierarchy_confidence": null,
-      "annotation_notes": "Pending direct visual analysis. Empty editor scaffolds are not annotations.",
-      "outcome": null,
-      "evidence": [],
+      "annotation_status": "chat_annotated",
+      "annotation_revision": "9f6a5c8b131e",
+      "annotation_method": "direct_in_chat_visual_and_raw_gripper_review",
+      "hierarchy_confidence": "medium",
+      "annotation_notes": "Vegetable container moves first, despite instruction meat-first order. Source calls wedge lemon but visual wedge is green; use citrus wedge instead of asserting lemon versus lime. First closure77, stable lift104-112; release354 and supported tray400-424. Return rotation432+. Fish closure639; stable lift680-688. Release952; fish retained in supported tray980-990. No independent food transfers or door action. Two short missions, no all-set long horizon. Boundary uncertainty4-8 frames.",
+      "outcome": "both loaded containers placed, vegetables first",
+      "evidence": [
+        "evidence/183/overview_00.jpg",
+        "evidence/183/overview_01.jpg",
+        "evidence/183/overview_02.jpg",
+        "evidence/183/detail_183_f100-696_00.jpg"
+      ],
       "needs_boundary_review": false
     },
     {
