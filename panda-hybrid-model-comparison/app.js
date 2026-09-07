@@ -18,8 +18,8 @@ function metricTable(format,component,cutoff){
   const maxima=Object.fromEntries(metrics.map(k=>[k,Math.max(...rows.map(r=>r[k]??-1))]));
   return '<caption class="sample-note">'+esc(D.format_names[format]+' · '+P.component_names[component]+' · '+(cutoff==='all'?'all six cutoffs':cutoff+'% observed'))+'</caption><thead><tr><th scope="col">Model</th><th scope="col">N</th><th scope="col">Exact Match</th><th scope="col">Token F1</th><th scope="col">SentenceBERT</th></tr></thead><tbody>'+rows.map(r=>`<tr><th scope="row">${esc(D.model_names[r.model])}</th><td>${r.n.toLocaleString()}</td>${metrics.map(k=>`<td class="${Math.abs(r[k]-maxima[k])<1e-12?'winner':''}">${k==='exact_match'?pct(r[k]):dec(r[k])}</td>`).join('')}</tr>`).join('')+'</tbody>';
 }
-function renderChart(format){
-  const card=document.getElementById(format),component=card.querySelector('select').value;
+function renderChart(cardId,format,fixedComponent=null){
+  const card=document.getElementById(cardId),component=fixedComponent??card.querySelector('select').value;
   const chart=P.charts[format][component],img=card.querySelector('img');
   img.src=chart.svg;img.alt=chart.title+': four models compared at six observation cutoffs.';
   card.querySelector('.svg-link').href=chart.svg;card.querySelector('.pdf-link').href=chart.pdf;
@@ -28,8 +28,24 @@ function renderChart(format){
   card.querySelector('.sample-note').textContent=`Evaluated target: ${P.component_names[component]}. N = ${chart.n_per_cutoff} matched samples per model at each cutoff.`+(component==='future'?' Restricted to actions with nonempty ground-truth future actions.':component==='output'?' Includes required field labels and formatting.':'');
   card.querySelector('table').innerHTML='<thead><tr><th scope="col">Model</th>'+P.cutoffs.map(p=>`<th scope="col">${p}%</th>`).join('')+'</tr></thead><tbody>'+D.model_order.map(m=>`<tr><th scope="row">${esc(D.model_names[m])}</th>${chart.series[m].values.map(v=>`<td>${dec(v)}</td>`).join('')}</tr>`).join('')+'</tbody>';
 }
-$('#progress-charts').innerHTML=D.formats.map(f=>`<section class="chart-card" id="${esc(f)}"><div class="section-heading"><div><div class="eyebrow">Observation progress · SentenceBERT</div><h2>${esc(D.format_names[f])}</h2></div><label>Evaluated component<select aria-label="${esc(D.format_names[f])} chart component">${options(D.components[f],P.component_names,P.defaults[f])}</select></label></div><p class="chart-description">${descriptions[f]}</p><div class="plot-viewport"><img loading="${f==='oa_only'?'eager':'lazy'}" width="1140" height="480" alt=""></div><p class="chart-caption"></p><p class="sample-note"></p><div class="downloads"><a class="svg-link" download>Download SVG</a><a class="pdf-link" download>Download PDF</a></div><details class="extra"><summary>Show exact values at all six cutoffs</summary><div class="table-wrap"><table></table></div></details></section>`).join('');
-for(const f of D.formats){document.getElementById(f).querySelector('select').addEventListener('change',()=>renderChart(f));renderChart(f);}
+function chartCard(format,id,fixedComponent=null){
+  const title=D.format_names[format]+(fixedComponent?' · '+P.component_names[fixedComponent]:'');
+  const control=fixedComponent?'':`<label>Evaluated component<select aria-label="${esc(D.format_names[format])} chart component">${options(D.components[format],P.component_names,P.defaults[format])}</select></label>`;
+  const description=format==='oa_om'&&fixedComponent==='action'?'Only the ongoing-action field from OA + OM predictions is evaluated here.':format==='oa_om'&&fixedComponent==='mission'?'Only the ongoing-mission field from the same OA + OM predictions is evaluated here. This is not the OM-only output protocol.':descriptions[format];
+  return `<section class="chart-card" id="${esc(id)}"><div class="section-heading"><div><div class="eyebrow">Observation progress · SentenceBERT</div><h2>${esc(title)}</h2></div>${control}</div><p class="chart-description">${description}</p><div class="plot-viewport"><img loading="${format==='oa_only'?'eager':'lazy'}" width="1140" height="480" alt=""></div><p class="chart-caption"></p><p class="sample-note"></p><div class="downloads"><a class="svg-link" download>Download SVG</a><a class="pdf-link" download>Download PDF</a></div><details class="extra" ${fixedComponent&&fixedComponent!=='output'?'open':''}><summary>Exact SentenceBERT values at all six cutoffs</summary><div class="table-wrap"><table></table></div></details></section>`;
+}
+function protocolCharts(format){
+  if(format!=='oa_om')return chartCard(format,format);
+  return `<section id="oa_om" aria-label="OA + OM component curves">${chartCard(format,'oa_om_action','action')}${chartCard(format,'oa_om_mission','mission')}<details class="oaom-full-output"><summary>Additional comparison: full formatted OA + OM output</summary>${chartCard(format,'oa_om_output','output')}</details></section>`;
+}
+$('#progress-charts').innerHTML=D.formats.map(protocolCharts).join('');
+for(const f of D.formats){
+  if(f==='oa_om'){
+    for(const c of ['action','mission','output'])renderChart('oa_om_'+c,f,c);
+  }else{
+    document.getElementById(f).querySelector('select').addEventListener('change',()=>renderChart(f,f));renderChart(f,f);
+  }
+}
 $('#metric-format').innerHTML=options(D.formats,D.format_names,'oa_only');
 function resetMetricComponent(){const f=$('#metric-format').value;$('#metric-component').innerHTML=options(D.components[f],P.component_names,P.defaults[f]);renderMetrics();}
 function renderMetrics(){
