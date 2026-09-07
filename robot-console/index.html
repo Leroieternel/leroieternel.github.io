@@ -171,7 +171,7 @@
             <a id="open-console" class="ready-link" href="http://127.0.0.1:8780">Open operator console</a>
             <div class="actions">
               <button id="hold" class="button danger" type="button">Emergency HOLD</button>
-              <button id="stop" class="button" type="button" disabled>Stop managed processes</button>
+              <button id="stop" class="button" type="button" disabled>Reset control layer</button>
             </div>
           </div>
         </section>
@@ -185,7 +185,7 @@
   </div>
   <div id="toast" class="toast" role="status"></div>
   <dialog id="live-dialog"><h3>Enable live robot output?</h3><p>Live mode allows PI0.5 commands to reach the independent NUC guard after human approval. Start with Dry run unless this exact stack has already passed its safety checks.</p><div class="dialog-actions"><button id="live-cancel" class="button">Cancel</button><button id="live-confirm" class="button danger">Use live control</button></div></dialog>
-  <dialog id="stop-dialog"><h3>Stop managed processes?</h3><p>The supervisor requests HOLD first, then stops only processes that it started. Processes it adopted because they were already running remain untouched.</p><div class="dialog-actions"><button id="stop-cancel" class="button">Cancel</button><button id="stop-confirm" class="button danger">HOLD and stop</button></div></dialog>
+  <dialog id="stop-dialog"><h3>Reset the control layer?</h3><p>The supervisor requests HOLD, then stops the controller, guard, bridge, camera/control graph, Qwen relay, and operator page that it started. The Qwen and PI0.5 model servers stay warm. Manually clear any joint-limit fault before pressing Start again. Adopted processes remain untouched.</p><div class="dialog-actions"><button id="stop-cancel" class="button">Cancel</button><button id="stop-confirm" class="button danger">HOLD and reset</button></div></dialog>
   <script>
     const $ = (id) => document.getElementById(id);
     let liveControl = false;
@@ -220,7 +220,7 @@
       renderComponents(data.components || []);
       const total = data.total || 9, ready = data.ready || 0;
       $("phase").textContent = String(data.phase || "idle").toUpperCase();
-      $("progress-label").textContent = data.phase === "ready" ? "All systems ready" : data.phase === "starting" ? "Starting components" : data.phase === "failed" ? "Startup stopped" : "Waiting to start";
+      $("progress-label").textContent = data.phase === "ready" ? "All systems ready" : data.phase === "starting" ? "Starting components" : data.phase === "failed" ? "Startup stopped" : data.phase === "warm" ? "Models kept warm" : "Waiting to start";
       $("progress-count").textContent = `${ready} / ${total}`;
       $("bar").style.width = `${Math.max(0, Math.min(100, Number(data.progress || 0) * 100))}%`;
       $("message").textContent = data.message || "";
