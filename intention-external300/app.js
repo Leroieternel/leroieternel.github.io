@@ -153,7 +153,7 @@
     $("save-status").classList.add("saving");
     await dbPut(currentRecord);
     $("save-status").textContent = "Saved locally";
-    $("save-status").classList.remove("saving");
+    $("save-status").classList.remove("saving"); renderAnnotationStatus();
   }
 
   function atomicsOverlappingMission(mission, record = currentRecord) {
@@ -689,7 +689,8 @@
       views:ep.views, annotation_status:incomplete ? "pending_visual_review" : (snapshot.reviewed ? "human_reviewed" : (snapshot.updated_at ? "locally_edited" : ep.annotation_status)),
       annotation_method:ep.annotation_method, annotation_revision:ep.annotation_revision,
       source_annotation_notes:ep.annotation_notes, source_evidence:ep.evidence,
-      eligible_for_label_export:!incomplete,
+      needs_boundary_review:ep.needs_boundary_review && !snapshot.reviewed,
+      eligible_for_label_export:!incomplete && (!ep.needs_boundary_review || snapshot.reviewed),
       parent_episode_key: ep.parent_episode_key, split: ep.split,
       full_episode_instruction: snapshot.full_episode_instruction,
       video_url: ep.video_url, fps: ep.fps, total_frames: ep.total_frames,
@@ -828,8 +829,8 @@
   function renderAnnotationStatus() {
     const ep=data.episodes[currentIndex]; if(!ep || !currentRecord)return;
     const ready=labelsComplete(currentRecord);
-    $('annotation-status').textContent=currentRecord.reviewed ? 'Human reviewed ✓' : !ready ? 'Pending visual analysis — editor scaffolds are not labels' : currentRecord.updated_at ? 'Locally edited — not yet human reviewed' : 'Chat annotated — available for human review';
-    $('annotation-status').className=ready?'ready':'pending';
+    $('annotation-status').textContent=currentRecord.reviewed ? 'Human reviewed ✓' : !ready ? 'Pending visual analysis — editor scaffolds are not labels' : ep.needs_boundary_review ? 'Chat draft — uncertain boundary; human review required before benchmark use' : currentRecord.updated_at ? 'Locally edited — not yet human reviewed' : 'Chat annotated — available for human review';
+    $('annotation-status').className=ready && !ep.needs_boundary_review?'ready':'pending';
     $('annotation-notes').textContent=ep.annotation_notes;
     $('evidence-links').replaceChildren();
     for(const [i,path] of (ep.evidence||[]).entries()){
