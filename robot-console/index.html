@@ -190,7 +190,6 @@
     const $ = (id) => document.getElementById(id);
     let liveControl = false;
     let selectedLog = "supervisor";
-    let redirected = false;
     let lastState = null;
     const initialComponents = [
       ["nuc_controller", "Franka controller", "NUC"], ["nuc_guard", "Command guard", "NUC"],
@@ -231,10 +230,6 @@
       $("stop").disabled = !["starting", "ready", "degraded", "failed"].includes(data.phase);
       $("open-console").classList.toggle("show", data.phase === "ready");
       if (data.operator_url) $("open-console").href = data.operator_url;
-      if (data.phase === "ready" && !redirected && !publicHost()) {
-        redirected = true;
-        setTimeout(() => location.assign(data.operator_url || "http://127.0.0.1:8780"), 1200);
-      }
     }
     async function post(path, payload = {}) {
       const response = await fetch(path, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)});
@@ -245,9 +240,11 @@
     async function refresh() {
       if (publicHost()) {
         renderComponents([]); $("phase").textContent = "LOCAL AGENT REQUIRED";
-        $("message").textContent = "Robot commands remain local. START opens the Thor supervisor without exposing control APIs to the internet.";
+        $("start").textContent = "OPEN";
+        $("message").textContent = "Open the Thor launcher, then press START on the local page. Robot commands are never exposed to the internet.";
         $("start").disabled = !$("confirmed").checked; return;
       }
+      $("start").textContent = "START";
       try {
         const response = await fetch(`/api/system/status?component=${encodeURIComponent(selectedLog)}`, {cache:"no-store"});
         if (!response.ok) throw new Error(`Supervisor HTTP ${response.status}`);
@@ -261,7 +258,7 @@
     $("live-confirm").addEventListener("click", () => { liveControl = true; $("live-dialog").close(); $("live-mode").classList.add("active"); $("dry-mode").classList.remove("active"); });
     $("start").addEventListener("click", async () => {
       if (publicHost()) { location.href = "http://127.0.0.1:8779"; return; }
-      try { redirected = false; await post("/api/system/start", {confirmed:$("confirmed").checked, live_control:liveControl}); await refresh(); }
+      try { await post("/api/system/start", {confirmed:$("confirmed").checked, live_control:liveControl}); await refresh(); }
       catch (error) { toast(error.message); }
     });
     $("hold").addEventListener("click", async () => { if (publicHost()) return toast("Open the local Thor supervisor to request HOLD."); try { await post("/api/system/hold"); } catch (error) { toast(error.message); } });
