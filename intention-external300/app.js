@@ -686,7 +686,7 @@
     return {
       dataset: ep.dataset, task_id: ep.task_id, episode_id: ep.episode_id,
       cohort_index:ep.cohort_index, source_repo:ep.source_repo, source_revision:ep.source_revision,
-      views:ep.views, annotation_status:incomplete ? "pending_visual_review" : (snapshot.reviewed ? "human_reviewed" : (snapshot.updated_at ? "locally_edited" : ep.annotation_status)),
+      views:ep.views, source_domain:ep.source_domain, annotation_status:incomplete ? "pending_visual_review" : (snapshot.reviewed ? "human_reviewed" : (snapshot.updated_at ? "locally_edited" : ep.annotation_status)),
       annotation_method:ep.annotation_method, annotation_revision:ep.annotation_revision,
       source_annotation_notes:ep.annotation_notes, source_evidence:ep.evidence,
       needs_boundary_review:ep.needs_boundary_review && !snapshot.reviewed,
@@ -830,7 +830,7 @@
     const ep=data.episodes[currentIndex]; if(!ep || !currentRecord)return;
     const ready=labelsComplete(currentRecord);
     $('annotation-status').textContent=currentRecord.reviewed ? 'Human reviewed ✓' : !ready ? 'Pending visual analysis — editor scaffolds are not labels' : ep.needs_boundary_review ? 'Chat draft — uncertain boundary; human review required before benchmark use' : currentRecord.updated_at ? 'Locally edited — not yet human reviewed' : 'Chat annotated — available for human review';
-    $('annotation-status').className=ready && !ep.needs_boundary_review?'ready':'pending';
+    $('annotation-status').className=currentRecord.reviewed || (ready && !ep.needs_boundary_review)?'ready':'pending';
     $('annotation-notes').textContent=ep.annotation_notes;
     $('evidence-links').replaceChildren();
     for(const [i,path] of (ep.evidence||[]).entries()){
