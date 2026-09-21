@@ -4,21 +4,33 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>DESPITE · Review administration</title>
   <style>
-    :root{font:16px/1.5 system-ui,sans-serif;color:#162640;background:#f2f5fa}
-    *{box-sizing:border-box}body{margin:0}header{padding:24px max(24px,calc((100vw - 1200px)/2));background:#163c78;color:white}
-    h1{margin:0;font-size:25px}header p{margin:4px 0 0;color:#dae7ff}main{max-width:1248px;margin:30px auto;padding:0 24px}
-    .card{background:white;border:1px solid #d7e0ee;border-radius:14px;padding:24px;margin-bottom:24px}
+    :root{font:16px/1.5 system-ui,sans-serif;color:#162640;background:#f2f5fa;--blue:#235cb5;--green:#16835c;--line:#d7e0ee;--muted:#526581}
+    *{box-sizing:border-box}body{margin:0}header{padding:24px max(24px,calc((100vw - 1200px)/2));background:linear-gradient(120deg,#163c78,#235cb5);color:white}
+    h1{margin:0;font-size:25px}h2,h3{margin-top:0}header p{margin:4px 0 0;color:#dae7ff}main{max-width:1248px;margin:30px auto;padding:0 24px}
+    .card{background:white;border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:24px;box-shadow:0 3px 12px #1a39600a}
     #login{max-width:500px;margin:70px auto}label{display:block;font-weight:600;margin-bottom:8px}
     input{font:inherit;width:100%;padding:10px 12px;border:1px solid #a5b8d2;border-radius:7px}
     button{font:inherit;background:#1f4b99;color:white;border:0;border-radius:7px;padding:10px 16px;cursor:pointer}
     button.secondary{background:#e8eef8;color:#173e7c}button:disabled{opacity:.5;cursor:wait}
     .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.toolbar input{max-width:260px}
-    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.metric{padding:20px;background:white;border:1px solid #d7e0ee;border-radius:12px}
-    .metric strong{display:block;font-size:30px}.metric span{color:#526581;font-size:14px}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.metric{padding:20px;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 3px 12px #1a39600a}
+    .metric strong{display:block;font-size:30px;line-height:1.2}.metric span{color:var(--muted);font-size:14px}
+    .overview{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;margin-top:24px}.overview .card{margin:0}
+    .overview-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.overview-title strong{font-size:27px}.overview-title p{margin:2px 0 0;color:var(--muted)}
+    .track{height:14px;background:#e7edf6;border-radius:999px;overflow:hidden}.track>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),#4b83dc);border-radius:inherit;transition:width .35s ease}
+    .track.green>span{background:linear-gradient(90deg,var(--green),#31aa7d)}.overall-track{height:18px;margin:18px 0 8px}
+    .stage-summary{display:grid;gap:17px}.stage-summary-row{display:grid;grid-template-columns:74px 1fr 82px;gap:12px;align-items:center}.stage-summary-row strong{text-align:right;font-variant-numeric:tabular-nums}
+    .people-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:18px}.people-heading h2{margin-bottom:2px}.people-heading p{margin:0;color:var(--muted)}
+    .people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.person{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fbfcfe}
+    .person-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px}.person-id{font-weight:750;overflow-wrap:anywhere}.person-total{font-size:25px;font-weight:750;line-height:1}
+    .person-progress{display:grid;grid-template-columns:58px 1fr 52px;gap:9px;align-items:center;margin-top:10px;font-size:13px}.person-progress strong{text-align:right;font-variant-numeric:tabular-nums}
+    .person-foot{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;margin-top:15px}
+    .status{border-radius:999px;padding:4px 9px;font-size:12px;font-weight:700;background:#e7eef9;color:#234e91}.status.done{background:#daf3e8;color:#126947}.status.pass2{background:#fff0ce;color:#865a00}
     .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th,td{text-align:left;padding:14px 12px;border-bottom:1px solid #e4eaf3}th{font-size:14px;color:#526581}
-    progress{width:90px;height:9px;accent-color:#235cb5;margin-right:8px}small{color:#526581}#message,#loginError{color:#ac231b}
-    [hidden]{display:none!important}.muted{color:#526581}.pill{background:#edf2fa;border-radius:5px;padding:3px 7px;font-size:14px}
-    @media(max-width:650px){.metrics{grid-template-columns:1fr 1fr}.card{padding:16px}main{padding:0 14px}}
+    progress{width:90px;height:9px;accent-color:var(--blue);margin-right:8px}small{color:var(--muted)}#message,#loginError{color:#ac231b}
+    [hidden]{display:none!important}.muted{color:var(--muted)}.pill{background:#edf2fa;border-radius:5px;padding:3px 7px;font-size:14px}details summary{cursor:pointer;font-weight:700}
+    @media(max-width:850px){.overview{grid-template-columns:1fr}.people{grid-template-columns:1fr}}
+    @media(max-width:650px){.metrics{grid-template-columns:1fr 1fr}.card{padding:16px}main{padding:0 14px}.stage-summary-row{grid-template-columns:62px 1fr 70px}.person-foot{display:block}.person-foot span{display:block}.people-heading{display:block}.toolbar{margin-top:14px}}
   </style>
 </head>
 <body>
@@ -31,30 +43,65 @@
   </section>
   <section id="dashboard" hidden>
     <div class="metrics" id="metrics"></div>
-    <div class="card" style="margin-top:24px">
+    <div class="overview">
+      <section class="card" aria-labelledby="overallHeading">
+        <div class="overview-title"><div><h2 id="overallHeading">Overall completion</h2><p>Both review passes combined</p></div><strong id="overallPercent">0%</strong></div>
+        <div class="track overall-track" role="progressbar" id="overallTrack" aria-label="Overall completion"><span></span></div>
+        <p class="muted" id="overallDetail">No submissions yet.</p>
+      </section>
+      <section class="card" aria-labelledby="passesHeading"><h2 id="passesHeading">Progress by pass</h2><div class="stage-summary" id="stageSummary"></div></section>
+    </div>
+    <section class="card" style="margin-top:24px" aria-labelledby="peopleHeading">
+      <div class="people-heading"><div><h2 id="peopleHeading">Annotator progress</h2><p>Who has completed how much of the 10-task review</p></div>
       <div class="toolbar"><input id="filter" aria-label="Filter annotator IDs" placeholder="Find an annotator">
         <button id="refresh">Refresh</button><button id="export" class="secondary">Export all responses</button>
-        <button id="logout" class="secondary">Sign out</button></div>
+        <button id="logout" class="secondary">Sign out</button></div></div>
       <p class="muted" id="updated" aria-live="polite"></p><p id="message" role="alert"></p>
-      <div class="table-wrap"><table><thead><tr><th>Annotator</th><th>Pass 1</th><th>Pass 2</th><th>Stage</th><th>Item</th><th>Drafts</th><th>Last saved</th><th>Last activity</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="people" id="people"></div>
       <p id="empty" class="muted" hidden>No annotators yet. Records appear when someone starts a review.</p>
-    </div>
+    </section>
+    <details class="card">
+      <summary>Detailed activity table</summary>
+      <div class="table-wrap"><table><thead><tr><th>Annotator</th><th>Pass 1</th><th>Pass 2</th><th>Stage</th><th>Item</th><th>Drafts</th><th>Last saved</th><th>Last activity</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </details>
   </section>
 </main>
 <script>
 const API_BASE = "https://despite-review-api.1816020611.workers.dev";
-let key='', records=[], refreshing=false;
+let key='', records=[], datasetId='', refreshing=false;
 const $=id=>document.getElementById(id);
 async function request(path){
   const r=await fetch(`${API_BASE}/api/admin/${path}`,{headers:{Authorization:`Bearer ${key}`},cache:'no-store'});
   const data=await r.json();if(!r.ok)throw new Error(data.error||'Unable to load records.');return data;
 }
 function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
+function percent(value,total){return total?Math.round(100*value/total):0;}
+function bar(value,total,className=''){
+  const outer=element('div',undefined,`track ${className}`.trim());const inner=element('span');const valuePercent=percent(value,total);
+  inner.style.width=`${valuePercent}%`;outer.append(inner);outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',String(total));outer.setAttribute('aria-valuenow',String(value));return outer;
+}
+function status(r){if(r.stage2===r.total)return ['Complete','done'];if(r.phase==='stage2')return ['Pass 2','pass2'];return ['Pass 1',''];}
+function personCard(r){
+  const completed=r.stage1+r.stage2,possible=r.total*2,[statusText,statusClass]=status(r),card=element('article',undefined,'person');
+  const head=element('div',undefined,'person-head'),identity=element('div'),state=element('span',statusText,`status ${statusClass}`.trim());
+  identity.append(element('div',r.annotator_id,'person-id'),element('small',`${completed} of ${possible} submissions`));head.append(identity,state);
+  const total=element('div',undefined,'person-head');total.append(element('span','Overall'),element('strong',`${percent(completed,possible)}%`,'person-total'));card.append(head,total,bar(completed,possible));
+  for(const [label,field,color] of [['Pass 1','stage1',''],['Pass 2','stage2','green']]){
+    const row=element('div',undefined,'person-progress');row.append(element('span',label),bar(r[field],r.total,color),element('strong',`${r[field]} / ${r.total}`));card.append(row);
+  }
+  const foot=element('div',undefined,'person-foot');foot.append(element('span',r.phase==='done'?'All tasks completed':`Current item: ${Math.min(r.current_item,r.total)} / ${r.total}`),element('span',`Active ${new Date(r.last_seen_at).toLocaleString()}`));card.append(foot);return card;
+}
 function draw(){
   const complete=records.filter(r=>r.stage1===r.total&&r.stage2===r.total).length;
-  const values=[['Annotators',records.length],['Both passes complete',complete],['Pass 1 submissions',records.reduce((n,r)=>n+r.stage1,0)],['Pass 2 submissions',records.reduce((n,r)=>n+r.stage2,0)]];
+  const pass1=records.reduce((n,r)=>n+r.stage1,0),pass2=records.reduce((n,r)=>n+r.stage2,0),perPass=records.reduce((n,r)=>n+r.total,0),submitted=pass1+pass2,possible=perPass*2;
+  const active=records.filter(r=>Date.now()-new Date(r.last_seen_at).getTime()<15*60*1000).length;
+  const values=[['Annotators',records.length],['Fully complete',complete],['Overall completion',`${percent(submitted,possible)}%`],['Active in last 15 min',active]];
   $('metrics').replaceChildren(...values.map(([label,value])=>{const e=element('div',undefined,'metric');e.append(element('strong',value),element('span',label));return e;}));
+  const overall=percent(submitted,possible);$('overallPercent').textContent=`${overall}%`;$('overallTrack').querySelector('span').style.width=`${overall}%`;$('overallTrack').setAttribute('aria-valuenow',String(submitted));$('overallTrack').setAttribute('aria-valuemax',String(possible));
+  $('overallDetail').textContent=records.length?`${submitted} of ${possible} task-pass submissions · ${complete} of ${records.length} annotators fully complete`:'No annotators have started yet.';
+  $('stageSummary').replaceChildren(...[['Pass 1',pass1],['Pass 2',pass2]].map(([label,value],index)=>{const row=element('div',undefined,'stage-summary-row');row.append(element('span',label),bar(value,perPass,index?'green':''),element('strong',`${value} / ${perPass}`));return row;}));
   const visible=records.filter(r=>r.annotator_id.toLowerCase().includes($('filter').value.toLowerCase()));
+  $('people').replaceChildren(...visible.map(personCard));
   $('rows').replaceChildren(...visible.map(r=>{
     const tr=element('tr');tr.append(element('td',r.annotator_id));
     for(const stage of ['stage1','stage2']){const td=element('td');const p=element('progress');p.max=r.total;p.value=r[stage];p.setAttribute('aria-label',`${stage}: ${r[stage]} of ${r.total}`);td.append(p,document.createTextNode(`${r[stage]} / ${r.total}`));tr.append(td);}
@@ -64,7 +111,7 @@ function draw(){
 }
 async function refresh(){
   if(refreshing||!key)return;refreshing=true;$('refresh').disabled=true;
-  try{const data=await request('annotators');records=data.annotators;draw();$('updated').textContent=`Updated ${new Date().toLocaleTimeString()} · Refreshes every 15 seconds`;$('message').textContent='';}
+  try{const data=await request('annotators');records=data.annotators;datasetId=data.dataset_id;draw();$('updated').textContent=`Updated ${new Date().toLocaleTimeString()} · Refreshes every 15 seconds · Dataset ${datasetId}`;$('message').textContent='';}
   finally{refreshing=false;$('refresh').disabled=false;}
 }
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();key=$('adminKey').value;try{await refresh();$('adminKey').value='';$('login').hidden=true;$('dashboard').hidden=false;}catch(err){key='';$('loginError').textContent=err.message;}});
