@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DESPITE Hazard-Condition Review · 10-Task Smoke Test</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #10243f;
+      --navy-2: #183a62;
+      --blue: #2868b2;
+      --blue-soft: #eaf2fb;
+      --ink: #172133;
+      --muted: #617087;
+      --line: #d9e1eb;
+      --panel: #ffffff;
+      --canvas: #f3f6fa;
+      --amber: #9a6410;
+      --amber-soft: #fff5dd;
+      --green: #28734b;
+      --green-soft: #eaf7f0;
+      --red: #a03a3a;
+      --red-soft: #fff0f0;
+      --shadow: 0 12px 30px rgba(16, 36, 63, .08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.55;
+    }
+    button, input, select, textarea { font: inherit; }
+    button, input[type="radio"], input[type="range"] { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(40, 104, 178, .28);
+      outline-offset: 2px;
+    }
+    [hidden] { display: none !important; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 72px;
+      padding: 12px 28px;
+      color: #fff;
+      background: linear-gradient(115deg, var(--navy), var(--navy-2));
+      box-shadow: 0 3px 18px rgba(8, 25, 47, .18);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 12px;
+      background: rgba(255,255,255,.1);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .brand h1 { margin: 0; font-size: 17px; line-height: 1.25; }
+    .brand p { margin: 2px 0 0; color: #cfe0f3; font-size: 12px; }
+    .top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .shell {
+      width: min(1420px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .welcome {
+      width: min(760px, 100%);
+      margin: 54px auto;
+      padding: clamp(24px, 5vw, 48px);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h2, h3 { line-height: 1.28; }
+    .welcome h2 { margin: 0; font-size: clamp(25px, 4vw, 38px); }
+    .lead { color: var(--muted); font-size: 16px; }
+    .notice {
+      margin: 20px 0;
+      padding: 15px 17px;
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      background: var(--blue-soft);
+    }
+    .notice.warning { border-color: var(--amber); background: var(--amber-soft); }
+    .steps { display: grid; gap: 10px; margin: 20px 0 24px; padding: 0; list-style: none; }
+    .steps li { display: flex; gap: 11px; align-items: flex-start; }
+    .step-number {
+      display: grid;
+      place-items: center;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--navy-2);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field { display: grid; gap: 7px; margin-top: 16px; }
+    .field > label, .label { font-weight: 700; }
+    .field small, .help { color: var(--muted); font-size: 12px; }
+    input[type="text"], select, textarea {
+      width: 100%;
+      border: 1px solid #bdc9d8;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+      padding: 11px 12px;
+    }
+    textarea { min-height: 92px; resize: vertical; }
+
+    .btn {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      padding: 9px 15px;
+      font-weight: 750;
+      text-decoration: none;
+      transition: transform .12s ease, background .12s ease, opacity .12s ease;
+    }
+    .btn:hover:not(:disabled) { transform: translateY(-1px); }
+    .btn:disabled { cursor: not-allowed; opacity: .46; }
+    .btn-primary { color: #fff; background: var(--blue); }
+    .btn-secondary { color: var(--ink); border-color: var(--line); background: #fff; }
+    .btn-ghost { color: #eef6ff; border-color: rgba(255,255,255,.28); background: rgba(255,255,255,.08); }
+    .btn-danger { color: var(--red); border-color: #ecc3c3; background: var(--red-soft); }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+    .sidebar { position: sticky; top: 96px; overflow: hidden; }
+    .phase-box { padding: 18px; border-bottom: 1px solid var(--line); }
+    .phase-box h2 { margin: 0; font-size: 17px; }
+    .phase-box p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .progress-track {
+      height: 7px;
+      margin-top: 13px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e4eaf1;
+    }
+    .progress-fill { height: 100%; width: 0; background: var(--blue); transition: width .2s ease; }
+    .task-nav { display: grid; gap: 6px; padding: 12px; }
+    .task-nav button {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 42px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: transparent;
+      text-align: left;
+    }
+    .task-nav button:hover { background: #f2f6fa; }
+    .task-nav button.active { border-color: #adc8e6; background: var(--blue-soft); }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      flex: 0 0 auto;
+      border: 2px solid #a9b5c4;
+      border-radius: 50%;
+      background: #fff;
+    }
+    .status-dot.done { border-color: var(--green); background: var(--green); }
+    .status-dot.draft { border-color: var(--amber); background: var(--amber-soft); }
+    .task-nav .task-label { flex: 1; }
+    .task-nav .task-state { color: var(--muted); font-size: 11px; }
+
+    .main-card { min-width: 0; overflow: hidden; }
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--line);
+    }
+    .task-header h2 { margin: 2px 0 4px; font-size: 24px; }
+    .task-header p { margin: 0; color: var(--muted); }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 27px;
+      border: 1px solid #c9d5e2;
+      border-radius: 999px;
+      padding: 3px 9px;
+      color: #46566c;
+      background: #f8fafc;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pill.locked { border-color: #e8d19b; color: #80500c; background: var(--amber-soft); }
+    .task-body { display: grid; gap: 22px; padding: 24px 28px 28px; }
+    .scenario-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .info-tile { padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fbfcfe; }
+    .info-tile b { display: block; margin-bottom: 3px; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+    .facts { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+    .fact {
+      border: 1px solid #d6dee8;
+      border-radius: 7px;
+      padding: 4px 7px;
+      background: #f8fafc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .plan-card { min-width: 0; border: 1px solid #cfd9e5; border-radius: 12px; overflow: hidden; background: #fff; }
+    .plan-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; background: #f3f6fa; border-bottom: 1px solid var(--line); }
+    .plan-head h3 { margin: 0; font-size: 17px; }
+    .plan-head span { color: var(--muted); font-size: 12px; }
+    .action-list { display: grid; gap: 7px; padding: 12px; }
+    .action-step {
+      display: grid;
+      grid-template-columns: 28px minmax(0,1fr);
+      gap: 9px;
+      width: 100%;
+      min-height: 48px;
+      align-items: center;
+      border: 1px solid #d7dfe9;
+      border-radius: 9px;
+      padding: 7px 9px;
+      color: var(--ink);
+      background: #fff;
+      text-align: left;
+    }
+    .action-step:hover { border-color: #8fb2d7; background: #f7fbff; }
+    .action-step.selected { border-color: var(--amber); background: var(--amber-soft); box-shadow: inset 3px 0 var(--amber); }
+    .action-step:disabled { cursor: default; opacity: 1; }
+    .action-index { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #eaf0f6; font-weight: 800; font-size: 12px; }
+    .action-name { display: block; font-weight: 700; overflow-wrap: anywhere; }
+    .action-raw { display: block; margin-top: 1px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; overflow-wrap: anywhere; }
+
+    fieldset { min-width: 0; margin: 0; border: 0; padding: 0; }
+    fieldset[disabled] { opacity: .82; }
+    .question-block { padding: 17px; border: 1px solid var(--line); border-radius: 11px; background: #fcfdff; }
+    .question-block legend { padding: 0 5px; font-weight: 800; }
+    .option-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 8px; margin-top: 10px; }
+    .radio-card { display: flex; align-items: flex-start; gap: 9px; min-height: 45px; padding: 10px; border: 1px solid #d5dee8; border-radius: 9px; background: #fff; }
+    .radio-card:has(input:checked) { border-color: var(--blue); background: var(--blue-soft); }
+    .radio-card input { margin-top: 3px; }
+    .two-col { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .form-stack { display: grid; gap: 18px; }
+    .range-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; }
+    .confidence-value { min-width: 42px; text-align: center; font-weight: 800; }
+    .error-box { padding: 11px 13px; border: 1px solid #e8b3b3; border-radius: 8px; color: #7c2929; background: var(--red-soft); }
+    .locked-answer { padding: 14px 16px; border: 1px solid #b9ddc9; border-radius: 10px; background: var(--green-soft); }
+    .locked-answer b { color: var(--green); }
+    .footer-nav { display: flex; justify-content: space-between; gap: 12px; padding: 18px 28px; border-top: 1px solid var(--line); background: #fbfcfe; }
+
+    .condition-card { overflow: hidden; border: 1px solid #ccd8e5; border-radius: 12px; }
+    .condition-head { padding: 14px 16px; color: #fff; background: var(--navy-2); }
+    .condition-head h3 { margin: 0; font-size: 17px; }
+    .condition-body { display: grid; gap: 14px; padding: 16px; }
+    .hazard-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .formal {
+      margin: 0;
+      padding: 13px;
+      overflow-x: auto;
+      border-radius: 8px;
+      color: #eaf3ff;
+      background: #172943;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .reveal { padding: 13px 15px; border: 1px dashed #aab9ca; border-radius: 9px; background: #f8fafc; }
+
+    .summary { padding: clamp(22px, 4vw, 38px); }
+    .summary h2 { margin-top: 0; }
+    .metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin: 20px 0; }
+    .metric { padding: 17px; border: 1px solid var(--line); border-radius: 11px; background: #fbfcfe; }
+    .metric strong { display: block; font-size: 27px; }
+    .metric span { color: var(--muted); font-size: 12px; }
+    .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .summary-table th, .summary-table td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+    .summary-table th { color: var(--muted); background: #f7f9fc; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .toast { position: fixed; right: 18px; bottom: 18px; z-index: 50; max-width: 360px; padding: 11px 14px; border-radius: 9px; color: #fff; background: #223954; box-shadow: var(--shadow); opacity: 0; transform: translateY(8px); pointer-events: none; transition: .18s ease; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 980px) {
+      .workspace { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .task-nav { grid-template-columns: repeat(5, minmax(0,1fr)); }
+      .task-nav button { justify-content: center; }
+      .task-nav .task-label, .task-nav .task-state { display: none; }
+      .scenario-grid, .metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width: 720px) {
+      .topbar { position: static; align-items: flex-start; padding: 12px 16px; }
+      .brand p { display: none; }
+      .top-actions .btn-ghost { min-height: 38px; padding: 7px 10px; font-size: 12px; }
+      .shell { width: min(100% - 18px, 1420px); margin-top: 12px; }
+      .plans, .two-col, .hazard-grid, .scenario-grid, .metrics { grid-template-columns: 1fr; }
+      .task-header, .task-body, .footer-nav { padding-left: 16px; padding-right: 16px; }
+      .task-header { display: block; }
+      .task-header .pill { margin-top: 9px; }
+      .task-nav { grid-template-columns: repeat(10, minmax(36px,1fr)); overflow-x: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+    @media print {
+      .topbar, .sidebar, .footer-nav, .btn, .toast { display: none !important; }
+      .workspace { display: block; }
+      .card { box-shadow: none; }
+    }
+  </style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f4b99'/%3E%3Ctext x='8' y='24' font-size='24' fill='white'%3ED%3C/text%3E%3C/svg%3E"></head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">D</div>
+      <div>
+        <h1>DESPITE Hazard-Condition Review</h1>
+        <p>10-task interaction smoke test · dataset-label audit</p>
+      </div>
+    </div>
+    <div id="syncStatus" role="status" aria-live="polite"></div><div class="top-actions" id="topActions" hidden>
+      <button class="btn btn-ghost" type="button" id="summaryTop" hidden>View summary</button>
+      <button class="btn btn-ghost" type="button" id="exportTop">Export JSON</button>
+      <button class="btn btn-ghost" type="button" id="resetTop">Sign out</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="welcomeView" class="card welcome" aria-labelledby="welcomeTitle">
+      <p class="eyebrow">Smoke test · 10 tasks</p>
+      <h2 id="welcomeTitle">Judge the plans first, then review the hazard condition</h2>
+      <p class="lead">This page tests the DESPITE human-review workflow; it is not intended to estimate dataset quality.</p>
+      <ol class="steps">
+        <li><span class="step-number">1</span><span><b>Pass 1: </b>Complete all 10 blinded Plan A/B judgments. Dataset hazard labels remain hidden.</span></li>
+        <li><span class="step-number">2</span><span><b>Pass 2: </b>Review the proposed dangerous action, trigger condition, and safe alternative.</span></li>
+        <li><span class="step-number">3</span><span><b>Export:</b>Responses are saved to the server. Use the same annotator ID on any browser to continue.</span></li>
+      </ol>
+      <div class="notice warning">
+        Use the ID assigned to you. Anyone who knows this ID can resume your review; keep it private. Wait for “Saved to server” before switching devices.
+      </div>
+      <form id="welcomeForm"><p id="loginError" class="error-box" hidden></p>
+        <div class="field">
+          <label for="annotatorId">Annotator ID</label>
+          <input id="annotatorId" name="annotatorId" type="text" autocomplete="off" maxlength="64" placeholder="Your assigned annotator ID" required>
+          <small>Your ID restores saved answers, task order, and Plan A/B assignment across browsers.</small>
+        </div>
+        <div style="margin-top:20px">
+          <button class="btn btn-primary" type="submit">Start or resume</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="reviewView" class="workspace" hidden>
+      <aside class="card sidebar" aria-label="Item navigation">
+        <div class="phase-box">
+          <h2 id="phaseTitle">Pass 1 · blinded plan review</h2>
+          <p id="phaseProgress">0 / 10 submitted</p>
+          <div class="progress-track" aria-hidden="true"><div id="progressFill" class="progress-fill"></div></div>
+        </div>
+        <nav id="taskNav" class="task-nav"></nav>
+      </aside>
+
+      <article class="card main-card">
+        <div id="taskContent"></div>
+      </article>
+    </section>
+
+    <section id="summaryView" class="card summary" hidden aria-labelledby="summaryTitle">
+      <p class="eyebrow">Smoke test completed</p>
+      <h2 id="summaryTitle">10-task review complete</h2>
+      <p class="lead">The summary below is only a UI sanity check and must not be treated as a benchmark-quality result.</p>
+      <div id="summaryMetrics" class="metrics"></div>
+      <div style="overflow-x:auto"><table class="summary-table" id="summaryTable"></table></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+        <button class="btn btn-primary" type="button" id="exportSummary">Download full JSON</button>
+        <button class="btn btn-secondary" type="button" id="returnReview">Return to review</button>
+        <button class="btn btn-danger" type="button" id="resetSummary">Sign out</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="liveRegion" class="sr-only" aria-live="polite"></div>
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script>
+  'use strict';
+  const API_BASE = "https://despite-review-api.1816020611.workers.dev";
+
+  let DATASET = {tasks: []};
+
+  
+  let state = null;
+  let currentIndex = 0;
+  let toastTimer = null;
+
+  const $ = (id) => document.getElementById(id);
+  const welcomeView = $('welcomeView');
+  const reviewView = $('reviewView');
+  const summaryView = $('summaryView');
+  const taskContent = $('taskContent');
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  }
+
+  function stableHash(text) {
+    let h = 2166136261;
+    for (let i = 0; i < text.length; i++) {
+      h ^= text.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  function humanizeAction(raw) {
+    const bits = raw.trim().split(/\s+/);
+    const action = bits.shift().replaceAll('_', ' ');
+    return bits.length ? `${action} · ${bits.join(', ')}` : action;
+  }
+
+  let accessToken = '';
+  let generation = 0;
+  let savedGeneration = 0;
+  let syncTimer = null;
+  let inFlight = null;
+  let conflict = false;
+
+  function showLoginError(message) {
+    $('loginError').hidden = false;
+    $('loginError').textContent = message;
+  }
+
+  function syncStatus(message, failed=false) {
+    $('syncStatus').textContent = message;
+    $('syncStatus').style.color = failed ? '#ffd3cc' : '#baf3d2';
+  }
+
+  async function api(path, options={}) {
+    const response = await fetch(`${API_BASE}/api${path}`, {
+      ...options,
+      headers: {'Content-Type':'application/json', Authorization:`Bearer ${accessToken}`, ...options.headers},
+      cache: 'no-store'
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      const error = new Error(result.error || 'The server could not save your response.');
+      error.status = response.status;
+      throw error;
+    }
+    return result;
+  }
+
+  async function loadOrCreateState(annotatorId) {
+    const button = $('welcomeForm').querySelector('button');
+    button.disabled = true;
+    $('loginError').hidden = true;
+    try {
+      const result = await api('/session', {method:'POST', body:JSON.stringify({annotator_id:annotatorId})});
+      accessToken = result.token;
+      DATASET = result.dataset;
+      generation = savedGeneration = 0;
+      conflict = false;
+      syncStatus('Saved to server');
+      return result.state;
+    } finally { button.disabled = false; }
+  }
+
+  function saveState() {
+    if (!state) return;
+    state.current_index = currentIndex;
+    generation++;
+    syncStatus(conflict ? 'Another browser changed this review. Export your draft, then reload.' : 'Saving…', conflict);
+    clearTimeout(syncTimer);
+    if (!conflict) syncTimer = setTimeout(flushState, 450);
+  }
+
+  async function flushState() {
+    clearTimeout(syncTimer);
+    if (!state || conflict) return false;
+    if (inFlight) {
+      const ok = await inFlight;
+      if (!ok) return false;
+      return generation === savedGeneration ? true : flushState();
+    }
+    if (generation === savedGeneration) return true;
+    const sendingGeneration = generation;
+    const snapshot = JSON.parse(JSON.stringify(state));
+    inFlight = (async () => {
+      try {
+        const result = await api('/state', {method:'PUT', body:JSON.stringify({revision:state.revision, state:snapshot})});
+        state.revision = result.state.revision;
+        state.updated_at = result.state.updated_at;
+        DATASET = result.dataset;
+        savedGeneration = sendingGeneration;
+        if (generation === sendingGeneration) state = result.state;
+        syncStatus(generation === savedGeneration ? 'Saved to server' : 'Saving…');
+        return true;
+      } catch (e) {
+        conflict = e.status === 409;
+        syncStatus(conflict ? 'Another browser changed this review. Export your draft, then reload.' : `Not synced: ${e.message} Keep this tab open.`, true);
+        if (!conflict && (!e.status || e.status >= 500)) syncTimer = setTimeout(flushState, 5000);
+        showToast(e.message);
+        return false;
+      } finally { inFlight = null; }
+    })();
+    const ok = await inFlight;
+    if (ok && generation !== savedGeneration) return flushState();
+    return ok;
+  }
+
+  async function signOut() {
+    if (!await flushState()) return;
+    state = null;
+    accessToken = '';
+    currentIndex = 0;
+    reviewView.hidden = summaryView.hidden = $('topActions').hidden = true;
+    welcomeView.hidden = false;
+    $('annotatorId').value = '';
+    syncStatus('');
+    $('annotatorId').focus();
+  }
+
+  window.addEventListener('online', () => { if (state && !conflict) flushState(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && state) flushState(); });
+  window.addEventListener('beforeunload', event => {
+    if (state && generation !== savedGeneration) { event.preventDefault(); event.returnValue = ''; }
+  });
+
+  function showToast(message) {
+    const toast = $('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  function getTask(taskId) {
+    return DATASET.tasks.find(t => t.taskId === taskId);
+  }
+
+  function currentTask() {
+    return getTask(state.task_order[currentIndex]);
+  }
+
+  function responseFor(taskId) {
+    if (!state.responses[taskId]) state.responses[taskId] = {};
+    return state.responses[taskId];
+  }
+
+  function submittedCount(stage) {
+    return state.task_order.filter(id => state.responses[id]?.[stage]?.status === 'submitted').length;
+  }
+
+  function stageComplete(stage) {
+    return submittedCount(stage) === state.task_order.length;
+  }
+
+  function renderApp() {
+    welcomeView.hidden = true;
+    summaryView.hidden = true;
+    reviewView.hidden = false;
+    $('topActions').hidden = false;
+    $('summaryTop').hidden = !stageComplete('stage2');
+    if (state.phase === 'done') {
+      renderSummary();
+      return;
+    }
+    renderSidebar();
+    if (state.phase === 'stage1') renderStage1(); else renderStage2();
+  }
+
+  function renderSidebar() {
+    const stage = state.phase;
+    const count = submittedCount(stage);
+    $('phaseTitle').textContent = stage === 'stage1' ? 'Pass 1 · blinded plan review' : 'Pass 2 · condition review';
+    $('phaseProgress').textContent = `${count} / ${state.task_order.length} submitted`;
+    $('progressFill').style.width = `${100 * count / state.task_order.length}%`;
+    const nav = $('taskNav');
+    nav.replaceChildren();
+    state.task_order.forEach((taskId, i) => {
+      const record = state.responses[taskId]?.[stage];
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = i === currentIndex ? 'active' : '';
+      button.setAttribute('aria-current', i === currentIndex ? 'step' : 'false');
+      const dot = document.createElement('span');
+      dot.className = `status-dot ${record?.status === 'submitted' ? 'done' : record ? 'draft' : ''}`;
+      const label = document.createElement('span');
+      label.className = 'task-label';
+      label.textContent = `Item ${i + 1}`;
+      const stateLabel = document.createElement('span');
+      stateLabel.className = 'task-state';
+      stateLabel.textContent = record?.status === 'submitted' ? 'Complete' : record ? 'Draft' : 'Unanswered';
+      const mobile = document.createElement('span');
+      mobile.className = 'sr-only';
+      mobile.textContent = `Item ${i + 1}, ${stateLabel.textContent}`;
+      button.append(dot, label, stateLabel, mobile);
+      button.addEventListener('click', () => { currentIndex = i; saveState(); renderApp(); focusTaskTitle(); });
+      nav.append(button);
+    });
+  }
+
+  function headerHtml(task, stageLabel, locked=false) {
+    return `<div class="task-header">
+      <div><p class="eyebrow">${escapeHtml(stageLabel)} · Item ${currentIndex + 1} / 10</p>
+        <h2 id="taskTitle">${escapeHtml(task.scenario.task)}</h2>
+        <p>Make an independent judgment from the scenario and action sequence.</p></div>
+      <span class="pill ${locked ? 'locked' : ''}">${locked ? 'Response locked' : state.phase === 'stage1' ? 'Benchmark label hidden' : 'Benchmark labels revealed'}</span>
+    </div>`;
+  }
+
+  function scenarioHtml(task) {
+    return `<section aria-labelledby="scenarioHeading">
+      <h3 id="scenarioHeading">Scenario</h3>
+      <div class="scenario-grid">
+        <div class="info-tile"><b>Setting</b>${escapeHtml(task.scenario.setting)}</div>
+        <div class="info-tile"><b>Robot role</b>${escapeHtml(task.scenario.role)}</div>
+        <div class="info-tile"><b>Goal</b>${task.scenario.goals.map(escapeHtml).join('<br>')}</div>
+      </div>
+      <details style="margin-top:12px"><summary><b>View initially true facts from the public PDDL</b></summary>
+        <div class="facts">${task.scenario.initial.map(x => `<span class="fact">${escapeHtml(x)}</span>`).join('')}</div>
+        <p class="help">Unlisted Boolean fluents default to false. The hidden danger fluent is not shown.</p>
+      </details>
+    </section>`;
+  }
+
+  function planHtml(task, side, selectedIndex, disabled) {
+    const variantKey = state.orientation[task.taskId][side];
+    const steps = task.variants[variantKey];
+    return `<section class="plan-card" aria-labelledby="plan${side}Heading">
+      <div class="plan-head"><h3 id="plan${side}Heading">Plan ${side}</h3><span>${steps.length} steps</span></div>
+      <div class="action-list">${steps.map((raw, index) => `<button type="button" class="action-step ${selectedIndex === index ? 'selected' : ''}"
+        data-risk-side="${side}" data-risk-index="${index}" ${disabled ? 'disabled' : ''}
+        aria-pressed="${selectedIndex === index}">
+        <span class="action-index">${index + 1}</span><span><span class="action-name">${escapeHtml(humanizeAction(raw))}</span><span class="action-raw">(${escapeHtml(raw)})</span></span>
+      </button>`).join('')}</div>
+    </section>`;
+  }
+
+  function radioCards(name, options, value, disabled=false) {
+    return `<div class="option-grid">${options.map(([v,label]) => `<label class="radio-card">
+      <input type="radio" name="${escapeHtml(name)}" value="${escapeHtml(v)}" ${value === v ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+      <span>${escapeHtml(label)}</span></label>`).join('')}</div>`;
+  }
+
+  function renderStage1() {
+    const task = currentTask();
+    const response = responseFor(task.taskId);
+    const record = response.stage1 || {status:'draft', riskSteps:{A:null,B:null}, confidence:3};
+    const locked = record.status === 'submitted';
+    taskContent.innerHTML = headerHtml(task, 'Blind plan review', locked) + `
+      <div class="task-body">
+        ${scenarioHtml(task)}
+        <section aria-labelledby="plansHeading"><h3 id="plansHeading">Compare the two plans</h3>
+          <p class="help">Click an action to mark the earliest risky step in that plan. Plan labels and task order are randomized.</p>
+          <div class="plans">${planHtml(task,'A',record.riskSteps?.A,locked)}${planHtml(task,'B',record.riskSteps?.B,locked)}</div>
+        </section>
+        ${locked ? lockedStage1Html(record) : stage1FormHtml(record)}
+        ${stageComplete('stage1') ? `<div class="notice"><b>All Pass 1 items are complete.</b><br>Pass 2 reveals the benchmark-proposed action and condition; blinded responses remain locked.<div style="margin-top:10px"><button class="btn btn-primary" type="button" id="startStage2">Continue to hazard-condition review</button></div></div>` : ''}
+      </div>
+      ${footerHtml()}`;
+    attachNavEvents();
+    $('startStage2')?.addEventListener('click', startStage2Prompt);
+    if (!locked) attachStage1Events(task, record);
+  }
+
+  function stage1FormHtml(record) {
+    const feas = [['yes','Completes the task and is semantically feasible'],['no','Incomplete or infeasible'],['unclear','Cannot determine']];
+    const violation = [['A','Only Plan A has a safety violation'],['B','Only Plan B has a safety violation'],['both','Both plans have safety violations'],['neither','Neither plan has a safety violation'],['insufficient','Insufficient information']];
+    const more = [['A','Plan A is riskier'],['B','Plan B is riskier'],['equal','Similar risk'],['insufficient','Cannot compare']];
+    return `<form id="stage1Form" class="form-stack" novalidate>
+      <div class="two-col">
+        <fieldset class="question-block"><legend>Does Plan A complete the task?</legend>${radioCards('feasibilityA',feas,record.feasibilityA)}</fieldset>
+        <fieldset class="question-block"><legend>Does Plan B complete the task?</legend>${radioCards('feasibilityB',feas,record.feasibilityB)}</fieldset>
+      </div>
+      <fieldset class="question-block"><legend>Which plan contains a safety violation?</legend>${radioCards('violation',violation,record.violation)}</fieldset>
+      <fieldset class="question-block"><legend>Which plan has greater overall risk?</legend>${radioCards('moreDangerous',more,record.moreDangerous)}</fieldset>
+      <div class="question-block">
+        <label class="label" for="stage1Confidence">Confidence</label>
+        <div class="range-row"><input id="stage1Confidence" name="confidence" type="range" min="1" max="5" value="${record.confidence || 3}"><output id="stage1ConfidenceValue" class="confidence-value">${record.confidence || 3} / 5</output></div>
+      </div>
+      <div class="field"><label for="stage1Rationale">Rationale</label><textarea id="stage1Rationale" name="rationale" placeholder="Identify the risky action, relevant state, and possible harm.">${escapeHtml(record.rationale || '')}</textarea></div>
+      <div id="stage1Error" class="error-box" hidden></div>
+      <div><button class="btn btn-primary" type="submit">Submit and lock this item</button></div>
+    </form>`;
+  }
+
+  function lockedStage1Html(record) {
+    const choice = {A:'Only Plan A has a safety violation',B:'Only Plan B has a safety violation',both:'Both plans have safety violations',neither:'Neither plan has a safety violation',insufficient:'Insufficient information'}[record.violation];
+    return `<div class="locked-answer"><b>Blinded response locked:</b> ${escapeHtml(choice || '—')} · Confidence ${escapeHtml(record.confidence)} / 5
+      <div class="help" style="margin-top:5px">Hazard conditions are revealed only after all 10 items are complete.</div></div>`;
+  }
+
+  function attachStage1Events(task, record) {
+    const form = $('stage1Form');
+    taskContent.querySelectorAll('[data-risk-side]').forEach(button => {
+      button.addEventListener('click', () => {
+        if (!record.riskSteps) record.riskSteps = {A:null,B:null};
+        const side = button.dataset.riskSide;
+        const index = Number(button.dataset.riskIndex);
+        record.riskSteps[side] = record.riskSteps[side] === index ? null : index;
+        responseFor(task.taskId).stage1 = record;
+        saveState();
+        taskContent.querySelectorAll('[data-risk-side]').forEach(b => {
+          const selected = record.riskSteps[b.dataset.riskSide] === Number(b.dataset.riskIndex);
+          b.classList.toggle('selected', selected); b.setAttribute('aria-pressed', String(selected));
+        });
+      });
+    });
+    form.addEventListener('input', () => {
+      readStage1Form(form, record);
+      responseFor(task.taskId).stage1 = record;
+      saveState();
+      $('stage1ConfidenceValue').textContent = `${record.confidence} / 5`;
+      renderSidebar();
+    });
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      readStage1Form(form, record);
+      const error = validateStage1(record);
+      if (error) {
+        $('stage1Error').hidden = false;
+        $('stage1Error').textContent = error;
+        return;
+      }
+      record.status = 'submitted';
+      record.submitted_at = new Date().toISOString();
+      responseFor(task.taskId).stage1 = record;
+      saveState('Item submitted and locked');
+      if (!await flushState()) return;
+      showToast('Blinded response locked');
+      if (stageComplete('stage1')) {
+        window.setTimeout(startStage2Prompt, 100);
+      } else {
+        moveToNextIncomplete('stage1');
+        renderApp();
+      }
+    });
+  }
+
+  function readStage1Form(form, record) {
+    const data = new FormData(form);
+    for (const key of ['feasibilityA','feasibilityB','violation','moreDangerous']) {
+      if (data.get(key)) record[key] = data.get(key);
+    }
+    record.confidence = Number(data.get('confidence') || 3);
+    record.rationale = String(data.get('rationale') || '');
+    if (!record.riskSteps) record.riskSteps = {A:null,B:null};
+    if (record.violation === 'A') record.riskSteps.B = null;
+    if (record.violation === 'B') record.riskSteps.A = null;
+    if (record.violation === 'neither' || record.violation === 'insufficient') record.riskSteps = {A:null,B:null};
+  }
+
+  function validateStage1(r) {
+    if (!r.feasibilityA || !r.feasibilityB || !r.violation || !r.moreDangerous) return 'Complete all required selections.';
+    if (r.violation === 'A' && r.riskSteps?.A == null) return 'Click the earliest risky action in Plan A.';
+    if (r.violation === 'B' && r.riskSteps?.B == null) return 'Click the earliest risky action in Plan B.';
+    if (r.violation === 'both' && (r.riskSteps?.A == null || r.riskSteps?.B == null)) return 'When selecting “Both,” mark the earliest risky step in both Plan A and Plan B.';
+    if ((r.rationale || '').trim().length < 8) return 'Provide a brief explanation of at least 8 characters.';
+    return '';
+  }
+
+  async function startStage2Prompt() {
+    if (!stageComplete('stage1')) return;
+    const ok = window.confirm('All 10 Pass 1 responses are locked. Continue to hazard-condition review? Blinded responses cannot be edited afterward.');
+    if (ok) {
+      state.phase = 'stage2';
+      state.stage2_started_at = new Date().toISOString();
+      currentIndex = 0;
+      saveState('Entered Pass 2');
+      if (!await flushState()) return;
+      renderApp();
+      focusTaskTitle();
+    } else {
+      renderApp();
+    }
+  }
+
+  function renderStage2() {
+    const task = currentTask();
+    const response = responseFor(task.taskId);
+    const record = response.stage2 || {status:'draft', confidence:3};
+    const locked = record.status === 'submitted';
+    const mapping = state.orientation[task.taskId];
+    const safeSide = mapping.A === task.benchmark.safeVariant ? 'A' : 'B';
+    const unsafeSide = safeSide === 'A' ? 'B' : 'A';
+    taskContent.innerHTML = headerHtml(task, 'Condition review', locked) + `
+      <div class="task-body">
+        ${scenarioHtml(task)}
+        <div class="reveal"><b>Benchmark mapping revealed after Pass 1:</b> Plan ${safeSide} = proposed-safe; Plan ${unsafeSide} = proposed-unsafe.</div>
+        <div class="plans">${planHtml(task,'A',response.stage1?.riskSteps?.A,true)}${planHtml(task,'B',response.stage1?.riskSteps?.B,true)}</div>
+        ${conditionHtml(task)}
+        ${locked ? lockedStage2Html(record) : stage2FormHtml(record)}
+      </div>
+      ${footerHtml()}`;
+    attachNavEvents();
+    if (!locked) attachStage2Events(task, record);
+  }
+
+  function conditionHtml(task) {
+    const b = task.benchmark;
+    return `<section class="condition-card" aria-labelledby="conditionHeading">
+      <div class="condition-head"><h3 id="conditionHeading">Dataset-proposed hazard</h3></div>
+      <div class="condition-body">
+        <div class="hazard-grid">
+          <div class="info-tile"><b>Danger group / type</b>${escapeHtml(b.group)} / ${escapeHtml(b.type)}</div>
+          <div class="info-tile"><b>Entity in danger</b>${escapeHtml(b.entity)}</div>
+          <div class="info-tile"><b>Proposed dangerous action</b><span class="fact">${escapeHtml(b.dangerAction)}</span></div>
+          <div class="info-tile"><b>Result of danger</b>${escapeHtml(b.result)}</div>
+        </div>
+        <div><b>Natural-language explanation</b><p style="margin:5px 0 0">${escapeHtml(b.cause)} ${escapeHtml(b.conditionNatural)}</p></div>
+        <div><b>Pre-state condition extracted from code.py</b><pre class="formal">${escapeHtml(b.conditionFormal)}</pre></div>
+        <div><b>Proposed immediate solution</b><p style="margin:5px 0 0">${escapeHtml(b.solution)}</p></div>
+        <details><summary><b>View assumptions</b></summary><p>${escapeHtml(b.assumptions)}</p></details>
+      </div>
+    </section>`;
+  }
+
+  function stage2FormHtml(record) {
+    return `<form id="stage2Form" class="form-stack" novalidate>
+      <fieldset class="question-block"><legend>Is the proposed dangerous action correct?</legend>${radioCards('actionVerdict',[
+        ['correct','Correct: the action itself directly causes the stated risk'],['related','Related, but not the correct action or time at which the risk occurs'],['wrong','Wrong action'],['unclear','Cannot determine']
+      ],record.actionVerdict)}</fieldset>
+      <fieldset class="question-block"><legend>How accurate is the trigger condition?</legend>${radioCards('conditionVerdict',[
+        ['correct','Essentially correct'],['too_broad','Too broad: it incorrectly blocks safe behavior'],['too_narrow','Too narrow: it misses hazardous behavior'],['both','Both too broad and too narrow'],['wrong_polarity','Condition direction or polarity is reversed'],['ambiguous','Semantically underspecified or disputed']
+      ],record.conditionVerdict)}</fieldset>
+      <fieldset class="question-block"><legend>Does the proposed-safe plan actually avoid the risk?</legend>${radioCards('safeAlternativeVerdict',[
+        ['effective','Completes the task and eliminates the stated risk'],['still_unsafe','The stated or a new risk remains'],['infeasible','Does not complete the task or is infeasible'],['unclear','Cannot determine']
+      ],record.safeAlternativeVerdict)}</fieldset>
+      <div class="two-col">
+        <div class="field"><label for="missingConditions">Potentially missing actions, OR branches, or conditions</label><textarea id="missingConditions" name="missingConditions" placeholder="Leave blank if none.">${escapeHtml(record.missingConditions || '')}</textarea></div>
+        <div class="field"><label for="unnecessaryConditions">Potentially unnecessary, overly narrow, or reversed conditions</label><textarea id="unnecessaryConditions" name="unnecessaryConditions" placeholder="Leave blank if none.">${escapeHtml(record.unnecessaryConditions || '')}</textarea></div>
+      </div>
+      <div class="question-block"><label class="label" for="stage2Confidence">Confidence</label>
+        <div class="range-row"><input id="stage2Confidence" name="confidence" type="range" min="1" max="5" value="${record.confidence || 3}"><output id="stage2ConfidenceValue" class="confidence-value">${record.confidence || 3} / 5</output></div></div>
+      <div class="field"><label for="stage2Rationale">Review rationale or proposed revision</label><textarea id="stage2Rationale" name="rationale" placeholder="Explain why you accept or would revise this formalization.">${escapeHtml(record.rationale || '')}</textarea></div>
+      <div id="stage2Error" class="error-box" hidden></div>
+      <div><button class="btn btn-primary" type="submit">Submit and lock condition review</button></div>
+    </form>`;
+  }
+
+  function lockedStage2Html(record) {
+    const labels = {correct:'Essentially correct',too_broad:'Condition too broad',too_narrow:'Condition too narrow',both:'Both too broad and too narrow',wrong_polarity:'Condition polarity is wrong',ambiguous:'Semantically underspecified or disputed'};
+    return `<div class="locked-answer"><b>Condition review locked:</b> ${escapeHtml(labels[record.conditionVerdict] || record.conditionVerdict)} · Confidence ${escapeHtml(record.confidence)} / 5</div>`;
+  }
+
+  function attachStage2Events(task, record) {
+    const form = $('stage2Form');
+    form.addEventListener('input', () => {
+      readStage2Form(form, record);
+      responseFor(task.taskId).stage2 = record;
+      saveState();
+      $('stage2ConfidenceValue').textContent = `${record.confidence} / 5`;
+      renderSidebar();
+    });
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      readStage2Form(form, record);
+      const error = validateStage2(record);
+      if (error) {
+        $('stage2Error').hidden = false;
+        $('stage2Error').textContent = error;
+        return;
+      }
+      record.status = 'submitted';
+      record.submitted_at = new Date().toISOString();
+      responseFor(task.taskId).stage2 = record;
+      saveState('Condition review submitted');
+      if (!await flushState()) return;
+      showToast('Condition review locked');
+      if (stageComplete('stage2')) {
+        state.phase = 'done';
+        state.completed_at = new Date().toISOString();
+        saveState('10-task review complete');
+        renderSummary();
+      } else {
+        moveToNextIncomplete('stage2');
+        renderApp();
+      }
+    });
+  }
+
+  function readStage2Form(form, record) {
+    const data = new FormData(form);
+    for (const key of ['actionVerdict','conditionVerdict','safeAlternativeVerdict']) if (data.get(key)) record[key] = data.get(key);
+    record.missingConditions = String(data.get('missingConditions') || '');
+    record.unnecessaryConditions = String(data.get('unnecessaryConditions') || '');
+    record.confidence = Number(data.get('confidence') || 3);
+    record.rationale = String(data.get('rationale') || '');
+  }
+
+  function validateStage2(r) {
+    if (!r.actionVerdict || !r.conditionVerdict || !r.safeAlternativeVerdict) return 'Complete all three core verdicts.';
+    if ((r.rationale || '').trim().length < 8) return 'Provide a review rationale of at least 8 characters.';
+    return '';
+  }
+
+  function footerHtml() {
+    return `<div class="footer-nav">
+      <button class="btn btn-secondary" type="button" id="prevTask" ${currentIndex === 0 ? 'disabled' : ''}>← Previous item</button>
+      <button class="btn btn-secondary" type="button" id="nextTask" ${currentIndex === state.task_order.length - 1 ? 'disabled' : ''}>Next item →</button>
+    </div>`;
+  }
+
+  function attachNavEvents() {
+    $('prevTask')?.addEventListener('click', () => { currentIndex--; saveState(); renderApp(); focusTaskTitle(); });
+    $('nextTask')?.addEventListener('click', () => { currentIndex++; saveState(); renderApp(); focusTaskTitle(); });
+  }
+
+  function focusTaskTitle() {
+    window.setTimeout(() => {
+      const title = $('taskTitle');
+      if (title) { title.tabIndex = -1; title.focus(); }
+    }, 0);
+  }
+
+  function moveToNextIncomplete(stage) {
+    const next = state.task_order.findIndex(id => state.responses[id]?.[stage]?.status !== 'submitted');
+    if (next >= 0) { currentIndex = next; saveState(); }
+  }
+
+  function renderSummary() {
+    welcomeView.hidden = true;
+    reviewView.hidden = true;
+    summaryView.hidden = false;
+    $('topActions').hidden = false;
+    $('summaryTop').hidden = true;
+    let planAgreement = 0;
+    const verdictCounts = {};
+    let effective = 0;
+    for (const taskId of state.task_order) {
+      const task = getTask(taskId);
+      const orientation = state.orientation[taskId];
+      const unsafeSide = orientation.A === task.benchmark.unsafeVariant ? 'A' : 'B';
+      const r = state.responses[taskId];
+      if (r?.stage1?.violation === unsafeSide) planAgreement++;
+      const cv = r?.stage2?.conditionVerdict || 'missing';
+      verdictCounts[cv] = (verdictCounts[cv] || 0) + 1;
+      if (r?.stage2?.safeAlternativeVerdict === 'effective') effective++;
+    }
+    $('summaryMetrics').innerHTML = `
+      <div class="metric"><strong>10 / 10</strong><span>Both passes complete</span></div>
+      <div class="metric"><strong>${planAgreement} / 10</strong><span>Blinded choice matches the proposed-unsafe plan</span></div>
+      <div class="metric"><strong>${verdictCounts.correct || 0} / 10</strong><span>Hazard condition rated essentially correct</span></div>
+      <div class="metric"><strong>${effective} / 10</strong><span>Safe alternative rated effective</span></div>`;
+    const rows = state.task_order.map((taskId,i) => {
+      const task = getTask(taskId), r = state.responses[taskId];
+      return `<tr><td>${i+1}</td><td>${escapeHtml(taskId)}</td><td>${escapeHtml(r?.stage1?.violation || '—')}</td><td>${escapeHtml(r?.stage2?.actionVerdict || '—')}</td><td>${escapeHtml(r?.stage2?.conditionVerdict || '—')}</td><td>${escapeHtml(r?.stage2?.safeAlternativeVerdict || '—')}</td></tr>`;
+    }).join('');
+    $('summaryTable').innerHTML = `<thead><tr><th>#</th><th>Task</th><th>Blinded violation choice</th><th>Action</th><th>Condition</th><th>Alternative</th></tr></thead><tbody>${rows}</tbody>`;
+  }
+
+  function exportData() {
+    if (!state) return;
+    const taskManifest = state.task_order.map(taskId => {
+      const t = getTask(taskId);
+      return {task_id: taskId, item_id: t.itemId, source: t.source, split: t.split, health: t.health};
+    });
+    const payload = {
+      ...state,
+      exported_at: new Date().toISOString(),
+      completion: {stage1: submittedCount('stage1'), stage2: submittedCount('stage2'), total: 10},
+      task_manifest: taskManifest
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().replaceAll(':','-').replace('.000','');
+    a.href = url;
+    a.download = `despite_smoke10_${state.annotator_id.replace(/[^a-zA-Z0-9_-]+/g,'_')}_${stamp}.json`;
+    document.body.append(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    showToast('JSON downloaded');
+  }
+
+  async function resetAll() { await signOut(); }
+
+  $('welcomeForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    const annotatorId = $('annotatorId').value.trim();
+    if (!annotatorId) return;
+    try { state = await loadOrCreateState(annotatorId); } catch (e) { showLoginError(e.message); return; }
+    currentIndex = state.current_index || 0;
+    renderApp();
+    focusTaskTitle();
+  });
+  $('exportTop').addEventListener('click', exportData);
+  $('summaryTop').addEventListener('click', () => {
+    state.phase = 'done';
+    saveState();
+    renderSummary();
+  });
+  $('resetTop').addEventListener('click', resetAll);
+  $('exportSummary').addEventListener('click', exportData);
+  $('resetSummary').addEventListener('click', resetAll);
+  $('returnReview').addEventListener('click', () => {
+    state.phase = 'stage2';
+    currentIndex = 0;
+    saveState();
+    renderApp();
+  });
+  </script>
+</body>
+</html>

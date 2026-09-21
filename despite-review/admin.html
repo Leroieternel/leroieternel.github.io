@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DESPITE · Review administration</title>
+  <style>
+    :root{font:16px/1.5 system-ui,sans-serif;color:#162640;background:#f2f5fa}
+    *{box-sizing:border-box}body{margin:0}header{padding:24px max(24px,calc((100vw - 1200px)/2));background:#163c78;color:white}
+    h1{margin:0;font-size:25px}header p{margin:4px 0 0;color:#dae7ff}main{max-width:1248px;margin:30px auto;padding:0 24px}
+    .card{background:white;border:1px solid #d7e0ee;border-radius:14px;padding:24px;margin-bottom:24px}
+    #login{max-width:500px;margin:70px auto}label{display:block;font-weight:600;margin-bottom:8px}
+    input{font:inherit;width:100%;padding:10px 12px;border:1px solid #a5b8d2;border-radius:7px}
+    button{font:inherit;background:#1f4b99;color:white;border:0;border-radius:7px;padding:10px 16px;cursor:pointer}
+    button.secondary{background:#e8eef8;color:#173e7c}button:disabled{opacity:.5;cursor:wait}
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.toolbar input{max-width:260px}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.metric{padding:20px;background:white;border:1px solid #d7e0ee;border-radius:12px}
+    .metric strong{display:block;font-size:30px}.metric span{color:#526581;font-size:14px}
+    .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th,td{text-align:left;padding:14px 12px;border-bottom:1px solid #e4eaf3}th{font-size:14px;color:#526581}
+    progress{width:90px;height:9px;accent-color:#235cb5;margin-right:8px}small{color:#526581}#message,#loginError{color:#ac231b}
+    [hidden]{display:none!important}.muted{color:#526581}.pill{background:#edf2fa;border-radius:5px;padding:3px 7px;font-size:14px}
+    @media(max-width:650px){.metrics{grid-template-columns:1fr 1fr}.card{padding:16px}main{padding:0 14px}}
+  </style>
+</head>
+<body>
+<header><h1>DESPITE · Review administration</h1><p>10-task hazard-condition review</p></header>
+<main>
+  <section class="card" id="login">
+    <h2>Administrator access</h2>
+    <form id="loginForm"><label for="adminKey">Administrator key</label><input id="adminKey" type="password" autocomplete="off" required>
+      <p id="loginError" role="alert"></p><button type="submit">Open dashboard</button></form>
+  </section>
+  <section id="dashboard" hidden>
+    <div class="metrics" id="metrics"></div>
+    <div class="card" style="margin-top:24px">
+      <div class="toolbar"><input id="filter" aria-label="Filter annotator IDs" placeholder="Find an annotator">
+        <button id="refresh">Refresh</button><button id="export" class="secondary">Export all responses</button>
+        <button id="logout" class="secondary">Sign out</button></div>
+      <p class="muted" id="updated" aria-live="polite"></p><p id="message" role="alert"></p>
+      <div class="table-wrap"><table><thead><tr><th>Annotator</th><th>Pass 1</th><th>Pass 2</th><th>Stage</th><th>Item</th><th>Drafts</th><th>Last saved</th><th>Last activity</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <p id="empty" class="muted" hidden>No annotators yet. Records appear when someone starts a review.</p>
+    </div>
+  </section>
+</main>
+<script>
+const API_BASE = "https://despite-review-api.1816020611.workers.dev";
+let key='', records=[], refreshing=false;
+const $=id=>document.getElementById(id);
+async function request(path){
+  const r=await fetch(`${API_BASE}/api/admin/${path}`,{headers:{Authorization:`Bearer ${key}`},cache:'no-store'});
+  const data=await r.json();if(!r.ok)throw new Error(data.error||'Unable to load records.');return data;
+}
+function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
+function draw(){
+  const complete=records.filter(r=>r.stage1===r.total&&r.stage2===r.total).length;
+  const values=[['Annotators',records.length],['Both passes complete',complete],['Pass 1 submissions',records.reduce((n,r)=>n+r.stage1,0)],['Pass 2 submissions',records.reduce((n,r)=>n+r.stage2,0)]];
+  $('metrics').replaceChildren(...values.map(([label,value])=>{const e=element('div',undefined,'metric');e.append(element('strong',value),element('span',label));return e;}));
+  const visible=records.filter(r=>r.annotator_id.toLowerCase().includes($('filter').value.toLowerCase()));
+  $('rows').replaceChildren(...visible.map(r=>{
+    const tr=element('tr');tr.append(element('td',r.annotator_id));
+    for(const stage of ['stage1','stage2']){const td=element('td');const p=element('progress');p.max=r.total;p.value=r[stage];p.setAttribute('aria-label',`${stage}: ${r[stage]} of ${r.total}`);td.append(p,document.createTextNode(`${r[stage]} / ${r.total}`));tr.append(td);}
+    tr.append(element('td',({stage1:'Pass 1',stage2:'Pass 2',done:'Complete'})[r.phase]),element('td',r.current_item),element('td',r.drafts),element('td',new Date(r.updated_at).toLocaleString()),element('td',new Date(r.last_seen_at).toLocaleString()));return tr;
+  }));
+  $('empty').hidden=visible.length>0;$('empty').textContent=records.length?'No annotators match this filter.':'No annotators yet. Records appear when someone starts a review.';
+}
+async function refresh(){
+  if(refreshing||!key)return;refreshing=true;$('refresh').disabled=true;
+  try{const data=await request('annotators');records=data.annotators;draw();$('updated').textContent=`Updated ${new Date().toLocaleTimeString()} · Refreshes every 15 seconds`;$('message').textContent='';}
+  finally{refreshing=false;$('refresh').disabled=false;}
+}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();key=$('adminKey').value;try{await refresh();$('adminKey').value='';$('login').hidden=true;$('dashboard').hidden=false;}catch(err){key='';$('loginError').textContent=err.message;}});
+$('refresh').onclick=()=>refresh().catch(e=>$('message').textContent=e.message);
+$('filter').oninput=draw;
+$('logout').onclick=()=>{key='';records=[];$('rows').replaceChildren();$('login').hidden=false;$('dashboard').hidden=true;};
+$('export').onclick=async()=>{try{const data=await request('export');const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=element('a');a.href=url;a.download=`despite-review-all-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(e){$('message').textContent=e.message;}};
+setInterval(()=>{if(key&&!document.hidden)refresh().catch(e=>$('message').textContent=e.message);},15000);
+</script>
+</body></html>
