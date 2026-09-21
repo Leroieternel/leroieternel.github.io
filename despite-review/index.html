@@ -371,7 +371,7 @@
       <ol class="steps">
         <li><span class="step-number">1</span><span><b>Choose:</b> Decide whether Plan A, Plan B, both, or neither is dangerous.</span></li>
         <li><span class="step-number">2</span><span><b>Mark:</b> Click the earliest dangerous step in each plan you identify as dangerous.</span></li>
-        <li><span class="step-number">3</span><span><b>Continue:</b> Submit and move to the next item. No free-text response is required.</span></li>
+        <li><span class="step-number">3</span><span><b>Continue:</b> Save and move to the next item. Review all answers before the final submission.</span></li>
       </ol>
       <div class="notice warning">
         Use the ID assigned to you. Anyone who knows this ID can resume your review; keep it private. Wait for “Saved to server” before switching devices.
@@ -392,7 +392,7 @@
       <aside class="card sidebar" aria-label="Item navigation">
         <div class="phase-box">
           <h2 id="phaseTitle">Plan safety review</h2>
-          <p id="phaseProgress">0 / 10 submitted</p>
+          <p id="phaseProgress">0 / 10 reviewed</p>
           <div class="progress-track" aria-hidden="true"><div id="progressFill" class="progress-fill"></div></div>
         </div>
         <nav id="taskNav" class="task-nav"></nav>
@@ -410,7 +410,8 @@
       <div id="summaryMetrics" class="metrics"></div>
       <div style="overflow-x:auto"><table class="summary-table" id="summaryTable"></table></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
-        <button class="btn btn-primary" type="button" id="exportSummary">Download full JSON</button>
+        <button class="btn btn-primary" type="button" id="submitAll">Submit all 10 responses</button>
+        <button class="btn btn-secondary" type="button" id="exportSummary">Download full JSON</button>
         <button class="btn btn-secondary" type="button" id="returnReview">Return to review</button>
         <button class="btn btn-danger" type="button" id="resetSummary">Sign out</button>
       </div>
@@ -598,8 +599,8 @@
     summaryView.hidden = true;
     reviewView.hidden = false;
     $('topActions').hidden = false;
-    $('summaryTop').hidden = !stageComplete('stage1');
-    if (stageComplete('stage1')) {
+    $('summaryTop').hidden = !allAnswered();
+    if (allAnswered()) {
       renderSummary();
       return;
     }
@@ -608,7 +609,7 @@
   }
 
   function renderSidebar() {
-    const count = submittedCount('stage1');
+    const count = answeredCount();
     $('phaseTitle').textContent = 'Plan safety review';
     $('phaseProgress').textContent = `${count} / ${state.task_order.length} reviewed`;
     $('progressFill').style.width = `${100 * count / state.task_order.length}%`;
@@ -627,7 +628,7 @@
       label.textContent = `Item ${i + 1}`;
       const stateLabel = document.createElement('span');
       stateLabel.className = 'task-state';
-      stateLabel.textContent = record?.status === 'submitted' ? 'Complete' : record ? 'Draft' : 'Unanswered';
+      stateLabel.textContent = record?.status === 'submitted' ? 'Submitted' : answerComplete(record) ? 'Ready' : record ? 'Draft' : 'Unanswered';
       const mobile = document.createElement('span');
       mobile.className = 'sr-only';
       mobile.textContent = `Item ${i + 1}, ${stateLabel.textContent}`;
@@ -693,7 +694,7 @@
           <div class="plans">${planHtml(task,'A',record.riskSteps?.A,locked)}${planHtml(task,'B',record.riskSteps?.B,locked)}</div>
         </section>
         ${locked ? lockedReviewHtml(record) : reviewFormHtml(record)}
-        ${stageComplete('stage1') ? `<div class="notice"><b>All 10 items are complete.</b><div style="margin-top:10px"><button class="btn btn-primary" type="button" id="viewSummary">View summary</button></div></div>` : ''}
+        ${allAnswered() ? `<div class="notice"><b>All 10 items have answers.</b> You may continue checking them before the final submission.<div style="margin-top:10px"><button class="btn btn-primary" type="button" id="viewSummary">Review and submit</button></div></div>` : ''}
       </div>
       ${footerHtml()}`;
     attachNavEvents();
@@ -710,7 +711,7 @@
       <fieldset class="question-block"><legend>Which plan is dangerous?</legend>${radioCards('violation',choices,record.violation)}</fieldset>
       <p class="help">For every plan marked dangerous, select its earliest dangerous step above.</p>
       <div id="stage1Error" class="error-box" hidden></div>
-      <div><button class="btn btn-primary" type="submit">Submit and continue</button></div>
+      <div><button class="btn btn-primary" type="submit">Save and continue</button></div>
     </form>`;
   }
 
@@ -726,6 +727,22 @@
       record.violation === 'insufficient' ? 'insufficient' : 'equal';
     record.confidence = 3;
     record.rationale = 'No free-text rationale collected.';
+  }
+
+  function answerComplete(record) {
+    if (!record?.violation) return false;
+    if (record.violation === 'A') return record.riskSteps?.A != null;
+    if (record.violation === 'B') return record.riskSteps?.B != null;
+    if (record.violation === 'both') return record.riskSteps?.A != null && record.riskSteps?.B != null;
+    return record.violation === 'neither' || record.violation === 'insufficient';
+  }
+
+  function answeredCount() {
+    return state.task_order.filter(id => answerComplete(state.responses[id]?.stage1)).length;
+  }
+
+  function allAnswered() {
+    return answeredCount() === state.task_order.length;
   }
 
   function readReviewForm(form, record) {
@@ -776,14 +793,14 @@
         $('stage1Error').textContent = error;
         return;
       }
-      record.status = 'submitted';
-      record.submitted_at = new Date().toISOString();
+      record.status = 'draft';
+      delete record.submitted_at;
       responseFor(task.taskId).stage1 = record;
-      saveState('Item submitted and locked');
+      saveState('Answer saved');
       if (!await flushState()) return;
-      showToast('Response saved');
-      if (stageComplete('stage1')) renderSummary();
-      else { moveToNextIncomplete('stage1'); renderApp(); }
+      showToast('Answer saved — you can return and edit it');
+      if (allAnswered()) renderSummary();
+      else { moveToNextUnanswered(); renderApp(); }
     });
   }
 
@@ -793,6 +810,34 @@
     if (record.violation === 'B' && record.riskSteps?.B == null) return 'Click the earliest dangerous step in Plan B.';
     if (record.violation === 'both' && (record.riskSteps?.A == null || record.riskSteps?.B == null)) return 'Mark the earliest dangerous step in both plans.';
     return '';
+  }
+
+  function moveToNextUnanswered() {
+    const next = state.task_order.findIndex(id => !answerComplete(state.responses[id]?.stage1));
+    if (next >= 0) { currentIndex = next; saveState(); }
+  }
+
+  async function submitAllResponses() {
+    if (!allAnswered() || stageComplete('stage1')) return;
+    if (!window.confirm('Submit all 10 responses? You can review and edit them now, but they cannot be changed after final submission.')) return;
+    const submittedAt = new Date().toISOString();
+    for (const taskId of state.task_order) {
+      const record = state.responses[taskId].stage1;
+      record.status = 'submitted';
+      record.submitted_at = submittedAt;
+    }
+    saveState('Submitting all responses');
+    if (!await flushState()) {
+      for (const taskId of state.task_order) {
+        const record = state.responses[taskId].stage1;
+        record.status = 'draft';
+        delete record.submitted_at;
+      }
+      saveState();
+      return;
+    }
+    showToast('All 10 responses submitted');
+    renderSummary();
   }
 
   function footerHtml() {
@@ -825,13 +870,19 @@
     summaryView.hidden = false;
     $('topActions').hidden = false;
     $('summaryTop').hidden = true;
+    const finalSubmitted = stageComplete('stage1');
+    $('summaryTitle').textContent = finalSubmitted ? '10-task review submitted' : 'Review your 10 answers';
+    $('summaryView').querySelector('.lead').textContent = finalSubmitted ?
+      'All responses are saved and finalized.' :
+      'Nothing is locked yet. Return to any item to make changes, or submit all responses when ready.';
+    $('submitAll').hidden = finalSubmitted;
     const counts = {A:0,B:0,both:0,neither:0,insufficient:0};
     for (const taskId of state.task_order) {
       const choice = state.responses[taskId]?.stage1?.violation;
       if (choice in counts) counts[choice]++;
     }
     $('summaryMetrics').innerHTML = `
-      <div class="metric"><strong>${submittedCount('stage1')} / 10</strong><span>Items reviewed</span></div>
+      <div class="metric"><strong>${answeredCount()} / 10</strong><span>Items answered</span></div>
       <div class="metric"><strong>${counts.A}</strong><span>Plan A dangerous</span></div>
       <div class="metric"><strong>${counts.B}</strong><span>Plan B dangerous</span></div>
       <div class="metric"><strong>${counts.both}</strong><span>Both dangerous</span></div>`;
@@ -858,7 +909,7 @@
     const payload = {
       ...state,
       exported_at: new Date().toISOString(),
-      completion: {reviewed: submittedCount('stage1'), total: 10},
+      completion: {reviewed: answeredCount(), total: 10, submitted: stageComplete('stage1')},
       task_manifest: taskManifest
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json;charset=utf-8'});
@@ -884,9 +935,10 @@
   });
   $('exportTop').addEventListener('click', exportData);
   $('summaryTop').addEventListener('click', () => {
-    if (stageComplete('stage1')) renderSummary();
+    if (allAnswered()) renderSummary();
   });
   $('resetTop').addEventListener('click', resetAll);
+  $('submitAll').addEventListener('click', submitAllResponses);
   $('exportSummary').addEventListener('click', exportData);
   $('resetSummary').addEventListener('click', resetAll);
   $('returnReview').addEventListener('click', () => {

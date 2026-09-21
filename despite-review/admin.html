@@ -80,20 +80,19 @@ function bar(value,total,className=''){
   const outer=element('div',undefined,`track ${className}`.trim());const inner=element('span');const valuePercent=percent(value,total);
   inner.style.width=`${valuePercent}%`;outer.append(inner);outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',String(total));outer.setAttribute('aria-valuenow',String(value));return outer;
 }
-function status(r){if(r.stage1===r.total)return ['Complete','done'];return ['Reviewing',''];}
+function progress(r){return Math.min(r.total,r.stage1+r.drafts);}
+function status(r){if(r.stage1===r.total)return ['Submitted','done'];if(progress(r)===r.total)return ['Ready to submit','pass2'];return ['Reviewing',''];}
 function personCard(r){
-  const completed=r.stage1,possible=r.total,[statusText,statusClass]=status(r),card=element('article',undefined,'person');
+  const completed=progress(r),possible=r.total,[statusText,statusClass]=status(r),card=element('article',undefined,'person');
   const head=element('div',undefined,'person-head'),identity=element('div'),state=element('span',statusText,`status ${statusClass}`.trim());
   identity.append(element('div',r.annotator_id,'person-id'),element('small',`${completed} of ${possible} submissions`));head.append(identity,state);
   const total=element('div',undefined,'person-head');total.append(element('span','Overall'),element('strong',`${percent(completed,possible)}%`,'person-total'));card.append(head,total,bar(completed,possible));
-  for(const [label,field,color] of [['Reviewed','stage1','']]){
-    const row=element('div',undefined,'person-progress');row.append(element('span',label),bar(r[field],r.total,color),element('strong',`${r[field]} / ${r.total}`));card.append(row);
-  }
-  const foot=element('div',undefined,'person-foot');foot.append(element('span',r.phase==='done'?'All tasks completed':`Current item: ${Math.min(r.current_item,r.total)} / ${r.total}`),element('span',`Active ${new Date(r.last_seen_at).toLocaleString()}`));card.append(foot);return card;
+  const row=element('div',undefined,'person-progress');row.append(element('span','Reviewed'),bar(completed,r.total),element('strong',`${completed} / ${r.total}`));card.append(row);
+  const foot=element('div',undefined,'person-foot');foot.append(element('span',r.stage1===r.total?'Final submission received':`Current item: ${Math.min(r.current_item,r.total)} / ${r.total}`),element('span',`Active ${new Date(r.last_seen_at).toLocaleString()}`));card.append(foot);return card;
 }
 function draw(){
   const complete=records.filter(r=>r.stage1===r.total).length;
-  const reviewed=records.reduce((n,r)=>n+r.stage1,0),possible=records.reduce((n,r)=>n+r.total,0),submitted=reviewed;
+  const reviewed=records.reduce((n,r)=>n+progress(r),0),possible=records.reduce((n,r)=>n+r.total,0),submitted=reviewed;
   const active=records.filter(r=>Date.now()-new Date(r.last_seen_at).getTime()<15*60*1000).length;
   const values=[['Annotators',records.length],['Fully complete',complete],['Overall completion',`${percent(submitted,possible)}%`],['Active in last 15 min',active]];
   $('metrics').replaceChildren(...values.map(([label,value])=>{const e=element('div',undefined,'metric');e.append(element('strong',value),element('span',label));return e;}));
@@ -104,8 +103,8 @@ function draw(){
   $('people').replaceChildren(...visible.map(personCard));
   $('rows').replaceChildren(...visible.map(r=>{
     const tr=element('tr');tr.append(element('td',r.annotator_id));
-    const td=element('td');const p=element('progress');p.max=r.total;p.value=r.stage1;p.setAttribute('aria-label',`Reviewed: ${r.stage1} of ${r.total}`);td.append(p,document.createTextNode(`${r.stage1} / ${r.total}`));tr.append(td);
-    tr.append(element('td',r.stage1===r.total?'Complete':'Reviewing'),element('td',r.current_item),element('td',r.drafts),element('td',new Date(r.updated_at).toLocaleString()),element('td',new Date(r.last_seen_at).toLocaleString()));return tr;
+    const completed=progress(r),td=element('td');const p=element('progress');p.max=r.total;p.value=completed;p.setAttribute('aria-label',`Reviewed: ${completed} of ${r.total}`);td.append(p,document.createTextNode(`${completed} / ${r.total}`));tr.append(td);
+    tr.append(element('td',status(r)[0]),element('td',r.current_item),element('td',r.drafts),element('td',new Date(r.updated_at).toLocaleString()),element('td',new Date(r.last_seen_at).toLocaleString()));return tr;
   }));
   $('empty').hidden=visible.length>0;$('empty').textContent=records.length?'No annotators match this filter.':'No annotators yet. Records appear when someone starts a review.';
 }
