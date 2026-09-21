@@ -34,7 +34,7 @@
   </style>
 </head>
 <body>
-<header><h1>DESPITE · Review administration</h1><p>10-task hazard-condition review</p></header>
+<header><h1>DESPITE · Review administration</h1><p>10-task plan-safety review</p></header>
 <main>
   <section class="card" id="login">
     <h2>Administrator access</h2>
@@ -45,11 +45,11 @@
     <div class="metrics" id="metrics"></div>
     <div class="overview">
       <section class="card" aria-labelledby="overallHeading">
-        <div class="overview-title"><div><h2 id="overallHeading">Overall completion</h2><p>Both review passes combined</p></div><strong id="overallPercent">0%</strong></div>
+        <div class="overview-title"><div><h2 id="overallHeading">Overall completion</h2><p>All plan-safety decisions combined</p></div><strong id="overallPercent">0%</strong></div>
         <div class="track overall-track" role="progressbar" id="overallTrack" aria-label="Overall completion"><span></span></div>
         <p class="muted" id="overallDetail">No submissions yet.</p>
       </section>
-      <section class="card" aria-labelledby="passesHeading"><h2 id="passesHeading">Progress by pass</h2><div class="stage-summary" id="stageSummary"></div></section>
+      <section class="card" aria-labelledby="passesHeading"><h2 id="passesHeading">Review progress</h2><div class="stage-summary" id="stageSummary"></div></section>
     </div>
     <section class="card" style="margin-top:24px" aria-labelledby="peopleHeading">
       <div class="people-heading"><div><h2 id="peopleHeading">Annotator progress</h2><p>Who has completed how much of the 10-task review</p></div>
@@ -62,7 +62,7 @@
     </section>
     <details class="card">
       <summary>Detailed activity table</summary>
-      <div class="table-wrap"><table><thead><tr><th>Annotator</th><th>Pass 1</th><th>Pass 2</th><th>Stage</th><th>Item</th><th>Drafts</th><th>Last saved</th><th>Last activity</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Annotator</th><th>Reviewed</th><th>Status</th><th>Item</th><th>Drafts</th><th>Last saved</th><th>Last activity</th></tr></thead><tbody id="rows"></tbody></table></div>
     </details>
   </section>
 </main>
@@ -80,32 +80,32 @@ function bar(value,total,className=''){
   const outer=element('div',undefined,`track ${className}`.trim());const inner=element('span');const valuePercent=percent(value,total);
   inner.style.width=`${valuePercent}%`;outer.append(inner);outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',String(total));outer.setAttribute('aria-valuenow',String(value));return outer;
 }
-function status(r){if(r.stage2===r.total)return ['Complete','done'];if(r.phase==='stage2')return ['Pass 2','pass2'];return ['Pass 1',''];}
+function status(r){if(r.stage1===r.total)return ['Complete','done'];return ['Reviewing',''];}
 function personCard(r){
-  const completed=r.stage1+r.stage2,possible=r.total*2,[statusText,statusClass]=status(r),card=element('article',undefined,'person');
+  const completed=r.stage1,possible=r.total,[statusText,statusClass]=status(r),card=element('article',undefined,'person');
   const head=element('div',undefined,'person-head'),identity=element('div'),state=element('span',statusText,`status ${statusClass}`.trim());
   identity.append(element('div',r.annotator_id,'person-id'),element('small',`${completed} of ${possible} submissions`));head.append(identity,state);
   const total=element('div',undefined,'person-head');total.append(element('span','Overall'),element('strong',`${percent(completed,possible)}%`,'person-total'));card.append(head,total,bar(completed,possible));
-  for(const [label,field,color] of [['Pass 1','stage1',''],['Pass 2','stage2','green']]){
+  for(const [label,field,color] of [['Reviewed','stage1','']]){
     const row=element('div',undefined,'person-progress');row.append(element('span',label),bar(r[field],r.total,color),element('strong',`${r[field]} / ${r.total}`));card.append(row);
   }
   const foot=element('div',undefined,'person-foot');foot.append(element('span',r.phase==='done'?'All tasks completed':`Current item: ${Math.min(r.current_item,r.total)} / ${r.total}`),element('span',`Active ${new Date(r.last_seen_at).toLocaleString()}`));card.append(foot);return card;
 }
 function draw(){
-  const complete=records.filter(r=>r.stage1===r.total&&r.stage2===r.total).length;
-  const pass1=records.reduce((n,r)=>n+r.stage1,0),pass2=records.reduce((n,r)=>n+r.stage2,0),perPass=records.reduce((n,r)=>n+r.total,0),submitted=pass1+pass2,possible=perPass*2;
+  const complete=records.filter(r=>r.stage1===r.total).length;
+  const reviewed=records.reduce((n,r)=>n+r.stage1,0),possible=records.reduce((n,r)=>n+r.total,0),submitted=reviewed;
   const active=records.filter(r=>Date.now()-new Date(r.last_seen_at).getTime()<15*60*1000).length;
   const values=[['Annotators',records.length],['Fully complete',complete],['Overall completion',`${percent(submitted,possible)}%`],['Active in last 15 min',active]];
   $('metrics').replaceChildren(...values.map(([label,value])=>{const e=element('div',undefined,'metric');e.append(element('strong',value),element('span',label));return e;}));
   const overall=percent(submitted,possible);$('overallPercent').textContent=`${overall}%`;$('overallTrack').querySelector('span').style.width=`${overall}%`;$('overallTrack').setAttribute('aria-valuenow',String(submitted));$('overallTrack').setAttribute('aria-valuemax',String(possible));
-  $('overallDetail').textContent=records.length?`${submitted} of ${possible} task-pass submissions · ${complete} of ${records.length} annotators fully complete`:'No annotators have started yet.';
-  $('stageSummary').replaceChildren(...[['Pass 1',pass1],['Pass 2',pass2]].map(([label,value],index)=>{const row=element('div',undefined,'stage-summary-row');row.append(element('span',label),bar(value,perPass,index?'green':''),element('strong',`${value} / ${perPass}`));return row;}));
+  $('overallDetail').textContent=records.length?`${submitted} of ${possible} plan reviews · ${complete} of ${records.length} annotators fully complete`:'No annotators have started yet.';
+  $('stageSummary').replaceChildren(...[['Reviewed',reviewed]].map(([label,value])=>{const row=element('div',undefined,'stage-summary-row');row.append(element('span',label),bar(value,possible),element('strong',`${value} / ${possible}`));return row;}));
   const visible=records.filter(r=>r.annotator_id.toLowerCase().includes($('filter').value.toLowerCase()));
   $('people').replaceChildren(...visible.map(personCard));
   $('rows').replaceChildren(...visible.map(r=>{
     const tr=element('tr');tr.append(element('td',r.annotator_id));
-    for(const stage of ['stage1','stage2']){const td=element('td');const p=element('progress');p.max=r.total;p.value=r[stage];p.setAttribute('aria-label',`${stage}: ${r[stage]} of ${r.total}`);td.append(p,document.createTextNode(`${r[stage]} / ${r.total}`));tr.append(td);}
-    tr.append(element('td',({stage1:'Pass 1',stage2:'Pass 2',done:'Complete'})[r.phase]),element('td',r.current_item),element('td',r.drafts),element('td',new Date(r.updated_at).toLocaleString()),element('td',new Date(r.last_seen_at).toLocaleString()));return tr;
+    const td=element('td');const p=element('progress');p.max=r.total;p.value=r.stage1;p.setAttribute('aria-label',`Reviewed: ${r.stage1} of ${r.total}`);td.append(p,document.createTextNode(`${r.stage1} / ${r.total}`));tr.append(td);
+    tr.append(element('td',r.stage1===r.total?'Complete':'Reviewing'),element('td',r.current_item),element('td',r.drafts),element('td',new Date(r.updated_at).toLocaleString()),element('td',new Date(r.last_seen_at).toLocaleString()));return tr;
   }));
   $('empty').hidden=visible.length>0;$('empty').textContent=records.length?'No annotators match this filter.':'No annotators yet. Records appear when someone starts a review.';
 }

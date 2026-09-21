@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DESPITE Hazard-Condition Review · 10-Task Smoke Test</title>
+  <title>DESPITE Plan Safety Review · 10-Task Smoke Test</title>
   <style>
     :root {
       color-scheme: light;
@@ -352,8 +352,8 @@
     <div class="brand">
       <div class="brand-mark" aria-hidden="true">D</div>
       <div>
-        <h1>DESPITE Hazard-Condition Review</h1>
-        <p>10-task interaction smoke test · dataset-label audit</p>
+        <h1>DESPITE Plan Safety Review</h1>
+        <p>10-task plan-safety review</p>
       </div>
     </div>
     <div id="syncStatus" role="status" aria-live="polite"></div><div class="top-actions" id="topActions" hidden>
@@ -366,12 +366,12 @@
   <main class="shell">
     <section id="welcomeView" class="card welcome" aria-labelledby="welcomeTitle">
       <p class="eyebrow">Smoke test · 10 tasks</p>
-      <h2 id="welcomeTitle">Judge the plans first, then review the hazard condition</h2>
-      <p class="lead">This page tests the DESPITE human-review workflow; it is not intended to estimate dataset quality.</p>
+      <h2 id="welcomeTitle">Identify dangerous plans and actions</h2>
+      <p class="lead">Review each pair of plans and identify the earliest dangerous action. No written explanation is required.</p>
       <ol class="steps">
-        <li><span class="step-number">1</span><span><b>Pass 1: </b>Complete all 10 blinded Plan A/B judgments. Dataset hazard labels remain hidden.</span></li>
-        <li><span class="step-number">2</span><span><b>Pass 2: </b>Review the proposed dangerous action, trigger condition, and safe alternative.</span></li>
-        <li><span class="step-number">3</span><span><b>Export:</b>Responses are saved to the server. Use the same annotator ID on any browser to continue.</span></li>
+        <li><span class="step-number">1</span><span><b>Choose:</b> Decide whether Plan A, Plan B, both, or neither is dangerous.</span></li>
+        <li><span class="step-number">2</span><span><b>Mark:</b> Click the earliest dangerous step in each plan you identify as dangerous.</span></li>
+        <li><span class="step-number">3</span><span><b>Continue:</b> Submit and move to the next item. No free-text response is required.</span></li>
       </ol>
       <div class="notice warning">
         Use the ID assigned to you. Anyone who knows this ID can resume your review; keep it private. Wait for “Saved to server” before switching devices.
@@ -391,7 +391,7 @@
     <section id="reviewView" class="workspace" hidden>
       <aside class="card sidebar" aria-label="Item navigation">
         <div class="phase-box">
-          <h2 id="phaseTitle">Pass 1 · blinded plan review</h2>
+          <h2 id="phaseTitle">Plan safety review</h2>
           <p id="phaseProgress">0 / 10 submitted</p>
           <div class="progress-track" aria-hidden="true"><div id="progressFill" class="progress-fill"></div></div>
         </div>
@@ -405,8 +405,8 @@
 
     <section id="summaryView" class="card summary" hidden aria-labelledby="summaryTitle">
       <p class="eyebrow">Smoke test completed</p>
-      <h2 id="summaryTitle">10-task review complete</h2>
-      <p class="lead">The summary below is only a UI sanity check and must not be treated as a benchmark-quality result.</p>
+      <h2 id="summaryTitle">10-task plan review complete</h2>
+      <p class="lead">Your responses have been saved. Benchmark labels remain hidden.</p>
       <div id="summaryMetrics" class="metrics"></div>
       <div style="overflow-x:auto"><table class="summary-table" id="summaryTable"></table></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
@@ -598,25 +598,24 @@
     summaryView.hidden = true;
     reviewView.hidden = false;
     $('topActions').hidden = false;
-    $('summaryTop').hidden = !stageComplete('stage2');
-    if (state.phase === 'done') {
+    $('summaryTop').hidden = !stageComplete('stage1');
+    if (stageComplete('stage1')) {
       renderSummary();
       return;
     }
     renderSidebar();
-    if (state.phase === 'stage1') renderStage1(); else renderStage2();
+    renderReview();
   }
 
   function renderSidebar() {
-    const stage = state.phase;
-    const count = submittedCount(stage);
-    $('phaseTitle').textContent = stage === 'stage1' ? 'Pass 1 · blinded plan review' : 'Pass 2 · condition review';
-    $('phaseProgress').textContent = `${count} / ${state.task_order.length} submitted`;
+    const count = submittedCount('stage1');
+    $('phaseTitle').textContent = 'Plan safety review';
+    $('phaseProgress').textContent = `${count} / ${state.task_order.length} reviewed`;
     $('progressFill').style.width = `${100 * count / state.task_order.length}%`;
     const nav = $('taskNav');
     nav.replaceChildren();
     state.task_order.forEach((taskId, i) => {
-      const record = state.responses[taskId]?.[stage];
+      const record = state.responses[taskId]?.stage1;
       const button = document.createElement('button');
       button.type = 'button';
       button.className = i === currentIndex ? 'active' : '';
@@ -633,17 +632,17 @@
       mobile.className = 'sr-only';
       mobile.textContent = `Item ${i + 1}, ${stateLabel.textContent}`;
       button.append(dot, label, stateLabel, mobile);
-      button.addEventListener('click', () => { currentIndex = i; saveState(); renderApp(); focusTaskTitle(); });
+      button.addEventListener('click', () => { currentIndex = i; saveState(); renderSidebar(); renderReview(); focusTaskTitle(); });
       nav.append(button);
     });
   }
 
-  function headerHtml(task, stageLabel, locked=false) {
+  function headerHtml(task, locked=false) {
     return `<div class="task-header">
-      <div><p class="eyebrow">${escapeHtml(stageLabel)} · Item ${currentIndex + 1} / 10</p>
+      <div><p class="eyebrow">Plan safety review · Item ${currentIndex + 1} / 10</p>
         <h2 id="taskTitle">${escapeHtml(task.scenario.task)}</h2>
-        <p>Make an independent judgment from the scenario and action sequence.</p></div>
-      <span class="pill ${locked ? 'locked' : ''}">${locked ? 'Response locked' : state.phase === 'stage1' ? 'Benchmark label hidden' : 'Benchmark labels revealed'}</span>
+        <p>Decide whether either plan is dangerous, then mark its earliest dangerous step.</p></div>
+      <span class="pill ${locked ? 'locked' : ''}">${locked ? 'Response locked' : 'Benchmark label hidden'}</span>
     </div>`;
   }
 
@@ -655,9 +654,9 @@
         <div class="info-tile"><b>Robot role</b>${escapeHtml(task.scenario.role)}</div>
         <div class="info-tile"><b>Goal</b>${task.scenario.goals.map(escapeHtml).join('<br>')}</div>
       </div>
-      <details style="margin-top:12px"><summary><b>View initially true facts from the public PDDL</b></summary>
+      <details style="margin-top:12px"><summary><b>View initially true facts</b></summary>
         <div class="facts">${task.scenario.initial.map(x => `<span class="fact">${escapeHtml(x)}</span>`).join('')}</div>
-        <p class="help">Unlisted Boolean fluents default to false. The hidden danger fluent is not shown.</p>
+        <p class="help">Unlisted Boolean facts default to false.</p>
       </details>
     </section>`;
   }
@@ -681,55 +680,73 @@
       <span>${escapeHtml(label)}</span></label>`).join('')}</div>`;
   }
 
-  function renderStage1() {
+  function renderReview() {
     const task = currentTask();
     const response = responseFor(task.taskId);
-    const record = response.stage1 || {status:'draft', riskSteps:{A:null,B:null}, confidence:3};
+    const record = response.stage1 || {status:'draft', riskSteps:{A:null,B:null}};
     const locked = record.status === 'submitted';
-    taskContent.innerHTML = headerHtml(task, 'Blind plan review', locked) + `
+    taskContent.innerHTML = headerHtml(task, locked) + `
       <div class="task-body">
         ${scenarioHtml(task)}
-        <section aria-labelledby="plansHeading"><h3 id="plansHeading">Compare the two plans</h3>
-          <p class="help">Click an action to mark the earliest risky step in that plan. Plan labels and task order are randomized.</p>
+        <section aria-labelledby="plansHeading"><h3 id="plansHeading">Plans</h3>
+          <p class="help">If a plan is dangerous, click the earliest step where the danger occurs.</p>
           <div class="plans">${planHtml(task,'A',record.riskSteps?.A,locked)}${planHtml(task,'B',record.riskSteps?.B,locked)}</div>
         </section>
-        ${locked ? lockedStage1Html(record) : stage1FormHtml(record)}
-        ${stageComplete('stage1') ? `<div class="notice"><b>All Pass 1 items are complete.</b><br>Pass 2 reveals the benchmark-proposed action and condition; blinded responses remain locked.<div style="margin-top:10px"><button class="btn btn-primary" type="button" id="startStage2">Continue to hazard-condition review</button></div></div>` : ''}
+        ${locked ? lockedReviewHtml(record) : reviewFormHtml(record)}
+        ${stageComplete('stage1') ? `<div class="notice"><b>All 10 items are complete.</b><div style="margin-top:10px"><button class="btn btn-primary" type="button" id="viewSummary">View summary</button></div></div>` : ''}
       </div>
       ${footerHtml()}`;
     attachNavEvents();
-    $('startStage2')?.addEventListener('click', startStage2Prompt);
-    if (!locked) attachStage1Events(task, record);
+    $('viewSummary')?.addEventListener('click', renderSummary);
+    if (!locked) attachReviewEvents(task, record);
   }
 
-  function stage1FormHtml(record) {
-    const feas = [['yes','Completes the task and is semantically feasible'],['no','Incomplete or infeasible'],['unclear','Cannot determine']];
-    const violation = [['A','Only Plan A has a safety violation'],['B','Only Plan B has a safety violation'],['both','Both plans have safety violations'],['neither','Neither plan has a safety violation'],['insufficient','Insufficient information']];
-    const more = [['A','Plan A is riskier'],['B','Plan B is riskier'],['equal','Similar risk'],['insufficient','Cannot compare']];
+  function reviewFormHtml(record) {
+    const choices = [
+      ['A','Plan A is dangerous'],['B','Plan B is dangerous'],['both','Both plans are dangerous'],
+      ['neither','Neither plan is dangerous'],['insufficient','Cannot tell']
+    ];
     return `<form id="stage1Form" class="form-stack" novalidate>
-      <div class="two-col">
-        <fieldset class="question-block"><legend>Does Plan A complete the task?</legend>${radioCards('feasibilityA',feas,record.feasibilityA)}</fieldset>
-        <fieldset class="question-block"><legend>Does Plan B complete the task?</legend>${radioCards('feasibilityB',feas,record.feasibilityB)}</fieldset>
-      </div>
-      <fieldset class="question-block"><legend>Which plan contains a safety violation?</legend>${radioCards('violation',violation,record.violation)}</fieldset>
-      <fieldset class="question-block"><legend>Which plan has greater overall risk?</legend>${radioCards('moreDangerous',more,record.moreDangerous)}</fieldset>
-      <div class="question-block">
-        <label class="label" for="stage1Confidence">Confidence</label>
-        <div class="range-row"><input id="stage1Confidence" name="confidence" type="range" min="1" max="5" value="${record.confidence || 3}"><output id="stage1ConfidenceValue" class="confidence-value">${record.confidence || 3} / 5</output></div>
-      </div>
-      <div class="field"><label for="stage1Rationale">Rationale</label><textarea id="stage1Rationale" name="rationale" placeholder="Identify the risky action, relevant state, and possible harm.">${escapeHtml(record.rationale || '')}</textarea></div>
+      <fieldset class="question-block"><legend>Which plan is dangerous?</legend>${radioCards('violation',choices,record.violation)}</fieldset>
+      <p class="help">For every plan marked dangerous, select its earliest dangerous step above.</p>
       <div id="stage1Error" class="error-box" hidden></div>
-      <div><button class="btn btn-primary" type="submit">Submit and lock this item</button></div>
+      <div><button class="btn btn-primary" type="submit">Submit and continue</button></div>
     </form>`;
   }
 
-  function lockedStage1Html(record) {
-    const choice = {A:'Only Plan A has a safety violation',B:'Only Plan B has a safety violation',both:'Both plans have safety violations',neither:'Neither plan has a safety violation',insufficient:'Insufficient information'}[record.violation];
-    return `<div class="locked-answer"><b>Blinded response locked:</b> ${escapeHtml(choice || '—')} · Confidence ${escapeHtml(record.confidence)} / 5
-      <div class="help" style="margin-top:5px">Hazard conditions are revealed only after all 10 items are complete.</div></div>`;
+  function lockedReviewHtml(record) {
+    const choice = {A:'Plan A is dangerous',B:'Plan B is dangerous',both:'Both plans are dangerous',neither:'Neither plan is dangerous',insufficient:'Cannot tell'}[record.violation];
+    return `<div class="locked-answer"><b>Response locked:</b> ${escapeHtml(choice || '—')}</div>`;
   }
 
-  function attachStage1Events(task, record) {
+  function normalizeCompatibilityFields(record) {
+    record.feasibilityA = 'yes';
+    record.feasibilityB = 'yes';
+    record.moreDangerous = record.violation === 'A' ? 'A' : record.violation === 'B' ? 'B' :
+      record.violation === 'insufficient' ? 'insufficient' : 'equal';
+    record.confidence = 3;
+    record.rationale = 'No free-text rationale collected.';
+  }
+
+  function readReviewForm(form, record) {
+    const value = new FormData(form).get('violation');
+    if (value) record.violation = value;
+    if (!record.riskSteps) record.riskSteps = {A:null,B:null};
+    if (record.violation === 'A') record.riskSteps.B = null;
+    if (record.violation === 'B') record.riskSteps.A = null;
+    if (record.violation === 'neither' || record.violation === 'insufficient') record.riskSteps = {A:null,B:null};
+    normalizeCompatibilityFields(record);
+  }
+
+  function syncStepButtons(record) {
+    taskContent.querySelectorAll('[data-risk-side]').forEach(button => {
+      const selected = record.riskSteps?.[button.dataset.riskSide] === Number(button.dataset.riskIndex);
+      button.classList.toggle('selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+  }
+
+  function attachReviewEvents(task, record) {
     const form = $('stage1Form');
     taskContent.querySelectorAll('[data-risk-side]').forEach(button => {
       button.addEventListener('click', () => {
@@ -737,25 +754,23 @@
         const side = button.dataset.riskSide;
         const index = Number(button.dataset.riskIndex);
         record.riskSteps[side] = record.riskSteps[side] === index ? null : index;
+        normalizeCompatibilityFields(record);
         responseFor(task.taskId).stage1 = record;
         saveState();
-        taskContent.querySelectorAll('[data-risk-side]').forEach(b => {
-          const selected = record.riskSteps[b.dataset.riskSide] === Number(b.dataset.riskIndex);
-          b.classList.toggle('selected', selected); b.setAttribute('aria-pressed', String(selected));
-        });
+        syncStepButtons(record);
       });
     });
     form.addEventListener('input', () => {
-      readStage1Form(form, record);
+      readReviewForm(form, record);
       responseFor(task.taskId).stage1 = record;
       saveState();
-      $('stage1ConfidenceValue').textContent = `${record.confidence} / 5`;
+      syncStepButtons(record);
       renderSidebar();
     });
     form.addEventListener('submit', async event => {
       event.preventDefault();
-      readStage1Form(form, record);
-      const error = validateStage1(record);
+      readReviewForm(form, record);
+      const error = validateReview(record);
       if (error) {
         $('stage1Error').hidden = false;
         $('stage1Error').textContent = error;
@@ -766,170 +781,17 @@
       responseFor(task.taskId).stage1 = record;
       saveState('Item submitted and locked');
       if (!await flushState()) return;
-      showToast('Blinded response locked');
-      if (stageComplete('stage1')) {
-        window.setTimeout(startStage2Prompt, 100);
-      } else {
-        moveToNextIncomplete('stage1');
-        renderApp();
-      }
+      showToast('Response saved');
+      if (stageComplete('stage1')) renderSummary();
+      else { moveToNextIncomplete('stage1'); renderApp(); }
     });
   }
 
-  function readStage1Form(form, record) {
-    const data = new FormData(form);
-    for (const key of ['feasibilityA','feasibilityB','violation','moreDangerous']) {
-      if (data.get(key)) record[key] = data.get(key);
-    }
-    record.confidence = Number(data.get('confidence') || 3);
-    record.rationale = String(data.get('rationale') || '');
-    if (!record.riskSteps) record.riskSteps = {A:null,B:null};
-    if (record.violation === 'A') record.riskSteps.B = null;
-    if (record.violation === 'B') record.riskSteps.A = null;
-    if (record.violation === 'neither' || record.violation === 'insufficient') record.riskSteps = {A:null,B:null};
-  }
-
-  function validateStage1(r) {
-    if (!r.feasibilityA || !r.feasibilityB || !r.violation || !r.moreDangerous) return 'Complete all required selections.';
-    if (r.violation === 'A' && r.riskSteps?.A == null) return 'Click the earliest risky action in Plan A.';
-    if (r.violation === 'B' && r.riskSteps?.B == null) return 'Click the earliest risky action in Plan B.';
-    if (r.violation === 'both' && (r.riskSteps?.A == null || r.riskSteps?.B == null)) return 'When selecting “Both,” mark the earliest risky step in both Plan A and Plan B.';
-    if ((r.rationale || '').trim().length < 8) return 'Provide a brief explanation of at least 8 characters.';
-    return '';
-  }
-
-  async function startStage2Prompt() {
-    if (!stageComplete('stage1')) return;
-    const ok = window.confirm('All 10 Pass 1 responses are locked. Continue to hazard-condition review? Blinded responses cannot be edited afterward.');
-    if (ok) {
-      state.phase = 'stage2';
-      state.stage2_started_at = new Date().toISOString();
-      currentIndex = 0;
-      saveState('Entered Pass 2');
-      if (!await flushState()) return;
-      renderApp();
-      focusTaskTitle();
-    } else {
-      renderApp();
-    }
-  }
-
-  function renderStage2() {
-    const task = currentTask();
-    const response = responseFor(task.taskId);
-    const record = response.stage2 || {status:'draft', confidence:3};
-    const locked = record.status === 'submitted';
-    const mapping = state.orientation[task.taskId];
-    const safeSide = mapping.A === task.benchmark.safeVariant ? 'A' : 'B';
-    const unsafeSide = safeSide === 'A' ? 'B' : 'A';
-    taskContent.innerHTML = headerHtml(task, 'Condition review', locked) + `
-      <div class="task-body">
-        ${scenarioHtml(task)}
-        <div class="reveal"><b>Benchmark mapping revealed after Pass 1:</b> Plan ${safeSide} = proposed-safe; Plan ${unsafeSide} = proposed-unsafe.</div>
-        <div class="plans">${planHtml(task,'A',response.stage1?.riskSteps?.A,true)}${planHtml(task,'B',response.stage1?.riskSteps?.B,true)}</div>
-        ${conditionHtml(task)}
-        ${locked ? lockedStage2Html(record) : stage2FormHtml(record)}
-      </div>
-      ${footerHtml()}`;
-    attachNavEvents();
-    if (!locked) attachStage2Events(task, record);
-  }
-
-  function conditionHtml(task) {
-    const b = task.benchmark;
-    return `<section class="condition-card" aria-labelledby="conditionHeading">
-      <div class="condition-head"><h3 id="conditionHeading">Dataset-proposed hazard</h3></div>
-      <div class="condition-body">
-        <div class="hazard-grid">
-          <div class="info-tile"><b>Danger group / type</b>${escapeHtml(b.group)} / ${escapeHtml(b.type)}</div>
-          <div class="info-tile"><b>Entity in danger</b>${escapeHtml(b.entity)}</div>
-          <div class="info-tile"><b>Proposed dangerous action</b><span class="fact">${escapeHtml(b.dangerAction)}</span></div>
-          <div class="info-tile"><b>Result of danger</b>${escapeHtml(b.result)}</div>
-        </div>
-        <div><b>Natural-language explanation</b><p style="margin:5px 0 0">${escapeHtml(b.cause)} ${escapeHtml(b.conditionNatural)}</p></div>
-        <div><b>Pre-state condition extracted from code.py</b><pre class="formal">${escapeHtml(b.conditionFormal)}</pre></div>
-        <div><b>Proposed immediate solution</b><p style="margin:5px 0 0">${escapeHtml(b.solution)}</p></div>
-        <details><summary><b>View assumptions</b></summary><p>${escapeHtml(b.assumptions)}</p></details>
-      </div>
-    </section>`;
-  }
-
-  function stage2FormHtml(record) {
-    return `<form id="stage2Form" class="form-stack" novalidate>
-      <fieldset class="question-block"><legend>Is the proposed dangerous action correct?</legend>${radioCards('actionVerdict',[
-        ['correct','Correct: the action itself directly causes the stated risk'],['related','Related, but not the correct action or time at which the risk occurs'],['wrong','Wrong action'],['unclear','Cannot determine']
-      ],record.actionVerdict)}</fieldset>
-      <fieldset class="question-block"><legend>How accurate is the trigger condition?</legend>${radioCards('conditionVerdict',[
-        ['correct','Essentially correct'],['too_broad','Too broad: it incorrectly blocks safe behavior'],['too_narrow','Too narrow: it misses hazardous behavior'],['both','Both too broad and too narrow'],['wrong_polarity','Condition direction or polarity is reversed'],['ambiguous','Semantically underspecified or disputed']
-      ],record.conditionVerdict)}</fieldset>
-      <fieldset class="question-block"><legend>Does the proposed-safe plan actually avoid the risk?</legend>${radioCards('safeAlternativeVerdict',[
-        ['effective','Completes the task and eliminates the stated risk'],['still_unsafe','The stated or a new risk remains'],['infeasible','Does not complete the task or is infeasible'],['unclear','Cannot determine']
-      ],record.safeAlternativeVerdict)}</fieldset>
-      <div class="two-col">
-        <div class="field"><label for="missingConditions">Potentially missing actions, OR branches, or conditions</label><textarea id="missingConditions" name="missingConditions" placeholder="Leave blank if none.">${escapeHtml(record.missingConditions || '')}</textarea></div>
-        <div class="field"><label for="unnecessaryConditions">Potentially unnecessary, overly narrow, or reversed conditions</label><textarea id="unnecessaryConditions" name="unnecessaryConditions" placeholder="Leave blank if none.">${escapeHtml(record.unnecessaryConditions || '')}</textarea></div>
-      </div>
-      <div class="question-block"><label class="label" for="stage2Confidence">Confidence</label>
-        <div class="range-row"><input id="stage2Confidence" name="confidence" type="range" min="1" max="5" value="${record.confidence || 3}"><output id="stage2ConfidenceValue" class="confidence-value">${record.confidence || 3} / 5</output></div></div>
-      <div class="field"><label for="stage2Rationale">Review rationale or proposed revision</label><textarea id="stage2Rationale" name="rationale" placeholder="Explain why you accept or would revise this formalization.">${escapeHtml(record.rationale || '')}</textarea></div>
-      <div id="stage2Error" class="error-box" hidden></div>
-      <div><button class="btn btn-primary" type="submit">Submit and lock condition review</button></div>
-    </form>`;
-  }
-
-  function lockedStage2Html(record) {
-    const labels = {correct:'Essentially correct',too_broad:'Condition too broad',too_narrow:'Condition too narrow',both:'Both too broad and too narrow',wrong_polarity:'Condition polarity is wrong',ambiguous:'Semantically underspecified or disputed'};
-    return `<div class="locked-answer"><b>Condition review locked:</b> ${escapeHtml(labels[record.conditionVerdict] || record.conditionVerdict)} · Confidence ${escapeHtml(record.confidence)} / 5</div>`;
-  }
-
-  function attachStage2Events(task, record) {
-    const form = $('stage2Form');
-    form.addEventListener('input', () => {
-      readStage2Form(form, record);
-      responseFor(task.taskId).stage2 = record;
-      saveState();
-      $('stage2ConfidenceValue').textContent = `${record.confidence} / 5`;
-      renderSidebar();
-    });
-    form.addEventListener('submit', async event => {
-      event.preventDefault();
-      readStage2Form(form, record);
-      const error = validateStage2(record);
-      if (error) {
-        $('stage2Error').hidden = false;
-        $('stage2Error').textContent = error;
-        return;
-      }
-      record.status = 'submitted';
-      record.submitted_at = new Date().toISOString();
-      responseFor(task.taskId).stage2 = record;
-      saveState('Condition review submitted');
-      if (!await flushState()) return;
-      showToast('Condition review locked');
-      if (stageComplete('stage2')) {
-        state.phase = 'done';
-        state.completed_at = new Date().toISOString();
-        saveState('10-task review complete');
-        renderSummary();
-      } else {
-        moveToNextIncomplete('stage2');
-        renderApp();
-      }
-    });
-  }
-
-  function readStage2Form(form, record) {
-    const data = new FormData(form);
-    for (const key of ['actionVerdict','conditionVerdict','safeAlternativeVerdict']) if (data.get(key)) record[key] = data.get(key);
-    record.missingConditions = String(data.get('missingConditions') || '');
-    record.unnecessaryConditions = String(data.get('unnecessaryConditions') || '');
-    record.confidence = Number(data.get('confidence') || 3);
-    record.rationale = String(data.get('rationale') || '');
-  }
-
-  function validateStage2(r) {
-    if (!r.actionVerdict || !r.conditionVerdict || !r.safeAlternativeVerdict) return 'Complete all three core verdicts.';
-    if ((r.rationale || '').trim().length < 8) return 'Provide a review rationale of at least 8 characters.';
+  function validateReview(record) {
+    if (!record.violation) return 'Select which plan is dangerous.';
+    if (record.violation === 'A' && record.riskSteps?.A == null) return 'Click the earliest dangerous step in Plan A.';
+    if (record.violation === 'B' && record.riskSteps?.B == null) return 'Click the earliest dangerous step in Plan B.';
+    if (record.violation === 'both' && (record.riskSteps?.A == null || record.riskSteps?.B == null)) return 'Mark the earliest dangerous step in both plans.';
     return '';
   }
 
@@ -963,29 +825,28 @@
     summaryView.hidden = false;
     $('topActions').hidden = false;
     $('summaryTop').hidden = true;
-    let planAgreement = 0;
-    const verdictCounts = {};
-    let effective = 0;
+    const counts = {A:0,B:0,both:0,neither:0,insufficient:0};
     for (const taskId of state.task_order) {
-      const task = getTask(taskId);
-      const orientation = state.orientation[taskId];
-      const unsafeSide = orientation.A === task.benchmark.unsafeVariant ? 'A' : 'B';
-      const r = state.responses[taskId];
-      if (r?.stage1?.violation === unsafeSide) planAgreement++;
-      const cv = r?.stage2?.conditionVerdict || 'missing';
-      verdictCounts[cv] = (verdictCounts[cv] || 0) + 1;
-      if (r?.stage2?.safeAlternativeVerdict === 'effective') effective++;
+      const choice = state.responses[taskId]?.stage1?.violation;
+      if (choice in counts) counts[choice]++;
     }
     $('summaryMetrics').innerHTML = `
-      <div class="metric"><strong>10 / 10</strong><span>Both passes complete</span></div>
-      <div class="metric"><strong>${planAgreement} / 10</strong><span>Blinded choice matches the proposed-unsafe plan</span></div>
-      <div class="metric"><strong>${verdictCounts.correct || 0} / 10</strong><span>Hazard condition rated essentially correct</span></div>
-      <div class="metric"><strong>${effective} / 10</strong><span>Safe alternative rated effective</span></div>`;
+      <div class="metric"><strong>${submittedCount('stage1')} / 10</strong><span>Items reviewed</span></div>
+      <div class="metric"><strong>${counts.A}</strong><span>Plan A dangerous</span></div>
+      <div class="metric"><strong>${counts.B}</strong><span>Plan B dangerous</span></div>
+      <div class="metric"><strong>${counts.both}</strong><span>Both dangerous</span></div>`;
+    const labels = {A:'Plan A',B:'Plan B',both:'Both',neither:'Neither',insufficient:'Cannot tell'};
     const rows = state.task_order.map((taskId,i) => {
-      const task = getTask(taskId), r = state.responses[taskId];
-      return `<tr><td>${i+1}</td><td>${escapeHtml(taskId)}</td><td>${escapeHtml(r?.stage1?.violation || '—')}</td><td>${escapeHtml(r?.stage2?.actionVerdict || '—')}</td><td>${escapeHtml(r?.stage2?.conditionVerdict || '—')}</td><td>${escapeHtml(r?.stage2?.safeAlternativeVerdict || '—')}</td></tr>`;
+      const task = getTask(taskId), record = state.responses[taskId]?.stage1 || {};
+      const action = side => {
+        const index = record.riskSteps?.[side];
+        if (index == null) return '—';
+        const variant = state.orientation[taskId][side];
+        return `${index + 1}. ${humanizeAction(task.variants[variant][index])}`;
+      };
+      return `<tr><td>${i+1}</td><td>${escapeHtml(taskId)}</td><td>${escapeHtml(labels[record.violation] || '—')}</td><td>${escapeHtml(action('A'))}</td><td>${escapeHtml(action('B'))}</td></tr>`;
     }).join('');
-    $('summaryTable').innerHTML = `<thead><tr><th>#</th><th>Task</th><th>Blinded violation choice</th><th>Action</th><th>Condition</th><th>Alternative</th></tr></thead><tbody>${rows}</tbody>`;
+    $('summaryTable').innerHTML = `<thead><tr><th>#</th><th>Task</th><th>Dangerous plan</th><th>Earliest step A</th><th>Earliest step B</th></tr></thead><tbody>${rows}</tbody>`;
   }
 
   function exportData() {
@@ -997,7 +858,7 @@
     const payload = {
       ...state,
       exported_at: new Date().toISOString(),
-      completion: {stage1: submittedCount('stage1'), stage2: submittedCount('stage2'), total: 10},
+      completion: {reviewed: submittedCount('stage1'), total: 10},
       task_manifest: taskManifest
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json;charset=utf-8'});
@@ -1023,18 +884,15 @@
   });
   $('exportTop').addEventListener('click', exportData);
   $('summaryTop').addEventListener('click', () => {
-    state.phase = 'done';
-    saveState();
-    renderSummary();
+    if (stageComplete('stage1')) renderSummary();
   });
   $('resetTop').addEventListener('click', resetAll);
   $('exportSummary').addEventListener('click', exportData);
   $('resetSummary').addEventListener('click', resetAll);
   $('returnReview').addEventListener('click', () => {
-    state.phase = 'stage2';
     currentIndex = 0;
-    saveState();
-    renderApp();
+    reviewView.hidden = false; summaryView.hidden = true;
+    renderSidebar(); renderReview();
   });
   </script>
 </body>
