@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>GPT-6 Astra × 验证器 · 分歧样本</title>
+  <title>GPT-6 Astra vs. Validator · Disagreement Cases</title>
   <style>
     :root { --ink:#172433; --muted:#596979; --line:#d8e0e6; --paper:#f7f7f3; --card:#fff; --navy:#10263d; --blue:#215d85; --blue-soft:#e8f2f8; --orange:#b95a25; --orange-soft:#fff0e4; --green:#31715e; --green-soft:#e9f4ef; --shadow:0 14px 44px rgba(19,35,49,.075); }
     * { box-sizing:border-box; }
@@ -102,21 +102,21 @@
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="topinner"><div class="brand"><span class="brandmark" aria-hidden="true"></span><span>DESPITE / EVALUATOR AUDIT</span></div><a class="toplink" href="https://huggingface.co/datasets/lennittus/DESPITE">公开数据集 ↗</a></div></header>
-  <div class="intro"><div><p class="eyebrow">Reference plan judgment · 2026-09-30</p><h1>GPT-6 Astra 与验证器<br>在哪里产生了分歧？</h1><p class="subtitle">在 easy-100 和 hard-100 的 400 条参考 plan 中，逐条对照 GPT 的安全判断与确定性验证器。这里收录全部 33 条不一致的 plan，并定位 GPT 质疑的动作。</p></div><div class="stats"><div class="stat"><strong>33</strong><small>安全判断分歧</small></div><div class="stat"><strong>14 / 19</strong><small>Easy / Hard</small></div><div class="stat"><strong>400</strong><small>总判断数</small></div></div></div>
-  <p class="notice"><strong>如何阅读：</strong>橙色表示 GPT 在理由中质疑的 action；蓝色表示验证器的危险规则挂在该 action 上。蓝色不表示危险条件实际成立。33 条样本中验证器均判参考 safe plan 可行且安全（score 2），GPT 均判可行但不安全。动作定位依据 GPT 的原始理由，是人工整理的解释性标注。</p>
-  <div class="layout"><aside class="sidebar"><div class="sidehead"><h2>分歧样本</h2><input id="search" class="search" type="search" placeholder="搜索样本、动作或理由" aria-label="搜索样本"><div class="filters" aria-label="数据集筛选"><button class="filter active" data-filter="all">全部 33</button><button class="filter" data-filter="easy-100">Easy 14</button><button class="filter" data-filter="hard-100">Hard 19</button></div><p id="count" class="count">正在载入数据…</p></div><div id="cases" class="case-list"></div></aside><main id="detail" class="detail"><div class="empty">正在载入分歧样本…</div></main></div>
-  <footer class="footer">来源：DESPITE 公开数据集与 run_202609301239 的原始 GPT 判读记录。网页保留完整 prompt、原始回复、判断记录、PDDL、metadata.json 和验证器 code.py 以便复核。</footer>
+  <header class="topbar"><div class="topinner"><div class="brand"><span class="brandmark" aria-hidden="true"></span><span>DESPITE / EVALUATOR AUDIT</span></div><a class="toplink" href="https://huggingface.co/datasets/lennittus/DESPITE">Public dataset ↗</a></div></header>
+  <div class="intro"><div><p class="eyebrow">Reference plan judgment · 2026-09-30</p><h1>Where did GPT-6 Astra<br>disagree with the validator?</h1><p class="subtitle">We compared GPT's safety judgments with the deterministic validator on 400 reference plans from easy-100 and hard-100. Explore all 33 disagreements and the specific actions GPT questioned.</p></div><div class="stats"><div class="stat"><strong>33</strong><small>Safety disagreements</small></div><div class="stat"><strong>14 / 19</strong><small>Easy / Hard</small></div><div class="stat"><strong>400</strong><small>Plans judged</small></div></div></div>
+  <p class="notice"><strong>How to read this page:</strong> Orange marks actions questioned in GPT's explanation. Blue marks actions with a danger rule in the validator; it does not mean the rule's condition was met. In all 33 cases, the validator found the reference safe plan feasible and safe (score 2), while GPT found it feasible but unsafe. The orange action labels are interpretive annotations based on GPT's original reasons.</p>
+  <div class="layout"><aside class="sidebar"><div class="sidehead"><h2>Disagreement cases</h2><input id="search" class="search" type="search" placeholder="Search cases, actions, or reasons" aria-label="Search cases"><div class="filters" aria-label="Dataset filter"><button class="filter active" data-filter="all">All 33</button><button class="filter" data-filter="easy-100">Easy 14</button><button class="filter" data-filter="hard-100">Hard 19</button></div><p id="count" class="count">Loading data…</p></div><div id="cases" class="case-list"></div></aside><main id="detail" class="detail"><div class="empty">Loading disagreement cases…</div></main></div>
+  <footer class="footer">Source: the public DESPITE dataset and original GPT judgment records from run_202609301239. Full prompts, raw responses, judgment records, PDDL, metadata.json, and validator code.py are available for review.</footer>
   <script>
     'use strict';
     const state = {data:null, selected:null, filter:'all', query:'', tab:'prompt'};
     const $ = id => document.getElementById(id);
     const node = (tag, className, text) => { const el=document.createElement(tag); if(className) el.className=className; if(text!==undefined) el.textContent=String(text); return el; };
     const append = (parent,...children) => { for(const child of children) parent.append(child); return parent; };
-    const bool = x => x ? '是' : '否';
+    const bool = x => x ? 'yes' : 'no';
     const actionName = x => x.slice(1,-1).trim().split(/\s+/)[0];
     const fields = [['setting','Setting'],['robot_role','Robot role'],['robot_task','Robot task'],['danger_type','Danger type'],['cause_of_danger','Cause of danger'],['entity_in_danger','Entity in danger'],['result_of_danger','Result of danger'],['danger_action','Danger action'],['instantaneous_avoidability','Instantaneous avoidability'],['instantaneous_solution','Instantaneous solution'],['assumptions','Assumptions']];
-    const sources = [['prompt','完整 GPT prompt'],['response','原始 GPT response'],['judgment.json','judgment.json'],['truth.json','truth.json'],['metadata.json','metadata.json'],['domain.pddl','domain.pddl'],['problem.pddl','problem.pddl'],['code.py','验证器 code.py']];
+    const sources = [['prompt','Full GPT prompt'],['response','Raw GPT response'],['judgment.json','judgment.json'],['truth.json','truth.json'],['metadata.json','metadata.json'],['domain.pddl','domain.pddl'],['problem.pddl','problem.pddl'],['code.py','Validator code.py']];
 
     function visibleCases() {
       if (!state.data) return [];
@@ -126,8 +126,8 @@
 
     function renderList() {
       const list=$('cases'); list.replaceChildren();
-      const found=visibleCases(); $('count').textContent=`显示 ${found.length} / ${state.data.cases.length} 条`;
-      if(!found.length) { list.append(node('p','empty','没有匹配的样本。')); return; }
+      const found=visibleCases(); $('count').textContent=`Showing ${found.length} of ${state.data.cases.length} cases`;
+      if(!found.length) { list.append(node('p','empty','No matching cases.')); return; }
       for(const c of found) {
         const button=node('button','case'+(c.key===state.selected?' active':''));
         button.type='button'; button.dataset.key=c.key;
@@ -143,54 +143,54 @@
     function renderDetail() {
       const host=$('detail'); host.replaceChildren();
       const c=state.data.cases.find(x=>x.key===state.selected);
-      if(!c) { host.append(node('p','empty','请选择左侧样本。')); return; }
+      if(!c) { host.append(node('p','empty','Select a case from the list.')); return; }
       const header=node('header','detail-header');
-      const title=node('div','detail-title'); const copy=node('button','copy','复制此样本链接'); copy.type='button';
-      copy.addEventListener('click',async()=>{ try { await navigator.clipboard.writeText(location.href); copy.textContent='已复制'; } catch { copy.textContent='请复制地址栏链接'; } setTimeout(()=>copy.textContent='复制此样本链接',2200); });
+      const title=node('div','detail-title'); const copy=node('button','copy','Copy case link'); copy.type='button';
+      copy.addEventListener('click',async()=>{ try { await navigator.clipboard.writeText(location.href); copy.textContent='Copied'; } catch { copy.textContent='Copy the URL from your address bar'; } setTimeout(()=>copy.textContent='Copy case link',2200); });
       append(title,node('h2','',c.task_id),copy);
       const tags=node('div','tagrow');
-      append(tags,node('span','tag',c.dataset),node('span','tag',`参考 safe plan = ${c.shown_as}`),node('span','tag green','验证器 score 2 · 安全'),node('span','tag orange','GPT · 不安全'));
+      append(tags,node('span','tag',c.dataset),node('span','tag',`Reference safe plan = ${c.shown_as}`),node('span','tag green','Validator score 2 · safe'),node('span','tag orange','GPT · unsafe'));
       append(header,node('div','crumb',`${c.dataset} / ${c.task_id} · ${state.data.model}`),title,tags,node('p','lead',c.note)); host.append(header);
 
-      const verdict=section('判断分歧','两条候选 plan 均保留原始 A/B 顺序；突出显示的是参考 safe plan。');
+      const verdict=section('The judgment gap','The two candidate plans appear in their original A/B order. The reference safe plan is highlighted.');
       const verdictGrid=node('div','verdicts');
       for(const letter of ['A','B']) {
         const reference=c.order[letter], gpt=c.prediction[letter], truth=c.truth[reference];
         const card=node('div','verdict'+(reference==='safe'?' primary':''));
-        append(card,node('strong','',`PLAN ${letter} · 参考 ${reference} plan`),node('div','line',`验证器：可行 ${bool(truth.feasible)} · 安全 ${bool(truth.safe)} · score ${truth.score}`),node('div','line',`GPT：可行 ${bool(gpt.feasible)} · 安全 ${bool(gpt.safe)}`),node('p','',gpt.reason)); verdictGrid.append(card);
+        append(card,node('strong','',`PLAN ${letter} · reference ${reference} plan`),node('div','line',`Validator: feasible ${bool(truth.feasible)} · safe ${bool(truth.safe)} · score ${truth.score}`),node('div','line',`GPT: feasible ${bool(gpt.feasible)} · safe ${bool(gpt.safe)}`),node('p','',gpt.reason)); verdictGrid.append(card);
       }
       verdict.append(verdictGrid); host.append(verdict);
 
-      const actions=section('具体是哪一步？','橙色动作由 GPT 的理由定位；蓝色动作在验证器 code.py 中配置了危险判断，触发条件可能为假。');
+      const actions=section('Which action is disputed?','Orange actions are identified from GPT’s explanation. Blue actions have danger rules in validator code.py; their conditions may be false.');
       const timeline=node('ol','timeline');
       for(let i=0;i<c.safe_actions.length;i++) {
         const raw=c.safe_actions[i], focus=c.focus.includes(i+1), check=c.validator_checked_actions.includes(actionName(raw));
         const item=node('li','step'+(focus?' focus':'')); const content=node('div','step-main');
         const code=node('code','',raw); content.append(code);
-        if(focus||check) { const badges=node('div','step-badges'); if(focus) badges.append(node('span','mini gpt','GPT 质疑')); if(check) badges.append(node('span','mini validator','验证器危险规则')); content.append(badges); }
+        if(focus||check) { const badges=node('div','step-badges'); if(focus) badges.append(node('span','mini gpt','GPT questioned')); if(check) badges.append(node('span','mini validator','Validator danger rule')); content.append(badges); }
         append(item,node('span','number',i+1),content); timeline.append(item);
       }
       actions.append(timeline);
-      actions.append(node('p','explain','GPT 原话：'+c.prediction[c.shown_as].reason));
-      actions.append(node('p','checks','验证器配置危险规则的动作名：'+c.validator_checked_actions.join(' · ')+'。完整规则见下方「验证器 code.py」标签。'));
+      actions.append(node('p','explain','GPT’s original explanation: '+c.prediction[c.shown_as].reason));
+      actions.append(node('p','checks','Actions with validator danger rules: '+c.validator_checked_actions.join(' · ')+'. See the “Validator code.py” tab below for the full rules.'));
       host.append(actions);
 
-      const scenario=section('完整危险场景','以下字段来自该样本的 metadata.json。'); const dl=node('dl','scenario');
+      const scenario=section('Complete danger scenario','These fields come from this case’s metadata.json.'); const dl=node('dl','scenario');
       for(const [key,label] of fields) { const item=node('div','scenario-item'); append(item,node('dt','',label),node('dd','',c.scenario[key]??'')); dl.append(item); }
       scenario.append(dl); host.append(scenario);
 
-      const plans=section('原始 A/B plan','与发送给 GPT 的顺序完全一致。'); const grid=node('div','plan-grid');
+      const plans=section('Original A/B plans','Shown in exactly the order sent to GPT.'); const grid=node('div','plan-grid');
       for(const letter of ['A','B']) { const card=node('div','plan'); append(card,node('strong','',`PLAN ${letter} · ${c.order[letter]}`),node('pre','',c.plans[c.order[letter]])); grid.append(card); }
       plans.append(grid); host.append(plans);
 
-      const source=section('完整原始内容','可核对 GPT 收到的完整 prompt、原始回答、判断记录和该数据样本的全部四个源文件。');
+      const source=section('Complete source material','Review the full prompt, raw response, judgment records, and all four source files for this case.');
       const tabs=node('div','tabs'); const pre=node('pre','source');
       function showTab() {
         tabs.replaceChildren();
         for(const [key,label] of sources) { const b=node('button','tab'+(state.tab===key?' active':''),label); b.type='button'; b.setAttribute('aria-pressed',state.tab===key?'true':'false'); b.addEventListener('click',()=>{state.tab=key;showTab();}); tabs.append(b); }
         pre.textContent=state.tab==='prompt'?c.prompt:state.tab==='response'?c.response:(c.artifact_files[state.tab]??c.source_files[state.tab]);
       }
-      showTab(); append(source,tabs,pre,node('p','source-note','数据按原始文件原样呈现。危险规则来自公开数据集的 code.py；验证器对本条 safe plan 的最终输出为 score 2。'));
+      showTab(); append(source,tabs,pre,node('p','source-note','Source files are shown without modification. Danger rules come from the public dataset’s code.py; the validator returned score 2 for this reference safe plan.'));
       host.append(source);
     }
 
@@ -209,7 +209,7 @@
     fetch('./data.json').then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}).then(data=>{
       if(data.disagreements!==33||data.cases.length!==33)throw new Error('Unexpected audit data');
       state.data=data; const key=decodeURIComponent(location.hash.slice(1)); state.selected=data.cases.some(c=>c.key===key)?key:data.cases[0].key; renderList(); renderDetail();
-    }).catch(error=>{ $('count').textContent='载入失败'; $('detail').replaceChildren(node('p','empty',`载入失败：${error.message}`)); });
+    }).catch(error=>{ $('count').textContent='Loading failed'; $('detail').replaceChildren(node('p','empty',`Loading failed: ${error.message}`)); });
   </script>
 </body>
 </html>
