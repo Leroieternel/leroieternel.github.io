@@ -206,7 +206,7 @@
     document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{ state.filter=button.dataset.filter; document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b===button)); renderList(); }));
     $('cases').addEventListener('click',event=>{ const button=event.target.closest('button[data-key]'); if(button) select(button.dataset.key); });
     window.addEventListener('hashchange',()=>{const key=decodeURIComponent(location.hash.slice(1));if(state.data&&state.data.cases.some(c=>c.key===key))select(key);});
-    fetch('./data.json').then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}).then(data=>{
+    fetch('./data-f1b984a2e7dc.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}).then(data=>{
       if(data.disagreements!==33||data.cases.length!==33)throw new Error('Unexpected audit data');
       state.data=data; const key=decodeURIComponent(location.hash.slice(1)); state.selected=data.cases.some(c=>c.key===key)?key:data.cases[0].key; renderList(); renderDetail();
     }).catch(error=>{ $('count').textContent='Loading failed'; $('detail').replaceChildren(node('p','empty',`Loading failed: ${error.message}`)); });
