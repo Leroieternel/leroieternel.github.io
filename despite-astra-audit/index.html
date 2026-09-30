@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>GPT-6 Astra × 验证器 · 分歧样本</title>
+  <style>
+    :root { --ink:#172433; --muted:#596979; --line:#d8e0e6; --paper:#f7f7f3; --card:#fff; --navy:#10263d; --blue:#215d85; --blue-soft:#e8f2f8; --orange:#b95a25; --orange-soft:#fff0e4; --green:#31715e; --green-soft:#e9f4ef; --shadow:0 14px 44px rgba(19,35,49,.075); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.58 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif; }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    .topbar { background:var(--navy); color:#f5f7f8; border-bottom:4px solid #d5a46b; }
+    .topinner { max-width:1460px; margin:auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:13px; font-size:13px; letter-spacing:.15em; font-weight:800; text-transform:uppercase; }
+    .brandmark { width:28px; height:28px; border:2px solid #d5a46b; border-radius:7px; transform:rotate(-13deg); position:relative; }
+    .brandmark::after { content:""; position:absolute; inset:6px; background:#d5a46b; border-radius:2px; }
+    .toplink { color:#cfdfec; text-decoration:none; font-size:13px; }
+    .toplink:hover { text-decoration:underline; }
+    .intro { max-width:1460px; margin:auto; padding:48px 32px 31px; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:30px; }
+    .eyebrow { margin:0 0 11px; color:var(--blue); text-transform:uppercase; letter-spacing:.2em; font-size:11px; font-weight:800; }
+    h1 { margin:0; font-family:Georgia,"Noto Serif SC",serif; font-weight:700; letter-spacing:-.025em; font-size:clamp(31px,3vw,49px); line-height:1.18; }
+    .subtitle { color:var(--muted); max-width:760px; margin:15px 0 0; font-size:15px; }
+    .stats { display:flex; gap:8px; }
+    .stat { min-width:100px; padding:15px 18px; background:var(--card); border:1px solid var(--line); border-radius:13px; box-shadow:var(--shadow); }
+    .stat strong { display:block; color:var(--navy); font:700 28px/1.1 Georgia,serif; }
+    .stat small { display:block; margin-top:5px; color:var(--muted); font-size:12px; white-space:nowrap; }
+    .notice { max-width:1396px; margin:0 auto 22px; padding:14px 18px; border:1px solid #d0e0e8; border-left:4px solid var(--blue); background:#edf5f9; border-radius:9px; color:#2b4d63; font-size:13px; }
+    .layout { max-width:1460px; margin:auto; display:grid; grid-template-columns:324px minmax(0,1fr); gap:24px; padding:0 32px 60px; align-items:start; }
+    .sidebar { position:sticky; top:18px; max-height:calc(100vh - 36px); display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--line); border-radius:16px; background:var(--card); box-shadow:var(--shadow); }
+    .sidehead { padding:20px 18px 15px; border-bottom:1px solid var(--line); }
+    .sidehead h2 { margin:0 0 13px; font-size:16px; }
+    .search { width:100%; border:1px solid var(--line); outline:none; border-radius:9px; padding:9px 11px; background:#f9fbfc; }
+    .search:focus { border-color:var(--blue); box-shadow:0 0 0 3px #dcecf5; }
+    .filters { display:flex; gap:6px; margin-top:11px; }
+    .filter { border:1px solid var(--line); background:#fff; padding:5px 10px; border-radius:999px; color:var(--muted); font-size:12px; }
+    .filter.active { border-color:var(--blue); color:var(--blue); background:var(--blue-soft); font-weight:700; }
+    .count { margin:12px 0 0; color:var(--muted); font-size:12px; }
+    .case-list { overflow:auto; padding:7px; }
+    .case { display:block; width:100%; text-align:left; padding:11px 12px; border:1px solid transparent; border-radius:9px; background:transparent; color:var(--ink); margin:2px 0; }
+    .case:hover { background:#f4f7f9; }
+    .case.active { border-color:#bfd4e2; background:#eaf3f8; }
+    .case-top { display:flex; justify-content:space-between; gap:8px; align-items:center; font-size:12px; font-weight:750; }
+    .case-top span:last-child { font-size:10px; color:var(--blue); background:#dfebf2; padding:2px 6px; border-radius:5px; white-space:nowrap; }
+    .case-note { display:block; margin-top:4px; color:var(--muted); font-size:12px; line-height:1.45; }
+    .detail { min-width:0; }
+    .detail-header { padding:26px 29px; border:1px solid var(--line); border-radius:16px; background:var(--card); box-shadow:var(--shadow); }
+    .crumb { color:var(--muted); font-size:12px; letter-spacing:.05em; }
+    .detail-title { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; margin:7px 0 12px; }
+    .detail-title h2 { margin:0; font:700 clamp(24px,2.4vw,34px)/1.2 Georgia,"Noto Serif SC",serif; }
+    .copy { background:#fff; border:1px solid var(--line); border-radius:8px; padding:7px 11px; color:var(--blue); font-size:12px; }
+    .copy:hover { border-color:var(--blue); }
+    .tagrow { display:flex; flex-wrap:wrap; gap:7px; }
+    .tag { border-radius:999px; padding:4px 9px; background:#eef2f4; color:#415666; font-size:11px; font-weight:700; }
+    .tag.orange { color:var(--orange); background:var(--orange-soft); }
+    .tag.green { color:var(--green); background:var(--green-soft); }
+    .lead { margin:16px 0 0; font-size:15px; }
+    .section { margin-top:16px; padding:24px 29px; border:1px solid var(--line); border-radius:16px; background:var(--card); box-shadow:var(--shadow); }
+    .section h3 { margin:0 0 7px; font-size:18px; }
+    .section-desc { margin:0 0 17px; color:var(--muted); font-size:13px; }
+    .verdicts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .verdict { border:1px solid var(--line); border-radius:11px; padding:14px; background:#fbfcfc; }
+    .verdict.primary { border-color:#efc3a2; background:#fff9f5; }
+    .verdict strong { display:block; font-size:13px; margin-bottom:7px; }
+    .verdict p { margin:8px 0 0; color:#344653; font-size:13px; }
+    .verdict .line { font-size:12px; color:var(--muted); }
+    .timeline { margin:0; padding:0; list-style:none; display:grid; gap:7px; }
+    .step { display:flex; align-items:flex-start; gap:10px; border:1px solid var(--line); border-radius:9px; padding:10px 12px; background:#fcfdfd; }
+    .step.focus { border-color:#eabf9d; background:#fff6ee; }
+    .number { display:grid; place-items:center; flex:0 0 25px; height:25px; border-radius:7px; background:#e9eff3; color:#34546a; font-size:11px; font-weight:800; }
+    .focus .number { background:#f4d4bc; color:#994a1d; }
+    .step-main { flex:1; min-width:0; }
+    .step code { overflow-wrap:anywhere; font-size:13px; }
+    .step-badges { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+    .mini { display:inline-block; border-radius:4px; padding:2px 6px; font-size:10px; font-weight:750; }
+    .mini.gpt { background:#f8dfca; color:#9a4c20; }
+    .mini.validator { background:#dcecf4; color:#2c607f; }
+    .explain { margin:14px 0 0; padding:11px 13px; border-left:3px solid #cb956c; background:#fbf7f1; color:#67523e; font-size:12px; }
+    .checks { color:var(--muted); margin:12px 0 0; font-size:12px; }
+    .checks code { overflow-wrap:anywhere; }
+    .scenario { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 18px; margin:0; }
+    .scenario-item { padding-bottom:9px; border-bottom:1px solid #edf0f2; }
+    .scenario dt { margin:0 0 3px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
+    .scenario dd { margin:0; font-size:13px; }
+    .plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .plan { border:1px solid var(--line); border-radius:10px; padding:13px; background:#f9fbfc; }
+    .plan strong { font-size:13px; }
+    .plan pre { margin:8px 0 0; white-space:pre-wrap; overflow-wrap:anywhere; font-size:12px; color:#314b5d; }
+    .tabs { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:13px; }
+    .tab { background:#f2f5f6; border:1px solid transparent; border-radius:7px; padding:7px 10px; color:#4a6070; font-size:12px; }
+    .tab.active { border-color:#a9c7d9; background:#e7f2f8; color:#215d85; font-weight:750; }
+    .source { margin:0; max-height:560px; overflow:auto; padding:17px; border:1px solid #31445a; border-radius:10px; background:#152639; color:#e5edf2; font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace; white-space:pre; tab-size:2; }
+    .source-note { color:var(--muted); font-size:12px; margin:12px 0 0; }
+    .empty { padding:32px; color:var(--muted); text-align:center; }
+    .footer { max-width:1396px; margin:0 auto; padding:0 0 35px; color:var(--muted); font-size:12px; }
+    .footer a { color:var(--blue); }
+    @media(max-width:1100px) { .intro { grid-template-columns:1fr; } .stats { justify-content:flex-start; } }
+    @media(max-width:800px) { .layout { grid-template-columns:1fr; padding:0 16px 35px; } .intro { padding:34px 16px 22px; } .notice { margin:0 16px 16px; } .sidebar { position:static; max-height:380px; } .topinner { padding:14px 16px; } .footer { padding:0 16px 30px; } }
+    @media(max-width:620px) { .stats { flex-wrap:wrap; } .stat { flex:1; } .verdicts,.scenario,.plan-grid { grid-template-columns:1fr; } .detail-header,.section { padding:20px; } .toplink { display:none; } }
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topinner"><div class="brand"><span class="brandmark" aria-hidden="true"></span><span>DESPITE / EVALUATOR AUDIT</span></div><a class="toplink" href="https://huggingface.co/datasets/lennittus/DESPITE">公开数据集 ↗</a></div></header>
+  <div class="intro"><div><p class="eyebrow">Reference plan judgment · 2026-09-30</p><h1>GPT-6 Astra 与验证器<br>在哪里产生了分歧？</h1><p class="subtitle">在 easy-100 和 hard-100 的 400 条参考 plan 中，逐条对照 GPT 的安全判断与确定性验证器。这里收录全部 33 条不一致的 plan，并定位 GPT 质疑的动作。</p></div><div class="stats"><div class="stat"><strong>33</strong><small>安全判断分歧</small></div><div class="stat"><strong>14 / 19</strong><small>Easy / Hard</small></div><div class="stat"><strong>400</strong><small>总判断数</small></div></div></div>
+  <p class="notice"><strong>如何阅读：</strong>橙色表示 GPT 在理由中质疑的 action；蓝色表示验证器的危险规则挂在该 action 上。蓝色不表示危险条件实际成立。33 条样本中验证器均判参考 safe plan 可行且安全（score 2），GPT 均判可行但不安全。动作定位依据 GPT 的原始理由，是人工整理的解释性标注。</p>
+  <div class="layout"><aside class="sidebar"><div class="sidehead"><h2>分歧样本</h2><input id="search" class="search" type="search" placeholder="搜索样本、动作或理由" aria-label="搜索样本"><div class="filters" aria-label="数据集筛选"><button class="filter active" data-filter="all">全部 33</button><button class="filter" data-filter="easy-100">Easy 14</button><button class="filter" data-filter="hard-100">Hard 19</button></div><p id="count" class="count">正在载入数据…</p></div><div id="cases" class="case-list"></div></aside><main id="detail" class="detail"><div class="empty">正在载入分歧样本…</div></main></div>
+  <footer class="footer">来源：DESPITE 公开数据集与 run_202609301239 的原始 GPT 判读记录。网页保留完整 prompt、原始回复、判断记录、PDDL、metadata.json 和验证器 code.py 以便复核。</footer>
+  <script>
+    'use strict';
+    const state = {data:null, selected:null, filter:'all', query:'', tab:'prompt'};
+    const $ = id => document.getElementById(id);
+    const node = (tag, className, text) => { const el=document.createElement(tag); if(className) el.className=className; if(text!==undefined) el.textContent=String(text); return el; };
+    const append = (parent,...children) => { for(const child of children) parent.append(child); return parent; };
+    const bool = x => x ? '是' : '否';
+    const actionName = x => x.slice(1,-1).trim().split(/\s+/)[0];
+    const fields = [['setting','Setting'],['robot_role','Robot role'],['robot_task','Robot task'],['danger_type','Danger type'],['cause_of_danger','Cause of danger'],['entity_in_danger','Entity in danger'],['result_of_danger','Result of danger'],['danger_action','Danger action'],['instantaneous_avoidability','Instantaneous avoidability'],['instantaneous_solution','Instantaneous solution'],['assumptions','Assumptions']];
+    const sources = [['prompt','完整 GPT prompt'],['response','原始 GPT response'],['judgment.json','judgment.json'],['truth.json','truth.json'],['metadata.json','metadata.json'],['domain.pddl','domain.pddl'],['problem.pddl','problem.pddl'],['code.py','验证器 code.py']];
+
+    function visibleCases() {
+      if (!state.data) return [];
+      const q=state.query.trim().toLowerCase();
+      return state.data.cases.filter(c => (state.filter==='all'||c.dataset===state.filter) && (!q || [c.key,c.note,c.scenario.robot_task,c.prediction[c.shown_as].reason,...c.safe_actions].join(' ').toLowerCase().includes(q)));
+    }
+
+    function renderList() {
+      const list=$('cases'); list.replaceChildren();
+      const found=visibleCases(); $('count').textContent=`显示 ${found.length} / ${state.data.cases.length} 条`;
+      if(!found.length) { list.append(node('p','empty','没有匹配的样本。')); return; }
+      for(const c of found) {
+        const button=node('button','case'+(c.key===state.selected?' active':''));
+        button.type='button'; button.dataset.key=c.key;
+        append(button, append(node('span','case-top'),node('span','',c.task_id),node('span','',c.dataset==='easy-100'?'EASY':'HARD')),node('span','case-note',c.note));
+        list.append(button);
+      }
+    }
+
+    function section(title,description) {
+      const box=node('section','section'); append(box,node('h3','',title)); if(description) box.append(node('p','section-desc',description)); return box;
+    }
+
+    function renderDetail() {
+      const host=$('detail'); host.replaceChildren();
+      const c=state.data.cases.find(x=>x.key===state.selected);
+      if(!c) { host.append(node('p','empty','请选择左侧样本。')); return; }
+      const header=node('header','detail-header');
+      const title=node('div','detail-title'); const copy=node('button','copy','复制此样本链接'); copy.type='button';
+      copy.addEventListener('click',async()=>{ try { await navigator.clipboard.writeText(location.href); copy.textContent='已复制'; } catch { copy.textContent='请复制地址栏链接'; } setTimeout(()=>copy.textContent='复制此样本链接',2200); });
+      append(title,node('h2','',c.task_id),copy);
+      const tags=node('div','tagrow');
+      append(tags,node('span','tag',c.dataset),node('span','tag',`参考 safe plan = ${c.shown_as}`),node('span','tag green','验证器 score 2 · 安全'),node('span','tag orange','GPT · 不安全'));
+      append(header,node('div','crumb',`${c.dataset} / ${c.task_id} · ${state.data.model}`),title,tags,node('p','lead',c.note)); host.append(header);
+
+      const verdict=section('判断分歧','两条候选 plan 均保留原始 A/B 顺序；突出显示的是参考 safe plan。');
+      const verdictGrid=node('div','verdicts');
+      for(const letter of ['A','B']) {
+        const reference=c.order[letter], gpt=c.prediction[letter], truth=c.truth[reference];
+        const card=node('div','verdict'+(reference==='safe'?' primary':''));
+        append(card,node('strong','',`PLAN ${letter} · 参考 ${reference} plan`),node('div','line',`验证器：可行 ${bool(truth.feasible)} · 安全 ${bool(truth.safe)} · score ${truth.score}`),node('div','line',`GPT：可行 ${bool(gpt.feasible)} · 安全 ${bool(gpt.safe)}`),node('p','',gpt.reason)); verdictGrid.append(card);
+      }
+      verdict.append(verdictGrid); host.append(verdict);
+
+      const actions=section('具体是哪一步？','橙色动作由 GPT 的理由定位；蓝色动作在验证器 code.py 中配置了危险判断，触发条件可能为假。');
+      const timeline=node('ol','timeline');
+      for(let i=0;i<c.safe_actions.length;i++) {
+        const raw=c.safe_actions[i], focus=c.focus.includes(i+1), check=c.validator_checked_actions.includes(actionName(raw));
+        const item=node('li','step'+(focus?' focus':'')); const content=node('div','step-main');
+        const code=node('code','',raw); content.append(code);
+        if(focus||check) { const badges=node('div','step-badges'); if(focus) badges.append(node('span','mini gpt','GPT 质疑')); if(check) badges.append(node('span','mini validator','验证器危险规则')); content.append(badges); }
+        append(item,node('span','number',i+1),content); timeline.append(item);
+      }
+      actions.append(timeline);
+      actions.append(node('p','explain','GPT 原话：'+c.prediction[c.shown_as].reason));
+      actions.append(node('p','checks','验证器配置危险规则的动作名：'+c.validator_checked_actions.join(' · ')+'。完整规则见下方「验证器 code.py」标签。'));
+      host.append(actions);
+
+      const scenario=section('完整危险场景','以下字段来自该样本的 metadata.json。'); const dl=node('dl','scenario');
+      for(const [key,label] of fields) { const item=node('div','scenario-item'); append(item,node('dt','',label),node('dd','',c.scenario[key]??'')); dl.append(item); }
+      scenario.append(dl); host.append(scenario);
+
+      const plans=section('原始 A/B plan','与发送给 GPT 的顺序完全一致。'); const grid=node('div','plan-grid');
+      for(const letter of ['A','B']) { const card=node('div','plan'); append(card,node('strong','',`PLAN ${letter} · ${c.order[letter]}`),node('pre','',c.plans[c.order[letter]])); grid.append(card); }
+      plans.append(grid); host.append(plans);
+
+      const source=section('完整原始内容','可核对 GPT 收到的完整 prompt、原始回答、判断记录和该数据样本的全部四个源文件。');
+      const tabs=node('div','tabs'); const pre=node('pre','source');
+      function showTab() {
+        tabs.replaceChildren();
+        for(const [key,label] of sources) { const b=node('button','tab'+(state.tab===key?' active':''),label); b.type='button'; b.setAttribute('aria-pressed',state.tab===key?'true':'false'); b.addEventListener('click',()=>{state.tab=key;showTab();}); tabs.append(b); }
+        pre.textContent=state.tab==='prompt'?c.prompt:state.tab==='response'?c.response:(c.artifact_files[state.tab]??c.source_files[state.tab]);
+      }
+      showTab(); append(source,tabs,pre,node('p','source-note','数据按原始文件原样呈现。危险规则来自公开数据集的 code.py；验证器对本条 safe plan 的最终输出为 score 2。'));
+      host.append(source);
+    }
+
+    function select(key) {
+      if(!state.data.cases.some(c=>c.key===key)) return;
+      state.selected=key; state.tab='prompt';
+      history.replaceState(null,'','#'+encodeURIComponent(key));
+      renderList(); renderDetail();
+      if(window.innerWidth<800) $('detail').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    $('search').addEventListener('input',event=>{ state.query=event.target.value; renderList(); });
+    document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{ state.filter=button.dataset.filter; document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b===button)); renderList(); }));
+    $('cases').addEventListener('click',event=>{ const button=event.target.closest('button[data-key]'); if(button) select(button.dataset.key); });
+    window.addEventListener('hashchange',()=>{const key=decodeURIComponent(location.hash.slice(1));if(state.data&&state.data.cases.some(c=>c.key===key))select(key);});
+    fetch('./data.json').then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}).then(data=>{
+      if(data.disagreements!==33||data.cases.length!==33)throw new Error('Unexpected audit data');
+      state.data=data; const key=decodeURIComponent(location.hash.slice(1)); state.selected=data.cases.some(c=>c.key===key)?key:data.cases[0].key; renderList(); renderDetail();
+    }).catch(error=>{ $('count').textContent='载入失败'; $('detail').replaceChildren(node('p','empty',`载入失败：${error.message}`)); });
+  </script>
+</body>
+</html>
