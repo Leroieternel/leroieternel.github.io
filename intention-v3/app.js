@@ -1,162 +1,918 @@
-(() => {
-  'use strict';
-  const $ = id => document.getElementById(id);
-  const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const fmt = n => n.toLocaleString('en-US');
-  const splitName = {train:'训练集', val:'验证集', test:'测试集', all:'全部数据'};
-  const pageSize = 30, cache = new Map();
-  let catalog, filtered = [], page = 0, current = null, selectedKey = '', request = 0, activeId = '', pendingFrame = null;
-  const video = $('video');
+(async () => {
+  "use strict";
+
   async function getJSON(url) {
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`无法读取 ${url} (HTTP ${response.status})`);
+    if (!response.ok) throw new Error(`Cannot load ${url}: HTTP ${response.status}`);
     return response.json();
   }
-  function shard(dataset) {
-    if (!cache.has(dataset)) {
-      const meta = catalog.datasets[dataset];
-      cache.set(dataset, getJSON(`${meta.url}?v=${meta.sha256.slice(0,12)}`).then(rows => new Map(rows.map(row => [row.parent_episode_key, row]))).catch(error => {cache.delete(dataset); throw error;}));
+  const catalog = await getJSON('data/index.json');
+  const data = { episodes: catalog.episodes, summary: {
+    dataset_count: catalog.summary.datasets, episode_count: catalog.summary.episodes,
+  }};
+  const byKey = new Map(data.episodes.map(ep => [ep.parent_episode_key, ep]));
+  const shardPromises = new Map();
+  async function loadDataset(name) {
+    if (!shardPromises.has(name)) {
+      const file = catalog.datasets[name];
+      shardPromises.set(name, getJSON(`${file.url}?v=${file.sha256.slice(0,12)}`).then(rows => {
+        rows.forEach(row => Object.assign(byKey.get(row.parent_episode_key), row));
+      }).catch(error => { shardPromises.delete(name); throw error; }));
     }
-    return cache.get(dataset);
+    await shardPromises.get(name);
   }
-  function notice(message) { $('notice').textContent = message; $('notice').hidden = !message; }
-  function download(filename, value) {
-    const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], {type:'application/json'}));
-    const link = document.createElement('a'); link.href = url; link.download = filename; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+  const $ = id => document.getElementById(id);
+  const video = $("video");
+  const missionColors = ["#177fc9", "#2b9c88", "#cc7b26", "#a34d72", "#4d78c8", "#698d42", "#9a58b5"];
+  const longColors = ["#25a986", "#287fae", "#699d42", "#a26938"];
+  const atomicColors = ["#7257d5", "#9270d8", "#5d6fc4", "#8062a8", "#555ec2", "#9266b4", "#626bb0"];
+  const reviewedStorageKey = "intention6600-v3-clean-reviewed-v1";
+  const storedReviewed = localStorage.getItem(reviewedStorageKey);
+  const reviewed = new Set(storedReviewed === null
+    ? data.episodes.filter(ep => ep.reviewed).map(ep => ep.parent_episode_key)
+    : JSON.parse(storedReviewed));
+  const directoryButtons = new Map();
+  let currentIndex = 0;
+  let currentRecord = null;
+  let selectedLane = "mission";
+  let selectedIndex = 0;
+  let selectedBoundary = null;
+  let dragging = null;
+  let draggingPlayhead = null;
+  let currentFilter = "all";
+  let selectionToken = 0;
+  let pendingPreviewFrame = null;
+  let previewAnimation = null;
+  let idCounter = 0;
+  let saveQueue = Promise.resolve();
+
+  function clone(value) { return JSON.parse(JSON.stringify(value)); }
+  function episodeKey(ep) { return ep.parent_episode_key; }
+  function newId(prefix) { idCounter += 1; return `${prefix}_${Date.now().toString(36)}_${idCounter}`; }
+  function framePct(frame, ep) { return 100 * frame / Math.max(1, ep.total_frames - 1); }
+  function intervalLeft(frame, ep) { return 100 * frame / ep.total_frames; }
+  function intervalWidth(start, end, ep) { return 100 * (end - start + 1) / ep.total_frames; }
+
+  function playableVideoUrl(ep) {
+    if (ep.dataset !== "fastumi_100k" || ep.video_url.includes('codec=')) return ep.video_url;
+    const separator = ep.video_url.includes("?") ? "&" : "?";
+    // FastUMI objects were replaced with H.264 versions on 2026-09-02.  The
+    // versioned request bypasses Cloudflare's cached MPEG-4 Part 2 objects.
+    return `${ep.video_url}${separator}codec=h264-20260902`;
   }
-  function updateURL() {
-    const url = new URL(location.href); url.search = '';
-    url.searchParams.set('split', $('split').value);
-    if ($('dataset').value !== 'all') url.searchParams.set('dataset', $('dataset').value);
-    if ($('search').value) url.searchParams.set('q', $('search').value);
-    if (selectedKey) url.searchParams.set('episode', selectedKey);
-    history.replaceState(null, '', url);
+
+  const databasePromise = new Promise((resolve, reject) => {
+    const request = indexedDB.open("intention6600-v3-clean-editor", 1);
+    request.onupgradeneeded = () => request.result.createObjectStore("records", { keyPath: "parent_episode_key" });
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+
+  async function dbGet(key) {
+    const db = await databasePromise;
+    return new Promise((resolve, reject) => {
+      const request = db.transaction("records", "readonly").objectStore("records").get(key);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    });
   }
-  function directory() {
-    const maxPage = Math.max(0, Math.ceil(filtered.length / pageSize) - 1);
-    page = Math.min(page, maxPage);
-    const visible = filtered.slice(page * pageSize, (page + 1) * pageSize);
-    $('directory').innerHTML = visible.map(row => `<button class="episode ${row.parent_episode_key === selectedKey ? 'active' : ''}" data-key="${escape(row.parent_episode_key)}" ${row.parent_episode_key === selectedKey ? 'aria-current="true"' : ''}><strong>${escape(row.dataset_label)} · ${escape(row.episode_id)}</strong><span>${escape(row.full_episode_instruction)}</span><small>${splitName[row.split]} · task ${escape(row.task_id)} · ${row.atomic_count} 动作 / ${row.mission_count} 意图</small></button>`).join('');
-    $('result-count').textContent = `${fmt(filtered.length)} 条轨迹${filtered.length ? ` · 当前 ${page * pageSize + 1}–${Math.min((page + 1) * pageSize, filtered.length)}` : ''}`;
-    $('page-number').textContent = `${page + 1} / ${maxPage + 1}`;
-    $('page-prev').disabled = page === 0; $('page-next').disabled = page === maxPage;
-    const index = filtered.findIndex(r => r.parent_episode_key === selectedKey);
-    $('previous').disabled = index <= 0; $('next').disabled = index < 0 || index >= filtered.length - 1;
+
+  async function dbGetAll() {
+    const db = await databasePromise;
+    return new Promise((resolve, reject) => {
+      const request = db.transaction("records", "readonly").objectStore("records").getAll();
+      request.onsuccess = () => resolve(request.result || []);
+      request.onerror = () => reject(request.error);
+    });
   }
-  function filter(selectFirst = true) {
-    const query = $('search').value.trim().toLowerCase();
-    filtered = catalog.episodes.filter(row => ($('split').value === 'all' || row.split === $('split').value) && ($('dataset').value === 'all' || row.dataset === $('dataset').value) && (!query || row._search.includes(query)));
-    page = 0;
-    if (!filtered.length) {
-      request++; current = null; selectedKey = ''; video.pause();
-      $('episode-content').hidden = true; $('detail').setAttribute('aria-busy','false');
-      notice('没有匹配的轨迹，请调整搜索或筛选。');
-    } else if (selectFirst) {
-      const chosen = filtered.find(r => r.parent_episode_key === selectedKey) || filtered[0];
-      page = Math.floor(filtered.indexOf(chosen) / pageSize); select(chosen.parent_episode_key);
+
+  async function dbPut(record) {
+    const db = await databasePromise;
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("records", "readwrite");
+      transaction.objectStore("records").put(clone(record));
+      transaction.oncomplete = () => resolve();
+      transaction.onabort = transaction.onerror = () => reject(transaction.error);
+    });
+  }
+
+  async function dbDelete(key) {
+    const db = await databasePromise;
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("records", "readwrite");
+      transaction.objectStore("records").delete(key);
+      transaction.oncomplete = () => resolve();
+      transaction.onabort = transaction.onerror = () => reject(transaction.error);
+    });
+  }
+
+  async function dbPutMany(records) {
+    const db = await databasePromise;
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("records", "readwrite");
+      const store = transaction.objectStore("records");
+      records.forEach(record => store.put(record));
+      transaction.oncomplete = () => resolve();
+      transaction.onabort = transaction.onerror = () => reject(transaction.error);
+    });
+  }
+
+  function baseRecord(ep) {
+    const missions = clone(ep.short_term_missions || ep.missions);
+    const record = {
+      parent_episode_key: episodeKey(ep),
+      full_episode_instruction: ep.full_episode_instruction,
+      atomic_tasks: clone(ep.atomic_tasks),
+      missions,
+      long_horizon: Boolean(ep.long_horizon),
+      long_term_missions: clone(ep.long_term_missions || []),
+      reviewed: reviewed.has(episodeKey(ep)),
+      updated_at: null,
+      record_schema_version: 10,
+    };
+    record.membership_geometry = membershipGeometry(record);
+    return record;
+  }
+
+  function migrateRecord(stored, ep, isReviewed) {
+    // Reviewed records are user-owned: preserve their labels and boundaries.
+    // Old unreviewed records are stale pre-reanalysis cache entries and should
+    // adopt the new video-derived base annotation once.
+    if (!stored || (!isReviewed && Number(stored.record_schema_version || 0) < 10)) return baseRecord(ep);
+    const record = clone(stored);
+    if (!Array.isArray(record.missions) || !record.missions.length) {
+      record.missions = clone(record.short_term_missions || ep.short_term_missions || ep.missions);
     }
-    directory(); updateURL();
+    if (!Array.isArray(record.atomic_tasks) || !record.atomic_tasks.length) record.atomic_tasks = clone(ep.atomic_tasks);
+    if (!("long_horizon" in record)) record.long_horizon = isReviewed ? false : Boolean(ep.long_horizon);
+    if (!Array.isArray(record.long_term_missions)) record.long_term_missions = isReviewed ? [] : clone(ep.long_term_missions || []);
+    record.record_schema_version = 10;
+    record.membership_geometry = record.membership_geometry || membershipGeometry(record);
+    return record;
   }
-  function seek(frame) {
-    if (!current) return;
-    const target = Math.max(0, Math.min(current.total_frames - 1, Math.round(frame)));
-    video.pause();
-    if (video.readyState >= 1) video.currentTime = (target + 0.01) / current.fps;
-    else pendingFrame = target;
-    showFrame(target);
+
+  function saveReviewedIndex() {
+    localStorage.setItem(reviewedStorageKey, JSON.stringify([...reviewed]));
+    updateSummary();
   }
-  function showFrame(frame) {
-    if (!current) return;
-    $('frame').textContent = `${frame} / ${current.total_frames - 1} 帧`;
-    const target = current.atomic_training_targets.find(t => t.start_frame <= frame && frame <= t.end_frame);
-    if (!target || activeId === target.atomic_task_id) return;
-    activeId = target.atomic_task_id;
-    $('active-oa').textContent = target.ongoing_action; $('active-om').textContent = target.ongoing_mission;
-    $('active-context').textContent = target.context;
-    $('active-range').textContent = `${target.start_frame}–${target.end_frame} 帧 · ${target.active_mission_id}`;
-    document.querySelectorAll('[data-segment]').forEach(node => node.classList.toggle('current', node.dataset.segment === target.atomic_task_id || node.dataset.segment === target.short_term_mission_id));
-  }
-  function segments(rows, type) {
-    const atom = type === 'atomic', label = atom ? 'atomic_task' : 'mission', id = atom ? 'atomic_task_id' : 'mission_id';
-    const prefix = atom ? 'A' : 'M';
-    $(`${type}-track`).innerHTML = rows.map((row, i) => `<button data-segment="${escape(row[id])}" data-frame="${row.start_frame}" style="width:${100 * (row.end_frame-row.start_frame+1) / current.total_frames}%" title="${escape(row[label])}: ${row.start_frame}–${row.end_frame}" aria-label="${prefix}${i+1}: ${escape(row[label])}">${prefix}${i+1}</button>`).join('');
-    $(atom ? 'atomics' : 'missions').innerHTML = rows.map((row, i) => `<button class="segment" data-segment="${escape(row[id])}" data-frame="${row.start_frame}"><b>${prefix}${i+1}</b><span>${escape(row[label])}${atom ? `<small>${escape(row.boundary_source || '')}</small>` : `<small>${row.atomic_task_ids.length} 个动作</small>`}</span><small>${row.start_frame}–${row.end_frame} 帧<br>${(row.start_frame/current.fps).toFixed(2)}–${((row.end_frame+1)/current.fps).toFixed(2)} s</small></button>`).join('');
-  }
-  async function select(key) {
-    const item = catalog.episodes.find(r => r.parent_episode_key === key);
-    if (!item) return;
-    const ticket = ++request;
-    selectedKey = key; current = null; video.pause(); activeId = ''; pendingFrame = null;
-    $('episode-content').hidden = true; $('detail').setAttribute('aria-busy','true');
-    notice('正在载入轨迹标注…'); directory(); updateURL();
+
+  async function persistCurrent() {
+    if (!currentRecord) return;
+    syncMissionMembership(currentRecord);
+    syncLongTermDefinitions(currentRecord);
+    currentRecord.updated_at = new Date().toISOString();
+    const snapshot = clone(currentRecord);
+    $("save-status").textContent = "Saving…";
+    $("save-status").classList.add("saving");
+    const write = saveQueue.then(() => dbPut(snapshot));
+    saveQueue = write.catch(() => {});
     try {
-      const records = await shard(item.dataset);
-      if (ticket !== request) return;
-      current = records.get(key);
-      if (!current) throw new Error('数据分片中缺少该轨迹。');
-      $('episode-tag').textContent = `${current.dataset_label} / ${splitName[current.split]}`;
-      $('instruction').textContent = current.full_episode_instruction;
-      $('episode-key').textContent = current.parent_episode_key;
-      $('episode-meta').textContent = `${fmt(current.total_frames)} 帧 · ${current.fps} fps · ${(current.total_frames/current.fps).toFixed(1)} 秒 · ${current.training_views.length} 个训练视角 · task ${current.task_id} / episode ${current.episode_id}`;
-      $('annotation-note').hidden = !current.validation_notes.length;
-      $('annotation-note').textContent = current.validation_notes.map(n => `${n.mission_id}: ${n.message} 意图区间 ${n.mission_frames.join('–')}；动作区间 ${n.member_action_frames.join('–')}。`).join(' ');
-      $('video-error').hidden = true; $('video-link').href = current.video_url; video.src = current.video_url; video.load();
-      $('atomic-count').textContent = `(${current.atomic_tasks.length})`; $('mission-count').textContent = `(${current.short_term_missions.length})`;
-      segments(current.short_term_missions, 'mission'); segments(current.atomic_tasks, 'atomic');
-      $('system-prompt').textContent = current.system_prompt;
-      $('targets').innerHTML = current.atomic_training_targets.map((t,i) => `<article class="training-target"><h4>A${i+1} · ${t.start_frame}–${t.end_frame} 帧 <button data-frame="${t.start_frame}">定位</button></h4><label>User prompt</label><pre>${escape(t.user_prompt)}</pre><label>Target output</label><pre>${escape(t.target_output)}</pre></article>`).join('');
-      $('provenance').textContent = `标注来源：${current.hierarchy_provenance}；源数据 reviewed：${current.reviewed ? 'true' : 'false'}。`;
-      $('views').innerHTML = current.training_views.map(v => `<div class="view-item"><b>${escape(v.view_type)}${v.is_primary ? ' · 主视角' : ''}</b> <span class="mono">${escape(v.camera_key)}</span></div>`).join('');
-      $('episode-content').hidden = false; notice(''); $('detail').setAttribute('aria-busy','false'); showFrame(0);
+      await write;
+      if (currentRecord?.parent_episode_key === snapshot.parent_episode_key) {
+        $("save-status").textContent = "Saved locally";
+        $("save-status").classList.remove("saving");
+      }
     } catch (error) {
-      if (ticket !== request) return;
-      current = null; notice(`${error.message}。点击目录中的轨迹可重试。`); $('detail').setAttribute('aria-busy','false');
+      $("save-status").textContent = "Save failed — export JSON before leaving";
+      throw error;
     }
   }
-  function move(delta) {
-    const index = filtered.findIndex(r => r.parent_episode_key === selectedKey) + delta;
-    if (index >= 0 && index < filtered.length) {page = Math.floor(index/pageSize); select(filtered[index].parent_episode_key);}
+
+  function atomicsOverlappingMission(mission, record = currentRecord) {
+    return record.atomic_tasks.filter(atomic =>
+      atomic.end_frame >= mission.start_frame && atomic.start_frame <= mission.end_frame
+    );
   }
-  $('directory').addEventListener('click', e => {const item = e.target.closest('[data-key]'); if (item) select(item.dataset.key);});
-  $('detail').addEventListener('click', e => {const item = e.target.closest('[data-frame]'); if (item) seek(Number(item.dataset.frame));});
-  $('split').addEventListener('change', () => filter()); $('dataset').addEventListener('change', () => filter());
-  let searchTimer; $('search').addEventListener('input', () => {clearTimeout(searchTimer); searchTimer = setTimeout(() => filter(), 150);});
-  $('page-prev').onclick = () => {page--; directory();}; $('page-next').onclick = () => {page++; directory();};
-  $('previous').onclick = () => move(-1); $('next').onclick = () => move(1);
-  $('frame-back').onclick = () => seek(Math.floor(video.currentTime * current.fps + 1e-5) - 1);
-  $('frame-next').onclick = () => seek(Math.floor(video.currentTime * current.fps + 1e-5) + 1);
-  video.addEventListener('timeupdate', () => {if (current && pendingFrame === null) showFrame(Math.max(0,Math.min(current.total_frames-1,Math.floor(video.currentTime*current.fps + 1e-5))));});
-  video.addEventListener('loadedmetadata', () => {if (pendingFrame !== null) {const f = pendingFrame; pendingFrame = null; seek(f);}});
-  video.addEventListener('error', () => {$('video-error').hidden = false;});
-  $('download-episode').onclick = () => {if (current) download(`v3_${current.dataset}_${current.task_id}_${current.episode_id}.json`,current);};
-  $('copy-link').onclick = async () => {try {await navigator.clipboard.writeText(location.href); $('copy-link').textContent = '已复制'; setTimeout(() => {$('copy-link').textContent = '复制链接';}, 1800);} catch {notice(`本条链接：${location.href}`);}};
-  $('download-split').onclick = async () => {
-    const button = $('download-split'), split = $('split').value;
-    button.disabled = true; button.textContent = '正在准备完整标注…';
-    try {
-      const maps = await Promise.all(Object.keys(catalog.datasets).map(shard));
-      const all = new Map(maps.flatMap(m => [...m.entries()]));
-      const episodes = catalog.episodes.filter(r => split === 'all' || r.split === split).map(r => all.get(r.parent_episode_key));
-      download(`intention_v3_clean_${split}.json`,{annotation_version:'v3-clean-final-training',split,episode_count:episodes.length,episodes});
-      button.textContent = `已导出 ${fmt(episodes.length)} 条`;
-    } catch (error) {notice(error.message); button.textContent = '下载失败，点击重试';}
-    finally {button.disabled = false; setTimeout(() => {button.textContent = '下载当前划分的全部标注 JSON';},2500);}
-  };
-  async function boot() {
-    try {
-      catalog = await getJSON('data/index.json');
-      catalog.episodes.forEach(r => {r._search = `${r.parent_episode_key} ${r.task_id} ${r.episode_id} ${r.dataset_label} ${r.full_episode_instruction} ${r.search_text}`.toLowerCase();});
-      const s = catalog.summary;
-      $('stats').innerHTML = [[s.episodes,'轨迹 · 5,500 / 550 / 550'],[s.atomic_actions,'原子动作标注 · OA'],[s.short_term_missions,'短期意图标注 · OM'],[s.train_sampling_records,'训练采样记录 · 六种采样'],[s.datasets,'数据来源']].map(([n,label]) => `<div class="stat"><strong>${fmt(n)}</strong><span>${label}</span></div>`).join('');
-      $('dataset').innerHTML += Object.entries(catalog.datasets).map(([key,d]) => `<option value="${escape(key)}">${escape(d.label)} · ${d.episodes}</option>`).join('');
-      const params = new URLSearchParams(location.search), requested = catalog.episodes.find(r => r.parent_episode_key === params.get('episode'));
-      $('split').value = Object.hasOwn(splitName,params.get('split')) ? params.get('split') : (requested?.split || 'train');
-      $('dataset').value = catalog.datasets[params.get('dataset')] ? params.get('dataset') : 'all';
-      $('search').value = params.get('q') || '';
-      if (requested) selectedKey = requested.parent_episode_key;
-      filter();
-    } catch (error) {notice(`目录加载失败：${error.message}。请刷新重试。`); $('detail').setAttribute('aria-busy','false');}
+
+  function membershipGeometry(record) {
+    return JSON.stringify([
+      record.atomic_tasks.map(a => [a.atomic_task_id, a.start_frame, a.end_frame]),
+      record.missions.map(m => [m.mission_id, m.start_frame, m.end_frame]),
+    ]);
   }
-  boot();
-})();
+
+  function syncMissionMembership(record = currentRecord) {
+    const geometry = membershipGeometry(record);
+    const changed = record.membership_geometry !== geometry;
+    record.missions.forEach(mission => {
+      mission.short_term_mission_id = mission.short_term_mission_id || mission.mission_id;
+      mission.short_term_mission = mission.mission;
+      if (changed) mission.atomic_task_ids = atomicsOverlappingMission(mission, record).map(atomic => atomic.atomic_task_id);
+    });
+    record.membership_geometry = geometry;
+  }
+
+  function syncLongTermDefinitions(record = currentRecord) {
+    if (!record.long_horizon) return;
+    const indexed = new Map(record.missions.map(mission => [mission.mission_id, mission]));
+    record.long_term_missions.forEach((longMission, index) => {
+      longMission.long_term_mission_id = longMission.long_term_mission_id || `long_term_mission_${index + 1}`;
+      const memberIds = (longMission.member_short_term_mission_ids || []).filter(id => indexed.has(id));
+      longMission.member_short_term_mission_ids = memberIds;
+      const members = memberIds.map(id => indexed.get(id)).sort((a, b) => a.start_frame - b.start_frame);
+      if (!members.length) return;
+      longMission.start_frame = members[0].start_frame;
+      longMission.end_frame = members[members.length - 1].end_frame;
+      const activationPosition = Math.min(3, members.length);
+      const activation = members[activationPosition - 1];
+      longMission.activation_member_position = activationPosition;
+      longMission.activation_short_term_mission_id = activation.mission_id;
+      longMission.activation_frame = activation.start_frame;
+    });
+  }
+
+  function laneSegments(lane) {
+    if (lane === "long") return currentRecord.long_term_missions;
+    return lane === "mission" ? currentRecord.missions : currentRecord.atomic_tasks;
+  }
+
+  function segmentLabel(lane, segment) {
+    if (lane === "long") return segment.long_term_mission;
+    return lane === "mission" ? segment.mission : segment.atomic_task;
+  }
+
+  function lanePrefix(lane) { return lane === "long" ? "L" : lane === "mission" ? "M" : "A"; }
+
+  function normalizeAtomic(ep) {
+    const atoms = currentRecord.atomic_tasks;
+    atoms.sort((a, b) => a.start_frame - b.start_frame);
+    atoms[0].start_frame = 0;
+    for (let index = 1; index < atoms.length; index++) atoms[index].start_frame = atoms[index - 1].end_frame + 1;
+    atoms[atoms.length - 1].end_frame = ep.total_frames - 1;
+  }
+
+  function frameNow(ep) {
+    return Math.max(0, Math.min(ep.total_frames - 1, Math.round(video.currentTime * ep.fps)));
+  }
+
+  function seekFrame(ep, frame) {
+    if (previewAnimation !== null) cancelAnimationFrame(previewAnimation);
+    previewAnimation = null;
+    pendingPreviewFrame = null;
+    const target = Math.max(0, Math.min(ep.total_frames - 1, Number(frame)));
+    video.currentTime = target / ep.fps;
+    updatePlayheads(target);
+  }
+
+  function previewFrame(ep, frame) {
+    pendingPreviewFrame = Math.max(0, Math.min(ep.total_frames - 1, Number(frame)));
+    updatePlayheads(pendingPreviewFrame);
+    if (previewAnimation !== null) return;
+    previewAnimation = requestAnimationFrame(() => {
+      const target = pendingPreviewFrame;
+      pendingPreviewFrame = null;
+      previewAnimation = null;
+      if (target !== null) video.currentTime = target / ep.fps;
+    });
+  }
+
+  function updatePlayheads(frame = null) {
+    const ep = data.episodes[currentIndex];
+    const value = frame === null ? frameNow(ep) : frame;
+    document.querySelectorAll(".playhead").forEach(item => item.style.left = `${framePct(value, ep)}%`);
+    $("frame-readout").textContent = `frame ${value} / ${ep.total_frames - 1}`;
+  }
+
+  function renderDirectory() {
+    const groups = new Map();
+    data.episodes.forEach((ep, index) => {
+      if (!groups.has(ep.dataset_label)) groups.set(ep.dataset_label, []);
+      groups.get(ep.dataset_label).push({ ep, index });
+    });
+    const root = $("episode-directory");
+    root.textContent = "";
+    groups.forEach((items, label) => {
+      const details = document.createElement("details");
+      details.className = "dataset-group";
+      const summary = document.createElement("summary");
+      const title = document.createElement("span"); title.textContent = label;
+      const count = document.createElement("span"); count.className = "dataset-count"; count.textContent = `${items.length} episodes`;
+      summary.append(title, count); details.appendChild(summary);
+      items.forEach(({ ep, index }) => {
+        const button = document.createElement("button");
+        button.className = "episode-button";
+        button.dataset.index = index;
+        button.dataset.search = `${ep.parent_episode_key} ${ep.dataset_label} ${ep.task_id} ${ep.episode_id} ${ep.full_episode_instruction} ${ep.search_text || ''}`.toLowerCase();
+        const dot = document.createElement("span"); dot.className = "status-dot";
+        const text = document.createElement("span"); text.className = "episode-main";
+        const name = document.createElement("span"); name.className = "episode-name"; name.textContent = `Episode ${ep.episode_id} · Task ${ep.task_id}`;
+        const instruction = document.createElement("span"); instruction.className = "episode-instruction"; instruction.textContent = ep.full_episode_instruction;
+        text.append(name, instruction);
+        const split = document.createElement("span"); split.className = "episode-split"; split.textContent = ep.split || "";
+        button.append(dot, text, split);
+        button.addEventListener("click", () => selectEpisode(index));
+        details.appendChild(button);
+        directoryButtons.set(index, button);
+      });
+      root.appendChild(details);
+    });
+    applyDirectoryFilter();
+  }
+
+  function applyDirectoryFilter() {
+    const query = $("episode-search").value.trim().toLowerCase();
+    document.querySelectorAll(".dataset-group").forEach(group => {
+      let visible = 0;
+      group.querySelectorAll(".episode-button").forEach(button => {
+        const key = episodeKey(data.episodes[Number(button.dataset.index)]);
+        const matchesState = currentFilter === "all" || (currentFilter === "reviewed" ? reviewed.has(key) : !reviewed.has(key));
+        const matchesQuery = !query || button.dataset.search.includes(query);
+        const split = $("split-filter").value;
+        const matchesSplit = split === 'all' || data.episodes[Number(button.dataset.index)].split === split;
+        button.hidden = !(matchesState && matchesQuery && matchesSplit);
+        if (!button.hidden) visible += 1;
+      });
+      group.hidden = visible === 0;
+      group.querySelector('.dataset-count').textContent = `${visible} episodes`;
+      if (query && visible) group.open = true;
+    });
+  }
+
+  function updateDirectoryActive() {
+    directoryButtons.forEach((button, index) => {
+      const key = episodeKey(data.episodes[index]);
+      button.classList.toggle("active", index === currentIndex);
+      button.classList.toggle("reviewed", reviewed.has(key));
+      if (index === currentIndex) button.closest("details").open = true;
+    });
+  }
+
+  function makeBlock(lane, segment, index, ep) {
+    const block = document.createElement("div");
+    const inferred = lane === "atomic" && segment.boundary_source === "uniform_within_mission_requires_review";
+    block.className = `segment-block ${selectedLane === lane && selectedIndex === index ? "selected" : ""} ${inferred ? "inferred" : ""}`;
+    block.style.left = `${intervalLeft(segment.start_frame, ep)}%`;
+    block.style.width = `${intervalWidth(segment.start_frame, segment.end_frame, ep)}%`;
+    const colors = lane === "long" ? longColors : lane === "mission" ? missionColors : atomicColors;
+    block.style.background = colors[index % colors.length];
+    const label = document.createElement("span");
+    label.textContent = `${lanePrefix(lane)}${index + 1}. ${segmentLabel(lane, segment)}`;
+    block.appendChild(label);
+    block.title = label.textContent;
+    block.addEventListener("click", event => {
+      event.stopPropagation();
+      selectedLane = lane; selectedIndex = index; selectedBoundary = null;
+      video.pause(); previewFrame(ep, segment.start_frame); renderAll();
+    });
+    return block;
+  }
+
+  function makeBoundary(lane, index, frame, ep, inferred = false) {
+    const handle = document.createElement("div");
+    handle.className = `boundary-handle ${inferred ? "inferred" : ""} ${selectedBoundary?.lane === lane && selectedBoundary.index === index ? "selected" : ""}`;
+    handle.style.left = `${100 * (frame + 1) / ep.total_frames}%`;
+    handle.dataset.lane = lane; handle.dataset.index = index;
+    handle.addEventListener("pointerdown", event => {
+      event.preventDefault(); event.stopPropagation(); video.pause();
+      selectedLane = lane; selectedIndex = index; selectedBoundary = { lane, index };
+      dragging = { lane, index, pointerId: event.pointerId };
+      handle.setPointerCapture(event.pointerId);
+      previewFrame(ep, frame); renderSelectionStatus();
+    });
+    return handle;
+  }
+
+  function renderTimelines() {
+    const ep = data.episodes[currentIndex];
+    const longLane = $("long-mission-lane");
+    longLane.hidden = !currentRecord.long_horizon;
+    const longTrack = $("long-mission-track"); longTrack.textContent = "";
+    if (currentRecord.long_horizon) {
+      currentRecord.long_term_missions.forEach((mission, index) => {
+        longTrack.appendChild(makeBlock("long", mission, index, ep));
+      });
+    }
+    const missionTrack = $("mission-track"); missionTrack.textContent = "";
+    currentRecord.missions.forEach((mission, index) => {
+      missionTrack.appendChild(makeBlock("mission", mission, index, ep));
+      if (index < currentRecord.missions.length - 1) missionTrack.appendChild(makeBoundary("mission", index, mission.end_frame, ep));
+    });
+    const atomicTrack = $("atomic-track"); atomicTrack.textContent = "";
+    currentRecord.atomic_tasks.forEach((atomic, index) => {
+      atomicTrack.appendChild(makeBlock("atomic", atomic, index, ep));
+      if (index < currentRecord.atomic_tasks.length - 1) {
+        const inferred = atomic.boundary_source === "uniform_within_mission_requires_review";
+        atomicTrack.appendChild(makeBoundary("atomic", index, atomic.end_frame, ep, inferred));
+      }
+    });
+    $("last-frame-label").textContent = ep.total_frames - 1;
+    updatePlayheads();
+  }
+
+  function selectFromEditor(lane, index, seek = false) {
+    selectedLane = lane; selectedIndex = index; selectedBoundary = null;
+    if (seek) {
+      const ep = data.episodes[currentIndex];
+      const segment = laneSegments(lane)[index];
+      previewFrame(ep, segment.start_frame);
+    }
+    renderAll();
+  }
+
+  function renderEditors() {
+    const longPanel = $("long-editor-panel");
+    longPanel.hidden = !currentRecord.long_horizon;
+    const longRoot = $("long-editor"); longRoot.textContent = "";
+    if (currentRecord.long_horizon) {
+      currentRecord.long_term_missions.forEach((mission, index) => {
+        const row = document.createElement("div"); row.className = `editor-row ${selectedLane === "long" && selectedIndex === index ? "selected" : ""}`; row.style.setProperty("--row-color", longColors[index % longColors.length]);
+        const main = document.createElement("div"); main.className = "editor-row-main";
+        const number = document.createElement("span"); number.className = "editor-index"; number.textContent = `L${index + 1}`;
+        const input = document.createElement("input"); input.className = "editor-label"; input.value = mission.long_term_mission; input.setAttribute("aria-label", `Long-term mission ${index + 1}`);
+        input.addEventListener("change", async () => { mission.long_term_mission = input.value.trim() || mission.long_term_mission; await persistCurrent(); renderTimelines(); });
+        const range = document.createElement("span"); range.className = "editor-range"; range.textContent = `${mission.start_frame}–${mission.end_frame}`;
+        main.append(number, input, range); row.appendChild(main);
+        const chips = document.createElement("div"); chips.className = "atomic-chips";
+        const members = new Map(currentRecord.missions.map(item => [item.mission_id, item]));
+        (mission.member_short_term_mission_ids || []).forEach(id => {
+          const member = members.get(id); if (!member) return;
+          const chip = document.createElement("span"); chip.className = "atomic-chip"; chip.textContent = member.mission; chips.appendChild(chip);
+        });
+        row.appendChild(chips);
+        const note = document.createElement("div"); note.className = "source-note"; note.textContent = `Prediction activates at frame ${mission.activation_frame} (third member short-term mission)`; row.appendChild(note);
+        row.addEventListener("click", event => { if (event.target !== input) selectFromEditor("long", index, true); });
+        longRoot.appendChild(row);
+      });
+    }
+    const missionRoot = $("mission-editor"); missionRoot.textContent = "";
+    currentRecord.missions.forEach((mission, index) => {
+      const row = document.createElement("div"); row.className = `editor-row ${selectedLane === "mission" && selectedIndex === index ? "selected" : ""}`; row.style.setProperty("--row-color", missionColors[index % 7]);
+      const main = document.createElement("div"); main.className = "editor-row-main";
+      const number = document.createElement("span"); number.className = "editor-index"; number.textContent = `M${index + 1}`;
+      const input = document.createElement("input"); input.className = "editor-label"; input.value = mission.mission; input.setAttribute("aria-label", `Mission ${index + 1}`);
+      input.addEventListener("change", async () => { mission.mission = input.value.trim() || mission.mission; await persistCurrent(); renderTimelines(); });
+      const range = document.createElement("span"); range.className = "editor-range"; range.textContent = `${mission.start_frame}–${mission.end_frame}`;
+      main.append(number, input, range); row.appendChild(main);
+      const chips = document.createElement("div"); chips.className = "atomic-chips";
+      atomicsOverlappingMission(mission).forEach(atomic => { const chip = document.createElement("span"); chip.className = "atomic-chip"; chip.textContent = atomic.atomic_task; chips.appendChild(chip); });
+      row.appendChild(chips);
+      row.addEventListener("click", event => { if (event.target !== input) selectFromEditor("mission", index, true); });
+      missionRoot.appendChild(row);
+    });
+
+    const atomicRoot = $("atomic-editor"); atomicRoot.textContent = "";
+    currentRecord.atomic_tasks.forEach((atomic, index) => {
+      const row = document.createElement("div"); row.className = `editor-row ${selectedLane === "atomic" && selectedIndex === index ? "selected" : ""}`; row.style.setProperty("--row-color", atomicColors[index % 7]);
+      const main = document.createElement("div"); main.className = "editor-row-main";
+      const number = document.createElement("span"); number.className = "editor-index"; number.textContent = `A${index + 1}`;
+      const input = document.createElement("input"); input.className = "editor-label"; input.value = atomic.atomic_task; input.setAttribute("aria-label", `Atomic task ${index + 1}`);
+      input.addEventListener("change", async () => { atomic.atomic_task = input.value.trim() || atomic.atomic_task; await persistCurrent(); renderTimelines(); renderEditors(); });
+      const range = document.createElement("span"); range.className = "editor-range"; range.textContent = `${atomic.start_frame}–${atomic.end_frame}`;
+      main.append(number, input, range); row.appendChild(main);
+      if (atomic.boundary_source === "uniform_within_mission_requires_review") {
+        const note = document.createElement("div"); note.className = "source-note"; note.textContent = "Internal boundary initialized uniformly — verify by video"; row.appendChild(note);
+      }
+      row.addEventListener("click", event => { if (event.target !== input) selectFromEditor("atomic", index, true); });
+      atomicRoot.appendChild(row);
+    });
+    $("long-count").textContent = `${currentRecord.long_term_missions.length} total`;
+    $("mission-count").textContent = `${currentRecord.missions.length} total`;
+    $("atomic-count").textContent = `${currentRecord.atomic_tasks.length} total`;
+  }
+
+  function renderSelectionStatus() {
+    const lane = selectedLane;
+    const values = laneSegments(lane);
+    if (!values.length) { selectedLane = "mission"; selectedIndex = 0; return renderSelectionStatus(); }
+    selectedIndex = Math.max(0, Math.min(values.length - 1, selectedIndex));
+    const segment = values[selectedIndex];
+    const title = lane === "long" ? "Long-term mission L" : lane === "mission" ? "Short-term mission M" : "Atomic task A";
+    $("selection-title").textContent = `${title}${selectedIndex + 1}`;
+    $("selection-range").textContent = `frames ${segment.start_frame}–${segment.end_frame}`;
+    $("mission-tools").hidden = lane !== "mission";
+    $("atomic-tools").hidden = lane !== "atomic";
+    $("long-tools").hidden = lane !== "long";
+    $("merge-mission").disabled = lane !== "mission" || selectedIndex >= currentRecord.missions.length - 1;
+    $("merge-atomic").disabled = lane !== "atomic" || selectedIndex >= currentRecord.atomic_tasks.length - 1;
+    $("set-boundary").disabled = !selectedBoundary;
+  }
+
+  function renderAll() {
+    renderTimelines(); renderEditors(); renderSelectionStatus();
+  }
+
+  async function selectEpisode(index) {
+    const token = ++selectionToken;
+    const nextIndex = Math.max(0, Math.min(data.episodes.length - 1, index));
+    const ep = data.episodes[nextIndex];
+    $('editor-main').inert = true; $('app').classList.add('loading'); video.pause();
+    let stored;
+    try {
+      await saveQueue;
+      await loadDataset(ep.dataset);
+      stored = await dbGet(episodeKey(ep));
+    } catch (error) {
+      if (token === selectionToken) {
+        $('source-note').textContent = `Could not load annotations: ${error.message}. Select the episode again to retry.`;
+        $('app').classList.remove('loading');
+      }
+      return;
+    }
+    if (token !== selectionToken) return;
+    currentIndex = nextIndex;
+    const isReviewed = reviewed.has(episodeKey(ep));
+    currentRecord = migrateRecord(stored, ep, isReviewed);
+    currentRecord.reviewed = isReviewed;
+    syncMissionMembership(currentRecord); syncLongTermDefinitions(currentRecord);
+    selectedLane = "mission"; selectedIndex = 0; selectedBoundary = null;
+    $("episode-kicker").textContent = `${ep.dataset_label} · Episode ${ep.episode_id} · Task ${ep.task_id}`;
+    $("full-instruction").value = currentRecord.full_episode_instruction;
+    $("episode-meta").textContent = `${ep.split || ""} · ${ep.total_frames} frames @ ${ep.fps.toFixed(3)} fps · ${currentRecord.missions.length} short missions · ${currentRecord.long_term_missions.length} long missions · ${currentRecord.atomic_tasks.length} atomic tasks`;
+    $("long-horizon").checked = currentRecord.long_horizon;
+    video.src = playableVideoUrl(ep); video.load();
+    $("video-error").hidden = true;
+    $("mark-reviewed").textContent = currentRecord.reviewed ? "Reviewed ✓" : "Mark reviewed";
+    $("mark-reviewed").classList.toggle("reviewed", currentRecord.reviewed);
+    $('source-note').textContent = (ep.validation_notes || []).length
+      ? 'Source note: this frozen episode has a one-frame mission/action boundary discrepancy; original training values are preserved.' : '';
+    const url = new URL(location.href); url.searchParams.set('episode', episodeKey(ep));
+    url.searchParams.set('split', $('split-filter').value); history.replaceState(null, '', url);
+    $('save-status').textContent = stored ? 'Saved locally' : 'Frozen v3 annotation · no local edits';
+    $('editor-main').inert = false; $('app').classList.remove('loading');
+    updateDirectoryActive(); renderAll(); seekFrame(ep, 0);
+  }
+
+  function navigateEpisode(direction) {
+    const visible = [...directoryButtons].filter(([,button]) => !button.hidden).map(([index]) => index);
+    const position = visible.indexOf(currentIndex);
+    const next = position < 0 ? (direction > 0 ? visible[0] : visible.at(-1)) : visible[position + direction];
+    if (next !== undefined) selectEpisode(next);
+  }
+
+  function moveAtomicBoundary(index, rawFrame) {
+    const atoms = currentRecord.atomic_tasks;
+    const left = atoms[index], right = atoms[index + 1];
+    const frame = Math.max(left.start_frame, Math.min(right.end_frame - 1, rawFrame));
+    left.end_frame = frame; right.start_frame = frame + 1;
+    left.boundary_source = "manual_review";
+    return frame;
+  }
+
+  function moveMissionBoundary(index, rawFrame) {
+    const left = currentRecord.missions[index], right = currentRecord.missions[index + 1];
+    const frame = Math.max(left.start_frame, Math.min(right.end_frame - 1, rawFrame));
+    left.end_frame = frame; right.start_frame = frame + 1;
+    return frame;
+  }
+
+  function moveBoundaryFromPointer(clientX) {
+    if (!dragging) return;
+    const ep = data.episodes[currentIndex];
+    const timeline = dragging.lane === "mission" ? $("mission-timeline") : $("atomic-timeline");
+    const rect = timeline.getBoundingClientRect();
+    const raw = Math.round((clientX - rect.left) / rect.width * (ep.total_frames - 1));
+    const frame = dragging.lane === "atomic" ? moveAtomicBoundary(dragging.index, raw) : moveMissionBoundary(dragging.index, raw);
+    previewFrame(ep, frame); renderTimelines(); renderEditors(); renderSelectionStatus();
+  }
+
+  async function finishDrag(event) {
+    if (!dragging || (event && event.pointerId !== dragging.pointerId)) return;
+    dragging = null;
+    await persistCurrent(); renderAll();
+  }
+
+  function movePlayheadFromPointer(clientX) {
+    if (!draggingPlayhead) return;
+    const ep = data.episodes[currentIndex];
+    const rect = draggingPlayhead.timeline.getBoundingClientRect();
+    const raw = Math.round((clientX - rect.left) / rect.width * (ep.total_frames - 1));
+    previewFrame(ep, raw);
+  }
+
+  function finishPlayheadDrag(event) {
+    if (!draggingPlayhead || (event && event.pointerId !== draggingPlayhead.pointerId)) return false;
+    draggingPlayhead.element.classList.remove("dragging");
+    draggingPlayhead = null;
+    return true;
+  }
+
+  function openDialog(title, help, fields, apply) {
+    const dialog = $("edit-dialog");
+    $("dialog-title").textContent = title; $("dialog-help").textContent = help;
+    const root = $("dialog-fields"); root.textContent = "";
+    fields.forEach(field => {
+      const wrap = document.createElement("div"); wrap.className = "dialog-field";
+      const label = document.createElement("label"); label.htmlFor = `field-${field.id}`; label.textContent = field.label;
+      const input = document.createElement("input"); input.id = `field-${field.id}`; input.name = field.id; input.value = field.value || ""; input.required = true;
+      wrap.append(label, input); root.appendChild(wrap);
+    });
+    const form = $("edit-form");
+    const handler = event => {
+      if (event.submitter?.value === "cancel") return;
+      event.preventDefault();
+      const values = Object.fromEntries(fields.map(field => [field.id, form.elements[field.id].value.trim()]));
+      if (Object.values(values).some(value => !value)) return;
+      dialog.close(); apply(values);
+    };
+    form.onsubmit = handler;
+    dialog.showModal(); setTimeout(() => form.elements[fields[0].id].select(), 0);
+  }
+
+  function mergeMission() {
+    const index = selectedIndex;
+    if (index >= currentRecord.missions.length - 1) return;
+    const left = currentRecord.missions[index], right = currentRecord.missions[index + 1];
+    openDialog("Merge two missions", "Only the mission track changes. Atomic tasks and their boundaries stay unchanged.", [
+      { id: "mission", label: "Merged mission", value: `${left.mission}; ${right.mission}` },
+    ], async values => {
+      left.mission = values.mission; left.end_frame = right.end_frame;
+      currentRecord.missions.splice(index + 1, 1); selectedBoundary = null;
+      await persistCurrent(); renderAll();
+    });
+  }
+
+  function splitMission() {
+    const ep = data.episodes[currentIndex], mission = currentRecord.missions[selectedIndex], frame = frameNow(ep);
+    if (frame < mission.start_frame || frame >= mission.end_frame) return alert("Move the video to a frame inside the selected mission, before its final frame.");
+    const fields = [
+      { id: "left_mission", label: "First mission", value: mission.mission },
+      { id: "right_mission", label: "Second mission", value: mission.mission },
+    ];
+    openDialog("Split mission at current frame", `Create two missions at frame ${frame}. Atomic tasks stay unchanged.`, fields, async values => {
+      const rightMission = { mission_id: newId("mission"), mission: values.right_mission, start_frame: frame + 1, end_frame: mission.end_frame, atomic_task_ids: [] };
+      mission.mission = values.left_mission; mission.end_frame = frame;
+      currentRecord.missions.splice(selectedIndex + 1, 0, rightMission);
+      selectedBoundary = { lane: "mission", index: selectedIndex };
+      await persistCurrent(); renderAll();
+    });
+  }
+
+  function splitAtomic() {
+    const ep = data.episodes[currentIndex], atom = currentRecord.atomic_tasks[selectedIndex], frame = frameNow(ep);
+    if (frame < atom.start_frame || frame >= atom.end_frame) return alert("Move the video to a frame inside the selected atomic task, before its final frame.");
+    openDialog("Split atomic task", `Create two atomic tasks at frame ${frame}. Missions stay unchanged.`, [
+      { id: "left", label: "Atomic task before boundary", value: atom.atomic_task },
+      { id: "right", label: "Atomic task after boundary", value: atom.atomic_task },
+    ], async values => {
+      const right = { ...atom, atomic_task_id: newId("atomic"), atomic_task: values.right, start_frame: frame + 1, end_frame: atom.end_frame, boundary_source: "manual_review" };
+      atom.atomic_task = values.left; atom.end_frame = frame; atom.boundary_source = "manual_review";
+      currentRecord.atomic_tasks.splice(selectedIndex + 1, 0, right);
+      selectedBoundary = { lane: "atomic", index: selectedIndex };
+      await persistCurrent(); renderAll();
+    });
+  }
+
+  function mergeAtomic() {
+    const index = selectedIndex;
+    if (index >= currentRecord.atomic_tasks.length - 1) return;
+    const left = currentRecord.atomic_tasks[index], right = currentRecord.atomic_tasks[index + 1];
+    openDialog("Merge two atomic tasks", "Only the atomic track changes. Missions and their boundaries stay unchanged.", [
+      { id: "atomic", label: "Merged atomic task", value: `${left.atomic_task}; ${right.atomic_task}` },
+    ], async values => {
+      left.atomic_task = values.atomic; left.end_frame = right.end_frame; left.boundary_source = "manual_review";
+      currentRecord.atomic_tasks.splice(index + 1, 1);
+      selectedBoundary = null; await persistCurrent(); renderAll();
+    });
+  }
+
+  async function setBoundaryAtCurrent() {
+    if (!selectedBoundary) return;
+    const ep = data.episodes[currentIndex], raw = frameNow(ep);
+    const frame = selectedBoundary.lane === "atomic" ? moveAtomicBoundary(selectedBoundary.index, raw) : moveMissionBoundary(selectedBoundary.index, raw);
+    seekFrame(ep, frame); await persistCurrent(); renderAll();
+  }
+
+  async function resetEpisode() {
+    if (!confirm("Reset this episode to its frozen final V3 training annotation?")) return;
+    $('editor-main').inert = true;
+    await saveQueue;
+    const ep = data.episodes[currentIndex]; await dbDelete(episodeKey(ep));
+    ep.reviewed ? reviewed.add(episodeKey(ep)) : reviewed.delete(episodeKey(ep));
+    saveReviewedIndex(); await selectEpisode(currentIndex);
+  }
+
+  async function toggleReviewed() {
+    const ep = data.episodes[currentIndex], key = episodeKey(ep);
+    currentRecord.reviewed = !currentRecord.reviewed;
+    currentRecord.reviewed ? reviewed.add(key) : reviewed.delete(key);
+    saveReviewedIndex(); await persistCurrent(); updateDirectoryActive();
+    $("mark-reviewed").textContent = currentRecord.reviewed ? "Reviewed ✓" : "Mark reviewed";
+    $("mark-reviewed").classList.toggle("reviewed", currentRecord.reviewed);
+    applyDirectoryFilter();
+  }
+
+  function transferLikeMission(mission) {
+    return /^(put|place|move|take|remove|transfer|store|insert|load|unload)\b/i.test(mission.mission.trim());
+  }
+
+  async function toggleLongHorizon(event) {
+    const enabled = Boolean(event.target.checked);
+    if (enabled && currentRecord.missions.length < 3) {
+      event.target.checked = false;
+      return alert("A long-horizon mission requires at least three repeated short-term missions.");
+    }
+    currentRecord.long_horizon = enabled;
+    if (enabled && !currentRecord.long_term_missions.length) {
+      let members = currentRecord.missions.filter(transferLikeMission);
+      if (members.length < 3) members = currentRecord.missions.slice();
+      const third = members[2];
+      currentRecord.long_term_missions = [{
+        long_term_mission_id: newId("long_term_mission"),
+        long_term_mission: currentRecord.full_episode_instruction,
+        start_frame: members[0].start_frame,
+        end_frame: members[members.length - 1].end_frame,
+        member_short_term_mission_ids: members.map(item => item.mission_id),
+        activation_member_position: 3,
+        activation_short_term_mission_id: third.mission_id,
+        activation_frame: third.start_frame,
+      }];
+    }
+    selectedLane = enabled ? "long" : "mission"; selectedIndex = 0; selectedBoundary = null;
+    await persistCurrent(); renderAll();
+  }
+
+  function effectiveOngoingMissions(record) {
+    const output = record.missions.map(mission => ({
+      short_term_mission_id: mission.mission_id,
+      start_frame: mission.start_frame,
+      end_frame: mission.end_frame,
+      ongoing_mission: mission.mission,
+      label_source: "short_term_mission",
+    }));
+    // V3 clean always uses short-term missions, including after local edits.
+    return output;
+  }
+
+  function exportRecord(ep, record) {
+    const snapshot = clone(record);
+    syncMissionMembership(snapshot);
+    return {
+      dataset: ep.dataset, task_id: ep.task_id, episode_id: ep.episode_id,
+      parent_episode_key: ep.parent_episode_key, split: ep.split,
+      full_episode_instruction: snapshot.full_episode_instruction,
+      video_url: ep.video_url, fps: ep.fps, total_frames: ep.total_frames,
+      annotation_version: 'v3-clean-final-training',
+      hierarchy_provenance: snapshot.updated_at ? 'browser_manual_review' : ep.hierarchy_provenance,
+      source_hierarchy_provenance: ep.hierarchy_provenance,
+      source_reviewed: ep.reviewed,
+      training_views: ep.training_views,
+      reviewed: Boolean(snapshot.reviewed), updated_at: snapshot.updated_at,
+      atomic_tasks: snapshot.atomic_tasks,
+      short_term_missions: snapshot.missions,
+      missions: snapshot.missions,
+      long_horizon: Boolean(snapshot.long_horizon),
+      long_term_missions: snapshot.long_term_missions,
+      effective_ongoing_missions: effectiveOngoingMissions(snapshot),
+    };
+  }
+
+  async function exportJson() {
+    const button = $("export-json"); button.disabled = true; button.textContent = "Preparing…";
+    try {
+      await saveQueue;
+      await Promise.all(Object.keys(catalog.datasets).map(loadDataset));
+      const stored = new Map((await dbGetAll()).map(record => [record.parent_episode_key, record]));
+      if (currentRecord) stored.set(currentRecord.parent_episode_key, clone(currentRecord));
+      const episodes = data.episodes.map(ep => exportRecord(ep, stored.get(episodeKey(ep)) || baseRecord(ep)));
+      const payload = {
+        schema_version: 6,
+        annotation_version: 'v3-clean-final-training',
+        source_training_job: '13692830',
+        content: 'Editable annotation export; training prompts/targets must be rebuilt from any modified annotations.',
+        exported_at_utc: new Date().toISOString(),
+        hierarchy: "full episode instruction > short-term missions > atomic tasks",
+        track_semantics: "short-term mission and atomic timelines are edited independently; membership is recomputed after boundary changes",
+        ongoing_mission_policy: "Short-term missions only, as in the final V3 clean training data.",
+        frame_semantics: "inclusive continuous episode-local frame indices",
+        episodes,
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob), anchor = document.createElement("a");
+      anchor.href = url; anchor.download = `intention_v3_review_${new Date().toISOString().replace(/[:.]/g, "-")}.json`; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } catch (error) { alert(`Export failed: ${error.message}. Your local edits have not been cleared.`); }
+    finally { button.disabled = false; button.textContent = "Export JSON"; }
+  }
+
+  function validateImported(item, ep) {
+    const missions = item.short_term_missions || item.missions;
+    if (item.long_horizon || item.long_term_missions?.length) return false;
+    if (!Array.isArray(item.atomic_tasks) || !item.atomic_tasks.length || !Array.isArray(missions) || !missions.length) return false;
+    const validTrack = (segments, id, label) => {
+      if (segments[0].start_frame !== 0 || segments[segments.length - 1].end_frame !== ep.total_frames - 1) return false;
+      if (new Set(segments.map(s => s[id])).size !== segments.length) return false;
+      return segments.every((s, index) => typeof s[id] === 'string' && s[id] && typeof s[label] === 'string' && s[label].trim()
+        && Number.isInteger(s.start_frame) && Number.isInteger(s.end_frame)
+        && s.start_frame >= 0 && s.end_frame < ep.total_frames && s.end_frame >= s.start_frame
+        && (!index || s.start_frame === segments[index-1].end_frame + 1));
+    };
+    const ids = new Set(item.atomic_tasks.map(a => a.atomic_task_id));
+    return validTrack(item.atomic_tasks, 'atomic_task_id', 'atomic_task') && validTrack(missions, 'mission_id', 'mission')
+      && missions.every(m => Array.isArray(m.atomic_task_ids) && m.atomic_task_ids.every(id => ids.has(id)));
+  }
+
+  function importJson(file) {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const payload = JSON.parse(reader.result), indexed = new Map(data.episodes.map(ep => [episodeKey(ep), ep]));
+        if (payload.annotation_version && payload.annotation_version !== 'v3-clean-final-training') throw new Error('This file is not a V3 clean annotation export.');
+        const items = payload.episodes || (payload.parent_episode_key ? [payload] : null);
+        if (!Array.isArray(items)) throw new Error('Expected an episodes array or one episode annotation.');
+        await saveQueue;
+        await Promise.all([...new Set(items.map(item => indexed.get(item.parent_episode_key)?.dataset).filter(Boolean))].map(loadDataset));
+        const records = [];
+        const seen = new Set();
+        for (const item of items) {
+          const ep = indexed.get(item.parent_episode_key); if (!ep || !validateImported(item, ep)) continue;
+          if (seen.has(item.parent_episode_key)) throw new Error('Duplicate episode in import. Nothing has been imported.');
+          seen.add(item.parent_episode_key);
+          const record = {
+            parent_episode_key: item.parent_episode_key,
+            full_episode_instruction: item.full_episode_instruction || ep.full_episode_instruction,
+            atomic_tasks: clone(item.atomic_tasks), missions: clone(item.short_term_missions || item.missions),
+            long_horizon: false, long_term_missions: [],
+            reviewed: Boolean(item.reviewed), updated_at: item.updated_at || new Date().toISOString(),
+            record_schema_version: 10,
+          };
+          record.membership_geometry = membershipGeometry(record);
+          records.push(record);
+        }
+        await dbPutMany(records);
+        records.forEach(record => record.reviewed ? reviewed.add(record.parent_episode_key) : reviewed.delete(record.parent_episode_key));
+        saveReviewedIndex(); updateDirectoryActive(); applyDirectoryFilter(); await selectEpisode(currentIndex);
+        alert(`Imported ${records.length} episode annotations. Skipped ${items.length-records.length} unknown or invalid records.`);
+      } catch (error) { alert(`Import failed: ${error.message}`); }
+      finally { $('import-file').value = ''; }
+    };
+    reader.readAsText(file);
+  }
+
+  function updateSummary() {
+    $("dataset-summary").textContent = `${data.summary.dataset_count} datasets · ${data.summary.episode_count.toLocaleString()} episodes · ${reviewed.size.toLocaleString()} reviewed`;
+  }
+
+  function timelineClick(event, lane) {
+    if (event.target.closest(".segment-block,.boundary-handle,.playhead")) return;
+    const ep = data.episodes[currentIndex], rect = event.currentTarget.getBoundingClientRect();
+    seekFrame(ep, Math.round((event.clientX - rect.left) / rect.width * (ep.total_frames - 1)));
+    selectedLane = lane; renderSelectionStatus();
+  }
+
+  $("mission-timeline").addEventListener("click", event => timelineClick(event, "mission"));
+  $("long-mission-timeline").addEventListener("click", event => timelineClick(event, "long"));
+  $("atomic-timeline").addEventListener("click", event => timelineClick(event, "atomic"));
+  document.querySelectorAll(".playhead").forEach(element => {
+    element.title = "Drag to preview a video frame";
+    element.setAttribute("aria-label", "Current video frame; drag to seek");
+    element.addEventListener("pointerdown", event => {
+      event.preventDefault(); event.stopPropagation(); video.pause();
+      draggingPlayhead = { element, timeline: element.closest(".timeline"), pointerId: event.pointerId };
+      element.classList.add("dragging");
+      element.setPointerCapture(event.pointerId);
+      movePlayheadFromPointer(event.clientX);
+    });
+  });
+  document.addEventListener("pointermove", event => {
+    if (draggingPlayhead && event.pointerId === draggingPlayhead.pointerId) {
+      event.preventDefault(); movePlayheadFromPointer(event.clientX); return;
+    }
+    if (dragging && event.pointerId === dragging.pointerId) {
+      event.preventDefault(); moveBoundaryFromPointer(event.clientX);
+    }
+  }, { passive: false });
+  document.addEventListener("pointerup", event => { if (!finishPlayheadDrag(event)) finishDrag(event); });
+  document.addEventListener("pointercancel", event => { if (!finishPlayheadDrag(event)) finishDrag(event); });
+  video.addEventListener("timeupdate", () => updatePlayheads()); video.addEventListener("seeked", () => updatePlayheads());
+  video.addEventListener("error", () => { $("video-error").hidden = false; $("video-error").textContent = "Video could not be loaded from RustFS. This episode may still be uploading."; });
+  $("full-instruction").addEventListener("change", async event => { currentRecord.full_episode_instruction = event.target.value.trim() || data.episodes[currentIndex].full_episode_instruction; await persistCurrent(); });
+  $("prev-episode").onclick = () => navigateEpisode(-1); $("next-episode").onclick = () => navigateEpisode(1);
+  $("step-back").onclick = () => seekFrame(data.episodes[currentIndex], frameNow(data.episodes[currentIndex]) - 1);
+  $("step-forward").onclick = () => seekFrame(data.episodes[currentIndex], frameNow(data.episodes[currentIndex]) + 1);
+  $("mark-reviewed").onclick = toggleReviewed; $("merge-mission").onclick = mergeMission; $("split-mission").onclick = splitMission;
+  $("long-horizon").addEventListener("change", toggleLongHorizon);
+  $("merge-atomic").onclick = mergeAtomic; $("split-atomic").onclick = splitAtomic; $("set-boundary").onclick = setBoundaryAtCurrent;
+  $("reset-episode").onclick = resetEpisode; $("export-json").onclick = exportJson;
+  $("import-json").onclick = () => $("import-file").click(); $("import-file").onchange = event => event.target.files[0] && importJson(event.target.files[0]);
+  $("episode-search").addEventListener("input", applyDirectoryFilter);
+  $('split-filter').addEventListener('change', () => {
+    applyDirectoryFilter();
+    const first = [...directoryButtons].find(([,button]) => !button.hidden);
+    if (first) selectEpisode(first[0]);
+  });
+  document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter; document.querySelectorAll(".filter").forEach(item => item.classList.toggle("active", item === button)); applyDirectoryFilter();
+  }));
+
+  document.addEventListener("keydown", event => {
+    if (event.target.matches("input,select,textarea") || $("edit-dialog").open || $('editor-main').inert || !currentRecord) return;
+    const ep = data.episodes[currentIndex];
+    if (event.key === " ") { event.preventDefault(); video.paused ? video.play() : video.pause(); }
+    else if (event.key.toLowerCase() === "n" || event.key === "ArrowDown") { event.preventDefault(); navigateEpisode(1); }
+    else if (event.key.toLowerCase() === "p" || event.key === "ArrowUp") { event.preventDefault(); navigateEpisode(-1); }
+    else if (event.key === ",") seekFrame(ep, frameNow(ep) - 1);
+    else if (event.key === ".") seekFrame(ep, frameNow(ep) + 1);
+    else if (event.key.toLowerCase() === "b") setBoundaryAtCurrent();
+    else if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); if (!currentRecord.reviewed) toggleReviewed(); }
+  });
+
+  const params = new URLSearchParams(location.search);
+  $('split-filter').value = ['all','train','val','test'].includes(params.get('split')) ? params.get('split') : 'all';
+  renderDirectory(); updateSummary();
+  const requested = data.episodes.findIndex(ep => episodeKey(ep) === params.get('episode'));
+  const first = [...directoryButtons].find(([,button]) => !button.hidden)?.[0] || 0;
+  await selectEpisode(requested >= 0 ? requested : first);
+})().catch(error => {
+  document.getElementById('dataset-summary').textContent = `Could not load V3 editor: ${error.message}. Reload to retry.`;
+  console.error(error);
+});
