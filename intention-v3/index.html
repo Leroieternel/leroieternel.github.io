@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="最终 V3 clean 训练数据：6,600 条轨迹的原始视频、动作、短期意图、分段和训练目标。">
+  <title>V3 · 最终训练数据与标注</title>
+  <link rel="stylesheet" href="styles.css?v=4a0ba738e037">
+</head>
+<body>
+  <header class="header"><div><span class="eyebrow">INTENTION DATASET / FROZEN TRAINING RELEASE</span><h1>V3 <span>最终训练数据与标注</span></h1></div><a href="audit.json" target="_blank" rel="noopener">版本与核查记录 ↗</a></header>
+  <section id="stats" class="stats" aria-label="数据统计"><p>正在载入数据目录…</p></section>
+  <p class="policy">V3 clean · OA 为当前原子动作，OM 始终为所属短期意图。历史上下文仅包含当前短期意图内已完成的动作。所有标注和训练目标均来自最终训练的冻结清单。</p>
+  <div class="layout">
+    <aside>
+      <label for="search">搜索轨迹与标注</label><input id="search" type="search" placeholder="数据 ID、任务、动作或意图…" autocomplete="off">
+      <div class="filters"><div><label for="split">数据划分</label><select id="split"><option value="train">训练集 · 5,500</option><option value="val">验证集 · 550</option><option value="test">测试集 · 550</option><option value="all">全部 · 6,600</option></select></div><div><label for="dataset">数据来源</label><select id="dataset"><option value="all">全部来源</option></select></div></div>
+      <p id="result-count" class="muted" aria-live="polite"></p><nav id="directory" aria-label="轨迹目录"></nav>
+      <div class="pager"><button id="page-prev">上一页</button><span id="page-number"></span><button id="page-next">下一页</button></div>
+      <button id="download-split" class="wide">下载当前划分的全部标注 JSON</button><p class="small muted">切换为“全部”可下载 6,600 条完整标注。浏览器中的筛选不改变冻结数据。</p>
+    </aside>
+    <main id="detail" aria-busy="true">
+      <div id="notice" role="status">正在加载…</div>
+      <div id="episode-content" hidden>
+        <div class="episode-top"><span id="episode-tag" class="eyebrow"></span><div class="actions"><button id="previous">← 上一条</button><button id="next">下一条 →</button><button id="download-episode">下载本条 JSON</button><button id="copy-link">复制链接</button></div></div>
+        <h2 id="instruction"></h2><p id="episode-key" class="mono muted"></p><p id="episode-meta" class="muted"></p><p id="annotation-note" class="error" hidden></p>
+        <div class="viewer-grid">
+          <section class="video-card"><video id="video" controls playsinline preload="metadata"></video><p id="video-error" class="error" hidden>视频暂时无法播放。可通过下方“打开原视频”检查资源，标注仍可浏览。</p><div class="transport"><button id="frame-back" aria-label="前一帧">−1 帧</button><span id="frame" class="mono"></span><button id="frame-next" aria-label="后一帧">+1 帧</button><a id="video-link" target="_blank" rel="noopener">打开原视频 ↗</a></div><p class="small muted">展示主视角视频；帧号从 0 开始，区间包含起止帧。点击下方标注可定位视频。</p></section>
+          <section class="target-card"><span class="eyebrow">当前帧的训练目标</span><h3>Ongoing action <span class="tag">OA</span></h3><p id="active-oa"></p><h3>Ongoing mission <span class="tag mission">OM</span></h3><p id="active-om"></p><h3>Context</h3><p id="active-context" class="mono"></p><span id="active-range" class="small muted"></span></section>
+        </div>
+        <section class="annotation-card"><div class="section-heading"><h3>短期意图 <span id="mission-count" class="muted"></span></h3><span class="small muted">Short-term missions</span></div><div id="mission-track" class="track" aria-label="短期意图时间轴"></div><div id="missions" class="segments"></div></section>
+        <section class="annotation-card"><div class="section-heading"><h3>原子动作 <span id="atomic-count" class="muted"></span></h3><span class="small muted">Atomic actions</span></div><div id="atomic-track" class="track" aria-label="动作时间轴"></div><div id="atomics" class="segments"></div></section>
+        <details class="annotation-card"><summary>逐动作完整训练输入与答案</summary><p class="small muted">以下文本原样复制自最终训练清单。点击“定位”跳转到该动作首帧。</p><details><summary>System prompt</summary><pre id="system-prompt"></pre></details><div id="targets"></div></details>
+        <details class="annotation-card"><summary>标注来源与训练视角</summary><p id="provenance"></p><p class="small muted">复核状态沿用源数据记录；本次核查验证文件一致性、分段覆盖、层级映射和训练目标一致性。</p><div id="views"></div></details>
+      </div>
+    </main>
+  </div>
+  <footer>V3 clean · 训练运行 13692830 · <a href="audit.json">SHA-256 与完整性核查</a> · <a href="verification.json">视频与页面检查</a> · <a href="../intention-v2/">旧版 v2</a></footer>
+  <script src="app.js?v=b36a9d29c338"></script>
+</body>
+</html>
