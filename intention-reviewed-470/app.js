@@ -7,6 +7,7 @@
     return response.json();
   }
   const catalog = await getJSON('data/index.json');
+  const annotationVersion = catalog.annotation_version;
   const data = { episodes: catalog.episodes, summary: {
     dataset_count: catalog.summary.datasets, episode_count: catalog.summary.episodes,
   }};
@@ -129,17 +130,42 @@
       long_term_missions: clone(ep.long_term_missions || []),
       reviewed: reviewed.has(episodeKey(ep)),
       updated_at: null,
-      record_schema_version: 10,
+      record_schema_version: 11,
+      temporal_schema: ep.temporal_schema,
+      base_revision: ep.annotation_revision,
     };
+    record.base_annotation = clone(editableAnnotation(record));
     record.membership_geometry = membershipGeometry(record);
     return record;
   }
 
+  function editableAnnotation(record) {
+    return {
+      full_episode_instruction: record.full_episode_instruction,
+      atomic_tasks: record.atomic_tasks,
+      missions: record.missions || record.short_term_missions,
+      long_horizon: Boolean(record.long_horizon),
+      long_term_missions: record.long_term_missions || [],
+    };
+  }
+
+  function stableJSON(value) {
+    if (Array.isArray(value)) return `[${value.map(stableJSON).join(',')}]`;
+    if (value && typeof value === 'object') return `{${Object.keys(value).sort().map(k => `${JSON.stringify(k)}:${stableJSON(value[k])}`).join(',')}}`;
+    return JSON.stringify(value);
+  }
+
   function migrateRecord(stored, ep, isReviewed) {
-    // Reviewed records are user-owned: preserve their labels and boundaries.
-    // Old unreviewed records are stale pre-reanalysis cache entries and should
-    // adopt the new video-derived base annotation once.
-    if (!stored || (!isReviewed && Number(stored.record_schema_version || 0) < 10)) return baseRecord(ep);
+    if (!stored) return baseRecord(ep);
+    const oldBase = stored.base_annotation || ep.previous_base_annotation;
+    const same = (a, b) => stableJSON(a) === stableJSON(b);
+    // A saved copy with no annotation edits adopts the current server source.
+    // Genuine local edits remain intact, regardless of the reviewed flag.
+    if (same(editableAnnotation(stored), editableAnnotation(baseRecord(ep))) ||
+        (stored.base_revision !== ep.annotation_revision && oldBase && same(editableAnnotation(stored), oldBase))) {
+      const fresh = baseRecord(ep); fresh.reviewed = isReviewed;
+      return fresh;
+    }
     const record = clone(stored);
     if (!Array.isArray(record.missions) || !record.missions.length) {
       record.missions = clone(record.short_term_missions || ep.short_term_missions || ep.missions);
@@ -147,7 +173,12 @@
     if (!Array.isArray(record.atomic_tasks) || !record.atomic_tasks.length) record.atomic_tasks = clone(ep.atomic_tasks);
     if (!("long_horizon" in record)) record.long_horizon = isReviewed ? false : Boolean(ep.long_horizon);
     if (!Array.isArray(record.long_term_missions)) record.long_term_missions = isReviewed ? [] : clone(ep.long_term_missions || []);
-    record.record_schema_version = 10;
+    record.record_schema_version = 11;
+    record.temporal_schema = ep.temporal_schema;
+    record.base_annotation = record.base_annotation || clone(ep.previous_base_annotation);
+    record.source_update_available = stored.base_revision
+      ? stored.base_revision !== ep.annotation_revision
+      : !same(ep.previous_base_annotation, editableAnnotation(baseRecord(ep)));
     record.membership_geometry = record.membership_geometry || membershipGeometry(record);
     return record;
   }
@@ -196,7 +227,7 @@
     const geometry = membershipGeometry(record);
     const changed = record.membership_geometry !== geometry;
     record.missions.forEach(mission => {
-      if (changed && !isConcurrent()) mission.atomic_task_ids = atomicsOverlappingMission(mission, record).map(atomic => atomic.atomic_task_id);
+      if (changed && record.temporal_schema !== 'overlapping_atomic_intervals_v1') mission.atomic_task_ids = atomicsOverlappingMission(mission, record).map(atomic => atomic.atomic_task_id);
     });
     record.membership_geometry = geometry;
   }
@@ -570,6 +601,10 @@
     $("mark-reviewed").textContent = currentRecord.reviewed ? "Reviewed ✓" : "Mark reviewed";
     $("mark-reviewed").classList.toggle("reviewed", currentRecord.reviewed);
     $('source-note').textContent = ep.temporal_schema === 'overlapping_atomic_intervals_v1' ? ' Concurrent actions appear on separate rows. Edit their individual start/end frames below.' : '';
+    $('pickup-status').textContent = ep.pickup_onset_review?.status === 'complete'
+      ? ` 本条已按新 pickup 规则复核（调整 ${ep.pickup_onset_review.changes.length} 个边界）。`
+      : ' 本条尚未按新 pickup 规则复核，当前仍为原标注。';
+    if (currentRecord.source_update_available) $('source-note').textContent += ' 当前显示你保留的本地修改；服务器有更新。请先 Export JSON 备份，再用 Reset episode 采用服务器标注。';
     const url = new URL(location.href); url.searchParams.set('episode', episodeKey(ep));
     url.searchParams.set('split', $('split-filter').value); history.replaceState(null, '', url);
     $('save-status').textContent = stored ? 'Saved locally' : 'Reviewed annotation · no local edits';
@@ -800,7 +835,12 @@
       parent_episode_key: ep.parent_episode_key, split: ep.split,
       full_episode_instruction: snapshot.full_episode_instruction,
       video_url: ep.video_url, fps: ep.fps, total_frames: ep.total_frames,
-      annotation_version: 'visual-reaudit-470-20261008',
+      annotation_version: annotationVersion,
+      source_annotation_revision: ep.annotation_revision,
+      base_revision: snapshot.base_revision,
+      base_annotation: snapshot.base_annotation,
+      source_update_available: Boolean(snapshot.source_update_available),
+      source_pickup_onset_review: ep.pickup_onset_review,
       hierarchy_provenance: snapshot.updated_at ? 'browser_manual_review' : ep.hierarchy_provenance,
       source_hierarchy_provenance: ep.hierarchy_provenance,
       source_reviewed: ep.reviewed,
@@ -825,10 +865,15 @@
       await Promise.all(Object.keys(catalog.datasets).map(loadDataset));
       const stored = new Map((await dbGetAll()).map(record => [record.parent_episode_key, record]));
       if (currentRecord) stored.set(currentRecord.parent_episode_key, clone(currentRecord));
-      const episodes = data.episodes.map(ep => exportRecord(ep, stored.get(episodeKey(ep)) || baseRecord(ep)));
+      const episodes = data.episodes.map(ep => {
+        const record = migrateRecord(stored.get(episodeKey(ep)), ep, reviewed.has(episodeKey(ep)));
+        record.reviewed = reviewed.has(episodeKey(ep));
+        return exportRecord(ep, record);
+      });
       const payload = {
         schema_version: 6,
-        annotation_version: 'visual-reaudit-470-20261008',
+        annotation_version: annotationVersion,
+        pickup_onset_progress: catalog.pickup_onset_progress,
         source_snapshot: 'visual-reaudit-470-20261008',
         content: 'Editable annotation export; training prompts/targets must be rebuilt from any modified annotations.',
         exported_at_utc: new Date().toISOString(),
@@ -868,7 +913,7 @@
     reader.onload = async () => {
       try {
         const payload = JSON.parse(reader.result), indexed = new Map(data.episodes.map(ep => [episodeKey(ep), ep]));
-        if (payload.annotation_version && payload.annotation_version !== 'visual-reaudit-470-20261008') throw new Error('This file is not a reviewed-470 annotation export.');
+        if (payload.annotation_version && ![annotationVersion, 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a reviewed-470 annotation export.');
         const items = payload.episodes || (payload.parent_episode_key ? [payload] : null);
         if (!Array.isArray(items)) throw new Error('Expected an episodes array or one episode annotation.');
         await saveQueue;
@@ -885,7 +930,10 @@
             atomic_tasks: clone(item.atomic_tasks), missions: clone(item.short_term_missions || item.missions),
             long_horizon: false, long_term_missions: [],
             reviewed: Boolean(item.reviewed), updated_at: item.updated_at || new Date().toISOString(),
-            record_schema_version: 10,
+            record_schema_version: 11,
+            temporal_schema: ep.temporal_schema,
+            base_revision: item.base_revision || ep.annotation_revision,
+            base_annotation: clone(item.base_annotation || editableAnnotation(baseRecord(ep))),
           };
           record.membership_geometry = membershipGeometry(record);
           records.push(record);
@@ -902,6 +950,8 @@
 
   function updateSummary() {
     $("dataset-summary").textContent = `${data.summary.dataset_count} datasets · ${data.summary.episode_count.toLocaleString()} episodes · ${reviewed.size.toLocaleString()} reviewed`;
+    const progress = catalog.pickup_onset_progress;
+    $('pickup-progress').textContent = `新 pickup 规则：已复核 ${progress.reviewed}/${progress.total} · 待复核 ${progress.pending}`;
   }
 
   function timelineClick(event, lane) {
