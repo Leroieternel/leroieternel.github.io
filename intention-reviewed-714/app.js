@@ -851,6 +851,7 @@
       source_update_available: Boolean(snapshot.source_update_available),
       source_pickup_onset_review: ep.pickup_onset_review,
       source_latest_rule_review: ep.latest_rule_review,
+      text_label_revision: ep.text_label_revision,
       hierarchy_provenance: snapshot.updated_at ? 'browser_manual_review' : ep.hierarchy_provenance,
       source_hierarchy_provenance: ep.hierarchy_provenance,
       source_reviewed: ep.reviewed,
@@ -923,7 +924,7 @@
     reader.onload = async () => {
       try {
         const payload = JSON.parse(reader.result), indexed = new Map(data.episodes.map(ep => [episodeKey(ep), ep]));
-        if (payload.annotation_version && ![annotationVersion, 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
+        if (payload.annotation_version && ![annotationVersion, 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
         const items = payload.episodes || (payload.parent_episode_key ? [payload] : null);
         if (!Array.isArray(items)) throw new Error('Expected an episodes array or one episode annotation.');
         await saveQueue;
