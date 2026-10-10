@@ -613,6 +613,10 @@
     $("mark-reviewed").classList.toggle("reviewed", currentRecord.reviewed);
     $('source-note').textContent = ep.temporal_schema === 'overlapping_atomic_intervals_v1' ? ' Concurrent actions appear on separate rows. Edit their individual start/end frames below.' : '';
     $('pickup-status').textContent = ep.latest_rule_review?.status === 'complete' ? ' Pickup boundaries follow the latest reviewed rule.' : ' Existing action boundaries retained.';
+    const issue = ep.scene_rule_revision;
+    if (issue?.uncertainty || issue?.requires_source_verification || issue?.instruction_note) {
+      $('pickup-status').textContent += ' Needs manual check: ' + (issue.requires_source_verification ? 'possible video/annotation mismatch' : (issue.instruction_note ? 'instruction/action mismatch' : 'unresolved item in coarse review'));
+    }
     if (currentRecord.source_update_available) $('source-note').textContent += ' 当前显示你保留的本地修改；服务器有更新。请先 Export JSON 备份，再用 Reset episode 采用服务器标注。';
     const url = new URL(location.href); url.searchParams.set('episode', episodeKey(ep));
     url.searchParams.set('split', $('split-filter').value); history.replaceState(null, '', url);
@@ -925,7 +929,7 @@
     reader.onload = async () => {
       try {
         const payload = JSON.parse(reader.result), indexed = new Map(data.episodes.map(ep => [episodeKey(ep), ep]));
-        if (payload.annotation_version && ![annotationVersion, 'reviewed714-concise-labels-v1', 'random100-reviewed714-concise-v1-20261010', 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
+        if (payload.annotation_version && ![annotationVersion, 'intention6600-scene-unique-missions-v1-20261011-subset6600', 'intention6600-scene-unique-missions-v1-20261011-subset714', 'reviewed714-concise-labels-v1', 'random100-reviewed714-concise-v1-20261010', 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
         const items = payload.episodes || (payload.parent_episode_key ? [payload] : null);
         if (!Array.isArray(items)) throw new Error('Expected an episodes array or one episode annotation.');
         await saveQueue;
@@ -964,7 +968,7 @@
     const reviewedCount = data.episodes.filter(ep => reviewed.has(ep.parent_episode_key)).length;
     $("dataset-summary").textContent = `${data.summary.dataset_count} datasets · ${data.summary.episode_count.toLocaleString()} episodes · ${reviewedCount.toLocaleString()} reviewed`;
     const progress = catalog.pickup_onset_progress;
-    $('pickup-progress').textContent = `${catalog.summary.atomic_actions.toLocaleString()} actions · ${catalog.summary.short_term_missions.toLocaleString()} missions · Scene rule v1`;
+    $('pickup-progress').textContent = `${catalog.summary.atomic_actions.toLocaleString()} actions · ${catalog.summary.short_term_missions.toLocaleString()} missions · Scene rule v2`;
   }
 
   function timelineClick(event, lane) {
