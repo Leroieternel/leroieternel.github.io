@@ -1,0 +1,4094 @@
+[
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 13250,
+    "episode_id": 34270,
+    "parent_episode_key": "droid_tool_use_batch_1/13250/34270",
+    "split": "train",
+    "full_episode_instruction": "Move the yellow sponge to the right side of the counter, scrub the countertop with the sponge",
+    "fps": 15.0,
+    "total_frames": 530,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_13250/episode_34270.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the yellow sponge",
+        "start_frame": 0,
+        "end_frame": 70
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "put the sponge on the right side of the countertop",
+        "start_frame": 71,
+        "end_frame": 148
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "scrub the right countertop with the sponge",
+        "start_frame": 149,
+        "end_frame": 529
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the yellow sponge",
+        "start_frame": 0,
+        "end_frame": 70,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "scrub the right countertop with the sponge",
+        "start_frame": 71,
+        "end_frame": 529,
+        "atomic_task_ids": [
+          "atomic_2",
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the yellow sponge",
+        "start_frame": 0,
+        "end_frame": 70,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "scrub the right countertop with the sponge",
+        "start_frame": 71,
+        "end_frame": 529,
+        "atomic_task_ids": [
+          "atomic_2",
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Coarse review shows sponge pickup from the initial counter area, transfer/placement to the right, and scrubbing with later grip adjustment. Fine three-view frames 62-85 show squeezing and tilting into the grip through 68, incipient rise at 69, and first controlled sponge lift at 70. Frames 71 onward continue elevation/transport; original end 88 is later travel. Set pickup end 70 and following placement/transport start 71. Low light, the counter edge, and sponge compression obscure exact contact; estimated precision is 1-2 frames. The later scrubbing regrasp does not add a separate transport pickup boundary to the existing annotation."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 88,
+          "new_end": 70,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 89,
+          "new_following_start": 71
+        }
+      ],
+      "reasoning": [
+        "Coarse review shows sponge pickup from the initial counter area, transfer/placement to the right, and scrubbing with later grip adjustment. Fine three-view frames 62-85 show squeezing and tilting into the grip through 68, incipient rise at 69, and first controlled sponge lift at 70. Frames 71 onward continue elevation/transport; original end 88 is later travel. Set pickup end 70 and following placement/transport start 71. Low light, the counter edge, and sponge compression obscure exact contact; estimated precision is 1-2 frames. The later scrubbing regrasp does not add a separate transport pickup boundary to the existing annotation."
+      ],
+      "gripper_interpretation": "Observed grip is already retaining the sponge at 68=0.81938 and compresses slightly to 69=0.82819, 70=0.83700, 71=0.85463, 72=0.85903. TCP z 68=0.238084, 69=0.239943, 70=0.242910, 71=0.247132 supports the visual lift. Do not wait for maximum compression or a later z crest.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            23,
+            46,
+            69,
+            92,
+            115,
+            138,
+            161,
+            184,
+            207,
+            230,
+            253,
+            276,
+            299,
+            322,
+            345,
+            368,
+            391,
+            414,
+            437,
+            460,
+            483,
+            506,
+            529
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/13250/34270/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/13250/34270/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/13250/34270/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/13250/34270/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/13250/34270/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Move the yellow sponge to the right side of the counter, scrub the countertop with the sponge",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the yellow sponge",
+          "start_frame": 0,
+          "end_frame": 88
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "put the sponge on the right side of the countertop",
+          "start_frame": 89,
+          "end_frame": 148
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "scrub the right countertop with the sponge",
+          "start_frame": 149,
+          "end_frame": 529
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the yellow sponge",
+          "start_frame": 0,
+          "end_frame": 88,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "position the sponge on the right countertop and scrub that surface",
+          "start_frame": 89,
+          "end_frame": 529,
+          "atomic_task_ids": [
+            "atomic_2",
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "fb9135bf3a94de1215753f2023a1b6f635f6847cde4db35982157c5c296fad91",
+    "source_reviewed": true,
+    "sample_draw_index": 12
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 16203,
+    "episode_id": 43010,
+    "parent_episode_key": "droid_tool_use_batch_1/16203/43010",
+    "split": "train",
+    "full_episode_instruction": "Using the spoon, scoop a little of the plate's objects into the cup",
+    "fps": 15.0,
+    "total_frames": 418,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_16203/episode_43010.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the white spoon from the paper towel",
+        "start_frame": 0,
+        "end_frame": 129
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "scoop contents from the white plate with the spoon",
+        "start_frame": 130,
+        "end_frame": 334
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "tip the spoon contents into the patterned cup",
+        "start_frame": 335,
+        "end_frame": 373
+      },
+      {
+        "atomic_task_id": "atomic_4",
+        "atomic_task": "put the spoon back on the paper towel",
+        "start_frame": 374,
+        "end_frame": 417
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "scoop contents from the plate with the spoon",
+        "start_frame": 0,
+        "end_frame": 334,
+        "atomic_task_ids": [
+          "atomic_1",
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "tip the spoon contents into the patterned cup",
+        "start_frame": 335,
+        "end_frame": 373,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the spoon back on the paper towel",
+        "start_frame": 374,
+        "end_frame": 417,
+        "atomic_task_ids": [
+          "atomic_4"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "scoop contents from the plate with the spoon",
+        "start_frame": 0,
+        "end_frame": 334,
+        "atomic_task_ids": [
+          "atomic_1",
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "tip the spoon contents into the patterned cup",
+        "start_frame": 335,
+        "end_frame": 373,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the spoon back on the paper towel",
+        "start_frame": 374,
+        "end_frame": 417,
+        "atomic_task_ids": [
+          "atomic_4"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Coarse review shows picking up the white spoon from the paper towel, scooping objects from the white plate, tipping into the patterned cup, then returning the spoon. Consecutive frames 122-141 and enlarged wrist frames 128-135 show the pinch settling at 126, incipient rise at 127-128, and the first discernible retained lift at 129, followed by continuous elevation. Move pickup end 156 to 129 (about one-frame visual uncertainty); the old endpoint includes substantial lifting and transport."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 156,
+          "new_end": 129,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 157,
+          "new_following_start": 130
+        }
+      ],
+      "reasoning": [
+        "Coarse review shows picking up the white spoon from the paper towel, scooping objects from the white plate, tipping into the patterned cup, then returning the spoon. Consecutive frames 122-141 and enlarged wrist frames 128-135 show the pinch settling at 126, incipient rise at 127-128, and the first discernible retained lift at 129, followed by continuous elevation. Move pickup end 156 to 129 (about one-frame visual uncertainty); the old endpoint includes substantial lifting and transport."
+      ],
+      "gripper_interpretation": "Gripper settles at 0.86344 from 126. TCP z increases from 0.142849 at 126 through 0.144523 at 128 to 0.146652 at 129 and 0.149434 at 130. These corroborate the visual onset; the later height crest is not the pickup endpoint.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            18,
+            36,
+            54,
+            73,
+            91,
+            109,
+            127,
+            145,
+            163,
+            181,
+            199,
+            218,
+            236,
+            254,
+            272,
+            290,
+            308,
+            326,
+            344,
+            363,
+            381,
+            399,
+            417
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_detail",
+          "frames": [
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/pickup_onset_detail_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16203/43010/pickup_onset_detail_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Using the spoon, scoop a little of the plate's objects into the cup",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the white spoon from the paper towel",
+          "start_frame": 0,
+          "end_frame": 156
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "scoop contents from the white plate with the spoon",
+          "start_frame": 157,
+          "end_frame": 334
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "tip the spoon contents into the patterned cup",
+          "start_frame": 335,
+          "end_frame": 373
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "put the spoon back on the paper towel",
+          "start_frame": 374,
+          "end_frame": 417
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the spoon and scoop contents from the plate",
+          "start_frame": 0,
+          "end_frame": 334,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "transfer the spoon contents into the patterned cup",
+          "start_frame": 335,
+          "end_frame": 373,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "return the spoon to the paper towel",
+          "start_frame": 374,
+          "end_frame": 417,
+          "atomic_task_ids": [
+            "atomic_4"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "0fbf495d9917c84848c172177968b11574c888f786bae5e5237019d9e01794e7",
+    "source_reviewed": true,
+    "sample_draw_index": 20
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 11286,
+    "episode_id": 28439,
+    "parent_episode_key": "droid_tool_use_batch_1/11286/28439",
+    "split": "train",
+    "full_episode_instruction": "Use the silver spoon to stir the blocks in the white bowl.",
+    "fps": 15.0,
+    "total_frames": 370,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_11286/episode_28439.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the silver spoon",
+        "start_frame": 0,
+        "end_frame": 114
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "stir the blocks in the white bowl with the spoon",
+        "start_frame": 115,
+        "end_frame": 286
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the spoon back on the table beside the fork",
+        "start_frame": 287,
+        "end_frame": 369
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the silver spoon",
+        "start_frame": 0,
+        "end_frame": 114,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "stir the blocks in the white bowl with the spoon",
+        "start_frame": 115,
+        "end_frame": 286,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the spoon back on the table beside the fork",
+        "start_frame": 287,
+        "end_frame": 369,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the silver spoon",
+        "start_frame": 0,
+        "end_frame": 114,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "stir the blocks in the white bowl with the spoon",
+        "start_frame": 115,
+        "end_frame": 286,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the spoon back on the table beside the fork",
+        "start_frame": 287,
+        "end_frame": 369,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse review shows silver spoon pickup, stirring the blocks in the white bowl, then return. Fine 108-131 shows a settled spoon in the fingers before lift: 108-112 remain near the support, 113 is incipient motion and 114 shows the held spoon starting to move with the hand relative to the adjacent fork/table. Choose 114 with about one-frame uncertainty. Subsequent 115-128 include growing clearance and transport toward the working bowl, making 128 late. Preserve all labels and mission membership."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 128,
+          "new_end": 114,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 129,
+          "new_following_start": 115
+        }
+      ],
+      "reasoning": [
+        "Whole-episode coarse review shows silver spoon pickup, stirring the blocks in the white bowl, then return. Fine 108-131 shows a settled spoon in the fingers before lift: 108-112 remain near the support, 113 is incipient motion and 114 shows the held spoon starting to move with the hand relative to the adjacent fork/table. Choose 114 with about one-frame uncertainty. Subsequent 115-128 include growing clearance and transport toward the working bowl, making 128 late. Preserve all labels and mission membership."
+      ],
+      "gripper_interpretation": "Gripper state remains 0.92511 throughout the fine window. TCP z changes from -0.020107 at 112 to -0.018168 at 113, -0.014509 at 114, -0.008559 at 115 and -0.001088 at 116. The first visible held-object movement agrees with this initial lift rather than the later crest.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            112,
+            128,
+            144,
+            160,
+            176,
+            193,
+            209,
+            225,
+            241,
+            257,
+            273,
+            289,
+            305,
+            321,
+            337,
+            353,
+            369
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/11286/28439/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/11286/28439/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/11286/28439/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/11286/28439/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/11286/28439/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Use the silver spoon to stir the blocks in the white bowl.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the silver spoon",
+          "start_frame": 0,
+          "end_frame": 128
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "stir the blocks in the white bowl with the spoon",
+          "start_frame": 129,
+          "end_frame": 286
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "put the spoon back on the table beside the fork",
+          "start_frame": 287,
+          "end_frame": 369
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the silver spoon",
+          "start_frame": 0,
+          "end_frame": 128,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "stir the blocks in the white bowl",
+          "start_frame": 129,
+          "end_frame": 286,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "put the spoon back on the table",
+          "start_frame": 287,
+          "end_frame": 369,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "200117a56dbdd96c4313b987a19cce50dfe2407f20094712212ffa7a63a96295",
+    "source_reviewed": true,
+    "sample_draw_index": 21
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 16978,
+    "episode_id": 45409,
+    "parent_episode_key": "droid_tool_use_batch_1/16978/45409",
+    "split": "train",
+    "full_episode_instruction": "Use the fork to open up the bin",
+    "fps": 15.0,
+    "total_frames": 551,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_16978/episode_45409.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the fork",
+        "start_frame": 0,
+        "end_frame": 141
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "use the fork to lift open the green bin lid",
+        "start_frame": 142,
+        "end_frame": 421
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the fork back on the counter",
+        "start_frame": 422,
+        "end_frame": 550
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the fork",
+        "start_frame": 0,
+        "end_frame": 141,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "use the fork to lift open the green bin lid",
+        "start_frame": 142,
+        "end_frame": 421,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the fork back on the counter",
+        "start_frame": 422,
+        "end_frame": 550,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the fork",
+        "start_frame": 0,
+        "end_frame": 141,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "use the fork to lift open the green bin lid",
+        "start_frame": 142,
+        "end_frame": 421,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the fork back on the counter",
+        "start_frame": 422,
+        "end_frame": 550,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Coarse review shows picking up the long fork, using it to open the green bin lid, and returning it beside the spoon. Consecutive frames 132-169 show seating through 139, secure pinch at 140, and the first small retained rise at 141-142, before the brief low pause and larger ascent from 150. Move end 214 to 141 (about 1-2 frames uncertainty at the thin reflective fork/table contact). The later ascent and positioning toward the lid are already transport, not continued acquisition."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 214,
+          "new_end": 141,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 215,
+          "new_following_start": 142
+        }
+      ],
+      "reasoning": [
+        "Coarse review shows picking up the long fork, using it to open the green bin lid, and returning it beside the spoon. Consecutive frames 132-169 show seating through 139, secure pinch at 140, and the first small retained rise at 141-142, before the brief low pause and larger ascent from 150. Move end 214 to 141 (about 1-2 frames uncertainty at the thin reflective fork/table contact). The later ascent and positioning toward the lid are already transport, not continued acquisition."
+      ],
+      "gripper_interpretation": "Gripper reaches 0.93833 at 140-141, with small later compression to 0.94714 by 144. TCP z rises from 0.174472 at 140 to 0.176326 at 141 and 0.177161 at 142. This small first retained rise precedes the more prominent second ascent after 150; the latter must not replace initial pickup onset.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            24,
+            48,
+            72,
+            96,
+            120,
+            143,
+            167,
+            191,
+            215,
+            239,
+            263,
+            287,
+            311,
+            335,
+            359,
+            383,
+            407,
+            430,
+            454,
+            478,
+            502,
+            526,
+            550
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_early",
+          "frames": [
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/pickup_onset_early_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/pickup_onset_early_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/16978/45409/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Use the fork to open up the bin",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the fork from the counter",
+          "start_frame": 0,
+          "end_frame": 214
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "use the fork to lift open the green bin lid",
+          "start_frame": 215,
+          "end_frame": 421
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "put the fork back on the counter",
+          "start_frame": 422,
+          "end_frame": 550
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the fork",
+          "start_frame": 0,
+          "end_frame": 214,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "open the bin with the fork",
+          "start_frame": 215,
+          "end_frame": 421,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "put the fork on the counter",
+          "start_frame": 422,
+          "end_frame": 550,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "016036666867cc11038906e1e03493b8226024087d204c3cd7eacf6e9649c389",
+    "source_reviewed": true,
+    "sample_draw_index": 29
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 1689,
+    "episode_id": 3608,
+    "parent_episode_key": "droid_tool_use_batch_1/1689/3608",
+    "split": "train",
+    "full_episode_instruction": "Use the cloth to wipe the countertop",
+    "fps": 15.0,
+    "total_frames": 359,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_1689/episode_3608.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "lift the cloth edge",
+        "start_frame": 0,
+        "end_frame": 108
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the countertop with the cloth",
+        "start_frame": 109,
+        "end_frame": 358
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "lift the cloth edge",
+        "start_frame": 0,
+        "end_frame": 108,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the countertop with the cloth",
+        "start_frame": 109,
+        "end_frame": 358,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "lift the cloth edge",
+        "start_frame": 0,
+        "end_frame": 108,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the countertop with the cloth",
+        "start_frame": 109,
+        "end_frame": 358,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Full-episode coarse review shows acquiring and raising the cloth edge, then wiping the countertop and releasing it. Consecutive frames 102-125 show gathering through 106-107 and the retained edge first rising under secure control at 108, continuing at 109-112. Move endpoint 120 to 108, with about one-frame uncertainty: 120 is the later height crest. The rest of the cloth may remain on the counter; whole-cloth clearance is not required."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 120,
+          "new_end": 108,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 121,
+          "new_following_start": 109
+        }
+      ],
+      "reasoning": [
+        "Full-episode coarse review shows acquiring and raising the cloth edge, then wiping the countertop and releasing it. Consecutive frames 102-125 show gathering through 106-107 and the retained edge first rising under secure control at 108, continuing at 109-112. Move endpoint 120 to 108, with about one-frame uncertainty: 120 is the later height crest. The rest of the cloth may remain on the counter; whole-cloth clearance is not required."
+      ],
+      "gripper_interpretation": "Gripper reaches 0.93833 at 108-110, with only a small additional compression to 0.94273 at 111. TCP z is 0.176707 at 106, 0.179164 at 107, 0.182854 at 108, and 0.187633 at 109. This corroborates first retained-edge rise; waiting for final compression or the 120 crest would be late.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            16,
+            31,
+            47,
+            62,
+            78,
+            93,
+            109,
+            125,
+            140,
+            156,
+            171,
+            187,
+            202,
+            218,
+            233,
+            249,
+            265,
+            280,
+            296,
+            311,
+            327,
+            342,
+            358
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1689/3608/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1689/3608/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1689/3608/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1689/3608/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1689/3608/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Use the cloth to wipe the countertop",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "Grasp and raise the edge of the cloth on the countertop",
+          "start_frame": 0,
+          "end_frame": 120
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "Wipe the countertop with the cloth",
+          "start_frame": 121,
+          "end_frame": 358
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "Grasp the cloth",
+          "start_frame": 0,
+          "end_frame": 120,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "Wipe the countertop",
+          "start_frame": 121,
+          "end_frame": 358,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "1478486d436b137833cced8b76539210262a512fdeece12a9ee7040573b991e7",
+    "source_reviewed": true,
+    "sample_draw_index": 35
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 10389,
+    "episode_id": 25989,
+    "parent_episode_key": "droid_tool_use_batch_1/10389/25989",
+    "split": "train",
+    "full_episode_instruction": "Move the screwdriver from the toolbox to the table then turn the bolt",
+    "fps": 15.0,
+    "total_frames": 342,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_10389/episode_25989.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the red screwdriver from the toolbox",
+        "start_frame": 0,
+        "end_frame": 93
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "place the screwdriver on the table",
+        "start_frame": 94,
+        "end_frame": 138
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "turn the blue bolt with the gripper",
+        "start_frame": 139,
+        "end_frame": 341
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the red screwdriver from the toolbox",
+        "start_frame": 0,
+        "end_frame": 93,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "place the screwdriver on the table",
+        "start_frame": 94,
+        "end_frame": 138,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "turn the blue bolt with the gripper",
+        "start_frame": 139,
+        "end_frame": 341,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the red screwdriver from the toolbox",
+        "start_frame": 0,
+        "end_frame": 93,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "place the screwdriver on the table",
+        "start_frame": 94,
+        "end_frame": 138,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "turn the blue bolt with the gripper",
+        "start_frame": 139,
+        "end_frame": 341,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse views show removal of the red screwdriver, placement on the table, and direct turning of the blue bolt with the gripper. Fine frames 86-109 and enlarged wrist frames 90-97 show the handle held fixed between the fingers while its alignment with the toolbox holes first shifts at 92-93; choose 93 as the first resolved controlled extraction, with about one frame uncertainty. At 95-100 the increasing visible shaft/hole offset and lift confirm retention. The old 107 endpoint is near the later lift crest and includes extra lifting. Preserve placement and bolt-turn actions and mission grouping."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 107,
+          "new_end": 93,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 108,
+          "new_following_start": 94
+        }
+      ],
+      "reasoning": [
+        "Whole-episode coarse views show removal of the red screwdriver, placement on the table, and direct turning of the blue bolt with the gripper. Fine frames 86-109 and enlarged wrist frames 90-97 show the handle held fixed between the fingers while its alignment with the toolbox holes first shifts at 92-93; choose 93 as the first resolved controlled extraction, with about one frame uncertainty. At 95-100 the increasing visible shaft/hole offset and lift confirm retention. The old 107 endpoint is near the later lift crest and includes extra lifting. Preserve placement and bolt-turn actions and mission grouping."
+      ],
+      "gripper_interpretation": "Observed gripper remains 0.71806 from 88 through 100. TCP z is 0.264980 at 89, 0.266874 at 92, 0.268342 at 93, and 0.270819 at 94; this corroborates initial extraction. Do not wait for full shaft clearance or the height crest around 105.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            15,
+            30,
+            44,
+            59,
+            74,
+            89,
+            104,
+            119,
+            133,
+            148,
+            163,
+            178,
+            193,
+            208,
+            222,
+            237,
+            252,
+            267,
+            282,
+            297,
+            311,
+            326,
+            341
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_detail",
+          "frames": [
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/pickup_onset_detail_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10389/25989/pickup_onset_detail_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Move the screwdriver from the toolbox to the table then turn the bolt",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the red screwdriver from the toolbox",
+          "start_frame": 0,
+          "end_frame": 107
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "place the screwdriver on the table",
+          "start_frame": 108,
+          "end_frame": 138
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "turn the blue bolt with the gripper",
+          "start_frame": 139,
+          "end_frame": 341
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the screwdriver",
+          "start_frame": 0,
+          "end_frame": 107,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "set the screwdriver on the table",
+          "start_frame": 108,
+          "end_frame": 138,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "turn the blue bolt",
+          "start_frame": 139,
+          "end_frame": 341,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "f2b7dc841c8eb81496f3b3992874cde80eaed34e4d3459019ceaee48b76a13e2",
+    "source_reviewed": true,
+    "sample_draw_index": 45
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 15547,
+    "episode_id": 41039,
+    "parent_episode_key": "droid_tool_use_batch_1/15547/41039",
+    "split": "train",
+    "full_episode_instruction": "Use the white napkin to wipe the top of the wooden toy box.",
+    "fps": 15.0,
+    "total_frames": 308,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_15547/episode_41039.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the white napkin",
+        "start_frame": 0,
+        "end_frame": 79
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the top of the wooden shape-sorting box with the napkin",
+        "start_frame": 80,
+        "end_frame": 228
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the napkin on the table beside the wooden box",
+        "start_frame": 229,
+        "end_frame": 307
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white napkin",
+        "start_frame": 0,
+        "end_frame": 79,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the top of the wooden shape-sorting box with the napkin",
+        "start_frame": 80,
+        "end_frame": 228,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the napkin on the table beside the wooden box",
+        "start_frame": 229,
+        "end_frame": 307,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white napkin",
+        "start_frame": 0,
+        "end_frame": 79,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the top of the wooden shape-sorting box with the napkin",
+        "start_frame": 80,
+        "end_frame": 228,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the napkin on the table beside the wooden box",
+        "start_frame": 229,
+        "end_frame": 307,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Coarse views show a white napkin picked up, taken to the wooden toy box, used to wipe it, then returned. Fine frames 74-97 show gathering and closure through 77, retained pinch at 78 and the first raised retained fold at 79.",
+      "Move pickup end 106 to 79. The remainder of the napkin unfolds and clears the table later, but this is already controlled lifting/transport. White-on-white contact and folds produce about 1-2 frames of uncertainty at initial separation."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 106,
+          "new_end": 79,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 107,
+          "new_following_start": 80
+        }
+      ],
+      "reasoning": [
+        "Coarse views show a white napkin picked up, taken to the wooden toy box, used to wipe it, then returned. Fine frames 74-97 show gathering and closure through 77, retained pinch at 78 and the first raised retained fold at 79.",
+        "Move pickup end 106 to 79. The remainder of the napkin unfolds and clears the table later, but this is already controlled lifting/transport. White-on-white contact and folds produce about 1-2 frames of uncertainty at initial separation."
+      ],
+      "gripper_interpretation": "Closure reaches 0.98238 at 78 and remains there. TCP z rises from 0.04804 at 77 to 0.04987 at 78, 0.05327 at 79 and 0.05853 at 80, consistent with the visual retained-fold rise rather than full napkin clearance.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            13,
+            27,
+            40,
+            53,
+            67,
+            80,
+            93,
+            107,
+            120,
+            133,
+            147,
+            160,
+            174,
+            187,
+            200,
+            214,
+            227,
+            240,
+            254,
+            267,
+            280,
+            294,
+            307
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/15547/41039/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/15547/41039/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/15547/41039/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/15547/41039/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/15547/41039/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Use the white napkin to wipe the top of the wooden toy box.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "Pick up the white napkin",
+          "start_frame": 0,
+          "end_frame": 106
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "Wipe the top of the wooden shape-sorting box with the napkin",
+          "start_frame": 107,
+          "end_frame": 228
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "Put the napkin on the table beside the wooden box",
+          "start_frame": 229,
+          "end_frame": 307
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "Pick up the white napkin",
+          "start_frame": 0,
+          "end_frame": 106,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "Wipe the top of the wooden shape-sorting box",
+          "start_frame": 107,
+          "end_frame": 228,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "Put the napkin on the table beside the wooden box",
+          "start_frame": 229,
+          "end_frame": 307,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "2b7434e5269b5120e1a54b8b2b23a26268c006f92f811cdf714578ec9ed522c6",
+    "source_reviewed": true,
+    "sample_draw_index": 48
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 2037,
+    "episode_id": 12114,
+    "parent_episode_key": "droid_tool_use_batch_1/2037/12114",
+    "split": "train",
+    "full_episode_instruction": "Wipe the table with the towel",
+    "fps": 15.0,
+    "total_frames": 134,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_2037/episode_12114.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "wipe the wooden table with the yellow towel",
+        "start_frame": 0,
+        "end_frame": 133
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "wipe the wooden table with the yellow towel",
+        "start_frame": 0,
+        "end_frame": 133,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "wipe the wooden table with the yellow towel",
+        "start_frame": 0,
+        "end_frame": 133,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Full coarse sequence shows open fingers approaching and pressing the yellow towel against the wooden tabletop, sliding it during wiping, then withdrawing empty. No retained pinch/lift acquisition occurs, so there is no pickup endpoint to move. Preserve the single wiping atomic action and its mission."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [],
+      "reasoning": [
+        "Full coarse sequence shows open fingers approaching and pressing the yellow towel against the wooden tabletop, sliding it during wiping, then withdrawing empty. No retained pinch/lift acquisition occurs, so there is no pickup endpoint to move. Preserve the single wiping atomic action and its mission."
+      ],
+      "gripper_interpretation": "Observed gripper state stays0 (open), command1 throughout. TCP approaches the supported towel and rises only on empty withdrawal; trace corroborates open-finger supported wiping, not pickup.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            6,
+            12,
+            17,
+            23,
+            29,
+            35,
+            40,
+            46,
+            52,
+            58,
+            64,
+            69,
+            75,
+            81,
+            87,
+            93,
+            98,
+            104,
+            110,
+            116,
+            121,
+            127,
+            133
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/2037/12114/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/2037/12114/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Wipe the table with the towel",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "Wipe the wooden table with the yellow towel",
+          "start_frame": 0,
+          "end_frame": 133
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "Wipe the wooden table with the yellow towel",
+          "start_frame": 0,
+          "end_frame": 133,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "10621d9069d693795e2afcce4a1e44b51bb05a19c5dcd22d5dd53e0888dd68fd",
+    "source_reviewed": true,
+    "sample_draw_index": 50
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 10393,
+    "episode_id": 75487,
+    "parent_episode_key": "droid_tool_use_batch_1/10393/75487",
+    "split": "train",
+    "full_episode_instruction": "Clean the table",
+    "fps": 15.0,
+    "total_frames": 267,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_10393/episode_75487.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the white paper towel",
+        "start_frame": 0,
+        "end_frame": 65
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the tabletop with the paper towel",
+        "start_frame": 66,
+        "end_frame": 218
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the paper towel down beside the patterned plate",
+        "start_frame": 219,
+        "end_frame": 266
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white paper towel",
+        "start_frame": 0,
+        "end_frame": 65,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the tabletop with the paper towel",
+        "start_frame": 66,
+        "end_frame": 218,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the paper towel down beside the patterned plate",
+        "start_frame": 219,
+        "end_frame": 266,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white paper towel",
+        "start_frame": 0,
+        "end_frame": 65,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the tabletop with the paper towel",
+        "start_frame": 66,
+        "end_frame": 218,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the paper towel down beside the patterned plate",
+        "start_frame": 219,
+        "end_frame": 266,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse review shows grasping the paper towel beside the plates, moving to wipe the tabletop, and putting it back beside the plate. Consecutive three-camera frames 60-83 show an already closed grip at 60-63, the incipient rise at 64, and the retained paper beginning to lift with the hand at 65; 66-70 show rapidly growing elevation and subsequent transport. Set pickup end to 65 instead of 74, with about 1-2 frames uncertainty due to the white-on-white and partly obscured paper contact. Do not wait until the flexible towel is fully raised. Preserve subsequent action labels, placement boundary and mission membership."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 74,
+          "new_end": 65,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 75,
+          "new_following_start": 66
+        }
+      ],
+      "reasoning": [
+        "Whole-episode coarse review shows grasping the paper towel beside the plates, moving to wipe the tabletop, and putting it back beside the plate. Consecutive three-camera frames 60-83 show an already closed grip at 60-63, the incipient rise at 64, and the retained paper beginning to lift with the hand at 65; 66-70 show rapidly growing elevation and subsequent transport. Set pickup end to 65 instead of 74, with about 1-2 frames uncertainty due to the white-on-white and partly obscured paper contact. Do not wait until the flexible towel is fully raised. Preserve subsequent action labels, placement boundary and mission membership."
+      ],
+      "gripper_interpretation": "Observed closure is stable at 0.98678 throughout 61-75. TCP z rises from -0.026401 at 63 to -0.024338 at 64, -0.019877 at 65 and -0.012493 at 66. This supports the visually observed onset, while the original 74 is already at z 0.109679 after much additional lift.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            12,
+            23,
+            35,
+            46,
+            58,
+            69,
+            81,
+            93,
+            104,
+            116,
+            127,
+            139,
+            150,
+            162,
+            173,
+            185,
+            197,
+            208,
+            220,
+            231,
+            243,
+            254,
+            266
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/75487/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/75487/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/75487/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/75487/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/75487/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Clean the table",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the white paper towel",
+          "start_frame": 0,
+          "end_frame": 74
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "wipe the tabletop with the paper towel",
+          "start_frame": 75,
+          "end_frame": 218
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "put the paper towel down beside the patterned plate",
+          "start_frame": 219,
+          "end_frame": 266
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the paper towel",
+          "start_frame": 0,
+          "end_frame": 74,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "wipe the tabletop",
+          "start_frame": 75,
+          "end_frame": 218,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "put the paper towel beside the patterned plate",
+          "start_frame": 219,
+          "end_frame": 266,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "c7cabd9b7e943816ef9dda892602463f082b372b6196f5f47f4573a099fb754c",
+    "source_reviewed": true,
+    "sample_draw_index": 64
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 12120,
+    "episode_id": 30850,
+    "parent_episode_key": "droid_tool_use_batch_1/12120/30850",
+    "split": "train",
+    "full_episode_instruction": "Pick up the spoon, scoop some contents from the cup and put it on the table.",
+    "fps": 15.0,
+    "total_frames": 390,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_12120/episode_30850.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the white plastic spoon",
+        "start_frame": 0,
+        "end_frame": 102
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "scoop some grains from the green patterned cup with the spoon",
+        "start_frame": 103,
+        "end_frame": 325
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the loaded spoon on the table beside the cup",
+        "start_frame": 326,
+        "end_frame": 389
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "scoop grains from the green patterned cup with the spoon",
+        "start_frame": 0,
+        "end_frame": 325,
+        "atomic_task_ids": [
+          "atomic_1",
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "put the loaded spoon on the table beside the cup",
+        "start_frame": 326,
+        "end_frame": 389,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "scoop grains from the green patterned cup with the spoon",
+        "start_frame": 0,
+        "end_frame": 325,
+        "atomic_task_ids": [
+          "atomic_1",
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "put the loaded spoon on the table beside the cup",
+        "start_frame": 326,
+        "end_frame": 389,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Full coarse review shows white-spoon acquisition, scooping from the green patterned cup, and putting the loaded spoon on the table.",
+      "Consecutive frames 88-111 show spoon alignment during closure at 92-96, a short held pause at 96-99, incipient lift at 100-101 and the initial controlled upward motion of the retained spoon by 102. Frames 103-118 add substantial lift and movement toward the cup. Set pickup end 102 and scooping action start 103.",
+      "The white spoon against the white table and fingers partly hide the contact point. Initial lift is judged within about 1-2 frames; no claim of sub-frame certainty."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 118,
+          "new_end": 102,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 119,
+          "new_following_start": 103
+        }
+      ],
+      "reasoning": [
+        "Full coarse review shows white-spoon acquisition, scooping from the green patterned cup, and putting the loaded spoon on the table.",
+        "Consecutive frames 88-111 show spoon alignment during closure at 92-96, a short held pause at 96-99, incipient lift at 100-101 and the initial controlled upward motion of the retained spoon by 102. Frames 103-118 add substantial lift and movement toward the cup. Set pickup end 102 and scooping action start 103.",
+        "The white spoon against the white table and fingers partly hide the contact point. Initial lift is judged within about 1-2 frames; no claim of sub-frame certainty."
+      ],
+      "gripper_interpretation": "Gripper remains at 0.88106 from 96 onward. TCP z is nearly flat at 96-99, then rises from 0.290934 at 100 to 0.293312 at 101, 0.298015 at 102 and 0.305069 at 103. This supports the initial controlled visual lift before the much higher old endpoint 118.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            17,
+            34,
+            51,
+            68,
+            85,
+            101,
+            118,
+            135,
+            152,
+            169,
+            186,
+            203,
+            220,
+            237,
+            254,
+            271,
+            288,
+            304,
+            321,
+            338,
+            355,
+            372,
+            389
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/12120/30850/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/12120/30850/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/12120/30850/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/12120/30850/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/12120/30850/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Pick up the spoon, scoop some contents from the cup and put it on the table.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the white plastic spoon",
+          "start_frame": 0,
+          "end_frame": 118
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "scoop some grains from the green patterned cup with the spoon",
+          "start_frame": 119,
+          "end_frame": 325
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "put the loaded spoon on the table beside the cup",
+          "start_frame": 326,
+          "end_frame": 389
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "scoop grains from the green patterned cup with the spoon",
+          "start_frame": 0,
+          "end_frame": 325,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "put the loaded spoon on the table",
+          "start_frame": 326,
+          "end_frame": 389,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "6c6c3eb15cf66aa4e0407301b1c391c8a563045b96d45c633bcc985587de813d",
+    "source_reviewed": true,
+    "sample_draw_index": 74
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 14834,
+    "episode_id": 38894,
+    "parent_episode_key": "droid_tool_use_batch_1/14834/38894",
+    "split": "val",
+    "full_episode_instruction": "Pick up the towel and clean the door of the first top cabinet on the left",
+    "fps": 15.0,
+    "total_frames": 389,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_14834/episode_38894.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the towel",
+        "start_frame": 0,
+        "end_frame": 132
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the upper wooden cabinet door with the towel",
+        "start_frame": 133,
+        "end_frame": 313
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the towel back on the countertop",
+        "start_frame": 314,
+        "end_frame": 388
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the towel",
+        "start_frame": 0,
+        "end_frame": 132,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the upper wooden cabinet door with the towel",
+        "start_frame": 133,
+        "end_frame": 313,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the towel back on the countertop",
+        "start_frame": 314,
+        "end_frame": 388,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the towel",
+        "start_frame": 0,
+        "end_frame": 132,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the upper wooden cabinet door with the towel",
+        "start_frame": 133,
+        "end_frame": 313,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the towel back on the countertop",
+        "start_frame": 314,
+        "end_frame": 388,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse views show towel acquisition, transport to the upper cabinet, wiping, then return. Consecutive frames 122-145 distinguish finger closure from the retained-fold lift.",
+      "Frames 129-130 still seat the pinch; 131 secures it and 132 is the first clearly retained fold rising under control, followed by continuous lift at 133+. Move pickup end from 149 to 132 and wiping/transport start to 133. Fold contact is partly occluded, giving about 1-2 frames of visual uncertainty; do not wait for whole-cloth clearance or the later lift crest."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 149,
+          "new_end": 132,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 150,
+          "new_following_start": 133
+        }
+      ],
+      "reasoning": [
+        "Whole-episode coarse views show towel acquisition, transport to the upper cabinet, wiping, then return. Consecutive frames 122-145 distinguish finger closure from the retained-fold lift.",
+        "Frames 129-130 still seat the pinch; 131 secures it and 132 is the first clearly retained fold rising under control, followed by continuous lift at 133+. Move pickup end from 149 to 132 and wiping/transport start to 133. Fold contact is partly occluded, giving about 1-2 frames of visual uncertainty; do not wait for whole-cloth clearance or the later lift crest."
+      ],
+      "gripper_interpretation": "Closure rises through 130 (0.87665) and settles at 0.89427 from 131. TCP z rises 0.26759 at 131 to 0.27227 at 132 and 0.27768 at 133. This corroborates the visually retained fold, not an automatic gripper threshold.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            17,
+            34,
+            51,
+            67,
+            84,
+            101,
+            118,
+            135,
+            152,
+            169,
+            186,
+            202,
+            219,
+            236,
+            253,
+            270,
+            287,
+            304,
+            321,
+            337,
+            354,
+            371,
+            388
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/14834/38894/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/14834/38894/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/14834/38894/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/14834/38894/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/14834/38894/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Pick up the towel and clean the door of the first top cabinet on the left",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the towel from the countertop",
+          "start_frame": 0,
+          "end_frame": 149
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "wipe the upper wooden cabinet door with the towel",
+          "start_frame": 150,
+          "end_frame": 313
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "put the towel back on the countertop",
+          "start_frame": 314,
+          "end_frame": 388
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the towel",
+          "start_frame": 0,
+          "end_frame": 149,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "wipe the selected upper cabinet door",
+          "start_frame": 150,
+          "end_frame": 313,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "put the towel on the countertop",
+          "start_frame": 314,
+          "end_frame": 388,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "850e59b137d9e1c2ee597d958f18a2ef67bc7990aace2a9c7e93fdb256158dbb",
+    "source_reviewed": true,
+    "sample_draw_index": 78
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 17286,
+    "episode_id": 46336,
+    "parent_episode_key": "droid_tool_use_batch_1/17286/46336",
+    "split": "train",
+    "full_episode_instruction": "Use the towel to wipe the sink",
+    "fps": 15.0,
+    "total_frames": 252,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_17286/episode_46336.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the white towel",
+        "start_frame": 0,
+        "end_frame": 58
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the counter and rim around the sink with the towel",
+        "start_frame": 59,
+        "end_frame": 200
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the towel back on the counter to the right of the sink",
+        "start_frame": 201,
+        "end_frame": 251
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white towel",
+        "start_frame": 0,
+        "end_frame": 58,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the counter and rim around the sink with the towel",
+        "start_frame": 59,
+        "end_frame": 200,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the towel back on the counter to the right of the sink",
+        "start_frame": 201,
+        "end_frame": 251,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white towel",
+        "start_frame": 0,
+        "end_frame": 58,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the counter and rim around the sink with the towel",
+        "start_frame": 59,
+        "end_frame": 200,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the towel back on the counter to the right of the sink",
+        "start_frame": 201,
+        "end_frame": 251,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Coarse views confirm towel acquisition beside the sink, wiping the counter/sink rim, and return to the counter.",
+      "Fine frames 52-56 show closing and gathering; frame 57 seats the retained pinch. Frame 58 begins the first discernible retained-fold lift, continued in 59-63 before the whole towel rises and is carried. Move endpoint 71 to 58, with about one-frame uncertainty due to deformable cloth. Preserve labels and mission membership."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 71,
+          "new_end": 58,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 72,
+          "new_following_start": 59
+        }
+      ],
+      "reasoning": [
+        "Coarse views confirm towel acquisition beside the sink, wiping the counter/sink rim, and return to the counter.",
+        "Fine frames 52-56 show closing and gathering; frame 57 seats the retained pinch. Frame 58 begins the first discernible retained-fold lift, continued in 59-63 before the whole towel rises and is carried. Move endpoint 71 to 58, with about one-frame uncertainty due to deformable cloth. Preserve labels and mission membership."
+      ],
+      "gripper_interpretation": "Closure reaches 0.85022 at 57, 0.85903 at 58 and 0.88106 at 60. TCP z57 0.279074,58 0.282652,59 0.287574 corroborates the visually retained-fold rise. Frame71 is already a much later elevated pose.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            11,
+            22,
+            33,
+            44,
+            55,
+            65,
+            76,
+            87,
+            98,
+            109,
+            120,
+            131,
+            142,
+            153,
+            164,
+            175,
+            186,
+            196,
+            207,
+            218,
+            229,
+            240,
+            251
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/17286/46336/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/17286/46336/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/17286/46336/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/17286/46336/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/17286/46336/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Use the towel to wipe the sink",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "Pick up the white towel from the counter",
+          "start_frame": 0,
+          "end_frame": 71
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "Wipe the counter and rim around the sink with the towel",
+          "start_frame": 72,
+          "end_frame": 200
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "Put the towel back on the counter to the right of the sink",
+          "start_frame": 201,
+          "end_frame": 251
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "Pick up the white towel",
+          "start_frame": 0,
+          "end_frame": 71,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "Wipe around the sink",
+          "start_frame": 72,
+          "end_frame": 200,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "Put the towel on the right counter",
+          "start_frame": 201,
+          "end_frame": 251,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "272ed68a93bb25e4315df69608016d7051e69e9044b2aa131ffc31c86169e39d",
+    "source_reviewed": true,
+    "sample_draw_index": 87
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 10393,
+    "episode_id": 85826,
+    "parent_episode_key": "droid_tool_use_batch_1/10393/85826",
+    "split": "train",
+    "full_episode_instruction": "Clean the table",
+    "fps": 15.0,
+    "total_frames": 354,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_10393/episode_85826.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "grasp the paper towel on the countertop",
+        "start_frame": 0,
+        "end_frame": 73
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the countertop with the paper towel",
+        "start_frame": 74,
+        "end_frame": 353
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "grasp the paper towel on the countertop",
+        "start_frame": 0,
+        "end_frame": 73,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the countertop with the paper towel",
+        "start_frame": 74,
+        "end_frame": 353,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "grasp the paper towel on the countertop",
+        "start_frame": 0,
+        "end_frame": 73,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the countertop with the paper towel",
+        "start_frame": 74,
+        "end_frame": 353,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse review shows a surface pinch of folded paper followed by wiping the counter. Consecutive frames 60-83 show continued finger closure through 70-72, with the paper fold securely gathered by 73. Retain grasp end 73 (about one frame uncertainty); it already coincides with acquisition before the wipe rather than after a large lift or transport. The rest of the paper remains supported intentionally, so do not invent a separate airborne pickup. Preserve both labels and the mission."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [],
+      "reasoning": [
+        "Whole-episode coarse review shows a surface pinch of folded paper followed by wiping the counter. Consecutive frames 60-83 show continued finger closure through 70-72, with the paper fold securely gathered by 73. Retain grasp end 73 (about one frame uncertainty); it already coincides with acquisition before the wipe rather than after a large lift or transport. The rest of the paper remains supported intentionally, so do not invent a separate airborne pickup. Preserve both labels and the mission."
+      ],
+      "gripper_interpretation": "Closure pauses near 0.89868 at 68-69, then finishes at 0.97357/0.97797/0.98238 on 71/72/73. TCP stays close to the counter. The final fold acquisition is visible, not inferred solely from closure.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            15,
+            31,
+            46,
+            61,
+            77,
+            92,
+            107,
+            123,
+            138,
+            153,
+            169,
+            184,
+            200,
+            215,
+            230,
+            246,
+            261,
+            276,
+            292,
+            307,
+            322,
+            338,
+            353
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/85826/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/85826/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/85826/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/85826/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10393/85826/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Clean the table",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "grasp the paper towel on the countertop",
+          "start_frame": 0,
+          "end_frame": 73
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "wipe the countertop with the paper towel",
+          "start_frame": 74,
+          "end_frame": 353
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "grasp the paper towel",
+          "start_frame": 0,
+          "end_frame": 73,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "wipe the countertop",
+          "start_frame": 74,
+          "end_frame": 353,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "fa5816bab2aad3fde273aa562bc48e0e3629b3803259d24e9d9b7e45c5f32049",
+    "source_reviewed": true,
+    "sample_draw_index": 88
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 1069,
+    "episode_id": 2230,
+    "parent_episode_key": "droid_tool_use_batch_1/1069/2230",
+    "split": "train",
+    "full_episode_instruction": "Use the towel to wipe the table.",
+    "fps": 15.0,
+    "total_frames": 347,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_1069/episode_2230.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "grasp the red-striped towel on the table",
+        "start_frame": 0,
+        "end_frame": 88
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the round table with the towel",
+        "start_frame": 89,
+        "end_frame": 346
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "grasp the red-striped towel on the table",
+        "start_frame": 0,
+        "end_frame": 88,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the round table with the towel",
+        "start_frame": 89,
+        "end_frame": 346,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "grasp the red-striped towel on the table",
+        "start_frame": 0,
+        "end_frame": 88,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the round table with the towel",
+        "start_frame": 89,
+        "end_frame": 346,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse review and consecutive frames 78-101 show the red-striped towel being gathered and pinched, followed directly by surface wiping. Closure is still progressing through 86-87; at 88 the retained fold is securely captured. Retain the original grasp endpoint 88, with about one-frame visual uncertainty. This is a grasp-then-wipe action, so no artificial airborne pickup event is required. Later surface motion is wiping rather than a delayed grasp completion."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [],
+      "reasoning": [
+        "Whole-episode coarse review and consecutive frames 78-101 show the red-striped towel being gathered and pinched, followed directly by surface wiping. Closure is still progressing through 86-87; at 88 the retained fold is securely captured. Retain the original grasp endpoint 88, with about one-frame visual uncertainty. This is a grasp-then-wipe action, so no artificial airborne pickup event is required. Later surface motion is wiping rather than a delayed grasp completion."
+      ],
+      "gripper_interpretation": "State gripper closes from 0.63436 at 82 to 0.98238 at 87 and 1.0 at 88, then remains closed. TCP z is decreasing during seating (0.076623 at 82, 0.068854 at 88); closure alone would not prove a lifted towel. The retained fold and subsequent wiping support keeping 88.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105,
+            120,
+            135,
+            150,
+            165,
+            181,
+            196,
+            211,
+            226,
+            241,
+            256,
+            271,
+            286,
+            301,
+            316,
+            331,
+            346
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1069/2230/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1069/2230/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1069/2230/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1069/2230/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/1069/2230/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Use the towel to wipe the table.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "grasp the red-striped towel on the table",
+          "start_frame": 0,
+          "end_frame": 88
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "wipe the round table with the towel",
+          "start_frame": 89,
+          "end_frame": 346
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "grasp the towel",
+          "start_frame": 0,
+          "end_frame": 88,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "wipe the round table",
+          "start_frame": 89,
+          "end_frame": 346,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "322e5bca1e22bb3fe45aead3aabe7b7ded695bff98090cb741a41e8af67a917d",
+    "source_reviewed": true,
+    "sample_draw_index": 92
+  },
+  {
+    "dataset": "droid_tool_use_batch_1",
+    "dataset_label": "DROID Tool-use Batch 1",
+    "task_id": 10559,
+    "episode_id": 26417,
+    "parent_episode_key": "droid_tool_use_batch_1/10559/26417",
+    "split": "train",
+    "full_episode_instruction": "Wipe the pan with the white and blue towel",
+    "fps": 15.0,
+    "total_frames": 330,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/droid_tool_use_batch_1/task_10559/episode_26417.mp4",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.exterior_image_1_left",
+        "camera_key": "observation.images.exterior_image_1_left",
+        "view_type": "front",
+        "is_primary": true
+      },
+      {
+        "view_id": "observation.images.exterior_image_2_left",
+        "camera_key": "observation.images.exterior_image_2_left",
+        "view_type": "external",
+        "is_primary": false
+      },
+      {
+        "view_id": "observation.images.wrist_image_left",
+        "camera_key": "observation.images.wrist_image_left",
+        "view_type": "wrist",
+        "is_primary": false
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "pick up the white and blue towel beside the frying pan",
+        "start_frame": 0,
+        "end_frame": 105
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "wipe the inside of the frying pan with the towel",
+        "start_frame": 106,
+        "end_frame": 218
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "put the towel back on the counter beside the frying pan",
+        "start_frame": 219,
+        "end_frame": 329
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white and blue towel beside the frying pan",
+        "start_frame": 0,
+        "end_frame": 105,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the inside of the frying pan with the towel",
+        "start_frame": 106,
+        "end_frame": 218,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the towel back on the counter beside the frying pan",
+        "start_frame": 219,
+        "end_frame": 329,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "pick up the white and blue towel beside the frying pan",
+        "start_frame": 0,
+        "end_frame": 105,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "wipe the inside of the frying pan with the towel",
+        "start_frame": 106,
+        "end_frame": 218,
+        "atomic_task_ids": [
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "put the towel back on the counter beside the frying pan",
+        "start_frame": 219,
+        "end_frame": 329,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode coarse review shows acquisition of the white/blue towel, wiping the pan, and return to the counter. Consecutive frames 98-121 and enlarged exterior-2 frames 102-109 distinguish the initial lift from the later carry. The pinched fold starts rising at 104-105; choose 105 as the first visually supported controlled lift, with approximately one-frame uncertainty because the contact is partly hidden. Frames 106-113 progressively peel more cloth from the counter; the original 118 includes appreciable elevation. Do not wait for the entire flexible towel to clear the counter. Preserve all action labels and mission membership."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_1",
+          "old_end": 118,
+          "new_end": 105,
+          "following_atomic_task_id": "atomic_2",
+          "old_following_start": 119,
+          "new_following_start": 106
+        }
+      ],
+      "reasoning": [
+        "Whole-episode coarse review shows acquisition of the white/blue towel, wiping the pan, and return to the counter. Consecutive frames 98-121 and enlarged exterior-2 frames 102-109 distinguish the initial lift from the later carry. The pinched fold starts rising at 104-105; choose 105 as the first visually supported controlled lift, with approximately one-frame uncertainty because the contact is partly hidden. Frames 106-113 progressively peel more cloth from the counter; the original 118 includes appreciable elevation. Do not wait for the entire flexible towel to clear the counter. Preserve all action labels and mission membership."
+      ],
+      "gripper_interpretation": "Gripper state is stable at 0.86784 through 99-112. TCP z rises from 0.120598 at 101 through 0.126288 at 104 and 0.131390 at 105 to 0.139367 at 106. This corroborates the visible retained-fold lift; it is not the sole boundary criterion.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            14,
+            29,
+            43,
+            57,
+            72,
+            86,
+            100,
+            114,
+            129,
+            143,
+            157,
+            172,
+            186,
+            200,
+            215,
+            229,
+            243,
+            257,
+            272,
+            286,
+            300,
+            315,
+            329
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/pickup_onset_v2_002.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/pickup_onset_v2_003.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_1_left",
+            "observation.images.exterior_image_2_left",
+            "observation.images.wrist_image_left"
+          ]
+        },
+        {
+          "tag": "pickup_onset_detail",
+          "frames": [
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/pickup_onset_detail_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/droid_tool_use_batch_1/10559/26417/pickup_onset_detail_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.exterior_image_2_left"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Wipe the pan with the white and blue towel",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "pick up the white and blue towel beside the frying pan",
+          "start_frame": 0,
+          "end_frame": 118
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "wipe the inside of the frying pan with the towel",
+          "start_frame": 119,
+          "end_frame": 218
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "put the towel back on the counter beside the frying pan",
+          "start_frame": 219,
+          "end_frame": 329
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "pick up the white and blue towel",
+          "start_frame": 0,
+          "end_frame": 118,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "wipe the frying pan",
+          "start_frame": 119,
+          "end_frame": 218,
+          "atomic_task_ids": [
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "put the towel beside the frying pan",
+          "start_frame": 219,
+          "end_frame": 329,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "20895754385e7c92c97c263e87b9611f5b1f19f6a1cf802b8395b52847b7d60f",
+    "source_reviewed": true,
+    "sample_draw_index": 96
+  }
+]

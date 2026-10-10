@@ -1,0 +1,632 @@
+[
+  {
+    "dataset": "fastumi_100k",
+    "dataset_label": "FastUMI 100K",
+    "task_id": "dual_arm/Put_Food_into_Microwave/task_0",
+    "episode_id": 514,
+    "parent_episode_key": "fastumi_100k/dual_arm/Put_Food_into_Microwave/task_0/514",
+    "split": "train",
+    "full_episode_instruction": "Open the microwave oven with the left hand, put the food in, and close the microwave oven.",
+    "fps": 20.0,
+    "total_frames": 286,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/fastumi_100k/task_dual_arm_Put_Food_into_Microwave_task_0/episode_514.mp4?codec=h264-20260902",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.left_camera_rgb_image",
+        "camera_key": "observation.images.left_camera_rgb_image",
+        "view_type": "front",
+        "is_primary": true
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "open the microwave door with the left gripper",
+        "start_frame": 0,
+        "end_frame": 111
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "pick up the food with the right gripper",
+        "start_frame": 112,
+        "end_frame": 139
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "place the food inside the microwave",
+        "start_frame": 140,
+        "end_frame": 201
+      },
+      {
+        "atomic_task_id": "atomic_4",
+        "atomic_task": "close the microwave door with the left gripper",
+        "start_frame": 202,
+        "end_frame": 285
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "open the microwave door with the left gripper",
+        "start_frame": 0,
+        "end_frame": 111,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "transfer the food into the microwave",
+        "start_frame": 112,
+        "end_frame": 201,
+        "atomic_task_ids": [
+          "atomic_2",
+          "atomic_3"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "close the microwave door with the left gripper",
+        "start_frame": 202,
+        "end_frame": 285,
+        "atomic_task_ids": [
+          "atomic_4"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "open the microwave door with the left gripper",
+        "start_frame": 0,
+        "end_frame": 111,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "transfer the food into the microwave",
+        "start_frame": 112,
+        "end_frame": 201,
+        "atomic_task_ids": [
+          "atomic_2",
+          "atomic_3"
+        ]
+      },
+      {
+        "mission_id": "mission_3",
+        "mission": "close the microwave door with the left gripper",
+        "start_frame": 202,
+        "end_frame": 285,
+        "atomic_task_ids": [
+          "atomic_4"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Whole-episode views show opening the microwave, taking food from the white tray, inserting it, and closing the door. Consecutive 132–147 views show food secured low over the tray, with initial separation by 139 and increasing clearance through 140–147. End pickup at 139 instead of 153, and start microwave transport/insertion at 140.",
+      "The door operations and existing mission memberships remain unchanged; the acquisition/placement boundary is internal to the food-transfer mission."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [
+        {
+          "atomic_task_id": "atomic_2",
+          "old_end": 153,
+          "new_end": 139,
+          "following_atomic_task_id": "atomic_3",
+          "old_following_start": 154,
+          "new_following_start": 140
+        }
+      ],
+      "reasoning": [
+        "Whole-episode views show opening the microwave, taking food from the white tray, inserting it, and closing the door. Consecutive 132–147 views show food secured low over the tray, with initial separation by 139 and increasing clearance through 140–147. End pickup at 139 instead of 153, and start microwave transport/insertion at 140.",
+        "The door operations and existing mission memberships remain unchanged; the acquisition/placement boundary is internal to the food-transfer mission."
+      ],
+      "gripper_interpretation": "The right gripper closes to approximately 0.11 by 140 and holds the food; right z rises out of its low pose near 134. Images determine initial separation at 139, rather than waiting for the high pose near 153.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            12,
+            25,
+            37,
+            50,
+            62,
+            74,
+            87,
+            99,
+            112,
+            124,
+            136,
+            149,
+            161,
+            173,
+            186,
+            198,
+            211,
+            223,
+            235,
+            248,
+            260,
+            273,
+            285
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/dual_arm_Put_Food_into_Microwave_task_0/514/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/dual_arm_Put_Food_into_Microwave_task_0/514/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.left_camera_rgb_image",
+            "observation.images.right_camera_rgb_image"
+          ]
+        },
+        {
+          "tag": "pickup_onset_v2",
+          "frames": [
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/dual_arm_Put_Food_into_Microwave_task_0/514/pickup_onset_v2_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/dual_arm_Put_Food_into_Microwave_task_0/514/pickup_onset_v2_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.left_camera_rgb_image",
+            "observation.images.right_camera_rgb_image"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Open the microwave oven with the left hand, put the food in, and close the microwave oven.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "open the microwave door with the left gripper",
+          "start_frame": 0,
+          "end_frame": 111
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "pick up the food with the right gripper",
+          "start_frame": 112,
+          "end_frame": 153
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "place the food inside the microwave",
+          "start_frame": 154,
+          "end_frame": 201
+        },
+        {
+          "atomic_task_id": "atomic_4",
+          "atomic_task": "close the microwave door with the left gripper",
+          "start_frame": 202,
+          "end_frame": 285
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "open the microwave",
+          "start_frame": 0,
+          "end_frame": 111,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "transfer the food into the microwave",
+          "start_frame": 112,
+          "end_frame": 201,
+          "atomic_task_ids": [
+            "atomic_2",
+            "atomic_3"
+          ]
+        },
+        {
+          "mission_id": "mission_3",
+          "mission": "close the microwave",
+          "start_frame": 202,
+          "end_frame": 285,
+          "atomic_task_ids": [
+            "atomic_4"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "fd45e672203891c2df6b9d06e108efb9658e659e03194be30020bdaf7e3ff68a",
+    "source_reviewed": true,
+    "sample_draw_index": 5
+  },
+  {
+    "dataset": "fastumi_100k",
+    "dataset_label": "FastUMI 100K",
+    "task_id": "dual_arm/Fold_the_T-shirt/task_0",
+    "episode_id": 2351,
+    "parent_episode_key": "fastumi_100k/dual_arm/Fold_the_T-shirt/task_0/2351",
+    "split": "train",
+    "full_episode_instruction": "First align and fold the two sleeves of the T-shirt over the body, then fold the T-shirt vertically in half from top to bottom.",
+    "fps": 20.0,
+    "total_frames": 432,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/fastumi_100k/task_dual_arm_Fold_the_T-shirt_task_0/episode_2351.mp4?codec=h264-20260902",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.left_camera_rgb_image",
+        "camera_key": "observation.images.left_camera_rgb_image",
+        "view_type": "front",
+        "is_primary": true
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "fold the sleeve on the operator right over the shirt body",
+        "start_frame": 0,
+        "end_frame": 144
+      },
+      {
+        "atomic_task_id": "atomic_2",
+        "atomic_task": "fold the sleeve on the operator left over the shirt body",
+        "start_frame": 145,
+        "end_frame": 262
+      },
+      {
+        "atomic_task_id": "atomic_3",
+        "atomic_task": "fold the lower half of the shirt over its upper half",
+        "start_frame": 263,
+        "end_frame": 431
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "fold both shirt sleeves inward",
+        "start_frame": 0,
+        "end_frame": 262,
+        "atomic_task_ids": [
+          "atomic_1",
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "fold the lower half of the shirt over its upper half",
+        "start_frame": 263,
+        "end_frame": 431,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "fold both shirt sleeves inward",
+        "start_frame": 0,
+        "end_frame": 262,
+        "atomic_task_ids": [
+          "atomic_1",
+          "atomic_2"
+        ]
+      },
+      {
+        "mission_id": "mission_2",
+        "mission": "fold the lower half of the shirt over its upper half",
+        "start_frame": 263,
+        "end_frame": 431,
+        "atomic_task_ids": [
+          "atomic_3"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Full coarse dual-view review shows successive right-sleeve, left-sleeve, and lower-half folds of the shirt on the same table. Grasping and raising an edge directly creates the fold; there is no separate pickup for transport to another target. Retain all three folding actions and their missions. No new fine pickup boundary is claimed."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [],
+      "reasoning": [
+        "Full coarse dual-view review shows successive right-sleeve, left-sleeve, and lower-half folds of the shirt on the same table. Grasping and raising an edge directly creates the fold; there is no separate pickup for transport to another target. Retain all three folding actions and their missions. No new fine pickup boundary is claimed."
+      ],
+      "gripper_interpretation": "Right closes about 83-98 and opens 135-143 during the first sleeve fold; left closes around 210-220 and opens 254-259 during the second. Both close around 330-340 for the final fold and open around 400-404. Gripper cycles corroborate folding phases.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            19,
+            37,
+            56,
+            75,
+            94,
+            112,
+            131,
+            150,
+            169,
+            187,
+            206,
+            225,
+            244,
+            262,
+            281,
+            300,
+            319,
+            337,
+            356,
+            375,
+            394,
+            412,
+            431
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/dual_arm_Fold_the_T-shirt_task_0/2351/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/dual_arm_Fold_the_T-shirt_task_0/2351/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.left_camera_rgb_image",
+            "observation.images.right_camera_rgb_image"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "First align and fold the two sleeves of the T-shirt over the body, then fold the T-shirt vertically in half from top to bottom.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "fold the sleeve on the operator right over the shirt body",
+          "start_frame": 0,
+          "end_frame": 144
+        },
+        {
+          "atomic_task_id": "atomic_2",
+          "atomic_task": "fold the sleeve on the operator left over the shirt body",
+          "start_frame": 145,
+          "end_frame": 262
+        },
+        {
+          "atomic_task_id": "atomic_3",
+          "atomic_task": "fold the lower half of the shirt over its upper half",
+          "start_frame": 263,
+          "end_frame": 431
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "fold both shirt sleeves inward",
+          "start_frame": 0,
+          "end_frame": 262,
+          "atomic_task_ids": [
+            "atomic_1",
+            "atomic_2"
+          ]
+        },
+        {
+          "mission_id": "mission_2",
+          "mission": "fold the shirt body in half",
+          "start_frame": 263,
+          "end_frame": 431,
+          "atomic_task_ids": [
+            "atomic_3"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "71add1917564c73fb99680776fc3148f3e6b9dbb4c088c870c3257a0856cd0bc",
+    "source_reviewed": true,
+    "sample_draw_index": 76
+  },
+  {
+    "dataset": "fastumi_100k",
+    "dataset_label": "FastUMI 100K",
+    "task_id": "single_arm/open_toilet_lid/task_0",
+    "episode_id": 285,
+    "parent_episode_key": "fastumi_100k/single_arm/open_toilet_lid/task_0/285",
+    "split": "train",
+    "full_episode_instruction": "Open the toilet lid.",
+    "fps": 20.0,
+    "total_frames": 277,
+    "video_url": "https://s3-hot.liuzisen.com/videos/intention6600/videos/fastumi_100k/task_single_arm_open_toilet_lid_task_0/episode_285.mp4?codec=h264-20260902",
+    "video_scope": "episode-local primary view",
+    "training_views": [
+      {
+        "view_id": "observation.images.camera_rgb_image",
+        "camera_key": "observation.images.camera_rgb_image",
+        "view_type": "front",
+        "is_primary": true
+      }
+    ],
+    "atomic_tasks": [
+      {
+        "atomic_task_id": "atomic_1",
+        "atomic_task": "open the toilet lid",
+        "start_frame": 0,
+        "end_frame": 276
+      }
+    ],
+    "short_term_missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "open the toilet lid",
+        "start_frame": 0,
+        "end_frame": 276,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      }
+    ],
+    "missions": [
+      {
+        "mission_id": "mission_1",
+        "mission": "open the toilet lid",
+        "start_frame": 0,
+        "end_frame": 276,
+        "atomic_task_ids": [
+          "atomic_1"
+        ]
+      }
+    ],
+    "long_horizon": false,
+    "long_term_missions": [],
+    "reviewed": false,
+    "review_status": "fine_review_complete",
+    "text_label_revision": "concise_action_mission_labels_v1",
+    "hierarchy_provenance": "current_chat_latest_rule_visual_review",
+    "temporal_schema": "serial_inclusive_intervals_v1",
+    "review_reasoning": [
+      "Full-episode coarse review shows approach, grasp of the lid/handle, rotation about the toilet hinge, release and retreat. The lid is never acquired as a free object. The one atomic opening action and its mission remain valid; there is no pickup-to-transfer boundary to move under this rule. No new fine boundary is claimed."
+    ],
+    "coverage": "Full-episode coarse visual review; changed pickup boundaries additionally reviewed in consecutive fine windows. Not every episode frame was displayed.",
+    "boundary_confidence": null,
+    "validation_notes": [],
+    "latest_rule_review": {
+      "status": "complete",
+      "rule_version": "pickup_onset_v2_and_scene_unique_missions",
+      "successful_grasp_retry_rule": "final_successful_grasp_v1",
+      "batch": "original470"
+    },
+    "pickup_onset_review": {
+      "status": "complete",
+      "reviewer": "current_chat_assistant",
+      "external_model_calls": false,
+      "rule_version": "pickup_onset_v2",
+      "changes": [],
+      "reasoning": [
+        "Full-episode coarse review shows approach, grasp of the lid/handle, rotation about the toilet hinge, release and retreat. The lid is never acquired as a free object. The one atomic opening action and its mission remain valid; there is no pickup-to-transfer boundary to move under this rule. No new fine boundary is claimed."
+      ],
+      "gripper_interpretation": "Gripper closes around 79-92, remains closed while the lid rotates, and releases around 225-238. This corroborates hinged opening, not an independent pickup event.",
+      "visual_evidence": [
+        {
+          "tag": "coarse",
+          "frames": [
+            0,
+            12,
+            24,
+            36,
+            48,
+            60,
+            72,
+            84,
+            96,
+            108,
+            120,
+            132,
+            144,
+            156,
+            168,
+            180,
+            192,
+            204,
+            216,
+            228,
+            240,
+            252,
+            264,
+            276
+          ],
+          "pages": [
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/single_arm_open_toilet_lid_task_0/285/coarse_001.jpg",
+            "/cluster/project/rsl/jiaxia/tmp/visual_reaudit_20261008/fastumi_100k/single_arm_open_toilet_lid_task_0/285/coarse_002.jpg"
+          ],
+          "view_ids": [
+            "observation.images.camera_rgb_image"
+          ]
+        }
+      ],
+      "supersedes": "Earlier lift-crest or later-transport pickup boundary reasoning where changed."
+    },
+    "previous_base_annotation": {
+      "full_episode_instruction": "Open the toilet lid.",
+      "atomic_tasks": [
+        {
+          "atomic_task_id": "atomic_1",
+          "atomic_task": "open the toilet lid",
+          "start_frame": 0,
+          "end_frame": 276
+        }
+      ],
+      "missions": [
+        {
+          "mission_id": "mission_1",
+          "mission": "open the toilet lid",
+          "start_frame": 0,
+          "end_frame": 276,
+          "atomic_task_ids": [
+            "atomic_1"
+          ]
+        }
+      ],
+      "long_horizon": false,
+      "long_term_missions": []
+    },
+    "annotation_revision": "9267ff397c20b963e3ab2cd14499bf45fbe9c0fcff068450d18ef96a2617fc47",
+    "source_reviewed": true,
+    "sample_draw_index": 82
+  }
+]
