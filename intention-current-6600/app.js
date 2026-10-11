@@ -613,6 +613,10 @@
     $("mark-reviewed").classList.toggle("reviewed", currentRecord.reviewed);
     $('source-note').textContent = ep.temporal_schema === 'overlapping_atomic_intervals_v1' ? ' Concurrent actions appear on separate rows. Edit their individual start/end frames below.' : '';
     $('pickup-status').textContent = ep.latest_rule_review?.status === 'complete' ? ' Pickup boundaries follow the latest reviewed rule.' : ' Existing action boundaries retained.';
+    if (ep.boundary_review) {
+      const boundary = ep.boundary_review.changed_boundary;
+      $('pickup-status').textContent = ` 本条动作交界已逐帧复核：第 ${boundary.new_left_end}／${boundary.new_right_start} 帧。`;
+    }
     const issue = ep.scene_rule_revision;
     if (issue?.uncertainty || issue?.requires_source_verification || issue?.instruction_note) {
       $('pickup-status').textContent += ' Needs manual check: ' + (issue.requires_source_verification ? 'possible video/annotation mismatch' : (issue.instruction_note ? 'instruction/action mismatch' : 'unresolved item in coarse review'));
@@ -857,6 +861,7 @@
       source_latest_rule_review: ep.latest_rule_review,
       text_label_revision: ep.text_label_revision,
       source_scene_rule_revision: ep.scene_rule_revision,
+      source_boundary_review: ep.boundary_review,
       hierarchy_provenance: snapshot.updated_at ? 'browser_manual_review' : ep.hierarchy_provenance,
       source_hierarchy_provenance: ep.hierarchy_provenance,
       source_reviewed: ep.source_reviewed ?? ep.reviewed,
@@ -929,7 +934,7 @@
     reader.onload = async () => {
       try {
         const payload = JSON.parse(reader.result), indexed = new Map(data.episodes.map(ep => [episodeKey(ep), ep]));
-        if (payload.annotation_version && ![annotationVersion, 'intention6600-mission-merge-correction-v3-20261011-subset6600', 'intention6600-mission-merge-correction-v3-20261011-subset714', 'intention6600-mission-merge-correction-v3-20261011-subset100', 'intention6600-further-mission-merges-v4-20261011-subset6600', 'intention6600-further-mission-merges-v4-20261011-subset714', 'intention6600-further-mission-merges-v4-20261011-subset100', 'intention6600-removal-merge-audit-v5-20261011-subset6600', 'intention6600-removal-merge-audit-v5-20261011-subset714', 'intention6600-removal-merge-audit-v5-20261011-subset100', 'intention6600-all-scenes-missions-v2-20261011-subset6600', 'intention6600-all-scenes-missions-v2-20261011-subset714', 'intention6600-all-scenes-missions-v2-20261011-subset100', 'intention6600-scene-unique-missions-v1-20261011-subset6600', 'intention6600-scene-unique-missions-v1-20261011-subset714', 'reviewed714-concise-labels-v1', 'random100-reviewed714-concise-v1-20261010', 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
+        if (payload.annotation_version && ![annotationVersion, 'intention6600-unique-target-merges-v6-20261011-subset6600', 'intention6600-unique-target-merges-v6-20261011-subset714', 'intention6600-unique-target-merges-v6-20261011-subset100', 'intention6600-mission-merge-correction-v3-20261011-subset6600', 'intention6600-mission-merge-correction-v3-20261011-subset714', 'intention6600-mission-merge-correction-v3-20261011-subset100', 'intention6600-further-mission-merges-v4-20261011-subset6600', 'intention6600-further-mission-merges-v4-20261011-subset714', 'intention6600-further-mission-merges-v4-20261011-subset100', 'intention6600-removal-merge-audit-v5-20261011-subset6600', 'intention6600-removal-merge-audit-v5-20261011-subset714', 'intention6600-removal-merge-audit-v5-20261011-subset100', 'intention6600-all-scenes-missions-v2-20261011-subset6600', 'intention6600-all-scenes-missions-v2-20261011-subset714', 'intention6600-all-scenes-missions-v2-20261011-subset100', 'intention6600-scene-unique-missions-v1-20261011-subset6600', 'intention6600-scene-unique-missions-v1-20261011-subset714', 'reviewed714-concise-labels-v1', 'random100-reviewed714-concise-v1-20261010', 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
         const items = payload.episodes || (payload.parent_episode_key ? [payload] : null);
         if (!Array.isArray(items)) throw new Error('Expected an episodes array or one episode annotation.');
         await saveQueue;
