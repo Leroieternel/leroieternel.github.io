@@ -930,7 +930,7 @@
     reader.onload = async () => {
       try {
         const payload = JSON.parse(reader.result), indexed = new Map(data.episodes.map(ep => [episodeKey(ep), ep]));
-        if (payload.annotation_version && ![annotationVersion, 'intention6600-all-scenes-missions-v2-20261011-subset6600', 'intention6600-all-scenes-missions-v2-20261011-subset714', 'intention6600-all-scenes-missions-v2-20261011-subset100', 'intention6600-scene-unique-missions-v1-20261011-subset6600', 'intention6600-scene-unique-missions-v1-20261011-subset714', 'reviewed714-concise-labels-v1', 'random100-reviewed714-concise-v1-20261010', 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
+        if (payload.annotation_version && ![annotationVersion, 'intention6600-mission-merge-correction-v3-20261011-subset6600', 'intention6600-mission-merge-correction-v3-20261011-subset714', 'intention6600-mission-merge-correction-v3-20261011-subset100', 'intention6600-all-scenes-missions-v2-20261011-subset6600', 'intention6600-all-scenes-missions-v2-20261011-subset714', 'intention6600-all-scenes-missions-v2-20261011-subset100', 'intention6600-scene-unique-missions-v1-20261011-subset6600', 'intention6600-scene-unique-missions-v1-20261011-subset714', 'reviewed714-concise-labels-v1', 'random100-reviewed714-concise-v1-20261010', 'reviewed714-pickup-onset-v2-final-successful-grasp-v1', 'reviewed470-pickup-onset-v2', 'visual-reaudit-470-20261008'].includes(payload.annotation_version)) throw new Error('This file is not a compatible reviewed annotation export.');
         const items = payload.episodes || (payload.parent_episode_key ? [payload] : null);
         if (!Array.isArray(items)) throw new Error('Expected an episodes array or one episode annotation.');
         await saveQueue;
@@ -969,7 +969,7 @@
     const reviewedCount = data.episodes.filter(ep => reviewed.has(ep.parent_episode_key)).length;
     $("dataset-summary").textContent = `${data.summary.dataset_count} datasets · ${data.summary.episode_count.toLocaleString()} episodes · ${reviewedCount.toLocaleString()} reviewed`;
     const progress = catalog.pickup_onset_progress;
-    $('pickup-progress').textContent = `${catalog.summary.atomic_actions.toLocaleString()} actions · ${catalog.summary.short_term_missions.toLocaleString()} missions · Scene rule v3`;
+    $('pickup-progress').textContent = `${catalog.summary.atomic_actions.toLocaleString()} actions · ${catalog.summary.short_term_missions.toLocaleString()} missions · Scene rule v4`;
   }
 
   function timelineClick(event, lane) {
