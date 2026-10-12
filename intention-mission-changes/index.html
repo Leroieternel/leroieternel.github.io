@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0c1118">
+  <title>Mission changes · Intention 6600</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <aside>
+    <div class="sidebar-head">
+      <span class="eyebrow">INTENTION 6600 · COMPARISON</span>
+      <h1>Where missions changed</h1>
+      <p id="population">Loading all 6,600 episodes…</p>
+      <input id="search" type="search" placeholder="Search episode, task, instruction…" aria-label="Search episodes">
+      <label class="select-label" for="scope">Show episodes</label>
+      <select id="scope">
+        <option value="increased">Mission count increased</option>
+        <option value="exact">Original mission split · same actions</option>
+        <option value="changed-actions">Increased · actions or boundaries changed</option>
+        <option value="still-increased">Still above original count</option>
+        <option value="remerged">Increased then reduced</option>
+        <option value="decreased">Mission count decreased</option>
+        <option value="structural">All grouping / boundary changes</option>
+        <option value="all">All 6,600 episodes</option>
+      </select>
+      <select id="sort" aria-label="Sort episodes">
+        <option value="increase">Largest increase first</option>
+        <option value="episode">Episode number</option>
+      </select>
+      <p id="filtered-count" class="muted"></p>
+    </div>
+    <nav id="episodes" aria-label="Datasets and episodes"></nav>
+    <div class="sidebar-footer"><a href="increased_episodes.csv" download>Increased episodes CSV</a><a href="mission_correspondence.csv" download>Mission comparison CSV</a><a href="episodes.csv" download>All 6,600 counts CSV</a></div>
+  </aside>
+  <main>
+    <header>
+      <div><span class="eyebrow">MISSION COUNT AUDIT</span><h2>8,897 → 10,612 <span class="muted">→ 10,373</span></h2></div>
+      <button id="export-notes">Export my review</button>
+    </header>
+    <div id="global-stats" class="stats"></div>
+    <p class="explanation">Compare the original labels, the 10,612-mission snapshot, and the latest labels. Amber marks the regrouped missions. A temporal match shows overlapping intervals; it does not establish that an action was unchanged.</p>
+    <details class="dataset-summary"><summary>Counts by dataset</summary><div id="dataset-table" class="table-scroll"></div></details>
+    <p id="error" role="alert" hidden></p>
+    <section id="detail" hidden>
+      <div class="episode-heading">
+        <div><span id="episode-meta" class="eyebrow"></span><h2 id="instruction"></h2><p id="episode-counts"></p></div>
+        <div class="nav-buttons"><button id="prev">Prev</button><button id="next">Next</button><a id="current-editor" target="_blank" rel="noopener">Open editable labels ↗</a></div>
+      </div>
+      <p id="data-warning" class="warning" hidden></p>
+      <video id="video" controls playsinline preload="metadata"></video>
+      <div class="video-controls"><button id="back-frame">−1 frame</button><span id="frame-label">Frame 0</span><button id="next-frame">+1 frame</button><label>Go to frame <input id="frame-input" type="number" min="0" value="0"></label><button id="seek-frame">Go</button><span id="video-status" class="muted"></span></div>
+      <div id="timeline" class="timeline-panel"></div>
+      <div class="section-heading"><h3>Mission correspondence</h3><span id="mapping-note" class="muted"></span></div>
+      <div id="correspondence"></div>
+      <div class="section-heading"><h3>Complete annotations</h3><span class="muted">Click a mission or action to seek the video.</span></div>
+      <div id="annotations" class="comparison"></div>
+      <details id="reason-panel"><summary>Recorded grouping rationale</summary><div id="reasons"></div></details>
+    </section>
+    <p id="empty" hidden>No episodes match these filters.</p>
+  </main>
+</body>
+</html>
