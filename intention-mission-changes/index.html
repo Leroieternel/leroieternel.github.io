@@ -5,23 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0c1118">
   <title>Mission changes · Intention 6600</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=f51f08e52c12">
+  <script src="app.js?v=3d86c756cdf6" defer></script>
 </head>
 <body>
   <aside>
     <div class="sidebar-head">
       <span class="eyebrow">INTENTION 6600 · COMPARISON</span>
-      <h1>Where missions changed</h1>
+      <h1>Remaining mission splits</h1>
       <p id="population">Loading all 6,600 episodes…</p>
       <input id="search" type="search" placeholder="Search episode, task, instruction…" aria-label="Search episodes">
       <label class="select-label" for="scope">Show episodes</label>
       <select id="scope">
-        <option value="increased">Mission count increased</option>
-        <option value="exact">Original mission split · same actions</option>
+        <option value="increased">Currently above original count</option>
+        <option value="exact">Still split · same actions</option>
         <option value="changed-actions">Increased · actions or boundaries changed</option>
-        <option value="still-increased">Still above original count</option>
-        <option value="remerged">Increased then reduced</option>
+        <option value="remaining-splits">All remaining split correspondences</option>
+        <option value="more-actions">Increased · additional atomic actions</option>
+        <option value="remerged">Already back to original count or lower</option>
         <option value="decreased">Mission count decreased</option>
         <option value="structural">All grouping / boundary changes</option>
         <option value="all">All 6,600 episodes</option>
@@ -37,11 +38,12 @@
   </aside>
   <main>
     <header>
-      <div><span class="eyebrow">MISSION COUNT AUDIT</span><h2>8,897 → 10,612 <span class="muted" id="latest-total">→ 9,931</span></h2></div>
+      <div><span class="eyebrow">MISSION COUNT AUDIT</span><h2>8,897 <span class="muted" id="latest-total">→ 9,931</span></h2></div>
       <button id="export-notes">Export my review</button>
     </header>
     <div id="global-stats" class="stats"></div>
-    <p class="explanation">Compare the original labels, the 10,612-mission snapshot, and the latest labels. Amber marks the regrouped missions. A temporal match shows overlapping intervals; it does not establish that an action was unchanged.</p>
+    <p class="explanation">Compare the original 8,897 missions directly with the current labels. The default list contains episodes whose mission count is still higher. Exact splits preserve atomic actions and boundaries; temporal matches cover changed segmentation. These are differences to inspect, not automatic merge recommendations.</p>
+    <label class="history-toggle"><input id="show-history" type="checkbox"> Show the earlier 10,612-mission snapshot</label>
     <details class="dataset-summary"><summary>Counts by dataset</summary><div id="dataset-table" class="table-scroll"></div></details>
     <p id="error" role="alert" hidden></p>
     <section id="detail" hidden>
@@ -49,6 +51,7 @@
         <div><span id="episode-meta" class="eyebrow"></span><h2 id="instruction"></h2><p id="episode-counts"></p></div>
         <div class="nav-buttons"><button id="prev">Prev</button><button id="next">Next</button><a id="current-editor" target="_blank" rel="noopener">Open editable labels ↗</a></div>
       </div>
+      <p id="current-status" class="muted"></p>
       <p id="data-warning" class="warning" hidden></p>
       <video id="video" controls playsinline preload="metadata"></video>
       <div class="video-controls"><button id="back-frame">−1 frame</button><span id="frame-label">Frame 0</span><button id="next-frame">+1 frame</button><label>Go to frame <input id="frame-input" type="number" min="0" value="0"></label><button id="seek-frame">Go</button><span id="video-status" class="muted"></span></div>
