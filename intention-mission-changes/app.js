@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString("en-US");
 const esc = text => String(text ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-const names = {original:"Original · 8,897", historical:"Regrouped · 10,612", latest:"Latest · 10,373"};
+const names = {original:"Original · 8,897", historical:"Regrouped · 10,612", latest:"Latest"};
 const store = "intention-mission-change-review-20261012";
 let catalog, filtered = [], current = null, selection = 0, pendingFrame = 0;
 const cache = new Map();
@@ -141,6 +141,8 @@ function saveReview(target) {
 }
 function renderOverview() {
   const s=catalog.summary;
+  names.latest=`Latest · ${fmt(s.totals.latest.missions)}`;
+  $("latest-total").textContent=`→ ${fmt(s.totals.latest.missions)}`;
   $("population").textContent=`16 datasets · 6,600 episodes · 3 snapshots`;
   $("global-stats").innerHTML=[
     [s.increased_episodes,"Episodes with more missions",`+${fmt(s.gross_increase)} missions before offsets`],
@@ -175,7 +177,7 @@ $("video").addEventListener("timeupdate",updateFrame);
 $("video").addEventListener("seeked",updateFrame);
 $("video").addEventListener("error",()=>{$("video-status").textContent="Video could not load. The annotation comparison remains available.";});
 $("export-notes").onclick=()=>{
-  const payload={comparison:"8897-to-10612-with-latest-10373",exported_at:new Date().toISOString(),reviews:Object.values(notes)};
+  const payload={comparison:`8897-to-10612-with-latest-${catalog.summary.totals.latest.missions}`,exported_at:new Date().toISOString(),reviews:Object.values(notes)};
   const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));
   const link=document.createElement("a");link.href=url;link.download="mission-review.json";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
