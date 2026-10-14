@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Plan cleaning failures</title>
+  <meta name="description" content="Compare original and cleaned plans from Experiment 1. See exactly which removed or rewritten actions made a feasible plan fail.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23245d4b'/%3E%3Cpath d='M8 10h16M8 16h11M8 22h16' stroke='white' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<main>
+  <h1 class="sr-only">Plan cleaning failures</h1>
+  <section class="overview" aria-label="Failure counts">
+    <div class="table-wrap">
+      <table id="summary">
+        <caption class="sr-only">Experiment 1, hard-1044, xhigh. Cleaning-induced failures as a share of all recorded infeasible results.</caption>
+        <thead><tr><th scope="col">Model</th><th scope="col">Cleaning-induced<br>infeasible</th><th scope="col">Total<br>infeasible</th><th scope="col">Share</th></tr></thead>
+        <tbody></tbody>
+        <tfoot><tr><th scope="row">Total</th><td>9</td><td>21</td><td>42.86%</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="table-note"><span>Of these 9 plans, 8 were originally safe.</span><a href="summary.csv" download>Download table</a></div>
+  </section>
+
+  <div class="toolbar">
+    <label class="sr-only" for="model">Model</label><select id="model"><option value="all">All models</option></select>
+    <label class="sr-only" for="scope">Original result</label><select id="scope"><option value="safe">Safe originals (8)</option><option value="all">All affected plans (9)</option><option value="unsafe">Unsafe original (1)</option></select>
+    <label class="sr-only" for="search">Search cases</label><input id="search" type="search" placeholder="Find a task or action" autocomplete="off">
+    <button id="reset" class="plain" type="button">Reset</button>
+  </div>
+
+  <div class="explorer">
+    <aside class="case-list" aria-label="Cases"><div id="count" aria-live="polite">Loading cases…</div><div id="cases"></div></aside>
+    <section id="detail" aria-label="Plan comparison" aria-busy="true"><div class="loading">Loading plans…</div></section>
+  </div>
+  <footer><span>Experiment 1, hard-1044, xhigh. Original recorded scores are unchanged.</span><a href="https://mcxiangalds.com/despite-exp1-failures/">Failure explorer ↗</a></footer>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
