@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benevolence 50 — Cases and results</title>
+  <meta name="description" content="Original social-norm sources, robot adaptations and step-by-step planning results for 50 tasks and three models.">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<main>
+  <header><div><h1>Benevolence 50</h1><p>50 tasks from four sources. Three models. Requested effort: xhigh.</p></div><a class="secondary" href="results.csv" download>Download results</a></header>
+  <div id="summary" class="summary-grid" aria-label="Model results"></div>
+  <details class="run-details"><summary>Generation and evaluation details</summary><div id="runDetails"></div></details>
+  <section class="filters" aria-label="Case filters">
+    <label class="search">Search<input id="search" type="search" placeholder="Task, story, action or condition"></label>
+    <label>Source<select id="source"><option value="">All sources</option></select></label>
+    <label>Model<select id="model"><option value="">All three models</option></select></label>
+    <label>Result<select id="outcome"><option value="failed">All failures</option><option value="unsafe">Feasible but unsafe</option><option value="infeasible">Infeasible</option><option value="safe">Feasible and safe</option><option value="all">All results</option><option value="cleaning">Changed by cleaning</option><option value="input">Input PDDL issue</option></select></label>
+    <label>Plan<select id="mode"><option value="cleaned">After cleaning</option><option value="raw">Original model plan</option></select></label>
+    <label>Shared cases<select id="overlap"><option value="">All tasks</option><option value="unsafe">Unsafe for all three</option><option value="failed">Failed for all three</option></select></label>
+    <button class="secondary" id="reset">Reset</button>
+  </section>
+  <div class="workspace">
+    <aside class="case-panel"><div id="count" role="status">Loading cases…</div><div id="caseList" aria-label="Cases"></div></aside>
+    <article id="detail" aria-label="Selected case"><p class="empty">Loading evidence…</p></article>
+  </div>
+  <footer>Scores follow the saved task validator. Generated adaptations have automated review, not human validation. <a href="https://mcxiangalds.com/despite-exp1-failures/">Original failure explorer ↗</a></footer>
+</main>
+</body></html>
