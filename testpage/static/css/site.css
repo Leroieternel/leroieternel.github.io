@@ -97,14 +97,29 @@ figcaption { margin: 15px auto 0; color: #60656b; font-size: 15px; line-height: 
 .real-world-results { margin-top: 50px; }
 .autonomy-tasks { margin-top: 50px; }
 .autonomy-tasks h3 { margin-bottom: 22px; }
-.task-videos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+.task-carousel { position: relative; }
+.task-videos { width: 100%; }
 .task-video { min-width: 0; }
+.task-video[hidden] { display: none; }
 .task-video .video-frame { background: #111; }
 #task-egg { object-fit: cover; }
-.task-video figcaption { margin-top: 12px; text-align: center; font-size: 15px; }
+.task-video figcaption { margin-top: 18px; text-align: center; font-size: 20px; }
 .task-video-sequence figcaption { max-width: 760px; text-align: left; }
+.task-video-sequence .task-missions { font-size: 16px; }
 .task-missions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px 30px; margin: 8px 0 0; padding-left: 22px; }
 .task-missions li { padding-left: 2px; }
+.task-carousel-controls { position: absolute; inset: 0 0 auto; aspect-ratio: 16/9; pointer-events: none; }
+.task-carousel-arrow { position: absolute; top: 50%; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 1px solid #e7e9ec; border-radius: 50%; background: #fff; color: #4a4a4a; box-shadow: 0 2px 9px rgba(0,0,0,.12); cursor: pointer; pointer-events: auto; transform: translateY(-50%); transition: background .15s ease, box-shadow .15s ease; }
+.task-carousel-arrow:hover { background: #f2f3f4; box-shadow: 0 3px 12px rgba(0,0,0,.18); }
+.task-carousel-arrow svg { width: 22px; height: 22px; fill: currentColor; }
+.task-carousel-prev { left: -20px; }
+.task-carousel-next { right: -20px; }
+.task-carousel-dots { display: flex; justify-content: center; gap: 0; margin-top: 12px; }
+.task-dot { display: grid; place-items: center; width: 32px; height: 40px; padding: 0; border: 0; border-radius: 6px; background: transparent; cursor: pointer; }
+.task-dot::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #b1b3b6; transition: background .15s ease; }
+.task-dot:hover::before { background: #73777c; }
+.task-dot[aria-current="true"]::before { background: #363636; }
+.task-carousel-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .result-copy { margin-bottom: 28px; }
 .quantitative-figure { width: min(100%, 800px); margin-inline: auto; }
 .result-copy p { font-size: 16px; }
@@ -126,11 +141,15 @@ body.dialog-open { overflow: hidden; }
   .desktop-break { display: none; }
   .authors { font-size: 18px; gap: 2px 16px; }
   .affiliations { font-size: 16px; }
+  .task-carousel-arrow { width: 44px; height: 44px; }
+  .task-carousel-prev { left: 8px; }
+  .task-carousel-next { right: 8px; }
 }
 @media (max-width: 700px) {
   .action-clips { grid-template-columns: 1fr; gap: 24px; max-width: 520px; margin-inline: auto; }
-  .task-videos { grid-template-columns: 1fr; gap: 28px; }
   .task-missions { grid-template-columns: 1fr; gap: 5px; }
+  .task-video figcaption { font-size: 17px; }
+  .task-video-sequence .task-missions { font-size: 15px; }
 }
 @media (max-width: 520px) {
   body { font-size: 16px; }
