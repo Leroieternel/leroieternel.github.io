@@ -6,21 +6,60 @@ if (taskCarousel) {
   const slides = [...taskCarousel.querySelectorAll(".task-video")];
   const dots = [...taskCarousel.querySelectorAll(".task-dot")];
   const status = taskCarousel.querySelector(".task-carousel-status");
+  const viewport = taskCarousel.querySelector(".task-videos");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let activeTask = -1;
+  let finishTransition = null;
 
   const showTask = (requestedIndex) => {
     const nextIndex = (requestedIndex + slides.length) % slides.length;
     if (nextIndex === activeTask) return;
+    // Settle an interrupted transition before starting a new one on rapid clicks.
+    if (finishTransition) finishTransition();
+    const previous = slides[activeTask];
+    const incoming = slides[nextIndex];
+    const direction = requestedIndex > activeTask ? 1 : -1;
+    const animate = previous && !reducedMotion.matches && typeof incoming.animate === "function";
+    const previousHeight = previous?.getBoundingClientRect().height;
     slides.forEach((slide, index) => {
       const selected = index === nextIndex;
       if (!selected) slide.querySelector("video").pause();
-      slide.hidden = !selected;
+      slide.hidden = !selected && !(animate && slide === previous);
+      slide.inert = !selected;
+      slide.setAttribute("aria-hidden", String(!selected));
       dots[index].setAttribute("aria-current", String(selected));
     });
     activeTask = nextIndex;
     status.textContent = `Task ${activeTask + 1} of ${slides.length}: ${slides[activeTask].dataset.taskName}`;
+    if (!animate) return;
+
+    const incomingHeight = incoming.getBoundingClientRect().height;
+    viewport.style.height = `${incomingHeight}px`;
+    const timing = { duration: 420, easing: "cubic-bezier(.22, .61, .36, 1)", fill: "both" };
+    const animations = [
+      previous.animate([
+        { transform: "translateX(0)" },
+        { transform: `translateX(${-direction * 100}%)` }
+      ], timing),
+      incoming.animate([
+        { transform: `translateX(${direction * 100}%)` },
+        { transform: "translateX(0)" }
+      ], timing),
+      viewport.animate([{ height: `${previousHeight}px` }, { height: `${incomingHeight}px` }], timing)
+    ];
+    const cleanup = () => {
+      previous.hidden = true;
+      animations.forEach(animation => animation.cancel());
+      viewport.style.height = "";
+      finishTransition = null;
+    };
+    finishTransition = cleanup;
+    Promise.all(animations.map(animation => animation.finished)).then(cleanup, () => {});
   };
 
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches && finishTransition) finishTransition();
+  });
   taskCarousel.querySelector(".task-carousel-prev").addEventListener("click", () => showTask(activeTask - 1));
   taskCarousel.querySelector(".task-carousel-next").addEventListener("click", () => showTask(activeTask + 1));
   dots.forEach((dot, index) => dot.addEventListener("click", () => showTask(index)));
