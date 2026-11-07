@@ -70,7 +70,7 @@
     const surface = make('div', 'chart-surface'), canvas = make('canvas'); canvas.id = id;
     canvas.setAttribute('role','img'); canvas.setAttribute('aria-labelledby',heading.id);
     canvas.setAttribute('aria-describedby',`${grid.dataset.group}-chart-help`); canvas.tabIndex = 0;
-    canvas.append(document.createTextNode('The chart data is also available in the table below.'));
+    canvas.append(document.createTextNode(title));
     surface.append(canvas); box.append(heading,surface); grid.append(box);
     return {canvas,box};
   }
@@ -113,25 +113,18 @@
         charts.forEach(c => {const n=c.data.datasets.findIndex(d=>d.model===m.id);if(n>=0){c.setDatasetVisibility(n,show);c.update();}});
       });legend.append(btn);
     });host.append(legend);
-    return () => {legend.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed','true'));charts.forEach(c=>{c.data.datasets.forEach((_,i)=>c.setDatasetVisibility(i,true));c.update();});};
   }
-  function dataTable(host, headers, rows, filename) {
+  function dataTable(host, headers, rows) {
     const details=make('details','chart-data'),summary=make('summary','','View data');details.append(summary);
     const wrap=make('div','chart-table-scroll'),table=make('table'),head=make('thead'),tr=make('tr');
     table.append(make('caption','', 'Values used in these charts'));
     headers.forEach(h=>{const th=make('th','',h);th.scope='col';tr.append(th);});head.append(tr);table.append(head);
     const body=make('tbody');rows.forEach(row=>{const tr=make('tr');row.forEach(v=>tr.append(make('td','',String(v))));body.append(tr);});table.append(body);wrap.append(table);details.append(wrap);
-    const tools=make('div','chart-data-tools'),download=make('button','chart-action','Download CSV');download.type='button';
-    download.addEventListener('click',()=>{
-      const csv=[headers,...rows].map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');
-      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=make('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-    });tools.append(download);details.append(tools);host.append(details);
+    host.append(details);
   }
   function render(root, data) {
     const kind=root.dataset.chartGroup, host=root.querySelector('.interactive-content'), charts=[];
-    const toolbar=make('div','chart-toolbar'), hint=make('p','chart-hint',kind==='sources'?'Choose a total · hover or tap to explore':'Hover or tap for values · click a model to show or hide it');
-    toolbar.append(hint);host.append(toolbar);
-    const help=make('p','chart-sr-only','Use left and right arrow keys to inspect points, up and down to change model, and Escape to close the tooltip. All values are available in View data.');help.id=`${kind}-chart-help`;host.append(help);
+    const help=make('p','chart-sr-only','Use left and right arrow keys to inspect points, up and down to change model, and Escape to close the tooltip.');help.id=`${kind}-chart-help`;host.append(help);
     const status=make('p','chart-sr-only');status.setAttribute('aria-live','polite');host.append(status);
     const grid=make('div',`chart-grid ${kind}-grid`);grid.dataset.group=kind;
     // Canvas sizes must be measurable before Chart.js initializes them.
@@ -139,6 +132,7 @@
     try {
       if (kind==='sources') {
         let mode='episodes';
+        const toolbar=make('div','chart-toolbar');host.append(toolbar);
         const controls=make('div','chart-segments');controls.setAttribute('role','group');controls.setAttribute('aria-label','Dataset measure');toolbar.prepend(controls);
         host.append(grid);
         const a=card(grid,'Episodes by source','sources'), b=card(grid,'Share by source','pie');
@@ -160,13 +154,11 @@
         }
         ['episodes','actions','missions'].forEach(mode=>{const btn=make('button','',mode[0].toUpperCase()+mode.slice(1));btn.type='button';btn.dataset.mode=mode;btn.addEventListener('click',()=>setMode(mode));controls.append(btn);});
         setMode(mode);
-        dataTable(host,['Source','Episodes','Actions','Missions'],data.sources.map(s=>[s.name,s.episodes,s.actions,s.missions]),'vi-amo-source-counts.csv');
+        dataTable(host,['Source','Episodes','Actions','Missions'],data.sources.map(s=>[s.name,s.episodes,s.actions,s.missions]));
       } else {
         const models=kind==='realworld'?data.realworldModels:data.models;
-        const reset=make('button','chart-action','Show all models');reset.type='button';toolbar.append(reset);
-        const showAll=legend(host,models,charts);reset.addEventListener('click',showAll);host.append(grid);
+        legend(host,models,charts);host.append(grid);
         const panels=kind==='progress'?data.progress:kind==='radar'?data.radars:data.realworld;
-        const rows=[];
         panels.forEach(panel=>{
           const a=card(grid,panel.title,kind==='radar'?'radar':kind==='realworld'?'bars':'line');
           a.canvas.setAttribute('aria-label',panel.title);
@@ -189,10 +181,8 @@
           const datasets=models.filter(m=>panel.series[m.id]).map(m=>{
             const i=models.indexOf(m),values=panel.series[m.id];
             if(kind==='realworld') {
-              values.forEach((v,j)=>rows.push([panel.title,data.tasks[j],m.label,v.mean,v.sd,v.n??'Not reported',v.unit]));
               return {model:m.id,label:m.label,data:values.map(v=>v.mean),errors:values.map(v=>v.sd),stats:values,backgroundColor:m.color+'CC',borderColor:m.color,borderWidth:1,borderRadius:3,maxBarThickness:32};
             }
-            values.forEach((v,j)=>rows.push([panel.title,kind==='progress'?data.cutoffs[j]:labels[j],m.label,v]));
             return {model:m.id,label:m.label,data:kind==='progress'?values.map((y,j)=>({x:data.cutoffs[j],y})):values,
               borderColor:m.color,backgroundColor:m.color+(kind==='radar'?'10':'FF'),borderWidth:m.id==='tuned'?3:1.7,
               borderDash:patterns[i],pointStyle:points[i],pointRadius:kind==='radar'?2.5:3,pointHoverRadius:6,pointHitRadius:14,
@@ -200,7 +190,6 @@
           });
           charts.push(new Chart(a.canvas,{type,data:{labels,datasets},options:opts}));
         });
-        dataTable(host,kind==='realworld'?['Metric','Task','Model','Mean (s)','SD (s)','n','Samples']:['Panel',kind==='progress'?'Action progress (%)':'Metric','Model','Value (0–1)'],rows,`vi-amo-${kind}.csv`);
       }
       charts.forEach(c=>keyboard(c,status));
       activeCharts.push(...charts);
