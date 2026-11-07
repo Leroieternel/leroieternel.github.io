@@ -1,191 +1,294 @@
-"use strict";
+/* Native video film strips, projected onto a gently curved moving wall. */
+(() => {
+  "use strict";
+  const wall = document.querySelector(".film-wall");
+  if (!wall) return;
+  const spotlight = wall.querySelector(".film-spotlight");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const tiles = [...wall.querySelectorAll(".film-tile")].map((button, index) => ({
+    button, video: button.querySelector("video"), row: Math.floor(index / 7), column: index % 7,
+    x: 0, visible: false
+  }));
+  const rowOffsets = [2, .55, 1.2, .05];
+  const rowSpeeds = [19, 23, 20, 25];
+  const drift = [0, 0, 0, 0];
+  const pendingPlay = new WeakSet();
+  let items = new Map();
+  let width = 0, height = 0, tileWidth = 0, tileHeight = 0, stride = 0;
+  let inView = false, active = null, pinned = false, frame = 0, lastTime = 0, mediaTime = 0;
+  let hoverTimer = 0, closeTimer = 0, pendingTile = null;
+  let pointer = null, sourceRegion = null;
 
-// Source annotations and model predictions are separate, explicitly labelled views.
-(async () => {
-  const explorer = document.querySelector(".intent-explorer");
-  if (!explorer) return;
-  let data;
-  try {
-    const response = await fetch("static/data/gallery.json?v=20261107-explorer-1");
-    if (!response.ok) throw new Error("Gallery unavailable");
-    data = await response.json();
-  } catch { return; } // The static tiles remain working image links.
-
-  const escape = (value) => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const entries = new Map(data.items.map(item => [item.id, item]));
-  const comparisons = data.items.filter(item => item.kind === "comparison");
-  const tiles = [...explorer.querySelectorAll(".episode-tile")];
-  const detail = explorer.querySelector(".explorer-detail");
-  const dialog = document.querySelector(".gallery-modal");
-  const modalBody = dialog.querySelector(".gallery-modal-body");
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const pauseButton = explorer.querySelector("[data-gallery-pause]");
-  const sourceSelect = explorer.querySelector("[data-gallery-source]");
-  const modeButtons = [...explorer.querySelectorAll("[data-gallery-mode]")];
-  let selected = data.default;
-  let activeView = 0;
-  let modalView = 0;
-  let mode = "all";
-  let paused = reduced.matches || Boolean(navigator.connection?.saveData);
-  let hovered = null;
-  let rotation = 0;
-  let modalOrigin = null;
-  const visible = new Set();
-
-  const meta = item => item.kind === "comparison"
-    ? `Selected test example · ${item.cutoff}% of action observed`
-    : `Dataset annotation · Episode ${item.episode}`;
-  const context = item => item.context ? `<p class="detail-context">${escape(item.context)}</p>` : "";
-  const truth = item => `<div class="detail-truth"><div><small>Annotated action</small><p>${escape(item.action)}</p></div><div><small>Annotated mission</small><p>${escape(item.mission)}</p></div></div>`;
-  function predictions(item) {
-    if (!item.predictions) return "";
-    return `<div class="predictions-heading"><h4>VLM predictions</h4><span>Same observations and execution context</span></div><div class="prediction-grid">${item.predictions.map(p => `<article class="prediction-card ${p.model === "tuned" ? "ours" : ""}"><h5>${escape(p.label)}</h5>${["action", "mission"].map(part => `<div class="prediction-output"><small>Ongoing ${part}</small><p><span class="prediction-verdict" role="img" aria-label="${p[part + "Match"] ? "Matches annotation" : "Differs from annotation"}">${p[part + "Match"] ? "✓" : "×"}</span>${escape(p[part])}</p></div>`).join("")}</article>`).join("")}</div>`;
+  const clamp = (n, lo, hi) => Math.min(Math.max(n, lo), Math.max(lo, hi));
+  const el = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+  function play(video) {
+    if (!video.src && video.dataset.src) video.src = video.dataset.src;
+    if (!video.paused || pendingPlay.has(video)) return;
+    pendingPlay.add(video);
+    const promise = video.play();
+    if (promise) promise.catch(() => {}).finally(() => pendingPlay.delete(video));
+    else pendingPlay.delete(video);
   }
-  const viewButtons = (item, current, modal = false) => `<div class="detail-view" role="group" aria-label="Camera view">${item.views.map((v, i) => `<button type="button" data-${modal ? "modal" : "detail"}-view="${i}" aria-pressed="${i === current}">${escape(v.name)}</button>`).join("")}</div>`;
-  function frames(item, current, modal = false) {
-    const v = item.views[current];
-    return `<div class="detail-frames" style="--frame-count:${v.frames.length}">${v.frames.map((src, i) => `<button type="button" class="detail-frame" data-${modal ? "modal" : "detail"}-frame="${i}" aria-label="Enlarge ${escape(v.name.toLowerCase())} observation ${i + 1} at ${v.times[i]} seconds"${modal ? ' aria-pressed="false"' : ""}><img src="${escape(src)}" alt="${escape(item.title)} — ${escape(v.name.toLowerCase())} observation ${i + 1}" loading="lazy"><span>${v.times[i].toFixed(1)} s</span></button>`).join("")}</div>`;
-  }
-  function drawConnector() {
-    const tile = tiles.find(t => t.dataset.episode === selected);
-    const svg = explorer.querySelector(".explorer-connector");
-    if (!tile || tile.hidden) { svg.innerHTML = ""; return; }
-    const a = tile.getBoundingClientRect(), b = detail.getBoundingClientRect(), e = explorer.getBoundingClientRect();
-    const left = a.left - e.left, right = a.right - e.left, top = a.bottom - e.top;
-    const bottom = b.top - e.top, endLeft = b.left - e.left + 24, endRight = b.right - e.left - 24;
-    svg.setAttribute("viewBox", `0 0 ${e.width} ${e.height}`);
-    svg.innerHTML = `<path d="M ${left} ${top} L ${endLeft} ${bottom} L ${endRight} ${bottom} L ${right} ${top} Z"/>`;
-  }
-  function renderDetail() {
-    const item = entries.get(selected);
-    detail.innerHTML = `<div class="detail-heading"><div><span class="detail-source">${escape(item.source)}</span><h3 id="explorer-detail-title">${escape(item.title)}</h3><p class="detail-meta">${meta(item)}</p></div><div class="detail-navigation"><button type="button" data-example-step="-1" aria-label="Previous model comparison">‹</button><button type="button" data-example-step="1" aria-label="Next model comparison">›</button></div></div>${context(item)}<div class="detail-media-toolbar">${viewButtons(item, activeView)}<button type="button" class="explorer-enlarge" data-enlarge>↗ Enlarge</button></div>${frames(item, activeView)}${item.note ? `<p class="detail-note">${escape(item.note)}</p>` : ""}${truth(item)}${predictions(item)}<div class="comparison-picks" role="group" aria-label="Selected model comparisons">${comparisons.map((x, i) => `<button type="button" data-comparison="${x.id}" aria-pressed="${x.id === selected}">${i + 1} · ${escape(x.title)}</button>`).join("")}</div>`;
-    tiles.forEach(t => t.setAttribute("aria-current", String(t.dataset.episode === selected)));
-    requestAnimationFrame(drawConnector);
-  }
-  function select(id) {
-    if (!entries.has(id)) return;
-    selected = id; activeView = 0;
-    renderDetail();
-  }
-  function showModalFrame(index) {
-    const item = entries.get(selected), view = item.views[modalView];
-    const video = modalBody.querySelector("video"), image = modalBody.querySelector(".gallery-modal-stage > img");
-    video.pause(); video.hidden = true; image.hidden = false;
-    image.src = view.frames[index]; image.alt = `${item.title} — ${view.name} observation ${index + 1}`;
-    modalBody.querySelector(".modal-replay").hidden = false;
-    modalBody.querySelectorAll("[data-modal-frame]").forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.modalFrame) === index)));
-  }
-  function renderModal(frameIndex = null) {
-    const item = entries.get(selected), view = item.views[modalView];
-    modalBody.querySelector("video")?.pause();
-    dialog.querySelector(".gallery-modal-bar span").textContent = `${item.source} · Episode ${item.episode}`;
-    modalBody.innerHTML = `<h3 id="gallery-modal-title">${escape(item.title)}</h3><p class="detail-meta">${meta(item)}${view.speed > 1.01 ? ` · Clip ${view.speed}×` : ""}</p><div class="detail-media-toolbar">${viewButtons(item, modalView, true)}</div><div class="gallery-modal-stage"><video controls muted playsinline loop preload="metadata" poster="${escape(view.frames[0])}" src="${escape(view.video)}" aria-label="${escape(item.title)} — ${escape(view.name)} clip"></video><img hidden alt=""><button type="button" class="modal-replay" hidden>▶ Play clip</button></div>${frames(item, modalView, true)}${item.note ? `<p class="detail-note">${escape(item.note)}</p>` : ""}${context(item)}${truth(item)}${predictions(item)}`;
-    if (frameIndex !== null) showModalFrame(frameIndex);
-    else if (!reduced.matches) modalBody.querySelector("video").play().catch(() => {});
-  }
-  function openModal(origin, frameIndex = null) {
-    modalView = activeView;
-    modalOrigin = origin;
-    renderModal(frameIndex);
-    dialog.showModal(); dialog.scrollTop = 0;
-    document.body.classList.add("dialog-open");
-    updateMotion();
-    if (!reduced.matches && origin && dialog.animate) {
-      const from = origin.getBoundingClientRect(), to = dialog.getBoundingClientRect();
-      dialog.animate([
-        { opacity: .3, transform: `translate(${from.x + from.width / 2 - to.x - to.width / 2}px, ${from.y + from.height / 2 - to.y - to.height / 2}px) scale(${Math.max(.18, Math.min(.5, from.width / to.width))})` },
-        { opacity: 1, transform: "translate(0,0) scale(1)" }
-      ], { duration: 420, easing: "cubic-bezier(.2,.75,.2,1)" });
+  function syncPlayback() {
+    const available = inView && !document.hidden;
+    tiles.forEach(tile => {
+      // Every visible clip plays; a lifted clip continues in the spotlight.
+      if (available && !reducedMotion.matches && tile.visible && tile !== active) play(tile.video);
+      else tile.video.pause();
+    });
+    const video = spotlight.querySelector("video");
+    if (video) {
+      if (available) play(video);
+      else video.pause();
     }
   }
-  detail.addEventListener("click", event => {
-    const target = event.target.closest("button"); if (!target) return;
-    if (target.dataset.comparison) { select(target.dataset.comparison); detail.querySelector(`[data-comparison="${selected}"]`).focus({preventScroll:true}); }
-    else if (target.dataset.exampleStep) {
-      const index = comparisons.findIndex(x => x.id === selected);
-      select(comparisons[(Math.max(0, index) + Number(target.dataset.exampleStep) + comparisons.length) % comparisons.length].id);
-      detail.querySelector(`[data-example-step="${target.dataset.exampleStep}"]`).focus({preventScroll:true});
-    } else if (target.dataset.detailView !== undefined) {
-      activeView = Number(target.dataset.detailView); renderDetail(); detail.querySelector(`[data-detail-view="${activeView}"]`).focus({preventScroll:true});
-    } else if (target.dataset.detailFrame !== undefined) openModal(target, Number(target.dataset.detailFrame));
-    else if (target.hasAttribute("data-enlarge")) openModal(target);
-  });
-  modalBody.addEventListener("click", event => {
-    const b = event.target.closest("button"); if (!b) return;
-    if (b.dataset.modalView !== undefined) { modalView = Number(b.dataset.modalView); renderModal(); modalBody.querySelector(`[data-modal-view="${modalView}"]`).focus(); }
-    else if (b.dataset.modalFrame !== undefined) showModalFrame(Number(b.dataset.modalFrame));
-    else if (b.classList.contains("modal-replay")) {
-      const v = modalBody.querySelector("video"); modalBody.querySelector(".gallery-modal-stage > img").hidden = true; v.hidden = false; b.hidden = true;
-      modalBody.querySelectorAll("[data-modal-frame]").forEach(t => t.setAttribute("aria-pressed", "false"));
-      v.play().catch(() => {});
+  function project() {
+    const rowStep = tileHeight + 15;
+    const top = (height - (rowStep * 4 - 15)) / 2;
+    tiles.forEach(tile => {
+      const cycle = stride * 7;
+      const x = ((tile.column + rowOffsets[tile.row]) * stride + drift[tile.row]) % cycle - stride;
+      const n = (x + tileWidth / 2 - width / 2) / (width / 2 + tileWidth / 2);
+      const curve = clamp(n, -1.5, 1.5);
+      const scale = 1 - .09 * Math.min(1.6, curve * curve);
+      const y = top + tile.row * rowStep + (tile.row - 1.5) * curve * curve * 19;
+      tile.x = x;
+      tile.visible = x + tileWidth > 0 && x < width;
+      tile.button.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) perspective(900px) rotateY(${-curve * 22}deg) rotateZ(${curve * (tile.row - 1.5) * 2.6}deg) scale(${scale})`;
+    });
+  }
+  function tick(time) {
+    frame = 0;
+    const elapsed = lastTime ? Math.min(time - lastTime, 50) / 1000 : 0;
+    lastTime = time;
+    if (!active) {
+      drift.forEach((value, row) => { drift[row] = (value + elapsed * rowSpeeds[row]) % (stride * 7); });
+      project();
     }
-  });
-  dialog.querySelector(".gallery-modal-close").addEventListener("click", () => dialog.close());
-  dialog.addEventListener("click", event => {
-    if (event.target !== dialog) return;
-    const r = dialog.getBoundingClientRect();
-    if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close();
-  });
-  dialog.addEventListener("close", () => {
-    modalBody.querySelector("video")?.pause(); modalBody.replaceChildren();
-    document.body.classList.remove("dialog-open");
-    if (modalOrigin?.isConnected) modalOrigin.focus({preventScroll:true});
-    updateMotion();
-  });
-  function playTile(tile) {
-    let v = tile.querySelector("video");
-    if (!v) {
-      v = document.createElement("video"); v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.preload = "none";
-      v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
-      v.src = entries.get(tile.dataset.episode).views[0].video;
-      tile.insertBefore(v, tile.children[1]);
-      v.addEventListener("playing", () => tile.classList.add("is-playing"));
-      v.addEventListener("error", () => tile.classList.remove("is-playing"));
-    }
-    if (v.paused) v.play().catch(() => tile.classList.remove("is-playing"));
+    if (time - mediaTime > 300) { syncPlayback(); mediaTime = time; }
+    if (inView && !document.hidden && !reducedMotion.matches && !active) frame = requestAnimationFrame(tick);
   }
   function updateMotion() {
-    const allowed = !paused && !document.hidden && !dialog.open;
-    const pool = tiles.filter(t => visible.has(t) && !t.hidden);
-    const active = new Set();
-    if (allowed && pool.length) {
-      if (hovered && pool.includes(hovered)) active.add(hovered);
-      for (let i = 0; i < Math.min(4, pool.length); i++) active.add(pool[(rotation + i) % pool.length]);
-      while (active.size > 4) active.delete([...active].at(-1));
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+    lastTime = 0;
+    syncPlayback();
+    if (inView && !document.hidden && !reducedMotion.matches && !active) frame = requestAnimationFrame(tick);
+  }
+
+  function renderResults(item) {
+    const card = el("section", "film-results");
+    card.setAttribute("aria-label", `${item.source}: ${item.kind === "comparison" ? "Model predictions" : "Dataset annotation"}`);
+    const close = el("button", "film-close", "×");
+    close.type = "button";
+    close.setAttribute("aria-label", "Close highlighted film");
+    close.addEventListener("click", () => closeSpotlight(true));
+    card.append(close, el("span", "film-source", item.source), el("h3", "", item.title));
+    if (item.kind === "comparison" && item.predictions?.length) {
+      const predictions = el("div", "film-predictions");
+      item.predictions.forEach(prediction => {
+        const article = el("article", `film-prediction${prediction.model === "tuned" ? " ours" : ""}`);
+        article.append(el("h4", "", prediction.label));
+        [["OA", "Ongoing action", prediction.action], ["OM", "Ongoing mission", prediction.mission]].forEach(([label, full, text]) => {
+          const line = el("p");
+          const key = el("b", "", label);
+          key.setAttribute("aria-label", full);
+          line.append(key, el("span", "", text));
+          article.append(line);
+        });
+        predictions.append(article);
+      });
+      card.append(predictions);
+    } else {
+      // These samples have annotations, not recorded model predictions.
+      card.append(el("span", "film-annotation-label", "Dataset annotation"));
+      const annotations = el("dl", "film-annotation");
+      annotations.append(el("dt", "", "Action"), el("dd", "", item.action), el("dt", "", "Mission"), el("dd", "", item.mission));
+      card.append(annotations);
     }
-    tiles.forEach(tile => {
-      if (active.has(tile)) playTile(tile);
-      else { tile.querySelector("video")?.pause(); tile.classList.remove("is-playing"); }
-    });
-    pauseButton.textContent = paused ? "▶ Play" : "Ⅱ Pause";
-    pauseButton.setAttribute("aria-label", paused ? "Play gallery previews" : "Pause gallery previews");
-    pauseButton.setAttribute("aria-pressed", String(!paused));
+    return card;
   }
-  const observer = new IntersectionObserver(changes => {
-    changes.forEach(x => x.isIntersecting ? visible.add(x.target) : visible.delete(x.target)); updateMotion();
-  }, {threshold: .15});
+
+  function positionSpotlight() {
+    if (!active) return;
+    const hero = spotlight.querySelector(".film-hero");
+    const card = spotlight.querySelector(".film-results");
+    const bounds = wall.getBoundingClientRect();
+    const source = active.button.getBoundingClientRect();
+    const cx = source.left + source.width / 2 - bounds.left;
+    const cy = source.top + source.height / 2 - bounds.top;
+    const mobile = width <= 700;
+    const margin = mobile ? 14 : 24;
+    const videoWidth = mobile ? Math.min(390, width - 2 * margin) : Math.min(480, (width - 2 * margin - 20) * .49);
+    const videoHeight = mobile ? Math.min(232, videoWidth * .70 + 24) : videoWidth * .75 + 28;
+    const cardWidth = mobile ? videoWidth : Math.min(450, width - 2 * margin - 20 - videoWidth);
+    hero.style.width = `${videoWidth}px`;
+    hero.style.height = `${videoHeight}px`;
+    card.style.width = `${cardWidth}px`;
+    card.style.maxHeight = `${mobile ? height - videoHeight - 2 * margin - 10 : height - 2 * margin}px`;
+    const videoRight = !mobile && cx > width / 2;
+    spotlight.classList.toggle("video-right", videoRight);
+    const groupWidth = mobile ? videoWidth : videoWidth + cardWidth + 20;
+    spotlight.style.width = `${groupWidth}px`;
+    const groupHeight = mobile ? videoHeight + card.offsetHeight + 10 : Math.max(videoHeight, card.offsetHeight);
+    let left = mobile ? (width - groupWidth) / 2 : cx - videoWidth / 2 - (videoRight ? cardWidth + 20 : 0);
+    let top = mobile ? (height - groupHeight) / 2 : cy - groupHeight / 2;
+    spotlight.style.left = `${clamp(left, margin, width - groupWidth - margin)}px`;
+    spotlight.style.top = `${clamp(top, margin, height - groupHeight - margin)}px`;
+  }
+  function clearTimers() {
+    clearTimeout(hoverTimer);
+    clearTimeout(closeTimer);
+    pendingTile = null;
+  }
+  function showSpotlight(tile, pin = false) {
+    const item = items.get(tile.button.dataset.episode);
+    if (!item) return;
+    clearTimers();
+    if (active === tile) { pinned = pinned || pin; return; }
+    closeSpotlight(false);
+    active = tile;
+    pinned = pin;
+    const source = tile.button.getBoundingClientRect();
+    sourceRegion = source;
+    const hero = el("figure", "film-hero");
+    const frame = el("div", "film-frame");
+    const video = el("video");
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.poster = tile.video.poster;
+    video.setAttribute("aria-label", item.title);
+    video.addEventListener("loadedmetadata", () => {
+      if (Number.isFinite(video.duration) && video.duration > 0) video.currentTime = tile.video.currentTime % video.duration;
+    }, { once: true });
+    video.src = item.views[0].video;
+    frame.append(video);
+    hero.append(frame);
+    const card = renderResults(item);
+    spotlight.replaceChildren(hero, card);
+    spotlight.hidden = false;
+    wall.classList.add("is-inspecting");
+    tile.button.classList.add("is-selected");
+    tile.button.setAttribute("aria-expanded", "true");
+    positionSpotlight();
+    if (!reducedMotion.matches) {
+      const target = hero.getBoundingClientRect();
+      hero.animate([
+        { transformOrigin: "0 0", transform: `translate(${source.left - target.left}px, ${source.top - target.top}px) scale(${source.width / target.width}, ${source.height / target.height})` },
+        { transformOrigin: "0 0", transform: "none" }
+      ], { duration: 360, easing: "cubic-bezier(.2,.8,.2,1)" });
+      card.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: "ease-out" });
+    }
+    updateMotion();
+  }
+  function closeSpotlight(restoreFocus = false) {
+    clearTimers();
+    if (!active) return;
+    const previous = active;
+    spotlight.querySelector("video")?.pause();
+    active = null;
+    sourceRegion = null;
+    pinned = false;
+    spotlight.hidden = true;
+    spotlight.replaceChildren();
+    wall.classList.remove("is-inspecting");
+    previous.button.classList.remove("is-selected");
+    previous.button.setAttribute("aria-expanded", "false");
+    // Focus restoration must not immediately open the film again.
+    if (restoreFocus) {
+      previous.button.dataset.restoringFocus = "true";
+      previous.button.focus({ preventScroll: true });
+      delete previous.button.dataset.restoringFocus;
+    }
+    updateMotion();
+  }
+  function scheduleClose() {
+    clearTimeout(closeTimer);
+    if (!pinned) closeTimer = setTimeout(() => {
+      if (!pointerInSpotlight()) closeSpotlight();
+    }, 260);
+  }
+  function inside(rect) {
+    return pointer && rect && pointer.x >= rect.left && pointer.x <= rect.right && pointer.y >= rect.top && pointer.y <= rect.bottom;
+  }
+  function pointerInSpotlight() {
+    // Preserve the hover while the growing film moves away from its original
+    // hit area, and while the pointer crosses the gap to its prediction card.
+    return active && inside(wall.getBoundingClientRect()) && (inside(sourceRegion) || inside(spotlight.getBoundingClientRect()));
+  }
+
   tiles.forEach(tile => {
-    observer.observe(tile);
-    tile.addEventListener("click", event => {
-      if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      event.preventDefault(); select(tile.dataset.episode); openModal(tile);
+    tile.button.addEventListener("pointerenter", event => {
+      pointer = { x: event.clientX, y: event.clientY };
+      if (event.pointerType === "touch" || pinned || active === tile) return;
+      if (pointerInSpotlight()) { clearTimers(); return; }
+      clearTimers();
+      pendingTile = tile;
+      hoverTimer = setTimeout(() => showSpotlight(tile), active ? 260 : 100);
     });
-    for (const name of ["mouseenter", "focus"]) tile.addEventListener(name, () => { hovered = tile; updateMotion(); });
-    for (const name of ["mouseleave", "blur"]) tile.addEventListener(name, () => { if (hovered === tile) hovered = null; updateMotion(); });
+    tile.button.addEventListener("pointerleave", () => {
+      if (pendingTile === tile) { clearTimeout(hoverTimer); pendingTile = null; }
+      if (active === tile) scheduleClose();
+    });
+    tile.button.addEventListener("focus", () => {
+      if (!tile.button.dataset.restoringFocus && tile.button.matches(":focus-visible")) showSpotlight(tile, true);
+    });
+    tile.button.addEventListener("click", () => showSpotlight(tile, true));
   });
-  function filter() {
-    const source = sourceSelect.value;
-    tiles.forEach(tile => { const item = entries.get(tile.dataset.episode); tile.hidden = (mode === "comparison" && item.kind !== "comparison") || (source !== "all" && item.source !== source); });
-    modeButtons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.galleryMode === mode)));
-    updateMotion(); requestAnimationFrame(drawConnector);
-  }
-  modeButtons.forEach(b => b.addEventListener("click", () => { mode = b.dataset.galleryMode; sourceSelect.value = "all"; filter(); }));
-  sourceSelect.addEventListener("change", () => { mode = "all"; filter(); });
-  pauseButton.addEventListener("click", () => { paused = !paused; updateMotion(); });
-  reduced.addEventListener("change", () => { paused = reduced.matches; updateMotion(); });
+  spotlight.addEventListener("pointerenter", clearTimers);
+  spotlight.addEventListener("pointerleave", scheduleClose);
+  spotlight.addEventListener("focusin", clearTimers);
+  wall.addEventListener("pointermove", event => {
+    pointer = { x: event.clientX, y: event.clientY };
+    if (active && !pinned && !pointerInSpotlight()) scheduleClose();
+  });
+  wall.addEventListener("pointerleave", () => { pointer = null; clearTimeout(hoverTimer); scheduleClose(); });
+  wall.addEventListener("focusout", () => {
+    setTimeout(() => { if (!wall.contains(document.activeElement)) closeSpotlight(); }, 0);
+  });
+  document.addEventListener("pointerdown", event => {
+    if (active && !spotlight.contains(event.target) && !event.target.closest(".film-tile")) closeSpotlight();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && active) { event.preventDefault(); closeSpotlight(true); }
+  });
   document.addEventListener("visibilitychange", updateMotion);
-  const timer = setInterval(() => { rotation += 4; updateMotion(); }, 7000);
-  window.addEventListener("pagehide", () => { clearInterval(timer); tiles.forEach(t => t.querySelector("video")?.pause()); });
-  new ResizeObserver(() => requestAnimationFrame(drawConnector)).observe(explorer);
-  renderDetail(); explorer.classList.add("gallery-ready");
+  reducedMotion.addEventListener("change", updateMotion);
+
+  function resize() {
+    width = wall.clientWidth;
+    height = wall.clientHeight;
+    tileWidth = Math.max(220, width / 5.45);
+    tileHeight = tileWidth / 1.5;
+    stride = tileWidth + 18;
+    tiles.forEach(tile => {
+      tile.button.style.width = `${tileWidth}px`;
+      tile.button.style.height = `${tileHeight}px`;
+    });
+    project();
+    positionSpotlight();
+    syncPlayback();
+  }
+  fetch("static/data/gallery.json").then(response => {
+    if (!response.ok) throw new Error(`Gallery: ${response.status}`);
+    return response.json();
+  }).then(data => {
+    items = new Map(data.items.map(item => [item.id, item]));
+    wall.classList.add("is-ready");
+    resize();
+    new ResizeObserver(resize).observe(wall);
+    new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting;
+      if (!inView) closeSpotlight();
+      updateMotion();
+    }, { threshold: 0 }).observe(wall);
+  }).catch(error => {
+    console.warn("Film wall could not initialize", error);
+  });
 })();
