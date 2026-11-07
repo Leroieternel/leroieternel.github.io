@@ -11,6 +11,9 @@
   <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="static/css/site.css?v=20261107-task-captions">
   <script src="static/js/site.js?v=20261107-task-slide" defer></script>
+  <link rel="stylesheet" href="static/css/charts.css?v=20261107-1">
+  <script src="static/js/vendor/chart-4.5.1.umd.min.js" defer></script>
+  <script src="static/js/charts.js?v=20261107-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -33,7 +36,7 @@
     <section class="teaser-section" aria-label="Project overview">
       <div class="container">
         <p class="project-description">VIM reads a short visual teleoperation history to predict the ongoing action and the mission it serves, enabling a robot to continue after a human handoff.</p>
-        <figure class="research-figure teaser-figure"><a class="figure-link" href="static/images/vi-amo-teaser.png?v=20261107-fig1-r19" data-lightbox aria-label="Enlarge figure: VI AMO combines 6,600 episodes, 13,653 actions, and 9,702 missions. A visual teleoperation history shows a robot picking up a lid; VIM predicts the ongoing action and the mission to cover the silver pot with the lid."><img src="static/images/vi-amo-teaser.png?v=20261107-fig1-r19" width="2400" height="1179" alt="VI AMO combines 6,600 episodes, 13,653 actions, and 9,702 missions. A visual teleoperation history shows a robot picking up a lid; VIM predicts the ongoing action and the mission to cover the silver pot with the lid." fetchpriority="high"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption>VIM jointly predicts the ongoing action (OA) and ongoing mission (OM).</figcaption></figure>
+        <figure class="research-figure teaser-figure"><a class="figure-link" href="static/images/vi-amo-teaser.png?v=20261107-fig1-filmstrips-r20" data-lightbox aria-label="Enlarge figure: VI AMO combines 6,600 episodes, 13,653 actions, and 9,702 missions. Overlapping filmstrips represent the dataset sources. A selected DROID filmstrip is enlarged into a visual teleoperation history showing a robot picking up a lid; VIM predicts the ongoing action and the mission to cover the silver pot with the lid."><img src="static/images/vi-amo-teaser.png?v=20261107-fig1-filmstrips-r20" width="2400" height="1198" alt="VI AMO combines 6,600 episodes, 13,653 actions, and 9,702 missions. Overlapping filmstrips represent the dataset sources. A selected DROID filmstrip is enlarged into a visual teleoperation history showing a robot picking up a lid; VIM predicts the ongoing action and the mission to cover the silver pot with the lid." fetchpriority="high"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption>VIM jointly predicts the ongoing action (OA) and ongoing mission (OM).</figcaption></figure>
       </div>
     </section>
     <section class="section section-tinted" id="abstract" aria-labelledby="abstract-title">
@@ -61,6 +64,13 @@
           <div><strong>13,653</strong><span class="stat-label"><img class="stat-emoji" src="static/images/emoji/mechanical-arm.svg" width="22" height="22" alt="🦾" aria-hidden="true"> actions</span></div>
           <div><strong>9,702</strong><span class="stat-label"><img class="stat-emoji" src="static/images/emoji/target.svg" width="22" height="22" alt="🎯" aria-hidden="true"> missions</span></div>
         </div>
+        <article class="dataset-explorer" aria-labelledby="distribution-title">
+          <h3 id="distribution-title">Dataset composition</h3>
+          <div class="interactive-figure" data-chart-group="sources">
+            <div class="interactive-content" hidden></div>
+            <details class="source-fallback"><summary>View source counts</summary><div class="chart-table-scroll"><table><caption>VI AMO source composition</caption><thead><tr><th>Source</th><th>Episodes</th><th>Actions</th><th>Missions</th></tr></thead><tbody><tr><th scope="row">Bridge V2</th><td>3,091</td><td>4,950</td><td>3,445</td></tr><tr><th scope="row">DROID</th><td>2,041</td><td>6,372</td><td>4,452</td></tr><tr><th scope="row">Fractal / RT-1</th><td>579</td><td>656</td><td>579</td></tr><tr><th scope="row">TACO Play</th><td>403</td><td>403</td><td>403</td></tr><tr><th scope="row">CMU Play Fusion</th><td>224</td><td>725</td><td>448</td></tr><tr><th scope="row">RH20T</th><td>95</td><td>224</td><td>143</td></tr><tr><th scope="row">Jaco Play</th><td>68</td><td>68</td><td>68</td></tr><tr><th scope="row">UT Austin MUTEX</th><td>43</td><td>88</td><td>71</td></tr><tr><th scope="row">Berkeley FANUC</th><td>27</td><td>48</td><td>32</td></tr><tr><th scope="row">FastUMI</th><td>26</td><td>100</td><td>52</td></tr><tr><th scope="row">Stanford HYDRA</th><td>3</td><td>19</td><td>9</td></tr></tbody></table></div></details>
+          </div>
+        </article>
         <div class="dataset-videos">
           <div class="dataset-montage"><img id="dataset-montage" src="static/images/dataset-montage.gif" width="1040" height="440" alt="Animated montage of VI AMO demonstrations from eleven robot sources." loading="lazy"></div>
           <p class="mission-caption"><strong>OM:</strong> Pour the juice into the cup and return the bottle to the coaster.</p>
@@ -88,12 +98,18 @@
         <article class="result-block">
           <h3>Prediction from partial observations</h3>
           <p>Across nine observation cutoffs spanning 0–95% of an action, VIM achieves higher action and mission similarity than the six baselines under both SBERT and SigLIP. Additional visual history generally improves predictions.</p>
-          <figure class="research-figure "><a class="figure-link" href="static/images/action-progress.png" data-lightbox aria-label="Enlarge figure: Four plots compare seven models across action progress: ongoing action and mission similarity measured with SBERT and SigLIP. VIM leads across the observation cutoffs."><img src="static/images/action-progress.png" width="2200" height="780" alt="Four plots compare seven models across action progress: ongoing action and mission similarity measured with SBERT and SigLIP. VIM leads across the observation cutoffs." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Intent prediction across action progress.</strong> Curves show mean similarity on the VI AMO test set. All models use the same evaluation examples and observation cutoffs; higher is better.</figcaption></figure>
+          <div class="interactive-figure" data-chart-group="progress">
+            <div class="interactive-content" hidden></div>
+          <figure class="research-figure chart-fallback "><a class="figure-link" href="static/images/action-progress.png" data-lightbox aria-label="Enlarge figure: Four plots compare seven models across action progress: ongoing action and mission similarity measured with SBERT and SigLIP. VIM leads across the observation cutoffs."><img src="static/images/action-progress.png" width="2200" height="780" alt="Four plots compare seven models across action progress: ongoing action and mission similarity measured with SBERT and SigLIP. VIM leads across the observation cutoffs." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Intent prediction across action progress.</strong> Curves show mean similarity on the VI AMO test set. All models use the same evaluation examples and observation cutoffs; higher is better.</figcaption></figure>
+          </div>
         </article>
         <article class="result-block">
           <h3>Generalization to unseen labels</h3>
           <p>On test actions for which both action and mission labels are absent from training, VIM reaches 0.736 action SBERT and 0.741 mission SBERT. This evaluation measures unseen label strings within the dataset’s source mixture.</p>
-          <figure class="research-figure radar-figure"><a class="figure-link" href="static/images/seen-unseen.png" data-lightbox aria-label="Enlarge figure: Two radar plots compare seven models when both action and mission labels are seen during training and when both are unseen. VIM is the outer blue outline."><img src="static/images/seen-unseen.png" width="1800" height="749" alt="Two radar plots compare seven models when both action and mission labels are seen during training and when both are unseen. VIM is the outer blue outline." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Seen versus unseen labels.</strong> Axes I–VI: OA SBERT, OA SigLIP, OA Top-10, OM Top-10, OM SigLIP, and OM SBERT. The blue outline denotes VIM.</figcaption></figure>
+          <div class="interactive-figure" data-chart-group="radar">
+            <div class="interactive-content" hidden></div>
+          <figure class="research-figure chart-fallback radar-figure"><a class="figure-link" href="static/images/seen-unseen.png" data-lightbox aria-label="Enlarge figure: Two radar plots compare seven models when both action and mission labels are seen during training and when both are unseen. VIM is the outer blue outline."><img src="static/images/seen-unseen.png" width="1800" height="749" alt="Two radar plots compare seven models when both action and mission labels are seen during training and when both are unseen. VIM is the outer blue outline." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Seen versus unseen labels.</strong> Clockwise from the top: OA SBERT, OM SBERT, OA SigLIP, OM SigLIP, OA Top-10, and OM Top-10. The blue outline denotes VIM.</figcaption></figure>
+          </div>
         </article>
       </div>
     </section>
@@ -153,10 +169,13 @@
         <article class="real-world-results" aria-labelledby="quantitative-title">
           <h3 id="quantitative-title">Real-world task quantitative results</h3>
           <div class="result-copy">
-            <p>Across five real-world tasks with five trials per task, VIM reduces mean human teleoperation time by <strong>34.6%</strong> relative to GPT-4o and <strong>39.8%</strong> relative to GPT-5.6 Luna.</p>
+            <p>Across five real-world tasks, VIM reduces mean human teleoperation time by <strong>34.6%</strong> relative to GPT-4o and <strong>39.8%</strong> relative to GPT-5.6 Luna.</p>
             <p>Mean VIM inference latency ranges from <strong>0.70 to 0.81 seconds</strong> across tasks. The plots report mean ± standard deviation.</p>
           </div>
-          <figure class="research-figure quantitative-figure"><a class="figure-link" href="static/images/real-world-results.png" data-lightbox aria-label="Enlarge figure: Bar charts compare human teleoperation time and VLM latency across apple, banana, egg, sweeping, and long-horizon tasks for VIM and baseline methods."><img src="static/images/real-world-results.png" width="1400" height="1058" alt="Bar charts compare human teleoperation time and VLM latency across apple, banana, egg, sweeping, and long-horizon tasks for VIM and baseline methods." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Real-world quantitative results.</strong> Human teleoperation time (top) and inference latency (bottom). Lower is better.</figcaption></figure>
+          <div class="interactive-figure" data-chart-group="realworld">
+            <div class="interactive-content" hidden></div>
+          <figure class="research-figure chart-fallback quantitative-figure"><a class="figure-link" href="static/images/real-world-results.png" data-lightbox aria-label="Enlarge figure: Bar charts compare human teleoperation time and VLM latency across apple, banana, egg, sweeping, and long-horizon tasks for VIM and baseline methods."><img src="static/images/real-world-results.png" width="1400" height="1058" alt="Bar charts compare human teleoperation time and VLM latency across apple, banana, egg, sweeping, and long-horizon tasks for VIM and baseline methods." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Real-world quantitative results.</strong> Human teleoperation time (top) and inference latency (bottom). Lower is better.</figcaption></figure>
+          </div>
         </article>
       </div>
     </section>
