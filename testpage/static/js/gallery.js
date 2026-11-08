@@ -319,7 +319,7 @@
     positionSpotlight();
     syncPlayback();
   }
-  fetch("static/data/gallery.json?v=20261108-complete-oa-1").then(response => {
+  fetch("static/data/gallery.json?v=20261108-diverse-1").then(response => {
     if (!response.ok) throw new Error(`Gallery: ${response.status}`);
     return response.json();
   }).then(data => {
