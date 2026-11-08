@@ -1,4 +1,4 @@
-/* Native video film strips, projected onto a gently curved moving wall. */
+/* Moving contact sheets with an inline annotation and model comparison. */
 (() => {
   "use strict";
   const wall = document.querySelector(".film-wall");
@@ -9,8 +9,8 @@
     button, video: button.querySelector("video"), row: Math.floor(index / 7), column: index % 7,
     x: 0, visible: false
   }));
-  const rowOffsets = [2, .55, 1.2, .05];
-  const rowSpeeds = [19, 23, 20, 25];
+  const rowOffsets = [1.1, .35, 1.65, .8];
+  const rowSpeeds = [14, 17, 15, 18];
   const drift = [0, 0, 0, 0];
   const pendingPlay = new WeakSet();
   let items = new Map();
@@ -48,18 +48,15 @@
     }
   }
   function project() {
-    const rowStep = tileHeight + 15;
-    const top = (height - (rowStep * 4 - 15)) / 2;
+    const rowStep = tileHeight + 16;
+    const top = (height - (rowStep * 4 - 16)) / 2;
     tiles.forEach(tile => {
       const cycle = stride * 7;
       const x = ((tile.column + rowOffsets[tile.row]) * stride + drift[tile.row]) % cycle - stride;
-      const n = (x + tileWidth / 2 - width / 2) / (width / 2 + tileWidth / 2);
-      const curve = clamp(n, -1.5, 1.5);
-      const scale = 1 - .09 * Math.min(1.6, curve * curve);
-      const y = top + tile.row * rowStep + (tile.row - 1.5) * curve * curve * 19;
+      const y = top + tile.row * rowStep;
       tile.x = x;
       tile.visible = x + tileWidth > 0 && x < width;
-      tile.button.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) perspective(900px) rotateY(${-curve * 22}deg) rotateZ(${curve * (tile.row - 1.5) * 2.6}deg) scale(${scale})`;
+      tile.button.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
     });
   }
   function tick(time) {
@@ -81,36 +78,33 @@
     if (inView && !document.hidden && !reducedMotion.matches && !active) frame = requestAnimationFrame(tick);
   }
 
+  function resultLines(action, mission) {
+    const lines = el("div", "film-result-lines");
+    [["OA", "Ongoing action", action], ["OM", "Ongoing mission", mission]].forEach(([label, full, text]) => {
+      const line = el("p");
+      const key = el("b", "", label);
+      key.setAttribute("aria-label", full);
+      line.append(key, el("span", "", text));
+      lines.append(line);
+    });
+    return lines;
+  }
+  function renderAnnotation(item) {
+    const annotation = el("section", "film-groundtruth");
+    annotation.setAttribute("aria-label", "Dataset annotation");
+    annotation.append(el("h4", "", "Annotation"), resultLines(item.action, item.mission));
+    return annotation;
+  }
   function renderResults(item) {
     const card = el("section", "film-results");
-    card.setAttribute("aria-label", `${item.source}: ${item.kind === "comparison" ? "Model predictions" : "Dataset annotation"}`);
-    const close = el("button", "film-close", "×");
-    close.type = "button";
-    close.setAttribute("aria-label", "Close highlighted film");
-    close.addEventListener("click", () => closeSpotlight(true));
-    card.append(close, el("span", "film-source", item.source), el("h3", "", item.title));
-    if (item.kind === "comparison" && item.predictions?.length) {
-      const predictions = el("div", "film-predictions");
-      item.predictions.forEach(prediction => {
-        const article = el("article", `film-prediction${prediction.model === "tuned" ? " ours" : ""}`);
-        article.append(el("h4", "", prediction.label));
-        [["OA", "Ongoing action", prediction.action], ["OM", "Ongoing mission", prediction.mission]].forEach(([label, full, text]) => {
-          const line = el("p");
-          const key = el("b", "", label);
-          key.setAttribute("aria-label", full);
-          line.append(key, el("span", "", text));
-          article.append(line);
-        });
-        predictions.append(article);
-      });
-      card.append(predictions);
-    } else {
-      // These samples have annotations, not recorded model predictions.
-      card.append(el("span", "film-annotation-label", "Dataset annotation"));
-      const annotations = el("dl", "film-annotation");
-      annotations.append(el("dt", "", "Action"), el("dd", "", item.action), el("dt", "", "Mission"), el("dd", "", item.mission));
-      card.append(annotations);
-    }
+    card.setAttribute("aria-label", `${item.source}: four model predictions`);
+    const predictions = el("div", "film-predictions");
+    item.predictions.forEach(prediction => {
+      const article = el("article", `film-prediction${prediction.model === "tuned" ? " ours" : ""}`);
+      article.append(el("h4", "", prediction.label), resultLines(prediction.action, prediction.mission));
+      predictions.append(article);
+    });
+    card.append(predictions);
     return card;
   }
 
@@ -118,26 +112,30 @@
     if (!active) return;
     const hero = spotlight.querySelector(".film-hero");
     const card = spotlight.querySelector(".film-results");
+    const videoFrame = hero.querySelector(".film-frame");
     const bounds = wall.getBoundingClientRect();
     const source = active.button.getBoundingClientRect();
     const cx = source.left + source.width / 2 - bounds.left;
     const cy = source.top + source.height / 2 - bounds.top;
-    const mobile = width <= 700;
-    const margin = mobile ? 14 : 24;
-    const videoWidth = mobile ? Math.min(390, width - 2 * margin) : Math.min(480, (width - 2 * margin - 20) * .49);
-    const videoHeight = mobile ? Math.min(232, videoWidth * .70 + 24) : videoWidth * .75 + 28;
-    const cardWidth = mobile ? videoWidth : Math.min(450, width - 2 * margin - 20 - videoWidth);
+    const mobile = matchMedia("(max-width: 700px)").matches;
+    const margin = mobile ? 10 : 22;
+    const padding = mobile ? 14 : 22;
+    const gap = mobile ? 12 : 24;
+    const groupWidth = Math.min(1120, width - 2 * margin);
+    const contentWidth = groupWidth - 2 * padding - 2;
+    const videoWidth = mobile ? contentWidth : (contentWidth - gap) * .45;
+    const cardWidth = mobile ? contentWidth : contentWidth - videoWidth - gap;
+    const videoHeight = mobile ? Math.min(195, videoWidth * .64) : Math.min(330, videoWidth * .75 + 24);
     hero.style.width = `${videoWidth}px`;
-    hero.style.height = `${videoHeight}px`;
+    hero.style.height = "auto";
+    videoFrame.style.height = `${videoHeight}px`;
     card.style.width = `${cardWidth}px`;
-    card.style.maxHeight = `${mobile ? height - videoHeight - 2 * margin - 10 : height - 2 * margin}px`;
-    const videoRight = !mobile && cx > width / 2;
-    spotlight.classList.toggle("video-right", videoRight);
-    const groupWidth = mobile ? videoWidth : videoWidth + cardWidth + 20;
+    card.style.maxHeight = mobile ? "none" : `${height - 2 * margin - 2 * padding}px`;
     spotlight.style.width = `${groupWidth}px`;
-    const groupHeight = mobile ? videoHeight + card.offsetHeight + 10 : Math.max(videoHeight, card.offsetHeight);
-    let left = mobile ? (width - groupWidth) / 2 : cx - videoWidth / 2 - (videoRight ? cardWidth + 20 : 0);
-    let top = mobile ? (height - groupHeight) / 2 : cy - groupHeight / 2;
+    spotlight.style.maxHeight = `${height - 2 * margin}px`;
+    const groupHeight = Math.min(spotlight.offsetHeight, height - 2 * margin);
+    const left = mobile ? margin : cx - groupWidth / 2;
+    const top = mobile ? margin : cy - groupHeight / 2;
     spotlight.style.left = `${clamp(left, margin, width - groupWidth - margin)}px`;
     spotlight.style.top = `${clamp(top, margin, height - groupHeight - margin)}px`;
   }
@@ -148,7 +146,7 @@
   }
   function showSpotlight(tile, pin = false) {
     const item = items.get(tile.button.dataset.episode);
-    if (!item) return;
+    if (!item || item.predictions?.length !== 4) return;
     clearTimers();
     if (active === tile) { pinned = pinned || pin; return; }
     closeSpotlight(false);
@@ -169,17 +167,22 @@
     }, { once: true });
     video.src = item.views[0].video;
     frame.append(video);
-    hero.append(frame);
+    hero.append(el("span", "film-source", item.source), frame, renderAnnotation(item));
     const card = renderResults(item);
-    spotlight.replaceChildren(hero, card);
+    const close = el("button", "film-close", "×");
+    close.type = "button";
+    close.setAttribute("aria-label", "Close highlighted film");
+    close.addEventListener("click", () => closeSpotlight(true));
+    spotlight.replaceChildren(hero, card, close);
+    spotlight.scrollTop = 0;
     spotlight.hidden = false;
     wall.classList.add("is-inspecting");
     tile.button.classList.add("is-selected");
     tile.button.setAttribute("aria-expanded", "true");
     positionSpotlight();
     if (!reducedMotion.matches) {
-      const target = hero.getBoundingClientRect();
-      hero.animate([
+      const target = frame.getBoundingClientRect();
+      frame.animate([
         { transformOrigin: "0 0", transform: `translate(${source.left - target.left}px, ${source.top - target.top}px) scale(${source.width / target.width}, ${source.height / target.height})` },
         { transformOrigin: "0 0", transform: "none" }
       ], { duration: 360, easing: "cubic-bezier(.2,.8,.2,1)" });
@@ -264,9 +267,9 @@
   function resize() {
     width = wall.clientWidth;
     height = wall.clientHeight;
-    tileWidth = Math.max(220, width / 5.45);
-    tileHeight = tileWidth / 1.5;
-    stride = tileWidth + 18;
+    tileHeight = (height - 80) / 4;
+    tileWidth = Math.max(210, tileHeight * 1.62, width / 6);
+    stride = tileWidth + 16;
     tiles.forEach(tile => {
       tile.button.style.width = `${tileWidth}px`;
       tile.button.style.height = `${tileHeight}px`;
@@ -275,7 +278,7 @@
     positionSpotlight();
     syncPlayback();
   }
-  fetch("static/data/gallery.json").then(response => {
+  fetch("static/data/gallery.json?v=20261108-hierarchy").then(response => {
     if (!response.ok) throw new Error(`Gallery: ${response.status}`);
     return response.json();
   }).then(data => {
