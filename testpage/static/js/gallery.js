@@ -165,9 +165,7 @@
     video.playsInline = true;
     video.poster = tile.video.poster;
     video.setAttribute("aria-label", item.title);
-    video.addEventListener("loadedmetadata", () => {
-      if (Number.isFinite(video.duration) && video.duration > 0) video.currentTime = tile.video.currentTime % video.duration;
-    }, { once: true });
+    // A lifted film starts with the complete action, independent of wall playback.
     video.src = item.views[0].video;
     frame.append(video);
     hero.append(el("span", "film-source", item.source), frame, renderAnnotation(item));
@@ -281,7 +279,7 @@
     positionSpotlight();
     syncPlayback();
   }
-  fetch("static/data/gallery.json?v=20261108-hierarchy").then(response => {
+  fetch("static/data/gallery.json?v=20261108-complete-oa-1").then(response => {
     if (!response.ok) throw new Error(`Gallery: ${response.status}`);
     return response.json();
   }).then(data => {
