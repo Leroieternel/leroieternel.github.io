@@ -13,6 +13,8 @@
   <script src="static/js/site.js?v=20261107-task-slide" defer></script>
   <link rel="stylesheet" href="static/css/gallery.css?v=20261108-filmwall-1">
   <script src="static/js/gallery.js?v=20261108-filmwall-1" defer></script>
+  <link rel="stylesheet" href="static/css/diagrams.css?v=20261108-interactive-1">
+  <script src="static/js/diagrams.js?v=20261108-interactive-1" defer></script>
   <link rel="stylesheet" href="static/css/charts.css?v=20261107-clean-controls">
   <script src="static/js/vendor/chart-4.5.1.umd.min.js" defer></script>
   <script src="static/js/charts.js?v=20261107-clean-controls" defer></script>
@@ -177,7 +179,16 @@
             </figure>
           </div>
         </div>
-        <figure class="research-figure "><a class="figure-link" href="static/images/method-overview.png" data-lightbox aria-label="Enlarge figure: The VI AMO pipeline decomposes actions, groups missions, segments videos, and reviews annotations. A vision-language model learns action and mission predictions from context and visual history."><img src="static/images/method-overview.png" width="2600" height="1058" alt="The VI AMO pipeline decomposes actions, groups missions, segments videos, and reviews annotations. A vision-language model learns action and mission predictions from context and visual history." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Annotation, dataset, and training.</strong> Robot demonstrations are annotated with temporally aligned actions and missions. VIM combines visual history with completed-action context to generate the current action and its broader goal.</figcaption></figure>
+        <figure class="research-figure pipeline-figure">
+          <object class="pipeline-desktop" type="image/svg+xml" data="static/diagrams/pipeline.svg" aria-label="Annotation pipeline, VI AMO dataset, and VIM training">
+            <img src="static/images/method-overview.png" alt="Annotation pipeline, dataset, and VIM training." width="2600" height="1058" loading="lazy">
+          </object>
+          <div class="pipeline-mobile">
+            <object type="image/svg+xml" data="static/diagrams/pipeline.svg#annotation" aria-label="Annotation pipeline: decompose actions, group missions, segment videos, and human review"></object>
+            <object type="image/svg+xml" data="static/diagrams/pipeline.svg#dataset" aria-label="VI AMO dataset: kitchen, cleaning, appliance use, and tool use"></object>
+            <object type="image/svg+xml" data="static/diagrams/pipeline.svg#training" aria-label="VIM training from completed-action context and visual history"></object>
+          </div>
+          <figcaption><strong>Annotation, dataset, and training.</strong> Robot demonstrations are annotated with temporally aligned actions and missions. VIM combines visual history with completed-action context to generate the current action and its broader goal.</figcaption></figure>
       </div>
     </section>
     <section class="section" id="results" aria-labelledby="results-title">
@@ -204,7 +215,46 @@
     <section class="section section-tinted" id="shared-autonomy" aria-labelledby="autonomy-title">
       <div class="container">
         <h2 id="autonomy-title">Downstream Applications: Shared Autonomy</h2>
-        <figure class="research-figure "><a class="figure-link" href="static/images/control-handoffs.png" data-lightbox aria-label="Enlarge figure: Robot rollout keyframes show egg placement, trash sweeping, and successive fruit placements. Yellow timeline segments mark human teleoperation; blue segments mark VLA control."><img src="static/images/control-handoffs.png" width="2600" height="794" alt="Robot rollout keyframes show egg placement, trash sweeping, and successive fruit placements. Yellow timeline segments mark human teleoperation; blue segments mark VLA control." loading="lazy"><span class="enlarge-label" aria-hidden="true">↗ Enlarge</span></a><figcaption><strong>Human-to-robot handoffs.</strong> Mission predictions guide continued execution in egg placement, trash sweeping, and multi-mission fruit placement, with mode bars distinguishing human teleoperation from VLA control. The operator initiates a task, confirms the inferred mission, and then hands control to a language-conditioned VLA policy.</figcaption></figure>
+        <figure class="research-figure handoff-figure">
+          <div class="handoff-diagram" aria-label="Interactive human-to-robot handoffs">
+            <div class="handoff-legend"><span><i class="human-key" aria-hidden="true"></i>Human teleop</span><span><i aria-hidden="true"></i>VLA control</span><span class="time-direction">2× · time →</span></div>
+            <div class="handoff-top">
+              <div class="handoff-intro"><img src="static/diagrams/rollouts/teleop.webp" width="620" height="348" alt="A human operator starts the robot task through teleoperation." loading="lazy"><span>Human-to-robot handoff →</span></div>
+              <div class="handoff-player" data-rollout-player data-player-label="Put the egg in the egg tray">
+              <div class="rollout-screen"><video muted playsinline preload="none" poster="static/diagrams/rollouts/egg.webp" data-src="static/diagrams/rollouts/egg.mp4" data-rollout="egg" aria-label="Put the egg in the egg tray"></video></div>
+              <div class="rollout-controls">
+                <button class="rollout-toggle" type="button" aria-label="Play Put the egg in the egg tray"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3 16 10 5 17Z"/></svg></button>
+                <span class="rollout-mode" data-mode="human">Human teleop</span><span class="rollout-time"></span>
+              </div>
+              <div class="mode-timeline"><div class="mode-track" aria-hidden="true"></div><input type="range" min="0" max="1" step="0.05" value="0" aria-label="Put the egg in the egg tray: seek control timeline"><output class="mode-tooltip" hidden></output></div>
+              <p class="rollout-mission" style="--mission-color:#c1dbea">Put the egg in the egg tray</p>
+            </div><div class="handoff-player" data-rollout-player data-player-label="Sweep the trash into the dustpan">
+              <div class="rollout-screen"><video muted playsinline preload="none" poster="static/diagrams/rollouts/sweep.webp" data-src="static/diagrams/rollouts/sweep.mp4" data-rollout="sweep" aria-label="Sweep the trash into the dustpan"></video></div>
+              <div class="rollout-controls">
+                <button class="rollout-toggle" type="button" aria-label="Play Sweep the trash into the dustpan"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3 16 10 5 17Z"/></svg></button>
+                <span class="rollout-mode" data-mode="human">Human teleop</span><span class="rollout-time"></span>
+              </div>
+              <div class="mode-timeline"><div class="mode-track" aria-hidden="true"></div><input type="range" min="0" max="1" step="0.05" value="0" aria-label="Sweep the trash into the dustpan: seek control timeline"><output class="mode-tooltip" hidden></output></div>
+              <p class="rollout-mission" style="--mission-color:#bedfcd">Sweep the trash into the dustpan</p>
+            </div>
+            </div>
+            <div class="handoff-player sequence-player" data-rollout-player data-player-label="Cherry, apple, then banana">
+              <div class="sequence-screens"><div class="rollout-screen" data-step="01"><video muted playsinline preload="none" poster="static/diagrams/rollouts/cherry.webp" data-src="static/diagrams/rollouts/cherry.mp4" data-rollout="cherry" aria-label="Put the cherry on the plate"></video></div>
+<div class="rollout-screen" data-step="02"><video muted playsinline preload="none" poster="static/diagrams/rollouts/apple.webp" data-src="static/diagrams/rollouts/apple.mp4" data-rollout="apple" aria-label="Put the apple on the plate"></video></div>
+<div class="rollout-screen" data-step="03"><video muted playsinline preload="none" poster="static/diagrams/rollouts/banana.webp" data-src="static/diagrams/rollouts/banana.mp4" data-rollout="banana" aria-label="Put the banana on the plate"></video></div></div>
+              <div class="rollout-controls">
+                <button class="rollout-toggle" type="button" aria-label="Play Cherry, apple, then banana"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3 16 10 5 17Z"/></svg></button>
+                <span class="rollout-mode" data-mode="human">Human teleop</span><span class="rollout-time"></span>
+              </div>
+              <div class="mode-timeline"><div class="mode-track" aria-hidden="true"></div><input type="range" min="0" max="1" step="0.05" value="0" aria-label="Cherry, apple, then banana: seek control timeline"><output class="mode-tooltip" hidden></output></div>
+              <div class="sequence-missions"><button type="button" class="rollout-mission" data-mission-index="0" style="--mission-color:#e8bbb4"><span class="mission-number">01</span>Put the cherry on the plate</button>
+<button type="button" class="rollout-mission" data-mission-index="1" style="--mission-color:#cdbfde"><span class="mission-number">02</span>Put the apple on the plate</button>
+<button type="button" class="rollout-mission" data-mission-index="2" style="--mission-color:#eddd8a"><span class="mission-number">03</span>Put the banana on the plate</button></div>
+            </div>
+          </div>
+          <img class="handoff-static" src="static/images/control-handoffs.png" width="2600" height="794" alt="Yellow segments indicate human teleoperation; blue indicates VLA control. The fruit tasks proceed from cherry to apple to banana." loading="lazy" hidden>
+          <noscript><style>.handoff-diagram { display:none }</style><img src="static/images/control-handoffs.png" width="2600" height="794" alt="Human-to-robot handoffs: egg, sweeping, and cherry, apple, banana tasks."></noscript>
+          <figcaption><strong>Human-to-robot handoffs.</strong> Mission predictions guide continued execution in egg placement, trash sweeping, and multi-mission fruit placement, with mode bars distinguishing human teleoperation from VLA control. The operator initiates a task, confirms the inferred mission, and then hands control to a language-conditioned VLA policy.</figcaption></figure>
         <article class="autonomy-tasks" id="tasks" aria-labelledby="tasks-title">
           <h3 id="tasks-title">Tasks</h3>
           <div class="task-carousel" data-task-carousel role="region" aria-roledescription="carousel" aria-label="Shared autonomy tasks">
