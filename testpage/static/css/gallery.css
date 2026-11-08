@@ -1,13 +1,28 @@
 /* A curved film wall with a compact, translucent comparison. */
 .teaser-section { padding: 12px 0 38px; }
 .film-wall { position: relative; isolation: isolate; width: min(1360px, calc(100% - 48px)); height: clamp(580px, 46vw, 680px); margin-inline: auto; overflow: hidden; border: 1px solid #25282b; border-radius: 7px; background: #000; color: #fff; contain: layout paint; }
-.film-field { display: grid; grid-template-columns: repeat(7, 1fr); gap: 16px; }
+.film-atmosphere { position: absolute; z-index: 0; inset: 0; pointer-events: none; overflow: hidden; }
+.film-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+.film-watermark { position: absolute; inset: 0; display: grid; place-items: center; color: #1c1c1e; font-family: "Comic Sans MS", cursive; font-size: clamp(100px, 25vw, 350px); line-height: 1; letter-spacing: -.055em; white-space: nowrap; user-select: none; }
+.film-intro { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 28px; padding: 24px; pointer-events: none; visibility: hidden; opacity: 0; color: #fff; text-align: center; background: radial-gradient(ellipse at center, #0004, transparent 70%); }
+.film-intro-title { font-family: "Comic Sans MS", cursive; font-size: clamp(62px, 9vw, 128px); line-height: 1.15; letter-spacing: -.035em; text-shadow: 0 2px 30px #0005; }
+.film-intro-stats { display: flex; align-items: flex-start; justify-content: center; gap: clamp(30px, 5vw, 76px); font-family: "Google Sans", sans-serif; }
+.film-intro-stats strong { display: block; font-size: clamp(24px, 3.1vw, 40px); font-weight: 600; line-height: 1.2; letter-spacing: -.02em; }
+.film-intro-stats span { display: block; margin-top: 7px; color: #ffffffbd; font-size: clamp(13px, 1.5vw, 18px); }
+.film-field { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 16px; }
+.film-wall.is-introducing .film-intro { visibility: visible; opacity: calc(1 - var(--film-reveal, 0)); transform: translateY(calc(-12px * var(--film-reveal, 0))); }
+.film-wall.is-introducing .film-field { filter: blur(calc(6px * (1 - var(--film-reveal, 0)))); opacity: calc(.34 + .66 * var(--film-reveal, 0)); }
+.film-wall.is-introducing .film-watermark { opacity: var(--film-reveal, 0); }
 .film-wall.is-ready .film-field { position: absolute; inset: 0; display: block; }
 .film-frame { position: relative; display: block; overflow: hidden; border: 1px solid #666; border-radius: 18px; padding: 11px 3px; background: #101010; }
 .film-frame::before, .film-frame::after { content: ""; position: absolute; z-index: 2; left: 9px; right: 9px; height: 5px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='5'%3E%3Crect width='9' height='5' rx='1' fill='%23dbe0e3'/%3E%3C/svg%3E") repeat-x center; pointer-events: none; }
 .film-frame::before { top: 3px; }
 .film-frame::after { bottom: 3px; }
 .film-frame video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.film-poster { position: absolute; inset: 11px 3px; width: calc(100% - 6px); height: calc(100% - 22px); object-fit: cover; border-radius: 8px; pointer-events: none; }
+.film-tile video { position: relative; }
+.film-wall.is-ready .film-tile video { opacity: 0; }
+.film-wall.is-ready .film-tile.has-video-frame video { opacity: 1; }
 .film-tile { aspect-ratio: 1.62; cursor: pointer; color: inherit; opacity: .93; }
 .film-wall.is-ready .film-tile { position: absolute; top: 0; left: 0; will-change: transform; }
 .film-tile:focus-visible { outline: 2px solid #ddd; outline-offset: 3px; }
@@ -39,6 +54,9 @@
 @media (max-width: 700px) {
   .teaser-section { padding-bottom: 28px; }
   .film-wall { width: calc(100% - 24px); height: 740px; border-radius: 5px; }
+  .film-intro { gap: 24px; padding: 16px; }
+  .film-intro-stats { gap: clamp(20px, 5vw, 34px); }
+  .film-watermark { font-size: 27vw; }
   .film-spotlight { flex-direction: column; gap: 10px; padding: 12px; border-radius: 12px; }
   .film-source { font-size: 12px; margin-bottom: 8px; }
   .film-groundtruth { margin-top: 12px; padding-left: 9px; }

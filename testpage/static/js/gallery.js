@@ -5,10 +5,17 @@
   if (!wall) return;
   const spotlight = wall.querySelector(".film-spotlight");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-  const tiles = [...wall.querySelectorAll(".film-tile")].map((button, index) => ({
-    button, video: button.querySelector("video"), row: Math.floor(index / 7), column: index % 7,
-    x: 0, visible: false
-  }));
+  const tiles = [...wall.querySelectorAll(".film-tile")].map((button, index) => {
+    const video = button.querySelector("video");
+    const poster = document.createElement("img");
+    poster.className = "film-poster";
+    poster.src = video.poster;
+    poster.alt = "";
+    button.prepend(poster);
+    // Keep the still visible until the first decoded frame is available.
+    video.addEventListener("loadeddata", () => button.classList.add("has-video-frame"), { once: true });
+    return { button, video, row: Math.floor(index / 7), column: index % 7, x: 0, visible: false };
+  });
   const rowOffsets = [1.1, .35, 1.65, .8];
   const rowSpeeds = [14, 17, 15, 18];
   const drift = [0, 0, 0, 0];
@@ -18,6 +25,30 @@
   let inView = false, active = null, pinned = false, frame = 0, lastTime = 0, mediaTime = 0;
   let hoverTimer = 0, closeTimer = 0, pendingTile = null;
   let pointer = null, sourceRegion = null;
+  let introDone = reducedMotion.matches, introInView = false, introElapsed = 0;
+
+  wall.classList.toggle("is-introducing", !introDone);
+  const stars = wall.querySelector(".film-stars");
+  if (stars) {
+    // A stable, sparse field; no particles are drawn over the films.
+    let seed = 6600;
+    const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    for (let index = 0; index < 140; index++) {
+      const star = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      star.setAttribute("cx", (random() * 1360).toFixed(2));
+      star.setAttribute("cy", (random() * 680).toFixed(2));
+      star.setAttribute("r", (.4 + random() * .5).toFixed(2));
+      star.setAttribute("fill", "#e2e4e8");
+      star.setAttribute("opacity", (.18 + random() * .32).toFixed(2));
+      stars.append(star);
+    }
+  }
+
+  function finishIntro() {
+    introDone = true;
+    wall.classList.remove("is-introducing");
+    wall.style.removeProperty("--film-reveal");
+  }
 
   const clamp = (n, lo, hi) => Math.min(Math.max(n, lo), Math.max(lo, hi));
   const el = (tag, className, text) => {
@@ -38,7 +69,7 @@
     const available = inView && !document.hidden;
     tiles.forEach(tile => {
       // Every visible clip plays; a lifted clip continues in the spotlight.
-      if (available && !reducedMotion.matches && tile.visible && tile !== active) play(tile.video);
+      if (available && introDone && !reducedMotion.matches && tile.visible && tile !== active) play(tile.video);
       else tile.video.pause();
     });
     const video = spotlight.querySelector("video");
@@ -64,8 +95,15 @@
   }
   function tick(time) {
     frame = 0;
-    const elapsed = lastTime ? Math.min(time - lastTime, 50) / 1000 : 0;
+    const elapsedMs = lastTime ? time - lastTime : 0;
+    const elapsed = Math.min(elapsedMs, 50) / 1000;
     lastTime = time;
+    if (!introDone && introInView) {
+      introElapsed += elapsedMs;
+      const reveal = clamp((introElapsed - 1500) / 1500, 0, 1);
+      wall.style.setProperty("--film-reveal", reveal.toFixed(3));
+      if (reveal === 1) finishIntro();
+    }
     if (!active) {
       drift.forEach((value, row) => { drift[row] = (value + elapsed * rowSpeeds[row]) % (stride * 7); });
       project();
@@ -74,6 +112,7 @@
     if (inView && !document.hidden && !reducedMotion.matches && !active) frame = requestAnimationFrame(tick);
   }
   function updateMotion() {
+    if (reducedMotion.matches && !introDone) finishIntro();
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     lastTime = 0;
@@ -150,6 +189,7 @@
   function showSpotlight(tile, pin = false) {
     const item = items.get(tile.button.dataset.episode);
     if (!item || item.predictions?.length !== 4) return;
+    finishIntro();
     clearTimers();
     if (active === tile) { pinned = pinned || pin; return; }
     closeSpotlight(false);
@@ -230,7 +270,7 @@
   tiles.forEach(tile => {
     tile.button.addEventListener("pointerenter", event => {
       pointer = { x: event.clientX, y: event.clientY };
-      if (event.pointerType === "touch" || pinned || active === tile) return;
+      if (!introDone || event.pointerType === "touch" || pinned || active === tile) return;
       if (pointerInSpotlight()) { clearTimers(); return; }
       clearTimers();
       pendingTile = tile;
@@ -288,11 +328,14 @@
     resize();
     new ResizeObserver(resize).observe(wall);
     new IntersectionObserver(entries => {
-      inView = entries[0].isIntersecting;
+      const entry = entries[entries.length - 1];
+      inView = entry.isIntersecting;
+      introInView = entry.intersectionRatio >= .35;
       if (!inView) closeSpotlight();
       updateMotion();
-    }, { threshold: 0 }).observe(wall);
+    }, { threshold: [0, .35] }).observe(wall);
   }).catch(error => {
+    finishIntro();
     console.warn("Film wall could not initialize", error);
   });
 })();
