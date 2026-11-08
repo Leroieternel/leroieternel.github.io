@@ -1,50 +1,50 @@
-/* Black film contact sheets, with the site's paper-white and blue comparison. */
+/* A curved film wall with a compact, translucent comparison. */
 .teaser-section { padding: 12px 0 38px; }
 .film-wall { position: relative; isolation: isolate; width: min(1360px, calc(100% - 48px)); height: clamp(580px, 46vw, 680px); margin-inline: auto; overflow: hidden; border: 1px solid #25282b; border-radius: 7px; background: #000; color: #fff; contain: layout paint; }
 .film-field { display: grid; grid-template-columns: repeat(7, 1fr); gap: 16px; }
 .film-wall.is-ready .film-field { position: absolute; inset: 0; display: block; }
-.film-frame { position: relative; display: block; overflow: hidden; border: 1px solid #596167; border-radius: 5px; padding: 11px 3px; background: #101214; }
+.film-frame { position: relative; display: block; overflow: hidden; border: 1px solid #666; border-radius: 18px; padding: 11px 3px; background: #101010; }
 .film-frame::before, .film-frame::after { content: ""; position: absolute; z-index: 2; left: 9px; right: 9px; height: 5px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='5'%3E%3Crect width='9' height='5' rx='1' fill='%23dbe0e3'/%3E%3C/svg%3E") repeat-x center; pointer-events: none; }
 .film-frame::before { top: 3px; }
 .film-frame::after { bottom: 3px; }
-.film-frame video { width: 100%; height: 100%; object-fit: cover; border-radius: 1px; }
+.film-frame video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
 .film-tile { aspect-ratio: 1.62; cursor: pointer; color: inherit; opacity: .93; }
 .film-wall.is-ready .film-tile { position: absolute; top: 0; left: 0; will-change: transform; }
-.film-tile:focus-visible { outline: 2px solid #72b9df; outline-offset: 3px; }
+.film-tile:focus-visible { outline: 2px solid #ddd; outline-offset: 3px; }
 .film-tile.is-selected { opacity: 0; pointer-events: none; }
 .film-shade { position: absolute; z-index: 2; inset: 0; pointer-events: none; background: #000; opacity: 0; transition: opacity 240ms ease; }
-.film-wall.is-inspecting .film-shade { opacity: .62; }
+.film-wall.is-inspecting .film-shade { opacity: .5; }
 /* One local comparison sheet; it neither opens a modal nor locks page scrolling. */
-.film-spotlight { position: absolute; z-index: 3; display: flex; align-items: flex-start; gap: 24px; padding: 22px; overflow: auto; overscroll-behavior: contain; border: 1px solid #d2dce4; border-top: 3px solid #187aa5; border-radius: 7px; background: #fff; color: #263746; box-shadow: 0 22px 75px #0009; font-family: "Google Sans", sans-serif; scrollbar-width: thin; scrollbar-color: #a4b4c0 #f4f6f8; }
+.film-spotlight { position: absolute; z-index: 3; display: flex; align-items: flex-start; gap: 18px; padding: 16px; overflow: auto; overscroll-behavior: contain; border: 1px solid #ffffff38; border-radius: 16px; background: rgb(8 8 8 / 84%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #e7e7e7; box-shadow: 0 18px 55px #0008; font-family: "Google Sans", sans-serif; scrollbar-width: thin; scrollbar-color: #666 #171717; }
 .film-spotlight[hidden] { display: none; }
 .film-hero { flex: none; margin: 0; min-width: 0; max-width: 100%; }
-.film-hero .film-frame { width: 100%; border-color: #9daeb9; box-shadow: 0 0 0 1px #e6edf2; }
+.film-hero .film-frame { width: 100%; border-color: #ffffff80; box-shadow: 0 0 0 1px #ffffff0d; border-radius: 12px; }
 .film-hero .film-frame video { object-fit: contain; }
-.film-source { display: block; margin: 0 28px 12px 0; color: #187aa5; font-size: 13px; font-weight: 600; letter-spacing: .075em; text-transform: uppercase; }
-.film-groundtruth { margin-top: 17px; padding: 0 0 0 12px; border-left: 2px solid #a9b8c3; }
-.film-groundtruth h4 { margin: 0 0 7px; color: #536575; font-size: 13px; font-weight: 600; }
-.film-results { flex: none; min-width: 0; max-width: 100%; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #a4b4c0 #f4f6f8; padding-right: 4px; }
+.film-source { display: block; margin: 0 28px 10px 0; color: #ccc; font-size: 12px; font-weight: 600; letter-spacing: .075em; text-transform: uppercase; }
+.film-groundtruth { margin-top: 12px; padding: 0 0 0 10px; border-left: 2px solid #ffffff45; }
+.film-groundtruth h4 { margin: 0 0 6px; color: #c5c5c5; font-size: 12px; font-weight: 600; }
+.film-results { flex: none; min-width: 0; max-width: 100%; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #666 #171717; padding: 12px 2px 0 0; }
 .film-predictions { display: grid; }
-.film-prediction { padding: 12px 12px 13px; border-bottom: 1px solid #e3e8ec; }
+.film-prediction { padding: 10px; border-bottom: 1px solid #ffffff1f; }
 .film-prediction:last-child { border-bottom: 0; padding-bottom: 0; }
-.film-prediction.ours { border: 0; border-left: 3px solid #187aa5; background: #edf5fa; padding: 12px 12px 13px 9px; }
-.film-prediction h4 { margin: 0 18px 6px 0; color: #465664; font-size: 13px; line-height: 1.3; font-weight: 600; }
-.film-prediction.ours h4 { color: #126f9a; }
-.film-result-lines p { display: flex; gap: 9px; margin: 4px 0 0; color: #263746; font-size: 14px; line-height: 1.4; }
-.film-result-lines p b { flex: none; width: 22px; padding-top: 2px; color: #7b8995; font-size: 10px; font-weight: 600; }
+.film-prediction.ours { border: 1px solid #ffffff40; background: #ffffff09; padding: 9px; border-radius: 7px; }
+.film-prediction h4 { margin: 0 18px 5px 0; color: #d2d2d2; font-size: 13px; line-height: 1.3; font-weight: 600; }
+.film-prediction.ours h4 { color: #fff; }
+.film-result-lines p { display: flex; gap: 8px; margin: 3px 0 0; color: #dedede; font-size: 13px; line-height: 1.4; }
+.film-result-lines p b { flex: none; width: 20px; padding-top: 2px; color: #a0a0a0; font-size: 10px; font-weight: 600; }
 .film-result-lines p span { overflow-wrap: anywhere; }
-.film-groundtruth .film-result-lines p { font-size: 14px; }
-.film-close { position: absolute; z-index: 4; top: 4px; right: 5px; width: 28px; height: 28px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 3px; color: #6b7b88; background: #fff; font-size: 23px; cursor: pointer; }
-.film-close:hover { background: #edf3f7; color: #187aa5; }
+.film-groundtruth .film-result-lines p { font-size: 13px; }
+.film-close { position: absolute; z-index: 4; top: 4px; right: 5px; width: 26px; height: 26px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; color: #aaa; background: transparent; font-size: 22px; cursor: pointer; }
+.film-close:hover { background: #ffffff16; color: #fff; }
 @media (max-width: 700px) {
   .teaser-section { padding-bottom: 28px; }
   .film-wall { width: calc(100% - 24px); height: 740px; border-radius: 5px; }
-  .film-spotlight { flex-direction: column; gap: 12px; padding: 14px; border-radius: 5px; }
+  .film-spotlight { flex-direction: column; gap: 10px; padding: 12px; border-radius: 12px; }
   .film-source { font-size: 12px; margin-bottom: 8px; }
   .film-groundtruth { margin-top: 12px; padding-left: 9px; }
-  .film-results { overflow: visible; padding-right: 0; }
+  .film-results { overflow: visible; padding: 0; }
   .film-prediction { padding: 9px 10px; }
-  .film-prediction.ours { padding: 9px 10px 10px 7px; }
+  .film-prediction.ours { padding: 8px 9px; }
   .film-result-lines p, .film-groundtruth .film-result-lines p { font-size: 12px; line-height: 1.4; }
   .film-prediction h4, .film-groundtruth h4 { font-size: 12px; margin-bottom: 5px; }
   .film-result-lines p { gap: 6px; margin-top: 3px; }

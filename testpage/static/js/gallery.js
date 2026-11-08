@@ -1,4 +1,4 @@
-/* Moving contact sheets with an inline annotation and model comparison. */
+/* Curved, moving films with an inline annotation and model comparison. */
 (() => {
   "use strict";
   const wall = document.querySelector(".film-wall");
@@ -53,10 +53,13 @@
     tiles.forEach(tile => {
       const cycle = stride * 7;
       const x = ((tile.column + rowOffsets[tile.row]) * stride + drift[tile.row]) % cycle - stride;
-      const y = top + tile.row * rowStep;
+      const n = (x + tileWidth / 2 - width / 2) / (width / 2 + tileWidth / 2);
+      const curve = clamp(n, -1.5, 1.5);
+      const scale = 1 - .09 * Math.min(1.6, curve * curve);
+      const y = top + tile.row * rowStep + (tile.row - 1.5) * curve * curve * 19;
       tile.x = x;
       tile.visible = x + tileWidth > 0 && x < width;
-      tile.button.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+      tile.button.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) perspective(900px) rotateY(${-curve * 22}deg) rotateZ(${curve * (tile.row - 1.5) * 2.6}deg) scale(${scale})`;
     });
   }
   function tick(time) {
@@ -119,13 +122,13 @@
     const cy = source.top + source.height / 2 - bounds.top;
     const mobile = matchMedia("(max-width: 700px)").matches;
     const margin = mobile ? 10 : 22;
-    const padding = mobile ? 14 : 22;
-    const gap = mobile ? 12 : 24;
-    const groupWidth = Math.min(1120, width - 2 * margin);
+    const padding = mobile ? 12 : 16;
+    const gap = mobile ? 10 : 18;
+    const groupWidth = Math.min(mobile ? 440 : 900, width - 2 * margin);
     const contentWidth = groupWidth - 2 * padding - 2;
-    const videoWidth = mobile ? contentWidth : (contentWidth - gap) * .45;
+    const videoWidth = mobile ? contentWidth : (contentWidth - gap) * .43;
     const cardWidth = mobile ? contentWidth : contentWidth - videoWidth - gap;
-    const videoHeight = mobile ? Math.min(195, videoWidth * .64) : Math.min(330, videoWidth * .75 + 24);
+    const videoHeight = mobile ? Math.min(180, videoWidth * .64) : Math.min(265, videoWidth * .75 + 20);
     hero.style.width = `${videoWidth}px`;
     hero.style.height = "auto";
     videoFrame.style.height = `${videoHeight}px`;
@@ -134,7 +137,7 @@
     spotlight.style.width = `${groupWidth}px`;
     spotlight.style.maxHeight = `${height - 2 * margin}px`;
     const groupHeight = Math.min(spotlight.offsetHeight, height - 2 * margin);
-    const left = mobile ? margin : cx - groupWidth / 2;
+    const left = mobile ? (width - groupWidth) / 2 : cx - groupWidth / 2;
     const top = mobile ? margin : cy - groupHeight / 2;
     spotlight.style.left = `${clamp(left, margin, width - groupWidth - margin)}px`;
     spotlight.style.top = `${clamp(top, margin, height - groupHeight - margin)}px`;
