@@ -161,10 +161,12 @@
         setMode(mode);
         dataTable(host,['Source','Episodes','Actions','Missions'],data.sources.map(s=>[s.name,s.episodes,s.actions,s.missions]));
       } else {
-        const models=kind==='realworld'?data.realworldModels:data.models.map(m=>
-          m.id==='robobrain25_8b_nv'
+        const models=kind==='realworld'?data.realworldModels:data.models.map(m=>{
+          const styled=m.id==='robobrain25_8b_nv'
             ? {...m,color:'#6476AD',borderWidth:2,borderDash:[6,4],pointStyle:'circle',pointBackgroundColor:'#ffffff'}
-            : m);
+            : m;
+          return kind==='radar'?{...styled,borderDash:[]}:styled;
+        });
         legend(host,models,charts);host.append(grid);
         const panels=kind==='progress'?data.progress:kind==='radar'?data.radars:data.realworld;
         panels.forEach(panel=>{
