@@ -106,7 +106,12 @@
     models.forEach((m,i) => {
       const btn=make('button'); btn.type='button';btn.dataset.model=m.id;btn.setAttribute('aria-pressed','true');
       const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 26 12');svg.setAttribute('aria-hidden','true');
-      const line=document.createElementNS(svg.namespaceURI,'path');line.setAttribute('d','M1 6H25');line.setAttribute('stroke',m.color);line.setAttribute('stroke-width','3');line.setAttribute('stroke-dasharray',patterns[i%patterns.length].join(' '));svg.append(line);
+      const line=document.createElementNS(svg.namespaceURI,'path');line.setAttribute('d','M1 6H25');line.setAttribute('stroke',m.color);line.setAttribute('stroke-width',String(m.borderWidth ?? 3));line.setAttribute('stroke-dasharray',(m.borderDash ?? patterns[i%patterns.length]).join(' '));svg.append(line);
+      if(m.pointBackgroundColor) {
+        const point=document.createElementNS(svg.namespaceURI,'circle');
+        point.setAttribute('cx','13');point.setAttribute('cy','6');point.setAttribute('r','3');
+        point.setAttribute('fill',m.pointBackgroundColor);point.setAttribute('stroke',m.color);point.setAttribute('stroke-width','2');svg.append(point);
+      }
       btn.append(svg,document.createTextNode(m.label));
       btn.addEventListener('click',() => {
         const show=btn.getAttribute('aria-pressed')!=='true';btn.setAttribute('aria-pressed',String(show));
@@ -156,7 +161,10 @@
         setMode(mode);
         dataTable(host,['Source','Episodes','Actions','Missions'],data.sources.map(s=>[s.name,s.episodes,s.actions,s.missions]));
       } else {
-        const models=kind==='realworld'?data.realworldModels:data.models;
+        const models=kind==='realworld'?data.realworldModels:data.models.map(m=>
+          kind==='progress' && m.id==='robobrain25_8b_nv'
+            ? {...m,color:'#6476AD',borderWidth:2,borderDash:[6,4],pointStyle:'circle',pointBackgroundColor:'#ffffff'}
+            : m);
         legend(host,models,charts);host.append(grid);
         const panels=kind==='progress'?data.progress:kind==='radar'?data.radars:data.realworld;
         panels.forEach(panel=>{
@@ -184,8 +192,8 @@
               return {model:m.id,label:m.label,data:values.map(v=>v.mean),errors:values.map(v=>v.sd),stats:values,backgroundColor:m.color+'CC',borderColor:m.color,borderWidth:1,borderRadius:3,maxBarThickness:32};
             }
             return {model:m.id,label:m.label,data:kind==='progress'?values.map((y,j)=>({x:data.cutoffs[j],y})):values,
-              borderColor:m.color,backgroundColor:m.color+(kind==='radar'?'10':'FF'),borderWidth:m.id==='tuned'?3:1.7,
-              borderDash:patterns[i],pointStyle:points[i],pointRadius:kind==='radar'?2.5:3,pointHoverRadius:6,pointHitRadius:14,
+              borderColor:m.color,backgroundColor:m.color+(kind==='radar'?'10':'FF'),borderWidth:m.borderWidth ?? (m.id==='tuned'?3:1.7),
+              borderDash:m.borderDash ?? patterns[i],pointStyle:m.pointStyle ?? points[i],pointBackgroundColor:m.pointBackgroundColor,pointRadius:kind==='radar'?2.5:3,pointHoverRadius:6,pointHitRadius:14,
               fill:kind==='radar',tension:0,order:m.id==='tuned'?0:1};
           });
           charts.push(new Chart(a.canvas,{type,data:{labels,datasets},options:opts}));
