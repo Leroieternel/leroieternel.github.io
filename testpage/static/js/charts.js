@@ -162,7 +162,7 @@
         dataTable(host,['Source','Episodes','Actions','Missions'],data.sources.map(s=>[s.name,s.episodes,s.actions,s.missions]));
       } else {
         const models=kind==='realworld'?data.realworldModels:data.models.map(m=>
-          kind==='progress' && m.id==='robobrain25_8b_nv'
+          m.id==='robobrain25_8b_nv'
             ? {...m,color:'#6476AD',borderWidth:2,borderDash:[6,4],pointStyle:'circle',pointBackgroundColor:'#ffffff'}
             : m);
         legend(host,models,charts);host.append(grid);
