@@ -1,5 +1,7 @@
 import * as THREE from 'three';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+import { groundHeight } from './physics.mjs?v=20261111-r2';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 export class Weapon {
@@ -7,8 +9,8 @@ export class Weapon {
     this.camera=camera;this.scene=scene;this.audio=audio;this.effects=effects;
     this.group=new THREE.Group();camera.add(this.group);
     this.magazine=30;this.reserve=120;this.aim=0;this.aiming=false;this.trigger=false;this.cooldown=0;this.recoil=0;this.reloadTime=0;this.reloadDuration=2.35;this.reloading=false;this.onFire=()=>{};this.onReload=()=>{};
-    this.base=new THREE.Vector3(.205,-.34,-.50);this.ads=new THREE.Vector3(0,-.30,-.41);
-    this.muzzle=new THREE.Object3D();this.group.add(this.muzzle);
+    this.base=new THREE.Vector3(.18,-.20,-.50);this.ads=new THREE.Vector3(0,-.30,-.41);
+    this.solids=[];this.obstruction=0;this.obstructionRay=new THREE.Raycaster();this.muzzle=new THREE.Object3D();this.group.add(this.muzzle);
     this.flash=new THREE.Group();this.group.add(this.flash);this.flash.visible=false;
     const flashM=new THREE.MeshBasicMaterial({color:'#ffe6a0',transparent:true,opacity:.9,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
     const shape=new THREE.Shape();for(let i=0;i<16;i++){const a=i/16*Math.PI*2,r=i%2===0?.07:.014;if(i===0)shape.moveTo(Math.cos(a)*r,Math.sin(a)*r);else shape.lineTo(Math.cos(a)*r,Math.sin(a)*r);}shape.closePath();
@@ -16,28 +18,26 @@ export class Weapon {
     this.muzzleLight=new THREE.PointLight('#ffc373',0,3,2);this.group.add(this.muzzleLight);
   }
   async load(manager){
-    const textureLoader=new THREE.TextureLoader(manager);
-    const [texture,normal,roughness,metallic]=await Promise.all(['Base_Color','Normal','Roughness','Metallic'].map(name=>textureLoader.loadAsync('./assets/M4A1_'+name+'.png')));texture.colorSpace=THREE.SRGBColorSpace;for(const map of [texture,normal,roughness,metallic])map.anisotropy=8;
-    const fbx=await new FBXLoader(manager).loadAsync('./assets/M4A1.fbx');
-    const holder=new THREE.Group();holder.add(fbx);holder.updateMatrixWorld(true);
-    let box=new THREE.Box3().setFromObject(holder),size=box.getSize(new THREE.Vector3());
-    const major=size.x>size.z?'x':'z';
-    const limits={lo:box.min[major],hi:box.max[major]},span=limits.hi-limits.lo;
-    const ends=[new THREE.Box3(),new THREE.Box3()],v=new THREE.Vector3();
-    fbx.traverse(m=>{if(!m.isMesh)return;const a=m.geometry.attributes.position;for(let i=0;i<a.count;i++){v.fromBufferAttribute(a,i).applyMatrix4(m.matrixWorld);if(v[major]<limits.lo+span*.12)ends[0].expandByPoint(v);if(v[major]>limits.hi-span*.12)ends[1].expandByPoint(v);}});
-    const section=b=>{const s=b.getSize(new THREE.Vector3());return s.y*(major==='x'?s.z:s.x);};
-    const tipPositive=section(ends[1])<section(ends[0]);
-    if(major==='x')holder.rotation.y=tipPositive?Math.PI/2:-Math.PI/2;else if(tipPositive)holder.rotation.y=Math.PI;
-    holder.updateMatrixWorld(true);box=new THREE.Box3().setFromObject(holder);size=box.getSize(new THREE.Vector3());
-    const scale=.94/size.z;holder.scale.setScalar(scale);holder.updateMatrixWorld(true);box=new THREE.Box3().setFromObject(holder);
-    const center=box.getCenter(new THREE.Vector3());holder.position.sub(center);holder.position.y+=.015;holder.updateMatrixWorld(true);
-    fbx.traverse(m=>{if(m.isMesh){m.material=new THREE.MeshStandardMaterial({map:texture,normalMap:normal,roughnessMap:roughness,metalnessMap:metallic,color:'#d0d4d1',metalness:1,roughness:.86,normalScale:new THREE.Vector2(.8,.8),envMapIntensity:1.25});m.castShadow=false;m.receiveShadow=false;m.frustumCulled=false;m.geometry.computeVertexNormals();}});
-    this.group.add(holder);this.model=holder;
-    box=new THREE.Box3().setFromObject(holder);
-    this.top=box.max.y;this.muzzle.position.set(0,this.top-.075,box.min.z-.025);
+    const loader=new GLTFLoader(manager).setMeshoptDecoder(MeshoptDecoder);
+    const gltf=await loader.loadAsync('./assets/fp/m4a1.glb');
+    const holder=gltf.scene;holder.scale.setScalar(.5);this.group.add(holder);this.model=holder;
+    const bones={};let skinnedMeshes=0;
+    holder.traverse(m=>{if(m.isBone)bones[m.name]=m;if(!m.isMesh)return;if(m.isSkinnedMesh)skinnedMeshes++;m.frustumCulled=false;m.castShadow=false;m.receiveShadow=false;
+      if(m.material){m.material=m.material.clone();for(const t of [m.material.map,m.material.normalMap,m.material.roughnessMap])if(t)t.anisotropy=8;
+        if(m.material.name==='arms'){m.material.roughness=.88;m.material.metalness=0;m.material.envMapIntensity=.75;}
+        else{m.material.color.set('#8a9691');m.material.metalness=.82;m.material.roughness=.64;m.material.envMapIntensity=1.1;}
+      }
+    });
+    // Extend the shoulder end below the first-person frame while keeping elbows and grips fixed.
+    holder.updateMatrixWorld(true);
+    for(const side of ['L','R']){const upper=bones['UpArm_'+side],forearm=bones['Forearm_'+side];if(!upper||!forearm)continue;const elbowMatrix=forearm.matrixWorld.clone(),shoulder=upper.getWorldPosition(new THREE.Vector3());shoulder.y-=.46;shoulder.z+=.12;upper.position.copy(upper.parent.worldToLocal(shoulder));upper.updateMatrixWorld(true);const local=upper.matrixWorld.clone().invert().multiply(elbowMatrix);local.decompose(forearm.position,forearm.quaternion,forearm.scale);forearm.updateMatrixWorld(true);}
+    holder.updateMatrixWorld(true);const gun=holder.getObjectByName('Gun_m4a1');const box=new THREE.Box3().setFromObject(gun);
+    this.top=.109;this.muzzle.position.copy(holder.getObjectByName('MuzzleSocket').position).multiplyScalar(.5);
     this.flash.position.copy(this.muzzle.position);this.muzzleLight.position.copy(this.muzzle.position);
-    this.addOptic(this.top);this.addHands();this.ads.set(0,-(this.top+.068),-.42);
-    this.modelInfo={originalAxis:major,tipPositive,dimensions:box.getSize(new THREE.Vector3()).toArray()};this.group.position.copy(this.base);
+    this.addOptic(this.top);this.ads.set(0,-(this.top+.068),-.48);
+    this.handInfo={source:'DJMaesen / bumstrum; ccransh; IRONLINE asset adaptation',license:'CC BY 4.0',hands:2,skinnedMeshes,skeletonBones:Object.keys(bones).length,fingerJoints:Object.keys(bones).filter(n=>n.startsWith('Bone_')).length,anatomical:true,continuousForearms:true,textured:true};
+    this.hands={entries:[{wrapper:holder,bones}],info:this.handInfo};
+    this.modelInfo={dimensions:box.getSize(new THREE.Vector3()).toArray(),source:'Firewarden M4A1 / CC BY 4.0',rigged:true};this.group.position.copy(this.base);
   }
   addOptic(top){
     const steel=new THREE.MeshStandardMaterial({color:'#3e4441',metalness:.8,roughness:.32});const rubber=new THREE.MeshStandardMaterial({color:'#171d1b',metalness:.05,roughness:.85});
@@ -48,18 +48,6 @@ export class Weapon {
     const dot=new THREE.Mesh(new THREE.CircleGeometry(.0013,16),new THREE.MeshBasicMaterial({color:'#ff5244',toneMapped:false,depthWrite:false}));dot.position.set(0,top+.068,.051);this.group.add(dot);this.redDot=dot;
     const knob=new THREE.Mesh(new THREE.CylinderGeometry(.014,.014,.019,16),rubber);knob.rotation.z=Math.PI/2;knob.position.set(.054,top+.068,.016);this.group.add(knob);
     for(const z of [.08,-.006]){const screw=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.005,12),steel);screw.rotation.z=Math.PI/2;screw.position.set(.03,top+.014,z);this.group.add(screw);}
-  }
-  addHands(){
-    const cloth=new THREE.MeshStandardMaterial({color:'#59614c',roughness:.95}),glove=new THREE.MeshStandardMaterial({color:'#343b30',roughness:.92}),palm=new THREE.MeshStandardMaterial({color:'#242b23',roughness:.94});
-    const segment=(a,b,r1,r2,mat)=>{const d=new THREE.Vector3().subVectors(b,a),m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,d.length(),16),mat);m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());this.group.add(m);return m;};
-    segment(new THREE.Vector3(-.20,-.28,.34),new THREE.Vector3(-.085,-.095,-.19),.058,.044,cloth);
-    const hand=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),glove);hand.position.set(-.035,-.06,-.19);hand.scale.set(.056,.045,.077);hand.rotation.z=-.3;this.group.add(hand);
-    for(let i=0;i<4;i++){
-      const finger=new THREE.Mesh(new THREE.CapsuleGeometry(.0095,.055,5,10),glove);finger.position.set(.006,-.043,-.235+i*.025);finger.rotation.z=1.25;finger.rotation.x=.35;this.group.add(finger);
-      const knuckle=new THREE.Mesh(new THREE.SphereGeometry(.011,10,8),palm);knuckle.position.set(-.02,-.017,-.235+i*.025);this.group.add(knuckle);
-    }
-    segment(new THREE.Vector3(.13,-.3,.43),new THREE.Vector3(.027,-.115,.19),.058,.042,cloth);
-    const right=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),glove);right.position.set(.02,-.1,.17);right.scale.set(.044,.075,.043);right.rotation.x=-.3;this.group.add(right);
   }
   reload(){if(this.reloading||this.magazine===30||this.reserve<=0)return false;this.reloading=true;this.aiming=false;this.reloadTime=0;this.audio.magazine();this.onReload();return true;}
   refill(){this.reserve=150;this.magazine=30;this.reloading=false;this.reloadTime=0;}
@@ -75,7 +63,13 @@ export class Weapon {
     this.group.position.lerpVectors(this.base,this.ads,this.aim);
     const walk=player.moving&&active?Math.sin(player.bob)*.006*(1-this.aim):Math.sin(time*1.5)*.001;
     this.group.position.y+=walk;this.group.position.x+=Math.cos(player.bob*.5)*.003*(1-this.aim)*(player.moving?1:0);this.group.position.z+=this.recoil*.4;
+    const forward=new THREE.Vector3();this.camera.getWorldDirection(forward);const ray=new THREE.Ray(this.camera.position,forward),box=new THREE.Box3(),point=new THREE.Vector3();let near=1.05;
+    for(const c of this.colliders||[]){if(c.disabled)continue;const r=c.radius||.05;if(c.type==='box')box.min.set(c.minX,c.bottom,c.minZ),box.max.set(c.maxX,c.top,c.maxZ);else if(c.type==='capsule')box.min.set(Math.min(c.a.x,c.b.x)-r,c.bottom,Math.min(c.a.z,c.b.z)-r),box.max.set(Math.max(c.a.x,c.b.x)+r,c.top,Math.max(c.a.z,c.b.z)+r);else box.min.set(c.x-r,c.bottom,c.z-r),box.max.set(c.x+r,c.top,c.z+r);if(ray.intersectBox(box,point))near=Math.min(near,point.distanceTo(this.camera.position));}
+    for(let d=.12;d<1.01;d+=.12){point.copy(this.camera.position).addScaledVector(forward,d);if(point.y<groundHeight(point.x,point.z)+.03){near=Math.min(near,d);break;}}
+    this.obstruction=THREE.MathUtils.damp(this.obstruction,THREE.MathUtils.clamp((.95-near)/.65,0,1),16,dt);
+    this.group.position.z+=this.obstruction*.32;this.group.position.y-=this.obstruction*.12;
     this.group.rotation.set(this.recoil*(1-this.aim*.4),0,-.035*(1-this.aim));
+    this.group.rotation.x-=this.obstruction*.9;
     if(player.sprint&&active){this.group.rotation.z-=.35;this.group.rotation.x-=.23;this.group.position.y-=.07;}
     if(this.reloading){const t=this.reloadTime/this.reloadDuration,w=Math.sin(t*Math.PI);this.group.rotation.z+=w*.65;this.group.rotation.x-=w*.4;this.group.position.y-=w*.16;}
     this.camera.fov=THREE.MathUtils.lerp(74,49,this.aim);this.camera.updateProjectionMatrix();

@@ -1,11 +1,17 @@
 export const PLAYER_RADIUS = 0.32;
 export const BOUNDS = { minX: -24, maxX: 24, minZ: -28, maxZ: 28 };
 export const pathCenter = z => Math.sin(z * 0.105) * 2.6;
+export const riverCenter = z => 9.3 + Math.sin(z*.115)*1.75 + Math.sin(z*.31)*.23;
+export const riverWidth = z => 1.05 + .18*Math.sin(z*.22);
+export const riverLevel = z => -.13+(z+28)*.003;
+const smoothstep=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
 export function groundHeight(x, z) {
   const edge = Math.min(1, Math.max(0, (Math.abs(x - pathCenter(z)) - 2.6) / 7));
-  return Math.sin(z * 0.11) * 0.13 + Math.sin(x * 0.19 + z * 0.075) * 0.065
-    + edge * (0.1 + Math.sin(x * 0.22) * Math.cos(z * 0.21) * 0.3);
+  const base=Math.sin(z*.11)*.13+Math.sin(x*.19+z*.075)*.065+edge*(.1+Math.sin(x*.22)*Math.cos(z*.21)*.3);
+  const distance=Math.abs(x-riverCenter(z)),bank=1-smoothstep(riverWidth(z)*.6,riverWidth(z)+1.45,distance);
+  return base*(1-bank)+(riverLevel(z)-.43)*bank;
 }
+export function waterHeight(x,z){return Math.abs(x-riverCenter(z))<riverWidth(z)&&z>-29&&z<29?riverLevel(z):null;}
 export function closestOnSegment(x, z, a, b) {
   const dx = b.x - a.x, dz = b.z - a.z, d = dx * dx + dz * dz;
   const t = d > 0 ? Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / d)) : 0;

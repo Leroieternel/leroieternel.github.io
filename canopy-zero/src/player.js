@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { groundHeight, moveWithCollisions, supportHeight } from './physics.mjs';
+import { groundHeight, moveWithCollisions, supportHeight } from './physics.mjs?v=20261111-r2';
 
 export class Player {
   constructor(camera, colliders) {

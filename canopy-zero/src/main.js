@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import { createWorld } from './world.js';
-import { Player } from './player.js';
-import { Weapon } from './weapon.js';
-import { Effects } from './effects.js';
-import { FieldAudio } from './audio.js';
-import { groundHeight } from './physics.mjs';
+import { createWorld } from './world.js?v=20261111-r2';
+import { Player } from './player.js?v=20261111-r2';
+import { Weapon } from './weapon.js?v=20261111-r2';
+import { Effects } from './effects.js?v=20261111-r2';
+import { FieldAudio } from './audio.js?v=20261111-r2';
+import { groundHeight } from './physics.mjs?v=20261111-r2';
 
 const $=id=>document.getElementById(id);
-const surfaceNames={soil:'湿润土壤',wood:'木材',stone:'岩石',metal:'金属'};
+const surfaceNames={water:'水面',soil:'湿润土壤',wood:'木材',stone:'岩石',metal:'金属'};
 let active=false,started=false,ready=false,elapsed=0,hits=0,shots=0,lastHit=null;
 let world,player,weapon,effects,renderer,scene,camera,audio;
 let toastTimer,markerTimer,qaFrozen=new URLSearchParams(location.search).has('qa');
@@ -24,17 +24,18 @@ async function init(){
   audio=new FieldAudio();effects=new Effects(scene,audio);weapon=new Weapon(camera,scene,audio,effects);weapon.group.visible=false;
   const manager=new THREE.LoadingManager();let maxProgress=0;
   manager.onProgress=(url,done,total)=>{maxProgress=Math.max(maxProgress,Math.min(92,done/total*90));$('load-progress').style.width=`${maxProgress}%`;$('load-text').textContent=url.includes('M4A1')?'检查枪械与材质':'载入雨林材质';};
-  [world]=await Promise.all([createWorld(scene,renderer,manager),weapon.load(manager)]);
+  [world]=await Promise.all([createWorld(scene,renderer,manager),weapon.load(manager),effects.load(manager)]);
+  effects.colliders=world.colliders;effects.puddles=world.puddles;weapon.solids=world.solids;weapon.colliders=world.colliders;
   player=new Player(camera,world.colliders);player.onStep=sprint=>audio.step(sprint);
   weapon.onFire=fire;weapon.onReload=()=>toast('正在更换弹匣');
   bindInput();ready=true;$('enter').disabled=false;$('enter-label').textContent='进入雨林';$('load-progress').style.width='100%';$('load-text').textContent='场景就绪 · 点击进入后锁定鼠标';
-  let previous=performance.now(),simTime=0,uiTime=0;
+  let previous=performance.now(),simTime=0,uiTime=0,shadowTime=0;
   function frame(now){
     const dt=Math.min((now-previous)/1000,.04);previous=now;if(qaFrozen){requestAnimationFrame(frame);return;}simTime+=dt;
     if(active){elapsed+=dt;player.update(dt,weapon.aiming);}
     else if(!started){camera.position.set(1.1,1.8,13);camera.rotation.set(.035+Math.sin(simTime*.1)*.006,-.13+Math.sin(simTime*.09)*.018,0,'YXZ');}
     weapon.update(dt,simTime,player,active);
-    world.update(dt,simTime,camera);if(active)effects.update(dt);
+    world.update(dt,simTime,camera);if(active)effects.update(dt);shadowTime+=dt;if(shadowTime>.1&&world.targets.some(t=>t.body.angularVelocity.some(v=>Math.abs(v)>.006)||t.body.velocity.some(v=>Math.abs(v)>.006))){renderer.shadowMap.needsUpdate=true;shadowTime=0;}
     if(active){
       const near=player.position.distanceTo(new THREE.Vector3(world.supply.x,groundHeight(world.supply.x,world.supply.z),world.supply.z))<2.3;
       $('interaction').hidden=!near;
@@ -63,9 +64,9 @@ function fire(){
   ray.set(muzzle,muzzleDirection);ray.far=muzzle.distanceTo(aimPoint)+.015;
   const obstruction=ray.intersectObjects(solids,false)[0];if(obstruction&&(!hit||obstruction.distance<ray.far-.025))hit=obstruction;ray.far=130;
   if(hit){
-    const surface=effects.impact(hit,direction);lastHit={surface,object:hit.object.name||hit.object.uuid,point:hit.point.toArray(),distance:camera.position.distanceTo(hit.point)};
+    const surface=effects.impact(hit,direction);lastHit={surface,object:hit.object.name||hit.object.uuid,point:hit.point.toArray(),normal:hit.face.normal.clone().transformDirection(hit.object.matrixWorld).toArray(),distance:camera.position.distanceTo(hit.point)};
     $('impact-status').textContent=`命中 ${surfaceNames[surface]} · ${lastHit.distance.toFixed(1)} m`;
-    if(hit.object.userData.target){renderer.shadowMap.needsUpdate=true;const t=hit.object.userData.targetRef;t.velocity-=2.6;hits++;$('hitmarker').classList.add('show');clearTimeout(markerTimer);markerTimer=setTimeout(()=>$('hitmarker').classList.remove('show'),130);}
+    if(hit.object.userData.target){renderer.shadowMap.needsUpdate=true;world.hitTarget(hit,muzzleDirection);hits++;$('hitmarker').classList.add('show');clearTimeout(markerTimer);markerTimer=setTimeout(()=>$('hitmarker').classList.remove('show'),130);}
     const object=hit.object.userData.breakable;if(object&&object.alive){object.hp--;if(object.hp<=0){effects.breakCrate(object);renderer.shadowMap.needsUpdate=true;toast('木箱已破碎');}}
   }else{$('impact-status').textContent='未命中可交互表面';lastHit=null;}
   player.pitch=THREE.MathUtils.clamp(player.pitch+.004*(weapon.aim>.8?.6:1),-1.43,1.43);
@@ -118,12 +119,18 @@ function bindInput(){
 }
 
 function installQA(){
+  let qaTime=0;let savedVisibility=[];
   // Only exposed when explicitly launching the local QA URL with ?qa=1.
   window.__canopy={
     freeze:value=>{qaFrozen=value;},
+    focusImpact:()=>{const hit=lastHit;if(!hit)return;const object=world.solids.find(o=>(o.name||o.uuid)===hit.object);const keep=new Set([camera,object,...effects.decals,...effects.waves.map(w=>w.mesh),...effects.particles.map(p=>p.mesh)]);if(hit.surface==='water')keep.add(scene.getObjectByName('forest-floor'));const visible=o=>{let keepObject=false;o.traverse(n=>{if(keep.has(n)||n.isLight)keepObject=true;});return keepObject;};savedVisibility=scene.children.map(o=>[o,o.visible]);scene.children.forEach(o=>o.visible=visible(o));weapon.group.visible=false;const point=new THREE.Vector3(...hit.point),normal=new THREE.Vector3(...hit.normal);if(normal.dot(camera.position.clone().sub(point))<0)normal.negate();camera.position.copy(point).addScaledVector(normal,hit.surface==='water'?1.8:1.1);if(hit.surface==='water')camera.position.z+=.7;camera.lookAt(point);camera.fov=55;camera.updateProjectionMatrix();renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
+    restoreView:()=>{for(const [o,visible]of savedVisibility)o.visible=visible;weapon.group.visible=true;player.updateCamera(0,false);},
+    showWeaponOnly:()=>{scene.children.forEach(o=>{if(o!==camera&&!o.isLight)o.visible=false;});renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
+    inspectHands:()=>weapon.hands.entries.map(e=>({position:e.wrapper.position.toArray(),bones:Object.values(e.bones).map(b=>({name:b.name,position:b.position.toArray()}))})),
+    setQuality:()=>{renderer.setPixelRatio(1);world.sun.shadow.mapSize.set(1024,1024);renderer.shadowMap.needsUpdate=true;},
     capture:(quick=false)=>{if(quick){renderer.setPixelRatio(.5);renderer.shadowMap.enabled=false;scene.environment=null;}renderer.render(scene,camera);return renderer.domElement.toDataURL('image/png');},
-    advance:seconds=>{for(let t=0;t<seconds;t+=1/120){if(active){player.update(1/120,weapon.aiming);elapsed+=1/120;}weapon.update(1/120,t,player,active);world.update(1/120,t,camera);effects.update(1/120);}updateHUD();},
-    snapshot:()=>({ready,active,started,position:player.position.toArray(),yaw:player.yaw,pitch:player.pitch,grounded:player.grounded,contacts:player.contacts,ammo:weapon.magazine,reserve:weapon.reserve,reloading:weapon.reloading,aim:weapon.aim,shots,hits,lastHit,decals:effects.decals.length,casings:effects.casings.length,gun:weapon.modelInfo,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,trees:world.trees.length,crates:world.breakables.map(b=>({hp:b.hp,alive:b.alive})),targets:world.targets.map(t=>({label:t.label,angle:t.angle,position:t.pivot.position.toArray()}))}),
+    advance:seconds=>{for(let t=0;t<seconds;t+=1/120){if(active){player.update(1/120,weapon.aiming);elapsed+=1/120;}qaTime+=1/120;weapon.update(1/120,qaTime,player,active);world.update(1/120,qaTime,camera);effects.update(1/120);}updateHUD();},
+    snapshot:()=>({ready,active,started,position:player.position.toArray(),yaw:player.yaw,pitch:player.pitch,grounded:player.grounded,contacts:player.contacts,ammo:weapon.magazine,reserve:weapon.reserve,reloading:weapon.reloading,aim:weapon.aim,shots,hits,lastHit,decals:effects.decals.length,casings:effects.casings.length,gun:weapon.modelInfo,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,flowTime:qaTime,trees:world.trees.length,crates:world.breakables.map(b=>({hp:b.hp,alive:b.alive})),effects:effects.stats(),forest:world.forestInfo,hands:weapon.handInfo,targets:world.targets.map(t=>({label:t.label,angle:t.angle,position:t.pivot.position.toArray(),rotation:t.body.rotation,angularVelocity:t.body.angularVelocity,lastImpulse:t.body.lastImpulse}))}),
     aimAt:(x,y,z)=>{const d=new THREE.Vector3(x,y,z).sub(camera.position).normalize();player.yaw=Math.atan2(-d.x,-d.z);player.pitch=Math.asin(d.y);player.updateCamera(0,false);},
     teleport:(x,z,y)=>{player.position.set(x,y??groundHeight(x,z),z);player.velocity.set(0,0,0);player.updateCamera(0,false);},
     step:(seconds,keys=[])=>{player.keys=new Set(keys);for(let t=0;t<seconds;t+=1/120)player.update(1/120,false);player.keys.clear();},
