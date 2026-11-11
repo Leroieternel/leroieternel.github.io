@@ -32,10 +32,9 @@
   function run() { return subject().runs[state.model]; }
   function exploration() {
     const key = `${scene.id}:${subject().id}`;
-    if (!explorations.has(key)) explorations.set(key, { asked: [], choice: null });
+    if (!explorations.has(key)) explorations.set(key, { asked: [] });
     return explorations.get(key);
   }
-  function mask(asked) { return scene.public.questions.reduce((v, q, i) => v | (asked.includes(q.id) ? 1 << i : 0), 0); }
   function evidence(encoding, branch) {
     if (branch === null) return { text: 'Not evaluated', tone: '' };
     if (encoding & (1 << branch)) return { text: 'Supported', tone: 'good' };
@@ -183,7 +182,7 @@
     el.dataset.asked = String(asked);
     el.setAttribute('aria-expanded', String(open));
     el.setAttribute('aria-controls', `${id}-answer`);
-    el.setAttribute('aria-label', `${q.id}: ${q.text}${asked ? (mode === 'runs' ? ' Asked by model.' : ' Included in your evidence.') : ''}`);
+    el.setAttribute('aria-label', `${q.id}: ${q.text}${asked ? (mode === 'runs' ? ' Asked by model.' : ' Answer viewed.') : ''}`);
     const answer = element('p', 'question-answer', subject().answers[q.id]);
     answer.id = `${id}-answer`;
     answer.hidden = !open;
@@ -214,13 +213,12 @@
 
   function renderExplore() {
     const local = exploration();
-    const locked = local.choice !== null;
     $('question-count').textContent = `${local.asked.length} / ${scene.public.questions.length}`;
     $('question-list').replaceChildren();
     scene.public.questions.forEach(q => {
       const row = questionItem(q, local.asked.includes(q.id), 1, 'explore', open => {
         if (open) expanded.explore.add(q.id); else expanded.explore.delete(q.id);
-        if (open && !locked && !local.asked.includes(q.id)) local.asked.push(q.id);
+        if (open && !local.asked.includes(q.id)) local.asked.push(q.id);
         renderExplore(); restoreFocus(`question-${q.id}`);
         announce(`${q.id} ${open ? 'expanded' : 'collapsed'}.`);
       });
@@ -229,29 +227,6 @@
     $('answer-list').replaceChildren();
     if (!local.asked.length) emptyAnswers($('answer-list'));
     local.asked.forEach(qid => $('answer-list').append(answerItem(qid, subject().answers[qid], `answer-${qid}`)));
-    $('choice-list').replaceChildren();
-    scene.public.branches.forEach((branch, i) => {
-      const choice = button(undefined, 'choice', () => {
-        local.choice = i;
-        renderExplore();
-        const safe = subject().safeBranches.includes(i);
-        announce(`${safe ? 'No rule violation' : 'Rule violation'}. ${evidence(subject().evidence[mask(local.asked)], i).text}.`);
-        $('manual-plan').focus({ preventScroll: true });
-      });
-      choice.id = `choice-${i}`;
-      choice.append(element('span', '', branch.finish.text), element('span', '', '→'));
-      choice.setAttribute('aria-pressed', String(local.choice === i));
-      choice.disabled = locked;
-      $('choice-list').append(choice);
-    });
-    $('decision-panel').hidden = !locked;
-    $('decision-panel').parentElement.classList.toggle('has-decision', locked);
-    if (locked) {
-      const branch = scene.public.branches[local.choice];
-      $('manual-plan').textContent = [scene.public.approach, branch.prepare, branch.finish].map(a => `(${a.id})`).join('\n');
-      const safe = subject().safeBranches.includes(local.choice);
-      results($('manual-result'), { text: safe ? 'No violation' : 'Rule violation', tone: safe ? 'good' : 'bad' }, evidence(subject().evidence[mask(local.asked)], local.choice));
-    }
   }
 
   function renderRun() {
@@ -392,7 +367,7 @@
   $('previous-subject').addEventListener('click', () => selectSubject(state.subject - 1, 'previous-subject'));
   $('next-subject').addEventListener('click', () => selectSubject(state.subject + 1, 'next-subject'));
   $('reset-explore').addEventListener('click', () => {
-    const local = exploration(); local.asked = []; local.choice = null; expanded.explore.clear(); renderExplore(); announce('Questions and plan reset.');
+    const local = exploration(); local.asked = []; expanded.explore.clear(); renderExplore(); announce('Answers reset.');
   });
   $('play-run').addEventListener('click', () => {
     if (timer !== null) { stopPlayback(); renderRun(); return; }
