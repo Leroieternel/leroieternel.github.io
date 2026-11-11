@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111b17"><meta name="description" content="CANOPY ZERO — 雨林中的第一人称试射场。探索、瞄准、射击，观察每一次命中。">
+  <title>CANOPY ZERO · 雨林试射场</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2317221b'/%3E%3Cpath d='M16 45 32 16 48 45M23 34h18' fill='none' stroke='%23dcf2a0' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/"}}</script>
+</head>
+<body>
+  <div id="viewport" aria-label="雨林三维场景"></div>
+  <div id="vignette" aria-hidden="true"></div>
+  <div id="menu" class="menu">
+    <header class="masthead"><a class="wordmark" href="./" aria-label="Canopy Zero 首页"><span class="mark">⌁</span> CANOPY<span class="zero">ZERO</span><span class="edition">FIELD SIMULATION / 01</span></a><span class="topnote"><i></i> 单人自由试射 <span class="rule"></span> RAINFOREST</span></header>
+    <section class="brief" id="brief">
+      <div class="eyebrow"><span class="tinyline"></span> FIELD STUDY 001 <span class="muted">/ 热带雨林</span></div>
+      <h1>INTO THE<br><em>CANOPY.</em></h1>
+      <p class="intro">走进雨林。听见雨，感受每一次命中。</p>
+      <p class="description">一片林地，一把步枪。自由探索湿润的小径，<br>在树干、岩石与靶标上留下你的痕迹。</p>
+      <div class="entry-actions"><button id="enter" class="primary" disabled><span id="enter-label">正在准备场景</span><span class="arrow">↗</span></button><button id="show-controls" class="textbutton">操作指南 <span>＋</span></button></div>
+      <div class="load" id="load"><span id="load-text">载入雨林材质</span><div class="load-track"><i id="load-progress"></i></div></div>
+      <div class="brief-specs"><div><span>ENVIRONMENT</span><strong>雨后 · 林间薄雾</strong></div><div><span>LOADOUT</span><strong>M4A1 / 5.56</strong></div><div><span>AREA</span><strong>48 × 56 m</strong></div></div>
+    </section>
+    <aside class="fieldcard"><span class="card-label">环境交互 / LIVE</span><div class="fieldcard-line"><span>气候</span><strong id="climate-label">细雨 · 潮湿</strong></div><div class="fieldcard-line"><span>试射模式</span><strong>自由探索</strong></div><div class="fieldcard-line"><span>可交互表面</span><strong>土壤 / 木材 / 岩石 / 金属</strong></div><div class="card-bottom"><span class="pulse"></span> 场景实时渲染 <span>01 — 01</span></div></aside>
+    <footer class="menu-footer"><span>探索，不必着急。</span><span>耳机体验更佳 <span class="separator">/</span> 键盘 + 鼠标 <button id="credits-button">素材署名 ↗</button></span></footer>
+  </div>
+
+  <div id="hud" hidden>
+    <div class="hud-top"><div class="mission"><span class="eyebrow">CANOPY ZERO <span class="muted">/ FIELD 01</span></span><strong>自由探索雨林</strong><span>命中木靶与钢靶，观察表面反馈</span></div><div class="compass"><div class="compass-ticks">╷ &nbsp; ╵ &nbsp; ╷ &nbsp; ╵ &nbsp; <b id="bearing">N 000</b> &nbsp; ╵ &nbsp; ╷ &nbsp; ╵ &nbsp; ╷</div><i></i></div><div class="session"><button id="pause-button" aria-label="暂停">Ⅱ</button><span id="clock">00:00</span><span>命中 <b id="hit-count">00</b></span></div></div>
+    <div class="crosshair" id="crosshair"><i></i><i></i><i></i><i></i><b></b></div><div id="hitmarker" aria-hidden="true">╳</div>
+    <div class="interaction" id="interaction" hidden><kbd>F</kbd><span>补充弹药</span></div>
+    <div class="hud-bottom"><div class="status"><span class="eyebrow">FIELD CONDITION</span><div class="status-title"><span class="pulse"></span> 探索中</div><span class="subtle" id="surface-status">雨林试射区 · 细雨</span><span class="subtle" id="impact-status">射击后显示命中材质</span></div><div class="keys"><span><kbd>W A S D</kbd> 移动</span><span><kbd>SHIFT</kbd> 冲刺</span><span><kbd>R</kbd> 换弹</span><span><kbd>右键</kbd> 瞄准</span><span><kbd>ESC</kbd> 暂停</span></div><div class="ammo"><span class="eyebrow">M4A1 <span class="muted">/ 突击步枪</span></span><div><strong id="mag">30</strong><span class="ammo-slash">/</span><span id="reserve">120</span></div><span id="ammo-state">5.56 × 45 <span class="separator">·</span> AUTO</span><div class="reload-track"><i id="reload-progress"></i></div></div></div>
+    <div id="toast" role="status"></div>
+  </div>
+
+  <div id="pause-menu" class="overlay" hidden><section class="panel pause-panel"><div class="eyebrow">OPERATION ON HOLD</div><h2>暂停片刻。</h2><p>雨林会在这里等你。</p><button id="resume" class="primary"><span>继续探索</span><span>↗</span></button><button id="pause-controls" class="panel-button">操作指南 <span>↗</span></button><button id="settings-button" class="panel-button">画面与声音 <span>↗</span></button><button id="reset-button" class="panel-button">重置试射场 <span>↺</span></button><span class="panel-footnote">继续后将重新锁定鼠标 · ESC 释放鼠标</span></section></div>
+
+  <dialog id="controls"><button class="close" aria-label="关闭">×</button><div class="eyebrow">FIELD MANUAL / 01</div><h2>进入之前。</h2><p>自由走动，尝试不同材质。地面上的弹孔也会保留。</p><dl class="control-grid"><dt>W A S D</dt><dd>前后左右移动</dd><dt>鼠标</dt><dd>环顾四周</dd><dt>鼠标左键</dt><dd>射击 / 按住连发</dd><dt>鼠标右键</dt><dd>按住开镜瞄准</dd><dt>R</dt><dd>换弹</dd><dt>SHIFT</dt><dd>按住冲刺</dd><dt>空格 / C</dt><dd>跳跃 / 按住蹲下</dd><dt>F</dt><dd>靠近补给箱补充弹药</dd><dt>T</dt><dd>开启 / 关闭细雨</dd><dt>ESC</dt><dd>暂停与释放鼠标</dd></dl><div class="manual-note">钢靶会摆动，木箱可击碎。树干与岩石会阻挡移动和子弹。<br>弹孔保留最近 100 处；重置试射场会清空痕迹。</div></dialog>
+  <dialog id="settings"><button class="close" aria-label="关闭">×</button><div class="eyebrow">PREFERENCES</div><h2>调整体验。</h2><label class="setting">鼠标灵敏度 <input id="sensitivity" type="range" min="0.3" max="2" step="0.1" value="1"></label><label class="setting">声音 <input id="sound" type="checkbox" checked></label><label class="setting">细雨 <input id="rain" type="checkbox" checked></label><label class="setting">画面质量 <select id="quality"><option value="high">高 · 完整阴影</option><option value="medium">标准 · 更流畅</option><option value="low">低 · 节省性能</option></select></label><p class="manual-note">建议使用支持 WebGL 2 的桌面浏览器。<br>降低画面质量可提高低功耗设备的帧率。</p></dialog>
+  <dialog id="credits"><button class="close" aria-label="关闭">×</button><div class="eyebrow">MADE POSSIBLE BY</div><h2>素材与制作。</h2><p>M4A1 模型：nisu / 3DModelsCC0，CC0。<br>雨林地表、树皮、岩石及环境光：Poly Haven，CC0。<br>Three.js：MIT。枪声、雨声、植被及交互为本项目生成。</p><a href="./CREDITS.txt" target="_blank" rel="noopener">查看完整来源与许可 ↗</a></dialog>
+  <div id="fatal" hidden><strong>场景暂时无法启动</strong><p id="fatal-message"></p><button onclick="location.reload()">重新加载</button></div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
