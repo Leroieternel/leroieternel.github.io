@@ -3,7 +3,7 @@
 (() => {
   const data = window.PROMPT_STUDY;
   const $ = id => document.getElementById(id);
-  const state = { task: 'church', config: 'no-quiet-phrase', model: 'fable51', view: 'diff' };
+  const state = { task: 'church', config: 'own-declarations', experiment: 'own-actions', model: 'fable51', view: 'diff' };
   const inputViews = [{id:'diff',label:'Diff'},{id:'prompt',label:'Full prompt'},{id:'domain',label:'domain.pddl'},{id:'problem',label:'problem.pddl'}];
   const remembered = new Map();
   const escapeHTML = text => text.replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -11,12 +11,14 @@
 
   function selection() {
     const task = data.tasks.find(item => item.id === state.task) || data.tasks[0];
-    const config = task.configs.find(item => item.id === state.config) || task.configs.find(item => item.id === task.defaultConfig);
+    const experiment = task.experiments?.find(item => item.id === state.experiment) || task.experiments?.[0];
+    const configs = experiment ? task.configs.filter(item => experiment.configIds.includes(item.id)) : task.configs;
+    const config = configs.find(item => item.id === state.config) || configs.find(item => item.id === (experiment?.defaultConfig || task.defaultConfig));
     const model = data.models.find(item => item.id === state.model) || data.models[0];
     const input = state.view === 'diff'
       ? {text:config.diffText || config.prompt,file:config.diffFile || config.promptFile}
       : state.view === 'prompt' ? {text:config.prompt,file:config.promptFile} : task.files[state.view];
-    return { task, config, model, plan: config.plans[model.id], input };
+    return { task, experiment, configs, config, model, plan: config.plans[model.id], input };
   }
 
   function readHash() {
@@ -25,6 +27,8 @@
     if (task) {
       state.task = task.id;
       state.config = task.configs.find(item => item.id === query.get('prompt'))?.id || task.defaultConfig;
+      const requested = task.experiments?.find(item => item.id === query.get('experiment') && item.configIds.includes(state.config));
+      state.experiment = (requested || task.experiments?.find(item => item.configIds.includes(state.config)))?.id || 'original';
     }
     if (data.models.some(item => item.id === query.get('model'))) state.model = query.get('model');
     state.view = inputViews.some(item => item.id === query.get('view')) ? query.get('view')
@@ -50,9 +54,15 @@
       }
       button.addEventListener('click', () => {
         if (kind === 'task') {
-          remembered.set(state.task, state.config);
+          remembered.set(state.task, {config: state.config, experiment: state.experiment});
           state.task = entry.id;
-          state.config = remembered.get(entry.id) || data.tasks.find(item => item.id === entry.id).defaultConfig;
+          state.config = remembered.get(entry.id)?.config || data.tasks.find(item => item.id === entry.id).defaultConfig;
+          state.experiment = remembered.get(entry.id)?.experiment || data.tasks.find(item => item.id === entry.id).experiments?.[0]?.id || 'original';
+        } else if (kind === 'experiment') {
+          const condition = state.config.replace(/^(classic-|own-)/, '');
+          state.experiment = entry.id;
+          state.config = entry.configIds.find(id => id.replace(/^(classic-|own-)/, '') === condition) || entry.defaultConfig;
+          state.view = 'diff';
         } else if (kind === 'config') { state.config = entry.id; state.view = entry.id === 'full-benchmark' ? 'prompt' : 'diff'; }
         else if (kind === 'input') state.view = entry.id;
         else state.model = entry.id;
@@ -74,14 +84,17 @@
   }
 
   function render(updateHash = false) {
-    const {task, config, model, plan, input} = selection();
+    const {task, experiment, configs, config, model, plan, input} = selection();
     state.task = task.id; state.config = config.id; state.model = model.id;
+    if (experiment) state.experiment = experiment.id;
     tabs($('task-tabs'), data.tasks, task.id, 'task', 'prompt-panel');
-    tabs($('config-tabs'), task.configs, config.id, 'config', 'prompt-panel');
+    $('experiment-tabs').hidden = !experiment;
+    tabs($('experiment-tabs'), task.experiments || [], experiment?.id, 'experiment', 'prompt-panel');
+    tabs($('config-tabs'), configs, config.id, 'config', 'prompt-panel');
     tabs($('model-tabs'), data.models, model.id, 'model', 'plan-panel');
     tabs($('input-tabs'), inputViews, state.view, 'input', 'prompt-panel');
     $('task-record').textContent = task.record;
-    $('cumulative-note').textContent = task.cumulative && config.id !== 'full-benchmark' ? 'Cumulative changes' : '';
+    $('cumulative-note').textContent = config.samePromptAs ? 'Independent repeat' : task.cumulative && config.id !== 'full-benchmark' ? 'Cumulative changes' : '';
     $('prompt-panel').setAttribute('aria-labelledby', `config-${config.id} input-${state.view}`);
     $('plan-panel').setAttribute('aria-labelledby', `model-${model.id}`);
     $('prompt-code').innerHTML = state.view === 'diff' ? config.promptDiff.map(segment => {
@@ -99,21 +112,29 @@
     $('copy-prompt').textContent = 'Copy';
     $('copy-plan').textContent = 'Copy';
     $('plan-download').hidden = !plan;
-    $('plan-meta').textContent = plan ? `${plan.actionCount} actions` : 'No recorded response';
+    const responseLabels = {no_plan:'No plan returned',empty_code_block:'Empty code block',conditional_example:'Conditional example'};
+    $('plan-meta').textContent = plan ? (responseLabels[plan.responseKind] || (plan.text.trim() ? `${plan.actionCount} actions` : 'Empty final response')) : 'No recorded response';
     $('plan-code').innerHTML = plan ? highlight(plan.text) : '';
     $('plan-code').scrollTop = 0;
     if (plan) $('plan-download').href = plan.file;
     else $('plan-download').removeAttribute('href');
     copySequence++;
-    $('status').textContent = `${task.label}. ${config.label}. ${model.label}. ${plan ? plan.actionCount + ' actions.' : 'Not run.'}`;
+    $('status').textContent = `${task.label}. ${config.label}. ${model.label}. ${$('plan-meta').textContent}.`;
+    const findings = experiment?.findings || [
+      {title:'Actions removed',text:'All four models generate their own action sequences.'},
+      {title:'Without moving_slow',text:'Fable 5.1 and 5.2 no longer explicitly name slow movement.'},
+      {title:'Retained precaution',text:'GPT-6 Astra and Opus 5.5 still explicitly slow down.'}
+    ];
+    $('finding-grid').innerHTML = findings.map(item => `<article><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.text)}</p></article>`).join('');
     if (updateHash) {
       const params = new URLSearchParams({task: task.id, prompt: config.id, model: model.id});
       params.set('view', state.view);
+      if (experiment) params.set('experiment', experiment.id);
       history.replaceState(null, '', '#' + params.toString());
     }
   }
 
-  for (const id of ['task-tabs', 'config-tabs', 'model-tabs', 'input-tabs']) {
+  for (const id of ['task-tabs', 'experiment-tabs', 'config-tabs', 'model-tabs', 'input-tabs']) {
     $(id).addEventListener('keydown', event => {
       if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
       const buttons = [...$(id).querySelectorAll('button')];
