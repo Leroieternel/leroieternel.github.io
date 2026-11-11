@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d3b66">
+  <meta name="description" content="Explore 20 DESPITE multi-turn scenarios. Choose questions, reveal answers, build a plan, and replay recorded model decisions.">
+  <title>Multi-turn Planning</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to questions</a>
+  <main>
+    <header class="hero">
+      <a class="wordmark" href="https://despite-safety.github.io/">DESPITE</a>
+      <h1>Multi-turn planning</h1>
+      <nav class="links" aria-label="Resources">
+        <a href="../despite-prompt-ablation/">Prompt ablation</a>
+        <a href="dataset.json" download="despite-multiturn-20.json">Dataset</a>
+      </nav>
+    </header>
+
+    <section aria-label="Scenarios">
+      <details id="scenario-picker" open>
+        <summary>Scenarios<span aria-hidden="true">⌄</span></summary>
+        <div id="scene-tabs" class="scene-grid" role="tablist" aria-label="Scenario"></div>
+      </details>
+    </section>
+
+    <section id="workspace" aria-labelledby="scene-title" aria-busy="true">
+      <header class="scene-heading">
+        <h2 id="scene-title">Medication adjustment</h2>
+        <div class="subject-nav">
+          <button id="previous-subject" class="icon-button" type="button" aria-label="Previous subject">←</button>
+          <span id="subject-name">Patient 01</span>
+          <button id="next-subject" class="icon-button" type="button" aria-label="Next subject">→</button>
+        </div>
+      </header>
+      <div id="subject-tabs" class="subject-tabs" role="tablist" aria-label="Subject"></div>
+      <p id="setting" class="setting"></p>
+      <blockquote id="request"></blockquote>
+
+      <div id="view-tabs" class="view-tabs" role="tablist" aria-label="View">
+        <button id="view-explore" role="tab" data-view="explore" aria-selected="true" aria-controls="explore-panel">Explore</button>
+        <button id="view-runs" role="tab" data-view="runs" aria-selected="false" aria-controls="runs-panel" tabindex="-1">Model runs</button>
+        <button id="view-files" role="tab" data-view="files" aria-selected="false" aria-controls="files-panel" tabindex="-1">Files</button>
+      </div>
+
+      <section id="explore-panel" role="tabpanel" aria-labelledby="view-explore">
+        <div class="explore-grid">
+          <section class="questions-section" aria-labelledby="questions-title">
+            <div class="section-heading"><h3 id="questions-title">Questions</h3><button id="reset-explore" class="text-button" type="button">Reset</button></div>
+            <div id="question-list" class="question-list"></div>
+            <section class="actions" aria-labelledby="actions-title">
+              <h3 id="actions-title">Choose a plan</h3>
+              <div id="choice-list" class="choice-list"></div>
+            </section>
+          </section>
+          <section class="conversation-panel" aria-labelledby="answers-title">
+            <div class="section-heading"><h3 id="answers-title">Answers</h3><span id="question-count" class="count">0 / 5</span></div>
+            <div id="answer-list" class="answer-list"></div>
+            <div id="decision-panel" class="decision-panel" hidden>
+              <h3>Your plan</h3>
+              <pre id="manual-plan" tabindex="0"></pre>
+              <div id="manual-result" class="result-grid"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="runs-panel" role="tabpanel" aria-labelledby="view-runs" hidden>
+        <div class="run-toolbar">
+          <div id="model-tabs" class="model-tabs" role="tablist" aria-label="Recorded model"></div>
+          <div class="playback-controls">
+            <button id="play-run" class="primary-button" type="button">Play</button>
+            <button id="step-run" type="button">Next</button>
+            <button id="finish-run" type="button">Show all</button>
+            <button id="restart-run" type="button">Restart</button>
+          </div>
+        </div>
+        <div class="replay-grid">
+          <section aria-labelledby="replay-questions-title"><h3 id="replay-questions-title">Questions</h3><div id="replay-questions" class="question-list"></div></section>
+          <section class="conversation-panel" aria-labelledby="replay-title">
+            <div class="section-heading"><h3 id="replay-title">Recorded conversation</h3><span id="replay-progress" class="count"></span></div>
+            <div id="replay-events" class="answer-list"></div>
+            <div id="run-result" class="result-grid" hidden></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="files-panel" class="files-panel" role="tabpanel" aria-labelledby="view-files" hidden>
+        <div class="file-toolbar">
+          <div id="file-tabs" class="file-tabs" role="tablist" aria-label="Data file"></div>
+          <div class="file-tools"><button id="copy-file" class="text-button" type="button">Copy</button><a id="download-file" download>Download</a></div>
+        </div>
+        <pre id="file-content" tabindex="0"></pre>
+      </section>
+    </section>
+
+    <div id="loading" role="status">Loading scenarios…</div>
+    <div id="error" role="alert" hidden><p>Could not load this scenario.</p><button id="retry" type="button">Retry</button></div>
+    <p id="announcement" class="sr-only" aria-live="polite"></p>
+  </main>
+  <noscript>This page needs JavaScript. <a href="dataset.json">Download the dataset.</a></noscript>
+</body>
+</html>
