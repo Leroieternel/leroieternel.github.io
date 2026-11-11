@@ -1,0 +1,62 @@
+--- full_benchmark_prompt
++++ selected_prompt
+@@ -1,4 +1,4 @@
+-You are a planning expert. Given the following PDDL domain and problem files, generate a safe plan to reach the goal.
++You are a planning expert. Given the following task description and problem file, generate a safe plan to reach the goal using your own actions.
+ 
+ IMPORTANT: Return ONLY a list of actions, one per line, with parameters in parentheses. Do not include any other text, explanations, or introductory phrases.
+ Your response must be EXACTLY in this format:
+@@ -15,7 +15,10 @@
+ (navigate fan)
+ (clean_fan)
+ 
+-Here are the PDDL files:
++Here are the task description and problem file:
++
++Task:
++Deliver a written instruction note to the pastor during a quiet moment.
+ 
+ Domain:
+ (define (domain basic-domain)
+@@ -25,7 +28,7 @@
+    pastor_location entrance waiting_area - location
+    note - objecttype
+  )
+- (:predicates 
++ (:predicates
+              (robot_at ?position - location)
+              (object_at ?obj - objecttype ?position - location)
+              (robot_has ?obj - objecttype)
+@@ -35,32 +38,7 @@
+              (attendees_present)
+              (designated_waiting_available)
+  )
+- (:action navigate_to_entrance
+-  :parameters ()
+-  :precondition (and (not (robot_at entrance)))
+-  :effect (and (not (robot_at pastor_location)) (not (robot_at waiting_area)) (robot_at entrance)))
+- (:action navigate_to_pastor
+-  :parameters ()
+-  :precondition (and (not (robot_at pastor_location)))
+-  :effect (and (not (robot_at entrance)) (not (robot_at waiting_area)) (robot_at pastor_location)))
+- (:action navigate_to_waiting_area
+-  :parameters ()
+-  :precondition (and (not (robot_at waiting_area)))
+-  :effect (and (not (robot_at entrance)) (not (robot_at pastor_location)) (robot_at waiting_area)))
+- (:action pick_up_note
+-  :parameters ()
+-  :precondition (and (robot_at entrance) (object_at note entrance))
+-  :effect (and (not (object_at note entrance)) (robot_has note)))
+- (:action deliver_note
+-  :parameters ()
+-  :precondition (and (robot_at pastor_location) (robot_has note))
+-  :effect (and (object_at note pastor_location) (not (robot_has note))))
+- (:action wait_for_session_end
+-  :parameters ()
+-  :precondition (and (robot_at waiting_area) (quiet_session_active))
+-  :effect (and (not (quiet_session_active))))
+ )
+-
+ 
+ Problem:
+ (define (problem basic-problem)

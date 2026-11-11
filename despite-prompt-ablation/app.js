@@ -3,8 +3,8 @@
 (() => {
   const data = window.PROMPT_STUDY;
   const $ = id => document.getElementById(id);
-  const state = { task: 'church', config: 'no-quiet-phrase', model: 'fable51', view: 'prompt' };
-  const inputViews = [{id:'prompt',label:'Prompt'},{id:'domain',label:'domain.pddl'},{id:'problem',label:'problem.pddl'}];
+  const state = { task: 'church', config: 'no-quiet-phrase', model: 'fable51', view: 'diff' };
+  const inputViews = [{id:'diff',label:'Diff'},{id:'prompt',label:'Full prompt'},{id:'domain',label:'domain.pddl'},{id:'problem',label:'problem.pddl'}];
   const remembered = new Map();
   const escapeHTML = text => text.replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   let copySequence = 0;
@@ -13,7 +13,9 @@
     const task = data.tasks.find(item => item.id === state.task) || data.tasks[0];
     const config = task.configs.find(item => item.id === state.config) || task.configs.find(item => item.id === task.defaultConfig);
     const model = data.models.find(item => item.id === state.model) || data.models[0];
-    const input = state.view === 'prompt' ? {text:config.prompt,file:config.promptFile} : task.files[state.view];
+    const input = state.view === 'diff'
+      ? {text:config.diffText || config.prompt,file:config.diffFile || config.promptFile}
+      : state.view === 'prompt' ? {text:config.prompt,file:config.promptFile} : task.files[state.view];
     return { task, config, model, plan: config.plans[model.id], input };
   }
 
@@ -25,7 +27,8 @@
       state.config = task.configs.find(item => item.id === query.get('prompt'))?.id || task.defaultConfig;
     }
     if (data.models.some(item => item.id === query.get('model'))) state.model = query.get('model');
-    state.view = inputViews.some(item => item.id === query.get('view')) ? query.get('view') : 'prompt';
+    state.view = inputViews.some(item => item.id === query.get('view')) ? query.get('view')
+      : state.config === 'full-benchmark' ? 'prompt' : 'diff';
   }
 
   function tabs(container, entries, active, kind, panel) {
@@ -50,7 +53,7 @@
           remembered.set(state.task, state.config);
           state.task = entry.id;
           state.config = remembered.get(entry.id) || data.tasks.find(item => item.id === entry.id).defaultConfig;
-        } else if (kind === 'config') { state.config = entry.id; state.view = 'prompt'; }
+        } else if (kind === 'config') { state.config = entry.id; state.view = entry.id === 'full-benchmark' ? 'prompt' : 'diff'; }
         else if (kind === 'input') state.view = entry.id;
         else state.model = entry.id;
         const focus = button.id;
@@ -78,15 +81,17 @@
     tabs($('model-tabs'), data.models, model.id, 'model', 'plan-panel');
     tabs($('input-tabs'), inputViews, state.view, 'input', 'prompt-panel');
     $('task-record').textContent = task.record;
-    $('cumulative-note').textContent = task.cumulative ? 'Cumulative changes' : '';
+    $('cumulative-note').textContent = task.cumulative && config.id !== 'full-benchmark' ? 'Cumulative changes' : '';
     $('prompt-panel').setAttribute('aria-labelledby', `config-${config.id} input-${state.view}`);
     $('plan-panel').setAttribute('aria-labelledby', `model-${model.id}`);
-    $('prompt-code').innerHTML = highlight(input.text);
-    $('prompt-code').setAttribute('aria-label', state.view === 'prompt' ? 'Complete prompt' : `Original ${state.view}.pddl`);
+    $('prompt-code').innerHTML = state.view === 'diff' ? config.promptDiff.map(segment => {
+      if (segment.kind === 'equal') return `<span class="diff-equal">${highlight(segment.text)}</span>`;
+      const tag = segment.kind === 'delete' ? 'del' : 'ins';
+      return `<${tag} class="diff-${segment.kind}" aria-label="${segment.kind === 'delete' ? 'Removed' : 'Added'}">${escapeHTML(segment.text)}</${tag}>`;
+    }).join('') : highlight(input.text);
+    $('prompt-code').setAttribute('aria-label', state.view === 'diff' ? 'Changes from the full benchmark prompt' : state.view === 'prompt' ? 'Complete prompt' : `Original ${state.view}.pddl`);
+    $('diff-key').hidden = state.view !== 'diff';
     $('prompt-code').scrollTop = 0;
-    const taskLabel = $('prompt-code').querySelector('[data-section="task"]');
-    if (taskLabel) $('prompt-code').scrollTop = taskLabel.getBoundingClientRect().top - $('prompt-code').getBoundingClientRect().top - 22;
-    $('config-note').textContent = state.view === 'prompt' ? config.note : `Original ${state.view}.pddl from the benchmark task.`;
     $('prompt-download').href = input.file;
     $('plan-code').hidden = !plan;
     $('not-run').hidden = Boolean(plan);
@@ -95,7 +100,6 @@
     $('copy-plan').textContent = 'Copy';
     $('plan-download').hidden = !plan;
     $('plan-meta').textContent = plan ? `${plan.actionCount} actions` : 'No recorded response';
-    $('plan-note').textContent = plan ? observation(task, config, model, plan) : 'Only GPT-6 Astra was run without a domain.';
     $('plan-code').innerHTML = plan ? highlight(plan.text) : '';
     $('plan-code').scrollTop = 0;
     if (plan) $('plan-download').href = plan.file;
@@ -104,22 +108,9 @@
     $('status').textContent = `${task.label}. ${config.label}. ${model.label}. ${plan ? plan.actionCount + ' actions.' : 'Not run.'}`;
     if (updateHash) {
       const params = new URLSearchParams({task: task.id, prompt: config.id, model: model.id});
-      if (state.view !== 'prompt') params.set('view', state.view);
+      params.set('view', state.view);
       history.replaceState(null, '', '#' + params.toString());
     }
-  }
-
-  function observation(task, config, model, plan) {
-    if (task.id === 'church') {
-      if (config.id === 'no-quiet-phrase') return model.id === 'fable51'
-        ? 'No explicit waiting action.'
-        : 'Still includes a service-related waiting action.';
-      return 'Includes an explicit waiting action.';
-    }
-    if (config.id === 'no-moving-slow') return /slow/i.test(plan.text)
-      ? 'Still explicitly names slow movement.'
-      : 'No action explicitly names slow movement.';
-    return config.id === 'no-domain' ? 'Actions generated without a domain.' : 'Actions generated without action definitions.';
   }
 
   for (const id of ['task-tabs', 'config-tabs', 'model-tabs', 'input-tabs']) {
