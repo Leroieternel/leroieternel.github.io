@@ -20,7 +20,6 @@ h1{font-size:clamp(35px,4.5vw,53px);line-height:1.12;letter-spacing:-.035em;font
 .links a:hover{background:var(--tint);text-decoration:none}
 .scene-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 #scenario-picker>summary{display:none}
-.mobile-answer{display:none}
 .scene-grid button{font-size:13px;font-weight:500;min-height:43px;padding:9px 8px}
 button[aria-selected=true],.primary-button{background:var(--navy);color:#fff;border-color:var(--navy)}
 button[aria-selected=true]:hover,.primary-button:hover{background:#174d79;color:#fff;border-color:#174d79}
@@ -44,12 +43,12 @@ h3{font-size:18px;font-weight:600;letter-spacing:-.015em;line-height:1.4}
 .text-button{border:0;background:none;border-radius:3px;padding:3px 0;color:var(--navy);font-size:13px;font-weight:500}
 .text-button:hover{background:none;text-decoration:underline}
 .question-list{display:grid;gap:9px}
-.question{display:grid;grid-template-columns:30px 1fr 19px;align-items:center;gap:8px;text-align:left;width:100%;padding:13px 13px;min-height:64px;font-size:13px;line-height:1.65}
+.question{display:grid;grid-template-columns:30px 1fr 18px 19px;align-items:center;gap:8px;text-align:left;width:100%;padding:13px 13px;min-height:64px;font-size:13px;line-height:1.65}
 .question-id{font:11px/1.4 var(--mono);color:var(--navy)}
 .question-mark{color:var(--navy);font-size:19px;line-height:1;text-align:center}
-.question[aria-pressed=true]{border-color:#8bb1d1;background:var(--tint)}
-.question:disabled{background:#fff;border-color:var(--line)}
-.question[aria-pressed=true]:disabled{background:var(--tint);border-color:#8bb1d1}
+.question[data-asked=true]{border-color:#8bb1d1;background:var(--tint)}
+.question-asked{color:var(--navy);font-size:15px;text-align:center}
+.question-answer{margin:0 5px;padding:15px 15px 16px 20px;border-left:2px solid #8eb3d0;font-size:13px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
 .actions{margin-top:27px}
 .actions h3{margin-bottom:13px}
 .choice-list{display:grid;gap:9px}
@@ -81,7 +80,6 @@ pre{font:12px/1.85 var(--mono);margin:14px 0 0;white-space:pre-wrap;overflow-wra
 .playback-controls button{padding:7px 11px;font-size:12px;min-height:35px}
 .playback-controls button:disabled{background:#f7f9fb;color:#485c6c;border-color:var(--line)}
 .replay-grid>section>h3{margin-bottom:17px}
-.replay-grid .question{cursor:default}
 .recorded-response{border-top:1px solid var(--line);padding-top:16px;animation:arrive .22s ease-out}
 .recorded-response h4{font-size:13px;margin:0 0 10px;font-weight:600}
 .recorded-response pre{margin:0}
@@ -93,6 +91,24 @@ pre{font:12px/1.85 var(--mono);margin:14px 0 0;white-space:pre-wrap;overflow-wra
 .file-tools{display:flex;gap:17px;align-items:center;font-size:12px;margin-left:auto}
 .file-tools button{font-size:12px}
 #file-content{max-height:620px;overflow:auto;padding:20px 24px;margin:0;min-height:260px}
+.ground-truth{margin-top:42px;border-top:1px solid var(--line);padding-top:28px}
+.ground-truth h2{font-size:24px}
+.truth-questions{display:flex;align-items:center;flex-wrap:wrap;gap:12px 28px;margin:0 0 23px;font-size:12px}
+.truth-question-group{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.question-combination{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap}
+.question-combination code{font:12px/1.4 var(--mono);color:var(--navy);background:var(--tint);padding:5px 7px;border-radius:4px}
+.combination-plus{font-size:12px;color:var(--navy)}
+.truth-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.truth-card{border:1px solid var(--line);border-radius:9px;padding:20px 22px;min-width:0}
+.truth-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.truth-heading h3{font-size:16px}
+.truth-heading .badge{flex:none}
+.truth-combinations-title{font-size:12px;font-weight:550;margin:0 0 10px}
+.truth-combinations{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;font-size:13px;min-height:28px}
+.combination-or{font-size:12px}
+.missing-combination,.unavailable-question{color:var(--amber)}
+.truth-fact{border-top:1px solid var(--line);margin-top:17px;padding-top:15px;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.truth-fact strong{font-weight:600;color:var(--navy);margin-right:5px}
 #loading,#error{text-align:center;margin:35px 0;color:var(--navy)}
 #error button{padding:8px 18px;margin-top:12px}
 [hidden]{display:none!important}
@@ -109,10 +125,14 @@ pre{font:12px/1.85 var(--mono);margin:14px 0 0;white-space:pre-wrap;overflow-wra
   #scenario-picker[open]>summary{margin-bottom:10px}
   #scenario-picker[open]>summary>span{transform:rotate(180deg)}
   #scenario-picker>summary:focus-visible{outline:3px solid #5b99ca;outline-offset:3px}
-  .mobile-answer{display:block;margin:0 5px;padding:13px 12px 14px 19px;border-left:2px solid #8eb3d0;font-size:13px;line-height:1.85;overflow-wrap:anywhere}
   #explore-panel .conversation-panel:not(.has-decision){display:none}
   #explore-panel .conversation-panel>.section-heading,#explore-panel #answer-list{display:none}
   #explore-panel .decision-panel{border:0;padding:0;margin:0}
   #explore-panel .conversation-panel.has-decision{min-height:0}
-  .replay-grid>section:first-child{display:none}
+  .ground-truth{margin-top:30px;padding-top:23px}
+  .truth-grid{grid-template-columns:1fr;gap:12px}
+  .truth-card{padding:18px 16px}
+  .truth-heading h3{font-size:15px}
+  .truth-heading .badge{font-size:11px}
+  .truth-questions{gap:10px;margin-bottom:18px}
 }

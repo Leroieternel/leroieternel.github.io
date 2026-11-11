@@ -5,12 +5,13 @@
   const state = { scene: 'medication', subject: 0, view: 'explore', model: 'astra', file: 'prompt', cursor: 0 };
   const cache = new Map();
   const explorations = new Map();
+  const expanded = { explore: new Set(), runs: new Set() };
   const mobile = window.matchMedia('(max-width: 760px)');
   const fileViews = [
     { id: 'prompt', label: 'Initial prompt' }, { id: 'domain', label: 'domain.pddl' },
     { id: 'problem', label: 'problem.pddl' }, { id: 'questions', label: 'Question bank' },
   ];
-  let manifest, scene, timer = null, loadSequence = 0, downloadURL = null;
+  let manifest, groundTruth, scene, timer = null, loadSequence = 0, downloadURL = null;
 
   function element(tag, className, text) {
     const el = document.createElement(tag);
@@ -84,6 +85,7 @@
 
   async function loadScene(focusId) {
     stopPlayback();
+    expanded.explore.clear(); expanded.runs.clear();
     const sequence = ++loadSequence;
     const selected = manifest.scenes.find(s => s.id === state.scene);
     $('workspace').setAttribute('aria-busy', 'true');
@@ -128,6 +130,7 @@
   function selectSubject(index, focusId) {
     if (index < 0 || index >= scene.subjects.length) return;
     stopPlayback(); state.subject = index; state.cursor = 0;
+    expanded.explore.clear(); expanded.runs.clear();
     renderScene(); updateURL(); restoreFocus(focusId);
   }
 
@@ -142,6 +145,7 @@
     $('setting').textContent = scene.public.setting;
     $('request').textContent = scene.public.request;
     renderViews();
+    renderGroundTruth();
   }
 
   function renderViews() {
@@ -164,16 +168,27 @@
     container.append(empty);
   }
 
-  function questionItem(q, asked, count, readOnly, handler) {
-    const el = button(undefined, 'question', handler);
+  function questionItem(q, asked, count, mode, handler) {
+    const open = expanded[mode].has(q.id);
+    const id = `${mode === 'explore' ? 'question' : 'replay-question'}-${q.id}`;
+    const row = element('div', 'question-row');
+    const el = button(undefined, 'question', () => handler(!open));
+    el.id = id;
     el.append(element('span', 'question-id', q.id), element('span', '', q.text));
-    const mark = element('span', 'question-mark', asked ? (count > 1 ? `×${count}` : '✓') : '+');
+    const mark = element('span', 'question-asked', asked ? (count > 1 ? `×${count}` : '✓') : '');
     mark.setAttribute('aria-hidden', 'true');
-    el.append(mark);
-    el.setAttribute('aria-pressed', String(asked));
-    el.setAttribute('aria-label', `${q.id}: ${q.text}${asked ? ' Answer revealed.' : ''}`);
-    el.disabled = readOnly;
-    return el;
+    const toggle = element('span', 'question-mark', open ? '−' : '+');
+    toggle.setAttribute('aria-hidden', 'true');
+    el.append(mark, toggle);
+    el.dataset.asked = String(asked);
+    el.setAttribute('aria-expanded', String(open));
+    el.setAttribute('aria-controls', `${id}-answer`);
+    el.setAttribute('aria-label', `${q.id}: ${q.text}${asked ? (mode === 'runs' ? ' Asked by model.' : ' Included in your evidence.') : ''}`);
+    const answer = element('p', 'question-answer', subject().answers[q.id]);
+    answer.id = `${id}-answer`;
+    answer.hidden = !open;
+    row.append(el, answer);
+    return row;
   }
 
   function answerItem(qid, answer, id) {
@@ -203,15 +218,12 @@
     $('question-count').textContent = `${local.asked.length} / ${scene.public.questions.length}`;
     $('question-list').replaceChildren();
     scene.public.questions.forEach(q => {
-      const el = questionItem(q, local.asked.includes(q.id), 1, locked, () => {
-        if (!local.asked.includes(q.id)) local.asked.push(q.id);
+      const row = questionItem(q, local.asked.includes(q.id), 1, 'explore', open => {
+        if (open) expanded.explore.add(q.id); else expanded.explore.delete(q.id);
+        if (open && !locked && !local.asked.includes(q.id)) local.asked.push(q.id);
         renderExplore(); restoreFocus(`question-${q.id}`);
-        announce(`${q.id} answered. ${local.asked.length} questions revealed.`);
+        announce(`${q.id} ${open ? 'expanded' : 'collapsed'}.`);
       });
-      el.id = `question-${q.id}`;
-      const row = element('div', 'question-row');
-      row.append(el);
-      if (local.asked.includes(q.id)) row.append(element('p', 'mobile-answer', subject().answers[q.id]));
       $('question-list').append(row);
     });
     $('answer-list').replaceChildren();
@@ -244,13 +256,17 @@
 
   function renderRun() {
     tabs($('model-tabs'), manifest.models.filter(m => scene.models.includes(m.id)), state.model, 'model', 'runs-panel', id => {
-      stopPlayback(); state.model = id; state.cursor = 0; renderRun(); updateURL(); restoreFocus(`model-${id}`);
+      stopPlayback(); state.model = id; state.cursor = 0; expanded.runs.clear(); renderRun(); updateURL(); restoreFocus(`model-${id}`);
     });
     const recorded = run();
     const events = recorded.events.slice(0, state.cursor);
     const asked = events.filter(e => e.type === 'question').map(e => e.questionId);
     $('replay-questions').replaceChildren();
-    scene.public.questions.forEach(q => $('replay-questions').append(questionItem(q, asked.includes(q.id), asked.filter(id => id === q.id).length, true)));
+    scene.public.questions.forEach(q => $('replay-questions').append(questionItem(q, asked.includes(q.id), asked.filter(id => id === q.id).length, 'runs', open => {
+      if (open) expanded.runs.add(q.id); else expanded.runs.delete(q.id);
+      renderRun(); restoreFocus(`replay-question-${q.id}`);
+      announce(`${q.id} ${open ? 'expanded' : 'collapsed'}.`);
+    })));
     $('replay-progress').textContent = `${state.cursor} / ${recorded.events.length}`;
     $('replay-events').replaceChildren();
     if (!events.length) emptyAnswers($('replay-events'));
@@ -285,6 +301,57 @@
     if (state.cursor === run().events.length) stopPlayback();
     renderRun();
     announce(`Recorded turn ${state.cursor} of ${run().events.length}.`);
+  }
+
+  function combination(qids) {
+    const group = element('span', 'question-combination');
+    qids.forEach((qid, i) => {
+      if (i) group.append(element('span', 'combination-plus', '+'));
+      const code = element('code', '', qid);
+      code.title = scene.public.questions.find(q => q.id === qid).text;
+      group.append(code);
+    });
+    return group;
+  }
+
+  function renderGroundTruth() {
+    const truth = groundTruth[scene.id];
+    const current = truth.subjects[state.subject];
+    $('ground-truth-subject').textContent = $('subject-name').textContent;
+    const questions = $('ground-truth-questions');
+    questions.replaceChildren();
+    const relevant = element('div', 'truth-question-group');
+    relevant.append(element('span', '', 'Relevant questions'), combination(truth.relevantQuestions));
+    const distractor = element('div', 'truth-question-group');
+    distractor.append(element('span', '', 'Distractor'), combination([truth.distractor]));
+    questions.append(relevant, distractor);
+    const cards = $('ground-truth-branches');
+    cards.replaceChildren();
+    truth.branches.forEach((branch, i) => {
+      const outcome = current.branches[i];
+      const card = element('article', 'truth-card');
+      card.dataset.branch = String(i);
+      const heading = element('div', 'truth-heading');
+      const status = element('span', 'badge', outcome.ruleMet ? 'Rule met' : 'Rule not met');
+      status.dataset.tone = outcome.ruleMet ? 'good' : 'bad';
+      heading.append(element('h3', '', branch.label), status);
+      const sets = element('div', 'truth-combinations');
+      if (!outcome.combinations.length) {
+        sets.append(element('span', 'missing-combination', 'No available combination'));
+        if (current.unavailableQuestions.length) sets.append(element('span', 'unavailable-question', `${current.unavailableQuestions.join(', ')} unavailable`));
+      } else if (outcome.combinations.some(qids => qids.length === 0)) {
+        sets.append(element('span', '', 'No questions required by this rule'));
+      } else {
+        outcome.combinations.forEach((qids, j) => {
+          if (j) sets.append(element('span', 'combination-or', 'or'));
+          sets.append(combination(qids));
+        });
+      }
+      const fact = element('p', 'truth-fact');
+      fact.append(element('strong', '', 'Fact '), document.createTextNode(branch.fact));
+      card.append(heading, element('h4', 'truth-combinations-title', 'Sufficient question sets'), sets, fact);
+      cards.append(card);
+    });
   }
 
   function fileText() {
@@ -325,7 +392,7 @@
   $('previous-subject').addEventListener('click', () => selectSubject(state.subject - 1, 'previous-subject'));
   $('next-subject').addEventListener('click', () => selectSubject(state.subject + 1, 'next-subject'));
   $('reset-explore').addEventListener('click', () => {
-    const local = exploration(); local.asked = []; local.choice = null; renderExplore(); announce('Questions and plan reset.');
+    const local = exploration(); local.asked = []; local.choice = null; expanded.explore.clear(); renderExplore(); announce('Questions and plan reset.');
   });
   $('play-run').addEventListener('click', () => {
     if (timer !== null) { stopPlayback(); renderRun(); return; }
@@ -351,9 +418,11 @@
     $('workspace').hidden = true;
     $('scenario-picker').open = !mobile.matches;
     try {
-      const response = await fetch('manifest.json');
-      if (!response.ok) throw new Error('Manifest unavailable');
-      manifest = await response.json();
+      [manifest, groundTruth] = await Promise.all(['manifest.json', 'ground-truth.json'].map(async file => {
+        const response = await fetch(file);
+        if (!response.ok) throw new Error('Dataset unavailable');
+        return response.json();
+      }));
       if (manifest.scenes.length !== 20 || manifest.counts.subjects !== 115) throw new Error('Unexpected dataset');
       readURL(); await loadScene();
     } catch { $('loading').hidden = true; $('error').hidden = false; }
