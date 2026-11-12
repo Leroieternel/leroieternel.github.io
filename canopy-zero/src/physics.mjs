@@ -1,17 +1,21 @@
 export const PLAYER_RADIUS = 0.32;
 export const BOUNDS = { minX: -24, maxX: 24, minZ: -28, maxZ: 28 };
 export const pathCenter = z => Math.sin(z * 0.105) * 2.6;
-export const riverCenter = z => 9.3 + Math.sin(z*.115)*1.75 + Math.sin(z*.31)*.23;
-export const riverWidth = z => 1.05 + .18*Math.sin(z*.22);
+// Shared channel profile: terrain, water surface and collision use the same banks.
+export const riverCenter = z => 9.3 + Math.sin(z*.115)*1.75 + Math.sin(z*.31)*.23 + Math.sin(z*.81)*.11;
+export const riverWidth = z => 1.05 + .18*Math.sin(z*.22) + .10*Math.sin(z*.93+1.2) + .045*Math.sin(z*2.13);
 export const riverLevel = z => -.13+(z+28)*.003;
 const smoothstep=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
+export function riverDepth(x,z){const u=Math.abs(x-riverCenter(z))/riverWidth(z);return Math.max(0,(.28+.09*Math.sin(z*.37)+.035*Math.sin(z*.91))*(1-u*u));}
 export function groundHeight(x, z) {
   const edge = Math.min(1, Math.max(0, (Math.abs(x - pathCenter(z)) - 2.6) / 7));
   const base=Math.sin(z*.11)*.13+Math.sin(x*.19+z*.075)*.065+edge*(.1+Math.sin(x*.22)*Math.cos(z*.21)*.3);
-  const distance=Math.abs(x-riverCenter(z)),bank=1-smoothstep(riverWidth(z)*.6,riverWidth(z)+1.45,distance);
-  return base*(1-bank)+(riverLevel(z)-.43)*bank;
+  const distance=Math.abs(x-riverCenter(z)),width=riverWidth(z),level=riverLevel(z);
+  if(distance<=width)return level-riverDepth(x,z);
+  const bank=distance-width,crest=Math.max(base,level+.12),shore=level+(crest-level)*smoothstep(0,.65,bank);
+  return shore*(1-smoothstep(.7,1.5,bank))+base*smoothstep(.7,1.5,bank);
 }
-export function waterHeight(x,z){return Math.abs(x-riverCenter(z))<riverWidth(z)&&z>-29&&z<29?riverLevel(z):null;}
+export function waterHeight(x,z){return riverDepth(x,z)>.0001&&z>-32&&z<32?riverLevel(z):null;}
 export function closestOnSegment(x, z, a, b) {
   const dx = b.x - a.x, dz = b.z - a.z, d = dx * dx + dz * dz;
   const t = d > 0 ? Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / d)) : 0;

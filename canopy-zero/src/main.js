@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { createWorld } from './world.js?v=20261111-r2';
-import { Player } from './player.js?v=20261111-r2';
-import { Weapon } from './weapon.js?v=20261111-r2';
-import { Effects } from './effects.js?v=20261111-r2';
-import { FieldAudio } from './audio.js?v=20261111-r2';
-import { groundHeight } from './physics.mjs?v=20261111-r2';
+import { createWorld } from './world.js?v=20261112-r3';
+import { Player } from './player.js?v=20261112-r3';
+import { Weapon } from './weapon.js?v=20261112-r3';
+import { Effects } from './effects.js?v=20261112-r3';
+import { FieldAudio } from './audio.js?v=20261112-r3';
+import { groundHeight } from './physics.mjs?v=20261112-r3';
 
 const $=id=>document.getElementById(id);
 const surfaceNames={water:'水面',soil:'湿润土壤',wood:'木材',stone:'岩石',metal:'金属'};
@@ -64,7 +64,7 @@ function fire(){
   ray.set(muzzle,muzzleDirection);ray.far=muzzle.distanceTo(aimPoint)+.015;
   const obstruction=ray.intersectObjects(solids,false)[0];if(obstruction&&(!hit||obstruction.distance<ray.far-.025))hit=obstruction;ray.far=130;
   if(hit){
-    const surface=effects.impact(hit,direction);lastHit={surface,object:hit.object.name||hit.object.uuid,point:hit.point.toArray(),normal:hit.face.normal.clone().transformDirection(hit.object.matrixWorld).toArray(),distance:camera.position.distanceTo(hit.point)};
+    const surface=effects.impact(hit,muzzleDirection);lastHit={surface,object:hit.object.name||hit.object.uuid,point:hit.point.toArray(),normal:hit.face.normal.clone().transformDirection(hit.object.matrixWorld).toArray(),distance:camera.position.distanceTo(hit.point)};
     $('impact-status').textContent=`命中 ${surfaceNames[surface]} · ${lastHit.distance.toFixed(1)} m`;
     if(hit.object.userData.target){renderer.shadowMap.needsUpdate=true;world.hitTarget(hit,muzzleDirection);hits++;$('hitmarker').classList.add('show');clearTimeout(markerTimer);markerTimer=setTimeout(()=>$('hitmarker').classList.remove('show'),130);}
     const object=hit.object.userData.breakable;if(object&&object.alive){object.hp--;if(object.hp<=0){effects.breakCrate(object);renderer.shadowMap.needsUpdate=true;toast('木箱已破碎');}}
@@ -123,9 +123,10 @@ function installQA(){
   // Only exposed when explicitly launching the local QA URL with ?qa=1.
   window.__canopy={
     freeze:value=>{qaFrozen=value;},
-    focusImpact:()=>{const hit=lastHit;if(!hit)return;const object=world.solids.find(o=>(o.name||o.uuid)===hit.object);const keep=new Set([camera,object,...effects.decals,...effects.waves.map(w=>w.mesh),...effects.particles.map(p=>p.mesh)]);if(hit.surface==='water')keep.add(scene.getObjectByName('forest-floor'));const visible=o=>{let keepObject=false;o.traverse(n=>{if(keep.has(n)||n.isLight)keepObject=true;});return keepObject;};savedVisibility=scene.children.map(o=>[o,o.visible]);scene.children.forEach(o=>o.visible=visible(o));weapon.group.visible=false;const point=new THREE.Vector3(...hit.point),normal=new THREE.Vector3(...hit.normal);if(normal.dot(camera.position.clone().sub(point))<0)normal.negate();camera.position.copy(point).addScaledVector(normal,hit.surface==='water'?1.8:1.1);if(hit.surface==='water')camera.position.z+=.7;camera.lookAt(point);camera.fov=55;camera.updateProjectionMatrix();renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
+    focusImpact:()=>{const hit=lastHit;if(!hit)return;const object=world.solids.find(o=>(o.name||o.uuid)===hit.object);const keep=new Set([camera,object,...effects.decals,...effects.waves.map(w=>w.mesh),...effects.particles.map(p=>p.mesh)]);if(hit.surface==='water')keep.add(scene.getObjectByName('forest-floor'));const visible=o=>{let keepObject=false;o.traverse(n=>{if(keep.has(n)||n.isLight)keepObject=true;});return keepObject;};savedVisibility=scene.children.map(o=>[o,o.visible]);scene.children.forEach(o=>o.visible=visible(o));weapon.group.visible=false;const point=new THREE.Vector3(...hit.point),normal=new THREE.Vector3(...hit.normal);if(normal.dot(camera.position.clone().sub(point))<0)normal.negate();camera.position.copy(point).addScaledVector(normal,hit.surface==='water'?1.8:.60);if(hit.surface==='water')camera.position.z+=.7;camera.lookAt(point);camera.fov=55;camera.updateProjectionMatrix();renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
     restoreView:()=>{for(const [o,visible]of savedVisibility)o.visible=visible;weapon.group.visible=true;player.updateCamera(0,false);},
-    showWeaponOnly:()=>{scene.children.forEach(o=>{if(o!==camera&&!o.isLight)o.visible=false;});renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
+    viewCreek:()=>{savedVisibility=scene.children.map(o=>[o,o.visible]);scene.children.forEach(o=>{o.visible=o===camera||o.isLight||o===world.terrain||o===world.river||o.name.includes('creek-');});weapon.group.visible=false;camera.position.set(8.3,1.30,14);camera.lookAt(10.5,-.02,9);camera.fov=60;camera.updateProjectionMatrix();renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
+        showWeaponOnly:()=>{scene.children.forEach(o=>{if(o!==camera&&!o.isLight)o.visible=false;});renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;},
     inspectHands:()=>weapon.hands.entries.map(e=>({position:e.wrapper.position.toArray(),bones:Object.values(e.bones).map(b=>({name:b.name,position:b.position.toArray()}))})),
     setQuality:()=>{renderer.setPixelRatio(1);world.sun.shadow.mapSize.set(1024,1024);renderer.shadowMap.needsUpdate=true;},
     capture:(quick=false)=>{if(quick){renderer.setPixelRatio(.5);renderer.shadowMap.enabled=false;scene.environment=null;}renderer.render(scene,camera);return renderer.domElement.toDataURL('image/png');},

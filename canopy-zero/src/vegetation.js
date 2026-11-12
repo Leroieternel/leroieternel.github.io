@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {groundHeight,pathCenter,riverCenter,riverWidth} from './physics.mjs?v=20261111-r2';
+import {groundHeight,pathCenter,riverCenter,riverWidth} from './physics.mjs?v=20261112-r3';
+import {buildCreekBed} from './water.js?v=20261112-r3';
 const up=new THREE.Vector3(0,1,0);
 export async function buildForest(scene,manager,random,solids,colliders,trees){
  const loader=new GLTFLoader(manager),textureLoader=new THREE.TextureLoader(manager);
@@ -59,5 +60,6 @@ export async function buildForest(scene,manager,random,solids,colliders,trees){
  const logGroup=new THREE.Group(),logBox=fallen.bounds,logSize=logBox.getSize(new THREE.Vector3());const logScale=3.7/Math.max(logSize.x,logSize.z);logGroup.position.set(-8.6,groundHeight(-8.6,13)-.08,13);logGroup.scale.setScalar(logScale);logGroup.rotation.y=.7;for(const p of fallen.parts){const m=new THREE.Mesh(p.geometry,p.material);m.userData.surface='wood';m.name='fallen-tree';m.castShadow=m.receiveShadow=true;logGroup.add(m);solids.push(m);}scene.add(logGroup);logGroup.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(logGroup);colliders.push({type:'box',minX:box.min.x,maxX:box.max.x,minZ:box.min.z,maxZ:box.max.z,bottom:box.min.y,top:box.max.y,name:'fallen-log'});
  // Lianas begin on an actual trunk and stay connected from the attachment point.
  const vines=[];hero.forEach(([x,z,h],i)=>{const wood=heroGroups[i].children.filter(o=>!o.material.name.includes('leaves'));for(let j=0;j<2;j++){const ray=new THREE.Raycaster(new THREE.Vector3(x+8,groundHeight(x,z)+h*(.23+j*.06),z+j*.12),new THREE.Vector3(-1,0,0),0,16);const hit=ray.intersectObjects(wood,false)[0];if(!hit)continue;const anchor=hit.point.clone(),bottom=groundHeight(anchor.x+.25,anchor.z)+.18,points=[];for(let k=0;k<13;k++){const t=k/12;points.push(new THREE.Vector3(anchor.x+Math.sin(t*5)*t*.23,THREE.MathUtils.lerp(anchor.y,bottom,t),anchor.z+Math.sin(t*4+i)*t*.12));}vines.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),44,.018,6));}});if(vines.length){const vm=new THREE.Mesh(mergeGeometries(vines),new THREE.MeshStandardMaterial({color:'#454a2c',roughness:1}));vm.castShadow=true;scene.add(vm);vines.forEach(g=>g.dispose());}
- return {scannedTrees:trees.length,rootedPlants:understory.length+fernPositions.length+broadPositions.length,handAuthoredRoots:0};
+ const creekStones=buildCreekBed(scene,solids,colliders,rocks.parts,random);
+ return {creekStones,scannedTrees:trees.length,rootedPlants:understory.length+fernPositions.length+broadPositions.length,handAuthoredRoots:0};
 }

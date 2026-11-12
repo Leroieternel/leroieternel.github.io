@@ -2,10 +2,10 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { groundHeight, pathCenter } from './physics.mjs?v=20261111-r2';
-import { buildForest } from './vegetation.js?v=20261111-r2';
-import { createRiver } from './water.js?v=20261111-r2';
-import { SuspendedTarget } from './dynamics.mjs?v=20261111-r2';
+import { groundHeight, pathCenter } from './physics.mjs?v=20261112-r3';
+import { buildForest } from './vegetation.js?v=20261112-r3';
+import { createRiver } from './water.js?v=20261112-r3';
+import { SuspendedTarget } from './dynamics.mjs?v=20261112-r3';
 
 export function randomGenerator(seed = 731) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 const UP = new THREE.Vector3(0, 1, 0);
@@ -135,7 +135,12 @@ export async function createWorld(scene, renderer, manager) {
       float trail = abs(vTerrainPosition.x - sin(vTerrainPosition.z * 0.105) * 2.6);
       float trailMix = 1.0 - smoothstep(.65, 1.65, trail + sin(vTerrainPosition.z * 1.4) * 0.3);
       vec4 trailColor = texture2D(uSoil, vMapUv * 1.1);
-      diffuseColor.rgb = mix(diffuseColor.rgb, trailColor.rgb * vec3(0.45, 0.48, 0.38), trailMix * 0.94);`);
+      diffuseColor.rgb = mix(diffuseColor.rgb, trailColor.rgb * vec3(0.45, 0.48, 0.38), trailMix * 0.94);
+      float creekX=9.3+sin(vTerrainPosition.z*.115)*1.75+sin(vTerrainPosition.z*.31)*.23+sin(vTerrainPosition.z*.81)*.11;
+      float creekW=1.05+.18*sin(vTerrainPosition.z*.22)+.10*sin(vTerrainPosition.z*.93+1.2)+.045*sin(vTerrainPosition.z*2.13);
+      float wetBank=1.0-smoothstep(creekW-.10,creekW+.55,abs(vTerrainPosition.x-creekX));
+      diffuseColor.rgb=mix(diffuseColor.rgb,trailColor.rgb*vec3(.32,.37,.29),wetBank*.88);`);
+    shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor=mix(roughnessFactor,.48,wetBank);');
   };
   const terrain = new THREE.Mesh(terrainG, terrainM); terrain.receiveShadow = true; terrain.userData.surface = 'soil'; terrain.name = 'forest-floor'; scene.add(terrain); solids.push(terrain);
   const barkM = new THREE.MeshStandardMaterial({ map: bark, normalMap: barkNormal, normalScale: new THREE.Vector2(1.3, 1.3), roughness: 0.95, color: '#92976d' });

@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import {correctGrip} from './hand-pose.js?v=20261112-r3';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { groundHeight } from './physics.mjs?v=20261111-r2';
+import { groundHeight } from './physics.mjs?v=20261112-r3';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 export class Weapon {
@@ -28,14 +29,12 @@ export class Weapon {
         else{m.material.color.set('#8a9691');m.material.metalness=.82;m.material.roughness=.64;m.material.envMapIntensity=1.1;}
       }
     });
-    // Extend the shoulder end below the first-person frame while keeping elbows and grips fixed.
-    holder.updateMatrixWorld(true);
-    for(const side of ['L','R']){const upper=bones['UpArm_'+side],forearm=bones['Forearm_'+side];if(!upper||!forearm)continue;const elbowMatrix=forearm.matrixWorld.clone(),shoulder=upper.getWorldPosition(new THREE.Vector3());shoulder.y-=.46;shoulder.z+=.12;upper.position.copy(upper.parent.worldToLocal(shoulder));upper.updateMatrixWorld(true);const local=upper.matrixWorld.clone().invert().multiply(elbowMatrix);local.decompose(forearm.position,forearm.quaternion,forearm.scale);forearm.updateMatrixWorld(true);}
+    const poseReport=correctGrip(holder,bones);
     holder.updateMatrixWorld(true);const gun=holder.getObjectByName('Gun_m4a1');const box=new THREE.Box3().setFromObject(gun);
     this.top=.109;this.muzzle.position.copy(holder.getObjectByName('MuzzleSocket').position).multiplyScalar(.5);
     this.flash.position.copy(this.muzzle.position);this.muzzleLight.position.copy(this.muzzle.position);
     this.addOptic(this.top);this.ads.set(0,-(this.top+.068),-.48);
-    this.handInfo={source:'DJMaesen / bumstrum; ccransh; IRONLINE asset adaptation',license:'CC BY 4.0',hands:2,skinnedMeshes,skeletonBones:Object.keys(bones).length,fingerJoints:Object.keys(bones).filter(n=>n.startsWith('Bone_')).length,anatomical:true,continuousForearms:true,textured:true};
+    this.handInfo={pose:poseReport,source:'DJMaesen / bumstrum; ccransh; IRONLINE asset adaptation',license:'CC BY 4.0',hands:2,skinnedMeshes,skeletonBones:Object.keys(bones).length,fingerJoints:Object.keys(bones).filter(n=>n.startsWith('Bone_')).length,anatomical:true,continuousForearms:true,textured:true};
     this.hands={entries:[{wrapper:holder,bones}],info:this.handInfo};
     this.modelInfo={dimensions:box.getSize(new THREE.Vector3()).toArray(),source:'Firewarden M4A1 / CC BY 4.0',rigged:true};this.group.position.copy(this.base);
   }
