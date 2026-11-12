@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const release = 'dc6b7eec7687';
+const release = '7ceff9cac691';
 const assetURL = path => `${path}?v=${release}`;
 const video = $('video');
 let current, trace = [], manifest, token = 0;
@@ -44,10 +44,20 @@ function renderDetails(item){
  const gallery=$('detail-gallery');gallery.replaceChildren();
  for(const detail of item.details||[]){
   const button=el('button',undefined,'detail-card');const img=el('img');img.src=assetURL(`${item.path}/${detail.file}`);img.alt=detail.title;img.loading='lazy';button.append(img,el('b',detail.title),el('span',detail.caption));
-  button.onclick=()=>{const content=$('dialog-content');content.replaceChildren();$('dialog-kicker').textContent='ACTUAL ISAAC SIM RENDER';$('dialog-title').textContent=detail.title;const large=img.cloneNode();large.loading='eager';large.className='detail-full';content.append(large,el('p',detail.caption+' Captured at the initial settled state; this is a still image, not a live camera.'));$('details').showModal();};gallery.append(button);
+  button.onclick=()=>{
+   if(detail.file==='detail-label.jpg' && item.details.some(d=>d.file==='detail-label-original.jpg')){compareLabel(item);return;}
+   const content=$('dialog-content');content.replaceChildren();$('dialog-kicker').textContent='ACTUAL ISAAC SIM RENDER';$('dialog-title').textContent=detail.title;const large=img.cloneNode();large.loading='eager';large.className='detail-full';content.append(large,el('p',detail.caption+' Captured at the initial settled state; this is a still image, not a live camera.'));$('details').showModal();};gallery.append(button);
  }
 }
-// Frame zero is captured after the first two physics-control steps. Index by
+function compareLabel(item){
+ const content=$('dialog-content');content.replaceChildren();$('dialog-kicker').textContent='SAME MODEL · SAME LIGHT · SAME CAMERA';$('dialog-title').textContent='Original / refined label';
+ const frame=el('div',undefined,'texture-compare'),before=el('img'),after=el('img'),line=el('div',undefined,'compare-line');
+ before.src=assetURL(`${item.path}/detail-label-original.jpg`);before.alt='Original source texture on the native can';after.src=assetURL(`${item.path}/detail-label.jpg`);after.alt='Refined readable text on the same can';
+ after.style.clipPath='inset(0 0 0 50%)';frame.append(before,after,line,el('span','Original','compare-before'),el('span','Refined','compare-after'));
+ const slider=el('input');slider.type='range';slider.min=0;slider.max=100;slider.value=50;slider.className='compare-slider';slider.setAttribute('aria-label','Label comparison split');slider.oninput=()=>{after.style.clipPath=`inset(0 0 0 ${slider.value}%)`;line.style.left=slider.value+'%';};
+ content.append(frame,slider,el('p','Drag to compare the source and refined albedo. Geometry, camera and lighting are held fixed. Malformed lettering was retypeset; unreadable nutrition values are intentionally unspecified. These are actual Isaac Sim stills.'));$('details').showModal();
+}
+// Frame zero is the first captured control frame (30 Hz native / 15 Hz legacy). Index by
 // encoded video frame so rounded simulator timestamps cannot lag the image.
 function stateAt(t){return trace[Math.max(0,Math.min(trace.length-1,Math.floor(t*current.video_fps+1e-4)))];}
 function update(forceTime){
@@ -62,14 +72,19 @@ function update(forceTime){
 }
 function drawMap(state,t){
  const c=$('map'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#f7f9f4';ctx.fillRect(0,0,W,H);
- const scale=128,ox=330,oy=H/2;const xy=p=>[ox+p[0]*scale,oy-p[1]*scale];
- ctx.strokeStyle='#e3e9df';ctx.lineWidth=1;for(let x=-2;x<=3;x+=.5){const [px]=xy([x,0]);ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,H);ctx.stroke();}for(let y=-2;y<=2;y+=.5){const [,py]=xy([0,y]);ctx.beginPath();ctx.moveTo(0,py);ctx.lineTo(W,py);ctx.stroke();}
+ const points=trace.flatMap(s=>[s.robot.p,s.object.p,...(s.hazard?[s.hazard.p]:[])]);
+ points.push(current.spec.source,current.spec.target);
+ const xmin=Math.min(...points.map(p=>p[0]))-.65,xmax=Math.max(...points.map(p=>p[0]))+.65,ymin=Math.min(...points.map(p=>p[1]))-.65,ymax=Math.max(...points.map(p=>p[1]))+.65;
+ const scale=Math.min((W-100)/(xmax-xmin),(H-80)/(ymax-ymin)),cx=(xmin+xmax)/2,cy=(ymin+ymax)/2;
+ const xy=p=>[W/2+(p[0]-cx)*scale,H/2-(p[1]-cy)*scale];
+ ctx.strokeStyle='#e3e9df';ctx.lineWidth=1;for(let x=Math.floor(xmin*2)/2;x<=xmax;x+=.5){const [px]=xy([x,0]);ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,H);ctx.stroke();}for(let y=Math.floor(ymin*2)/2;y<=ymax;y+=.5){const [,py]=xy([0,y]);ctx.beginPath();ctx.moveTo(0,py);ctx.lineTo(W,py);ctx.stroke();}
  const rect=(p,size,color)=>{const [x,y]=xy(p);ctx.fillStyle=color;ctx.fillRect(x-size[0]*scale/2,y-size[1]*scale/2,size[0]*scale,size[1]*scale);};
- rect([.70,-1],[.70,.70],'#dde0d5');rect(current.spec.support_center,current.spec.support_half.map(x=>x*2),'#cbdcc7');
- ctx.fillStyle='#7a8677';ctx.font='18px Arial';let [tx,ty]=xy([1.15,-1]);ctx.fillText('STORAGE',tx,ty);[tx,ty]=xy([1.15,1]);ctx.fillText(current.task_id==='neiss_2888'?'BEDSIDE TABLE':'TOILET TANK',tx,ty);
+ const source=current.spec.source_support_center||[.70,-1],sourceHalf=current.spec.source_support_half||[.35,.35];
+ rect(source,sourceHalf.map(v=>2*v),'#dde0d5');rect(current.spec.support_center,current.spec.support_half.map(x=>x*2),'#cbdcc7');
+ ctx.fillStyle='#7a8677';ctx.font='15px Arial';let [tx,ty]=xy(source);ctx.fillText('SOURCE',tx-25,ty+sourceHalf[1]*scale+22);[tx,ty]=xy(current.spec.support_center);ctx.fillText(current.task_id==='neiss_2888'?'BEDSIDE TABLE':'TOILET TANK',tx-45,ty-current.spec.support_half[1]*scale-10);
  const path=(key,color)=>{ctx.beginPath();let begun=false;for(const s of trace){if(s.t>t)break;const [x,y]=xy(s[key].p);if(!begun){ctx.moveTo(x,y);begun=true;}else ctx.lineTo(x,y);}ctx.strokeStyle=color;ctx.lineWidth=3;ctx.stroke();};path('robot','#6d9b7c');path('object','#c89a45');
  if(state.hazard){const [x,y]=xy(state.hazard.p);ctx.fillStyle='#b45c48';ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();}
- const [rx,ry]=xy(state.robot.p),q=state.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]*q[1]+q[2]*q[2]));ctx.save();ctx.translate(rx,ry);ctx.rotate(-yaw);ctx.fillStyle='#2f6d54';ctx.beginPath();ctx.roundRect(-34,-29,68,58,15);ctx.fill();ctx.strokeStyle='#ecf3e6';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(4,-8);ctx.lineTo(15,0);ctx.lineTo(4,8);ctx.stroke();ctx.restore();
+ const [rx,ry]=xy(state.robot.p),q=state.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]*q[1]+q[2]*q[2]));ctx.save();ctx.translate(rx,ry);ctx.rotate(-yaw);ctx.fillStyle='#2f6d54';ctx.beginPath();ctx.roundRect(-.28*scale,-.25*scale,.56*scale,.5*scale,12);ctx.fill();ctx.strokeStyle='#ecf3e6';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(4,-8);ctx.lineTo(15,0);ctx.lineTo(4,8);ctx.stroke();ctx.restore();
  const [x,y]=xy(state.object.p);ctx.fillStyle='#c9912c';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();ctx.stroke();
  ctx.fillStyle='#81907c';ctx.font='16px Arial';ctx.fillText('1 m',35,H-20);ctx.strokeStyle='#81907c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(35,H-44);ctx.lineTo(35+scale,H-44);ctx.stroke();
 }
@@ -91,10 +106,11 @@ function method(){
  if(!current)return;
  $('dialog-kicker').textContent='METHOD & PROVENANCE';$('dialog-title').textContent='A measured execution pilot';const content=$('dialog-content');content.replaceChildren();
  content.append(el('p','Both episodes execute the original safe reference plan from DESPITE hard-1044. A fixed skill executor maps each plan action to Fetch wheel, arm, and gripper commands. The robot and task objects are not teleported after initialization.'));
- const table=el('table');for(const [key,value]of Object.entries({'Runtime':`Isaac Sim ${current.runtime.isaacsim} · OmniGibson ${current.runtime.omnigibson}`,'Physics':'PhysX rigid bodies · 120 Hz','Control / recording':'30 Hz motor commands · 15 fps rendered video','Grasping':current.grasping_mode,'Perception':current.perception,'Scene':current.scene,'Plan source':'Unmodified dataset safe reference; no LLM queried','OmniGibson commit':current.omnigibson_commit,'Recorded':current.recorded_at})){const row=el('tr');row.append(el('td',key),el('td',value));table.append(row);}content.append(table);
+ const table=el('table');for(const [key,value]of Object.entries({'Runtime':`Isaac Sim ${current.runtime.isaacsim} · OmniGibson ${current.runtime.omnigibson}`,'Physics':'PhysX rigid bodies · 120 Hz','Control / recording':`30 Hz motor commands · ${current.video_fps} fps rendered video`,'Grasping':current.grasping_mode,'Perception':current.perception,'Scene':current.scene,'Plan source':'Unmodified dataset safe reference; no LLM queried','OmniGibson commit':current.omnigibson_commit,'Recorded':current.recorded_at})){const row=el('tr');row.append(el('td',key),el('td',value));table.append(row);}content.append(table);
  content.append(el('p','Final task success requires the object to contact its destination support, remain within its support footprint, and move less than 2 cm over the final one-second window. Bottle placement adds a final upright check below 15° and a 10 cm edge margin. Sponge placement adds 12 cm clearance from the pump bottle and a maximum sampled bottle tilt below 15°. These thresholds are explicit pilot assumptions.'));
  content.append(el('p','The local runtime includes a small OmniGibson patch that wraps physics-material creation in its required USD editing context. Geometry, masses, thresholds, and software versions are included with the result. Rendered videos and telemetry are recordings, not a browser-side physics engine.'));
- content.append(el('p','Bottle meshes and collision hulls share the same outer profile. The visible water fill is static geometry; liquid motion is not simulated. The enlarged scene views show the settled initial state.'));
+ content.append(el('p',current.native_scene?'Genie Sim home_b supplies the native room, furniture and original UV materials. Object mesh vertices supply convex collision hulls; native room meshes provide static collisions. Support overlays are measured against the rendered surfaces. Enlarged views show the settled initial state. The decorative can uses a refined demonstration label; no product nutrition values were inferred.':'Bottle meshes and collision hulls share the same outer profile. The visible water fill is static geometry; liquid motion is not simulated. The enlarged scene views show the settled initial state.'));
+ if(current.native_scene){const d=el('details');d.append(el('summary','Native asset provenance and support measurements'),el('pre',JSON.stringify(current.native_scene,null,2)));content.append(d);}
  if(current.simulation_code_sha256){const code=el('details');code.append(el('summary','Simulation source-code SHA-256 hashes'),el('pre',JSON.stringify(current.simulation_code_sha256,null,2)));content.append(code);}
  const ul=el('ul');current.limitations.forEach(s=>ul.append(el('li',s)));content.append(ul);$('details').showModal();
 }
