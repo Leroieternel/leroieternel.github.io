@@ -1,4 +1,4 @@
-DESPITE: five paired physical reference-plan executions
+DESPITE: paired physical reference-plan executions in native rooms
 
 summary.csv: one row per original task and reference label.
 manifest.json: provenance, file checksums, units and pairing conditions.
