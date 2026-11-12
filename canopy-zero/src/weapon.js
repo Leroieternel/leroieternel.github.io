@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {correctGrip} from './hand-pose.js?v=20261112-r3';
+import {correctGrip} from './hand-pose.js?v=20261112-r4';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { groundHeight } from './physics.mjs?v=20261112-r3';

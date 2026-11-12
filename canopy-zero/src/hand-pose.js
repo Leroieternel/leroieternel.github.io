@@ -27,7 +27,17 @@ export function correctGrip(holder,bones){
   const base=Y.clone().applyQuaternion(bone('L',a).getWorldQuaternion(new THREE.Quaternion()));base.y=0;base.normalize();
   for(const [n,angle] of [[a,25],[b,77],[c,115]]){const t=angle*Math.PI/180;aimBone(bone('L',n),base.clone().multiplyScalar(Math.cos(t)).addScaledVector(Y,Math.sin(t)));}
  }
- for(const [n,d] of [[20,v(.12,.63,-.77)],[21,v(.35,.82,.45)],[22,v(.50,.14,.85)]])aimBone(bone('L',n),d);
+ // Let both thumbs extend toward the muzzle with a gentle, continuous curl.
+ // Interpolate all three segments in one plane so neither IP joint hooks
+ // back into the palm. Bone translations stay intact to preserve the skin.
+ const thumbs={L:[v(.12,.63,-.77),v(.12,.10,-.99)],R:[v(-.80,.34,-.50),v(-.25,.04,-.97)]};
+ for(const side of ['L','R']){
+  const [base,tip]=thumbs[side].map(d=>d.normalize()),bend=new THREE.Quaternion().setFromUnitVectors(base,tip);
+  for(const [n,t] of [[20,0],[21,.6],[22,1]]){
+   const direction=base.clone().applyQuaternion(new THREE.Quaternion().slerp(bend,t)).transformDirection(holder.matrixWorld);
+   aimBone(bone(side,n),direction);
+  }
+ }
  holder.updateWorldMatrix(true,true);
  for(const side of ['L','R']){const wrist=bones['Hand_'+side],fore=bones['Forearm_'+side],metacarpal=bone(side,8),dir=Y.clone().applyQuaternion(metacarpal.getWorldQuaternion(new THREE.Quaternion())),arm=wrist.getWorldPosition(v(0,0,0)).sub(fore.getWorldPosition(v(0,0,0))).normalize();report[side].wristAngle=THREE.MathUtils.radToDeg(arm.angleTo(dir));report[side].forearmLengthAfter=wrist.getWorldPosition(v(0,0,0)).distanceTo(fore.getWorldPosition(v(0,0,0)));}
  return report;

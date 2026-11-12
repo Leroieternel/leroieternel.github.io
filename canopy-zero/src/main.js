@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { createWorld } from './world.js?v=20261112-r3';
 import { Player } from './player.js?v=20261112-r3';
-import { Weapon } from './weapon.js?v=20261112-r3';
+import { Weapon } from './weapon.js?v=20261112-r4';
 import { Effects } from './effects.js?v=20261112-r3';
 import { FieldAudio } from './audio.js?v=20261112-r3';
 import { groundHeight } from './physics.mjs?v=20261112-r3';
