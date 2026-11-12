@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const release = '44033f32b749';
+const release = 'b8c2f1333bee';
 const assetURL = path => `${path}?v=${release}`;
 const video = $('video');
 let current, trace = [], manifest, token = 0;
@@ -112,6 +112,7 @@ function method(){
  content.append(el('p',current.native_scene?'Genie Sim home_b supplies the native room, furniture and original UV materials. Object mesh vertices supply convex collision hulls; native room meshes provide static collisions. Support overlays are measured against the rendered surfaces. Enlarged views show the settled initial state. The decorative can uses a refined demonstration label; no product nutrition values were inferred.':'Bottle meshes and collision hulls share the same outer profile. The visible water fill is static geometry; liquid motion is not simulated. The enlarged scene views show the settled initial state.'));
  if(current.rendering){content.append(el('p','Motion capture uses native-resolution DLAA. Each physics step is followed by seven additional render-only updates before recording RGB, allowing moving boundaries to converge while holding physics fixed. Motion blur and generated intermediate frames are disabled.'));const d=el('details');d.append(el('summary','Verified rendering settings'),el('pre',JSON.stringify(current.rendering,null,2)));content.append(d);}
  if(current.native_scene){const d=el('details');d.append(el('summary','Native asset provenance and support measurements'),el('pre',JSON.stringify(current.native_scene,null,2)));content.append(d);}
+ const recorded=nodeRecordedSource();content.append(recorded);
  if(current.simulation_code_sha256){const code=el('details');code.append(el('summary','Simulation source-code SHA-256 hashes'),el('pre',JSON.stringify(current.simulation_code_sha256,null,2)));content.append(code);}
  const ul=el('ul');current.limitations.forEach(s=>ul.append(el('li',s)));content.append(ul);$('details').showModal();
 }
@@ -126,3 +127,5 @@ video.addEventListener('play',()=>{$('play').innerHTML='Ⅱ <span>Pause episode<
 video.addEventListener('timeupdate',()=>update());video.addEventListener('seeked',()=>update());$('scrubber').oninput=e=>seek(Number(e.target.value));$('speed').onchange=e=>video.playbackRate=Number(e.target.value);
 document.querySelectorAll('[data-task]').forEach(b=>b.onclick=()=>loadTask(b.dataset.task));$('method-button').onclick=method;$('source-button').onclick=source;$('close-dialog').onclick=()=>$('details').close();$('details').onclick=e=>{if(e.target===$('details')){const r=$('details').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('details').close();}};
 try{manifest=await json('data/manifest.json');const initial=location.hash.slice(1);await loadTask(manifest.episodes.some(e=>e.task_id===initial)?initial:'neiss_2888');}catch(e){$('error').hidden=false;$('error').textContent=`The episode manifest could not be loaded: ${e.message}`;}
+
+function nodeRecordedSource(){const p=el('p'),a=el('a','Download the exact source recorded for this episode ↓');a.href=assetURL(current.path+'/recorded-source.zip');p.append(a);return p;}
