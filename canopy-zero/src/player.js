@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { groundHeight, moveWithCollisions, supportHeight } from './physics.mjs?v=20261112-r3';
+import { groundHeight, moveWithCollisions, supportHeight } from './physics.mjs?v=20261112-r5';
 
 export class Player {
-  constructor(camera, colliders) {
-    this.camera = camera; this.colliders = colliders; this.position = new THREE.Vector3();
+  constructor(camera, colliders, meshCollision = null) {
+    this.camera = camera; this.colliders = colliders; this.meshCollision = meshCollision; this.position = new THREE.Vector3();
     this.keys = new Set(); this.velocity = new THREE.Vector3(); this.yaw = 0; this.pitch = 0;
     this.eye = 1.67; this.bob = 0; this.sensitivity = 1; this.sprint = false; this.contacts = 0;
     this.onStep = () => {}; this.stepDistance = 0; this.reset();
@@ -11,7 +11,7 @@ export class Player {
   reset() {
     this.position.set(0.6, groundHeight(0.6, 13), 13);
     this.velocity.set(0, 0, 0); this.yaw = -0.08; this.pitch = -0.045; this.grounded = true; this.jumpRequested = false;
-    this.keys.clear(); this.eye = 1.67; this.bob = 0; this.stepDistance = 0;
+    this.keys.clear(); this.eye = 1.67; this.bodyHeight = 1.8; this.bob = 0; this.stepDistance = 0;
     this.updateCamera(0, false);
   }
   look(dx, dy, aim = false) {
@@ -20,7 +20,12 @@ export class Player {
     this.pitch = THREE.MathUtils.clamp(this.pitch - dy * sensitivity, -1.43, 1.43);
   }
   update(dt, aiming) {
-    const crouch = this.keys.has('KeyC');
+    let crouch = this.keys.has('KeyC');
+    if (!crouch && this.bodyHeight < 1.8 && this.meshCollision) {
+      const headroom = this.meshCollision.intersect(this.position, 1.8);
+      if (headroom && headroom.depth > .003) crouch = true;
+    }
+    this.bodyHeight = crouch ? 1.2 : 1.8;
     this.sprint = this.keys.has('ShiftLeft') && !aiming && !crouch && this.keys.has('KeyW');
     const speed = crouch ? 1.55 : this.sprint ? 5.6 : aiming ? 2.1 : 3.2;
     let x = Number(this.keys.has('KeyD')) - Number(this.keys.has('KeyA'));
@@ -34,12 +39,18 @@ export class Player {
     this.jumpRequested = false;
     this.velocity.y -= 15 * dt;
     const prevX = this.position.x, prevZ = this.position.z;
-    this.contacts = moveWithCollisions(this.position, this.velocity.x * dt, this.velocity.z * dt, this.colliders, crouch ? 1.2 : 1.8);
+    this.contacts = moveWithCollisions(this.position, this.velocity.x * dt, this.velocity.z * dt, this.colliders, this.bodyHeight, this.meshCollision);
     const previousFeet = this.position.y;
     this.position.y += this.velocity.y * dt;
+    const surface = this.meshCollision?.resolve(this.position, this.bodyHeight);
+    if (surface?.contacts) {
+      this.contacts += surface.contacts;
+      if (surface.grounded && this.velocity.y <= 0) { this.grounded = true; this.velocity.y = 0; }
+      if (surface.ceiling && this.velocity.y > 0) this.velocity.y = 0;
+    }
     const floor = Math.max(groundHeight(this.position.x, this.position.z), supportHeight(this.position.x, this.position.z, previousFeet, this.colliders));
     if (this.position.y <= floor) { this.position.y = floor; this.velocity.y = 0; this.grounded = true; }
-    else if (this.position.y - floor > 0.1) this.grounded = false;
+    else if (!surface?.grounded && this.position.y - floor > 0.1) this.grounded = false;
     const distance = Math.hypot(this.position.x - prevX, this.position.z - prevZ);
     if (this.grounded) {
       this.bob += distance * 8;

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {DecalGeometry} from 'three/addons/geometries/DecalGeometry.js';
-import {damageProfile,seededRandom} from './impact-response.mjs?v=20261112-r3';
-import {groundHeight} from './physics.mjs?v=20261112-r3';
+import {damageProfile,seededRandom} from './impact-response.mjs?v=20261112-r5';
+import {groundHeight} from './physics.mjs?v=20261112-r5';
 const cache=new WeakMap(),Z=new THREE.Vector3(0,0,1),UP=new THREE.Vector3(0,1,0);
 function sampleSurface(hit){
  const mat=Array.isArray(hit.object.material)?hit.object.material[hit.face.materialIndex||0]:hit.object.material;

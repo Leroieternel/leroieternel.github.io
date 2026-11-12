@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import {createDamage,disposeDamage} from './damage.js?v=20261112-r3';
-import {splashFrame,splashVelocity} from './impact-response.mjs?v=20261112-r3';
-import { groundHeight,waterHeight,resolveOverlap } from './physics.mjs?v=20261112-r3';
+import {createDamage,disposeDamage} from './damage.js?v=20261112-r5';
+import {splashFrame,splashVelocity} from './impact-response.mjs?v=20261112-r5';
+import { groundHeight,waterHeight,resolveOverlap } from './physics.mjs?v=20261112-r5';
 const UP=new THREE.Vector3(0,1,0),Z=new THREE.Vector3(0,0,1);
 function containsParticle(c,p,r=0){if(c.disabled||p.y>c.top||p.y+.02<c.bottom)return false;if(c.type==='box')return p.x>=c.minX-r&&p.x<=c.maxX+r&&p.z>=c.minZ-r&&p.z<=c.maxZ+r;if(c.type==='circle')return (p.x-c.x)**2+(p.z-c.z)**2<=(c.radius+r)**2;return false;}
 

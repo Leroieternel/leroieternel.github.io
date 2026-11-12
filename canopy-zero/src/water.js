@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {riverCenter,riverWidth,riverLevel,riverDepth,groundHeight} from './physics.mjs?v=20261112-r3';
+import {riverCenter,riverWidth,riverLevel,riverDepth,groundHeight} from './physics.mjs?v=20261112-r5';
 export function createRiver(scene,solids,clock){
  const vertices=[],uvs=[],depths=[],indices=[],steps=360,columns=24;
  for(let j=0;j<=steps;j++){const z=-32+j/steps*64;for(let i=0;i<=columns;i++){const u=i/columns,x=riverCenter(z)+(u*2-1)*riverWidth(z);vertices.push(x,riverLevel(z)+.002,z);uvs.push(x,z);depths.push(riverDepth(x,z));if(j<steps&&i<columns){const k=j*(columns+1)+i;indices.push(k,k+columns+1,k+1,k+1,k+columns+1,k+columns+2);}}}

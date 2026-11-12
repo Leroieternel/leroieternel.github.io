@@ -47,7 +47,7 @@ export function resolveOverlap(pos, collider, radius = PLAYER_RADIUS, height = 1
   pos.z += dz / distance * (required - distance + 0.0001);
   return true;
 }
-export function moveWithCollisions(position, dx, dz, colliders, height = 1.8) {
+export function moveWithCollisions(position, dx, dz, colliders, height = 1.8, surfaces = null) {
   // Substeps limit tunnelling even after a slow frame or against thin target posts.
   const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.075));
   let contacts = 0;
@@ -56,6 +56,10 @@ export function moveWithCollisions(position, dx, dz, colliders, height = 1.8) {
     for (let iteration = 0; iteration < 4; iteration++) {
       let changed = false;
       for (const c of colliders) if (resolveOverlap(position, c, PLAYER_RADIUS, height)) { changed = true; contacts++; }
+      if (surfaces) {
+        const hit = surfaces.resolve(position, height);
+        if (hit.contacts) { changed = true; contacts += hit.contacts; }
+      }
       if (!changed) break;
     }
     position.x = Math.max(BOUNDS.minX + PLAYER_RADIUS, Math.min(BOUNDS.maxX - PLAYER_RADIUS, position.x));

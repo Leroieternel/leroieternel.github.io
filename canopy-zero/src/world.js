@@ -2,10 +2,11 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { groundHeight, pathCenter } from './physics.mjs?v=20261112-r3';
-import { buildForest } from './vegetation.js?v=20261112-r3';
-import { createRiver } from './water.js?v=20261112-r3';
-import { SuspendedTarget } from './dynamics.mjs?v=20261112-r3';
+import { groundHeight, pathCenter } from './physics.mjs?v=20261112-r5';
+import { buildForest } from './vegetation.js?v=20261112-r5';
+import { createMeshCollision } from './mesh-collision.js?v=20261112-r5';
+import { createRiver } from './water.js?v=20261112-r5';
+import { SuspendedTarget } from './dynamics.mjs?v=20261112-r5';
 
 export function randomGenerator(seed = 731) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 const UP = new THREE.Vector3(0, 1, 0);
@@ -100,7 +101,7 @@ function addWind(material, clock, strength) {
 export async function createWorld(scene, renderer, manager) {
   const random = randomGenerator();
   const solids = [], colliders = [], targets = [], breakables = [], trees = [];
-  const clock = { value: 0 }, loader = new THREE.TextureLoader(manager);
+  const clock = { value: 0 }, foliagePlayer = { value: new THREE.Vector3(0,1.67,13) }, loader = new THREE.TextureLoader(manager);
   const load = async (name, srgb, rx = 1, ry = rx) => {
     const t = await loader.loadAsync(`./assets/${name}`);
     if (srgb) t.colorSpace = THREE.SRGBColorSpace;
@@ -112,20 +113,20 @@ export async function createWorld(scene, renderer, manager) {
     load('soil_diff.jpg', true, 34), load('bark_diff.jpg', true, 1.6, 5.5), load('bark_nor_gl.jpg', false, 1.6, 5.5),
   ]);
   const [forest, forestNormal, forestRough, soil, bark, barkNormal] = loaded;
-  scene.background = new THREE.Color('#718772'); scene.fog = new THREE.FogExp2('#687d66', 0.026);
-  const hemisphere = new THREE.HemisphereLight('#d9e7ce', '#303b27', 1.0); scene.add(hemisphere);
-  const sun = new THREE.DirectionalLight('#fff0ce', 2.6); sun.position.set(-12, 25, -19); sun.target.position.set(0, 0, -2);
+  scene.background = new THREE.Color('#a0b0a8'); scene.fog = new THREE.FogExp2('#94a79a', 0.017);
+  const hemisphere = new THREE.HemisphereLight('#e4edf0', '#4e5948', 1.05); scene.add(hemisphere);
+  const sun = new THREE.DirectionalLight('#f4f0df', .9); sun.position.set(-8, 30, -14); sun.target.position.set(0, 0, -2);
   sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.camera.left = -28; sun.shadow.camera.right = 28; sun.shadow.camera.top = 28; sun.shadow.camera.bottom = -28;
-  sun.shadow.camera.near = 1; sun.shadow.camera.far = 70; sun.shadow.bias = -0.0002; sun.shadow.normalBias = 0.045; sun.shadow.radius = 2;
+  sun.shadow.camera.near = 1; sun.shadow.camera.far = 70; sun.shadow.bias = -0.0002; sun.shadow.normalBias = 0.025; sun.shadow.radius = 3.5;
   scene.add(sun, sun.target);
-  const fill = new THREE.DirectionalLight('#a9cdd1', 0.32); fill.position.set(8, 8, 14); scene.add(fill);
+  const fill = new THREE.DirectionalLight('#d8e4e3', 0.28); fill.position.set(8, 8, 14); scene.add(fill);
   let env;
-  try { env = await new RGBELoader(manager).loadAsync('./assets/forest.hdr'); env.mapping = THREE.EquirectangularReflectionMapping; scene.environment = env; scene.environmentIntensity = 0.38; } catch { /* Directional and hemispheric light remain usable. */ }
+  try { env = await new RGBELoader(manager).loadAsync('./assets/forest.hdr'); env.mapping = THREE.EquirectangularReflectionMapping; scene.environment = env; scene.environmentIntensity = 0.78; } catch { /* Directional and hemispheric light remain usable. */ }
 
   const terrainG = new THREE.PlaneGeometry(120, 120, 480, 480); terrainG.rotateX(-Math.PI / 2);
   for (let i = 0; i < terrainG.attributes.position.count; i++) { const p = terrainG.attributes.position; p.setY(i, groundHeight(p.getX(i), p.getZ(i))); }
   terrainG.computeVertexNormals();
-  const terrainM = new THREE.MeshStandardMaterial({ map: forest, normalMap: forestNormal, roughnessMap: forestRough, normalScale: new THREE.Vector2(0.7, 0.7), roughness: 0.83, color: '#a3b08d' });
+  const terrainM = new THREE.MeshStandardMaterial({ map: forest, normalMap: forestNormal, roughnessMap: forestRough, normalScale: new THREE.Vector2(0.42, 0.42), roughness: 0.94, color: '#c4ccba' });
   terrainM.onBeforeCompile = shader => {
     shader.uniforms.uSoil = { value: soil };
     shader.vertexShader = 'varying vec3 vTerrainPosition;\n' + shader.vertexShader;
@@ -135,7 +136,7 @@ export async function createWorld(scene, renderer, manager) {
       float trail = abs(vTerrainPosition.x - sin(vTerrainPosition.z * 0.105) * 2.6);
       float trailMix = 1.0 - smoothstep(.65, 1.65, trail + sin(vTerrainPosition.z * 1.4) * 0.3);
       vec4 trailColor = texture2D(uSoil, vMapUv * 1.1);
-      diffuseColor.rgb = mix(diffuseColor.rgb, trailColor.rgb * vec3(0.45, 0.48, 0.38), trailMix * 0.94);
+      diffuseColor.rgb = mix(diffuseColor.rgb, trailColor.rgb * vec3(0.56, 0.53, 0.45), trailMix * 0.94);
       float creekX=9.3+sin(vTerrainPosition.z*.115)*1.75+sin(vTerrainPosition.z*.31)*.23+sin(vTerrainPosition.z*.81)*.11;
       float creekW=1.05+.18*sin(vTerrainPosition.z*.22)+.10*sin(vTerrainPosition.z*.93+1.2)+.045*sin(vTerrainPosition.z*2.13);
       float wetBank=1.0-smoothstep(creekW-.10,creekW+.55,abs(vTerrainPosition.x-creekX));
@@ -144,7 +145,8 @@ export async function createWorld(scene, renderer, manager) {
   };
   const terrain = new THREE.Mesh(terrainG, terrainM); terrain.receiveShadow = true; terrain.userData.surface = 'soil'; terrain.name = 'forest-floor'; scene.add(terrain); solids.push(terrain);
   const barkM = new THREE.MeshStandardMaterial({ map: bark, normalMap: barkNormal, normalScale: new THREE.Vector2(1.3, 1.3), roughness: 0.95, color: '#92976d' });
-  const forestInfo=await buildForest(scene,manager,random,solids,colliders,trees);
+  const vegetation=await buildForest(scene,manager,random,solids,colliders,trees,clock,foliagePlayer);
+  const forestInfo=vegetation.info;
   const river=createRiver(scene,solids,clock);
   const waterM=new THREE.MeshPhysicalMaterial({color:'#334b3d',metalness:.25,roughness:.1,transparent:true,opacity:.42,clearcoat:1,clearcoatRoughness:.08,depthWrite:false});
   const puddles=[];
@@ -194,12 +196,16 @@ export async function createWorld(scene, renderer, manager) {
   for(let i=0;i<rainCount;i++){const k=i*6;rainArray[k]=(random()-.5)*42;rainArray[k+1]=random()*18;rainArray[k+2]=(random()-.5)*42;rainArray[k+3]=rainArray[k]+.04;rainArray[k+4]=rainArray[k+1]-.35;rainArray[k+5]=rainArray[k+2]+.02;}
   const rainG=new THREE.BufferGeometry();rainG.setAttribute('position',new THREE.BufferAttribute(rainArray,3));
   const rain=new THREE.LineSegments(rainG,new THREE.LineBasicMaterial({color:'#d4e6de',transparent:true,opacity:.17,depthWrite:false}));rain.frustumCulled=false;scene.add(rain);
+  const meshCollision=createMeshCollision(solids.filter(m=>['wood','stone','metal'].includes(m.userData.surface)&&!m.userData.breakable&&!m.userData.target&&m.name!=='scanned-sapling'&&!m.name.startsWith('creek-')));
+  const effectColliders=colliders.slice();
+  const replaced=new Set(['scanned-tree','scanned-trunk-surface','scanned-root','root-base','rock','fallen-log']);
+  for(let i=colliders.length-1;i>=0;i--)if(replaced.has(colliders[i].name))colliders.splice(i,1);
   let raining=true;
   return {
-    solids,colliders,targets,breakables,trees,terrain,supply,puddles,sun,clock,forestInfo,river,
+    solids,colliders,targets,breakables,trees,terrain,supply,puddles,sun,clock,forestInfo,river,meshCollision,effectColliders,
     hitTarget(hit,direction){const t=hit.object.userData.targetRef;t.body.applyImpulse(hit.point.clone().sub(t.pivot.position).toArray(),direction.toArray());},
     setRain(enabled){raining=enabled;rain.visible=enabled;},
-    update(dt,time,camera){clock.value=time;for(const t of targets){t.body.update(dt);const o=t.body.offset,r=t.body.rotation;t.pivot.position.copy(t.base).add(new THREE.Vector3(...o));t.pivot.rotation.set(r[0]+o[2]/t.body.length*.4,r[1],r[2]-o[0]/t.body.length*.4);t.angle=t.pivot.rotation.x;t.velocity=t.body.velocity[2];t.pivot.updateMatrixWorld(true);for(let i=0;i<2;i++){const end=t.pivot.localToWorld(new THREE.Vector3((i===0?-1:1)*.18,.25,0)),a=t.anchors[i],delta=end.clone().sub(a),chain=t.chains[i];chain.position.copy(a).add(end).multiplyScalar(.5);chain.scale.y=delta.length();chain.quaternion.setFromUnitVectors(UP,delta.normalize());}}if(raining){rain.position.set(camera.position.x,0,camera.position.z);for(let i=0;i<rainCount;i++){const k=i*6;rainArray[k+1]-=dt*11;rainArray[k+4]-=dt*11;if(rainArray[k+1]<-.2){rainArray[k+1]+=18;rainArray[k+4]+=18;}}rainG.attributes.position.needsUpdate=true;}},
+    update(dt,time,camera){clock.value=time;foliagePlayer.value.copy(camera.position);vegetation.update(camera.position);for(const t of targets){t.body.update(dt);const o=t.body.offset,r=t.body.rotation;t.pivot.position.copy(t.base).add(new THREE.Vector3(...o));t.pivot.rotation.set(r[0]+o[2]/t.body.length*.4,r[1],r[2]-o[0]/t.body.length*.4);t.angle=t.pivot.rotation.x;t.velocity=t.body.velocity[2];t.pivot.updateMatrixWorld(true);for(let i=0;i<2;i++){const end=t.pivot.localToWorld(new THREE.Vector3((i===0?-1:1)*.18,.25,0)),a=t.anchors[i],delta=end.clone().sub(a),chain=t.chains[i];chain.position.copy(a).add(end).multiplyScalar(.5);chain.scale.y=delta.length();chain.quaternion.setFromUnitVectors(UP,delta.normalize());}}if(raining){rain.position.set(camera.position.x,0,camera.position.z);for(let i=0;i<rainCount;i++){const k=i*6;rainArray[k+1]-=dt*11;rainArray[k+4]-=dt*11;if(rainArray[k+1]<-.2){rainArray[k+1]+=18;rainArray[k+4]+=18;}}rainG.attributes.position.needsUpdate=true;}},
     reset(){targets.forEach(t=>{t.body.reset();t.velocity=0;t.angle=0;t.pivot.position.copy(t.base);t.pivot.rotation.set(0,0,0);});breakables.forEach(b=>{b.hp=5;b.alive=true;b.group.visible=true;b.collider.disabled=false;});}
   };
 }

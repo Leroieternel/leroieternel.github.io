@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import {correctGrip} from './hand-pose.js?v=20261112-r4';
+import {correctGrip} from './hand-pose.js?v=20261112-r5';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { groundHeight } from './physics.mjs?v=20261112-r3';
+import { groundHeight } from './physics.mjs?v=20261112-r5';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 export class Weapon {
@@ -64,7 +64,9 @@ export class Weapon {
     this.group.position.y+=walk;this.group.position.x+=Math.cos(player.bob*.5)*.003*(1-this.aim)*(player.moving?1:0);this.group.position.z+=this.recoil*.4;
     const forward=new THREE.Vector3();this.camera.getWorldDirection(forward);const ray=new THREE.Ray(this.camera.position,forward),box=new THREE.Box3(),point=new THREE.Vector3();let near=1.05;
     for(const c of this.colliders||[]){if(c.disabled)continue;const r=c.radius||.05;if(c.type==='box')box.min.set(c.minX,c.bottom,c.minZ),box.max.set(c.maxX,c.top,c.maxZ);else if(c.type==='capsule')box.min.set(Math.min(c.a.x,c.b.x)-r,c.bottom,Math.min(c.a.z,c.b.z)-r),box.max.set(Math.max(c.a.x,c.b.x)+r,c.top,Math.max(c.a.z,c.b.z)+r);else box.min.set(c.x-r,c.bottom,c.z-r),box.max.set(c.x+r,c.top,c.z+r);if(ray.intersectBox(box,point))near=Math.min(near,point.distanceTo(this.camera.position));}
-    for(let d=.12;d<1.01;d+=.12){point.copy(this.camera.position).addScaledVector(forward,d);if(point.y<groundHeight(point.x,point.z)+.03){near=Math.min(near,d);break;}}
+    // Check the barrel width and lower handguard, not only the reticle ray.
+    if(this.meshCollision){for(const offset of [[0,0,0],[-.15,-.12,0],[.15,-.12,0],[0,-.25,0]]){const origin=new THREE.Vector3(...offset).applyQuaternion(this.camera.quaternion).add(this.camera.position);near=Math.min(near,this.meshCollision.rayDistance(origin,forward,1.05));}}
+    for(let d=.12;d<1.01;d+=.12){point.copy(this.camera.position).addScaledVector(forward,d);if(point.y-.20<groundHeight(point.x,point.z)+.03){near=Math.min(near,d);break;}}
     this.obstruction=THREE.MathUtils.damp(this.obstruction,THREE.MathUtils.clamp((.95-near)/.65,0,1),16,dt);
     this.group.position.z+=this.obstruction*.32;this.group.position.y-=this.obstruction*.12;
     this.group.rotation.set(this.recoil*(1-this.aim*.4),0,-.035*(1-this.aim));
