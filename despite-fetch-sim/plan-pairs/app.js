@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='780a483e6672';
+const $=id=>document.getElementById(id), release='0fc2da173798';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe';
 const url=p=>`${p}?v=${release}`;
@@ -8,6 +8,7 @@ const seconds=s=>`${Number(s).toFixed(1)} s`;
 async function read(p){const r=await fetch(url(p),{cache:'no-cache'});if(!r.ok)throw Error(`${p}: HTTP ${r.status}`);return r.json();}
 function pause(){cancelAnimationFrame(animation);variants.forEach(k=>videos[k].pause());playing=false;$('play').textContent='Play both';}
 function seek(t){if(loading)return;pause();elapsed=Math.max(0,Math.min(duration,t));variants.forEach(k=>{if(records[k])videos[k].currentTime=Math.min(elapsed,records[k].duration);});update();}
+function jumpTo(t,k){seek(t);videos[k].scrollIntoView({behavior:'smooth',block:'center'});}
 async function play(){
  if(!selected||loading)return;const pending=request;
  if(elapsed>=duration-1e-6)seek(0);
@@ -27,14 +28,29 @@ function outcome(r){
  return 'Task goal not reached · inspect the physical trace';
 }
 function metricCell(label,value,note){const e=node('div',undefined,'metric');e.append(node('small',label),node('b',value),node('span',note));return e;}
+function executionNote(step){
+ const e=step?.evidence;if(!e)return '';
+ if(e.kind==='physical_navigation')return ` · ${e.base_displacement_m.toFixed(2)} m driven`;
+ if(e.kind==='scripted_skeletal_actor_with_dynamic_parcel')return ' · visible staff handling';
+ if(e.kind==='physical_grasp_after_staff_release')return ' · pickup after staff release';
+ if(e.kind==='physical_approach_and_grasp_without_staff_processing')return ' · approach + direct pickup';
+ return '';
+}
 function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
  $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell('Physical task goal',r.goal_reached?'Reached':'Not reached',`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
- if(r.scene_id==='lobby')$(k+'-metrics').append(metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
- if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach','Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
+ if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
+ if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
- const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('b',pretty(action)),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seek(step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
+ const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('b',pretty(action)),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seek(step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
+ document.getElementById(k+'-staff-events')?.remove();
+ if(r.staff_interaction?.events?.length){
+  const box=node('div',undefined,'staff-events');box.id=k+'-staff-events';box.append(node('p','Visible checkpoints'));
+  const labels={fetch_arrived_at_counter:'Counter arrival',staff_grasp_constraint_engaged:'Staff takes parcel',parcel_lift_verified:'Parcel lifted',parcel_inspected:'Inspection',staff_released_parcel:'Staff release',handoff_ready:'Hands clear',fetch_physical_pickup_completed:'Fetch pickup'};
+  r.staff_interaction.events.forEach(e=>{if(!labels[e.event])return;const b=node('button',`${labels[e.event]} · ${seconds(e.t)}`);b.onclick=()=>jumpTo(e.t+1/r.video_fps,k);box.append(b);});list.after(box);
+ }
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
+ if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
 }
 async function loadCase(id){
  pause();const pending=++request;loading=true;$('play').disabled=true;$('comparison').setAttribute('aria-busy','true');$('error').hidden=true;
@@ -48,6 +64,8 @@ async function loadCase(id){
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
   $('comparison').dataset.scene=item.scene_id;
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
+  $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
+  $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
   renderSelectors();history.replaceState(null,'','#'+id);
   variants.forEach(k=>{const v=videos[k];v.src=url(item.variants[k].path+'/episode.mp4');v.poster=url(item.variants[k].path+'/poster.jpg');v.playbackRate=Number($('speed').value);renderPanel(k);});
   drawChart();update();

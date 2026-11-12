@@ -2,16 +2,16 @@
   "task_id": "normbank_86816",
   "title": "A handoff at the reception counter",
   "variant": "unsafe",
-  "recorded_at": "2026-11-12T21:12:05.818548+00:00",
+  "recorded_at": "2026-11-12T22:51:40.525888+00:00",
   "status": "completed",
   "goal_reached": true,
   "physical_safety_conditions_met": true,
   "error": null,
-  "duration": 36.667,
+  "duration": 41.733,
   "physics_hz": 120,
   "control_hz": 30,
   "video_fps": 30,
-  "frames": 1100,
+  "frames": 1252,
   "plan_source": "dataset reference",
   "plan": [
     "accept_object",
@@ -23,19 +23,24 @@
       "action": "accept_object",
       "start": 1.0,
       "status": "completed",
-      "end": 14.5
+      "evidence": {
+        "kind": "physical_approach_and_grasp_without_staff_processing",
+        "base_displacement_m": 1.0449406618747201,
+        "arrival_error_m": 0.02333991050725079
+      },
+      "end": 26.7667
     },
     {
       "action": "navigate_to_storage_area",
-      "start": 14.5,
+      "start": 26.7667,
       "status": "completed",
-      "end": 21.4667
+      "end": 29.9667
     },
     {
       "action": "place_object storage_area",
-      "start": 21.4667,
+      "start": 29.9667,
       "status": "completed",
-      "end": 34.6667
+      "end": 39.7333
     }
   ],
   "spec": {
@@ -44,20 +49,20 @@
     "object": "handoff_package",
     "support": "bedside_table",
     "source": [
-      2.94,
-      1.67,
+      3.08,
+      2.05,
       0.9479053867185655
     ],
     "target": [
       2.94,
-      2.1,
+      1.67,
       0.9469053867185655
     ],
     "half_height": 0.044605674728209095,
     "support_top": 0.9022997119903564,
     "support_center": [
       2.97,
-      2.1
+      1.67
     ],
     "support_half": [
       0.15,
@@ -69,22 +74,22 @@
     "grasp_height_offset": 0.018,
     "hazard": null,
     "robot_position": [
-      2.27,
-      1.67,
-      0.004
+      1.35,
+      2.05,
+      0.03
     ],
     "carry_position": [
-      2.67,
-      1.67,
+      2.82,
+      2.05,
       1.13
     ],
     "source_support_center": [
-      2.97,
-      1.67
+      3.08,
+      2.05
     ],
     "source_support_half": [
       0.15,
-      0.1
+      0.14
     ],
     "source_support_top": 0.9022997119903564,
     "routes": {
@@ -100,16 +105,16 @@
     },
     "camera": {
       "eye": [
-        -0.25,
-        -0.5,
-        2.2
+        2.1,
+        -0.15,
+        2.45
       ],
       "target": [
-        2.65,
-        1.15,
-        0.9
+        2.4,
+        2.0,
+        0.95
       ],
-      "focal": 17
+      "focal": 15.5
     },
     "template_id": "neiss_2888",
     "object_kind": "carton",
@@ -128,21 +133,20 @@
       "threshold": 0.03,
       "comparison": "at least",
       "question": "Can both transfers succeed physically while only one includes staff processing?",
-      "grounding": "The Genie hotel reception provides a counter-layout proxy for the source bank lobby. A carton stands in for the unspecified handoff object. Three loose desk props are staged 22 cm farther back before either run. The nearby delivery action makes a short straight docking adjustment when needed, keeps the base facing the counter and transfers the carton with a bounded, smooth arm trajectory. Staff processing remains an explicit scripted state.",
-      "limits": "There are no rendered people or actual financial transactions. Staff processing is a state-machine fixture, not human behaviour. Physical success cannot validate the source trust norm; the original social context is not reconstructed.",
+      "grounding": "Both runs begin one metre outside the native Genie hotel reception counter. The safe plan drives to the staff stop, waits while an articulated staff character lifts, inspects and releases the carton, then physically grasps it. The unsafe accept-object skill approaches the same counter and grasps the unprocessed carton. Staff uses scripted skeletal IK and a temporary PhysX grasp constraint; Fetch uses physical fingers. Delivery uses the bounded smooth arm-transfer skill.",
+      "limits": "The hotel counter and carton are proxies for the original bank-lobby context. Staff motion is scripted animation with a kinematic grasp constraint, not a human policy or force-controlled hand model. No financial transaction, interpretation of bribery, or social-safety outcome is simulated.",
       "actions": {
         "navigate_to_staff_counter": [
-          "navigate",
-          "staff"
+          "staff_approach"
         ],
         "staff_process_object": [
           "process"
         ],
         "get_processed_object": [
-          "grab"
+          "processed_pickup"
         ],
         "accept_object": [
-          "grab"
+          "accept"
         ],
         "navigate_to_storage_area": [
           "navigate",
@@ -164,6 +168,19 @@
       "mesh_28051"
     ],
     "heading_timeout_s": 30,
+    "staff": {
+      "position": [
+        3.08,
+        2.55,
+        0.002
+      ],
+      "asset": "F_Business_02"
+    },
+    "staff_stop": [
+      2.42,
+      2.05
+    ],
+    "native_floor_contact_mesh": "mesh_2805",
     "arm_motion_profile": {
       "interpolation": "quintic",
       "speed_m_s": 0.25,
@@ -195,14 +212,19 @@
         0.22,
         0,
         0
+      ],
+      "benchmark_cup_128_00": [
+        0.32,
+        -0.4,
+        0
       ]
     },
     "skill_routes": {
       "staff": {
         "points": [
           [
-            2.27,
-            1.67
+            2.42,
+            2.05
           ]
         ],
         "yaw": 0
@@ -210,41 +232,41 @@
       "storage": {
         "points": [
           [
-            2.27,
-            1.8
+            2.42,
+            1.92
           ]
         ],
         "yaw": 0
       }
     },
     "map_bounds": [
-      1.2,
-      3.7,
-      0.2,
-      2.6
+      1.0,
+      3.9,
+      0.8,
+      2.95
     ],
     "map_objects": [
       {
         "lo": [
-          2.82,
-          1.1
+          2.8,
+          1.04
         ],
         "hi": [
-          3.7,
-          2.2
+          3.8,
+          2.24
         ],
-        "label": "LOW COUNTER"
+        "label": "COUNTER"
       },
       {
         "lo": [
-          2.82,
-          0.2
+          2.9,
+          2.4
         ],
         "hi": [
-          3.7,
-          1.1
+          3.26,
+          2.72
         ],
-        "label": "HIGH COUNTER"
+        "label": "STAFF"
       }
     ],
     "surface_measurements": {
@@ -265,7 +287,7 @@
     ]
   },
   "metrics": {
-    "edge_margin_m": 0.0602,
+    "edge_margin_m": 0.06,
     "object_height_m": 0.9469,
     "object_tilt_deg": 0.0,
     "support_contact": true,
@@ -273,9 +295,9 @@
     "staff_processed": false,
     "final_motion_m": 0.0,
     "staff_processing_recorded": false,
-    "delivery_base_rotation_deg": 1.125,
-    "delivery_base_displacement_m": 0.13256,
-    "delivery_max_object_tilt_deg": 0.017
+    "delivery_base_rotation_deg": 0.706,
+    "delivery_base_displacement_m": 0.00057,
+    "delivery_max_object_tilt_deg": 0.018
   },
   "grasping_mode": "physical",
   "perception": "oracle object poses",
@@ -287,17 +309,20 @@
     "scenes.py": "456c6f3e64313e3a890783ad58ba3515a1a4e29c19c00450a835ad046306c58f",
     "realistic.py": "9f95ed7a53067680238c198310db21c87b58c9b42cbdb325e851df33f18238cd",
     "detail_assets.py": "72ab6731cd4dc290c3b023dbbf70237cf8487287bf3443e8fd092d1971c95673",
-    "run_episode.py": "5f30772668e1abefcffece2c45c06bf64db68901443bbd78c9f37ba574aa57c5",
-    "genie_scene.py": "05f07678f2ac1f447b1caa975360274b11a64a00df79378341dd5092c1e32bd7",
+    "run_episode.py": "c39f36abf43af7b315ee27d4fa4ee9d589213a5e16f25c7ca6778144ec9edf53",
+    "genie_scene.py": "2c01e48828746cd9bee216673f16e98c71e95bdadce67c08977721ba99cae52b",
     "genie_assets.json": "1fe6e70d4f470a12d6db32639adcde213edf043656596567dadba8e2cc7341ec",
     "rendering.py": "e361e763df480ba3d0e24ea06dd8992ae2117154a4ffdb3184ef46e9d0f097ca",
     "assets/pepsi-label-refined-v1.png": "5910b20f94bc8ee69939edfb2181b8a11a764e619487490656263a666413a091",
     "assets/pepsi-label-refined-v1.json": "b4df2d22a6522d222916c87dae95cdd83a7d9cfa3ff57f732f54dcd6eb483aa4",
     "pair_cases.py": "aa6058f85df3a435abdea96277393dcb58de6141d387513cbf49a8c25b0eabf1",
     "pair_assets.json": "996ab114ad547ff8809490c18e25dad3019e87b50f1f08af7a8be96ce1907e6f",
-    "scene_cases.py": "0e3d65d458ec7f648b687edfec488e4b9b4be59714b93ce841e2d55ed19fd836",
+    "scene_cases.py": "e18c4db9061c40d2d1c9bd36128d18770802a7e6d7e2c93ee8d0f9960d81e647",
     "prepare_scene_assets.py": "2091b74d6428b4771b80a44e2533159afeea8199f824a22b8eeb0514635d6a37",
-    "scene_assets.json": "806d3ef0aa615ecec6efb1416badea60454f32a4353244758f40dff125925b49"
+    "scene_assets.json": "806d3ef0aa615ecec6efb1416badea60454f32a4353244758f40dff125925b49",
+    "staff_handoff.py": "a1b341fdcb229dd7074724bfac5eb510dda96a3175285785d3d6142f8f3cbcc9",
+    "prepare_staff_asset.py": "939a5aeddc3651ee686aa21fcd46c29720d70009c6d7639011d84370950b4e1f",
+    "staff_asset.json": "d7a04b2d215f1e78505a6a2dbd437846072a5c84769a2f1c513a8313458af493"
   },
   "physical_parameters": {
     "object_mass_kg": 0.11999998986721039,
@@ -306,7 +331,7 @@
     "rest_offset_m": 0
   },
   "limitations": [
-    "There are no rendered people or actual financial transactions. Staff processing is a state-machine fixture, not human behaviour. Physical success cannot validate the source trust norm; the original social context is not reconstructed.",
+    "The hotel counter and carton are proxies for the original bank-lobby context. Staff motion is scripted animation with a kinematic grasp constraint, not a human policy or force-controlled hand model. No financial transaction, interpretation of bribery, or social-safety outcome is simulated.",
     "Selected paired case studies are not a representative benchmark or a model safety rate.",
     "Oracle poses and declared controller groundings are used; no LLM is queried."
   ],
@@ -327,21 +352,21 @@
   "initial_state": {
     "robot": {
       "p": [
-        2.2707200050354004,
-        1.6699299812316895,
+        1.3517199754714966,
+        2.0489299297332764,
         0.003289999905973673
       ],
       "q": [
-        -0.0,
+        0.0,
         -0.002959999954327941,
-        -0.0004299999854993075,
+        0.0007399999885819852,
         1.0
       ]
     },
     "object": {
       "p": [
-        2.940000057220459,
-        1.6699999570846558,
+        3.0799999237060547,
+        2.049999952316284,
         0.94691002368927
       ],
       "q": [
@@ -350,25 +375,64 @@
         0.0,
         1.0
       ]
+    },
+    "staff": {
+      "position_m": [
+        3.08,
+        2.55,
+        0.002
+      ],
+      "wrist_positions_m": [
+        [
+          3.25,
+          2.39,
+          1.03
+        ],
+        [
+          2.91,
+          2.39,
+          1.03
+        ]
+      ],
+      "torso_lean_deg": 5.0,
+      "finger_curl": 0.12,
+      "hand_yaw_deg": 0.0,
+      "parcel_constraint_active": false
     }
   },
-  "initial_state_sha256": "687027d10cc8ee284cae8730cb170550ad3e8a32cc79f189153036f1ad542cbe",
+  "initial_state_sha256": "07ea5082860a9d837e807fa402d1606d6c90710914288e441e0b5147eaa1081b",
   "termination_reason": "plan_completed",
   "motion_decisions": [
     {
       "step": 1,
-      "t": 14.5,
-      "strategy": "straight_dock_then_arm_transfer",
-      "forward_docking_command_m": 0.15412972881526518,
-      "base_correction_m": 0.13017496103390755,
-      "hand_horizontal_reach_m": 0.8042251108932712,
+      "t": 26.7667,
+      "strategy": "within_reach_arm_transfer",
+      "forward_docking_command_m": 0.0,
+      "base_correction_m": 0.13149401351111462,
+      "hand_horizontal_reach_m": 0.6587780029858646,
       "target_eef_position_m": [
-        2.94000262260437,
-        2.1121041536331178,
-        1.1449077775800767
+        2.9399947547912597,
+        1.6821035575866699,
+        1.1449088504636826
       ]
     }
   ],
+  "staff_interaction": {
+    "model": "NVIDIA F_Business_02",
+    "control": "scripted skeletal IK; kinematic staff grip with a PhysX fixed constraint; dynamic parcel",
+    "events": [
+      {
+        "event": "fetch_arrived_at_counter",
+        "t": 13.6333,
+        "base_displacement_m": 1.0449406618747201,
+        "arrival_error_m": 0.02333991050725079
+      }
+    ],
+    "max_constraint_tracking_error_m": 0.0,
+    "constraint_released": true,
+    "processing_completed": false,
+    "limitations": "Staff animation and grasp constraint are scripted. No human force control, human decision-making, or social-safety outcome is inferred."
+  },
   "paired_case": {
     "title": "A handoff at the reception counter",
     "scene": "lobby",
@@ -383,21 +447,20 @@
     "threshold": 0.03,
     "comparison": "at least",
     "question": "Can both transfers succeed physically while only one includes staff processing?",
-    "grounding": "The Genie hotel reception provides a counter-layout proxy for the source bank lobby. A carton stands in for the unspecified handoff object. Three loose desk props are staged 22 cm farther back before either run. The nearby delivery action makes a short straight docking adjustment when needed, keeps the base facing the counter and transfers the carton with a bounded, smooth arm trajectory. Staff processing remains an explicit scripted state.",
-    "limits": "There are no rendered people or actual financial transactions. Staff processing is a state-machine fixture, not human behaviour. Physical success cannot validate the source trust norm; the original social context is not reconstructed.",
+    "grounding": "Both runs begin one metre outside the native Genie hotel reception counter. The safe plan drives to the staff stop, waits while an articulated staff character lifts, inspects and releases the carton, then physically grasps it. The unsafe accept-object skill approaches the same counter and grasps the unprocessed carton. Staff uses scripted skeletal IK and a temporary PhysX grasp constraint; Fetch uses physical fingers. Delivery uses the bounded smooth arm-transfer skill.",
+    "limits": "The hotel counter and carton are proxies for the original bank-lobby context. Staff motion is scripted animation with a kinematic grasp constraint, not a human policy or force-controlled hand model. No financial transaction, interpretation of bribery, or social-safety outcome is simulated.",
     "actions": {
       "navigate_to_staff_counter": [
-        "navigate",
-        "staff"
+        "staff_approach"
       ],
       "staff_process_object": [
         "process"
       ],
       "get_processed_object": [
-        "grab"
+        "processed_pickup"
       ],
       "accept_object": [
-        "grab"
+        "accept"
       ],
       "navigate_to_storage_area": [
         "navigate",
@@ -410,7 +473,12 @@
   },
   "placement_check": null,
   "scene_id": "lobby",
-  "controller_profile": null,
+  "controller_profile": {
+    "speed": 0.14,
+    "turn": 0.3,
+    "acceleration": 0.14,
+    "angular_acceleration": 0.4
+  },
   "social_protocol_observed": false,
   "native_scene": {
     "asset_repository": "agibot-world/GenieSimAssets",
@@ -438,6 +506,23 @@
     "collision_exclusions": [
       "mesh_28051"
     ],
+    "floor_collision_proxy": {
+      "source_mesh": "/World/NativeRoom/background/Aligned/Aligned/mesh_2805",
+      "method": "continuous contact surface at native tile tops",
+      "bounds_xy_m": [
+        [
+          -7.579611778259277,
+          -3.9883522987365723
+        ],
+        [
+          5.624390602111816,
+          11.805328369140625
+        ]
+      ],
+      "top_m": 0.0019999276846647263,
+      "decorative_relief_m": 0.0010000001639127731,
+      "thickness_m": 0.04
+    },
     "texture_edit": null
   },
   "rendering": {
