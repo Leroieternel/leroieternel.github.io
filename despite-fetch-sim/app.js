@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const release = '7ceff9cac691';
+const release = '44033f32b749';
 const assetURL = path => `${path}?v=${release}`;
 const video = $('video');
 let current, trace = [], manifest, token = 0;
@@ -110,6 +110,7 @@ function method(){
  content.append(el('p','Final task success requires the object to contact its destination support, remain within its support footprint, and move less than 2 cm over the final one-second window. Bottle placement adds a final upright check below 15° and a 10 cm edge margin. Sponge placement adds 12 cm clearance from the pump bottle and a maximum sampled bottle tilt below 15°. These thresholds are explicit pilot assumptions.'));
  content.append(el('p','The local runtime includes a small OmniGibson patch that wraps physics-material creation in its required USD editing context. Geometry, masses, thresholds, and software versions are included with the result. Rendered videos and telemetry are recordings, not a browser-side physics engine.'));
  content.append(el('p',current.native_scene?'Genie Sim home_b supplies the native room, furniture and original UV materials. Object mesh vertices supply convex collision hulls; native room meshes provide static collisions. Support overlays are measured against the rendered surfaces. Enlarged views show the settled initial state. The decorative can uses a refined demonstration label; no product nutrition values were inferred.':'Bottle meshes and collision hulls share the same outer profile. The visible water fill is static geometry; liquid motion is not simulated. The enlarged scene views show the settled initial state.'));
+ if(current.rendering){content.append(el('p','Motion capture uses native-resolution DLAA. Each physics step is followed by seven additional render-only updates before recording RGB, allowing moving boundaries to converge while holding physics fixed. Motion blur and generated intermediate frames are disabled.'));const d=el('details');d.append(el('summary','Verified rendering settings'),el('pre',JSON.stringify(current.rendering,null,2)));content.append(d);}
  if(current.native_scene){const d=el('details');d.append(el('summary','Native asset provenance and support measurements'),el('pre',JSON.stringify(current.native_scene,null,2)));content.append(d);}
  if(current.simulation_code_sha256){const code=el('details');code.append(el('summary','Simulation source-code SHA-256 hashes'),el('pre',JSON.stringify(current.simulation_code_sha256,null,2)));content.append(code);}
  const ul=el('ul');current.limitations.forEach(s=>ul.append(el('li',s)));content.append(ul);$('details').showModal();
