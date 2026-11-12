@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="DESPITE 的两个具身安全案例：在真实 OmniGibson / BEHAVIOR-1K 仿真中探索水瓶放置和热饮搬运。">
+  <meta name="referrer" content="no-referrer"><title>DESPITE · Safety Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><a href="./" class="brand"><span class="brand-mark">D.</span><span>DESPITE <small>SAFETY STUDIO</small></span></a><span class="top-note">OMNIGIBSON + BEHAVIOR-1K</span><a href="https://mcxiangalds.com" class="home">返回主页 ↗</a></header>
+<main>
+  <div class="intro"><div><p class="eyebrow">HARD–1044 / TWO PHYSICAL CASES</p><h1>在真实动作中，观察安全。</h1><p>水瓶放在哪里，热饮如何搬运。切换案例，查看真实运行轨迹，或连接实时仿真。</p></div><div class="mode" role="group" aria-label="查看模式"><button id="record-mode" class="active">运行记录</button><button id="live-mode">实时交互 <span id="online-dot"></span></button></div></div>
+  <div id="case-tabs" class="case-tabs" aria-label="案例选择"></div>
+  <section class="studio" aria-label="交互工作区">
+    <div class="visual-column">
+      <div class="viewer-head"><div><span id="case-id" class="eyebrow"></span><h2 id="case-title">正在读取案例</h2></div><span id="view-badge" class="pill">运行记录 · 1920 × 1080</span></div>
+      <div id="viewport" class="viewport"><img id="frame" alt="OmniGibson 原生仿真画面" width="1920" height="1080" fetchpriority="high"><div class="frame-top"><span id="frame-label">真实仿真截图</span><button id="fullscreen" aria-label="全屏画面" title="全屏画面">⛶</button></div><div id="frame-message" class="frame-message" hidden></div></div>
+      <div id="record-controls" class="record-controls"><button id="previous" aria-label="上一步">←</button><button id="play">播放步骤</button><input id="timeline" type="range" min="0" max="3" value="0" aria-label="轨迹步骤"><span id="step-label"></span><button id="next" aria-label="下一步">→</button></div>
+      <div id="live-toolbar" class="live-toolbar" hidden><button data-camera="left" aria-label="视角向左">← 视角</button><button data-camera="right" aria-label="视角向右">视角 →</button><button data-camera="in" aria-label="拉近视角">＋ 拉近</button><button data-camera="out" aria-label="拉远视角">− 拉远</button><button id="live-pause">暂停</button><button id="live-reset">重置场景</button></div>
+      <p id="viewer-note" class="viewer-note">逐步截图来自真实物理仿真；播放步骤会切换已保存的画面。</p>
+    </div>
+    <aside>
+      <div class="panel-head"><span class="eyebrow">ACTION & OUTCOME</span><h3 id="panel-title">这一步发生了什么</h3></div>
+      <div id="record-steps" class="steps"></div>
+      <div id="live-controls" hidden><p id="connection-status" role="status">正在检查实时会话…</p><button id="claim" class="primary">获取控制权</button><p class="small">共享仿真会话；一次只允许一位访问者操作，其他人可以观看。</p><div class="reference-buttons"><button id="safe-reference">运行安全路线</button><button id="unsafe-reference">运行对照路线</button></div><div id="live-actions" class="live-actions"></div></div>
+      <div class="outcome"><span class="eyebrow">ORIGINAL DESPITE RULES</span><strong id="rule-status">等待动作</strong><p id="rule-detail"></p></div>
+      <div class="physical"><span class="eyebrow">MEASURED IN THE SIMULATOR</span><h3>物理状态</h3><div id="measurements"></div><p id="physical-note" class="small"></p></div>
+    </aside>
+  </section>
+  <div class="below"><section><span class="eyebrow">WHAT THIS CASE TESTS</span><h3 id="risk"></h3><p id="caveat"></p></section><section><span class="eyebrow">SESSION STATUS</span><h3 id="session-title">保存的运行记录始终可看</h3><p id="session-note">实时交互需要在线 GPU 会话。会话结束后，运行记录仍可逐步查看。</p></section><section><span class="eyebrow">TRACEABLE EVIDENCE</span><h3>原始规则与物理观测分开记录</h3><p id="provenance"></p><a href="cases.json" download="despite-two-cases.json">下载两例记录 JSON ↗</a></section></div>
+</main>
+<footer><span>DESPITE · Embodied Safety Pilot</span><span>原生 1920 × 1080 渲染 / Fetch / PhysX</span></footer>
+<div id="toast" role="alert" hidden></div>
+<script src="app.js"></script>
+</body></html>
