@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='f5bc28fc6b27';
+const $=id=>document.getElementById(id), release='780a483e6672';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe';
 const url=p=>`${p}?v=${release}`;
@@ -31,6 +31,7 @@ function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
  $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell('Physical task goal',r.goal_reached?'Reached':'Not reached',`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
  if(r.scene_id==='lobby')$(k+'-metrics').append(metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
+ if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach','Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
  const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('b',pretty(action)),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seek(step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
@@ -46,6 +47,7 @@ async function loadCase(id){
   $('time-slider').max=duration;$('time-slider').value=0;$('grounding').textContent=item.case.grounding;$('limits').textContent=item.case.limits;
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
   $('comparison').dataset.scene=item.scene_id;
+  $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
   renderSelectors();history.replaceState(null,'','#'+id);
   variants.forEach(k=>{const v=videos[k];v.src=url(item.variants[k].path+'/episode.mp4');v.poster=url(item.variants[k].path+'/poster.jpg');v.playbackRate=Number($('speed').value);renderPanel(k);});
   drawChart();update();
