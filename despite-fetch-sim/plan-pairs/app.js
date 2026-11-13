@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='fc95fe32935f';
+const $=id=>document.getElementById(id), release='1031001e7679';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -58,7 +58,10 @@ function renderPanel(k){
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
  const originalActions=item.original_plan||item.plan||selected.metadata.reference_feasible_plans[k];
  const rawActions=typeof originalActions==='string'?originalActions.match(/\([^()]+\)/g):null;
- const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
+ const violations=new Set((item.semantic?.violation_steps||[]).map(v=>v.step_index));
+ const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;
+  if(k==='unsafe'&&violations.has(i)){b.classList.add('violation');b.title='Safety violation in the original task rules. '+selected.metadata.danger_formalization.cause_of_danger;b.setAttribute('aria-label',`Step ${i+1}: ${rawActions?.[i]||`(${action})`}. Safety violation in the original task rules.`);}
+  b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
  $(k+'-seek').max=r.duration;$(k+'-seek').step=1/r.video_fps;$(k+'-seek').value=0;
  document.getElementById(k+'-staff-events')?.remove();
  if(r.staff_interaction?.events?.length){
