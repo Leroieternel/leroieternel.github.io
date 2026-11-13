@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='0fc2da173798';
+const $=id=>document.getElementById(id), release='31b0520eaa22';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe';
 const url=p=>`${p}?v=${release}`;
@@ -34,20 +34,22 @@ function executionNote(step){
  if(e.kind==='scripted_skeletal_actor_with_dynamic_parcel')return ' · visible staff handling';
  if(e.kind==='physical_grasp_after_staff_release')return ' · pickup after staff release';
  if(e.kind==='physical_approach_and_grasp_without_staff_processing')return ' · approach + direct pickup';
+ if(e.kind==='inside_bin_then_stow_and_park')return ' · inside bin → reverse → fold arm → parked';
  return '';
 }
 function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
- $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell('Physical task goal',r.goal_reached?'Reached':'Not reached',`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
+ $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell(r.storage_delivery?'Storage placement':'Physical task goal',r.storage_delivery?(r.storage_delivery.inside_bin_verified?'Inside the bin':'Not contained'):(r.goal_reached?'Reached':'Not reached'),`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
  if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
- if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
+ if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
+ else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
  const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('b',pretty(action)),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seek(step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
  document.getElementById(k+'-staff-events')?.remove();
  if(r.staff_interaction?.events?.length){
   const box=node('div',undefined,'staff-events');box.id=k+'-staff-events';box.append(node('p','Visible checkpoints'));
-  const labels={fetch_arrived_at_counter:'Counter arrival',staff_grasp_constraint_engaged:'Staff takes parcel',parcel_lift_verified:'Parcel lifted',parcel_inspected:'Inspection',staff_released_parcel:'Staff release',handoff_ready:'Hands clear',fetch_physical_pickup_completed:'Fetch pickup'};
-  r.staff_interaction.events.forEach(e=>{if(!labels[e.event])return;const b=node('button',`${labels[e.event]} · ${seconds(e.t)}`);b.onclick=()=>jumpTo(e.t+1/r.video_fps,k);box.append(b);});list.after(box);
+  const labels={fetch_arrived_at_counter:'Counter arrival',staff_grasp_constraint_engaged:'Staff takes parcel',parcel_lift_verified:'Parcel lifted',parcel_inspected:'Inspection',staff_released_parcel:'Staff release',handoff_ready:'Hands clear',fetch_physical_pickup_completed:'Fetch pickup',parcel_stored:'Inside storage bin',empty_arm_stowed:'Arm folded',robot_parked:'Parked'};
+  [...r.staff_interaction.events,...(r.storage_delivery?.events||[])].sort((a,b)=>a.t-b.t).forEach(e=>{if(!labels[e.event])return;const b=node('button',`${labels[e.event]} · ${seconds(e.t)}`);b.onclick=()=>jumpTo(e.t+1/r.video_fps,k);box.append(b);});list.after(box);
  }
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
@@ -98,7 +100,7 @@ function drawMap(){
  if(s.map_objects)s.map_objects.forEach(o=>rect(o.lo,o.hi,'#e3e5d8',o.label));
  else{rect([-.25,.36],[-.035,2.40],'#d8dfcf','SOFA');rect([1.143,1.345],[1.48,3.42],'#e8e4d8','BED');}
  rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4','SOURCE');
- rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce','TARGET');
+ rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.storage_bin?'STORAGE BIN':'TARGET');
  if(s.stool){const p=s.stool.position;rect([p[0]-.18,p[1]-.14],[p[0]+.18,p[1]+.14],'#e5d6c4','STOOL');}
  variants.forEach(k=>{c.beginPath();let started=false;traces[k].forEach(s=>{if(s.t>elapsed)return;const p=xy(s.robot.p);if(!started)c.moveTo(...p),started=true;else c.lineTo(...p);});c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=k==='safe'?3:2;c.setLineDash(k==='safe'?[]:[5,3]);c.stroke();c.setLineDash([]);const s=stateAt(k,elapsed),p=xy(s.robot.p),q=s.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]**2+q[2]**2));c.save();c.translate(...p);c.rotate(-yaw);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.beginPath();c.moveTo(13,0);c.lineTo(-8,-7);c.lineTo(-5,0);c.lineTo(-8,7);c.closePath();c.fill();c.restore();});
  variants.forEach(k=>{const p=xy(stateAt(k,elapsed).object.p);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.strokeStyle='white';c.lineWidth=1.5;c.beginPath();c.arc(...p,4.5,0,Math.PI*2);c.fill();c.stroke();});

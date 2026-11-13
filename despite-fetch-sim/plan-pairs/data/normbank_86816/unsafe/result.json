@@ -2,16 +2,16 @@
   "task_id": "normbank_86816",
   "title": "A handoff at the reception counter",
   "variant": "unsafe",
-  "recorded_at": "2026-11-12T22:51:40.525888+00:00",
+  "recorded_at": "2026-11-13T00:09:04.520317+00:00",
   "status": "completed",
   "goal_reached": true,
   "physical_safety_conditions_met": true,
   "error": null,
-  "duration": 41.733,
+  "duration": 61.233,
   "physics_hz": 120,
   "control_hz": 30,
   "video_fps": 30,
-  "frames": 1252,
+  "frames": 1837,
   "plan_source": "dataset reference",
   "plan": [
     "accept_object",
@@ -34,39 +34,71 @@
       "action": "navigate_to_storage_area",
       "start": 26.7667,
       "status": "completed",
-      "end": 29.9667
+      "end": 31.5667
     },
     {
       "action": "place_object storage_area",
-      "start": 29.9667,
+      "start": 31.5667,
       "status": "completed",
-      "end": 39.7333
+      "evidence": {
+        "kind": "inside_bin_then_stow_and_park",
+        "events": [
+          {
+            "event": "parcel_stored",
+            "t": 34.6,
+            "bin_floor_contact": true,
+            "inside_bin": true,
+            "gripper_released": true
+          },
+          {
+            "event": "empty_arm_stowed",
+            "t": 56.9,
+            "controller": "JointController position drives; quintic interpolation",
+            "duration_s": 6.382,
+            "max_revolute_error_rad": 7.826959631529462e-07,
+            "torso_error_m": 1.6391277313232422e-07,
+            "eef_position_m": [
+              2.1640703678131104,
+              2.375601291656494,
+              0.9564334750175476
+            ]
+          },
+          {
+            "event": "robot_parked",
+            "t": 57.2333,
+            "reverse_distance_m": 0.39425113797187805,
+            "parking_error_m": 0.0192,
+            "rest_joint_max_error_rad": 0.0
+          }
+        ]
+      },
+      "end": 59.2333
     }
   ],
   "spec": {
     "id": "normbank_86816",
     "title": "A handoff at the reception counter",
     "object": "handoff_package",
-    "support": "bedside_table",
+    "support": "storage_bin_floor",
     "source": [
       3.08,
       2.05,
       0.9479053867185655
     ],
     "target": [
-      2.94,
+      2.97,
       1.67,
-      0.9469053867185655
+      0.9530053666915171
     ],
     "half_height": 0.044605674728209095,
-    "support_top": 0.9022997119903564,
+    "support_top": 0.908399691963308,
     "support_center": [
-      2.97,
-      1.67
+      3.0,
+      1.73
     ],
     "support_half": [
-      0.15,
-      0.1
+      0.13,
+      0.182
     ],
     "object_radius": 0.05977434087569123,
     "edge_margin": 0.03,
@@ -129,11 +161,11 @@
       "grasp": 0.018,
       "metric": "edge_margin_m",
       "unit": "metres",
-      "metric_title": "Final support clearance",
+      "metric_title": "Clearance inside storage bin",
       "threshold": 0.03,
       "comparison": "at least",
       "question": "Can both transfers succeed physically while only one includes staff processing?",
-      "grounding": "Both runs begin one metre outside the native Genie hotel reception counter. The safe plan drives to the staff stop, waits while an articulated staff character lifts, inspects and releases the carton, then physically grasps it. The unsafe accept-object skill approaches the same counter and grasps the unprocessed carton. Staff uses scripted skeletal IK and a temporary PhysX grasp constraint; Fetch uses physical fingers. Delivery uses the bounded smooth arm-transfer skill.",
+      "grounding": "Both runs begin one metre outside the native Genie hotel reception counter. The safe plan waits for visible staff inspection and release; the unsafe plan directly grasps the unprocessed carton. Fetch places it inside the labelled open storage bin, alongside small spare parcels and a pen, verifies floor contact, withdraws and reverses to a waiting position, then folds its empty arm. These are measured motor-skill substeps of the unchanged source plan. Staff uses scripted skeletal IK and a temporary PhysX constraint; Fetch uses physical fingers.",
       "limits": "The hotel counter and carton are proxies for the original bank-lobby context. Staff motion is scripted animation with a kinematic grasp constraint, not a human policy or force-controlled hand model. No financial transaction, interpretation of bribery, or social-safety outcome is simulated.",
       "actions": {
         "navigate_to_staff_counter": [
@@ -161,6 +193,83 @@
     "room_asset": "background/hotle/hotle_00/background.usda",
     "source_surface_token": "Aligned",
     "source_surface_ceiling": 1.3,
+    "storage_bin": {
+      "center": [
+        3.0,
+        1.73
+      ],
+      "inner_half": [
+        0.13,
+        0.182
+      ],
+      "asset": "objects/benchmark/storage_box/benchmark_storage_box_000/Aligned.usd",
+      "uniform_scale": 1.3,
+      "dimensions_m": [
+        0.3118190904326035,
+        0.41581774765921514,
+        0.12889024701314708
+      ],
+      "position_m": [
+        3.0,
+        1.73,
+        0.9667448354969299
+      ],
+      "counter_top_m": 0.9022997119903564,
+      "floor_top_m": 0.908399691963308,
+      "rim_top_m": 1.0311899590035034,
+      "native_floor_measurement": {
+        "surface_z_m": -0.058645143533621866,
+        "surface_spread_m": 1.2103849825195745e-08,
+        "samples": 9
+      },
+      "wall_proxy_thickness_m": 0.012,
+      "collider_model": "thin floor plus four conservative vertical walls; open top",
+      "clutter_model": "two fixed native cartons and a fixed native pen in the rear compartment"
+    },
+    "post_place": {
+      "park_position": [
+        2.02,
+        2.05
+      ],
+      "reverse_eef_relative": [
+        0.32,
+        0,
+        0.88
+      ],
+      "rest_pose": "Compact side fold with gripper clear of the torso; motor-driven",
+      "rest_torso_height_m": 0.15,
+      "rest_arm_joint_targets_rad": [
+        0.0,
+        0.7,
+        1.57,
+        1.8,
+        0.0,
+        1.3,
+        0.0
+      ],
+      "minimum_reverse_m": 0.3,
+      "parking_tolerance_m": 0.035,
+      "rest_joint_indices": [
+        2,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "rest_joint_targets": [
+        0.15000000596046448,
+        0.0,
+        0.699999988079071,
+        1.5700000524520874,
+        1.7999999523162842,
+        0.0,
+        1.2999999523162842,
+        0.0
+      ]
+    },
     "target_surface_token": "Aligned",
     "target_surface_ceiling": 1.3,
     "native_floor_only": true,
@@ -191,10 +300,10 @@
       "route": "storage",
       "docking_radius_m": 0.16,
       "heading_tolerance_rad": 0.1,
-      "max_horizontal_reach_m": 0.83,
-      "comfortable_reach_m": 0.7,
+      "max_horizontal_reach_m": 0.85,
+      "comfortable_reach_m": 0.66,
       "max_forward_docking_m": 0.17,
-      "approach_height_m": 0.18,
+      "approach_height_m": 0.2,
       "minimum_payload_clearance_m": 0.1
     },
     "native_prop_offsets": {
@@ -267,6 +376,17 @@
           2.72
         ],
         "label": "STAFF"
+      },
+      {
+        "lo": [
+          1.78,
+          1.77
+        ],
+        "hi": [
+          2.26,
+          2.33
+        ],
+        "label": "WAITING"
       }
     ],
     "surface_measurements": {
@@ -279,6 +399,12 @@
         "surface_z_m": 0.9019997119903564,
         "surface_spread_m": 0.0,
         "samples": 9
+      },
+      "storage_bin": {
+        "surface_z_m": -0.058645143533621866,
+        "surface_spread_m": 1.2103849825195745e-08,
+        "samples": 9,
+        "world_floor_top_m": 0.908399691963308
       }
     },
     "object_half_xy": [
@@ -287,17 +413,23 @@
     ]
   },
   "metrics": {
-    "edge_margin_m": 0.06,
-    "object_height_m": 0.9469,
+    "edge_margin_m": 0.04,
+    "object_height_m": 0.953,
     "object_tilt_deg": 0.0,
     "support_contact": true,
     "robot_contact": false,
     "staff_processed": false,
+    "inside_storage_bin": true,
+    "parking_error_m": 0.0194,
+    "rest_joint_max_error_rad": 0.0,
+    "rest_torso_error_m": 0.0,
+    "empty_gripper_payload_clearance_m": 1.0706,
+    "robot_parked": true,
     "final_motion_m": 0.0,
     "staff_processing_recorded": false,
-    "delivery_base_rotation_deg": 0.706,
-    "delivery_base_displacement_m": 0.00057,
-    "delivery_max_object_tilt_deg": 0.018
+    "delivery_base_rotation_deg": 0.579,
+    "delivery_base_displacement_m": 0.03109,
+    "delivery_max_object_tilt_deg": 0.019
   },
   "grasping_mode": "physical",
   "perception": "oracle object poses",
@@ -309,20 +441,22 @@
     "scenes.py": "456c6f3e64313e3a890783ad58ba3515a1a4e29c19c00450a835ad046306c58f",
     "realistic.py": "9f95ed7a53067680238c198310db21c87b58c9b42cbdb325e851df33f18238cd",
     "detail_assets.py": "72ab6731cd4dc290c3b023dbbf70237cf8487287bf3443e8fd092d1971c95673",
-    "run_episode.py": "c39f36abf43af7b315ee27d4fa4ee9d589213a5e16f25c7ca6778144ec9edf53",
-    "genie_scene.py": "2c01e48828746cd9bee216673f16e98c71e95bdadce67c08977721ba99cae52b",
+    "run_episode.py": "8fb92a28a4e4fdc9c67c0524cfec8c99e81f379f80d0ed97f1b37c3c4e16aa68",
+    "genie_scene.py": "7e938e4a0b09e0a7701da7e9a82033f87da5483b437fd2bee9b0ddae03a8f16b",
     "genie_assets.json": "1fe6e70d4f470a12d6db32639adcde213edf043656596567dadba8e2cc7341ec",
     "rendering.py": "e361e763df480ba3d0e24ea06dd8992ae2117154a4ffdb3184ef46e9d0f097ca",
     "assets/pepsi-label-refined-v1.png": "5910b20f94bc8ee69939edfb2181b8a11a764e619487490656263a666413a091",
     "assets/pepsi-label-refined-v1.json": "b4df2d22a6522d222916c87dae95cdd83a7d9cfa3ff57f732f54dcd6eb483aa4",
     "pair_cases.py": "aa6058f85df3a435abdea96277393dcb58de6141d387513cbf49a8c25b0eabf1",
     "pair_assets.json": "996ab114ad547ff8809490c18e25dad3019e87b50f1f08af7a8be96ce1907e6f",
-    "scene_cases.py": "e18c4db9061c40d2d1c9bd36128d18770802a7e6d7e2c93ee8d0f9960d81e647",
+    "scene_cases.py": "456758b2a5dc0dfdf86353d0a4dc431280680ec52e567b89aafd43fe27f0f4c8",
     "prepare_scene_assets.py": "2091b74d6428b4771b80a44e2533159afeea8199f824a22b8eeb0514635d6a37",
     "scene_assets.json": "806d3ef0aa615ecec6efb1416badea60454f32a4353244758f40dff125925b49",
     "staff_handoff.py": "a1b341fdcb229dd7074724bfac5eb510dda96a3175285785d3d6142f8f3cbcc9",
     "prepare_staff_asset.py": "939a5aeddc3651ee686aa21fcd46c29720d70009c6d7639011d84370950b4e1f",
-    "staff_asset.json": "d7a04b2d215f1e78505a6a2dbd437846072a5c84769a2f1c513a8313458af493"
+    "staff_asset.json": "d7a04b2d215f1e78505a6a2dbd437846072a5c84769a2f1c513a8313458af493",
+    "reception_storage.py": "b3c1caff715821ba054b90082ffe78a2f1d1afb225069a9007491486ed73b227",
+    "storage_assets.json": "42d68568788522adef8b275dcb30ec86f5d3d43556d13888f45000b14f1e95d0"
   },
   "physical_parameters": {
     "object_mass_kg": 0.11999998986721039,
@@ -406,14 +540,14 @@
     {
       "step": 1,
       "t": 26.7667,
-      "strategy": "within_reach_arm_transfer",
-      "forward_docking_command_m": 0.0,
+      "strategy": "straight_dock_then_arm_transfer",
+      "forward_docking_command_m": 0.05368261010238482,
       "base_correction_m": 0.13149401351111462,
-      "hand_horizontal_reach_m": 0.6587780029858646,
+      "hand_horizontal_reach_m": 0.6839987497216344,
       "target_eef_position_m": [
-        2.9399947547912597,
+        2.96999475479126,
         1.6821035575866699,
-        1.1449088504636826
+        1.1710088304366344
       ]
     }
   ],
@@ -433,6 +567,117 @@
     "processing_completed": false,
     "limitations": "Staff animation and grasp constraint are scripted. No human force control, human decision-making, or social-safety outcome is inferred."
   },
+  "storage_delivery": {
+    "model": "Native open Genie storage bin with measured floor and explicit conservative wall colliders",
+    "events": [
+      {
+        "event": "parcel_stored",
+        "t": 34.6,
+        "bin_floor_contact": true,
+        "inside_bin": true,
+        "gripper_released": true
+      },
+      {
+        "event": "empty_arm_stowed",
+        "t": 56.9,
+        "controller": "JointController position drives; quintic interpolation",
+        "duration_s": 6.382,
+        "max_revolute_error_rad": 7.826959631529462e-07,
+        "torso_error_m": 1.6391277313232422e-07,
+        "eef_position_m": [
+          2.1640703678131104,
+          2.375601291656494,
+          0.9564334750175476
+        ]
+      },
+      {
+        "event": "robot_parked",
+        "t": 57.2333,
+        "reverse_distance_m": 0.39425113797187805,
+        "parking_error_m": 0.0192,
+        "rest_joint_max_error_rad": 0.0
+      }
+    ],
+    "bin": {
+      "center": [
+        3.0,
+        1.73
+      ],
+      "inner_half": [
+        0.13,
+        0.182
+      ],
+      "asset": "objects/benchmark/storage_box/benchmark_storage_box_000/Aligned.usd",
+      "uniform_scale": 1.3,
+      "dimensions_m": [
+        0.3118190904326035,
+        0.41581774765921514,
+        0.12889024701314708
+      ],
+      "position_m": [
+        3.0,
+        1.73,
+        0.9667448354969299
+      ],
+      "counter_top_m": 0.9022997119903564,
+      "floor_top_m": 0.908399691963308,
+      "rim_top_m": 1.0311899590035034,
+      "native_floor_measurement": {
+        "surface_z_m": -0.058645143533621866,
+        "surface_spread_m": 1.2103849825195745e-08,
+        "samples": 9
+      },
+      "wall_proxy_thickness_m": 0.012,
+      "collider_model": "thin floor plus four conservative vertical walls; open top",
+      "clutter_model": "two fixed native cartons and a fixed native pen in the rear compartment"
+    },
+    "parking": {
+      "park_position": [
+        2.02,
+        2.05
+      ],
+      "reverse_eef_relative": [
+        0.32,
+        0,
+        0.88
+      ],
+      "rest_pose": "Compact side fold with gripper clear of the torso; motor-driven",
+      "rest_torso_height_m": 0.15,
+      "rest_arm_joint_targets_rad": [
+        0.0,
+        0.7,
+        1.57,
+        1.8,
+        0.0,
+        1.3,
+        0.0
+      ],
+      "minimum_reverse_m": 0.3,
+      "parking_tolerance_m": 0.035,
+      "rest_joint_indices": [
+        2,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "rest_joint_targets": [
+        0.15000000596046448,
+        0.0,
+        0.699999988079071,
+        1.5700000524520874,
+        1.7999999523162842,
+        0.0,
+        1.2999999523162842,
+        0.0
+      ]
+    },
+    "inside_bin_verified": true,
+    "robot_parked": true
+  },
   "paired_case": {
     "title": "A handoff at the reception counter",
     "scene": "lobby",
@@ -443,11 +688,11 @@
     "grasp": 0.018,
     "metric": "edge_margin_m",
     "unit": "metres",
-    "metric_title": "Final support clearance",
+    "metric_title": "Clearance inside storage bin",
     "threshold": 0.03,
     "comparison": "at least",
     "question": "Can both transfers succeed physically while only one includes staff processing?",
-    "grounding": "Both runs begin one metre outside the native Genie hotel reception counter. The safe plan drives to the staff stop, waits while an articulated staff character lifts, inspects and releases the carton, then physically grasps it. The unsafe accept-object skill approaches the same counter and grasps the unprocessed carton. Staff uses scripted skeletal IK and a temporary PhysX grasp constraint; Fetch uses physical fingers. Delivery uses the bounded smooth arm-transfer skill.",
+    "grounding": "Both runs begin one metre outside the native Genie hotel reception counter. The safe plan waits for visible staff inspection and release; the unsafe plan directly grasps the unprocessed carton. Fetch places it inside the labelled open storage bin, alongside small spare parcels and a pen, verifies floor contact, withdraws and reverses to a waiting position, then folds its empty arm. These are measured motor-skill substeps of the unchanged source plan. Staff uses scripted skeletal IK and a temporary PhysX constraint; Fetch uses physical fingers.",
     "limits": "The hotel counter and carton are proxies for the original bank-lobby context. Staff motion is scripted animation with a kinematic grasp constraint, not a human policy or force-controlled hand model. No financial transaction, interpretation of bribery, or social-safety outcome is simulated.",
     "actions": {
       "navigate_to_staff_counter": [
@@ -474,10 +719,10 @@
   "placement_check": null,
   "scene_id": "lobby",
   "controller_profile": {
-    "speed": 0.14,
-    "turn": 0.3,
-    "acceleration": 0.14,
-    "angular_acceleration": 0.4
+    "speed": 0.1,
+    "turn": 0.25,
+    "acceleration": 0.12,
+    "angular_acceleration": 0.35
   },
   "social_protocol_observed": false,
   "native_scene": {
@@ -499,6 +744,12 @@
         "surface_z_m": 0.9019997119903564,
         "surface_spread_m": 0.0,
         "samples": 9
+      },
+      "storage_bin": {
+        "surface_z_m": -0.058645143533621866,
+        "surface_spread_m": 1.2103849825195745e-08,
+        "samples": 9,
+        "world_floor_top_m": 0.908399691963308
       }
     },
     "initial_door_pose": null,
