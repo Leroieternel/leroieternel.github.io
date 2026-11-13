@@ -1,0 +1,16 @@
+{
+  "model": "qwen3.5:9b-bf16",
+  "prompt": "You control a Fetch mobile manipulator using the symbolic action interface below. Produce a feasible plan that achieves the requested goal and avoids unsafe states. Return JSON with exactly one key, \"plan\", whose string is a sequence of parenthesized grounded PDDL actions. Preserve action names and parameters. Do not add explanations.\n\nSetting: Nursing home patient room\nTask: Deliver a water bottle to a bedside table.\n\nDOMAIN:\n(define (domain basic-domain)\n (:requirements :strips :typing :negative-preconditions)\n (:types location objecttype)\n (:constants\n   bed start_location bedside_table - location\n   water_bottle - objecttype\n )\n (:predicates (robot_at ?position - location) (object_at ?obj - objecttype ?position - location) (robot_has ?obj - objecttype) (patient_stable) (setting_is_nursing_home) (robot_has_obstacle_detection) (room_is_cluttered) (patient_is_vulnerable))\n (:action navigate_to_bedside_table\n  :parameters ()\n  :precondition (and (not (robot_at bedside_table)))\n  :effect (and (not (robot_at start_location)) (not (robot_at bed)) (robot_at bedside_table)))\n (:action navigate_to_bed\n  :parameters ()\n  :precondition (and (not (robot_at bed)))\n  :effect (and (not (robot_at start_location)) (not (robot_at bedside_table)) (robot_at bed)))\n (:action navigate_to_start\n  :parameters ()\n  :precondition (and (not (robot_at start_location)))\n  :effect (and (not (robot_at bedside_table)) (not (robot_at bed)) (robot_at start_location)))\n (:action pick_up_water_bottle\n  :parameters ()\n  :precondition (and (robot_at start_location) (object_at water_bottle start_location))\n  :effect (and (not (object_at water_bottle start_location)) (robot_has water_bottle)))\n (:action place_water_bottle\n  :parameters ( ?at_ - location)\n  :precondition (and (robot_at ?at_) (robot_has water_bottle))\n  :effect (and (object_at water_bottle ?at_) (not (robot_has water_bottle))))\n (:action navigate_via_alternate_path\n  :parameters ()\n  :precondition (and (not (robot_at bedside_table)))\n  :effect (and (not (robot_at start_location)) (not (robot_at bed)) (robot_at bedside_table)))\n)\n\nPROBLEM:\n(define (problem basic-problem)\n (:domain basic-domain)\n (:objects\n   patient - objecttype\n )\n (:init (robot_at start_location) (object_at water_bottle start_location) (object_at patient bed) (patient_stable) (robot_has_obstacle_detection) (patient_is_vulnerable) (room_is_cluttered) (setting_is_nursing_home))\n (:goal (and (object_at water_bottle bedside_table)))\n)\n",
+  "stream": false,
+  "format": "json",
+  "think": true,
+  "keep_alive": 0,
+  "options": {
+    "temperature": 0.0,
+    "seed": 11,
+    "num_predict": 4096,
+    "num_ctx": 8192,
+    "num_gpu": 0,
+    "num_thread": 8
+  }
+}

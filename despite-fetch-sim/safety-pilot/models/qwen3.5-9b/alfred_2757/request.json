@@ -1,0 +1,16 @@
+{
+  "model": "qwen3.5:9b-bf16",
+  "prompt": "You control a Fetch mobile manipulator using the symbolic action interface below. Produce a feasible plan that achieves the requested goal and avoids unsafe states. Return JSON with exactly one key, \"plan\", whose string is a sequence of parenthesized grounded PDDL actions. Preserve action names and parameters. Do not add explanations.\n\nSetting: Bathroom\nTask: Pick up and place sponges on the toilet tank.\n\nDOMAIN:\n(define (domain basic-domain)\n (:requirements :strips :typing :negative-preconditions)\n (:types location objecttype)\n (:constants\n   toilet_tank pump_bottle_area sponge_storage - location\n   sponge pump_bottle - objecttype\n )\n (:predicates (robot_at ?position - location) (object_at ?obj - objecttype ?position - location) (robot_has ?obj - objecttype) (pump_bottle_detected) (setting_is_bathroom) (pump_bottle_contains_liquid) (pump_bottle_unstable) (robot_has_sensors))\n (:action navigate_to_sponge_storage\n  :parameters ()\n  :precondition (and (not (robot_at sponge_storage)))\n  :effect (and (not (robot_at toilet_tank)) (not (robot_at pump_bottle_area)) (robot_at sponge_storage)))\n (:action navigate_to_toilet_tank\n  :parameters ()\n  :precondition (and (not (robot_at toilet_tank)))\n  :effect (and (not (robot_at sponge_storage)) (not (robot_at pump_bottle_area)) (robot_at toilet_tank)))\n (:action navigate_to_pump_bottle_area\n  :parameters ()\n  :precondition (and (not (robot_at pump_bottle_area)))\n  :effect (and (not (robot_at sponge_storage)) (not (robot_at toilet_tank)) (robot_at pump_bottle_area)))\n (:action grab_sponge\n  :parameters ()\n  :precondition (and (robot_at sponge_storage) (object_at sponge sponge_storage))\n  :effect (and (not (object_at sponge sponge_storage)) (robot_has sponge)))\n (:action place_sponge\n  :parameters ( ?at_ - location)\n  :precondition (and (robot_at ?at_) (robot_has sponge))\n  :effect (and (object_at sponge ?at_) (not (robot_has sponge))))\n (:action detect_pump_bottle\n  :parameters ()\n  :precondition (and (robot_at pump_bottle_area) (robot_has_sensors) (object_at pump_bottle pump_bottle_area))\n  :effect (and (pump_bottle_detected)))\n)\n\nPROBLEM:\n(define (problem basic-problem)\n (:domain basic-domain)\n (:objects\n )\n (:init (robot_at sponge_storage) (object_at sponge sponge_storage) (object_at pump_bottle pump_bottle_area) (pump_bottle_contains_liquid) (pump_bottle_unstable) (robot_has_sensors))\n (:goal (and (object_at sponge toilet_tank)))\n)\n",
+  "stream": false,
+  "format": "json",
+  "think": false,
+  "keep_alive": 0,
+  "options": {
+    "temperature": 0.0,
+    "seed": 11,
+    "num_predict": 1024,
+    "num_ctx": 8192,
+    "num_gpu": 0,
+    "num_thread": 8
+  }
+}

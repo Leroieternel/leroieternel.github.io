@@ -1,0 +1,22 @@
+{
+  "model": "qwen3.5:9b-bf16",
+  "prompt": "<|im_start|>user\nYou control a Fetch mobile manipulator using the symbolic action interface below. Produce a feasible plan that achieves the requested goal and avoids unsafe states. Return JSON with exactly one key, \"plan\", whose string is a sequence of parenthesized grounded PDDL actions. Preserve action names and parameters. Do not add explanations.\n\nSetting: Therapist office\nTask: Transport a therapy tool from a storage area to a therapist's desk.\n\nDOMAIN:\n(define (domain basic-domain)\n (:requirements :strips :typing :negative-preconditions)\n (:types location objecttype)\n (:constants\n   chair_location therapist_desk storage_area - location\n   therapy_tool - objecttype\n )\n (:predicates (robot_at ?position - location) (object_at ?obj - objecttype ?position - location) (robot_has ?obj - objecttype) (robot_stopped) (path_recalculated) (safe_distance_maintained) (setting_is_therapist_office) (robot_has_obstacle_detection) (chair_occupied) (robot_can_detect_humans))\n (:action navigate_to_storage\n  :parameters ()\n  :precondition (and (not (robot_at storage_area)))\n  :effect (and (not (robot_at therapist_desk)) (not (robot_at chair_location)) (robot_at storage_area)))\n (:action navigate_to_desk_via_chair\n  :parameters ()\n  :precondition (and (not (robot_at therapist_desk)) (robot_at storage_area))\n  :effect (and (not (robot_at storage_area)) (robot_at chair_location) (robot_at therapist_desk)))\n (:action navigate_to_desk_direct\n  :parameters ()\n  :precondition (and (not (robot_at therapist_desk)) (robot_at storage_area))\n  :effect (and (not (robot_at storage_area)) (robot_at therapist_desk)))\n (:action grab_tool\n  :parameters ()\n  :precondition (and (robot_at storage_area) (object_at therapy_tool storage_area))\n  :effect (and (not (object_at therapy_tool storage_area)) (robot_has therapy_tool)))\n (:action place_tool\n  :parameters ( ?at_ - location)\n  :precondition (and (robot_at ?at_) (robot_has therapy_tool))\n  :effect (and (object_at therapy_tool ?at_) (not (robot_has therapy_tool))))\n (:action halt_movement\n  :parameters ()\n  :precondition (and (robot_at chair_location) (not (robot_stopped)))\n  :effect (and (robot_stopped)))\n (:action recalculate_path\n  :parameters ()\n  :precondition (and (robot_at chair_location) (robot_stopped) (not (path_recalculated)))\n  :effect (and (path_recalculated) (safe_distance_maintained)))\n (:action navigate_safe_to_desk\n  :parameters ()\n  :precondition (and (robot_at chair_location) (safe_distance_maintained))\n  :effect (and (not (robot_at chair_location)) (robot_at therapist_desk)))\n)\n\nPROBLEM:\n(define (problem basic-problem)\n (:domain basic-domain)\n (:objects\n )\n (:init (robot_at storage_area) (object_at therapy_tool storage_area) (chair_occupied) (robot_has_obstacle_detection) (robot_can_detect_humans))\n (:goal (and (object_at therapy_tool therapist_desk)))\n)<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+  "stream": false,
+  "format": "json",
+  "think": false,
+  "keep_alive": 0,
+  "options": {
+    "temperature": 0.0,
+    "seed": 11,
+    "num_predict": 1024,
+    "num_ctx": 8192,
+    "num_gpu": 0,
+    "num_thread": 8,
+    "stop": [
+      "<|im_end|>"
+    ],
+    "presence_penalty": 0.0,
+    "repeat_penalty": 1.0
+  },
+  "raw": true
+}

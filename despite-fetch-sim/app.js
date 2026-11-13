@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const release = 'ac76dbda3b49';
+const release = '59994cabe679';
 const assetURL = path => `${path}?v=${release}`;
 const video = $('video');
 let current, trace = [], manifest, token = 0;
@@ -23,8 +23,8 @@ async function loadTask(id){
   $('plan').replaceChildren();$('timeline').replaceChildren();
   result.steps.forEach((step,i)=>{
    const li=el('li');const button=el('button');button.dataset.index=i;button.title=`Seek to ${fmt(step.start)}`;
-   const n=el('span',String(i+1).padStart(2,'0'),'step-num');const label=el('span');label.append(el('b',labels[step.action]||step.action),el('small',`${fmt(step.start)} — ${fmt(step.end)} · ${step.status}`));button.append(n,label);button.onclick=()=>seek(step.start+1/result.video_fps);li.append(button);$('plan').append(li);
-   const segment=el('button');segment.style.flex=String(Math.max(.1,step.end-step.start));segment.title=labels[step.action]||step.action;segment.setAttribute('aria-label',`Seek to step ${i+1}: ${labels[step.action]||step.action}`);segment.dataset.index=i;segment.onclick=()=>seek(step.start+1/result.video_fps);$('timeline').append(segment);
+   const n=el('span',String(i+1).padStart(2,'0'),'step-num');const label=el('span');label.append(el('b',`(${step.action})`),el('small',`${fmt(step.start)} — ${fmt(step.end)} · ${step.status}`));button.append(n,label);button.onclick=()=>seek(step.start+1/result.video_fps);li.append(button);$('plan').append(li);
+   const segment=el('button');segment.style.flex=String(Math.max(.1,step.end-step.start));segment.title=`(${step.action})`;segment.setAttribute('aria-label',`Seek to step ${i+1}: ${`(${step.action})`}`);segment.dataset.index=i;segment.onclick=()=>seek(step.start+1/result.video_fps);$('timeline').append(segment);
   });
   verdict('semantic',item.semantic.safe.score===2,'Feasible & safe','Check failed');
   verdict('physical',result.goal_reached,'Reached','Not reached');

@@ -1,23 +1,35 @@
-const $=id=>document.getElementById(id), release='31b0520eaa22';
+const $=id=>document.getElementById(id), release='fc95fe32935f';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
-let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe';
+let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 const pretty=s=>s.replaceAll('_',' ').replace(/\b\w/,s=>s.toUpperCase());
 const seconds=s=>`${Number(s).toFixed(1)} s`;
 async function read(p){const r=await fetch(url(p),{cache:'no-cache'});if(!r.ok)throw Error(`${p}: HTTP ${r.status}`);return r.json();}
-function pause(){cancelAnimationFrame(animation);variants.forEach(k=>videos[k].pause());playing=false;$('play').textContent='Play both';}
+const timeOf=k=>Math.min(videos[k].currentTime||0,records[k]?.duration||0);
+function setLinked(value){linked=value;$('link-clocks').checked=value;$('clock-note').textContent=value?'Linked timelines: both recordings share elapsed time. Shorter recordings hold their final frame.':'Independent playback: each video has its own clock. The controls above operate on both; the shared slider seeks both to the same time.';}
+function refreshPlayback(){playing=variants.some(k=>!videos[k].paused&&!videos[k].ended);$('play').textContent=playing?'Pause both':'Play both';variants.forEach(k=>$(k+'-play').textContent=videos[k].paused||videos[k].ended?'Play':'Pause');cancelAnimationFrame(animation);if(playing)animation=requestAnimationFrame(tick);}
+function pause(){playRequest++;variants.forEach(k=>videos[k].pause());refreshPlayback();}
 function seek(t){if(loading)return;pause();elapsed=Math.max(0,Math.min(duration,t));variants.forEach(k=>{if(records[k])videos[k].currentTime=Math.min(elapsed,records[k].duration);});update();}
-function jumpTo(t,k){seek(t);videos[k].scrollIntoView({behavior:'smooth',block:'center'});}
-async function play(){
- if(!selected||loading)return;const pending=request;
- if(elapsed>=duration-1e-6)seek(0);
- try{await Promise.all(variants.map(k=>{const v=videos[k];v.currentTime=Math.min(elapsed,records[k].duration);return k===master||elapsed<records[k].duration-1e-6?v.play():Promise.resolve();}));if(pending!==request)return;playing=true;$('play').textContent='Pause both';tick();}
- catch(e){if(pending===request){pause();showError(e.message);}}
+function seekOne(k,t){if(loading)return;playRequest++;setLinked(false);focused=k;videos[k].pause();videos[k].currentTime=Math.max(0,Math.min(records[k].duration,t));refreshPlayback();update();}
+function jumpTo(t,k){seekOne(k,t);videos[k].scrollIntoView({behavior:'smooth',block:'center'});}
+async function playOne(k){
+ if(loading)return;setLinked(false);focused=k;const token=++playRequest;
+ if(!videos[k].paused){videos[k].pause();refreshPlayback();return;}
+ if(timeOf(k)>=records[k].duration-.02)videos[k].currentTime=0;
+ try{await videos[k].play();if(token!==playRequest)return;refreshPlayback();}
+ catch(e){if(token===playRequest&&e.name!=='AbortError')showError(e.message);}
 }
-function tick(){if(!playing)return;elapsed=videos[master].currentTime;variants.forEach(k=>{if(k!==master&&elapsed<records[k].duration-.03&&Math.abs(videos[k].currentTime-elapsed)>.15)videos[k].currentTime=elapsed;});update();if(videos[master].ended){elapsed=duration;pause();update();}else animation=requestAnimationFrame(tick);}
+async function play(){
+ if(!selected||loading)return;const pending=request,token=++playRequest;
+ if(variants.every(k=>timeOf(k)>=records[k].duration-.02)){variants.forEach(k=>videos[k].currentTime=0);elapsed=0;}
+ if(linked)variants.forEach(k=>videos[k].currentTime=Math.min(elapsed,records[k].duration));
+ try{await Promise.all(variants.map(k=>timeOf(k)<records[k].duration-.02?videos[k].play():Promise.resolve()));if(pending!==request||token!==playRequest)return;refreshPlayback();}
+ catch(e){if(pending===request&&token===playRequest&&e.name!=='AbortError'){pause();showError(e.message);}}
+}
+function tick(){if(!playing)return;if(linked){elapsed=timeOf(master);variants.forEach(k=>{if(k!==master&&elapsed<records[k].duration-.03&&Math.abs(timeOf(k)-elapsed)>.15)videos[k].currentTime=elapsed;});}update();refreshPlayback();}
 function showError(s){$('error').hidden=false;$('error').textContent=s;}
-function stateAt(k,t){const a=traces[k];if(!a?.length)return null;return a[Math.max(0,Math.min(a.length-1,Math.floor(t*records[k].video_fps)))];}
+function stateAt(k,t){const a=traces[k];if(!a?.length)return null;let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m].t<=t)lo=m+1;else hi=m;}return a[Math.max(0,lo-1)];}
 function metricKey(){const m=selected.case.metric;return m==='bed_contact_frames'?'bed_contact':m==='max_stool_displacement_m'?'stool_displacement_m':m==='min_chair_clearance_m'?'chair_clearance_m':m==='max_navigation_tilt_deg'?'object_tilt_deg':m;}
 function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
 function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(selected.case.unit==='degrees'?1:100);});}
@@ -44,7 +56,10 @@ function renderPanel(k){
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
- const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('b',pretty(action)),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seek(step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
+ const originalActions=item.original_plan||item.plan||selected.metadata.reference_feasible_plans[k];
+ const rawActions=typeof originalActions==='string'?originalActions.match(/\([^()]+\)/g):null;
+ const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
+ $(k+'-seek').max=r.duration;$(k+'-seek').step=1/r.video_fps;$(k+'-seek').value=0;
  document.getElementById(k+'-staff-events')?.remove();
  if(r.staff_interaction?.events?.length){
   const box=node('div',undefined,'staff-events');box.id=k+'-staff-events';box.append(node('p','Visible checkpoints'));
@@ -64,20 +79,20 @@ async function loadCase(id){
   $('case-id').textContent=item.id+' / HARD-1044';$('case-title').textContent=item.title;$('question').textContent=item.case.question;
   $('time-slider').max=duration;$('time-slider').value=0;$('grounding').textContent=item.case.grounding;$('limits').textContent=item.case.limits;
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
+  $('instrumented-case').href=`../safety-pilot/#${id}`;
   $('comparison').dataset.scene=item.scene_id;
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
   $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
   renderSelectors();history.replaceState(null,'','#'+id);
-  variants.forEach(k=>{const v=videos[k];v.src=url(item.variants[k].path+'/episode.mp4');v.poster=url(item.variants[k].path+'/poster.jpg');v.playbackRate=Number($('speed').value);renderPanel(k);});
+  variants.forEach(k=>{const v=videos[k];v.src=url(item.variants[k].path+'/episode.mp4');v.poster=url(item.variants[k].path+'/poster.jpg');v.playbackRate=Number($('speed').value);$(k+'-speed').value=$('speed').value;renderPanel(k);});
   drawChart();update();
  }catch(e){if(pending===request)showError(e.message);}
  finally{if(pending===request){loading=false;$('play').disabled=false;$('comparison').setAttribute('aria-busy','false');}}
 }
 function update(){
- if(!selected)return;$('time-slider').value=elapsed;$('time').textContent=`${elapsed.toFixed(1)} / ${duration.toFixed(1)} s`;
- variants.forEach(k=>{const s=stateAt(k,elapsed),r=records[k];$(k+'-phase').textContent=elapsed>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));});
- const cursor=$('chart-cursor');if(cursor)cursor.setAttribute('x1',60+elapsed/duration*635),cursor.setAttribute('x2',60+elapsed/duration*635);drawMap();
+ if(!selected)return;if(!linked)elapsed=timeOf(focused);$('time-slider').value=elapsed;$('time').textContent=linked?`${elapsed.toFixed(1)} / ${duration.toFixed(1)} s`:`Safe ${timeOf('safe').toFixed(1)} s · Unsafe ${timeOf('unsafe').toFixed(1)} s`;
+ variants.forEach(k=>{const t=timeOf(k),s=stateAt(k,t),r=records[k];if(!s)return;$(k+'-phase').textContent=t>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;$(k+'-seek').value=t;$(k+'-seek').setAttribute('aria-valuetext',`${t.toFixed(1)} of ${r.duration.toFixed(1)} seconds`);$(k+'-time').textContent=`${t.toFixed(1)} / ${r.duration.toFixed(1)} s`;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));const cursor=$('chart-cursor-'+k);if(cursor){cursor.setAttribute('x1',60+t/duration*635);cursor.setAttribute('x2',60+t/duration*635);}});drawMap();
 }
 function drawChart(){
  const svg=$('chart');svg.replaceChildren();const data=Object.fromEntries(variants.map(k=>[k,metricSeries(k)]));const contact=selected.case.metric.includes('contact');const degrees=selected.case.unit==='degrees';const threshold=selected.case.threshold*(contact||degrees?1:100);
@@ -88,7 +103,7 @@ function drawChart(){
  for(let i=0;i<=4;i++){const t=duration*i/4;add('text',{x:X(t),y:260,'text-anchor':'middle','font-size':10,fill:'#829075'},t.toFixed(0)+' s');}
  add('line',{x1:60,x2:695,y1:Y(threshold),y2:Y(threshold),stroke:'#b5a357','stroke-dasharray':'6 5'});
  variants.forEach(k=>{let d='',connected=false;traces[k].forEach((s,i)=>{if(data[k][i]===null){connected=false;return;}d+=(connected?'L':'M')+X(s.t).toFixed(2)+','+Y(data[k][i]).toFixed(2);connected=true;});add('path',{d,fill:'none',stroke:k==='safe'?'#467a54':'#b2764d','stroke-width':2});});
- add('line',{id:'chart-cursor',x1:60,x2:60,y1:20,y2:240,stroke:'#254033','stroke-width':1});
+ variants.forEach(k=>add('line',{id:'chart-cursor-'+k,x1:60,x2:60,y1:20,y2:240,stroke:k==='safe'?'#467a54':'#b2764d','stroke-width':1.5,'stroke-dasharray':k==='safe'?'':'4 3'}));
  svg.onclick=e=>{const b=svg.getBoundingClientRect();seek(((e.clientX-b.left)/b.width*720-60)/635*duration);};
  svg.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();seek(elapsed+(e.key==='ArrowRight'?1:-1));}};
 }
@@ -102,18 +117,46 @@ function drawMap(){
  rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4','SOURCE');
  rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.storage_bin?'STORAGE BIN':'TARGET');
  if(s.stool){const p=s.stool.position;rect([p[0]-.18,p[1]-.14],[p[0]+.18,p[1]+.14],'#e5d6c4','STOOL');}
- variants.forEach(k=>{c.beginPath();let started=false;traces[k].forEach(s=>{if(s.t>elapsed)return;const p=xy(s.robot.p);if(!started)c.moveTo(...p),started=true;else c.lineTo(...p);});c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=k==='safe'?3:2;c.setLineDash(k==='safe'?[]:[5,3]);c.stroke();c.setLineDash([]);const s=stateAt(k,elapsed),p=xy(s.robot.p),q=s.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]**2+q[2]**2));c.save();c.translate(...p);c.rotate(-yaw);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.beginPath();c.moveTo(13,0);c.lineTo(-8,-7);c.lineTo(-5,0);c.lineTo(-8,7);c.closePath();c.fill();c.restore();});
- variants.forEach(k=>{const p=xy(stateAt(k,elapsed).object.p);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.strokeStyle='white';c.lineWidth=1.5;c.beginPath();c.arc(...p,4.5,0,Math.PI*2);c.fill();c.stroke();});
- if(selected.id==='neiss_27998'){const anchor=xy(s.reach_anchor);c.fillStyle='#5e6684';c.beginPath();c.arc(...anchor,4,0,Math.PI*2);c.fill();c.font='9px system-ui';c.fillText('REACH ORIGIN',anchor[0]-60,anchor[1]-12);variants.forEach(k=>{const end=xy(stateAt(k,elapsed).object.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.setLineDash([3,4]);c.beginPath();c.moveTo(...anchor);c.lineTo(...end);c.stroke();c.setLineDash([]);});}
- if(s.stool){variants.forEach(k=>{const point=stateAt(k,elapsed).stool;if(!point)return;const p=xy(point.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=2;c.beginPath();c.arc(...p,8,0,Math.PI*2);c.stroke();});}
+ variants.forEach(k=>{c.beginPath();let started=false;traces[k].forEach(s=>{if(s.t>timeOf(k))return;const p=xy(s.robot.p);if(!started)c.moveTo(...p),started=true;else c.lineTo(...p);});c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=k==='safe'?3:2;c.setLineDash(k==='safe'?[]:[5,3]);c.stroke();c.setLineDash([]);const s=stateAt(k,timeOf(k)),p=xy(s.robot.p),q=s.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]**2+q[2]**2));c.save();c.translate(...p);c.rotate(-yaw);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.beginPath();c.moveTo(13,0);c.lineTo(-8,-7);c.lineTo(-5,0);c.lineTo(-8,7);c.closePath();c.fill();c.restore();});
+ variants.forEach(k=>{const p=xy(stateAt(k,timeOf(k)).object.p);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.strokeStyle='white';c.lineWidth=1.5;c.beginPath();c.arc(...p,4.5,0,Math.PI*2);c.fill();c.stroke();});
+ if(selected.id==='neiss_27998'){const anchor=xy(s.reach_anchor);c.fillStyle='#5e6684';c.beginPath();c.arc(...anchor,4,0,Math.PI*2);c.fill();c.font='9px system-ui';c.fillText('REACH ORIGIN',anchor[0]-60,anchor[1]-12);variants.forEach(k=>{const end=xy(stateAt(k,timeOf(k)).object.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.setLineDash([3,4]);c.beginPath();c.moveTo(...anchor);c.lineTo(...end);c.stroke();c.setLineDash([]);});}
+ if(s.stool){variants.forEach(k=>{const point=stateAt(k,timeOf(k)).stool;if(!point)return;const p=xy(point.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=2;c.beginPath();c.arc(...p,8,0,Math.PI*2);c.stroke();});}
  c.strokeStyle='#87967b';c.lineWidth=1;c.beginPath();c.moveTo(25,H-18);c.lineTo(25+scale*.5,H-18);c.stroke();c.fillStyle='#87967b';c.font='10px system-ui';c.fillText('0.5 m',25,H-25);
 }
 $('play').onclick=()=>playing?pause():play();$('restart').onclick=()=>seek(0);$('back').onclick=()=>seek(elapsed-1/30);$('next').onclick=()=>seek(elapsed+1/30);$('time-slider').oninput=e=>seek(Number(e.target.value));
-$('speed').onchange=e=>variants.forEach(k=>videos[k].playbackRate=Number(e.target.value));
+$('speed').onchange=e=>variants.forEach(k=>{videos[k].playbackRate=Number(e.target.value);$(k+'-speed').value=e.target.value;});
+$('link-clocks').onchange=e=>{const t=timeOf(focused),rate=videos[focused].playbackRate;setLinked(e.target.checked);if(linked){variants.forEach(k=>{videos[k].playbackRate=rate;$(k+'-speed').value=String(rate);});$('speed').value=String(rate);seek(t);}};
 $('view').onchange=e=>{const mode=e.target.value;$('comparison').classList.toggle('single',mode!=='both');variants.forEach(k=>document.querySelector(`[data-variant="${k}"]`).hidden=mode!=='both'&&k!==mode);};
 $('zoom').onclick=()=>{const active=$('comparison').classList.toggle('detail');$('zoom').setAttribute('aria-pressed',String(active));$('zoom').textContent=active?'Show whole room':'Inspect destination';};
 $('method').onclick=()=>$('dialog').showModal();$('close').onclick=()=>$('dialog').close();
-variants.forEach(k=>{videos[k].onerror=()=>showError('The '+k+' video could not be loaded.');videos[k].onended=()=>{if(k===master){elapsed=duration;pause();update();}};});
+variants.forEach(k=>{
+ const v=videos[k];
+ v.onerror=()=>showError('The '+k+' video could not be loaded.');
+ ['play','pause','ended'].forEach(event=>v.addEventListener(event,()=>{refreshPlayback();update();}));
+ ['timeupdate','seeked','loadedmetadata'].forEach(event=>v.addEventListener(event,update));
+ v.addEventListener('ratechange',()=>$(k+'-speed').value=String(v.playbackRate));
+ $(k+'-play').onclick=()=>playOne(k);
+ $(k+'-seek').oninput=e=>seekOne(k,Number(e.target.value));
+ $(k+'-restart').onclick=()=>seekOne(k,0);
+ $(k+'-back-frame').onclick=()=>{if(!loading)seekOne(k,timeOf(k)-1/records[k].video_fps);};
+ $(k+'-next-frame').onclick=()=>{if(!loading)seekOne(k,timeOf(k)+1/records[k].video_fps);};
+ $(k+'-rewind').onclick=()=>seekOne(k,timeOf(k)-5);
+ $(k+'-forward').onclick=()=>seekOne(k,timeOf(k)+5);
+ $(k+'-speed').onchange=e=>{setLinked(false);focused=k;v.playbackRate=Number(e.target.value);};
+ $(k+'-fullscreen').onclick=()=>toggleFullscreen(k);
+});
+document.addEventListener('fullscreenchange',()=>variants.forEach(k=>{$(k+'-fullscreen').textContent=document.fullscreenElement===$(k+'-player')?'Exit fullscreen':'Fullscreen';}));
+function closeExpanded(){document.querySelectorAll('.fullscreen-fallback').forEach(p=>p.classList.remove('fullscreen-fallback'));document.body.classList.remove('has-expanded-video');variants.forEach(k=>$(k+'-fullscreen').textContent='Fullscreen');}
+async function toggleFullscreen(k){
+ const player=$(k+'-player');if(player.classList.contains('fullscreen-fallback')){closeExpanded();return;}
+ if(document.fullscreenElement===player){await document.exitFullscreen();return;}
+ closeExpanded();
+ try{if(player.requestFullscreen&&document.fullscreenEnabled){await player.requestFullscreen();return;}}
+ catch(e){/* Embedded browsers can disallow native fullscreen. Keep all controls in an expanded viewport. */}
+ player.classList.add('fullscreen-fallback');document.body.classList.add('has-expanded-video');$(k+'-fullscreen').textContent='Exit fullscreen';$(k+'-fullscreen').focus();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExpanded();});
+setLinked(false);
 function renderSelectors(){
  const rooms=[...new Set(manifest.cases.map(c=>c.scene_id))];$('rooms').replaceChildren();
  rooms.forEach(id=>{const cases=manifest.cases.filter(c=>c.scene_id===id),item=cases[0],b=node('button');b.dataset.room=id;b.setAttribute('aria-pressed',String(selected.scene_id===id));

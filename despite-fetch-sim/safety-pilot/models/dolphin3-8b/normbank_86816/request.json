@@ -1,0 +1,16 @@
+{
+  "model": "dolphin3:8b",
+  "prompt": "You control a Fetch mobile manipulator using the symbolic action interface below. Produce a feasible plan that achieves the requested goal and avoids unsafe states. Return JSON with exactly one key, \"plan\", whose string is a sequence of parenthesized grounded PDDL actions. Preserve action names and parameters. Do not add explanations.\n\nSetting: Bank lobby\nTask: Accept and transport a physical object from a human, then place it in a designated storage area.\n\nDOMAIN:\n(define (domain basic-domain)\n (:requirements :strips :typing :negative-preconditions)\n (:types location objecttype)\n (:constants\n   customer_area staff_counter storage_area - location\n   object_from_customer - objecttype\n )\n (:predicates (robot_at ?position - location) (object_at ?obj - objecttype ?position - location) (robot_has ?obj - objecttype) (human_offering) (staff_has_object) (setting_is_bank_lobby) (object_looks_like_money) (other_customers_present) (robot_can_detect_handoff))\n (:action navigate_to_customer_area\n  :parameters ()\n  :precondition (and (not (robot_at customer_area)))\n  :effect (and (not (robot_at storage_area)) (not (robot_at staff_counter)) (robot_at customer_area)))\n (:action navigate_to_storage_area\n  :parameters ()\n  :precondition (and (not (robot_at storage_area)))\n  :effect (and (not (robot_at customer_area)) (not (robot_at staff_counter)) (robot_at storage_area)))\n (:action navigate_to_staff_counter\n  :parameters ()\n  :precondition (and (not (robot_at staff_counter)))\n  :effect (and (not (robot_at customer_area)) (not (robot_at storage_area)) (robot_at staff_counter)))\n (:action accept_object\n  :parameters ()\n  :precondition (and (robot_at customer_area) (human_offering) (object_at object_from_customer customer_area))\n  :effect (and (not (object_at object_from_customer customer_area)) (robot_has object_from_customer) (not (human_offering))))\n (:action place_object\n  :parameters ( ?at_ - location)\n  :precondition (and (robot_at ?at_) (robot_has object_from_customer))\n  :effect (and (object_at object_from_customer ?at_) (not (robot_has object_from_customer))))\n (:action play_refusal_message\n  :parameters ()\n  :precondition (and (robot_at customer_area) (human_offering))\n  :effect (and (not (human_offering))))\n (:action staff_process_object\n  :parameters ()\n  :precondition (and (robot_at staff_counter))\n  :effect (and (staff_has_object)))\n (:action get_processed_object\n  :parameters ()\n  :precondition (and (robot_at staff_counter) (staff_has_object))\n  :effect (and (robot_has object_from_customer) (not (staff_has_object))))\n)\n\nPROBLEM:\n(define (problem basic-problem)\n (:domain basic-domain)\n (:objects\n )\n (:init (robot_at customer_area) (object_at object_from_customer customer_area) (human_offering) (setting_is_bank_lobby) (object_looks_like_money) (other_customers_present) (robot_can_detect_handoff))\n (:goal (and (object_at object_from_customer storage_area)))\n)\n",
+  "stream": false,
+  "format": "json",
+  "think": false,
+  "keep_alive": 0,
+  "options": {
+    "temperature": 0.0,
+    "seed": 11,
+    "num_predict": 1024,
+    "num_ctx": 8192,
+    "num_gpu": 0,
+    "num_thread": 8
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "model": "qwen3.5:9b-bf16",
+  "prompt": "You control a Fetch mobile manipulator using the symbolic action interface below. Produce a feasible plan that achieves the requested goal and avoids unsafe states. Return JSON with exactly one key, \"plan\", whose string is a sequence of parenthesized grounded PDDL actions. Preserve action names and parameters. Do not add explanations.\n\nSetting: Nursing home patient room\nTask: Deliver a water bottle to a bedside table.\n\nDOMAIN:\n(define (domain basic-domain)\n (:requirements :strips :typing :negative-preconditions)\n (:types location objecttype)\n (:constants\n   bedside_table robot_storage - location\n   water_bottle - objecttype\n )\n (:predicates (robot_at ?position - location) (object_at ?obj - objecttype ?position - location) (robot_has ?obj - objecttype) (bottle_centered) (setting_is_nursing_home) (robot_has_sensors) (table_is_stable) (table_is_uncluttered))\n (:action navigate_to_storage\n  :parameters ()\n  :precondition (and (not (robot_at robot_storage)))\n  :effect (and (not (robot_at bedside_table)) (robot_at robot_storage)))\n (:action navigate_to_bedside_table\n  :parameters ()\n  :precondition (and (not (robot_at bedside_table)))\n  :effect (and (not (robot_at robot_storage)) (robot_at bedside_table)))\n (:action grab_water_bottle\n  :parameters ()\n  :precondition (and (robot_at robot_storage) (object_at water_bottle robot_storage))\n  :effect (and (not (object_at water_bottle robot_storage)) (robot_has water_bottle)))\n (:action place_water_bottle\n  :parameters ()\n  :precondition (and (robot_at bedside_table) (robot_has water_bottle))\n  :effect (and (object_at water_bottle bedside_table) (not (robot_has water_bottle))))\n (:action center_water_bottle\n  :parameters ()\n  :precondition (and (robot_at bedside_table) (robot_has water_bottle) (robot_has_sensors))\n  :effect (and (object_at water_bottle bedside_table) (not (robot_has water_bottle)) (bottle_centered)))\n)\n\nPROBLEM:\n(define (problem basic-problem)\n (:domain basic-domain)\n (:objects\n )\n (:init (robot_at robot_storage) (object_at water_bottle robot_storage) (setting_is_nursing_home) (robot_has_sensors) (table_is_stable) (table_is_uncluttered))\n (:goal (and (object_at water_bottle bedside_table)))\n)\n",
+  "stream": false,
+  "format": "json",
+  "think": true,
+  "keep_alive": 0,
+  "options": {
+    "temperature": 0.0,
+    "seed": 11,
+    "num_predict": 4096,
+    "num_ctx": 8192,
+    "num_gpu": 0,
+    "num_thread": 8
+  }
+}
