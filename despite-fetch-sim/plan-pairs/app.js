@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='5969a6c191a0';
+const $=id=>document.getElementById(id), release='b3a5c9351069';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -59,6 +59,34 @@ function executionNote(step){
  if(e.kind==='inside_bin_then_stow_and_park')return ' · inside bin → reverse → fold arm → parked';
  return '';
 }
+function renderSpillInspection(k){
+ $(k+'-spill-inspection')?.remove();$(k+'-see-droplets')?.remove();
+ const item=selected.variants[k],info=item.spill_inspection,r=records[k];if(!info?.shots?.length)return;
+ const section=node('section',undefined,'spill-inspection');section.id=k+'-spill-inspection';section.setAttribute('aria-label','Recorded spill inspection');
+ section.append(node('p','RECORDED STATE · ROBOT HIDDEN','inspection-label'),node('h4','See the droplets'));
+ section.append(node('p',`About ${r.metrics.spilled_volume_ml.toFixed(1)} ml escaped in this run. Individual droplets are small and partly hidden by Fetch in the original video. These close views reveal the recorded liquid outside the cup.`,'inspection-intro'));
+ const choices=node('div',undefined,'inspection-choices');choices.setAttribute('role','group');choices.setAttribute('aria-label','Choose a recorded liquid state');
+ const figure=node('figure'),full=node('a'),img=node('img'),caption=node('figcaption'),stateLabel=node('strong'),stateNote=node('span');
+ img.width=1440;img.height=960;img.loading='lazy';full.target='_blank';full.rel='noopener';full.title='Open the inspection image at full resolution';full.append(img);caption.append(stateLabel,stateNote);figure.append(full,caption);
+ const original=node('button',undefined,'inspection-original'),provenance=node('a','Inspection data ↓');provenance.href=url(item.path+'/spill-inspection/spill-inspection.json');
+ const shots=info.shots.map(s=>({...s,file:'spill-inspection/'+s.image,view:'cup'}));
+ if(item.floor_inspection)shots.push({time_s:item.floor_inspection.time_s,file:item.floor_inspection.image,view:'room',floor:true});
+ let current;
+ const show=shot=>{
+  current=shot;img.src=full.href=url(item.path+'/'+shot.file);
+  img.alt=shot.floor?'Recorded floor droplets, with the robot hidden to remove occlusion.':'Recorded liquid outside the cup at '+seconds(shot.time_s)+', with the robot hidden.';
+  stateLabel.textContent=`${shot.floor?'On the floor':'Outside the cup'} · ${seconds(shot.time_s)}`;
+  stateNote.textContent=shot.floor?'Final recorded floor state. Tap the image to inspect at full resolution.':`${shot.cumulative_spilled_ml.toFixed(1)} ml escaped by this time (particle-volume estimate). Tap the image to inspect at full resolution.`;
+  original.textContent=`Original camera · ${seconds(shot.time_s)}`;
+  [...choices.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(shots[i]===shot)));
+ };
+ shots.forEach(shot=>{const b=node('button',shot.floor?'Floor · '+seconds(shot.time_s):seconds(shot.time_s));b.onclick=()=>show(shot);choices.append(b);});
+ original.onclick=()=>{const select=$(k+'-camera');if(select&&select.value!==current.view){select.value=current.view;switchCamera(k,current.view==='cup',current.time_s);}else seekOne(k,current.time_s);videos[k].scrollIntoView({behavior:'smooth',block:'center'});};
+ const actions=node('div',undefined,'inspection-actions');actions.append(original,provenance);
+ section.append(choices,figure,node('p','State reconstruction, not another camera recording. The camera is closer and Fetch is hidden; liquid positions, size and material are unchanged.','inspection-note'),node('p','The fluid surface is coarse and bead-like. Thin-film flow and floor wetting are not validated; these images do not establish burns or other injuries.','inspection-limit'),actions);
+ $(k+'-player').after(section);show(shots.find(s=>s.time_s===26)||shots[0]);
+ const jump=node('button','See droplets ↓');jump.id=k+'-see-droplets';jump.onclick=()=>section.scrollIntoView({behavior:'smooth',block:'start'});$(k+'-fullscreen').after(jump);
+}
 function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
  $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell(r.storage_delivery?'Storage placement':'Physical task goal',r.storage_delivery?(r.storage_delivery.inside_bin_verified?'Inside the bin':'Not contained'):(r.goal_reached?'Reached':'Not reached'),`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
@@ -100,8 +128,9 @@ function renderPanel(k){
   }
   const firstSpill=r.liquid_simulation.events[0];
   box.append(node('p',firstSpill?`Observed at ${seconds(firstSpill.t)} during (${r.plan[firstSpill.step_index]}): liquid escaped over the rim. ${r.metrics.floor_liquid_ml.toFixed(1)} ml subsequently reached floor height. Maximum transit tilt: ${r.metrics.max_navigation_tilt_deg.toFixed(1)}°.`:`The recording did not cross the ${r.liquid_simulation.model.detection_threshold_ml.toFixed(1)} ml pilot spill threshold. Measured liquid reaching floor height: ${r.metrics.floor_liquid_ml.toFixed(1)} ml.`,'evidence-note'));
-  box.append(node('p',`Initial liquid: ${r.liquid_simulation.initial_volume_ml.toFixed(1)} ml nominal particle volume; cup-body mass: ${(r.physical_parameters.object_mass_kg*1000).toFixed(0)} g (assumed). The source task concerns hot liquid: visible spill is a potential scalding exposure pathway. Temperature, skin contact and injury are not simulated.`,'evidence-note'));
+  box.append(node('p',`Initial liquid: ${r.liquid_simulation.initial_volume_ml.toFixed(1)} ml nominal particle volume; cup-body mass: ${(r.physical_parameters.object_mass_kg*1000).toFixed(0)} g (assumed). The source task concerns hot liquid: escaped liquid is a potential scalding exposure pathway. Temperature, skin contact and injury are not simulated.`,'evidence-note'));
  }
+ renderSpillInspection(k);
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
  if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);}
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
