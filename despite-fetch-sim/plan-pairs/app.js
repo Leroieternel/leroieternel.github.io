@@ -1,10 +1,11 @@
-const $=id=>document.getElementById(id), release='b3a5c9351069';
+const $=id=>document.getElementById(id), release='25953a26aac5';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 const pretty=s=>s.replaceAll('_',' ').replace(/\b\w/,s=>s.toUpperCase());
 const seconds=s=>`${Number(s).toFixed(1)} s`;
+const liquidAmount=v=>{const n=Number(v);return n.toFixed(n>0&&n<1?2:1);};
 async function read(p){const r=await fetch(url(p),{cache:'no-cache'});if(!r.ok)throw Error(`${p}: HTTP ${r.status}`);return r.json();}
 const timeOf=k=>Math.min(videos[k].currentTime||0,records[k]?.duration||0);
 function setLinked(value){linked=value;$('link-clocks').checked=value;$('clock-note').textContent=value?'Linked timelines: both recordings share elapsed time. Shorter recordings hold their final frame.':'Independent playback: each video has its own clock. The controls above operate on both; the shared slider seeks both to the same time.';}
@@ -40,7 +41,7 @@ function tick(){if(!playing)return;if(linked){elapsed=timeOf(master);variants.fo
 function showError(s){$('error').hidden=false;$('error').textContent=s;}
 function stateAt(k,t){const a=traces[k];if(!a?.length)return null;let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m].t<=t)lo=m+1;else hi=m;}return a[Math.max(0,lo-1)];}
 function metricKey(){const m=selected.case.metric;return m==='bed_contact_frames'?'bed_contact':m==='max_stool_displacement_m'?'stool_displacement_m':m==='min_chair_clearance_m'?'chair_clearance_m':m==='max_navigation_tilt_deg'?'object_tilt_deg':m;}
-function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_ml'))return `${Number(v).toFixed(1)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
+function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_ml'))return `${liquidAmount(v)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
 function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(['degrees','millilitres'].includes(selected.case.unit)?1:100);});}
 function outcome(r){
  if(r.status==='blocked')return 'Navigation blocked · later actions not executed';
@@ -64,7 +65,7 @@ function renderSpillInspection(k){
  const item=selected.variants[k],info=item.spill_inspection,r=records[k];if(!info?.shots?.length)return;
  const section=node('section',undefined,'spill-inspection');section.id=k+'-spill-inspection';section.setAttribute('aria-label','Recorded spill inspection');
  section.append(node('p','RECORDED STATE · ROBOT HIDDEN','inspection-label'),node('h4','See the droplets'));
- section.append(node('p',`About ${r.metrics.spilled_volume_ml.toFixed(1)} ml escaped in this run. Individual droplets are small and partly hidden by Fetch in the original video. These close views reveal the recorded liquid outside the cup.`,'inspection-intro'));
+ section.append(node('p',`About ${liquidAmount(r.metrics.spilled_volume_ml)} ml escaped in this run. Individual droplets are small and partly hidden by Fetch in the original video. These close views reveal the recorded liquid outside the cup.`,'inspection-intro'));
  const choices=node('div',undefined,'inspection-choices');choices.setAttribute('role','group');choices.setAttribute('aria-label','Choose a recorded liquid state');
  const figure=node('figure'),full=node('a'),img=node('img'),caption=node('figcaption'),stateLabel=node('strong'),stateNote=node('span');
  img.width=1440;img.height=960;img.loading='lazy';full.target='_blank';full.rel='noopener';full.title='Open the inspection image at full resolution';full.append(img);caption.append(stateLabel,stateNote);figure.append(full,caption);
@@ -76,7 +77,7 @@ function renderSpillInspection(k){
   current=shot;img.src=full.href=url(item.path+'/'+shot.file);
   img.alt=shot.floor?'Recorded floor droplets, with the robot hidden to remove occlusion.':'Recorded liquid outside the cup at '+seconds(shot.time_s)+', with the robot hidden.';
   stateLabel.textContent=`${shot.floor?'On the floor':'Outside the cup'} · ${seconds(shot.time_s)}`;
-  stateNote.textContent=shot.floor?'Final recorded floor state. Tap the image to inspect at full resolution.':`${shot.cumulative_spilled_ml.toFixed(1)} ml escaped by this time (particle-volume estimate). Tap the image to inspect at full resolution.`;
+  stateNote.textContent=shot.floor?'Final recorded floor state. Tap the image to inspect at full resolution.':`${liquidAmount(shot.cumulative_spilled_ml)} ml escaped by this time (particle-volume estimate). Tap the image to inspect at full resolution.`;
   original.textContent=`Original camera · ${seconds(shot.time_s)}`;
   [...choices.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(shots[i]===shot)));
  };
@@ -89,11 +90,14 @@ function renderSpillInspection(k){
 }
 function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
+ $(k+'-label-observation')?.remove();
+ if(k==='unsafe'&&r.spec.navigation_controller&&r.physical_safety_conditions_met){const note=node('p','The original unsafe label is retained. With the revised executor, this trial completed without crossing the 1 ml spill-detection threshold.','clock-note');note.id=k+'-label-observation';status.after(note);}
  $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell(r.storage_delivery?'Storage placement':'Physical task goal',r.storage_delivery?(r.storage_delivery.inside_bin_verified?'Inside the bin':'Not contained'):(r.goal_reached?'Reached':'Not reached'),`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
  if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  if(r.liquid_simulation)$(k+'-metrics').append(metricCell('Liquid reached the floor',metricFormat(r.metrics.floor_liquid_ml,'floor_liquid_ml'),'Measured particle volume · no injury model'),metricCell('Minimum obstacle clearance',metricFormat(r.metrics.min_obstacle_clearance_m,'min_obstacle_clearance_m'),'Physical BEHAVIOR footstool · 0.29 m chassis disc'));
+ if(r.spec.navigation_controller)$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m','Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
  const originalActions=item.original_plan||item.plan||selected.metadata.reference_feasible_plans[k];
  const rawActions=typeof originalActions==='string'?originalActions.match(/\([^()]+\)/g):null;
@@ -127,7 +131,7 @@ function renderPanel(k){
    if(item.floor_inspection){const a=node('a','Inspect recorded floor droplets · robot hidden →');a.href=url(item.path+'/'+item.floor_inspection.image);a.title=item.floor_inspection.caption;a.target='_blank';a.rel='noopener';box.append(a);}
   }
   const firstSpill=r.liquid_simulation.events[0];
-  box.append(node('p',firstSpill?`Observed at ${seconds(firstSpill.t)} during (${r.plan[firstSpill.step_index]}): liquid escaped over the rim. ${r.metrics.floor_liquid_ml.toFixed(1)} ml subsequently reached floor height. Maximum transit tilt: ${r.metrics.max_navigation_tilt_deg.toFixed(1)}°.`:`The recording did not cross the ${r.liquid_simulation.model.detection_threshold_ml.toFixed(1)} ml pilot spill threshold. Measured liquid reaching floor height: ${r.metrics.floor_liquid_ml.toFixed(1)} ml.`,'evidence-note'));
+  box.append(node('p',firstSpill?`Observed at ${seconds(firstSpill.t)} during (${r.plan[firstSpill.step_index]}): liquid escaped over the rim. ${liquidAmount(r.metrics.floor_liquid_ml)} ml subsequently reached floor height. Maximum transit tilt: ${r.metrics.max_navigation_tilt_deg.toFixed(1)}°.`:`The recording did not cross the ${r.liquid_simulation.model.detection_threshold_ml.toFixed(1)} ml pilot spill threshold. Measured liquid reaching floor height: ${liquidAmount(r.metrics.floor_liquid_ml)} ml.`,'evidence-note'));
   box.append(node('p',`Initial liquid: ${r.liquid_simulation.initial_volume_ml.toFixed(1)} ml nominal particle volume; cup-body mass: ${(r.physical_parameters.object_mass_kg*1000).toFixed(0)} g (assumed). The source task concerns hot liquid: escaped liquid is a potential scalding exposure pathway. Temperature, skin contact and injury are not simulated.`,'evidence-note'));
  }
  renderSpillInspection(k);
@@ -144,7 +148,7 @@ async function loadCase(id){
   duration=Math.max(...variants.map(k=>records[k].duration));master=records.safe.duration>=records.unsafe.duration?'safe':'unsafe';elapsed=0;
   $('case-id').textContent=item.id+' / HARD-1044';$('case-title').textContent=item.title;$('question').textContent=item.case.question;
   $('time-slider').max=duration;$('time-slider').value=0;$('grounding').textContent=item.case.grounding;$('limits').textContent=item.case.limits;
-  if(records.safe.liquid_simulation)$('grounding').textContent+=' These are route-following limits. The shared final-heading alignment can command up to 0.50 rad/s; the smooth action retains its angular-acceleration limit during alignment.';
+  if(records.safe.liquid_simulation&&!records.safe.spec.navigation_controller)$('grounding').textContent+=' These are route-following limits. The shared final-heading alignment can command up to 0.50 rad/s; the smooth action retains its angular-acceleration limit during alignment.';
   if(records.safe.liquid_simulation)$('limits').textContent+=' The millimetre-scale particle surface shows resolved droplets; thin-film wetting and spreading on the floor have not been calibrated or validated.';
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
   $('instrumented-case').href=`../safety-pilot/#${id}`;
@@ -154,6 +158,7 @@ async function loadCase(id){
   $('runtime-note').textContent=`Physics: Isaac Sim ${runtime.runtime.isaacsim} / PhysX, ${runtime.physics_hz} Hz. Control: ${runtime.control_hz} Hz, oracle object poses. No LLM is queried. RGB: ${runtime.video_fps} fps, native-resolution DLAA, ${runtime.rendering?.extra_render_updates_per_recorded_frame??7} additional render-only updates per recorded frame.`;
   $('metric-note').textContent=runtime.liquid_simulation?'Cumulative escaped liquid is measured from particle positions throughout the episode. The dashed line is an uncalibrated pilot detection threshold, not an injury threshold.':'Placement clearance and reach conditions are evaluated after release. Chair clearance and obstacle disturbance are monitored throughout execution; cup tilt is evaluated during navigation.';
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
+  $('kitchen-route-review').hidden=!records.safe.spec.navigation_controller;
   $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
   renderSelectors();history.replaceState(null,'','#'+id);
@@ -164,7 +169,7 @@ async function loadCase(id){
 }
 function update(){
  if(!selected)return;if(!linked)elapsed=timeOf(focused);$('time-slider').value=elapsed;$('time').textContent=linked?`${elapsed.toFixed(1)} / ${duration.toFixed(1)} s`:`Safe ${timeOf('safe').toFixed(1)} s · Unsafe ${timeOf('unsafe').toFixed(1)} s`;
- variants.forEach(k=>{const t=timeOf(k),s=stateAt(k,t),r=records[k];if(!s)return;const badge=$(k+'-liquid-badge');if(badge){badge.textContent=`Spilled ${Number(s.metrics.spilled_volume_ml).toFixed(1)} ml · floor ${Number(s.metrics.floor_liquid_ml).toFixed(1)} ml`;badge.classList.toggle('spill',s.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml);}$(k+'-phase').textContent=t>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;$(k+'-seek').value=t;$(k+'-seek').setAttribute('aria-valuetext',`${t.toFixed(1)} of ${r.duration.toFixed(1)} seconds`);$(k+'-time').textContent=`${t.toFixed(1)} / ${r.duration.toFixed(1)} s`;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));const cursor=$('chart-cursor-'+k);if(cursor){cursor.setAttribute('x1',60+t/duration*635);cursor.setAttribute('x2',60+t/duration*635);}});drawMap();
+ variants.forEach(k=>{const t=timeOf(k),s=stateAt(k,t),r=records[k];if(!s)return;const badge=$(k+'-liquid-badge');if(badge){badge.textContent=`Spilled ${liquidAmount(s.metrics.spilled_volume_ml)} ml · floor ${liquidAmount(s.metrics.floor_liquid_ml)} ml`;badge.classList.toggle('spill',s.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml);}$(k+'-phase').textContent=t>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;$(k+'-seek').value=t;$(k+'-seek').setAttribute('aria-valuetext',`${t.toFixed(1)} of ${r.duration.toFixed(1)} seconds`);$(k+'-time').textContent=`${t.toFixed(1)} / ${r.duration.toFixed(1)} s`;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));const cursor=$('chart-cursor-'+k);if(cursor){cursor.setAttribute('x1',60+t/duration*635);cursor.setAttribute('x2',60+t/duration*635);}});drawMap();
 }
 function drawChart(){
  const svg=$('chart');svg.replaceChildren();const data=Object.fromEntries(variants.map(k=>[k,metricSeries(k)]));const contact=selected.case.metric.includes('contact');const degrees=selected.case.unit==='degrees',liquid=selected.case.unit==='millilitres';const threshold=selected.case.threshold*(contact||degrees||liquid?1:100);

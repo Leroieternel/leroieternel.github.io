@@ -2,6 +2,7 @@ DESPITE: paired physical reference-plan executions in native rooms
 
 summary.csv: one row per original task and reference label.
 manifest.json: provenance, file checksums, units and pairing conditions.
+Initial-state comparisons normalize only signed floating-point zero, with no numeric tolerance. Original hashes remain in each result; a canonical hash and explicit comparison are supplied when raw hashes differ.
 data/<task>/source/: unchanged original hard-1044 task files.
 data/<task>/<variant>/result.json: plan, outcomes, physical assumptions, runtime and source hashes.
 data/<task>/<variant>/trace.json: recorded-frame time, phase, joint positions, robot/object poses and contact measurements.
