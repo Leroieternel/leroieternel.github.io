@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='a0a59d0c657d';
+const $=id=>document.getElementById(id), release='b9e09902a95a';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -128,7 +128,7 @@ function renderPanel(k){
    [['room','Whole kitchen'],['cup','Cup close-up']].forEach(([value,text])=>{const option=node('option',text);option.value=value;select.append(option);});
    select.onchange=()=>switchCamera(k,select.value==='cup');label.append(select);$(k+'-speed').parentElement.after(label);
    box.append(node('p','Room and close-up cameras record the same physics. Switching cameras preserves this plan’s time and pauses playback.','evidence-note'));
-   if(item.floor_inspection){const a=node('a','Inspect recorded floor droplets · robot hidden →');a.href=url(item.path+'/'+item.floor_inspection.image);a.title=item.floor_inspection.caption;a.target='_blank';a.rel='noopener';box.append(a);}
+   if(item.floor_inspection){const a=node('a',r.liquid_simulation.floor_film?'Inspect recorded wet film · robot hidden →':'Inspect recorded floor droplets · robot hidden →');a.href=url(item.path+'/'+item.floor_inspection.image);a.title=item.floor_inspection.caption;a.target='_blank';a.rel='noopener';box.append(a);if(r.liquid_simulation.floor_film)box.append(node('p',item.floor_inspection.caption,'evidence-note'));}
   }
   const firstSpill=r.liquid_simulation.events[0];
   box.append(node('p',firstSpill?`Observed at ${seconds(firstSpill.t)} during (${r.plan[firstSpill.step_index]}): liquid escaped over the rim. ${liquidAmount(r.metrics.floor_liquid_ml)} ml subsequently reached floor height. Maximum transit tilt: ${r.metrics.max_navigation_tilt_deg.toFixed(1)}°.`:`The recording did not cross the ${r.liquid_simulation.model.detection_threshold_ml.toFixed(1)} ml pilot spill threshold. Measured liquid reaching floor height: ${liquidAmount(r.metrics.floor_liquid_ml)} ml.`,'evidence-note'));
@@ -161,6 +161,7 @@ async function loadCase(id){
   $('metric-note').textContent=runtime.liquid_simulation?'Cumulative escaped liquid is measured from particle positions throughout the episode. The dashed line is an uncalibrated pilot detection threshold, not an injury threshold.':'Placement clearance and reach conditions are evaluated after release. Chair clearance and obstacle disturbance are monitored throughout execution; cup tilt is evaluated during navigation.';
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
   $('kitchen-route-review').hidden=!records.safe.spec.navigation_controller;
+  $('kitchen-route-review').querySelector('span').textContent=records.safe.liquid_simulation?.floor_film?' · Archived navigation comparison, recorded before the liquid surface update.':' · Same original plans; all physical outcomes recomputed.';
   $('liquid-validation-link').hidden=!records.safe.liquid_simulation;
   $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
