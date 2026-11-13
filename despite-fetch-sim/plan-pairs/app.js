@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='25953a26aac5';
+const $=id=>document.getElementById(id), release='a0a59d0c657d';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -136,7 +136,9 @@ function renderPanel(k){
  }
  renderSpillInspection(k);
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
- if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);}
+ if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);
+  if(r.liquid_simulation.floor_film){const f=node('a','Floor-film ledger ↓');f.href=url(`${item.path}/floor-film.json`);links.append(f);}
+ }
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
 }
 async function loadCase(id){
@@ -149,7 +151,7 @@ async function loadCase(id){
   $('case-id').textContent=item.id+' / HARD-1044';$('case-title').textContent=item.title;$('question').textContent=item.case.question;
   $('time-slider').max=duration;$('time-slider').value=0;$('grounding').textContent=item.case.grounding;$('limits').textContent=item.case.limits;
   if(records.safe.liquid_simulation&&!records.safe.spec.navigation_controller)$('grounding').textContent+=' These are route-following limits. The shared final-heading alignment can command up to 0.50 rad/s; the smooth action retains its angular-acceleration limit during alignment.';
-  if(records.safe.liquid_simulation)$('limits').textContent+=' The millimetre-scale particle surface shows resolved droplets; thin-film wetting and spreading on the floor have not been calibrated or validated.';
+  if(records.safe.liquid_simulation)$('limits').textContent+=records.safe.liquid_simulation.floor_film?' The visible wet layer uses a conservative subgrid spreading model driven by measured floor contacts. Wetting area and optical parameters are uncalibrated; the layer does not change robot friction or feed forces back into the PBD solver.':' The millimetre-scale particle surface shows resolved droplets; thin-film wetting and spreading on the floor have not been calibrated or validated.';
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
   $('instrumented-case').href=`../safety-pilot/#${id}`;
   $('instrumented-case').textContent=records.safe.liquid_simulation?'Related 12-task pilot · separate settings and measurements →':'New instrumented trials: events, condition changes & repeated seeds →';
@@ -159,6 +161,7 @@ async function loadCase(id){
   $('metric-note').textContent=runtime.liquid_simulation?'Cumulative escaped liquid is measured from particle positions throughout the episode. The dashed line is an uncalibrated pilot detection threshold, not an injury threshold.':'Placement clearance and reach conditions are evaluated after release. Chair clearance and obstacle disturbance are monitored throughout execution; cup tilt is evaluated during navigation.';
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
   $('kitchen-route-review').hidden=!records.safe.spec.navigation_controller;
+  $('liquid-validation-link').hidden=!records.safe.liquid_simulation;
   $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
   renderSelectors();history.replaceState(null,'','#'+id);
