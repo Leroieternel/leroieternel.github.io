@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='1031001e7679';
+const $=id=>document.getElementById(id), release='5969a6c191a0';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -13,6 +13,15 @@ function pause(){playRequest++;variants.forEach(k=>videos[k].pause());refreshPla
 function seek(t){if(loading)return;pause();elapsed=Math.max(0,Math.min(duration,t));variants.forEach(k=>{if(records[k])videos[k].currentTime=Math.min(elapsed,records[k].duration);});update();}
 function seekOne(k,t){if(loading)return;playRequest++;setLinked(false);focused=k;videos[k].pause();videos[k].currentTime=Math.max(0,Math.min(records[k].duration,t));refreshPlayback();update();}
 function jumpTo(t,k){seekOne(k,t);videos[k].scrollIntoView({behavior:'smooth',block:'center'});}
+function cameraLoading(k,value){$(k+'-player').setAttribute('aria-busy',String(value));document.querySelectorAll(`#${k}-player .video-controls button,#${k}-player .video-controls select,#${k}-player .video-controls input`).forEach(c=>c.disabled=value);}
+function switchCamera(k,detail,seekTime=null){
+ if(loading)return;const v=videos[k],t=seekTime===null?timeOf(k):seekTime,rate=v.playbackRate,caseRequest=request;
+ seekOne(k,t);cameraLoading(k,true);const path=selected.variants[k].path;
+ v.onloadedmetadata=()=>{v.onloadedmetadata=null;if(caseRequest!==request)return;v.currentTime=Math.min(t,records[k].duration);v.playbackRate=rate;cameraLoading(k,false);update();};
+ v.poster=url(path+(detail?'/liquid-detail-poster.jpg':'/poster.jpg'));
+ v.src=url(path+(detail?'/liquid-detail.mp4':'/episode.mp4'));
+ v.classList.toggle('cup-camera',detail);v.load();
+}
 async function playOne(k){
  if(loading)return;setLinked(false);focused=k;const token=++playRequest;
  if(!videos[k].paused){videos[k].pause();refreshPlayback();return;}
@@ -31,11 +40,12 @@ function tick(){if(!playing)return;if(linked){elapsed=timeOf(master);variants.fo
 function showError(s){$('error').hidden=false;$('error').textContent=s;}
 function stateAt(k,t){const a=traces[k];if(!a?.length)return null;let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m].t<=t)lo=m+1;else hi=m;}return a[Math.max(0,lo-1)];}
 function metricKey(){const m=selected.case.metric;return m==='bed_contact_frames'?'bed_contact':m==='max_stool_displacement_m'?'stool_displacement_m':m==='min_chair_clearance_m'?'chair_clearance_m':m==='max_navigation_tilt_deg'?'object_tilt_deg':m;}
-function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
-function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(selected.case.unit==='degrees'?1:100);});}
+function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_ml'))return `${Number(v).toFixed(1)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
+function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(['degrees','millilitres'].includes(selected.case.unit)?1:100);});}
 function outcome(r){
  if(r.status==='blocked')return 'Navigation blocked · later actions not executed';
  if(r.physical_safety_conditions_met)return 'Measured physical conditions met';
+ if(r.liquid_simulation&&r.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml)return 'Liquid spilled · measured physical safety condition violated';
  if(r.goal_reached)return 'Task reached · measured safety condition violated';
  return 'Task goal not reached · inspect the physical trace';
 }
@@ -55,6 +65,7 @@ function renderPanel(k){
  if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
+ if(r.liquid_simulation)$(k+'-metrics').append(metricCell('Liquid reached the floor',metricFormat(r.metrics.floor_liquid_ml,'floor_liquid_ml'),'Measured particle volume · no injury model'),metricCell('Minimum obstacle clearance',metricFormat(r.metrics.min_obstacle_clearance_m,'min_obstacle_clearance_m'),'Physical BEHAVIOR footstool · 0.29 m chassis disc'));
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
  const originalActions=item.original_plan||item.plan||selected.metadata.reference_feasible_plans[k];
  const rawActions=typeof originalActions==='string'?originalActions.match(/\([^()]+\)/g):null;
@@ -69,7 +80,30 @@ function renderPanel(k){
   const labels={fetch_arrived_at_counter:'Counter arrival',staff_grasp_constraint_engaged:'Staff takes parcel',parcel_lift_verified:'Parcel lifted',parcel_inspected:'Inspection',staff_released_parcel:'Staff release',handoff_ready:'Hands clear',fetch_physical_pickup_completed:'Fetch pickup',parcel_stored:'Inside storage bin',empty_arm_stowed:'Arm folded',robot_parked:'Parked'};
   [...r.staff_interaction.events,...(r.storage_delivery?.events||[])].sort((a,b)=>a.t-b.t).forEach(e=>{if(!labels[e.event])return;const b=node('button',`${labels[e.event]} · ${seconds(e.t)}`);b.onclick=()=>jumpTo(e.t+1/r.video_fps,k);box.append(b);});list.after(box);
  }
+ document.getElementById(k+'-liquid-events')?.remove();
+ document.getElementById(k+'-liquid-badge')?.remove();
+ document.getElementById(k+'-camera-control')?.remove();
+ videos[k].classList.remove('cup-camera');videos[k].onloadedmetadata=null;cameraLoading(k,false);
+ if(r.liquid_simulation){
+  const box=node('div',undefined,'staff-events');box.id=k+'-liquid-events';box.append(node('p','Physical evidence · uncalibrated fluid model'));
+  const checkpoints=[{t:0,label:'Inspect the obstacle',view:'room'},...r.liquid_simulation.events.map(e=>({t:e.t,label:'First measured spill',view:'cup'})),{t:r.duration-.1,label:'Inspect the final liquid state',view:'room'}];
+  checkpoints.forEach(e=>{const b=node('button',`${e.label} · ${seconds(e.t)}`);b.onclick=()=>{const t=Math.min(r.duration,e.t+(e.t>0?1/r.video_fps:0)),select=$(k+'-camera');if(select&&select.value!==e.view){select.value=e.view;switchCamera(k,e.view==='cup',t);videos[k].scrollIntoView({behavior:'smooth',block:'center'});}else jumpTo(t,k);};box.append(b);});list.after(box);
+  const obstacle=node('a','View the physical stool →');obstacle.href=url(item.path+'/detail-obstacle.jpg');obstacle.target='_blank';obstacle.rel='noopener';box.append(obstacle);
+  const badge=node('span','','liquid-badge');badge.id=k+'-liquid-badge';videos[k].parentElement.append(badge);
+  if(r.liquid_simulation.evidence_camera){
+   const label=node('label','Camera ','camera-control');label.id=k+'-camera-control';
+   const select=node('select');select.id=k+'-camera';select.setAttribute('aria-label',`${k} recording camera`);
+   [['room','Whole kitchen'],['cup','Cup close-up']].forEach(([value,text])=>{const option=node('option',text);option.value=value;select.append(option);});
+   select.onchange=()=>switchCamera(k,select.value==='cup');label.append(select);$(k+'-speed').parentElement.after(label);
+   box.append(node('p','Room and close-up cameras record the same physics. Switching cameras preserves this plan’s time and pauses playback.','evidence-note'));
+   if(item.floor_inspection){const a=node('a','Inspect recorded floor droplets · robot hidden →');a.href=url(item.path+'/'+item.floor_inspection.image);a.title=item.floor_inspection.caption;a.target='_blank';a.rel='noopener';box.append(a);}
+  }
+  const firstSpill=r.liquid_simulation.events[0];
+  box.append(node('p',firstSpill?`Observed at ${seconds(firstSpill.t)} during (${r.plan[firstSpill.step_index]}): liquid escaped over the rim. ${r.metrics.floor_liquid_ml.toFixed(1)} ml subsequently reached floor height. Maximum transit tilt: ${r.metrics.max_navigation_tilt_deg.toFixed(1)}°.`:`The recording did not cross the ${r.liquid_simulation.model.detection_threshold_ml.toFixed(1)} ml pilot spill threshold. Measured liquid reaching floor height: ${r.metrics.floor_liquid_ml.toFixed(1)} ml.`,'evidence-note'));
+  box.append(node('p',`Initial liquid: ${r.liquid_simulation.initial_volume_ml.toFixed(1)} ml nominal particle volume; cup-body mass: ${(r.physical_parameters.object_mass_kg*1000).toFixed(0)} g (assumed). The source task concerns hot liquid: visible spill is a potential scalding exposure pathway. Temperature, skin contact and injury are not simulated.`,'evidence-note'));
+ }
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
+ if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);}
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
 }
 async function loadCase(id){
@@ -81,9 +115,15 @@ async function loadCase(id){
   duration=Math.max(...variants.map(k=>records[k].duration));master=records.safe.duration>=records.unsafe.duration?'safe':'unsafe';elapsed=0;
   $('case-id').textContent=item.id+' / HARD-1044';$('case-title').textContent=item.title;$('question').textContent=item.case.question;
   $('time-slider').max=duration;$('time-slider').value=0;$('grounding').textContent=item.case.grounding;$('limits').textContent=item.case.limits;
+  if(records.safe.liquid_simulation)$('grounding').textContent+=' These are route-following limits. The shared final-heading alignment can command up to 0.50 rad/s; the smooth action retains its angular-acceleration limit during alignment.';
+  if(records.safe.liquid_simulation)$('limits').textContent+=' The millimetre-scale particle surface shows resolved droplets; thin-film wetting and spreading on the floor have not been calibrated or validated.';
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
   $('instrumented-case').href=`../safety-pilot/#${id}`;
+  $('instrumented-case').textContent=records.safe.liquid_simulation?'Related 12-task pilot · separate settings and measurements →':'New instrumented trials: events, condition changes & repeated seeds →';
   $('comparison').dataset.scene=item.scene_id;
+  const runtime=records.safe;
+  $('runtime-note').textContent=`Physics: Isaac Sim ${runtime.runtime.isaacsim} / PhysX, ${runtime.physics_hz} Hz. Control: ${runtime.control_hz} Hz, oracle object poses. No LLM is queried. RGB: ${runtime.video_fps} fps, native-resolution DLAA, ${runtime.rendering?.extra_render_updates_per_recorded_frame??7} additional render-only updates per recorded frame.`;
+  $('metric-note').textContent=runtime.liquid_simulation?'Cumulative escaped liquid is measured from particle positions throughout the episode. The dashed line is an uncalibrated pilot detection threshold, not an injury threshold.':'Placement clearance and reach conditions are evaluated after release. Chair clearance and obstacle disturbance are monitored throughout execution; cup tilt is evaluated during navigation.';
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
   $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
@@ -95,14 +135,14 @@ async function loadCase(id){
 }
 function update(){
  if(!selected)return;if(!linked)elapsed=timeOf(focused);$('time-slider').value=elapsed;$('time').textContent=linked?`${elapsed.toFixed(1)} / ${duration.toFixed(1)} s`:`Safe ${timeOf('safe').toFixed(1)} s · Unsafe ${timeOf('unsafe').toFixed(1)} s`;
- variants.forEach(k=>{const t=timeOf(k),s=stateAt(k,t),r=records[k];if(!s)return;$(k+'-phase').textContent=t>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;$(k+'-seek').value=t;$(k+'-seek').setAttribute('aria-valuetext',`${t.toFixed(1)} of ${r.duration.toFixed(1)} seconds`);$(k+'-time').textContent=`${t.toFixed(1)} / ${r.duration.toFixed(1)} s`;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));const cursor=$('chart-cursor-'+k);if(cursor){cursor.setAttribute('x1',60+t/duration*635);cursor.setAttribute('x2',60+t/duration*635);}});drawMap();
+ variants.forEach(k=>{const t=timeOf(k),s=stateAt(k,t),r=records[k];if(!s)return;const badge=$(k+'-liquid-badge');if(badge){badge.textContent=`Spilled ${Number(s.metrics.spilled_volume_ml).toFixed(1)} ml · floor ${Number(s.metrics.floor_liquid_ml).toFixed(1)} ml`;badge.classList.toggle('spill',s.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml);}$(k+'-phase').textContent=t>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;$(k+'-seek').value=t;$(k+'-seek').setAttribute('aria-valuetext',`${t.toFixed(1)} of ${r.duration.toFixed(1)} seconds`);$(k+'-time').textContent=`${t.toFixed(1)} / ${r.duration.toFixed(1)} s`;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));const cursor=$('chart-cursor-'+k);if(cursor){cursor.setAttribute('x1',60+t/duration*635);cursor.setAttribute('x2',60+t/duration*635);}});drawMap();
 }
 function drawChart(){
- const svg=$('chart');svg.replaceChildren();const data=Object.fromEntries(variants.map(k=>[k,metricSeries(k)]));const contact=selected.case.metric.includes('contact');const degrees=selected.case.unit==='degrees';const threshold=selected.case.threshold*(contact||degrees?1:100);
- const values=[...data.safe,...data.unsafe,threshold].filter(v=>v!==null&&Number.isFinite(v));const lo=Math.min(0,...values),hi=Math.max(contact?5:20,...values)*1.08,span=hi-lo||1;
+ const svg=$('chart');svg.replaceChildren();const data=Object.fromEntries(variants.map(k=>[k,metricSeries(k)]));const contact=selected.case.metric.includes('contact');const degrees=selected.case.unit==='degrees',liquid=selected.case.unit==='millilitres';const threshold=selected.case.threshold*(contact||degrees||liquid?1:100);
+ const values=[...data.safe,...data.unsafe,threshold].filter(v=>v!==null&&Number.isFinite(v));const lo=Math.min(0,...values),hi=Math.max(contact?5:liquid?1:20,...values)*1.08,span=hi-lo||1;
  const X=t=>60+t/duration*635,Y=v=>235-(v-lo)/span*205;
  const add=(tag,attrs,text)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;svg.append(n);return n;};
- for(let i=0;i<5;i++){const v=lo+span*i/4;add('line',{x1:60,x2:695,y1:Y(v),y2:Y(v),stroke:'#e4eadd'});add('text',{x:49,y:Y(v)+4,'text-anchor':'end','font-size':10,fill:'#829075'},Math.round(v)+(contact?'':degrees?'°':' cm'));}
+ for(let i=0;i<5;i++){const v=lo+span*i/4;add('line',{x1:60,x2:695,y1:Y(v),y2:Y(v),stroke:'#e4eadd'});add('text',{x:49,y:Y(v)+4,'text-anchor':'end','font-size':10,fill:'#829075'},(liquid?v.toFixed(1):Math.round(v))+(contact?'':degrees?'°':liquid?' ml':' cm'));}
  for(let i=0;i<=4;i++){const t=duration*i/4;add('text',{x:X(t),y:260,'text-anchor':'middle','font-size':10,fill:'#829075'},t.toFixed(0)+' s');}
  add('line',{x1:60,x2:695,y1:Y(threshold),y2:Y(threshold),stroke:'#b5a357','stroke-dasharray':'6 5'});
  variants.forEach(k=>{let d='',connected=false;traces[k].forEach((s,i)=>{if(data[k][i]===null){connected=false;return;}d+=(connected?'L':'M')+X(s.t).toFixed(2)+','+Y(data[k][i]).toFixed(2);connected=true;});add('path',{d,fill:'none',stroke:k==='safe'?'#467a54':'#b2764d','stroke-width':2});});
@@ -115,7 +155,7 @@ function drawMap(){
  const s=records.safe.spec;const bounds=s.map_bounds||[-.25,1.48,.05,3.5],scale=Math.min((W-80)/(bounds[1]-bounds[0]),(H-55)/(bounds[3]-bounds[2]));const left=(W-(bounds[1]-bounds[0])*scale)/2;
  const xy=p=>[left+(p[0]-bounds[0])*scale,H-25-(p[1]-bounds[2])*scale];
  const rect=(lo,hi,fill,label)=>{const a=xy([lo[0],hi[1]]),b=xy([hi[0],lo[1]]);c.fillStyle=fill;c.fillRect(a[0],a[1],b[0]-a[0],b[1]-a[1]);if(label){c.fillStyle='#809274';c.font='10px system-ui';c.fillText(label,a[0]+4,a[1]+15);}};
- if(s.map_objects)s.map_objects.forEach(o=>rect(o.lo,o.hi,'#e3e5d8',o.label));
+ if(s.map_objects)s.map_objects.forEach(o=>rect(o.lo,o.hi,o.label.includes('OBSTACLE')?'#e4c39e':'#e3e5d8',o.label));
  else{rect([-.25,.36],[-.035,2.40],'#d8dfcf','SOFA');rect([1.143,1.345],[1.48,3.42],'#e8e4d8','BED');}
  rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4','SOURCE');
  rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.storage_bin?'STORAGE BIN':'TARGET');
@@ -134,7 +174,7 @@ $('zoom').onclick=()=>{const active=$('comparison').classList.toggle('detail');$
 $('method').onclick=()=>$('dialog').showModal();$('close').onclick=()=>$('dialog').close();
 variants.forEach(k=>{
  const v=videos[k];
- v.onerror=()=>showError('The '+k+' video could not be loaded.');
+ v.onerror=()=>{cameraLoading(k,false);showError('The '+k+' video could not be loaded.');};
  ['play','pause','ended'].forEach(event=>v.addEventListener(event,()=>{refreshPlayback();update();}));
  ['timeupdate','seeked','loadedmetadata'].forEach(event=>v.addEventListener(event,update));
  v.addEventListener('ratechange',()=>$(k+'-speed').value=String(v.playbackRate));

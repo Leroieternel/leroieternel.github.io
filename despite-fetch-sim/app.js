@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const release = '59994cabe679';
+const release = '878f6b4ed4fd';
 const assetURL = path => `${path}?v=${release}`;
 const video = $('video');
 let current, trace = [], manifest, token = 0;
