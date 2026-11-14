@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='b9e09902a95a';
+const $=id=>document.getElementById(id), release='4374b4f3b235';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -97,7 +97,17 @@ function renderPanel(k){
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  if(r.liquid_simulation)$(k+'-metrics').append(metricCell('Liquid reached the floor',metricFormat(r.metrics.floor_liquid_ml,'floor_liquid_ml'),'Measured particle volume · no injury model'),metricCell('Minimum obstacle clearance',metricFormat(r.metrics.min_obstacle_clearance_m,'min_obstacle_clearance_m'),'Physical BEHAVIOR footstool · 0.29 m chassis disc'));
- if(r.spec.navigation_controller)$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m','Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
+ if(r.spec.navigation_controller)$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m',r.planning?'Automatically planned · physically measured':'Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
+ document.getElementById(k+'-planning')?.remove();
+ if(r.planning){
+  const box=node('details',undefined,'planning-details');box.id=k+'-planning';box.append(node('summary','Inspect the motion planner'));
+  box.append(node('p','Automatic docking → collision-checked base route → joint-space arm motion. Both reference plans use the same algorithms and scene model.'));
+  const arms=r.planning.records.filter(x=>x.kind==='arm'),nav=r.planning.records.filter(x=>x.kind==='navigation'),dock=r.planning.records.find(x=>x.kind==='docking');
+  box.append(node('p',`${r.planning.world_colliders} scene colliders · ${r.planning.robot_collision_parts} robot collision parts · ${(r.planning.collision_margin_m*1000).toFixed(0)} mm arm clearance; 3 cm chassis tracking buffer. ${arms.filter(x=>x.status==='completed').length}/${arms.length} arm motions and ${nav.filter(x=>x.status==='completed').length}/${nav.length} navigation actions completed.`));
+  if(dock)box.append(node('p',`Selected docking pose: x ${dock.selected_pose[0].toFixed(2)} m, y ${dock.selected_pose[1].toFixed(2)} m, heading ${(dock.selected_pose[2]*180/Math.PI).toFixed(1)}°. Placement reach and descent were checked before navigation.`));
+  box.append(node('p','Arm: pose IK, direct swept checks, OMPL RRTConnect when required, and Ruckig velocity / acceleration / jerk limits. Candidate planning never moves the physical robot. Oracle geometry; uncalibrated limits; no learned policy.'));
+  $(k+'-metrics').after(box);
+ }
  $(k+'-progress').textContent=`${seconds(r.duration)} recorded`;
  const originalActions=item.original_plan||item.plan||selected.metadata.reference_feasible_plans[k];
  const rawActions=typeof originalActions==='string'?originalActions.match(/\([^()]+\)/g):null;
@@ -140,6 +150,7 @@ function renderPanel(k){
   if(r.liquid_simulation.floor_film){const f=node('a','Floor-film ledger ↓');f.href=url(`${item.path}/floor-film.json`);links.append(f);}
  }
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
+ if(r.planning){[['Motion planning log','planning.json'],['Collision geometry manifest','planning-scene-manifest.json']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});}
 }
 async function loadCase(id){
  pause();const pending=++request;loading=true;$('play').disabled=true;$('comparison').setAttribute('aria-busy','true');$('error').hidden=true;
@@ -156,6 +167,7 @@ async function loadCase(id){
   $('instrumented-case').href=`../safety-pilot/#${id}`;
   $('instrumented-case').textContent=records.safe.liquid_simulation?'Related 12-task pilot · separate settings and measurements →':'New instrumented trials: events, condition changes & repeated seeds →';
   $('comparison').dataset.scene=item.scene_id;
+  $('map-note').textContent=records.safe.planning?'Top view in metres; furniture footprints are schematic. Light dotted lines: planned routes. Solid/dashed lines and arrows: measured motion of each independently controlled video.':'Top view in metres; furniture footprints shown schematically. Arrows: measured chassis heading. Dots: carried object position.';
   const runtime=records.safe;
   $('runtime-note').textContent=`Physics: Isaac Sim ${runtime.runtime.isaacsim} / PhysX, ${runtime.physics_hz} Hz. Control: ${runtime.control_hz} Hz, oracle object poses. No LLM is queried. RGB: ${runtime.video_fps} fps, native-resolution DLAA, ${runtime.rendering?.extra_render_updates_per_recorded_frame??7} additional render-only updates per recorded frame.`;
   $('metric-note').textContent=runtime.liquid_simulation?'Cumulative escaped liquid is measured from particle positions throughout the episode. The dashed line is an uncalibrated pilot detection threshold, not an injury threshold.':'Placement clearance and reach conditions are evaluated after release. Chair clearance and obstacle disturbance are monitored throughout execution; cup tilt is evaluated during navigation.';
@@ -198,7 +210,7 @@ function drawMap(){
  rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4','SOURCE');
  rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.storage_bin?'STORAGE BIN':'TARGET');
  if(s.stool){const p=s.stool.position;rect([p[0]-.18,p[1]-.14],[p[0]+.18,p[1]+.14],'#e5d6c4','STOOL');}
- variants.forEach(k=>{c.beginPath();let started=false;traces[k].forEach(s=>{if(s.t>timeOf(k))return;const p=xy(s.robot.p);if(!started)c.moveTo(...p),started=true;else c.lineTo(...p);});c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=k==='safe'?3:2;c.setLineDash(k==='safe'?[]:[5,3]);c.stroke();c.setLineDash([]);const s=stateAt(k,timeOf(k)),p=xy(s.robot.p),q=s.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]**2+q[2]**2));c.save();c.translate(...p);c.rotate(-yaw);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.beginPath();c.moveTo(13,0);c.lineTo(-8,-7);c.lineTo(-5,0);c.lineTo(-8,7);c.closePath();c.fill();c.restore();});
+ variants.forEach(k=>{for(const record of records[k].planning?.records||[]){if(record.kind!=='navigation')continue;c.beginPath();record.planned_path.forEach((p,i)=>{const v=xy(p);i?c.lineTo(...v):c.moveTo(...v);});c.strokeStyle=k==='safe'?'#80a18a':'#d0a88b';c.lineWidth=2;c.setLineDash([2,5]);c.stroke();}c.beginPath();let started=false;traces[k].forEach(s=>{if(s.t>timeOf(k))return;const p=xy(s.robot.p);if(!started)c.moveTo(...p),started=true;else c.lineTo(...p);});c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=k==='safe'?3:2;c.setLineDash(k==='safe'?[]:[5,3]);c.stroke();c.setLineDash([]);const s=stateAt(k,timeOf(k)),p=xy(s.robot.p),q=s.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]**2+q[2]**2));c.save();c.translate(...p);c.rotate(-yaw);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.beginPath();c.moveTo(13,0);c.lineTo(-8,-7);c.lineTo(-5,0);c.lineTo(-8,7);c.closePath();c.fill();c.restore();});
  variants.forEach(k=>{const p=xy(stateAt(k,timeOf(k)).object.p);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.strokeStyle='white';c.lineWidth=1.5;c.beginPath();c.arc(...p,4.5,0,Math.PI*2);c.fill();c.stroke();});
  if(selected.id==='neiss_27998'){const anchor=xy(s.reach_anchor);c.fillStyle='#5e6684';c.beginPath();c.arc(...anchor,4,0,Math.PI*2);c.fill();c.font='9px system-ui';c.fillText('REACH ORIGIN',anchor[0]-60,anchor[1]-12);variants.forEach(k=>{const end=xy(stateAt(k,timeOf(k)).object.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.setLineDash([3,4]);c.beginPath();c.moveTo(...anchor);c.lineTo(...end);c.stroke();c.setLineDash([]);});}
  if(s.stool){variants.forEach(k=>{const point=stateAt(k,timeOf(k)).stool;if(!point)return;const p=xy(point.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=2;c.beginPath();c.arc(...p,8,0,Math.PI*2);c.stroke();});}
