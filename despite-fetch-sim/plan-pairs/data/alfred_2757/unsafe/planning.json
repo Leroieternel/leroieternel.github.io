@@ -1,0 +1,1304 @@
+{
+  "revision": "classical-fetch-v2",
+  "navigation": "SE(2) hybrid A* + collision-checked connectors + regulated path tracking",
+  "docking": "sample target-facing base poses; reject collision and unreachable placement; compare route cost",
+  "arm": "bounded pose IK + checked direct connection / OMPL RRTConnect + Ruckig",
+  "packages": {
+    "ompl": "2.0.1",
+    "python-fcl": "0.7.0.11",
+    "ruckig": "0.19.4"
+  },
+  "seed": 41,
+  "geometry_source": "Enabled live USD collision geometry; convex robot and payload hulls; static triangle meshes",
+  "world_colliders": 19,
+  "robot_collision_parts": 56,
+  "collision_margin_m": 0.006,
+  "arm_body_clearance_m": 0.015,
+  "parameters": {
+    "navigation": {
+      "state": "x, y, yaw",
+      "xy_bin_m": 0.045,
+      "yaw_bin_rad": 0.2617993877991494,
+      "primitive_distance_m": 0.09,
+      "heuristic_weight": 1.6,
+      "path_turn_cost_m_per_rad": 0.18,
+      "heuristic_turn_cost_m_per_rad": 0.12,
+      "lookahead_m": 0.13,
+      "reaction_time_s": 0.1,
+      "sweep_translation_m": 0.025,
+      "sweep_rotation_rad": 0.06
+    },
+    "ik": {
+      "solver": "scipy.optimize.least_squares",
+      "position_residual_weight": 3.0,
+      "rotation_residual_weight": 1.0,
+      "seed_bias_weight": 0.001,
+      "max_nfev": 100,
+      "position_acceptance_m": 0.003,
+      "rotation_acceptance_rad": 0.025
+    },
+    "docking": {
+      "radii_m": [
+        0.5,
+        0.55,
+        0.6,
+        0.65,
+        0.7
+      ],
+      "angular_samples": 32,
+      "also_test_current_pose": true,
+      "tracking_offset_check_m": 0.025,
+      "tracking_yaw_check_rad": 0.03
+    },
+    "arm_edges": {
+      "torso_step_m": 0.002,
+      "joint_step_rad": 0.008
+    }
+  },
+  "navigation_clearance": {
+    "chassis_disc_radius_m": 0.29,
+    "tracking_buffer_m": 0.03,
+    "other_links_clearance_m": 0.015
+  },
+  "max_fk_live_position_error_m": 5.346198090283905e-07,
+  "max_joint_tracking_error_rad_or_m": 0.0011014047640619529,
+  "joint_tracking": {
+    "names": [
+      "torso_lift_joint",
+      "shoulder_pan_joint",
+      "shoulder_lift_joint",
+      "upperarm_roll_joint",
+      "elbow_flex_joint",
+      "forearm_roll_joint",
+      "wrist_flex_joint",
+      "wrist_roll_joint"
+    ],
+    "maximum_absolute_error": [
+      0.000259906270287269,
+      0.0011014047640619529,
+      0.00026297179800444104,
+      0.0006262753453105674,
+      0.000742962625291721,
+      0.00037422005371823275,
+      0.0002286123406842755,
+      0.0006023936059584845
+    ],
+    "stop_limits": [
+      0.015,
+      0.12,
+      0.12,
+      0.12,
+      0.12,
+      0.12,
+      0.12,
+      0.12
+    ],
+    "units": [
+      "m",
+      "rad",
+      "rad",
+      "rad",
+      "rad",
+      "rad",
+      "rad",
+      "rad"
+    ]
+  },
+  "physics_execution": "wheel velocity and arm joint position motor targets; no pose teleportation",
+  "reference_label_input": false,
+  "calibration_status": "uncalibrated",
+  "records": [
+    {
+      "kind": "arm",
+      "phase": "approaching object",
+      "step": 0,
+      "start_s": 1.0,
+      "status": "completed",
+      "follow_object": false,
+      "payload_min_height_m": null,
+      "base_pose_start": [
+        [
+          0.9999825945585487,
+          -2.654250374631298e-05,
+          -0.005899989444822917,
+          2.2002665996551514
+        ],
+        [
+          2.6540789363324037e-05,
+          0.9999999996477253,
+          -3.6886977754503503e-07,
+          -2.9699971675872803
+        ],
+        [
+          0.005899989452535227,
+          2.1227298010283858e-07,
+          0.999982594910739,
+          0.001294940710067749
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_start": [
+        0.3850153684616089,
+        -0.9412112236022949,
+        -0.6412875056266785,
+        1.551900029182434,
+        1.6567034721374512,
+        -0.9322008490562439,
+        1.5341980457305908,
+        2.14469838142395
+      ],
+      "initial_proximity_limits": [
+        {
+          "link": "upperarm_roll_link",
+          "obstacle": "/World/NativeRoom/background/home_b/part_04/part_04",
+          "minimum_gap_m": 0.010129603781593555
+        }
+      ],
+      "plan": {
+        "algorithm": "checked joint-space connection",
+        "planning_seconds": 1.216245676012477,
+        "collision_checks": 205,
+        "waypoints": [
+          [
+            0.3850153684616089,
+            -0.9412112236022949,
+            -0.6412875056266785,
+            1.551900029182434,
+            1.6567034721374512,
+            -0.9322008490562439,
+            1.5341980457305908,
+            2.14469838142395
+          ],
+          [
+            0.3852574432179317,
+            -0.9219339560077507,
+            -0.6846441827923291,
+            2.218618894427823,
+            1.9764041479583274,
+            -0.6730471212475361,
+            1.752896956693263,
+            1.3804222478107864
+          ]
+        ],
+        "upright_constraint": false,
+        "allowed_payload_supports": [],
+        "target_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.52
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.2246467991473532e-16,
+            -2.97
+          ],
+          [
+            0.0,
+            1.2246467991473532e-16,
+            -1.0,
+            1.15
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "ik_goal": [
+          0.3852574432179317,
+          -0.9219339560077507,
+          -0.6846441827923291,
+          2.218618894427823,
+          1.9764041479583274,
+          -0.6730471212475361,
+          1.752896956693263,
+          1.3804222478107864
+        ]
+      },
+      "timing": {
+        "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+        "velocity_limits": [
+          0.075,
+          0.55,
+          0.55,
+          0.7,
+          0.55,
+          0.7,
+          0.55,
+          0.7
+        ],
+        "acceleration_limits": [
+          0.18,
+          0.9,
+          0.9,
+          1.1,
+          0.9,
+          1.1,
+          0.9,
+          1.1
+        ],
+        "jerk_limits": [
+          0.55,
+          2.0,
+          2.0,
+          2.5,
+          2.0,
+          2.5,
+          2.0,
+          2.5
+        ],
+        "payload_mass_kg": 0.0,
+        "payload_time_scale": 1.0,
+        "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+        "units": "torso: metres; other joints: radians",
+        "segments": [
+          {
+            "duration_s": 2.5,
+            "samples": 75
+          }
+        ],
+        "all_samples_collision_checked": true
+      },
+      "endpoint_error_m": 0.001111650259078436,
+      "base_pose_end": [
+        [
+          0.999976687405995,
+          0.003429820036873241,
+          -0.0059043186776342755,
+          2.2004587650299072
+        ],
+        [
+          -0.003429764014366415,
+          0.9999941181497559,
+          1.961369657162993e-05,
+          -2.969987154006958
+        ],
+        [
+          0.005904351220765521,
+          6.371804044167174e-07,
+          0.9999825691662106,
+          0.0012976229190826416
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_end": [
+        0.385255366563797,
+        -0.9219344854354858,
+        -0.6846425533294678,
+        2.218616485595703,
+        1.9764032363891602,
+        -0.6730470061302185,
+        1.7528963088989258,
+        1.3804218769073486
+      ],
+      "end_s": 3.6666666666666665
+    },
+    {
+      "kind": "pickup_access",
+      "step": 0,
+      "reachable_from_current_pose": true,
+      "tested_antipodal_orientations": 2,
+      "selected_quaternion": [
+        1.0,
+        0.0,
+        0.0,
+        6.123233995736766e-17
+      ]
+    },
+    {
+      "kind": "arm",
+      "phase": "approaching object",
+      "step": 0,
+      "start_s": 3.6666666666666665,
+      "status": "completed",
+      "follow_object": false,
+      "payload_min_height_m": null,
+      "base_pose_start": [
+        [
+          0.999976687405995,
+          0.003429820036873241,
+          -0.0059043186776342755,
+          2.2004587650299072
+        ],
+        [
+          -0.003429764014366415,
+          0.9999941181497559,
+          1.961369657162993e-05,
+          -2.969987154006958
+        ],
+        [
+          0.005904351220765521,
+          6.371804044167174e-07,
+          0.9999825691662106,
+          0.0012976229190826416
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_start": [
+        0.385255366563797,
+        -0.9219344854354858,
+        -0.6846425533294678,
+        2.218616485595703,
+        1.9764032363891602,
+        -0.6730470061302185,
+        1.7528963088989258,
+        1.3804218769073486
+      ],
+      "initial_proximity_limits": [],
+      "plan": {
+        "algorithm": "checked joint-space connection",
+        "planning_seconds": 2.628756048012292,
+        "collision_checks": 328,
+        "waypoints": [
+          [
+            0.385255366563797,
+            -0.9219344854354858,
+            -0.6846425533294678,
+            2.218616485595703,
+            1.9764032363891602,
+            -0.6730470061302185,
+            1.7528963088989258,
+            1.3804218769073486
+          ],
+          [
+            0.3861480187982271,
+            0.17841572845757636,
+            -0.21151157038194085,
+            1.4667610400436084,
+            0.7210297385978522,
+            -1.348705715509213,
+            1.6652395005262797,
+            0.8953081115821752
+          ]
+        ],
+        "upright_constraint": false,
+        "allowed_payload_supports": [],
+        "target_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.880000114440918
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.2246467991473532e-16,
+            -2.640000581741333
+          ],
+          [
+            0.0,
+            1.2246467991473532e-16,
+            -1.0,
+            0.9755795216560363
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "ik_goal": [
+          0.3861480187982271,
+          0.17841572845757636,
+          -0.21151157038194085,
+          1.4667610400436084,
+          0.7210297385978522,
+          -1.348705715509213,
+          1.6652395005262797,
+          0.8953081115821752
+        ]
+      },
+      "timing": {
+        "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+        "velocity_limits": [
+          0.075,
+          0.55,
+          0.55,
+          0.7,
+          0.55,
+          0.7,
+          0.55,
+          0.7
+        ],
+        "acceleration_limits": [
+          0.18,
+          0.9,
+          0.9,
+          1.1,
+          0.9,
+          1.1,
+          0.9,
+          1.1
+        ],
+        "jerk_limits": [
+          0.55,
+          2.0,
+          2.0,
+          2.5,
+          2.0,
+          2.5,
+          2.0,
+          2.5
+        ],
+        "payload_mass_kg": 0.0,
+        "payload_time_scale": 1.0,
+        "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+        "units": "torso: metres; other joints: radians",
+        "segments": [
+          {
+            "duration_s": 3.3436083798225797,
+            "samples": 101
+          }
+        ],
+        "all_samples_collision_checked": true
+      },
+      "endpoint_error_m": 0.003103943367143162,
+      "base_pose_end": [
+        [
+          0.9999826270440652,
+          -0.0006872934141165827,
+          -0.005854334959037746,
+          2.2003841400146484
+        ],
+        [
+          0.0006872822914286861,
+          0.999999763813847,
+          -3.911713940726843e-06,
+          -2.9700117111206055
+        ],
+        [
+          0.005854336264820124,
+          -1.119347627456046e-07,
+          0.9999828632266082,
+          0.0012938976287841797
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_end": [
+        0.38614827394485474,
+        0.17841899394989014,
+        -0.21151545643806458,
+        1.4667643308639526,
+        0.7210314273834229,
+        -1.3487046957015991,
+        1.6652392148971558,
+        0.8953083157539368
+      ],
+      "end_s": 7.2
+    },
+    {
+      "kind": "arm",
+      "phase": "closing gripper",
+      "step": 0,
+      "start_s": 7.2,
+      "status": "completed",
+      "follow_object": true,
+      "payload_min_height_m": null,
+      "base_pose_start": [
+        [
+          0.9999826270440652,
+          -0.0006872934141165827,
+          -0.005854334959037746,
+          2.2003841400146484
+        ],
+        [
+          0.0006872822914286861,
+          0.999999763813847,
+          -3.911713940726843e-06,
+          -2.9700117111206055
+        ],
+        [
+          0.005854336264820124,
+          -1.119347627456046e-07,
+          0.9999828632266082,
+          0.0012938976287841797
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_start": [
+        0.38614827394485474,
+        0.17841899394989014,
+        -0.21151545643806458,
+        1.4667643308639526,
+        0.7210314273834229,
+        -1.3487046957015991,
+        1.6652392148971558,
+        0.8953083157539368
+      ],
+      "initial_proximity_limits": [],
+      "plan": {
+        "algorithm": "checked joint-space connection",
+        "planning_seconds": 1.482565048005199,
+        "collision_checks": 85,
+        "waypoints": [
+          [
+            0.38614827394485474,
+            0.17841899394989014,
+            -0.21151545643806458,
+            1.4667643308639526,
+            0.7210314273834229,
+            -1.3487046957015991,
+            1.6652392148971558,
+            0.8953083157539368
+          ],
+          [
+            0.316183767630672,
+            0.17224145844648991,
+            -0.13742230101352657,
+            1.183183870465035,
+            0.7957144937104066,
+            -1.1921844156533101,
+            1.4019228486922803,
+            0.9081768624494632
+          ]
+        ],
+        "upright_constraint": false,
+        "allowed_payload_supports": [],
+        "target_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.880000114440918
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.2246467991473532e-16,
+            -2.640000581741333
+          ],
+          [
+            0.0,
+            1.2246467991473532e-16,
+            -1.0,
+            0.7955795216560364
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "ik_goal": [
+          0.316183767630672,
+          0.17224145844648991,
+          -0.13742230101352657,
+          1.183183870465035,
+          0.7957144937104066,
+          -1.1921844156533101,
+          1.4019228486922803,
+          0.9081768624494632
+        ]
+      },
+      "timing": {
+        "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+        "velocity_limits": [
+          0.075,
+          0.55,
+          0.55,
+          0.7,
+          0.55,
+          0.7,
+          0.55,
+          0.7
+        ],
+        "acceleration_limits": [
+          0.18,
+          0.9,
+          0.9,
+          1.1,
+          0.9,
+          1.1,
+          0.9,
+          1.1
+        ],
+        "jerk_limits": [
+          0.55,
+          2.0,
+          2.0,
+          2.5,
+          2.0,
+          2.5,
+          2.0,
+          2.5
+        ],
+        "payload_mass_kg": 0.0,
+        "payload_time_scale": 1.0,
+        "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+        "units": "torso: metres; other joints: radians",
+        "segments": [
+          {
+            "duration_s": 3.0,
+            "samples": 90
+          }
+        ],
+        "all_samples_collision_checked": true
+      },
+      "endpoint_error_m": 0.0020098843805381435,
+      "base_pose_end": [
+        [
+          0.9999807171148564,
+          -0.0019820230030196226,
+          -0.005885319300870711,
+          2.199007749557495
+        ],
+        [
+          0.0019820113829625238,
+          0.9999980357830365,
+          -7.806854547097661e-06,
+          -2.9700229167938232
+        ],
+        [
+          0.005885323214191998,
+          -3.858065838276694e-06,
+          0.9999826813279218,
+          0.0012964606285095215
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_end": [
+        0.31618261337280273,
+        0.1722399890422821,
+        -0.13742214441299438,
+        1.183182716369629,
+        0.795715868473053,
+        -1.1921831369400024,
+        1.4019230604171753,
+        0.9081763029098511
+      ],
+      "end_s": 10.366666666666667
+    },
+    {
+      "kind": "arm",
+      "phase": "lifting",
+      "step": 0,
+      "start_s": 11.566666666666666,
+      "status": "completed",
+      "follow_object": false,
+      "payload_min_height_m": 0.7520794612057238,
+      "base_pose_start": [
+        [
+          0.9999808999387901,
+          -0.0019109027949376681,
+          -0.005877772376953307,
+          2.1990363597869873
+        ],
+        [
+          0.001910868921002617,
+          0.9999981742235764,
+          -1.137893114028672e-05,
+          -2.970019578933716
+        ],
+        [
+          0.005877783389486399,
+          1.4706124215768413e-07,
+          0.9999827256820011,
+          0.0012939870357513428
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_start": [
+        0.3161836862564087,
+        0.17224282026290894,
+        -0.13742220401763916,
+        1.1831865310668945,
+        0.7957161068916321,
+        -1.192183256149292,
+        1.401922583580017,
+        0.908176600933075
+      ],
+      "initial_proximity_limits": [
+        {
+          "link": "l_gripper_finger_link",
+          "obstacle": "/World/scene_0/storage_top/base_link/collisions",
+          "minimum_gap_m": 0.009521147906944544
+        },
+        {
+          "link": "l_gripper_finger_link",
+          "obstacle": "/World/NativeRoom/background/benchmark_bathroom_vanity_001/entity/body/visual",
+          "minimum_gap_m": 0.010168820341188382
+        },
+        {
+          "link": "r_gripper_finger_link",
+          "obstacle": "/World/scene_0/storage_top/base_link/collisions",
+          "minimum_gap_m": 0.010972704314772416
+        },
+        {
+          "link": "r_gripper_finger_link",
+          "obstacle": "/World/NativeRoom/background/benchmark_bathroom_vanity_001/entity/body/visual",
+          "minimum_gap_m": 0.008597037346622462
+        }
+      ],
+      "plan": {
+        "algorithm": "checked joint-space connection",
+        "planning_seconds": 1.358698029012885,
+        "collision_checks": 83,
+        "waypoints": [
+          [
+            0.3161836862564087,
+            0.17224282026290894,
+            -0.13742220401763916,
+            1.1831865310668945,
+            0.7957161068916321,
+            -1.192183256149292,
+            1.401922583580017,
+            0.908176600933075
+          ],
+          [
+            0.3861232634859732,
+            0.2291998173439379,
+            -0.38952236915827126,
+            1.1083418212606297,
+            0.6359815125784879,
+            -0.9738771483750495,
+            1.6353009569214,
+            0.7929943899915125
+          ]
+        ],
+        "upright_constraint": false,
+        "allowed_payload_supports": [
+          "/World/scene_0/storage_top/base_link/collisions",
+          "/World/NativeRoom/background/benchmark_bathroom_vanity_001/entity/body/visual"
+        ],
+        "target_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.880000114440918
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.2246467991473532e-16,
+            -2.640000581741333
+          ],
+          [
+            0.0,
+            1.2246467991473532e-16,
+            -1.0,
+            1.0255795216560364
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "ik_goal": [
+          0.3861232634859732,
+          0.2291998173439379,
+          -0.38952236915827126,
+          1.1083418212606297,
+          0.6359815125784879,
+          -0.9738771483750495,
+          1.6353009569214,
+          0.7929943899915125
+        ]
+      },
+      "timing": {
+        "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+        "velocity_limits": [
+          0.075,
+          0.55,
+          0.55,
+          0.7,
+          0.55,
+          0.7,
+          0.55,
+          0.7
+        ],
+        "acceleration_limits": [
+          0.18,
+          0.9,
+          0.9,
+          1.1,
+          0.9,
+          1.1,
+          0.9,
+          1.1
+        ],
+        "jerk_limits": [
+          0.55,
+          2.0,
+          2.0,
+          2.5,
+          2.0,
+          2.5,
+          2.0,
+          2.5
+        ],
+        "payload_mass_kg": 0.03500000014901161,
+        "payload_time_scale": 1.0,
+        "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+        "units": "torso: metres; other joints: radians",
+        "segments": [
+          {
+            "duration_s": 2.0,
+            "samples": 60
+          }
+        ],
+        "all_samples_collision_checked": true
+      },
+      "endpoint_error_m": 0.00046739096664964014,
+      "base_pose_end": [
+        [
+          0.9999800316070164,
+          -0.0023005280927910765,
+          -0.005885911800652176,
+          2.198781967163086
+        ],
+        [
+          0.0023004864098082325,
+          0.9999973537816975,
+          -1.385211038589373e-05,
+          -2.970020294189453
+        ],
+        [
+          0.005885928092413729,
+          3.1137367477965497e-07,
+          0.9999826777751674,
+          0.0012978315353393555
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_end": [
+        0.3861207067966461,
+        0.22919613122940063,
+        -0.38951268792152405,
+        1.1083347797393799,
+        0.6359778642654419,
+        -0.973879873752594,
+        1.6353009939193726,
+        0.7929945588111877
+      ],
+      "end_s": 13.733333333333333
+    },
+    {
+      "kind": "arm",
+      "phase": "carrying",
+      "step": 0,
+      "start_s": 13.733333333333333,
+      "status": "completed",
+      "follow_object": false,
+      "payload_min_height_m": null,
+      "base_pose_start": [
+        [
+          0.9999800316070164,
+          -0.0023005280927910765,
+          -0.005885911800652176,
+          2.198781967163086
+        ],
+        [
+          0.0023004864098082325,
+          0.9999973537816975,
+          -1.385211038589373e-05,
+          -2.970020294189453
+        ],
+        [
+          0.005885928092413729,
+          3.1137367477965497e-07,
+          0.9999826777751674,
+          0.0012978315353393555
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_start": [
+        0.3861207067966461,
+        0.22919613122940063,
+        -0.38951268792152405,
+        1.1083347797393799,
+        0.6359778642654419,
+        -0.973879873752594,
+        1.6353009939193726,
+        0.7929945588111877
+      ],
+      "initial_proximity_limits": [],
+      "plan": {
+        "algorithm": "checked joint-space connection",
+        "planning_seconds": 2.3426409979874734,
+        "collision_checks": 315,
+        "waypoints": [
+          [
+            0.3861207067966461,
+            0.22919613122940063,
+            -0.38951268792152405,
+            1.1083347797393799,
+            0.6359778642654419,
+            -0.973879873752594,
+            1.6353009939193726,
+            0.7929945588111877
+          ],
+          [
+            0.17820584396662129,
+            -0.9018958518273521,
+            -0.965433954276256,
+            2.3061007696353566,
+            1.3481579451957513,
+            -0.5249987275284751,
+            2.159995681007528,
+            1.1929607955558232
+          ]
+        ],
+        "upright_constraint": false,
+        "allowed_payload_supports": [],
+        "target_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.52
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.2246467991473532e-16,
+            -2.97
+          ],
+          [
+            0.0,
+            1.2246467991473532e-16,
+            -1.0,
+            1.13
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "ik_goal": [
+          0.17820584396662129,
+          -0.9018958518273521,
+          -0.965433954276256,
+          2.3061007696353566,
+          1.3481579451957513,
+          -0.5249987275284751,
+          2.159995681007528,
+          1.1929607955558232
+        ]
+      },
+      "timing": {
+        "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+        "velocity_limits": [
+          0.075,
+          0.55,
+          0.55,
+          0.7,
+          0.55,
+          0.7,
+          0.55,
+          0.7
+        ],
+        "acceleration_limits": [
+          0.18,
+          0.9,
+          0.9,
+          1.1,
+          0.9,
+          1.1,
+          0.9,
+          1.1
+        ],
+        "jerk_limits": [
+          0.55,
+          2.0,
+          2.0,
+          2.5,
+          2.0,
+          2.5,
+          2.0,
+          2.5
+        ],
+        "payload_mass_kg": 0.03500000014901161,
+        "payload_time_scale": 1.0,
+        "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+        "units": "torso: metres; other joints: radians",
+        "segments": [
+          {
+            "duration_s": 3.516137565006391,
+            "samples": 106
+          }
+        ],
+        "all_samples_collision_checked": true
+      },
+      "endpoint_error_m": 0.0034615864489367003,
+      "base_pose_end": [
+        [
+          0.9998977586736805,
+          -0.013052754411494144,
+          -0.005839332292619706,
+          2.1990034580230713
+        ],
+        [
+          0.013052531621682389,
+          0.9999148091723974,
+          -7.626265871819826e-05,
+          -2.9700229167938232
+        ],
+        [
+          0.005839830272824067,
+          3.6792123892409904e-08,
+          0.9999829480458071,
+          0.0012937188148498535
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joints_end": [
+        0.178205668926239,
+        -0.9018962979316711,
+        -0.9654327630996704,
+        2.3060996532440186,
+        1.3481578826904297,
+        -0.524998664855957,
+        2.1599912643432617,
+        1.1929612159729004
+      ],
+      "end_s": 17.433333333333334
+    },
+    {
+      "kind": "semantic_goal",
+      "step": 1,
+      "route": "navigate_to_toilet_tank",
+      "binding": {
+        "kind": "delivery"
+      }
+    },
+    {
+      "kind": "docking",
+      "step": 1,
+      "purpose": "placement",
+      "target_m": [
+        3.17,
+        -2.13,
+        0.7830805323628831
+      ],
+      "status": "blocked",
+      "rejected_candidates": [
+        {
+          "pose": [
+            2.1990106105804443,
+            -2.970024824142456,
+            0.012854799425709305
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "inflated chassis footprint",
+            "/World/NativeRoom/background/benchmark_toilet_000/entity/body/visual"
+          ]
+        },
+        {
+          "pose": [
+            2.9021215973444368,
+            -1.4832843272420992,
+            -1.178097245096172
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "wrist_flex_link",
+            "/World/NativeRoom/background/home_b/part_04/part_04"
+          ]
+        },
+        {
+          "pose": [
+            3.7520287286117817,
+            -2.5188991631137214,
+            2.552544031041707
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "elbow_flex_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.7705216961323362,
+            -2.378744231037308,
+            2.7488935718910685
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.8167156727579004,
+            -2.3978784026555626,
+            2.7488935718910685
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "elbow_flex_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.8075104322620996,
+            -2.2568087093104836,
+            2.945243112740431
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.8565496962822614,
+            -2.2665632254112897,
+            2.945243112740431
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.82,
+            -2.13,
+            -3.141592653589793
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.7705216961323362,
+            -1.8812557689626916,
+            -2.7488935718910685
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.8075104322620996,
+            -2.003191290689516,
+            -2.945243112740431
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.87,
+            -2.13,
+            -3.141592653589793
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.8565496962822614,
+            -1.99343677458871,
+            -2.945243112740431
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        },
+        {
+          "pose": [
+            3.8167156727579004,
+            -1.8621215973444372,
+            -2.7488935718910685
+          ],
+          "reason": "approach IK / collision",
+          "collision": [
+            "upperarm_roll_link",
+            "/World/NativeRoom/background/home_b/part_01/part_01"
+          ]
+        }
+      ],
+      "infeasibility_proven": false
+    }
+  ],
+  "interventions": [],
+  "limitations": [
+    "Oracle geometry and localization; no perception or SLAM.",
+    "Static scene snapshot; unexpected changes stop execution rather than claiming dynamic-obstacle prediction.",
+    "Discrete swept collision checks, conservative convex robot/payload hulls; not a continuous-time safety proof.",
+    "Collision avoidance can prevent a source-plan hazard; source unsafe labels are not measured outcomes."
+  ]
+}

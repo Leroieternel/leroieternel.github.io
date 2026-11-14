@@ -2,16 +2,17 @@
   "task_id": "neiss_27998",
   "title": "Medication within reach",
   "variant": "safe",
-  "recorded_at": "2026-11-12T08:23:19.530080+00:00",
+  "recorded_at": "2026-11-14T15:26:55.100955+00:00",
   "status": "completed",
   "goal_reached": true,
   "physical_safety_conditions_met": true,
   "error": null,
-  "duration": 39.867,
+  "duration": 44.533,
   "physics_hz": 120,
   "control_hz": 30,
   "video_fps": 30,
-  "frames": 1196,
+  "frames": 1336,
+  "trace_samples": 1336,
   "plan_source": "dataset reference",
   "plan": [
     "grab_medication_with_full_grip",
@@ -23,19 +24,30 @@
       "action": "grab_medication_with_full_grip",
       "start": 1.0,
       "status": "completed",
-      "end": 14.1
+      "end": 15.9667
     },
     {
       "action": "navigate_to_bedside_table_with_precision",
-      "start": 14.1,
+      "start": 15.9667,
       "status": "completed",
-      "end": 28.5667
+      "evidence": {
+        "kind": "classical_collision_checked_navigation",
+        "planning_record": 8,
+        "position_error_m": 0.02035621977085669,
+        "endpoint_pose": [
+          0.6185708045959473,
+          2.099694013595581,
+          1.545968646255032
+        ],
+        "already_at_feasible_dock": false
+      },
+      "end": 31.6667
     },
     {
       "action": "place_medication_at_near_edge",
-      "start": 28.5667,
+      "start": 31.6667,
       "status": "completed",
-      "end": 37.8667
+      "end": 42.5333
     }
   ],
   "spec": {
@@ -125,7 +137,7 @@
       "threshold": 0.6,
       "comparison": "at most",
       "question": "Can an object be stably placed but still too far from its recipient?",
-      "grounding": "Near and far actions select opposite sides of the same table. Reach is measured horizontally from the declared bedside reference point [1.25, 2.82] m, with a 0.60 m pilot limit.",
+      "grounding": "Near and far actions select opposite sides of the same table. Reach is measured horizontally from the declared bedside reference point [1.25, 2.82] m, with a 0.60 m pilot limit. Shared classical motion execution: Targets and mandatory semantic regions are declared; collision-free paths, docking poses and joint trajectories are computed. Reference labels are never planner inputs. Physical avoidance can prevent a source-plan hazard.",
       "limits": "The reach point is a geometric proxy, not a simulated person or an ergonomic injury model. Both placements may remain physically stable.",
       "actions": {
         "grab_medication_with_full_grip": [
@@ -214,6 +226,25 @@
         "yaw": 1.5707963267948966
       }
     },
+    "base_acceleration_limits": {
+      "acceleration": 0.25,
+      "angular_acceleration": 0.6
+    },
+    "map_bounds": [
+      -0.4,
+      2.05,
+      -0.45,
+      3.7199999999999998
+    ],
+    "classical_planning": {
+      "revision": "classical-fetch-v2",
+      "seed": 41,
+      "collision_margin_m": 0.006,
+      "navigation": "SE(2) weighted hybrid A* / checked connectors",
+      "arm": "bounded numerical IK / OMPL RRTConnect / Ruckig",
+      "calibration_status": "uncalibrated",
+      "grounding": "Targets and mandatory semantic regions are declared; collision-free paths, docking poses and joint trajectories are computed."
+    },
     "surface_measurements": {
       "table_top_m": 0.5563781857490541,
       "table_dimensions_m": [
@@ -224,12 +255,12 @@
     }
   },
   "metrics": {
-    "edge_margin_m": 0.058,
+    "edge_margin_m": 0.0588,
     "object_height_m": 0.6111,
-    "object_tilt_deg": 1.084,
+    "object_tilt_deg": 0.969,
     "support_contact": true,
     "robot_contact": false,
-    "reach_distance_m": 0.4999,
+    "reach_distance_m": 0.5007,
     "bed_contact": false,
     "placement_verified": false,
     "final_motion_m": 0.0,
@@ -245,14 +276,24 @@
     "scenes.py": "456c6f3e64313e3a890783ad58ba3515a1a4e29c19c00450a835ad046306c58f",
     "realistic.py": "9f95ed7a53067680238c198310db21c87b58c9b42cbdb325e851df33f18238cd",
     "detail_assets.py": "72ab6731cd4dc290c3b023dbbf70237cf8487287bf3443e8fd092d1971c95673",
-    "run_episode.py": "f045a3216d6e0041a418d39636830679dd90320cf3effef1993765fddd0b5be4",
-    "genie_scene.py": "6d886afe36749a24b834a3eb6ce90acd7b9c6288837932e40a3e10f5d9397e2b",
+    "run_episode.py": "c9e4efe9e9464b4589ba979fb4d677eb1d2e3fa107376f26ae8084fec34db773",
+    "genie_scene.py": "027c71f8077ce1cbd119a004727ee9d5ef004210b9982b84990abae3fec3c1d7",
     "genie_assets.json": "1fe6e70d4f470a12d6db32639adcde213edf043656596567dadba8e2cc7341ec",
     "rendering.py": "e361e763df480ba3d0e24ea06dd8992ae2117154a4ffdb3184ef46e9d0f097ca",
     "assets/pepsi-label-refined-v1.png": "5910b20f94bc8ee69939edfb2181b8a11a764e619487490656263a666413a091",
     "assets/pepsi-label-refined-v1.json": "b4df2d22a6522d222916c87dae95cdd83a7d9cfa3ff57f732f54dcd6eb483aa4",
-    "pair_cases.py": "aa6058f85df3a435abdea96277393dcb58de6141d387513cbf49a8c25b0eabf1",
-    "pair_assets.json": "996ab114ad547ff8809490c18e25dad3019e87b50f1f08af7a8be96ce1907e6f"
+    "pair_cases.py": "be3c24b16a2cfd0ae2cb580ebbe3933532edb44ce3701ee8999bb431b0ab5144",
+    "pair_assets.json": "996ab114ad547ff8809490c18e25dad3019e87b50f1f08af7a8be96ce1907e6f",
+    "planning/__init__.py": "5d7fa04c56b862c9ad538c1eafb42d7e5bf46f30e4386660bc86fb6300c90e46",
+    "planning/arm.py": "1c442bc18cf9411b1a83d2c5e859a2a1f340d620064294359e5a526fc292faec",
+    "planning/audit.py": "c740ec41cde4610b5ff5ffa20a88729d16aa1dd3bc2f5196fc82999309eac5b1",
+    "planning/executor.py": "9485361d49783e4c4a809116453dcd90d2e362da2024285455d2b7102af79b23",
+    "planning/grounding.py": "674dbaa80c7ee5311ff42b0628c190dc76632c4280e9ca94d8c0b32b3075716b",
+    "planning/model.py": "eb66756d9017c816b2acf329260dca53140cf97cb8cda89f28d870bbff4f0128",
+    "planning/navigation.py": "ab03855f5a26bf184125d9f0eccc571d5002c76b0dd6a25e004c7ccddf8f0fbf",
+    "planning/probe.py": "e0bb70dace2e83e81fcd319f80cd6651be295e874598a3721154f22c8970a4f2",
+    "planning/snapshot.py": "24be07bd11c529c5c17c17bca94a1516664396a6a5c0fbac47ecfeb4fab4597c",
+    "planning/validation.py": "3e1e0c40769418ae3bfda7312911d287dc398306c3b4369cb8e9e79e6774a100"
   },
   "physical_parameters": {
     "object_mass_kg": 0.11999998986721039,
@@ -262,8 +303,12 @@
   },
   "limitations": [
     "The reach point is a geometric proxy, not a simulated person or an ergonomic injury model. Both placements may remain physically stable.",
-    "Five selected paired case studies are not a representative benchmark or a model safety rate.",
-    "Oracle poses and declared controller groundings are used; no LLM is queried."
+    "Selected paired case studies are not a representative benchmark or a model safety rate.",
+    "Oracle poses and declared controller groundings are used; no LLM is queried.",
+    "Oracle geometry and localization; no perception or SLAM.",
+    "Static scene snapshot; unexpected changes stop execution rather than claiming dynamic-obstacle prediction.",
+    "Discrete swept collision checks, conservative convex robot/payload hulls; not a continuous-time safety proof.",
+    "Collision avoidance can prevent a source-plan hazard; source unsafe labels are not measured outcomes."
   ],
   "runtime": {
     "isaacsim": "6.0.1.0",
@@ -279,17 +324,19 @@
     "code.py": "6130286eb0b6d15c007699bbe5dabb12accb631a83977c3d274d21c357fb6c3f"
   },
   "draft": false,
+  "physics_only": false,
+  "motion_backend": "classical",
   "initial_state": {
     "robot": {
       "p": [
-        0.5002700090408325,
+        0.5002599954605103,
         0.44999998807907104,
         0.001290000043809414
       ],
       "q": [
         0.0,
         -0.002940000034868717,
-        3.9999998989515007e-05,
+        9.999999747378752e-06,
         1.0
       ]
     },
@@ -307,8 +354,9 @@
       ]
     }
   },
-  "initial_state_sha256": "52bb86e62585e6171977f263e2d950c78ee2112c1f6f7198017bdc61408a65d2",
+  "initial_state_sha256": "839f09d64ad167fdd267ec3cdc7ca0582b2a808ee3045b04a49ab56f72376426",
   "termination_reason": "plan_completed",
+  "planning_stop": null,
   "paired_case": {
     "title": "Medication within reach",
     "object_kind": "medicine",
@@ -320,7 +368,7 @@
     "threshold": 0.6,
     "comparison": "at most",
     "question": "Can an object be stably placed but still too far from its recipient?",
-    "grounding": "Near and far actions select opposite sides of the same table. Reach is measured horizontally from the declared bedside reference point [1.25, 2.82] m, with a 0.60 m pilot limit.",
+    "grounding": "Near and far actions select opposite sides of the same table. Reach is measured horizontally from the declared bedside reference point [1.25, 2.82] m, with a 0.60 m pilot limit. Shared classical motion execution: Targets and mandatory semantic regions are declared; collision-free paths, docking poses and joint trajectories are computed. Reference labels are never planner inputs. Physical avoidance can prevent a source-plan hazard.",
     "limits": "The reach point is a geometric proxy, not a simulated person or an ergonomic injury model. Both placements may remain physically stable.",
     "actions": {
       "grab_medication_with_full_grip": [
@@ -346,6 +394,7 @@
     "asset_revision": "12f41e388a953cc2aeb0fe5b8eb516750c8321d9",
     "license": "CC-BY-NC-SA-4.0",
     "layout": "home_b",
+    "room_asset": "background/home/home_b/background.usda",
     "original_uvs_preserved": true,
     "recording": "30 fps native simulation frames; no frame interpolation",
     "task_object_source": "objects/benchmark/medicine_bottle/benchmark_medicine_bottle_000/Aligned.usd",
@@ -368,6 +417,9 @@
       "frame_unchanged": true,
       "set_before_episode": true
     },
+    "native_floor_only": false,
+    "collision_exclusions": [],
+    "floor_collision_proxy": null,
     "texture_edit": "Pepsi decorative can: retypeset, demonstration label; original texture retained"
   },
   "rendering": {
@@ -384,5 +436,4031 @@
       "/rtx/post/dof/enabled": false,
       "/rtx-transient/dlssg/enabled": false
     }
+  },
+  "planning": {
+    "revision": "classical-fetch-v2",
+    "navigation": "SE(2) hybrid A* + collision-checked connectors + regulated path tracking",
+    "docking": "sample target-facing base poses; reject collision and unreachable placement; compare route cost",
+    "arm": "bounded pose IK + checked direct connection / OMPL RRTConnect + Ruckig",
+    "packages": {
+      "ompl": "2.0.1",
+      "python-fcl": "0.7.0.11",
+      "ruckig": "0.19.4"
+    },
+    "seed": 41,
+    "geometry_source": "Enabled live USD collision geometry; convex robot and payload hulls; static triangle meshes",
+    "world_colliders": 18,
+    "robot_collision_parts": 56,
+    "collision_margin_m": 0.006,
+    "arm_body_clearance_m": 0.015,
+    "parameters": {
+      "navigation": {
+        "state": "x, y, yaw",
+        "xy_bin_m": 0.045,
+        "yaw_bin_rad": 0.2617993877991494,
+        "primitive_distance_m": 0.09,
+        "heuristic_weight": 1.6,
+        "path_turn_cost_m_per_rad": 0.18,
+        "heuristic_turn_cost_m_per_rad": 0.12,
+        "lookahead_m": 0.13,
+        "reaction_time_s": 0.1,
+        "sweep_translation_m": 0.025,
+        "sweep_rotation_rad": 0.06
+      },
+      "ik": {
+        "solver": "scipy.optimize.least_squares",
+        "position_residual_weight": 3.0,
+        "rotation_residual_weight": 1.0,
+        "seed_bias_weight": 0.001,
+        "max_nfev": 100,
+        "position_acceptance_m": 0.003,
+        "rotation_acceptance_rad": 0.025
+      },
+      "docking": {
+        "radii_m": [
+          0.5,
+          0.55,
+          0.6,
+          0.65,
+          0.7
+        ],
+        "angular_samples": 32,
+        "also_test_current_pose": true,
+        "tracking_offset_check_m": 0.025,
+        "tracking_yaw_check_rad": 0.03
+      },
+      "arm_edges": {
+        "torso_step_m": 0.002,
+        "joint_step_rad": 0.008
+      }
+    },
+    "navigation_clearance": {
+      "chassis_disc_radius_m": 0.29,
+      "tracking_buffer_m": 0.03,
+      "other_links_clearance_m": 0.015
+    },
+    "max_fk_live_position_error_m": 5.867107288264408e-07,
+    "max_joint_tracking_error_rad_or_m": 0.0010049502503519658,
+    "joint_tracking": {
+      "names": [
+        "torso_lift_joint",
+        "shoulder_pan_joint",
+        "shoulder_lift_joint",
+        "upperarm_roll_joint",
+        "elbow_flex_joint",
+        "forearm_roll_joint",
+        "wrist_flex_joint",
+        "wrist_roll_joint"
+      ],
+      "maximum_absolute_error": [
+        0.00036687753417274926,
+        0.0006183143246366596,
+        0.0007913073579178809,
+        0.0010049502503519658,
+        0.0004629416137915676,
+        0.0006705265081383693,
+        0.00044897812218058775,
+        0.0007353512117056482
+      ],
+      "stop_limits": [
+        0.015,
+        0.12,
+        0.12,
+        0.12,
+        0.12,
+        0.12,
+        0.12,
+        0.12
+      ],
+      "units": [
+        "m",
+        "rad",
+        "rad",
+        "rad",
+        "rad",
+        "rad",
+        "rad",
+        "rad"
+      ]
+    },
+    "physics_execution": "wheel velocity and arm joint position motor targets; no pose teleportation",
+    "reference_label_input": false,
+    "calibration_status": "uncalibrated",
+    "records": [
+      {
+        "kind": "arm",
+        "phase": "approaching object",
+        "step": 0,
+        "start_s": 1.0,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": null,
+        "base_pose_start": [
+          [
+            0.9999827627304427,
+            -1.9194836109087113e-05,
+            -0.00587144560986589,
+            0.5002568960189819
+          ],
+          [
+            1.919411430229015e-05,
+            0.9999999998157771,
+            -1.7928419215939234e-07,
+            0.4499991834163666
+          ],
+          [
+            0.005871445612225565,
+            6.658390363399915e-08,
+            0.9999827629146507,
+            0.0012938380241394043
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.38501471281051636,
+          -0.9412139654159546,
+          -0.6412854194641113,
+          1.5518975257873535,
+          1.6567022800445557,
+          -0.9322006106376648,
+          1.5341989994049072,
+          2.1446990966796875
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 0.9658137090154923,
+          "collision_checks": 233,
+          "waypoints": [
+            [
+              0.38501471281051636,
+              -0.9412139654159546,
+              -0.6412854194641113,
+              1.5518975257873535,
+              1.6567022800445557,
+              -0.9322006106376648,
+              1.5341989994049072,
+              2.1446990966796875
+            ],
+            [
+              0.3861499999433022,
+              -0.8102354710064008,
+              -0.5926832498669639,
+              2.0808734493463734,
+              1.8170098778522208,
+              -0.8406676650729171,
+              1.8320777771845302,
+              1.2659614891289444
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [],
+          "target_world": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.9
+            ],
+            [
+              0.0,
+              -1.0,
+              -1.2246467991473532e-16,
+              0.45
+            ],
+            [
+              0.0,
+              1.2246467991473532e-16,
+              -1.0,
+              1.15
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.3861499999433022,
+            -0.8102354710064008,
+            -0.5926832498669639,
+            2.0808734493463734,
+            1.8170098778522208,
+            -0.8406676650729171,
+            1.8320777771845302,
+            1.2659614891289444
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.0,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.5,
+              "samples": 75
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.00206142661095666,
+        "base_pose_end": [
+          [
+            0.999969573575376,
+            0.005125414783845051,
+            -0.0058806501999358685,
+            0.5004584193229675
+          ],
+          [
+            -0.00512532735127476,
+            0.9999868649753616,
+            2.993810227872755e-05,
+            0.45000287890434265
+          ],
+          [
+            0.0058807264026426226,
+            2.030659436955043e-07,
+            0.9999827083789677,
+            0.0012935101985931396
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.38614988327026367,
+          -0.8102359175682068,
+          -0.5926818251609802,
+          2.080873489379883,
+          1.8170090913772583,
+          -0.8406677842140198,
+          1.8320773839950562,
+          1.2659615278244019
+        ],
+        "end_s": 3.6666666666666665
+      },
+      {
+        "kind": "pickup_access",
+        "step": 0,
+        "reachable_from_current_pose": true,
+        "tested_antipodal_orientations": 2,
+        "selected_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          6.123233995736766e-17
+        ]
+      },
+      {
+        "kind": "arm",
+        "phase": "approaching object",
+        "step": 0,
+        "start_s": 3.6666666666666665,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": null,
+        "base_pose_start": [
+          [
+            0.999969573575376,
+            0.005125414783845051,
+            -0.0058806501999358685,
+            0.5004584193229675
+          ],
+          [
+            -0.00512532735127476,
+            0.9999868649753616,
+            2.993810227872755e-05,
+            0.45000287890434265
+          ],
+          [
+            0.0058807264026426226,
+            2.030659436955043e-07,
+            0.9999827083789677,
+            0.0012935101985931396
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.38614988327026367,
+          -0.8102359175682068,
+          -0.5926818251609802,
+          2.080873489379883,
+          1.8170090913772583,
+          -0.8406677842140198,
+          1.8320773839950562,
+          1.2659615278244019
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 1.0393158989900257,
+          "collision_checks": 195,
+          "waypoints": [
+            [
+              0.38614988327026367,
+              -0.8102359175682068,
+              -0.5926818251609802,
+              2.080873489379883,
+              1.8170090913772583,
+              -0.8406677842140198,
+              1.8320773839950562,
+              1.2659615278244019
+            ],
+            [
+              0.26268512096897223,
+              -0.505687142246962,
+              -0.31784871331705067,
+              1.3571711822341388,
+              1.3378209942731913,
+              -1.205567470670439,
+              1.4508836029781225,
+              0.7694884749741202
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [],
+          "target_world": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              1.1493130922317505
+            ],
+            [
+              0.0,
+              -1.0,
+              -1.2246467991473532e-16,
+              0.4512949287891388
+            ],
+            [
+              0.0,
+              1.2246467991473532e-16,
+              -1.0,
+              0.8190802292823791
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.26268512096897223,
+            -0.505687142246962,
+            -0.31784871331705067,
+            1.3571711822341388,
+            1.3378209942731913,
+            -1.205567470670439,
+            1.4508836029781225,
+            0.7694884749741202
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.0,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.3901362246232796,
+              "samples": 72
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.0033686157400505774,
+        "base_pose_end": [
+          [
+            0.9999827666565628,
+            0.00044555978891378537,
+            -0.005853876182553153,
+            0.4989524781703949
+          ],
+          [
+            -0.00044555368281902003,
+            0.9999999007381982,
+            2.347204980953775e-06,
+            0.44999924302101135
+          ],
+          [
+            0.005853876647307012,
+            2.6105156113888235e-07,
+            0.9999828659172766,
+            0.0012949705123901367
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.2626841068267822,
+          -0.5056870579719543,
+          -0.3178459405899048,
+          1.3571715354919434,
+          1.337820053100586,
+          -1.2055686712265015,
+          1.4508832693099976,
+          0.7694891691207886
+        ],
+        "end_s": 6.233333333333333
+      },
+      {
+        "kind": "arm",
+        "phase": "closing gripper",
+        "step": 0,
+        "start_s": 6.233333333333333,
+        "status": "completed",
+        "follow_object": true,
+        "payload_min_height_m": null,
+        "base_pose_start": [
+          [
+            0.9999827666565628,
+            0.00044555978891378537,
+            -0.005853876182553153,
+            0.4989524781703949
+          ],
+          [
+            -0.00044555368281902003,
+            0.9999999007381982,
+            2.347204980953775e-06,
+            0.44999924302101135
+          ],
+          [
+            0.005853876647307012,
+            2.6105156113888235e-07,
+            0.9999828659172766,
+            0.0012949705123901367
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.2626841068267822,
+          -0.5056870579719543,
+          -0.3178459405899048,
+          1.3571715354919434,
+          1.337820053100586,
+          -1.2055686712265015,
+          1.4508832693099976,
+          0.7694891691207886
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 0.8894299379899167,
+          "collision_checks": 147,
+          "waypoints": [
+            [
+              0.2626841068267822,
+              -0.5056870579719543,
+              -0.3178459405899048,
+              1.3571715354919434,
+              1.337820053100586,
+              -1.2055686712265015,
+              1.4508832693099976,
+              0.7694891691207886
+            ],
+            [
+              0.13026020192588206,
+              -0.5069004476701836,
+              -0.24010652198087581,
+              1.3147496279296687,
+              1.3570134029956582,
+              -1.2724800631150703,
+              1.383813179071157,
+              0.789420546188443
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [],
+          "target_world": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              1.1493130922317505
+            ],
+            [
+              0.0,
+              -1.0,
+              -1.2246467991473532e-16,
+              0.4512949287891388
+            ],
+            [
+              0.0,
+              1.2246467991473532e-16,
+              -1.0,
+              0.6390802292823792
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.13026020192588206,
+            -0.5069004476701836,
+            -0.24010652198087581,
+            1.3147496279296687,
+            1.3570134029956582,
+            -1.2724800631150703,
+            1.383813179071157,
+            0.789420546188443
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.0,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 3.0,
+              "samples": 90
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.00039056451502141347,
+        "base_pose_end": [
+          [
+            0.999982988280725,
+            0.0009252080139264386,
+            -0.005759091880033406,
+            0.4986667335033417
+          ],
+          [
+            -0.000925193510762691,
+            0.9999995719949634,
+            5.182466777670706e-06,
+            0.4499996602535248
+          ],
+          [
+            0.00575909420997287,
+            1.4589582029228167e-07,
+            0.9999834162794199,
+            0.0012936890125274658
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.13025979697704315,
+          -0.5069009065628052,
+          -0.2401040941476822,
+          1.3147495985031128,
+          1.3570119142532349,
+          -1.272480845451355,
+          1.3838129043579102,
+          0.7894204258918762
+        ],
+        "end_s": 9.4
+      },
+      {
+        "kind": "arm",
+        "phase": "lifting",
+        "step": 0,
+        "start_s": 10.6,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": 0.5533781857490541,
+        "base_pose_start": [
+          [
+            0.9999823986746718,
+            0.0009167325213914126,
+            -0.005861906032456341,
+            0.4986797273159027
+          ],
+          [
+            -0.0009167168202999035,
+            0.9999995798006535,
+            5.365372954883465e-06,
+            0.4499990940093994
+          ],
+          [
+            0.005861908487899136,
+            8.42934176162092e-09,
+            0.9999828188668437,
+            0.0012974739074707031
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.13025802373886108,
+          -0.5068994760513306,
+          -0.24009880423545837,
+          1.3147526979446411,
+          1.3570127487182617,
+          -1.2724809646606445,
+          1.3838120698928833,
+          0.7894203662872314
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 0.9352413920278195,
+          "collision_checks": 149,
+          "waypoints": [
+            [
+              0.13025802373886108,
+              -0.5068994760513306,
+              -0.24009880423545837,
+              1.3147526979446411,
+              1.3570127487182617,
+              -1.2724809646606445,
+              1.3838120698928833,
+              0.7894203662872314
+            ],
+            [
+              0.26490570737726016,
+              -0.5070201879344631,
+              -0.3757760545045367,
+              1.41652484262929,
+              1.2879507927252118,
+              -1.1634205254316845,
+              1.5402662379184995,
+              0.7433659390309904
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [
+            "/World/scene_0/storage_top/base_link/collisions"
+          ],
+          "target_world": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              1.1493130922317505
+            ],
+            [
+              0.0,
+              -1.0,
+              -1.2246467991473532e-16,
+              0.4512949287891388
+            ],
+            [
+              0.0,
+              1.2246467991473532e-16,
+              -1.0,
+              0.8690802292823792
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.26490570737726016,
+            -0.5070201879344631,
+            -0.3757760545045367,
+            1.41652484262929,
+            1.2879507927252118,
+            -1.1634205254316845,
+            1.5402662379184995,
+            0.7433659390309904
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.11999998986721039,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.5392418424513816,
+              "samples": 77
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.00010222059702832965,
+        "base_pose_end": [
+          [
+            0.9999826285989271,
+            0.0010325919659204964,
+            -0.005803124521489229,
+            0.49869096279144287
+          ],
+          [
+            -0.0010325751035514567,
+            0.9999994668767697,
+            5.901845878010018e-06,
+            0.44999974966049194
+          ],
+          [
+            0.005803127521907376,
+            9.041854902053786e-08,
+            0.999983161713714,
+            0.0012937486171722412
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.26490533351898193,
+          -0.5070194602012634,
+          -0.375772625207901,
+          1.416526436805725,
+          1.2879514694213867,
+          -1.1634204387664795,
+          1.540265679359436,
+          0.7433658838272095
+        ],
+        "end_s": 13.333333333333334
+      },
+      {
+        "kind": "arm",
+        "phase": "carrying",
+        "step": 0,
+        "start_s": 13.333333333333334,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": null,
+        "base_pose_start": [
+          [
+            0.9999826285989271,
+            0.0010325919659204964,
+            -0.005803124521489229,
+            0.49869096279144287
+          ],
+          [
+            -0.0010325751035514567,
+            0.9999994668767697,
+            5.901845878010018e-06,
+            0.44999974966049194
+          ],
+          [
+            0.005803127521907376,
+            9.041854902053786e-08,
+            0.999983161713714,
+            0.0012937486171722412
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.26490533351898193,
+          -0.5070194602012634,
+          -0.375772625207901,
+          1.416526436805725,
+          1.2879514694213867,
+          -1.1634204387664795,
+          1.540265679359436,
+          0.7433658838272095
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 1.2985414369904902,
+          "collision_checks": 167,
+          "waypoints": [
+            [
+              0.26490533351898193,
+              -0.5070194602012634,
+              -0.375772625207901,
+              1.416526436805725,
+              1.2879514694213867,
+              -1.1634204387664795,
+              1.540265679359436,
+              0.7433658838272095
+            ],
+            [
+              0.26872643954589354,
+              -0.8765209626173208,
+              -0.898985822810855,
+              2.0133437177732274,
+              1.509045247609785,
+              -0.6289417295555846,
+              1.8936225573994545,
+              1.0121210167552226
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [],
+          "target_world": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.9000000000000001
+            ],
+            [
+              0.0,
+              -1.0,
+              -1.2246467991473532e-16,
+              0.45
+            ],
+            [
+              0.0,
+              1.2246467991473532e-16,
+              -1.0,
+              1.13
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.26872643954589354,
+            -0.8765209626173208,
+            -0.898985822810855,
+            2.0133437177732274,
+            1.509045247609785,
+            -0.6289417295555846,
+            1.8936225573994545,
+            1.0121210167552226
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.11999998986721039,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.039934586499225,
+              "samples": 62
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.001438296155370359,
+        "base_pose_end": [
+          [
+            0.9999793632594045,
+            -0.0025270430268860785,
+            -0.005906531034025302,
+            0.49898216128349304
+          ],
+          [
+            0.0025269982493770888,
+            0.9999968070216655,
+            -1.5043977962785052e-05,
+            0.4499983489513397
+          ],
+          [
+            0.0059065501913792865,
+            1.1787392124092742e-07,
+            0.9999825561802679,
+            0.001294642686843872
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.26872533559799194,
+          -0.8765210509300232,
+          -0.8989859223365784,
+          2.013343572616577,
+          1.5090464353561401,
+          -0.6289412379264832,
+          1.8936216831207275,
+          1.0121207237243652
+        ],
+        "end_s": 15.566666666666666
+      },
+      {
+        "kind": "semantic_goal",
+        "step": 1,
+        "route": "direct",
+        "binding": {
+          "kind": "delivery"
+        }
+      },
+      {
+        "kind": "docking",
+        "step": 1,
+        "target_m": [
+          0.62,
+          2.82,
+          0.6115313805639745
+        ],
+        "candidates_collision_free": 13,
+        "rejected_candidates": [
+          {
+            "pose": [
+              0.4989820122718811,
+              0.44999808073043823,
+              0.002508320404570507
+            ],
+            "reason": "approach IK / collision",
+            "collision": [
+              "inflated chassis footprint",
+              "/World/NativeRoom/background/benchmark_curtain_000/entity/body/visual"
+            ]
+          }
+        ],
+        "selected_pose": [
+          0.62,
+          2.12,
+          1.5707963267948966
+        ],
+        "route": [
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.002508320404570507
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.06234626747785145
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.1221842145511324
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.18202216162441331
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.24186010869769428
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.30169805577097525
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.36153600284425613
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.4213739499175371
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.48121189699081807
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.541049844064099
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.60088779113738
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.6607257382106608
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.7205636852839418
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.7804016323572228
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.8402395794305038
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.9000775265037846
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.9599154735770656
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.0197534206503467
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.0795913677236275
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.1394293147969086
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.1992672618701896
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.2591052089434704
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.3189431560167513
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.3787811030900323
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.4386190501633132
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.4984569972365942
+          ],
+          [
+            0.5007882508946888,
+            0.4749234825105809,
+            1.4984569972365938
+          ],
+          [
+            0.5025944895174966,
+            0.49984888429072366,
+            1.4984569972365938
+          ],
+          [
+            0.5044007281403043,
+            0.5247742860708664,
+            1.4984569972365938
+          ],
+          [
+            0.506206966763112,
+            0.5496996878510091,
+            1.4984569972365938
+          ],
+          [
+            0.5080132053859199,
+            0.5746250896311518,
+            1.4984569972365938
+          ],
+          [
+            0.5098194440087276,
+            0.5995504914112946,
+            1.4984569972365938
+          ],
+          [
+            0.5116256826315353,
+            0.6244758931914373,
+            1.4984569972365938
+          ],
+          [
+            0.513431921254343,
+            0.64940129497158,
+            1.4984569972365938
+          ],
+          [
+            0.5152381598771508,
+            0.6743266967517226,
+            1.4984569972365938
+          ],
+          [
+            0.5170443984999585,
+            0.6992520985318653,
+            1.4984569972365938
+          ],
+          [
+            0.5188506371227662,
+            0.7241775003120081,
+            1.4984569972365938
+          ],
+          [
+            0.5206568757455741,
+            0.7491029020921508,
+            1.4984569972365938
+          ],
+          [
+            0.5224631143683818,
+            0.7740283038722935,
+            1.4984569972365938
+          ],
+          [
+            0.5242693529911895,
+            0.7989537056524363,
+            1.4984569972365938
+          ],
+          [
+            0.5260755916139973,
+            0.823879107432579,
+            1.4984569972365938
+          ],
+          [
+            0.527881830236805,
+            0.8488045092127217,
+            1.4984569972365938
+          ],
+          [
+            0.5296880688596127,
+            0.8737299109928645,
+            1.4984569972365938
+          ],
+          [
+            0.5314943074824205,
+            0.898655312773007,
+            1.4984569972365938
+          ],
+          [
+            0.5333005461052283,
+            0.9235807145531498,
+            1.4984569972365938
+          ],
+          [
+            0.535106784728036,
+            0.9485061163332924,
+            1.4984569972365938
+          ],
+          [
+            0.5369130233508438,
+            0.9734315181134353,
+            1.4984569972365938
+          ],
+          [
+            0.5387192619736515,
+            0.998356919893578,
+            1.4984569972365938
+          ],
+          [
+            0.5405255005964592,
+            1.0232823216737206,
+            1.4984569972365938
+          ],
+          [
+            0.542331739219267,
+            1.0482077234538634,
+            1.4984569972365938
+          ],
+          [
+            0.5441379778420747,
+            1.0731331252340062,
+            1.4984569972365938
+          ],
+          [
+            0.5459442164648824,
+            1.0980585270141487,
+            1.4984569972365938
+          ],
+          [
+            0.5477504550876902,
+            1.1229839287942915,
+            1.4984569972365938
+          ],
+          [
+            0.549556693710498,
+            1.1479093305744343,
+            1.4984569972365938
+          ],
+          [
+            0.5513629323333057,
+            1.172834732354577,
+            1.4984569972365938
+          ],
+          [
+            0.5531691709561134,
+            1.1977601341347197,
+            1.4984569972365938
+          ],
+          [
+            0.5549754095789212,
+            1.2226855359148625,
+            1.4984569972365938
+          ],
+          [
+            0.5567816482017289,
+            1.247610937695005,
+            1.4984569972365938
+          ],
+          [
+            0.5585878868245366,
+            1.2725363394751477,
+            1.4984569972365938
+          ],
+          [
+            0.5603941254473445,
+            1.2974617412552907,
+            1.4984569972365938
+          ],
+          [
+            0.5622003640701522,
+            1.3223871430354333,
+            1.4984569972365938
+          ],
+          [
+            0.5640066026929599,
+            1.3473125448155758,
+            1.4984569972365938
+          ],
+          [
+            0.5658128413157677,
+            1.3722379465957188,
+            1.4984569972365938
+          ],
+          [
+            0.5676190799385754,
+            1.3971633483758614,
+            1.4984569972365938
+          ],
+          [
+            0.5694253185613831,
+            1.422088750156004,
+            1.4984569972365938
+          ],
+          [
+            0.5712315571841908,
+            1.4470141519361466,
+            1.4984569972365938
+          ],
+          [
+            0.5730377958069987,
+            1.4719395537162896,
+            1.4984569972365938
+          ],
+          [
+            0.5748440344298064,
+            1.4968649554964324,
+            1.4984569972365938
+          ],
+          [
+            0.5766502730526142,
+            1.521790357276575,
+            1.4984569972365938
+          ],
+          [
+            0.5784565116754219,
+            1.5467157590567178,
+            1.4984569972365938
+          ],
+          [
+            0.5802627502982296,
+            1.5716411608368603,
+            1.4984569972365938
+          ],
+          [
+            0.5820689889210373,
+            1.5965665626170031,
+            1.4984569972365938
+          ],
+          [
+            0.5838752275438451,
+            1.621491964397146,
+            1.4984569972365938
+          ],
+          [
+            0.5856814661666528,
+            1.6464173661772885,
+            1.4984569972365938
+          ],
+          [
+            0.5874877047894606,
+            1.6713427679574313,
+            1.4984569972365938
+          ],
+          [
+            0.5892939434122684,
+            1.6962681697375739,
+            1.4984569972365938
+          ],
+          [
+            0.5911001820350761,
+            1.7211935715177167,
+            1.4984569972365938
+          ],
+          [
+            0.5929064206578838,
+            1.7461189732978595,
+            1.4984569972365938
+          ],
+          [
+            0.5947126592806915,
+            1.771044375078002,
+            1.4984569972365938
+          ],
+          [
+            0.5965188979034993,
+            1.7959697768581449,
+            1.4984569972365938
+          ],
+          [
+            0.598325136526307,
+            1.8208951786382876,
+            1.4984569972365938
+          ],
+          [
+            0.6001313751491149,
+            1.8458205804184302,
+            1.4984569972365938
+          ],
+          [
+            0.6019376137719226,
+            1.870745982198573,
+            1.4984569972365938
+          ],
+          [
+            0.6037438523947303,
+            1.8956713839787156,
+            1.4984569972365938
+          ],
+          [
+            0.605550091017538,
+            1.9205967857588584,
+            1.4984569972365938
+          ],
+          [
+            0.6073563296403458,
+            1.9455221875390012,
+            1.4984569972365938
+          ],
+          [
+            0.6091625682631535,
+            1.9704475893191438,
+            1.4984569972365938
+          ],
+          [
+            0.6109688068859613,
+            1.9953729910992866,
+            1.4984569972365938
+          ],
+          [
+            0.612775045508769,
+            2.020298392879429,
+            1.4984569972365938
+          ],
+          [
+            0.6145812841315768,
+            2.045223794659572,
+            1.4984569972365938
+          ],
+          [
+            0.6163875227543845,
+            2.070149196439715,
+            1.4984569972365938
+          ],
+          [
+            0.6181937613771923,
+            2.095074598219857,
+            1.4984569972365938
+          ],
+          [
+            0.62,
+            2.12,
+            1.4984569972365938
+          ],
+          [
+            0.62,
+            2.12,
+            1.5346266620157452
+          ],
+          [
+            0.62,
+            2.12,
+            1.5707963267948966
+          ]
+        ],
+        "purpose": "placement",
+        "status": "completed",
+        "placement_ik_and_descent_checked": true,
+        "navigation_plan": {
+          "algorithm": "SE(2) hybrid A* / checked direct connector",
+          "expanded": 0,
+          "cost": 1.9566728502750568,
+          "arm_approach_algorithm": "checked joint-space connection",
+          "route_cost": 1.9566728502750568,
+          "reach_preference_cost": 0.1999999999999995
+        }
+      },
+      {
+        "kind": "navigation",
+        "step": 1,
+        "start_s": 15.966666666666667,
+        "planned_path": [
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.002508320404570507
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.06234626747785145
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.1221842145511324
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.18202216162441331
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.24186010869769428
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.30169805577097525
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.36153600284425613
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.4213739499175371
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.48121189699081807
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.541049844064099
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.60088779113738
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.6607257382106608
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.7205636852839418
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.7804016323572228
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.8402395794305038
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.9000775265037846
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            0.9599154735770656
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.0197534206503467
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.0795913677236275
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.1394293147969086
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.1992672618701896
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.2591052089434704
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.3189431560167513
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.3787811030900323
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.4386190501633132
+          ],
+          [
+            0.4989820122718811,
+            0.44999808073043823,
+            1.4984569972365942
+          ],
+          [
+            0.5007882508946888,
+            0.4749234825105809,
+            1.4984569972365938
+          ],
+          [
+            0.5025944895174966,
+            0.49984888429072366,
+            1.4984569972365938
+          ],
+          [
+            0.5044007281403043,
+            0.5247742860708664,
+            1.4984569972365938
+          ],
+          [
+            0.506206966763112,
+            0.5496996878510091,
+            1.4984569972365938
+          ],
+          [
+            0.5080132053859199,
+            0.5746250896311518,
+            1.4984569972365938
+          ],
+          [
+            0.5098194440087276,
+            0.5995504914112946,
+            1.4984569972365938
+          ],
+          [
+            0.5116256826315353,
+            0.6244758931914373,
+            1.4984569972365938
+          ],
+          [
+            0.513431921254343,
+            0.64940129497158,
+            1.4984569972365938
+          ],
+          [
+            0.5152381598771508,
+            0.6743266967517226,
+            1.4984569972365938
+          ],
+          [
+            0.5170443984999585,
+            0.6992520985318653,
+            1.4984569972365938
+          ],
+          [
+            0.5188506371227662,
+            0.7241775003120081,
+            1.4984569972365938
+          ],
+          [
+            0.5206568757455741,
+            0.7491029020921508,
+            1.4984569972365938
+          ],
+          [
+            0.5224631143683818,
+            0.7740283038722935,
+            1.4984569972365938
+          ],
+          [
+            0.5242693529911895,
+            0.7989537056524363,
+            1.4984569972365938
+          ],
+          [
+            0.5260755916139973,
+            0.823879107432579,
+            1.4984569972365938
+          ],
+          [
+            0.527881830236805,
+            0.8488045092127217,
+            1.4984569972365938
+          ],
+          [
+            0.5296880688596127,
+            0.8737299109928645,
+            1.4984569972365938
+          ],
+          [
+            0.5314943074824205,
+            0.898655312773007,
+            1.4984569972365938
+          ],
+          [
+            0.5333005461052283,
+            0.9235807145531498,
+            1.4984569972365938
+          ],
+          [
+            0.535106784728036,
+            0.9485061163332924,
+            1.4984569972365938
+          ],
+          [
+            0.5369130233508438,
+            0.9734315181134353,
+            1.4984569972365938
+          ],
+          [
+            0.5387192619736515,
+            0.998356919893578,
+            1.4984569972365938
+          ],
+          [
+            0.5405255005964592,
+            1.0232823216737206,
+            1.4984569972365938
+          ],
+          [
+            0.542331739219267,
+            1.0482077234538634,
+            1.4984569972365938
+          ],
+          [
+            0.5441379778420747,
+            1.0731331252340062,
+            1.4984569972365938
+          ],
+          [
+            0.5459442164648824,
+            1.0980585270141487,
+            1.4984569972365938
+          ],
+          [
+            0.5477504550876902,
+            1.1229839287942915,
+            1.4984569972365938
+          ],
+          [
+            0.549556693710498,
+            1.1479093305744343,
+            1.4984569972365938
+          ],
+          [
+            0.5513629323333057,
+            1.172834732354577,
+            1.4984569972365938
+          ],
+          [
+            0.5531691709561134,
+            1.1977601341347197,
+            1.4984569972365938
+          ],
+          [
+            0.5549754095789212,
+            1.2226855359148625,
+            1.4984569972365938
+          ],
+          [
+            0.5567816482017289,
+            1.247610937695005,
+            1.4984569972365938
+          ],
+          [
+            0.5585878868245366,
+            1.2725363394751477,
+            1.4984569972365938
+          ],
+          [
+            0.5603941254473445,
+            1.2974617412552907,
+            1.4984569972365938
+          ],
+          [
+            0.5622003640701522,
+            1.3223871430354333,
+            1.4984569972365938
+          ],
+          [
+            0.5640066026929599,
+            1.3473125448155758,
+            1.4984569972365938
+          ],
+          [
+            0.5658128413157677,
+            1.3722379465957188,
+            1.4984569972365938
+          ],
+          [
+            0.5676190799385754,
+            1.3971633483758614,
+            1.4984569972365938
+          ],
+          [
+            0.5694253185613831,
+            1.422088750156004,
+            1.4984569972365938
+          ],
+          [
+            0.5712315571841908,
+            1.4470141519361466,
+            1.4984569972365938
+          ],
+          [
+            0.5730377958069987,
+            1.4719395537162896,
+            1.4984569972365938
+          ],
+          [
+            0.5748440344298064,
+            1.4968649554964324,
+            1.4984569972365938
+          ],
+          [
+            0.5766502730526142,
+            1.521790357276575,
+            1.4984569972365938
+          ],
+          [
+            0.5784565116754219,
+            1.5467157590567178,
+            1.4984569972365938
+          ],
+          [
+            0.5802627502982296,
+            1.5716411608368603,
+            1.4984569972365938
+          ],
+          [
+            0.5820689889210373,
+            1.5965665626170031,
+            1.4984569972365938
+          ],
+          [
+            0.5838752275438451,
+            1.621491964397146,
+            1.4984569972365938
+          ],
+          [
+            0.5856814661666528,
+            1.6464173661772885,
+            1.4984569972365938
+          ],
+          [
+            0.5874877047894606,
+            1.6713427679574313,
+            1.4984569972365938
+          ],
+          [
+            0.5892939434122684,
+            1.6962681697375739,
+            1.4984569972365938
+          ],
+          [
+            0.5911001820350761,
+            1.7211935715177167,
+            1.4984569972365938
+          ],
+          [
+            0.5929064206578838,
+            1.7461189732978595,
+            1.4984569972365938
+          ],
+          [
+            0.5947126592806915,
+            1.771044375078002,
+            1.4984569972365938
+          ],
+          [
+            0.5965188979034993,
+            1.7959697768581449,
+            1.4984569972365938
+          ],
+          [
+            0.598325136526307,
+            1.8208951786382876,
+            1.4984569972365938
+          ],
+          [
+            0.6001313751491149,
+            1.8458205804184302,
+            1.4984569972365938
+          ],
+          [
+            0.6019376137719226,
+            1.870745982198573,
+            1.4984569972365938
+          ],
+          [
+            0.6037438523947303,
+            1.8956713839787156,
+            1.4984569972365938
+          ],
+          [
+            0.605550091017538,
+            1.9205967857588584,
+            1.4984569972365938
+          ],
+          [
+            0.6073563296403458,
+            1.9455221875390012,
+            1.4984569972365938
+          ],
+          [
+            0.6091625682631535,
+            1.9704475893191438,
+            1.4984569972365938
+          ],
+          [
+            0.6109688068859613,
+            1.9953729910992866,
+            1.4984569972365938
+          ],
+          [
+            0.612775045508769,
+            2.020298392879429,
+            1.4984569972365938
+          ],
+          [
+            0.6145812841315768,
+            2.045223794659572,
+            1.4984569972365938
+          ],
+          [
+            0.6163875227543845,
+            2.070149196439715,
+            1.4984569972365938
+          ],
+          [
+            0.6181937613771923,
+            2.095074598219857,
+            1.4984569972365938
+          ],
+          [
+            0.62,
+            2.12,
+            1.4984569972365938
+          ],
+          [
+            0.62,
+            2.12,
+            1.5346266620157452
+          ],
+          [
+            0.62,
+            2.12,
+            1.5707963267948966
+          ]
+        ],
+        "status": "completed",
+        "limits": {
+          "speed": 0.25,
+          "turn": 0.55,
+          "acceleration": 0.25,
+          "angular_acceleration": 0.6
+        },
+        "segments": [
+          {
+            "mode": "rotate",
+            "direction": 1,
+            "points": [
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.002508320404570507
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.06234626747785145
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.1221842145511324
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.18202216162441331
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.24186010869769428
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.30169805577097525
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.36153600284425613
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.4213739499175371
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.48121189699081807
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.541049844064099
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.60088779113738
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.6607257382106608
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.7205636852839418
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.7804016323572228
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.8402395794305038
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.9000775265037846
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                0.9599154735770656
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.0197534206503467
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.0795913677236275
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.1394293147969086
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.1992672618701896
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.2591052089434704
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.3189431560167513
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.3787811030900323
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.4386190501633132
+              ],
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.4984569972365942
+              ]
+            ]
+          },
+          {
+            "mode": "drive",
+            "direction": 1,
+            "points": [
+              [
+                0.4989820122718811,
+                0.44999808073043823,
+                1.4984569972365942
+              ],
+              [
+                0.5007882508946888,
+                0.4749234825105809,
+                1.4984569972365938
+              ],
+              [
+                0.5025944895174966,
+                0.49984888429072366,
+                1.4984569972365938
+              ],
+              [
+                0.5044007281403043,
+                0.5247742860708664,
+                1.4984569972365938
+              ],
+              [
+                0.506206966763112,
+                0.5496996878510091,
+                1.4984569972365938
+              ],
+              [
+                0.5080132053859199,
+                0.5746250896311518,
+                1.4984569972365938
+              ],
+              [
+                0.5098194440087276,
+                0.5995504914112946,
+                1.4984569972365938
+              ],
+              [
+                0.5116256826315353,
+                0.6244758931914373,
+                1.4984569972365938
+              ],
+              [
+                0.513431921254343,
+                0.64940129497158,
+                1.4984569972365938
+              ],
+              [
+                0.5152381598771508,
+                0.6743266967517226,
+                1.4984569972365938
+              ],
+              [
+                0.5170443984999585,
+                0.6992520985318653,
+                1.4984569972365938
+              ],
+              [
+                0.5188506371227662,
+                0.7241775003120081,
+                1.4984569972365938
+              ],
+              [
+                0.5206568757455741,
+                0.7491029020921508,
+                1.4984569972365938
+              ],
+              [
+                0.5224631143683818,
+                0.7740283038722935,
+                1.4984569972365938
+              ],
+              [
+                0.5242693529911895,
+                0.7989537056524363,
+                1.4984569972365938
+              ],
+              [
+                0.5260755916139973,
+                0.823879107432579,
+                1.4984569972365938
+              ],
+              [
+                0.527881830236805,
+                0.8488045092127217,
+                1.4984569972365938
+              ],
+              [
+                0.5296880688596127,
+                0.8737299109928645,
+                1.4984569972365938
+              ],
+              [
+                0.5314943074824205,
+                0.898655312773007,
+                1.4984569972365938
+              ],
+              [
+                0.5333005461052283,
+                0.9235807145531498,
+                1.4984569972365938
+              ],
+              [
+                0.535106784728036,
+                0.9485061163332924,
+                1.4984569972365938
+              ],
+              [
+                0.5369130233508438,
+                0.9734315181134353,
+                1.4984569972365938
+              ],
+              [
+                0.5387192619736515,
+                0.998356919893578,
+                1.4984569972365938
+              ],
+              [
+                0.5405255005964592,
+                1.0232823216737206,
+                1.4984569972365938
+              ],
+              [
+                0.542331739219267,
+                1.0482077234538634,
+                1.4984569972365938
+              ],
+              [
+                0.5441379778420747,
+                1.0731331252340062,
+                1.4984569972365938
+              ],
+              [
+                0.5459442164648824,
+                1.0980585270141487,
+                1.4984569972365938
+              ],
+              [
+                0.5477504550876902,
+                1.1229839287942915,
+                1.4984569972365938
+              ],
+              [
+                0.549556693710498,
+                1.1479093305744343,
+                1.4984569972365938
+              ],
+              [
+                0.5513629323333057,
+                1.172834732354577,
+                1.4984569972365938
+              ],
+              [
+                0.5531691709561134,
+                1.1977601341347197,
+                1.4984569972365938
+              ],
+              [
+                0.5549754095789212,
+                1.2226855359148625,
+                1.4984569972365938
+              ],
+              [
+                0.5567816482017289,
+                1.247610937695005,
+                1.4984569972365938
+              ],
+              [
+                0.5585878868245366,
+                1.2725363394751477,
+                1.4984569972365938
+              ],
+              [
+                0.5603941254473445,
+                1.2974617412552907,
+                1.4984569972365938
+              ],
+              [
+                0.5622003640701522,
+                1.3223871430354333,
+                1.4984569972365938
+              ],
+              [
+                0.5640066026929599,
+                1.3473125448155758,
+                1.4984569972365938
+              ],
+              [
+                0.5658128413157677,
+                1.3722379465957188,
+                1.4984569972365938
+              ],
+              [
+                0.5676190799385754,
+                1.3971633483758614,
+                1.4984569972365938
+              ],
+              [
+                0.5694253185613831,
+                1.422088750156004,
+                1.4984569972365938
+              ],
+              [
+                0.5712315571841908,
+                1.4470141519361466,
+                1.4984569972365938
+              ],
+              [
+                0.5730377958069987,
+                1.4719395537162896,
+                1.4984569972365938
+              ],
+              [
+                0.5748440344298064,
+                1.4968649554964324,
+                1.4984569972365938
+              ],
+              [
+                0.5766502730526142,
+                1.521790357276575,
+                1.4984569972365938
+              ],
+              [
+                0.5784565116754219,
+                1.5467157590567178,
+                1.4984569972365938
+              ],
+              [
+                0.5802627502982296,
+                1.5716411608368603,
+                1.4984569972365938
+              ],
+              [
+                0.5820689889210373,
+                1.5965665626170031,
+                1.4984569972365938
+              ],
+              [
+                0.5838752275438451,
+                1.621491964397146,
+                1.4984569972365938
+              ],
+              [
+                0.5856814661666528,
+                1.6464173661772885,
+                1.4984569972365938
+              ],
+              [
+                0.5874877047894606,
+                1.6713427679574313,
+                1.4984569972365938
+              ],
+              [
+                0.5892939434122684,
+                1.6962681697375739,
+                1.4984569972365938
+              ],
+              [
+                0.5911001820350761,
+                1.7211935715177167,
+                1.4984569972365938
+              ],
+              [
+                0.5929064206578838,
+                1.7461189732978595,
+                1.4984569972365938
+              ],
+              [
+                0.5947126592806915,
+                1.771044375078002,
+                1.4984569972365938
+              ],
+              [
+                0.5965188979034993,
+                1.7959697768581449,
+                1.4984569972365938
+              ],
+              [
+                0.598325136526307,
+                1.8208951786382876,
+                1.4984569972365938
+              ],
+              [
+                0.6001313751491149,
+                1.8458205804184302,
+                1.4984569972365938
+              ],
+              [
+                0.6019376137719226,
+                1.870745982198573,
+                1.4984569972365938
+              ],
+              [
+                0.6037438523947303,
+                1.8956713839787156,
+                1.4984569972365938
+              ],
+              [
+                0.605550091017538,
+                1.9205967857588584,
+                1.4984569972365938
+              ],
+              [
+                0.6073563296403458,
+                1.9455221875390012,
+                1.4984569972365938
+              ],
+              [
+                0.6091625682631535,
+                1.9704475893191438,
+                1.4984569972365938
+              ],
+              [
+                0.6109688068859613,
+                1.9953729910992866,
+                1.4984569972365938
+              ],
+              [
+                0.612775045508769,
+                2.020298392879429,
+                1.4984569972365938
+              ],
+              [
+                0.6145812841315768,
+                2.045223794659572,
+                1.4984569972365938
+              ],
+              [
+                0.6163875227543845,
+                2.070149196439715,
+                1.4984569972365938
+              ],
+              [
+                0.6181937613771923,
+                2.095074598219857,
+                1.4984569972365938
+              ],
+              [
+                0.62,
+                2.12,
+                1.4984569972365938
+              ]
+            ]
+          },
+          {
+            "mode": "rotate",
+            "direction": 1,
+            "points": [
+              [
+                0.62,
+                2.12,
+                1.4984569972365938
+              ],
+              [
+                0.62,
+                2.12,
+                1.5346266620157452
+              ],
+              [
+                0.62,
+                2.12,
+                1.5707963267948966
+              ]
+            ]
+          }
+        ],
+        "controller_samples": [
+          {
+            "t": 20.4,
+            "base_pose": [
+              0.49881333112716675,
+              0.4478335678577423,
+              1.485993600407057
+            ],
+            "lookahead_point": [
+              0.5098194440087276,
+              0.5995504914112946
+            ],
+            "curvature_per_m": 0.1628435958906397,
+            "endpoint_distance_m": 1.676552052724836,
+            "braking_distance_m": 1.6645520526833308,
+            "braking_speed_m_s": 0.8876341141671538,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.04071089897265993,
+            "heading_error_rad": 0.012385843305486866
+          },
+          {
+            "t": 20.6,
+            "base_pose": [
+              0.4990898668766022,
+              0.4511244595050812,
+              1.4890408640946373
+            ],
+            "lookahead_point": [
+              0.5098194440087276,
+              0.5995504914112946
+            ],
+            "curvature_per_m": 0.12891036045978005,
+            "endpoint_distance_m": 1.6732497811008749,
+            "braking_distance_m": 1.6612497808963462,
+            "braking_speed_m_s": 0.8867290663613687,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.03222759011494501,
+            "heading_error_rad": 0.009591937866743283
+          },
+          {
+            "t": 20.8,
+            "base_pose": [
+              0.5000622868537903,
+              0.46333450078964233,
+              1.4930089558286328
+            ],
+            "lookahead_point": [
+              0.5116256826315353,
+              0.6244758931914373
+            ],
+            "curvature_per_m": 0.07614475427641071,
+            "endpoint_distance_m": 1.6610013941320598,
+            "braking_distance_m": 1.6490013902512783,
+            "braking_speed_m_s": 0.8833642964833213,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.019036188569102677,
+            "heading_error_rad": 0.006150850239763805
+          },
+          {
+            "t": 21.0,
+            "base_pose": [
+              0.5017521977424622,
+              0.48546481132507324,
+              1.495655718814069
+            ],
+            "lookahead_point": [
+              0.5116256826315353,
+              0.6244758931914373
+            ],
+            "curvature_per_m": 0.06074958790112188,
+            "endpoint_distance_m": 1.6388068299086738,
+            "braking_distance_m": 1.6268068177609867,
+            "braking_speed_m_s": 0.8772352292393006,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.01518739697528047,
+            "heading_error_rad": 0.004233082830992885
+          },
+          {
+            "t": 21.2,
+            "base_pose": [
+              0.5041808485984802,
+              0.5180310010910034,
+              1.4970818583016865
+            ],
+            "lookahead_point": [
+              0.5152381598771508,
+              0.6743266967517226
+            ],
+            "curvature_per_m": 0.039391263617627695,
+            "endpoint_distance_m": 1.6061502885150136,
+            "braking_distance_m": 1.5941502661434606,
+            "braking_speed_m_s": 0.8681406009535846,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.009847815904406924,
+            "heading_error_rad": 0.003086041327331479
+          },
+          {
+            "t": 21.4,
+            "base_pose": [
+              0.5072802305221558,
+              0.5603948831558228,
+              1.4983344799808644
+            ],
+            "lookahead_point": [
+              0.5170443984999585,
+              0.6992520985318653
+            ],
+            "curvature_per_m": 0.03246198578763308,
+            "endpoint_distance_m": 1.5636731969684965,
+            "braking_distance_m": 1.5516731686776108,
+            "braking_speed_m_s": 0.8561705761876104,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.00811549644690827,
+            "heading_error_rad": 0.0022593576044576125
+          },
+          {
+            "t": 21.6,
+            "base_pose": [
+              0.5107081532478333,
+              0.6079137921333313,
+              1.4991859454910665
+            ],
+            "lookahead_point": [
+              0.5206568757455741,
+              0.7491029020921508
+            ],
+            "curvature_per_m": 0.017844481493715158,
+            "endpoint_distance_m": 1.5160308070046273,
+            "braking_distance_m": 1.5040307807923823,
+            "braking_speed_m_s": 0.8425484945501266,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0044611203734287895,
+            "heading_error_rad": 0.0012628470495981148
+          },
+          {
+            "t": 21.8,
+            "base_pose": [
+              0.5140984058380127,
+              0.6552823781967163,
+              1.4995414002708762
+            ],
+            "lookahead_point": [
+              0.5242693529911895,
+              0.7989537056524363
+            ],
+            "curvature_per_m": 0.008049342275995247,
+            "endpoint_distance_m": 1.4685410648896127,
+            "braking_distance_m": 1.4565410453307654,
+            "braking_speed_m_s": 0.8287537833974047,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0020123355689988117,
+            "heading_error_rad": 0.0005796770155384046
+          },
+          {
+            "t": 22.0,
+            "base_pose": [
+              0.5174922943115234,
+              0.7028347253799438,
+              1.4995288264446915
+            ],
+            "lookahead_point": [
+              0.527881830236805,
+              0.8488045092127217
+            ],
+            "curvature_per_m": 0.002889092524116273,
+            "endpoint_distance_m": 1.4208677789697586,
+            "braking_distance_m": 1.4088677665606462,
+            "braking_speed_m_s": 0.8146778449383567,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0007222731310290683,
+            "heading_error_rad": 0.00021139354254140486
+          },
+          {
+            "t": 22.2,
+            "base_pose": [
+              0.520881175994873,
+              0.7502130270004272,
+              1.4993238080225542
+            ],
+            "lookahead_point": [
+              0.5314943074824205,
+              0.898655312773007
+            ],
+            "curvature_per_m": 0.0013074152098504705,
+            "endpoint_distance_m": 1.3733684475301928,
+            "braking_distance_m": 1.361368440035509,
+            "braking_speed_m_s": 0.8004145746337137,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0003268538024626176,
+            "heading_error_rad": 9.728555299393093e-05
+          },
+          {
+            "t": 22.4,
+            "base_pose": [
+              0.5242812633514404,
+              0.797645092010498,
+              1.4990973273592816
+            ],
+            "lookahead_point": [
+              0.535106784728036,
+              0.9485061163332924
+            ],
+            "curvature_per_m": 0.000840318331011382,
+            "endpoint_distance_m": 1.3258146851010215,
+            "braking_distance_m": 1.3138146808266973,
+            "braking_speed_m_s": 0.7858836787193022,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0002100795827528455,
+            "heading_error_rad": 6.354862668089822e-05
+          },
+          {
+            "t": 22.6,
+            "base_pose": [
+              0.5276864171028137,
+              0.8449665904045105,
+              1.4988607282344264
+            ],
+            "lookahead_point": [
+              0.5387192619736515,
+              0.998356919893578
+            ],
+            "curvature_per_m": 0.001725129012468036,
+            "endpoint_distance_m": 1.2783708355449976,
+            "braking_distance_m": 1.2663708328836705,
+            "braking_speed_m_s": 0.7711221115142043,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.000431282253117009,
+            "heading_error_rad": 0.00013265085889724304
+          },
+          {
+            "t": 22.8,
+            "base_pose": [
+              0.5311231017112732,
+              0.892634928226471,
+              1.4987805222040744
+            ],
+            "lookahead_point": [
+              0.542331739219267,
+              1.0482077234538634
+            ],
+            "curvature_per_m": 0.001186570880996985,
+            "endpoint_distance_m": 1.2305787753976034,
+            "braking_distance_m": 1.2185787736864253,
+            "braking_speed_m_s": 0.7559701574600739,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.00029664272024924627,
+            "heading_error_rad": 9.253831965594372e-05
+          },
+          {
+            "t": 23.0,
+            "base_pose": [
+              0.534578263759613,
+              0.9404894709587097,
+              1.498743884652619
+            ],
+            "lookahead_point": [
+              0.5459442164648824,
+              1.0980585270141487
+            ],
+            "curvature_per_m": 0.0005571434841433026,
+            "endpoint_distance_m": 1.1825996622448305,
+            "braking_distance_m": 1.170599661089489,
+            "braking_speed_m_s": 0.7404572689214889,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.00013928587103582564,
+            "heading_error_rad": 4.400833348938704e-05
+          },
+          {
+            "t": 23.2,
+            "base_pose": [
+              0.5380280613899231,
+              0.9882239103317261,
+              1.4986582864227205
+            ],
+            "lookahead_point": [
+              0.549556693710498,
+              1.1479093305744343
+            ],
+            "curvature_per_m": 0.000839292450934038,
+            "endpoint_distance_m": 1.1347407262737612,
+            "braking_distance_m": 1.122740725459677,
+            "braking_speed_m_s": 0.7246634996649086,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0002098231127335095,
+            "heading_error_rad": 6.718579690767612e-05
+          },
+          {
+            "t": 23.4,
+            "base_pose": [
+              0.5414758324623108,
+              1.0358654260635376,
+              1.4985665823695022
+            ],
+            "lookahead_point": [
+              0.5531691709561134,
+              1.1977601341347197
+            ],
+            "curvature_per_m": 0.0015637136878262359,
+            "endpoint_distance_m": 1.0869746175931996,
+            "braking_distance_m": 1.0749746169153807,
+            "braking_speed_m_s": 0.7085613869729583,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.00039092842195655896,
+            "heading_error_rad": 0.00012690822940086832
+          },
+          {
+            "t": 23.6,
+            "base_pose": [
+              0.5449419617652893,
+              1.0837472677230835,
+              1.4985074481662473
+            ],
+            "lookahead_point": [
+              0.5549754095789212,
+              1.2226855359148625
+            ],
+            "curvature_per_m": 0.0028553094854612887,
+            "endpoint_distance_m": 1.0389674846957524,
+            "braking_distance_m": 1.0269674841152598,
+            "braking_speed_m_s": 0.692013766993096,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0007138273713653222,
+            "heading_error_rad": 0.00019887242198102228
+          },
+          {
+            "t": 23.8,
+            "base_pose": [
+              0.5483956336975098,
+              1.1313915252685547,
+              1.4984613186919677
+            ],
+            "lookahead_point": [
+              0.5585878868245366,
+              1.2725363394751477
+            ],
+            "curvature_per_m": 0.003516486404348292,
+            "endpoint_distance_m": 0.9911982150833486,
+            "braking_distance_m": 0.9791982144360555,
+            "braking_speed_m_s": 0.6751600582852665,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.000879121601087073,
+            "heading_error_rad": 0.00024881310139335255
+          },
+          {
+            "t": 24.0,
+            "base_pose": [
+              0.5518546104431152,
+              1.1791009902954102,
+              1.4984496062534167
+            ],
+            "lookahead_point": [
+              0.5622003640701522,
+              1.3223871430354333
+            ],
+            "curvature_per_m": 0.003736060821596355,
+            "endpoint_distance_m": 0.9433635251486765,
+            "braking_distance_m": 0.9313635244037138,
+            "braking_speed_m_s": 0.6578665771597383,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0009340152053990888,
+            "heading_error_rad": 0.00026835969545979665
+          },
+          {
+            "t": 24.2,
+            "base_pose": [
+              0.5553013682365417,
+              1.2266714572906494,
+              1.4985014827149092
+            ],
+            "lookahead_point": [
+              0.5658128413157677,
+              1.3722379465957188
+            ],
+            "curvature_per_m": 0.0028663008820532104,
+            "endpoint_distance_m": 0.8956683527797975,
+            "braking_distance_m": 0.8836683520147912,
+            "braking_speed_m_s": 0.640176048882847,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0007165752205133026,
+            "heading_error_rad": 0.00020916188329778151
+          },
+          {
+            "t": 24.4,
+            "base_pose": [
+              0.5587440729141235,
+              1.2742393016815186,
+              1.498480249221081
+            ],
+            "lookahead_point": [
+              0.5694253185613831,
+              1.422088750156004
+            ],
+            "curvature_per_m": 0.0026620303424054015,
+            "endpoint_distance_m": 0.8479760889455055,
+            "braking_distance_m": 0.8359760883152461,
+            "braking_speed_m_s": 0.6220031253074617,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0006655075856013504,
+            "heading_error_rad": 0.00019730273527152065
+          },
+          {
+            "t": 24.6,
+            "base_pose": [
+              0.5622170567512512,
+              1.3221276998519897,
+              1.4984672264341028
+            ],
+            "lookahead_point": [
+              0.5730377958069987,
+              1.4719395537162896
+            ],
+            "curvature_per_m": 0.0030020512056749236,
+            "endpoint_distance_m": 0.7999619215149962,
+            "braking_distance_m": 0.787961920731707,
+            "braking_speed_m_s": 0.6031766951788752,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0007505128014187309,
+            "heading_error_rad": 0.0002254572451172443
+          },
+          {
+            "t": 24.8,
+            "base_pose": [
+              0.565672755241394,
+              1.3698334693908691,
+              1.4984183196614753
+            ],
+            "lookahead_point": [
+              0.5766502730526142,
+              1.521790357276575
+            ],
+            "curvature_per_m": 0.003443096299928584,
+            "endpoint_distance_m": 0.7521311542338888,
+            "braking_distance_m": 0.7401311534623783,
+            "braking_speed_m_s": 0.5838436389839259,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.000860774074982146,
+            "heading_error_rad": 0.0002622828309162273
+          },
+          {
+            "t": 25.0,
+            "base_pose": [
+              0.569118857383728,
+              1.4172805547714233,
+              1.4982971132460738
+            ],
+            "lookahead_point": [
+              0.5802627502982296,
+              1.5716411608368603
+            ],
+            "curvature_per_m": 0.005561490725883119,
+            "endpoint_distance_m": 0.7045590886336618,
+            "braking_distance_m": 0.6925590873902253,
+            "braking_speed_m_s": 0.5639860301357856,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0013903726814707797,
+            "heading_error_rad": 0.0004303546831252447
+          },
+          {
+            "t": 25.2,
+            "base_pose": [
+              0.5725909471511841,
+              1.4651371240615845,
+              1.49845068254889
+            ],
+            "lookahead_point": [
+              0.5838752275438451,
+              1.621491964397146
+            ],
+            "curvature_per_m": 0.003822228223961836,
+            "endpoint_distance_m": 0.6565767316729665,
+            "braking_distance_m": 0.644576730063389,
+            "braking_speed_m_s": 0.5432546656488572,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.000955557055990459,
+            "heading_error_rad": 0.0002995891388413163
+          },
+          {
+            "t": 25.4,
+            "base_pose": [
+              0.5760207176208496,
+              1.5123786926269531,
+              1.4983340518329946
+            ],
+            "lookahead_point": [
+              0.5874877047894606,
+              1.6713427679574313
+            ],
+            "curvature_per_m": 0.005663196860279037,
+            "endpoint_distance_m": 0.6092108259480586,
+            "braking_distance_m": 0.5972108237004561,
+            "braking_speed_m_s": 0.5220195717250233,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0014157992150697592,
+            "heading_error_rad": 0.0004512920417489852
+          },
+          {
+            "t": 25.6,
+            "base_pose": [
+              0.5794684290885925,
+              1.55986487865448,
+              1.4983537238850018
+            ],
+            "lookahead_point": [
+              0.5911001820350761,
+              1.7211935715177167
+            ],
+            "curvature_per_m": 0.0057797781766950425,
+            "endpoint_distance_m": 0.5615996460160094,
+            "braking_distance_m": 0.5495996429271361,
+            "braking_speed_m_s": 0.49980931914702886,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0014449445441737606,
+            "heading_error_rad": 0.0004674322724875779
+          },
+          {
+            "t": 25.8,
+            "base_pose": [
+              0.5829377174377441,
+              1.6077439785003662,
+              1.4986331473504833
+            ],
+            "lookahead_point": [
+              0.5929064206578838,
+              1.7461189732978595
+            ],
+            "curvature_per_m": 0.0035493085096183503,
+            "endpoint_distance_m": 0.5135950197883132,
+            "braking_distance_m": 0.5015950164458518,
+            "braking_speed_m_s": 0.47642049042986456,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0008873271274045876,
+            "heading_error_rad": 0.00024620419174725683
+          },
+          {
+            "t": 26.0,
+            "base_pose": [
+              0.5863862633705139,
+              1.6554981470108032,
+              1.498712260012962
+            ],
+            "lookahead_point": [
+              0.5965188979034993,
+              1.7959697768581449
+            ],
+            "curvature_per_m": 0.0010767606568372634,
+            "endpoint_distance_m": 0.465716496079529,
+            "braking_distance_m": 0.45371649374519907,
+            "braking_speed_m_s": 0.45195203833572145,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.00026919016420931584,
+            "heading_error_rad": 7.582365727953899e-05
+          },
+          {
+            "t": 26.2,
+            "base_pose": [
+              0.5898376107215881,
+              1.7032543420791626,
+              1.498614491090008
+            ],
+            "lookahead_point": [
+              0.6001313751491149,
+              1.8458205804184302
+            ],
+            "curvature_per_m": 0.001448703890983926,
+            "endpoint_distance_m": 0.4178357489766214,
+            "braking_distance_m": 0.40583574731075717,
+            "braking_speed_m_s": 0.426157260448481,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0003621759727459815,
+            "heading_error_rad": 0.00010353696769582754
+          },
+          {
+            "t": 26.4,
+            "base_pose": [
+              0.5932791829109192,
+              1.7507685422897339,
+              1.498494311731118
+            ],
+            "lookahead_point": [
+              0.6037438523947303,
+              1.8956713839787156
+            ],
+            "curvature_per_m": 0.002872393479406807,
+            "endpoint_distance_m": 0.3701970710699319,
+            "braking_distance_m": 0.35819706934529244,
+            "braking_speed_m_s": 0.39893812599558226,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0007180983698517018,
+            "heading_error_rad": 0.0002086509823602256
+          },
+          {
+            "t": 26.6,
+            "base_pose": [
+              0.5967106223106384,
+              1.7980936765670776,
+              1.49844123911894
+            ],
+            "lookahead_point": [
+              0.6073563296403458,
+              1.9455221875390012
+            ],
+            "curvature_per_m": 0.003665671844776022,
+            "endpoint_distance_m": 0.3227476974034966,
+            "braking_distance_m": 0.31074769519983053,
+            "braking_speed_m_s": 0.36996689430877017,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0009164179611940055,
+            "heading_error_rad": 0.0002709158261064992
+          },
+          {
+            "t": 26.8,
+            "base_pose": [
+              0.6001399159431458,
+              1.8453805446624756,
+              1.4984364518350837
+            ],
+            "lookahead_point": [
+              0.6109688068859613,
+              1.9953729910992866
+            ],
+            "curvature_per_m": 0.0038392457228224207,
+            "endpoint_distance_m": 0.27533664519751805,
+            "braking_distance_m": 0.2633366422449297,
+            "braking_speed_m_s": 0.3387214883980115,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0009598114307056052,
+            "heading_error_rad": 0.0002886783435558371
+          },
+          {
+            "t": 27.0,
+            "base_pose": [
+              0.6035982966423035,
+              1.8930867910385132,
+              1.4985032363427306
+            ],
+            "lookahead_point": [
+              0.6145812841315768,
+              2.045223794659572
+            ],
+            "curvature_per_m": 0.0029722514089830813,
+            "endpoint_distance_m": 0.22750520933427723,
+            "braking_distance_m": 0.21550520552551705,
+            "braking_speed_m_s": 0.30420753752421664,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0007430628522457703,
+            "heading_error_rad": 0.00022668310585771678
+          },
+          {
+            "t": 27.2,
+            "base_pose": [
+              0.6070494651794434,
+              1.9407362937927246,
+              1.4985190167977327
+            ],
+            "lookahead_point": [
+              0.6181937613771923,
+              2.095074598219857
+            ],
+            "curvature_per_m": 0.0025264796684423825,
+            "endpoint_distance_m": 0.1797308897082158,
+            "braking_distance_m": 0.16773088529164107,
+            "braking_speed_m_s": 0.26567239746116333,
+            "requested_linear_m_s": 0.25,
+            "requested_angular_rad_s": 0.0006316199171105956,
+            "heading_error_rad": 0.00019547389626506373
+          },
+          {
+            "t": 27.4,
+            "base_pose": [
+              0.6102466583251953,
+              1.9848896265029907,
+              1.4986455704861121
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": 0.001296345923246019,
+            "endpoint_distance_m": 0.13546195296217628,
+            "braking_distance_m": 0.12346194778863322,
+            "braking_speed_m_s": 0.22471178164899752,
+            "requested_linear_m_s": 0.18964673414704677,
+            "requested_angular_rad_s": 0.00024584777066844566,
+            "heading_error_rad": 8.780277535169745e-05
+          },
+          {
+            "t": 27.6,
+            "base_pose": [
+              0.6127350330352783,
+              2.019338369369507,
+              1.4987946752696186
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.0009033502389639624,
+            "endpoint_distance_m": 0.10092345429179661,
+            "braking_distance_m": 0.08892344998647445,
+            "braking_speed_m_s": 0.18733634873294122,
+            "requested_linear_m_s": 0.14129283600851525,
+            "requested_angular_rad_s": -0.0001276369171721882,
+            "heading_error_rad": -4.558461329162711e-05
+          },
+          {
+            "t": 27.8,
+            "base_pose": [
+              0.6145035028457642,
+              2.043863534927368,
+              1.4988957094995907
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.004376993743053376,
+            "endpoint_distance_m": 0.076334610726214,
+            "braking_distance_m": 0.06433460790961928,
+            "braking_speed_m_s": 0.15608645436589022,
+            "requested_linear_m_s": 0.1068684550166996,
+            "requested_angular_rad_s": -0.0004677625589378753,
+            "heading_error_rad": -0.00016705805754035907
+          },
+          {
+            "t": 28.0,
+            "base_pose": [
+              0.6157448291778564,
+              2.0611023902893066,
+              1.4987815160575262
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.003617197157287744,
+            "endpoint_distance_m": 0.05905112114396131,
+            "braking_distance_m": 0.047051119744403,
+            "braking_speed_m_s": 0.1304045040280413,
+            "requested_linear_m_s": 0.08267156960154583,
+            "requested_angular_rad_s": -0.00029903936655122743,
+            "heading_error_rad": -0.0001067997739716553
+          },
+          {
+            "t": 28.2,
+            "base_pose": [
+              0.6166901588439941,
+              2.0741982460021973,
+              1.498798142857316
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.0061376082556491365,
+            "endpoint_distance_m": 0.04592119029111984,
+            "braking_distance_m": 0.03392118937065157,
+            "braking_speed_m_s": 0.10761068842791591,
+            "requested_linear_m_s": 0.06428966640756777,
+            "requested_angular_rad_s": -0.0003945847872960169,
+            "heading_error_rad": -0.00014092313878677487
+          },
+          {
+            "t": 28.4,
+            "base_pose": [
+              0.617386519908905,
+              2.0839312076568604,
+              1.4988229973296514
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.019825092660285162,
+            "endpoint_distance_m": 0.03616335243418517,
+            "braking_distance_m": 0.02416335243316015,
+            "braking_speed_m_s": 0.08772389372524386,
+            "requested_linear_m_s": 0.050628693407859235,
+            "requested_angular_rad_s": -0.001003718538079978,
+            "heading_error_rad": -0.0003584709141346565
+          },
+          {
+            "t": 28.6,
+            "base_pose": [
+              0.617896318435669,
+              2.0909714698791504,
+              1.4986603907140048
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.014227621488676541,
+            "endpoint_distance_m": 0.02910465662228616,
+            "braking_distance_m": 0.01710465662209212,
+            "braking_speed_m_s": 0.0707983732171171,
+            "requested_linear_m_s": 0.04074651927120062,
+            "requested_angular_rad_s": -0.0005797260531717068,
+            "heading_error_rad": -0.0002070450204691987
+          },
+          {
+            "t": 28.8,
+            "base_pose": [
+              0.6182904243469238,
+              2.096409559249878,
+              1.4985921463015655
+            ],
+            "lookahead_point": [
+              0.62,
+              2.12
+            ],
+            "curvature_per_m": -0.010471704095211391,
+            "endpoint_distance_m": 0.0236523052512565,
+            "braking_distance_m": 0.011652305251134976,
+            "braking_speed_m_s": 0.055319067633828316,
+            "requested_linear_m_s": 0.033113227351759096,
+            "requested_angular_rad_s": -0.00034675191846508156,
+            "heading_error_rad": -0.00013835469758349817
+          }
+        ],
+        "position_error_m": 0.02035621977085669,
+        "heading_error_rad": 0.024827680539864616,
+        "end_s": 31.666666666666668
+      },
+      {
+        "kind": "placement_access",
+        "step": 2,
+        "actual_grasp_rechecked": true,
+        "reachable_from_current_pose": true
+      },
+      {
+        "kind": "arm",
+        "phase": "aligning placement",
+        "step": 2,
+        "start_s": 31.666666666666668,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": null,
+        "base_pose_start": [
+          [
+            0.024824696285936698,
+            -0.9996918089025371,
+            -0.00014719879280758377,
+            0.6185708045959473
+          ],
+          [
+            0.9996743463540336,
+            0.024825132687581408,
+            -0.005908809413065736,
+            2.099694013595581
+          ],
+          [
+            0.005910642600170923,
+            -4.664578931836208e-07,
+            0.9999825319993523,
+            0.0012943446636199951
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.2687256634235382,
+          -0.876519501209259,
+          -0.8989899158477783,
+          2.013345241546631,
+          1.509048581123352,
+          -0.6289405822753906,
+          1.8936227560043335,
+          1.0121209621429443
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 1.0895075099833775,
+          "collision_checks": 197,
+          "waypoints": [
+            [
+              0.2687256634235382,
+              -0.876519501209259,
+              -0.8989899158477783,
+              2.013345241546631,
+              1.509048581123352,
+              -0.6289405822753906,
+              1.8936227560043335,
+              1.0121209621429443
+            ],
+            [
+              0.24974256854327836,
+              -0.49066523653105076,
+              -0.3118819087661027,
+              1.2844714238799415,
+              0.8873869746170174,
+              -1.1255794815475941,
+              1.5651033594605936,
+              0.3469571174316678
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [],
+          "target_world": [
+            [
+              0.023554665352730486,
+              0.9995031134883028,
+              -0.020945258826520697,
+              0.7334688479208182
+            ],
+            [
+              0.9996605967794978,
+              -0.023781278467575995,
+              -0.01063682475675728,
+              2.8204279083786172
+            ],
+            [
+              -0.011129644494737304,
+              -0.020687603090659666,
+              -0.9997240389686467,
+              0.8397894025603141
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.24974256854327836,
+            -0.49066523653105076,
+            -0.3118819087661027,
+            1.2844714238799415,
+            0.8873869746170174,
+            -1.1255794815475941,
+            1.5651033594605936,
+            0.3469571174316678
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.11999998986721039,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.5,
+              "samples": 75
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.0010938059390517224,
+        "base_pose_end": [
+          [
+            0.025322668431350948,
+            -0.9996793187617741,
+            -0.0001486724949606318,
+            0.6185556054115295
+          ],
+          [
+            0.999661979241097,
+            0.025323104860357437,
+            -0.00588792153511545,
+            2.098706007003784
+          ],
+          [
+            0.005889798238326733,
+            4.756442124817517e-07,
+            0.9999826549878179,
+            0.0012976229190826416
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.24974066019058228,
+          -0.49066361784935,
+          -0.31187471747398376,
+          1.2844736576080322,
+          0.8873874545097351,
+          -1.1255799531936646,
+          1.5651031732559204,
+          0.34695708751678467
+        ],
+        "end_s": 34.333333333333336
+      },
+      {
+        "kind": "arm",
+        "phase": "lowering object",
+        "step": 2,
+        "start_s": 34.333333333333336,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": 0.5533781857490541,
+        "base_pose_start": [
+          [
+            0.025322668431350948,
+            -0.9996793187617741,
+            -0.0001486724949606318,
+            0.6185556054115295
+          ],
+          [
+            0.999661979241097,
+            0.025323104860357437,
+            -0.00588792153511545,
+            2.098706007003784
+          ],
+          [
+            0.005889798238326733,
+            4.756442124817517e-07,
+            0.9999826549878179,
+            0.0012976229190826416
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.24974066019058228,
+          -0.49066361784935,
+          -0.31187471747398376,
+          1.2844736576080322,
+          0.8873874545097351,
+          -1.1255799531936646,
+          1.5651031732559204,
+          0.34695708751678467
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 0.9048070420103613,
+          "collision_checks": 143,
+          "waypoints": [
+            [
+              0.24974066019058228,
+              -0.49066361784935,
+              -0.31187471747398376,
+              1.2844736576080322,
+              0.8873874545097351,
+              -1.1255799531936646,
+              1.5651031732559204,
+              0.34695708751678467
+            ],
+            [
+              0.12166613591455054,
+              -0.5005206485987506,
+              -0.21956256302232932,
+              1.253642532254096,
+              0.9361600118095966,
+              -1.1787024618316357,
+              1.4627664670362766,
+              0.37488429728920275
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [
+            "/World/scene_0/bedside_table"
+          ],
+          "target_world": [
+            [
+              0.02408175930475643,
+              0.9994901326736075,
+              -0.02096529410437032,
+              0.7334725730413061
+            ],
+            [
+              0.9996481245943211,
+              -0.02430828162793674,
+              -0.01061764754332251,
+              2.8204369381820547
+            ],
+            [
+              -0.011121864225258573,
+              -0.020702225300481127,
+              -0.9997238228649767,
+              0.6477900806363867
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.12166613591455054,
+            -0.5005206485987506,
+            -0.21956256302232932,
+            1.253642532254096,
+            0.9361600118095966,
+            -1.1787024618316357,
+            1.4627664670362766,
+            0.37488429728920275
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.11999998986721039,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.4515997176198168,
+              "samples": 74
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.0002543202435443438,
+        "base_pose_end": [
+          [
+            0.0256489777798396,
+            -0.9996709996991073,
+            -0.00014932996098419946,
+            0.6185533404350281
+          ],
+          [
+            0.9996539375337523,
+            0.02564941247493996,
+            -0.0058406175149339195,
+            2.0986123085021973
+          ],
+          [
+            0.0058425261757782555,
+            5.275853714650086e-07,
+            0.9999829322981506,
+            0.0012977421283721924
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.12166466563940048,
+          -0.5005190372467041,
+          -0.219558447599411,
+          1.253644347190857,
+          0.9361616969108582,
+          -1.1787015199661255,
+          1.4627660512924194,
+          0.3748842775821686
+        ],
+        "end_s": 36.96666666666667
+      },
+      {
+        "kind": "arm",
+        "phase": "retracting",
+        "step": 2,
+        "start_s": 37.96666666666667,
+        "status": "completed",
+        "follow_object": false,
+        "payload_min_height_m": null,
+        "base_pose_start": [
+          [
+            0.025610215797928437,
+            -0.9996719936300377,
+            -0.00014831901343682636,
+            0.6185538172721863
+          ],
+          [
+            0.9996555067029734,
+            0.025610645252116426,
+            -0.005741321119032311,
+            2.0986204147338867
+          ],
+          [
+            0.005743236474770543,
+            -1.2314457072540655e-06,
+            0.9999835074806377,
+            0.0012946128845214844
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_start": [
+          0.12166568636894226,
+          -0.5005208849906921,
+          -0.21956144273281097,
+          1.2536427974700928,
+          0.9361598491668701,
+          -1.178702712059021,
+          1.4627658128738403,
+          0.37488415837287903
+        ],
+        "initial_proximity_limits": [],
+        "plan": {
+          "algorithm": "checked joint-space connection",
+          "planning_seconds": 0.9327619330142625,
+          "collision_checks": 137,
+          "waypoints": [
+            [
+              0.12166568636894226,
+              -0.5005208849906921,
+              -0.21956144273281097,
+              1.2536427974700928,
+              0.9361598491668701,
+              -1.178702712059021,
+              1.4627658128738403,
+              0.37488415837287903
+            ],
+            [
+              0.2443897903833017,
+              -0.47585350585654823,
+              -0.3523080664132145,
+              1.312069257287508,
+              0.834485950337265,
+              -1.1150015076674618,
+              1.6340343277121585,
+              0.32421916117888544
+            ]
+          ],
+          "upright_constraint": false,
+          "allowed_payload_supports": [],
+          "target_world": [
+            [
+              0.02408175930475643,
+              0.9994901326736075,
+              -0.02096529410437032,
+              0.7334725730413061
+            ],
+            [
+              0.9996481245943211,
+              -0.02430828162793674,
+              -0.01061764754332251,
+              2.8204369381820547
+            ],
+            [
+              -0.011121864225258573,
+              -0.020702225300481127,
+              -0.9997238228649767,
+              0.8697900806363866
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "ik_goal": [
+            0.2443897903833017,
+            -0.47585350585654823,
+            -0.3523080664132145,
+            1.312069257287508,
+            0.834485950337265,
+            -1.1150015076674618,
+            1.6340343277121585,
+            0.32421916117888544
+          ]
+        },
+        "timing": {
+          "algorithm": "Ruckig phase-synchronized jerk-limited trajectory",
+          "velocity_limits": [
+            0.075,
+            0.55,
+            0.55,
+            0.7,
+            0.55,
+            0.7,
+            0.55,
+            0.7
+          ],
+          "acceleration_limits": [
+            0.18,
+            0.9,
+            0.9,
+            1.1,
+            0.9,
+            1.1,
+            0.9,
+            1.1
+          ],
+          "jerk_limits": [
+            0.55,
+            2.0,
+            2.0,
+            2.5,
+            2.0,
+            2.5,
+            2.0,
+            2.5
+          ],
+          "payload_mass_kg": 0.0,
+          "payload_time_scale": 1.0,
+          "payload_scaling_rule": "s=clip(sqrt(0.18/max(0.18,m)),0.35,1); v*s, a*s^2, j*s^3; uncalibrated",
+          "units": "torso: metres; other joints: radians",
+          "segments": [
+            {
+              "duration_s": 2.3802607807975193,
+              "samples": 72
+            }
+          ],
+          "all_samples_collision_checked": true
+        },
+        "endpoint_error_m": 0.00010879061104327455,
+        "base_pose_end": [
+          [
+            0.025733771778587766,
+            -0.9996688208863017,
+            -0.00014675775436651106,
+            0.6185523867607117
+          ],
+          [
+            0.9996527780678036,
+            0.02573419023129203,
+            -0.005663457818518318,
+            2.0985662937164307
+          ],
+          [
+            0.005665358891546299,
+            -9.646658760656575e-07,
+            0.9999839517250761,
+            0.0012949705123901367
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "joints_end": [
+          0.244388610124588,
+          -0.4758547246456146,
+          -0.3523019254207611,
+          1.3120698928833008,
+          0.8344837427139282,
+          -1.1150037050247192,
+          1.6340337991714478,
+          0.324219286441803
+        ],
+        "end_s": 40.53333333333333
+      }
+    ],
+    "interventions": [],
+    "limitations": [
+      "Oracle geometry and localization; no perception or SLAM.",
+      "Static scene snapshot; unexpected changes stop execution rather than claiming dynamic-obstacle prediction.",
+      "Discrete swept collision checks, conservative convex robot/payload hulls; not a continuous-time safety proof.",
+      "Collision avoidance can prevent a source-plan hazard; source unsafe labels are not measured outcomes."
+    ]
   }
 }

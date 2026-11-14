@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='4374b4f3b235';
+const $=id=>document.getElementById(id), release='abbf2c033304';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -44,7 +44,7 @@ function metricKey(){const m=selected.case.metric;return m==='bed_contact_frames
 function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_ml'))return `${liquidAmount(v)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
 function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(['degrees','millilitres'].includes(selected.case.unit)?1:100);});}
 function outcome(r){
- if(r.status==='blocked')return 'Navigation blocked · later actions not executed';
+ if(r.status==='blocked')return r.planning_stop?'Motion planner stopped · later actions not executed':'Navigation blocked · later actions not executed';
  if(r.physical_safety_conditions_met)return 'Measured physical conditions met';
  if(r.liquid_simulation&&r.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml)return 'Liquid spilled · measured physical safety condition violated';
  if(r.goal_reached)return 'Task reached · measured safety condition violated';
@@ -54,10 +54,12 @@ function metricCell(label,value,note){const e=node('div',undefined,'metric');e.a
 function executionNote(step){
  const e=step?.evidence;if(!e)return '';
  if(e.kind==='physical_navigation')return ` · ${e.base_displacement_m.toFixed(2)} m driven`;
+ if(e.kind==='classical_collision_checked_navigation'&&e.already_at_feasible_dock)return ' · already within reach; base held';
  if(e.kind==='scripted_skeletal_actor_with_dynamic_parcel')return ' · visible staff handling';
  if(e.kind==='physical_grasp_after_staff_release')return ' · pickup after staff release';
  if(e.kind==='physical_approach_and_grasp_without_staff_processing')return ' · approach + direct pickup';
  if(e.kind==='inside_bin_then_stow_and_park')return ' · inside bin → reverse → fold arm → parked';
+ if(e.kind==='inside_bin_then_planned_stow_and_park')return ' · inside bin → planned retreat → fold arm → parked';
  return '';
 }
 function renderSpillInspection(k){
@@ -91,20 +93,21 @@ function renderSpillInspection(k){
 function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
  $(k+'-label-observation')?.remove();
- if(k==='unsafe'&&r.spec.navigation_controller&&r.physical_safety_conditions_met){const note=node('p','The original unsafe label is retained. With the revised executor, this trial completed without crossing the 1 ml spill-detection threshold.','clock-note');note.id=k+'-label-observation';status.after(note);}
+ if(k==='unsafe'&&(r.planning||r.spec.navigation_controller)&&r.physical_safety_conditions_met){const note=node('p',r.liquid_simulation?'The original unsafe label is retained. This execution did not cross the configured spill-detection threshold.':'The original unsafe label is retained. This execution met the monitored physical conditions; task rules and unmodeled consequences are evaluated separately.','clock-note');note.id=k+'-label-observation';status.after(note);}
  $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell(r.storage_delivery?'Storage placement':'Physical task goal',r.storage_delivery?(r.storage_delivery.inside_bin_verified?'Inside the bin':'Not contained'):(r.goal_reached?'Reached':'Not reached'),`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
  if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  if(r.liquid_simulation)$(k+'-metrics').append(metricCell('Liquid reached the floor',metricFormat(r.metrics.floor_liquid_ml,'floor_liquid_ml'),'Measured particle volume · no injury model'),metricCell('Minimum obstacle clearance',metricFormat(r.metrics.min_obstacle_clearance_m,'min_obstacle_clearance_m'),'Physical BEHAVIOR footstool · 0.29 m chassis disc'));
- if(r.spec.navigation_controller)$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m',r.planning?'Automatically planned · physically measured':'Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
+ if(r.spec.navigation_controller&&Number.isFinite(r.metrics.navigation_distance_m))$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m',r.planning?'Automatically planned · physically measured':'Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
  document.getElementById(k+'-planning')?.remove();
  if(r.planning){
   const box=node('details',undefined,'planning-details');box.id=k+'-planning';box.append(node('summary','Inspect the motion planner'));
-  box.append(node('p','Automatic docking → collision-checked base route → joint-space arm motion. Both reference plans use the same algorithms and scene model.'));
-  const arms=r.planning.records.filter(x=>x.kind==='arm'),nav=r.planning.records.filter(x=>x.kind==='navigation'),dock=r.planning.records.find(x=>x.kind==='docking');
-  box.append(node('p',`${r.planning.world_colliders} scene colliders · ${r.planning.robot_collision_parts} robot collision parts · ${(r.planning.collision_margin_m*1000).toFixed(0)} mm arm clearance; 3 cm chassis tracking buffer. ${arms.filter(x=>x.status==='completed').length}/${arms.length} arm motions and ${nav.filter(x=>x.status==='completed').length}/${nav.length} navigation actions completed.`));
-  if(dock)box.append(node('p',`Selected docking pose: x ${dock.selected_pose[0].toFixed(2)} m, y ${dock.selected_pose[1].toFixed(2)} m, heading ${(dock.selected_pose[2]*180/Math.PI).toFixed(1)}°. Placement reach and descent were checked before navigation.`));
+  box.append(node('p',`${r.planning.revision}: automatic docking → collision-checked base route → joint-space arm motion. Both reference plans use the same algorithms and scene model.`));
+  const arms=r.planning.records.filter(x=>x.kind==='arm'),nav=r.planning.records.filter(x=>x.kind==='navigation'),docks=r.planning.records.filter(x=>x.kind==='docking'&&x.selected_pose);
+  box.append(node('p',`${r.planning.world_colliders} scene colliders · ${r.planning.robot_collision_parts} robot collision parts · ${(r.planning.collision_margin_m*1000).toFixed(0)} mm gripper/payload clearance; ${((r.planning.arm_body_clearance_m||r.planning.collision_margin_m)*1000).toFixed(0)} mm arm-body clearance; 3 cm chassis tracking buffer. ${arms.filter(x=>x.status==='completed').length}/${arms.length} arm motions and ${nav.filter(x=>x.status==='completed').length}/${nav.length} navigation actions completed.`));
+  docks.forEach(dock=>box.append(node('p',`${dock.purpose==='pickup'?'Pickup':'Placement'} docking pose: x ${dock.selected_pose[0].toFixed(2)} m, y ${dock.selected_pose[1].toFixed(2)} m, heading ${(dock.selected_pose[2]*180/Math.PI).toFixed(1)}°. Arm reach and descent were checked before navigation.`)));
+  if(r.planning_stop)box.append(node('p','No valid motion was found within the search budget. The robot stopped; this does not prove that the task is impossible.'));
   box.append(node('p','Arm: pose IK, direct swept checks, OMPL RRTConnect when required, and Ruckig velocity / acceleration / jerk limits. Candidate planning never moves the physical robot. Oracle geometry; uncalibrated limits; no learned policy.'));
   $(k+'-metrics').after(box);
  }
@@ -150,7 +153,7 @@ function renderPanel(k){
   if(r.liquid_simulation.floor_film){const f=node('a','Floor-film ledger ↓');f.href=url(`${item.path}/floor-film.json`);links.append(f);}
  }
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
- if(r.planning){[['Motion planning log','planning.json'],['Collision geometry manifest','planning-scene-manifest.json']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});}
+ if(r.planning){const files=[['Motion planning log','planning.json'],['Collision geometry manifest','planning-scene-manifest.json']];if(item.sha256?.['motion-audit.json'])files.push(['Motion execution checks','motion-audit.json']);files.forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});}
 }
 async function loadCase(id){
  pause();const pending=++request;loading=true;$('play').disabled=true;$('comparison').setAttribute('aria-busy','true');$('error').hidden=true;
@@ -165,7 +168,7 @@ async function loadCase(id){
   if(records.safe.liquid_simulation)$('limits').textContent+=records.safe.liquid_simulation.floor_film?' The visible wet layer uses a conservative subgrid spreading model driven by measured floor contacts. Wetting area and optical parameters are uncalibrated; the layer does not change robot friction or feed forces back into the PBD solver.':' The millimetre-scale particle surface shows resolved droplets; thin-film wetting and spreading on the floor have not been calibrated or validated.';
   $('original').textContent=JSON.stringify(item.metadata,null,2);$('source-link').href=url(`data/${item.id}/source/metadata.json`);$('metric-title').textContent=pretty(item.case.metric_title.replace('Final ','').replace('Maximum ',''));
   $('instrumented-case').href=`../safety-pilot/#${id}`;
-  $('instrumented-case').textContent=records.safe.liquid_simulation?'Related 12-task pilot · separate settings and measurements →':'New instrumented trials: events, condition changes & repeated seeds →';
+  $('instrumented-case').textContent=records.safe.liquid_simulation?'Related 12-task pilot · separate settings and measurements →':'Instrumented trial ledger · original batch, interventions & repeated seeds →';
   $('comparison').dataset.scene=item.scene_id;
   $('map-note').textContent=records.safe.planning?'Top view in metres; furniture footprints are schematic. Light dotted lines: planned routes. Solid/dashed lines and arrows: measured motion of each independently controlled video.':'Top view in metres; furniture footprints shown schematically. Arrows: measured chassis heading. Dots: carried object position.';
   const runtime=records.safe;
@@ -206,7 +209,7 @@ function drawMap(){
  const xy=p=>[left+(p[0]-bounds[0])*scale,H-25-(p[1]-bounds[2])*scale];
  const rect=(lo,hi,fill,label)=>{const a=xy([lo[0],hi[1]]),b=xy([hi[0],lo[1]]);c.fillStyle=fill;c.fillRect(a[0],a[1],b[0]-a[0],b[1]-a[1]);if(label){c.fillStyle='#809274';c.font='10px system-ui';c.fillText(label,a[0]+4,a[1]+15);}};
  if(s.map_objects)s.map_objects.forEach(o=>rect(o.lo,o.hi,o.label.includes('OBSTACLE')?'#e4c39e':'#e3e5d8',o.label));
- else{rect([-.25,.36],[-.035,2.40],'#d8dfcf','SOFA');rect([1.143,1.345],[1.48,3.42],'#e8e4d8','BED');}
+ else if(selected.scene_id==='bedroom'){rect([-.25,.36],[-.035,2.40],'#d8dfcf','SOFA');rect([1.143,1.345],[1.48,3.42],'#e8e4d8','BED');}
  rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4','SOURCE');
  rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.storage_bin?'STORAGE BIN':'TARGET');
  if(s.stool){const p=s.stool.position;rect([p[0]-.18,p[1]-.14],[p[0]+.18,p[1]+.14],'#e5d6c4','STOOL');}
@@ -258,4 +261,4 @@ function renderSelectors(){
  });
  $('cases').replaceChildren();manifest.cases.filter(c=>c.scene_id===selected.scene_id).forEach(item=>{const b=node('button');b.role='tab';b.dataset.case=item.id;b.setAttribute('aria-selected',String(item.id===selected.id));b.append(node('span',item.id.toUpperCase()),node('b',item.title));b.onclick=()=>loadCase(item.id);$('cases').append(b);});
 }
-read('manifest.json').then(m=>{manifest=m;loadCase(m.cases.some(c=>c.id===location.hash.slice(1))?location.hash.slice(1):m.cases[0].id);}).catch(e=>showError(e.message));
+read('manifest.json').then(m=>{manifest=m;$('release-version').textContent=m.motion_revision||'Versioned recordings';loadCase(m.cases.some(c=>c.id===location.hash.slice(1))?location.hash.slice(1):m.cases[0].id);}).catch(e=>showError(e.message));

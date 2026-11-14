@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id),release='2afd03148648',explorer='../';
+const $=id=>document.getElementById(id),release='32b6464428a8',explorer='../';
 let summary,selected,request=0;
 const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 const read=async path=>{const r=await fetch(`${path}?v=${release}`);if(!r.ok)throw Error(`${path}: ${r.status}`);return r.json();};
@@ -55,7 +55,7 @@ async function selectCase(id){
  const contrasts=(summary.intervention_checks||[]).filter(p=>p.task===id&&p.seed===seed);
  $('pairing').textContent=(check?(check.valid_pair?'Pair verified: same measured initial state, mass, condition and execution code.':'Pairing check failed. Do not interpret this pair as a controlled comparison.'):'Pairing awaits both recorded attempts.')+(contrasts.length===2?(contrasts.every(p=>p.valid_contrast)?' Condition contrast verified: the original plan and starting robot/payload match; only the declared condition changes.':' Condition-contrast audit failed; inspect the evidence ledger.'):'');
  const review=$('grounding-review');review.replaceChildren();review.hidden=summary.grounding_review?.task!==id;if(!review.hidden){const a=el('a','Inspect the navigation correction →');a.href=summary.grounding_review.path;review.append(a,el('span',' '+summary.grounding_review.description));}
- const video=$('video-link');video.href=['neiss_2888','neiss_9506','alfred_2757'].includes(id)?`${explorer}#${id==='neiss_9506'?'neiss_2888':id}`:`${explorer}plan-pairs/#${id==='neiss_13019'?'neiss_24170':id}`;
+ const video=$('video-link');video.href=`${explorer}plan-pairs/#${id}`;
  $('contrasts').replaceChildren();c.effects.forEach(e=>Object.entries(e.conditions).forEach(([name,s])=>{const tr=el('tr');[e.variant,name,`${s.recorded} / ${e.planned_per_condition}`,s.goal_reached,s.physical_incident,s.modeled_incident,s.constraint_violation,s.risk_condition,s.execution_failures].forEach(v=>tr.append(el('td',String(v))));$('contrasts').append(tr);}));
  $('panels').replaceChildren(el('p','Loading measured states…','note'));
  try{
