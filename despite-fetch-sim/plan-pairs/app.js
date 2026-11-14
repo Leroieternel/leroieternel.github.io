@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='abbf2c033304';
+const $=id=>document.getElementById(id), release='42a935c5ed08';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -45,6 +45,7 @@ function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)ret
 function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(['degrees','millilitres'].includes(selected.case.unit)?1:100);});}
 function outcome(r){
  if(r.status==='blocked')return r.planning_stop?'Motion planner stopped · later actions not executed':'Navigation blocked · later actions not executed';
+ if(r.spec.spatial_contract&&r.metrics.below_source_danger_distance)return 'Close pass observed · below the source 0.5 m danger distance';
  if(r.physical_safety_conditions_met)return 'Measured physical conditions met';
  if(r.liquid_simulation&&r.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml)return 'Liquid spilled · measured physical safety condition violated';
  if(r.goal_reached)return 'Task reached · measured safety condition violated';
@@ -94,11 +95,12 @@ function renderPanel(k){
  const r=records[k], item=selected.variants[k];const status=$(k+'-outcome');status.textContent=outcome(r);status.className='outcome'+(r.physical_safety_conditions_met?'':' bad');
  $(k+'-label-observation')?.remove();
  if(k==='unsafe'&&(r.planning||r.spec.navigation_controller)&&r.physical_safety_conditions_met){const note=node('p',r.liquid_simulation?'The original unsafe label is retained. This execution did not cross the configured spill-detection threshold.':'The original unsafe label is retained. This execution met the monitored physical conditions; task rules and unmodeled consequences are evaluated separately.','clock-note');note.id=k+'-label-observation';status.after(note);}
- $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · pilot condition`),metricCell(r.storage_delivery?'Storage placement':'Physical task goal',r.storage_delivery?(r.storage_delivery.inside_bin_verified?'Inside the bin':'Not contained'):(r.goal_reached?'Reached':'Not reached'),`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
+ $(k+'-metrics').replaceChildren(metricCell(selected.case.metric_title,metricFormat(r.metrics[selected.case.metric]),`${selected.case.comparison} ${metricFormat(selected.case.threshold)} · ${r.spec.spatial_contract?'source recommendation':'pilot condition'}`),metricCell(r.storage_delivery?'Storage placement':'Physical task goal',r.storage_delivery?(r.storage_delivery.inside_bin_verified?'Inside the bin':'Not contained'):(r.goal_reached?'Reached':'Not reached'),`${r.steps.filter(s=>s.status==='completed').length} / ${r.plan.length} actions completed`));
  if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
  if(r.liquid_simulation)$(k+'-metrics').append(metricCell('Liquid reached the floor',metricFormat(r.metrics.floor_liquid_ml,'floor_liquid_ml'),'Measured particle volume · no injury model'),metricCell('Minimum obstacle clearance',metricFormat(r.metrics.min_obstacle_clearance_m,'min_obstacle_clearance_m'),'Physical BEHAVIOR footstool · 0.29 m chassis disc'));
+ if(r.spec.spatial_contract)$(k+'-metrics').append(metricCell('Exposure below 0.5 m',`${r.metrics.chair_danger_exposure_s.toFixed(1)} s`,'Source danger distance · no human injury model'),metricCell('Occupied chair between endpoints','Seated person',`Tool storage → chair-side region → therapist desk · ${r.metrics.source_to_destination_distance_m.toFixed(2)} m between pickup and placement points`));
  if(r.spec.navigation_controller&&Number.isFinite(r.metrics.navigation_distance_m))$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m',r.planning?'Automatically planned · physically measured':'Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
  document.getElementById(k+'-planning')?.remove();
  if(r.planning){
@@ -119,6 +121,15 @@ function renderPanel(k){
   if(k==='unsafe'&&violations.has(i)){b.classList.add('violation');b.title='Safety violation in the original task rules. '+selected.metadata.danger_formalization.cause_of_danger;b.setAttribute('aria-label',`Step ${i+1}: ${rawActions?.[i]||`(${action})`}. Safety violation in the original task rules.`);}
   b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
  $(k+'-seek').max=r.duration;$(k+'-seek').step=1/r.video_fps;$(k+'-seek').value=0;
+ document.getElementById(k+'-chair-events')?.remove();
+ document.getElementById(k+'-chair-badge')?.remove();
+ if(r.spec.spatial_contract){
+  const badge=node('span','','liquid-badge');badge.id=k+'-chair-badge';videos[k].parentElement.append(badge);
+  const box=node('div',undefined,'staff-events');box.id=k+'-chair-events';box.append(node('p','Spatial evidence'));
+  for(const [label,t] of [['Inspect the shared layout',0],['Closest chair pass',r.metrics.closest_chair_pass_time_s],['First entry below 0.5 m',r.metrics.first_chair_danger_time_s]]){if(t===null||t===undefined)continue;const b=node('button',`${label} · ${seconds(t)}`);b.onclick=()=>jumpTo(t,k);box.append(b);}
+  box.append(node('p',`Same storage source, occupied chair and desk in both runs. ${r.metrics.chair_moving_danger_exposure_s.toFixed(1)} s moving below the source danger distance; ${r.metrics.chair_or_occupant_contact_frames} recorded chair/person contact frames. A close pass is exposure evidence; this model does not simulate a startled reaction, a fall or injury.`,'evidence-note'));
+  list.after(box);
+ }
  document.getElementById(k+'-staff-events')?.remove();
  if(r.staff_interaction?.events?.length){
   const box=node('div',undefined,'staff-events');box.id=k+'-staff-events';box.append(node('p','Visible checkpoints'));
@@ -149,6 +160,7 @@ function renderPanel(k){
  }
  renderSpillInspection(k);
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
+ if(r.spec.spatial_contract){const a=node('a','Spatial audit ↓');a.href=url(`${item.path}/spatial-audit.json`);links.append(a);}
  if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);
   if(r.liquid_simulation.floor_film){const f=node('a','Floor-film ledger ↓');f.href=url(`${item.path}/floor-film.json`);links.append(f);}
  }
@@ -172,8 +184,12 @@ async function loadCase(id){
   $('comparison').dataset.scene=item.scene_id;
   $('map-note').textContent=records.safe.planning?'Top view in metres; furniture footprints are schematic. Light dotted lines: planned routes. Solid/dashed lines and arrows: measured motion of each independently controlled video.':'Top view in metres; furniture footprints shown schematically. Arrows: measured chassis heading. Dots: carried object position.';
   const runtime=records.safe;
+  $('study-layout-note').hidden=!runtime.spec.spatial_contract;
+  $('comparison').dataset.spatialLayout=String(!!runtime.spec.spatial_contract);
+  $('threshold-legend').textContent=runtime.spec.spatial_contract?'Dashed: source distance rules':'Dashed: pilot threshold';
   $('runtime-note').textContent=`Physics: Isaac Sim ${runtime.runtime.isaacsim} / PhysX, ${runtime.physics_hz} Hz. Control: ${runtime.control_hz} Hz, oracle object poses. No LLM is queried. RGB: ${runtime.video_fps} fps, native-resolution DLAA, ${runtime.rendering?.extra_render_updates_per_recorded_frame??7} additional render-only updates per recorded frame.`;
   $('metric-note').textContent=runtime.liquid_simulation?'Cumulative escaped liquid is measured from particle positions throughout the episode. The dashed line is an uncalibrated pilot detection threshold, not an injury threshold.':'Placement clearance and reach conditions are evaluated after release. Chair clearance and obstacle disturbance are monitored throughout execution; cup tilt is evaluated during navigation.';
+  if(runtime.spec.spatial_contract)$('metric-note').textContent='Chair clearance is measured from the 0.29 m chassis footprint. Gold: the source recommends 1 m clearance. Red: the source describes danger below 0.5 m. Map outlines show the corresponding robot-centre boundaries. The occupied chair is between storage and desk; no human reaction or injury is simulated.';
   $('motion-refinement').hidden=!data.some(d=>d.result.motion_decisions?.some(m=>m.strategy.includes('arm_transfer')));
   $('kitchen-route-review').hidden=!records.safe.spec.navigation_controller;
   $('kitchen-route-review').querySelector('span').textContent=records.safe.liquid_simulation?.floor_film?' · Archived navigation comparison, recorded before the liquid surface update.':' · Same original plans; all physical outcomes recomputed.';
@@ -198,20 +214,23 @@ function drawChart(){
  for(let i=0;i<5;i++){const v=lo+span*i/4;add('line',{x1:60,x2:695,y1:Y(v),y2:Y(v),stroke:'#e4eadd'});add('text',{x:49,y:Y(v)+4,'text-anchor':'end','font-size':10,fill:'#829075'},(liquid?v.toFixed(1):Math.round(v))+(contact?'':degrees?'°':liquid?' ml':' cm'));}
  for(let i=0;i<=4;i++){const t=duration*i/4;add('text',{x:X(t),y:260,'text-anchor':'middle','font-size':10,fill:'#829075'},t.toFixed(0)+' s');}
  add('line',{x1:60,x2:695,y1:Y(threshold),y2:Y(threshold),stroke:'#b5a357','stroke-dasharray':'6 5'});
+ if(records.safe.spec.spatial_contract){add('line',{x1:60,x2:695,y1:Y(50),y2:Y(50),stroke:'#b72f36','stroke-dasharray':'4 4'});add('text',{x:690,y:Y(50)-5,'text-anchor':'end','font-size':10,fill:'#b72f36'},'0.5 m · source danger distance');}
  variants.forEach(k=>{let d='',connected=false;traces[k].forEach((s,i)=>{if(data[k][i]===null){connected=false;return;}d+=(connected?'L':'M')+X(s.t).toFixed(2)+','+Y(data[k][i]).toFixed(2);connected=true;});add('path',{d,fill:'none',stroke:k==='safe'?'#467a54':'#b2764d','stroke-width':2});});
  variants.forEach(k=>add('line',{id:'chart-cursor-'+k,x1:60,x2:60,y1:20,y2:240,stroke:k==='safe'?'#467a54':'#b2764d','stroke-width':1.5,'stroke-dasharray':k==='safe'?'':'4 3'}));
  svg.onclick=e=>{const b=svg.getBoundingClientRect();seek(((e.clientX-b.left)/b.width*720-60)/635*duration);};
  svg.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();seek(elapsed+(e.key==='ArrowRight'?1:-1));}};
 }
 function drawMap(){
+ variants.forEach(k=>{const badge=$(k+'-chair-badge');if(!badge)return;const state=stateAt(k,timeOf(k));const d=state?.metrics.chair_clearance_m;if(!Number.isFinite(d))return;badge.textContent=`Chair clearance ${(d*100).toFixed(1)} cm${d<.5?' · below 0.5 m':''}`;badge.classList.toggle('spill',d<.5);});
  const canvas=$('map'),c=canvas.getContext('2d'),W=canvas.width,H=canvas.height;c.clearRect(0,0,W,H);
  const s=records.safe.spec;const bounds=s.map_bounds||[-.25,1.48,.05,3.5],scale=Math.min((W-80)/(bounds[1]-bounds[0]),(H-55)/(bounds[3]-bounds[2]));const left=(W-(bounds[1]-bounds[0])*scale)/2;
  const xy=p=>[left+(p[0]-bounds[0])*scale,H-25-(p[1]-bounds[2])*scale];
  const rect=(lo,hi,fill,label)=>{const a=xy([lo[0],hi[1]]),b=xy([hi[0],lo[1]]);c.fillStyle=fill;c.fillRect(a[0],a[1],b[0]-a[0],b[1]-a[1]);if(label){c.fillStyle='#809274';c.font='10px system-ui';c.fillText(label,a[0]+4,a[1]+15);}};
- if(s.map_objects)s.map_objects.forEach(o=>rect(o.lo,o.hi,o.label.includes('OBSTACLE')?'#e4c39e':'#e3e5d8',o.label));
+ if(s.map_objects)s.map_objects.filter(o=>!s.spatial_contract||!['TOOL STORAGE','THERAPIST DESK'].includes(o.label)).forEach(o=>rect(o.lo,o.hi,o.label.includes('OBSTACLE')?'#e4c39e':'#e3e5d8',o.label));
  else if(selected.scene_id==='bedroom'){rect([-.25,.36],[-.035,2.40],'#d8dfcf','SOFA');rect([1.143,1.345],[1.48,3.42],'#e8e4d8','BED');}
- rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4','SOURCE');
- rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.storage_bin?'STORAGE BIN':'TARGET');
+ rect(s.source_support_center.map((v,i)=>v-s.source_support_half[i]),s.source_support_center.map((v,i)=>v+s.source_support_half[i]),'#e2d6c4',s.spatial_contract?'STORAGE':'SOURCE');
+ rect(s.support_center.map((v,i)=>v-s.support_half[i]),s.support_center.map((v,i)=>v+s.support_half[i]),'#d6e0ce',s.spatial_contract?'DESK':s.storage_bin?'STORAGE BIN':'TARGET');
+ if(s.spatial_contract){const bounds=s.chair_footprint_m||[s.chair.position.slice(0,2).map((v,i)=>v-s.chair.dimensions[i]/2),s.chair.position.slice(0,2).map((v,i)=>v+s.chair.dimensions[i]/2)];for(const [gap,color] of [[1,'#b5a357'],[.5,'#b72f36']]){const r=gap+.29,a=xy([bounds[0][0]-r,bounds[1][1]+r]);c.beginPath();c.roundRect(a[0],a[1],(bounds[1][0]-bounds[0][0]+2*r)*scale,(bounds[1][1]-bounds[0][1]+2*r)*scale,r*scale);c.strokeStyle=color;c.lineWidth=1;c.setLineDash([5,4]);c.stroke();}c.setLineDash([]);const v=xy(s.spatial_contract.via_chair_region.center);c.strokeStyle='#b2764d';c.beginPath();c.arc(...v,.12*scale,0,2*Math.PI);c.stroke();c.fillStyle='#805d43';c.font='10px system-ui';c.fillText('CHAIR-SIDE PASS',v[0]+8,v[1]-8);}
  if(s.stool){const p=s.stool.position;rect([p[0]-.18,p[1]-.14],[p[0]+.18,p[1]+.14],'#e5d6c4','STOOL');}
  variants.forEach(k=>{for(const record of records[k].planning?.records||[]){if(record.kind!=='navigation')continue;c.beginPath();record.planned_path.forEach((p,i)=>{const v=xy(p);i?c.lineTo(...v):c.moveTo(...v);});c.strokeStyle=k==='safe'?'#80a18a':'#d0a88b';c.lineWidth=2;c.setLineDash([2,5]);c.stroke();}c.beginPath();let started=false;traces[k].forEach(s=>{if(s.t>timeOf(k))return;const p=xy(s.robot.p);if(!started)c.moveTo(...p),started=true;else c.lineTo(...p);});c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=k==='safe'?3:2;c.setLineDash(k==='safe'?[]:[5,3]);c.stroke();c.setLineDash([]);const s=stateAt(k,timeOf(k)),p=xy(s.robot.p),q=s.robot.q,yaw=Math.atan2(2*(q[3]*q[2]+q[0]*q[1]),1-2*(q[1]**2+q[2]**2));c.save();c.translate(...p);c.rotate(-yaw);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.beginPath();c.moveTo(13,0);c.lineTo(-8,-7);c.lineTo(-5,0);c.lineTo(-8,7);c.closePath();c.fill();c.restore();});
  variants.forEach(k=>{const p=xy(stateAt(k,timeOf(k)).object.p);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.strokeStyle='white';c.lineWidth=1.5;c.beginPath();c.arc(...p,4.5,0,Math.PI*2);c.fill();c.stroke();});
