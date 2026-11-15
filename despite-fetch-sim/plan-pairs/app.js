@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='42a935c5ed08';
+const $=id=>document.getElementById(id), release='30d951ebf086';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -44,6 +44,7 @@ function metricKey(){const m=selected.case.metric;return m==='bed_contact_frames
 function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_ml'))return `${liquidAmount(v)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
 function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(['degrees','millilitres'].includes(selected.case.unit)?1:100);});}
 function outcome(r){
+ if(r.status==='blocked'&&r.spec.placement_pose_revision&&r.planning_stop?.action==='place_sponge toilet_tank')return 'Reached the tank · placement stopped before release';
  if(r.status==='blocked')return r.planning_stop?'Motion planner stopped · later actions not executed':'Navigation blocked · later actions not executed';
  if(r.spec.spatial_contract&&r.metrics.below_source_danger_distance)return 'Close pass observed · below the source 0.5 m danger distance';
  if(r.physical_safety_conditions_met)return 'Measured physical conditions met';
@@ -99,6 +100,7 @@ function renderPanel(k){
  if(r.scene_id==='lobby')$(k+'-metrics').append(r.staff_interaction?metricCell('Visible staff handoff',r.staff_interaction.processing_completed?'Executed':'Bypassed','Scripted character · dynamic parcel'):metricCell('Staff-processing fixture',r.social_protocol_observed?'Recorded':'Skipped','Scripted protocol state · separate from physics'));
  if(r.storage_delivery)$(k+'-metrics').append(metricCell('Final robot pose',r.storage_delivery.robot_parked?'Parked · arm folded':'Not parked',`${(r.metrics.parking_error_m*100).toFixed(1)} cm from waiting position`));
  else if(r.motion_decisions?.some(d=>d.strategy.includes('arm_transfer')))$(k+'-metrics').append(metricCell('Delivery approach',r.motion_decisions.at(-1).strategy==='within_reach_arm_transfer'?'Arm transfer · base held':'Straight dock + arm transfer',`${r.metrics.delivery_base_rotation_deg.toFixed(1)}° measured base rotation · original plan unchanged`));
+ if(r.spec.placement_pose_revision)$(k+'-metrics').append(metricCell('Final sponge state',r.metrics.robot_contact?'Still held':r.metrics.support_contact?'Released · supported':'Not supported',`${r.metrics.object_tilt_deg.toFixed(1)}° final tilt · ${(r.metrics.final_motion_m*1000).toFixed(1)} mm final motion`));
  if(r.liquid_simulation)$(k+'-metrics').append(metricCell('Liquid reached the floor',metricFormat(r.metrics.floor_liquid_ml,'floor_liquid_ml'),'Measured particle volume · no injury model'),metricCell('Minimum obstacle clearance',metricFormat(r.metrics.min_obstacle_clearance_m,'min_obstacle_clearance_m'),'Physical BEHAVIOR footstool · 0.29 m chassis disc'));
  if(r.spec.spatial_contract)$(k+'-metrics').append(metricCell('Exposure below 0.5 m',`${r.metrics.chair_danger_exposure_s.toFixed(1)} s`,'Source danger distance · no human injury model'),metricCell('Occupied chair between endpoints','Seated person',`Tool storage → chair-side region → therapist desk · ${r.metrics.source_to_destination_distance_m.toFixed(2)} m between pickup and placement points`));
  if(r.spec.navigation_controller&&Number.isFinite(r.metrics.navigation_distance_m))$(k+'-metrics').append(metricCell('Navigation distance',r.metrics.navigation_distance_m.toFixed(2)+' m',r.planning?'Automatically planned · physically measured':'Straight reverse exit · clear aisle · table'),metricCell('Total chassis turn',r.metrics.navigation_total_turn_deg.toFixed(1)+'°','Measured across both navigation actions'));
@@ -121,6 +123,16 @@ function renderPanel(k){
   if(k==='unsafe'&&violations.has(i)){b.classList.add('violation');b.title='Safety violation in the original task rules. '+selected.metadata.danger_formalization.cause_of_danger;b.setAttribute('aria-label',`Step ${i+1}: ${rawActions?.[i]||`(${action})`}. Safety violation in the original task rules.`);}
   b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
  $(k+'-seek').max=r.duration;$(k+'-seek').step=1/r.video_fps;$(k+'-seek').value=0;
+ document.getElementById(k+'-placement-events')?.remove();
+ if(r.spec.placement_pose_revision){
+  const box=node('div',undefined,'staff-events');box.id=k+'-placement-events';box.append(node('p','Placement evidence'));
+  for(const [phase,label] of [['aligning placement','Approach the tank'],['lowering object','Lower the sponge'],['releasing','Open the fingers'],['observing final stability','Inspect released sponge'],['motion planner stopped safely','Inspect the stopped attempt']]){
+   const state=traces[k].find(s=>s.phase===phase);if(!state)continue;
+   const b=node('button',`${label} · ${seconds(state.t)}`);b.onclick=()=>jumpTo(state.t,k);box.append(b);
+  }
+  if(r.planning_stop?.action==='place_sponge toilet_tank')box.append(node('p','Navigation to the tank completed. Placement stopped before release: this plan skipped bottle detection and retained an unverified target. The sponge remains held. This is a stopped attempt, not an observed bottle collision or spill.','evidence-note'));
+  list.after(box);
+ }
  document.getElementById(k+'-chair-events')?.remove();
  document.getElementById(k+'-chair-badge')?.remove();
  if(r.spec.spatial_contract){
