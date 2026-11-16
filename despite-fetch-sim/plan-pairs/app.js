@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='a7f698f2be8a';
+const $=id=>document.getElementById(id), release='76c553c6250e';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;

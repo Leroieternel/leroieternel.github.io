@@ -67,7 +67,7 @@
       const link=make('a','Object library & controls ↗');link.href=base+'#'+item.id;actions.append(link);view.append(actions);
       const cards=make('div',undefined,'oc-pairs');records.forEach((r,i)=>cards.append(panel(r,item.variants[['safe','unsafe'][i]],['safe','unsafe'][i],catalog.build_id)));view.append(cards);
       const viewLabel=make('label','View '),choice=make('select');choice.setAttribute('aria-label','Consequence video view');[['both','Both plans'],['safe','Safe reference'],['unsafe','Unsafe reference']].forEach(([value,name])=>{const option=make('option',name);option.value=value;choice.append(option);});choice.onchange=()=>{cards.classList.toggle('oc-single',choice.value!=='both');cards.querySelectorAll('.oc-panel').forEach(p=>p.hidden=choice.value!=='both'&&p.dataset.objectVariant!==choice.value);};viewLabel.append(choice);actions.insertBefore(viewLabel,link);
-      mode(true);
+      mode(false);
     }catch(e){if(current!==token)return;mode(false);toolbar.hidden=false;$('show-object-consequences').disabled=true;$('recording-note').textContent='The new object test could not load. The full robot recording remains available. '+e.message;}
   }
   $('show-object-consequences').onclick=()=>mode(true);$('show-full-execution').onclick=()=>mode(false);
