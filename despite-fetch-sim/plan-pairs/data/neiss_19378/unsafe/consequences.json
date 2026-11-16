@@ -1,0 +1,229 @@
+{
+  "revision": "physical-release-consequences-v2",
+  "config": {
+    "revision": "physical-release-consequences-v2",
+    "mode": "gravity_overhang",
+    "rule": {
+      "mode": "gravity_overhang",
+      "placement_overhang_m": 0.012,
+      "release_base_clearance_m": 0.55,
+      "threshold_m": 0.03,
+      "dwell_s": 0.25,
+      "release_delay_s": 0.75,
+      "gripper_clearance_m": 0.18,
+      "force_n": 0.0,
+      "pulse_s": 0.1,
+      "lever_arm_m": 0.065,
+      "withdrawal_m": 0.8,
+      "observe_s": 8.0,
+      "container_open": false,
+      "initial_liquid_ml": 0.0,
+      "spill_tilt_deg": 55.0,
+      "maximum_flow_ml_s": 60.0,
+      "parcel_volume_ml": 0.1,
+      "seed": 41
+    },
+    "kind": "carton",
+    "calibration_status": "uncalibrated",
+    "distance_definition": "Signed minimum distance from the projected payload footprint to the declared rectangular destination edge; negative means overhang.",
+    "causal_scope": "The edge action places the bottle origin beyond the front support edge. Actual center of mass and release contacts are logged. No force pulse, pose reset or tilt animation is applied; gravity and contacts determine the outcome. The distance threshold only reports risk. Open-container liquid is a separate conservative reduced-order model, not PBD or measured fluid.",
+    "reference_label_input": false,
+    "original_dataset_requires_open_container": false
+  },
+  "events": [
+    {
+      "type": "gripper_release_commanded",
+      "t": 56.0333,
+      "step_index": 2,
+      "basis": "motor_command_and_simulator_state",
+      "action": "place_supplies_edge",
+      "object_position_m": [
+        0.6199300289154053,
+        2.4868099689483643,
+        0.6089400053024292
+      ],
+      "edge_margin_m": -0.0721,
+      "support_contact": false,
+      "object_tilt_deg": 0.008,
+      "center_of_mass_world_m": [
+        0.6199324652254128,
+        2.4868134066300054,
+        0.6089412984232251
+      ],
+      "center_of_mass_local_m": [
+        -8.537921303286566e-07,
+        5.819035184262411e-11,
+        -8.527399586455431e-07
+      ],
+      "com_support_margin_m": -0.011994
+    },
+    {
+      "type": "physical_tipping_observed",
+      "t": 57.6,
+      "step_index": 2,
+      "basis": "simulator_rigid_body_pose",
+      "tilt_deg": 58.248
+    },
+    {
+      "type": "gripper_contact_ended",
+      "t": 57.5667,
+      "step_index": 2,
+      "basis": "simulator_contact_state",
+      "confirmed_at_s": 57.6333,
+      "minimum_clear_samples": 3,
+      "edge_margin_m": -0.1132,
+      "support_contact": true,
+      "object_tilt_deg": 41.798,
+      "center_of_mass_world_m": [
+        0.6200069160459324,
+        2.4600037847007914,
+        0.5816283695272096
+      ],
+      "center_of_mass_local_m": [
+        -8.537921303286566e-07,
+        5.819035184262411e-11,
+        -8.527399586455431e-07
+      ],
+      "com_support_margin_m": -0.038804
+    },
+    {
+      "type": "physical_fall_observed",
+      "t": 57.7,
+      "step_index": 2,
+      "basis": "simulator_rigid_body_pose",
+      "height_m": 0.46295395493507385,
+      "support_top_m": 0.5563781857490541
+    }
+  ],
+  "metrics": {
+    "rule_triggered": false,
+    "physical_tipped": true,
+    "physical_fallen": true,
+    "center_of_mass_world_m": [
+      0.6147281099704083,
+      2.430495399605558,
+      0.044606569807227624
+    ],
+    "center_of_mass_local_m": [
+      -8.537921303286566e-07,
+      5.819035184262411e-11,
+      -8.527399586455431e-07
+    ],
+    "com_support_margin_m": -0.068312,
+    "rule_liquid_spilled_ml": 0.0,
+    "rule_liquid_remaining_ml": 0.0,
+    "rule_liquid_floor_ml": 0.0,
+    "rule_liquid_support_ml": 0.0,
+    "rule_liquid_airborne_ml": 0.0,
+    "container_open": false
+  },
+  "liquid_ledger": {
+    "model": "reduced_order_conservative_parcels",
+    "initial_ml": 0.0,
+    "remaining_ml": 0.0,
+    "spilled_ml": 0.0,
+    "airborne_ml": 0.0,
+    "floor_ml": 0.0,
+    "support_ml": 0.0,
+    "container_open": false,
+    "calibration_status": "uncalibrated"
+  },
+  "floor_film": {
+    "deposited_particles": 0,
+    "film_volume_ml": 0.0,
+    "input_volume_ml": 0.0,
+    "volume_error_ml": 0.0,
+    "visible_area_cm2": 0.0,
+    "max_depth_mm": 0.0,
+    "substeps": 0
+  },
+  "table_film": {
+    "deposited_particles": 0,
+    "film_volume_ml": 0.0,
+    "input_volume_ml": 0.0,
+    "volume_error_ml": 0.0,
+    "visible_area_cm2": 0.0,
+    "max_depth_mm": 0.0,
+    "substeps": 0
+  },
+  "evidence_camera": {
+    "video": "consequence-detail.mp4",
+    "poster": "consequence-detail-poster.jpg",
+    "final": "consequence-detail-final.jpg",
+    "frames": 2370,
+    "eye_m": [
+      1.52,
+      1.17,
+      1.5063781857490541
+    ],
+    "target_m": [
+      0.62,
+      2.2699999999999996,
+      0.25
+    ],
+    "focal_length_mm": 18.0,
+    "resolution_px": [
+      960,
+      640
+    ],
+    "method": "Second RTX camera in the same live episode; rule-driven liquid rendered separately from rigid-body dynamics."
+  },
+  "wet_surface_visualization": null,
+  "floor_film_render_subdivision": 4,
+  "outcome_reads_reference_label": false,
+  "external_force_api_applied": false,
+  "release_state": {
+    "type": "gripper_release_commanded",
+    "t": 56.0333,
+    "step_index": 2,
+    "basis": "motor_command_and_simulator_state",
+    "action": "place_supplies_edge",
+    "object_position_m": [
+      0.6199300289154053,
+      2.4868099689483643,
+      0.6089400053024292
+    ],
+    "edge_margin_m": -0.0721,
+    "support_contact": false,
+    "object_tilt_deg": 0.008,
+    "center_of_mass_world_m": [
+      0.6199324652254128,
+      2.4868134066300054,
+      0.6089412984232251
+    ],
+    "center_of_mass_local_m": [
+      -8.537921303286566e-07,
+      5.819035184262411e-11,
+      -8.527399586455431e-07
+    ],
+    "com_support_margin_m": -0.011994
+  },
+  "first_free_state": {
+    "type": "gripper_contact_ended",
+    "t": 57.5667,
+    "step_index": 2,
+    "basis": "simulator_contact_state",
+    "confirmed_at_s": 57.6333,
+    "minimum_clear_samples": 3,
+    "edge_margin_m": -0.1132,
+    "support_contact": true,
+    "object_tilt_deg": 41.798,
+    "center_of_mass_world_m": [
+      0.6200069160459324,
+      2.4600037847007914,
+      0.5816283695272096
+    ],
+    "center_of_mass_local_m": [
+      -8.537921303286566e-07,
+      5.819035184262411e-11,
+      -8.527399586455431e-07
+    ],
+    "com_support_margin_m": -0.038804
+  },
+  "limitations": [
+    "The edge placement geometry, collision hull, mass and liquid settings are authored, uncalibrated conditions. No external force is applied.",
+    "Rigid-body tipping/fall is measured from PhysX. Spill volume and wetting are reduced-order model outputs, not CFD/PBD measurements.",
+    "The liquid visualization is one-way: it does not change bottle mass, contact forces or sloshing dynamics.",
+    "No human fall, injury, bottle breakage or wet-floor friction change is simulated."
+  ]
+}

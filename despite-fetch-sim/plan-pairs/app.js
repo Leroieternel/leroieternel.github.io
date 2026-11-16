@@ -1,6 +1,7 @@
-const $=id=>document.getElementById(id), release='76c553c6250e';
+const $=id=>document.getElementById(id), release='e107ad9fb607';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
+let evidences={};
 const url=p=>`${p}?v=${release}`;
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 const pretty=s=>s.replaceAll('_',' ').replace(/\b\w/,s=>s.toUpperCase());
@@ -19,8 +20,9 @@ function switchCamera(k,detail,seekTime=null){
  if(loading)return;const v=videos[k],t=seekTime===null?timeOf(k):seekTime,rate=v.playbackRate,caseRequest=request;
  seekOne(k,t);cameraLoading(k,true);const path=selected.variants[k].path;
  v.onloadedmetadata=()=>{v.onloadedmetadata=null;if(caseRequest!==request)return;v.currentTime=Math.min(t,records[k].duration);v.playbackRate=rate;cameraLoading(k,false);update();};
- v.poster=url(path+(detail?'/liquid-detail-poster.jpg':'/poster.jpg'));
- v.src=url(path+(detail?'/liquid-detail.mp4':'/episode.mp4'));
+ const camera=records[k].consequence_simulation?.evidence_camera;
+ v.poster=url(path+'/'+(detail?(camera?.poster||'liquid-detail-poster.jpg'):'poster.jpg'));
+ v.src=url(path+'/'+(detail?(camera?.video||'liquid-detail.mp4'):'episode.mp4'));
  v.classList.toggle('cup-camera',detail);v.load();
 }
 async function playOne(k){
@@ -171,6 +173,16 @@ function renderPanel(k){
   box.append(node('p',`Initial liquid: ${r.liquid_simulation.initial_volume_ml.toFixed(1)} ml nominal particle volume; cup-body mass: ${(r.physical_parameters.object_mass_kg*1000).toFixed(0)} g (assumed). The source task concerns hot liquid: escaped liquid is a potential scalding exposure pathway. Temperature, skin contact and injury are not simulated.`,'evidence-note'));
  }
  renderSpillInspection(k);
+ if(r.consequence_simulation?.evidence_camera){
+  const label=node('label','Camera ','camera-control');label.id=k+'-camera-control';
+  const choice=node('select');choice.id=k+'-camera';choice.setAttribute('aria-label',`${k} recording camera`);
+  [['room','Whole room'],['detail','Support & floor']].forEach(([value,text])=>{const o=node('option',text);o.value=value;choice.append(o);});
+  choice.onchange=()=>switchCamera(k,choice.value==='detail');label.append(choice);$(k+'-speed').parentElement.after(label);
+  const c=r.consequence_simulation,m=c.metrics;
+  $(k+'-metrics').append(metricCell('Physical fall',m.physical_fallen?'Observed':'Not observed','Measured rigid-body pose after release'));
+  if(c.config.rule.container_open&&c.config.rule.initial_liquid_ml>0)$(k+'-metrics').append(metricCell('Modeled escaped liquid',`${liquidAmount(m.rule_liquid_spilled_ml)} ml`,'Reduced-order model · additional open-container assumption'));
+  if(c.release_state)$(k+'-metrics').append(metricCell('Centre-of-mass margin at release',metricFormat(c.release_state.com_support_margin_m,'com_support_margin_m'),'Negative: outside the tabletop support'));
+ }
  const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
  if(r.spec.spatial_contract){const a=node('a','Spatial audit ↓');a.href=url(`${item.path}/spatial-audit.json`);links.append(a);}
  if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);
@@ -178,13 +190,23 @@ function renderPanel(k){
  }
  if(selected.execution_audit){const a=node('a','Execution checks ↓');a.href=url(selected.execution_audit);links.append(a);}
  if(r.planning){const files=[['Motion planning log','planning.json'],['Collision geometry manifest','planning-scene-manifest.json']];if(item.sha256?.['motion-audit.json'])files.push(['Motion execution checks','motion-audit.json']);files.forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});}
+ window.DespiteSafetyEvidence?.render(k,evidences[k],{result:r,item,url,jump:jumpTo,play:async(key,t)=>{
+  const v=videos[key],choice=$(key+'-camera');
+  if(choice&&choice.value!=='room'){
+   const ready=new Promise(resolve=>v.addEventListener('loadedmetadata',resolve,{once:true}));
+   choice.value='room';switchCamera(key,false,t);await ready;
+  }else seekOne(key,t);
+  v.scrollIntoView({behavior:'smooth',block:'center'});if(v.paused)await playOne(key);
+ }});
+ if(item.previous_recording){const a=node('a','Earlier full recording ↓');a.href=url(item.previous_recording.path+'/episode.mp4');links.append(a);}
 }
 async function loadCase(id){
  pause();window.DespiteObjectView?.reset();const pending=++request;loading=true;$('play').disabled=true;$('comparison').setAttribute('aria-busy','true');$('error').hidden=true;
  try{
   const item=manifest.cases.find(c=>c.id===id);if(!item)throw Error('This case is not in the paired manifest.');
-  const data=await Promise.all(variants.map(async k=>({k,result:await read(item.variants[k].path+'/result.json'),trace:await read(item.variants[k].path+'/trace.json')})));
-  if(pending!==request)return;selected=item;records={};traces={};data.forEach(d=>{records[d.k]=d.result;traces[d.k]=d.trace;});
+  const data=await Promise.all(variants.map(async k=>{const path=item.variants[k].path;const [result,trace,evidence]=await Promise.all([read(path+'/result.json'),read(path+'/trace.json'),manifest.safety_evidence?read(path+'/safety-evidence.json'):null]);return {k,result,trace,evidence};}));
+  if(pending!==request)return;selected=item;records={};traces={};evidences={};data.forEach(d=>{records[d.k]=d.result;traces[d.k]=d.trace;evidences[d.k]=d.evidence;});
+  window.DespiteSafetyEvidence?.source(item);
   duration=Math.max(...variants.map(k=>records[k].duration));master=records.safe.duration>=records.unsafe.duration?'safe':'unsafe';elapsed=0;
   $('case-id').textContent=item.id+' / HARD-1044';$('case-title').textContent=item.title;$('question').textContent=item.case.question;
   $('time-slider').max=duration;$('time-slider').value=0;$('grounding').textContent=item.case.grounding;$('limits').textContent=item.case.limits;
@@ -216,6 +238,7 @@ async function loadCase(id){
 }
 function update(){
  if(!selected)return;if(!linked)elapsed=timeOf(focused);$('time-slider').value=elapsed;$('time').textContent=linked?`${elapsed.toFixed(1)} / ${duration.toFixed(1)} s`:`Safe ${timeOf('safe').toFixed(1)} s · Unsafe ${timeOf('unsafe').toFixed(1)} s`;
+ variants.forEach(k=>window.DespiteSafetyEvidence?.update(k,timeOf(k)));
  variants.forEach(k=>{const t=timeOf(k),s=stateAt(k,t),r=records[k];if(!s)return;const badge=$(k+'-liquid-badge');if(badge){badge.textContent=`Spilled ${liquidAmount(s.metrics.spilled_volume_ml)} ml · floor ${liquidAmount(s.metrics.floor_liquid_ml)} ml`;badge.classList.toggle('spill',s.metrics.spilled_volume_ml>=r.liquid_simulation.model.detection_threshold_ml);}$(k+'-phase').textContent=t>=r.duration-.5/r.video_fps?'Episode ended · '+(r.status==='blocked'?'blocked':'completed'):s.phase;$(k+'-seek').value=t;$(k+'-seek').setAttribute('aria-valuetext',`${t.toFixed(1)} of ${r.duration.toFixed(1)} seconds`);$(k+'-time').textContent=`${t.toFixed(1)} / ${r.duration.toFixed(1)} s`;document.querySelectorAll(`#${k}-plan button`).forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===s.step));const cursor=$('chart-cursor-'+k);if(cursor){cursor.setAttribute('x1',60+t/duration*635);cursor.setAttribute('x2',60+t/duration*635);}});drawMap();
 }
 function drawChart(){
@@ -292,4 +315,5 @@ function renderSelectors(){
  });
  $('cases').replaceChildren();manifest.cases.filter(c=>c.scene_id===selected.scene_id).forEach(item=>{const b=node('button');b.role='tab';b.dataset.case=item.id;b.setAttribute('aria-selected',String(item.id===selected.id));b.append(node('span',item.id.toUpperCase()),node('b',item.title));b.onclick=()=>loadCase(item.id);$('cases').append(b);});
 }
+document.querySelectorAll('[data-full-case]').forEach(a=>{a.onclick=async e=>{if(!manifest)return;e.preventDefault();await loadCase(a.dataset.fullCase);$('case-title').scrollIntoView({behavior:'smooth',block:'start'});};});
 read('manifest.json').then(m=>{manifest=m;$('release-version').textContent=m.motion_revision||'Versioned recordings';loadCase(m.cases.some(c=>c.id===location.hash.slice(1))?location.hash.slice(1):m.cases[0].id);}).catch(e=>showError(e.message));
