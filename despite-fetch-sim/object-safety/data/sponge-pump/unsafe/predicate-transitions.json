@@ -1,0 +1,309 @@
+{
+  "scope": "post-processing of the recorded local interaction; no new physics",
+  "projection_source_sha256": "41dbd5d65d1c7af5b3403ab2fead11f05d54d98765032fc93b2f1fbb05677e93",
+  "reference_label_used": false,
+  "thresholds": {
+    "upright_deg": 15.0,
+    "tipped_deg": 45.0,
+    "settled_speed_m_s": 0.02,
+    "settled_angular_speed_rad_s": 0.15,
+    "stable_dwell_s": 0.5,
+    "spill_ml": 1.0
+  },
+  "final_predicates": {
+    "upright": {
+      "value": false,
+      "basis": "rigid_pose",
+      "source": "tilt_deg",
+      "calibration_status": "uncalibrated"
+    },
+    "tipped": {
+      "value": true,
+      "basis": "rigid_pose",
+      "source": "tilt_deg",
+      "calibration_status": "uncalibrated"
+    },
+    "touching_target_support": {
+      "value": false,
+      "basis": "support_observation",
+      "source": "support_contact",
+      "calibration_status": "uncalibrated"
+    },
+    "settled_on_target_support": {
+      "value": false,
+      "basis": "contact_pose_velocity_dwell",
+      "source": "support_contact + tilt + velocity",
+      "calibration_status": "uncalibrated"
+    },
+    "probe_contact": {
+      "value": false,
+      "basis": "PhysX_contact",
+      "source": "probe_contact",
+      "calibration_status": "uncalibrated"
+    },
+    "com_over_target_support": {
+      "value": false,
+      "basis": "derived_support_geometry",
+      "source": "com_support_margin_m",
+      "calibration_status": "uncalibrated"
+    },
+    "footprint_inside_target_support": {
+      "value": false,
+      "basis": "projected_AABB_geometry",
+      "source": "footprint_margin_m",
+      "calibration_status": "uncalibrated"
+    },
+    "container_open": {
+      "value": false,
+      "basis": "declared_condition",
+      "source": "recipe.container_open",
+      "calibration_status": "uncalibrated"
+    },
+    "liquid_escaped": {
+      "value": false,
+      "basis": "reduced_order_liquid",
+      "source": "modeled_spilled_ml",
+      "calibration_status": "uncalibrated"
+    },
+    "liquid_on_floor": {
+      "value": false,
+      "basis": "reduced_order_liquid",
+      "source": "modeled_floor_ml",
+      "calibration_status": "uncalibrated"
+    },
+    "liquid_inventory_depleted": {
+      "value": false,
+      "basis": "reduced_order_liquid",
+      "source": "initial inventory - modeled spill",
+      "calibration_status": "uncalibrated"
+    }
+  },
+  "transitions": [
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "upright",
+      "before": null,
+      "after": true,
+      "initialization": true,
+      "basis": "rigid_pose",
+      "source": "tilt_deg"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "tipped",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "rigid_pose",
+      "source": "tilt_deg"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "touching_target_support",
+      "before": null,
+      "after": true,
+      "initialization": true,
+      "basis": "support_observation",
+      "source": "support_contact"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "settled_on_target_support",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "contact_pose_velocity_dwell",
+      "source": "support_contact + tilt + velocity"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "probe_contact",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "PhysX_contact",
+      "source": "probe_contact"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "com_over_target_support",
+      "before": null,
+      "after": true,
+      "initialization": true,
+      "basis": "derived_support_geometry",
+      "source": "com_support_margin_m"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "footprint_inside_target_support",
+      "before": null,
+      "after": true,
+      "initialization": true,
+      "basis": "projected_AABB_geometry",
+      "source": "footprint_margin_m"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "container_open",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "declared_condition",
+      "source": "recipe.container_open"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "liquid_escaped",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "reduced_order_liquid",
+      "source": "modeled_spilled_ml"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "liquid_on_floor",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "reduced_order_liquid",
+      "source": "modeled_floor_ml"
+    },
+    {
+      "t": 0.0,
+      "object": "payload",
+      "predicate": "liquid_inventory_depleted",
+      "before": null,
+      "after": false,
+      "initialization": true,
+      "basis": "reduced_order_liquid",
+      "source": "initial inventory - modeled spill"
+    },
+    {
+      "t": 0.083333,
+      "object": "payload",
+      "predicate": "footprint_inside_target_support",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "projected_AABB_geometry",
+      "source": "footprint_margin_m"
+    },
+    {
+      "t": 0.15,
+      "object": "payload",
+      "predicate": "footprint_inside_target_support",
+      "before": false,
+      "after": true,
+      "initialization": false,
+      "basis": "projected_AABB_geometry",
+      "source": "footprint_margin_m"
+    },
+    {
+      "t": 1.016667,
+      "object": "payload",
+      "predicate": "settled_on_target_support",
+      "before": false,
+      "after": true,
+      "initialization": false,
+      "basis": "contact_pose_velocity_dwell",
+      "source": "support_contact + tilt + velocity"
+    },
+    {
+      "t": 1.133333,
+      "object": "payload",
+      "predicate": "settled_on_target_support",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "contact_pose_velocity_dwell",
+      "source": "support_contact + tilt + velocity"
+    },
+    {
+      "t": 1.133333,
+      "object": "payload",
+      "predicate": "probe_contact",
+      "before": false,
+      "after": true,
+      "initialization": false,
+      "basis": "PhysX_contact",
+      "source": "probe_contact"
+    },
+    {
+      "t": 1.133333,
+      "object": "payload",
+      "predicate": "footprint_inside_target_support",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "projected_AABB_geometry",
+      "source": "footprint_margin_m"
+    },
+    {
+      "t": 1.216667,
+      "object": "payload",
+      "predicate": "upright",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "rigid_pose",
+      "source": "tilt_deg"
+    },
+    {
+      "t": 1.283333,
+      "object": "payload",
+      "predicate": "probe_contact",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "PhysX_contact",
+      "source": "probe_contact"
+    },
+    {
+      "t": 1.316667,
+      "object": "payload",
+      "predicate": "com_over_target_support",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "derived_support_geometry",
+      "source": "com_support_margin_m"
+    },
+    {
+      "t": 1.4,
+      "object": "payload",
+      "predicate": "tipped",
+      "before": false,
+      "after": true,
+      "initialization": false,
+      "basis": "rigid_pose",
+      "source": "tilt_deg"
+    },
+    {
+      "t": 1.566667,
+      "object": "payload",
+      "predicate": "touching_target_support",
+      "before": true,
+      "after": false,
+      "initialization": false,
+      "basis": "support_observation",
+      "source": "support_contact"
+    }
+  ],
+  "notes": [
+    "Positive centre-of-mass margin alone does not establish stability.",
+    "Liquid predicates are reduced-order model estimates, not PhysX fluid measurements.",
+    "Floor-case support observation is a near-floor geometry proxy; table support uses Touching.",
+    "Grasp, temperature, human injury and seal failure are not observed by this local fixture."
+  ]
+}
