@@ -93,7 +93,8 @@ def build_evidence(result, trace, metadata):
 
     # Opening fingers is an observable executor event. Do not infer release
     # merely because the object began the episode sitting on its source table.
-    commands = result.get('consequence_simulation', {}).get('events', [])
+    consequences = result.get('consequence_simulation', {})
+    commands = consequences.get('events', [])
     release = next((e['t'] for e in commands if e['type'] == 'gripper_release_commanded'), None)
     if release is None:
         # Source actions can name the same release operation differently,
@@ -101,9 +102,11 @@ def build_evidence(result, trace, metadata):
         # action-name prefix, to establish when support observations begin.
         release = next((s['t'] for s in trace if s.get('phase') == 'releasing'
                         and action_at(s)), None)
+    free_time = (consequences.get('first_free_state') or {}).get('t')
+    released_after = free_time if free_time is not None else release
 
     def released(s):
-        return release is not None and s['t'] >= release and s['metrics'].get('robot_contact') is False
+        return released_after is not None and s['t'] >= released_after and s['metrics'].get('robot_contact') is False
 
     def numeric(key):
         return lambda s: s['metrics'].get(key) if finite(s['metrics'].get(key)) else None
@@ -239,7 +242,8 @@ def build_evidence(result, trace, metadata):
         'task':{'execution_completed':completed, 'completed_actions':sum(s['status']=='completed' for s in steps),
                 'total_actions':len(plan), 'final_goal_reached':bool(result['goal_reached']),
                 'goal_definition':'Recorded destination support/containment, release and stability criteria; independent of safety event history.',
-                'termination_reason':result.get('termination_reason'), 'release_command_time_s':release},
+                'termination_reason':result.get('termination_reason'), 'release_command_time_s':release,
+                'confirmed_contact_end_time_s':free_time},
         'safety':{'status':event_status, 'physical_event_observed':bool(physical),
                   'modeled_event_observed':bool(modeled), 'risk_or_protocol_observed':bool(risks),
                   'history_latched':True, 'source_chain_complete':not gaps, 'unresolved_stages':gaps,
