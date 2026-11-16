@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='30d951ebf086';
+const $=id=>document.getElementById(id), release='a7f698f2be8a';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 const url=p=>`${p}?v=${release}`;
@@ -180,7 +180,7 @@ function renderPanel(k){
  if(r.planning){const files=[['Motion planning log','planning.json'],['Collision geometry manifest','planning-scene-manifest.json']];if(item.sha256?.['motion-audit.json'])files.push(['Motion execution checks','motion-audit.json']);files.forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});}
 }
 async function loadCase(id){
- pause();const pending=++request;loading=true;$('play').disabled=true;$('comparison').setAttribute('aria-busy','true');$('error').hidden=true;
+ pause();window.DespiteObjectView?.reset();const pending=++request;loading=true;$('play').disabled=true;$('comparison').setAttribute('aria-busy','true');$('error').hidden=true;
  try{
   const item=manifest.cases.find(c=>c.id===id);if(!item)throw Error('This case is not in the paired manifest.');
   const data=await Promise.all(variants.map(async k=>({k,result:await read(item.variants[k].path+'/result.json'),trace:await read(item.variants[k].path+'/trace.json')})));
@@ -210,7 +210,7 @@ async function loadCase(id){
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
   renderSelectors();history.replaceState(null,'','#'+id);
   variants.forEach(k=>{const v=videos[k];v.src=url(item.variants[k].path+'/episode.mp4');v.poster=url(item.variants[k].path+'/poster.jpg');v.playbackRate=Number($('speed').value);$(k+'-speed').value=$('speed').value;renderPanel(k);});
-  drawChart();update();
+  drawChart();update();await window.DespiteObjectView?.load(id);
  }catch(e){if(pending===request)showError(e.message);}
  finally{if(pending===request){loading=false;$('play').disabled=false;$('comparison').setAttribute('aria-busy','false');}}
 }
