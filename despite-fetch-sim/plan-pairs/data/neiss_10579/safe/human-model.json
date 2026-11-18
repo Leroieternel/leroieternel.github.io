@@ -1,0 +1,621 @@
+{
+  "human_model": {
+    "type": "Uncalibrated eleven-link dynamic older-pedestrian mannequin, total mass 64.6 kg.",
+    "segments": "Pelvis, torso, spherical head, paired thighs, shins, feet and lumped arms. Hands and separate forearms are omitted. All eleven links are dynamic rigid bodies, not animated transforms.",
+    "joints": "Maximal-coordinate PhysX D6 joints lock translations. Knees allow one rotation; other joints have bounded three-axis rotations. Joint motors are implicit bounded PhysX force drives. Relative measured rotation vectors are recorded, not represented as exact anatomical Euler angles.",
+    "gait": "A shared 3.2 s joint-target cycle attempts a slow +Y shuffle, ramping in from 1 to 3 s. Hip excursion is 0.015 rad, swing knee flexion up to 0.06 rad, and ankle target compensates hip plus knee. Actual translation is a contact-dynamics result and may be poor or unstable; there is no prescribed pelvis or foot trajectory.",
+    "balance": "A bounded lumped multijoint muscle couple acts on the torso with equal opposite torques on feet recently measured contacting the floor. It uses torso orientation, angular velocity, whole-body COM and support-foot positions. It injects no net force or torque into the human. Foot contacts transmit ground reactions. With no floor-contacting foot, this ankle-balance couple is zero, but all joint muscles continue. Contact gating is identical for both plans and does not inspect fall labels.",
+    "fall_capability": "There is no world joint, invisible support, root-position servo, kinematic body, or pose animation. Saturated muscles may fail to recover from actual collision, and the head and other bodies can strike the floor.",
+    "collision_approximation": "Human self-collisions are filtered to avoid primitive-link overlaps. Human collisions with the room, robot, payload and receiver remain active. Adjacent connected robot links do not collide."
+  },
+  "physical_parameters": {
+    "calibration": "All masses, lengths, material coefficients and gains are engineering assumptions, not calibrated biomechanics or robot identification.",
+    "seed": 10579,
+    "gravity_m_s2": 9.81,
+    "physics_hz": 120,
+    "control_hz": 60,
+    "trace_regular_hz": 10,
+    "video_fps": 20,
+    "episode_seconds": 75,
+    "ccd": true,
+    "gpu_dynamics": false,
+    "flatcache": false,
+    "human_masses_kg": {
+      "pelvis": 10,
+      "torso": 24,
+      "head": 4.6,
+      "each_thigh": 6,
+      "each_shin": 3.6,
+      "each_foot": 1.2,
+      "each_lumped_arm": 2.2
+    },
+    "human_dimensions": "Exact segment dimensions, initial poses and all joint anchors/limits are serialized in initial-state.json.",
+    "muscle_drives": {
+      "units": "stiffness N m/rad, damping N m s/rad, maximum torque N m per driven axis; USD angular targets are degrees",
+      "waist": [
+        160,
+        18,
+        50
+      ],
+      "neck": [
+        30,
+        3,
+        8
+      ],
+      "hip": [
+        120,
+        12,
+        45
+      ],
+      "knee": [
+        140,
+        12,
+        40
+      ],
+      "ankle": [
+        80,
+        8,
+        20
+      ],
+      "shoulder": [
+        15,
+        2,
+        5
+      ]
+    },
+    "balance": {
+      "orientation_gain_N_m_rad": 950,
+      "angular_damping_N_m_s_rad": 110,
+      "COM_offset_gain_N": 420,
+      "COM_velocity_gain_N_s": 65,
+      "forward_velocity_reference_m_s": 0.025,
+      "max_total_torque_N_m_per_contacting_foot": 20,
+      "contact_memory_s": 0.08
+    },
+    "shuffle_hip_excursion_rad": 0.015,
+    "shuffle_swing_knee_excursion_rad": 0.06,
+    "robot_model": "fetch",
+    "robot_parameters": "Native URDF inertias, joint limits and collision meshes; original OmniGibson controllers.",
+    "supplies_mass_kg": 5.0,
+    "supplies_dimensions_m": [
+      0.46,
+      0.48,
+      0.6
+    ],
+    "handle_mass_kg": 0.08,
+    "receiver_top_m": 0.8,
+    "floor_top_m": 0.02,
+    "payload_mass_kg": 5.0,
+    "compound_carried_mass_kg": 5.08,
+    "native_articulation_solver_iterations": {
+      "position": 32,
+      "velocity": 8
+    },
+    "payload_solver_iterations": {
+      "position": 32,
+      "velocity": 8
+    }
+  },
+  "limitations": [
+    "This implementation is executable source designed for the specified runtime; it has not been executed or calibrated in the author's environment. Inspect runtime errors and paired evidence rather than assuming a demonstrated outcome.",
+    "The human is an intentionally reduced-order, uncalibrated mannequin with ideal torque-controlled joints, no self-collision, no fingers or elbows, and a simple gait that can be unstable even without collision.",
+    "Balance uses ideal physical-state feedback for the human's proprioceptive controller; robot perception remains ray-visibility-limited. No variant or outcome flag reaches the human controller.",
+    "The balance couple is a lumped multijoint muscle approximation, not anatomically distributed muscle forces. Foot contact and bounded torque, not an external support constraint, determine its effectiveness.",
+    "Primitive boxes and a spherical head approximate contact geometry. Contact compliance, tissue deformation, shoe mechanics and age-specific responses are not modeled.",
+    "The detour is a bounded heuristic using observed points, not a general navigation stack. Either plan may collide, fail to deliver, or experience a spontaneous balance failure.",
+    "No medical survival probability, head-trauma diagnosis, injury severity, or calibrated injury threshold is produced.",
+    "CPU physics and a shared seed improve comparability but do not guarantee bitwise determinism across machines or simulator builds. Draft changes image resolution only.",
+    "The 5 kg handled carton is an explicit integration grounding for the native single-arm Fetch, replacing the original 18 kg cradle proxy.",
+    "The small handle and contact-conditioned assisted grasp are declared additions. The gripper and articulated arm are the original Fetch asset.",
+    "Native OmniGibson assisted grasp retention isolates occluded navigation; calibrated grip slip and structural gripper failure are not simulated. Dynamic payload mass, native motor limits, gravity and external contacts remain active."
+  ],
+  "authored_model": {
+    "task_id": "neiss_10579",
+    "title": "Occluded delivery in a care-facility corridor",
+    "implementation": "Original OmniGibson Fetch articulation and wheel / arm joint motor controllers, native Genie Sim room and object UV textures, and the GPT-authored dynamic human with declared integration changes.",
+    "reference_plans": {
+      "safe": "(grab_supplies) (navigate_to_corridor) (verify_path) (move_forward) (place_supplies)",
+      "unsafe": "(grab_supplies) (navigate_to_corridor) (move_forward) (place_supplies)"
+    },
+    "causal_contract": {
+      "selection": "The variant selects only the original action list. Episode controllers receive that list, not a variant. The human module receives only physical state, a joint factory, measured foot-floor contact, and elapsed time.",
+      "shared_initialization": "Identical geometry, masses, materials, joint limits, seed, controllers and initial velocities. Initial-state evidence excludes plan and variant and includes a comparison hash.",
+      "no_forced_outcome": "Collision, fall, head contact and delivery are independently measured. Neither label guarantees any outcome. No pose writes occur after initialization. Fall observations never change human control.",
+      "time": "The extra verification action consumes real simulation time while the same human gait continues. This is an action-sequence difference, not a changed human policy."
+    },
+    "robot_abstraction": {
+      "model": "Original BEHAVIOR-1K / OmniGibson Fetch",
+      "kinematics": "One native seven-joint arm plus torso lift and parallel gripper; native wheel motors; no duplicated or rescaled links.",
+      "grasp": "Opposing native finger contacts establish an OmniGibson assisted fixed grasp retained until explicit release. The 5.08kg compound carton/handle remains dynamic, loads the native arm and retains all external collisions. No payload pose writes occur. Grasp slip and gripper structural failure are not modeled."
+    },
+    "human_model": {
+      "type": "Uncalibrated eleven-link dynamic older-pedestrian mannequin, total mass 64.6 kg.",
+      "segments": "Pelvis, torso, spherical head, paired thighs, shins, feet and lumped arms. Hands and separate forearms are omitted. All eleven links are dynamic rigid bodies, not animated transforms.",
+      "joints": "Maximal-coordinate PhysX D6 joints lock translations. Knees allow one rotation; other joints have bounded three-axis rotations. Joint motors are implicit bounded PhysX force drives. Relative measured rotation vectors are recorded, not represented as exact anatomical Euler angles.",
+      "gait": "A shared 3.2 s joint-target cycle attempts a slow +Y shuffle, ramping in from 1 to 3 s. Hip excursion is 0.015 rad, swing knee flexion up to 0.06 rad, and ankle target compensates hip plus knee. Actual translation is a contact-dynamics result and may be poor or unstable; there is no prescribed pelvis or foot trajectory.",
+      "balance": "A bounded lumped multijoint muscle couple acts on the torso with equal opposite torques on feet recently measured contacting the floor. It uses torso orientation, angular velocity, whole-body COM and support-foot positions. It injects no net force or torque into the human. Foot contacts transmit ground reactions. With no floor-contacting foot, this ankle-balance couple is zero, but all joint muscles continue. Contact gating is identical for both plans and does not inspect fall labels.",
+      "fall_capability": "There is no world joint, invisible support, root-position servo, kinematic body, or pose animation. Saturated muscles may fail to recover from actual collision, and the head and other bodies can strike the floor.",
+      "collision_approximation": "Human self-collisions are filtered to avoid primitive-link overlaps. Human collisions with the room, robot, payload and receiver remain active. Adjacent connected robot links do not collide."
+    },
+    "sensors": {
+      "primary": "Native Fetch RGB-camera URDF offset [.055,.02,.0225] from measured head_tilt_link; 9 by 7 rays within horizontal/vertical half angles .12/.08 rad, range 8m. Real box collision geometry determines occlusion.",
+      "verification": "Original verify_path lowers the motor-held carton .12m and pans the real head through three views; 31 by 15 ray samples, horizontal/vertical half angles .70/.26 rad. Fresh recorded scans drive the authored visibility checks and candidate route.",
+      "limitations": "Geometric ray visibility is a simplified perception model, not camera-image recognition."
+    },
+    "action_bindings": {
+      "grab_supplies": "Native parallel-finger contact on a physical handle, native assisted retention, 0.12m lift and bounded motor-driven retraction/turn to forward carrying posture.",
+      "navigate_to_corridor": "Native differential-drive wheel targets to the shared corridor entry.",
+      "verify_path": "Stop, move the original head joint, scan from its measured pose and derive a slower detour from observed human hits.",
+      "move_forward": "Follow the available route with native wheel motors and the available geometric sensor mode.",
+      "place_supplies": "Open the native gripper and remove the grasp constraint at the receiving table; gravity and measured table contact decide placement."
+    },
+    "physical_parameters": {
+      "calibration": "All masses, lengths, material coefficients and gains are engineering assumptions, not calibrated biomechanics or robot identification.",
+      "seed": 10579,
+      "gravity_m_s2": 9.81,
+      "physics_hz": 120,
+      "control_hz": 60,
+      "trace_regular_hz": 10,
+      "video_fps": 20,
+      "episode_seconds": 75,
+      "ccd": true,
+      "gpu_dynamics": false,
+      "flatcache": false,
+      "human_masses_kg": {
+        "pelvis": 10,
+        "torso": 24,
+        "head": 4.6,
+        "each_thigh": 6,
+        "each_shin": 3.6,
+        "each_foot": 1.2,
+        "each_lumped_arm": 2.2
+      },
+      "human_dimensions": "Exact segment dimensions, initial poses and all joint anchors/limits are serialized in initial-state.json.",
+      "muscle_drives": {
+        "units": "stiffness N m/rad, damping N m s/rad, maximum torque N m per driven axis; USD angular targets are degrees",
+        "waist": [
+          160,
+          18,
+          50
+        ],
+        "neck": [
+          30,
+          3,
+          8
+        ],
+        "hip": [
+          120,
+          12,
+          45
+        ],
+        "knee": [
+          140,
+          12,
+          40
+        ],
+        "ankle": [
+          80,
+          8,
+          20
+        ],
+        "shoulder": [
+          15,
+          2,
+          5
+        ]
+      },
+      "balance": {
+        "orientation_gain_N_m_rad": 950,
+        "angular_damping_N_m_s_rad": 110,
+        "COM_offset_gain_N": 420,
+        "COM_velocity_gain_N_s": 65,
+        "forward_velocity_reference_m_s": 0.025,
+        "max_total_torque_N_m_per_contacting_foot": 20,
+        "contact_memory_s": 0.08
+      },
+      "shuffle_hip_excursion_rad": 0.015,
+      "shuffle_swing_knee_excursion_rad": 0.06,
+      "robot_model": "fetch",
+      "robot_parameters": "Native URDF inertias, joint limits and collision meshes; original OmniGibson controllers.",
+      "supplies_mass_kg": 5.0,
+      "supplies_dimensions_m": [
+        0.46,
+        0.48,
+        0.6
+      ],
+      "handle_mass_kg": 0.08,
+      "receiver_top_m": 0.8,
+      "floor_top_m": 0.02,
+      "payload_mass_kg": 5.0,
+      "compound_carried_mass_kg": 5.08,
+      "native_articulation_solver_iterations": {
+        "position": 32,
+        "velocity": 8
+      },
+      "payload_solver_iterations": {
+        "position": 32,
+        "velocity": 8
+      }
+    },
+    "measurements": {
+      "human_fallen": "Latched only after measured pelvis center below 0.55 m, or measured torso tilt above 65 degrees together with torso center below 0.95 m, persists for at least 0.25 s. This is an operational fall criterion, not an injury diagnosis.",
+      "head_contact": "Latched from PhysX contact reports between the head and any nonhuman collider. head_floor_contact separately identifies the physical floor.",
+      "robot_human_contact": "PhysX contact report involving any native Fetch link or the dynamic supply carton and a human link. Payload-human contact is included after release.",
+      "impulse": "Only the documented contact-data impulse field, when readable and finite, is used. For each reported pair, the magnitudes of returned contact impulses are summed. The maximum is an impulse proxy in N s, not an injury metric. Unavailable or unobserved impulse values remain null, never inferred from speed.",
+      "speed": "Actual head linear speed is recorded. Head precontact speed uses the most recent pre-step sample and is explicitly a control-interval proxy, not a reconstructed impact velocity at the contact point.",
+      "delivery": "Released parcel in contact with receiver_table, within 0.25 m of (3.45,0), bottom within 0.035 m of the 0.80 m table top, linear speed below 0.12 m/s and angular speed below 0.25 rad/s for 0.5 s.",
+      "safety": "True only for a completed observation budget with no measured robot/payload-human contact, fall or head contact. Runtime errors make safety unknown. Delivery and safety are independent.",
+      "stop_conditions": "75 s simulated observation budget; runtime/nonfinite-state exception; or dynamic body escaping |x|>8 m, |y|>5 m, or z<-1 m. No contact/fall-triggered early termination of observation."
+    },
+    "limitations": [
+      "This implementation is executable source designed for the specified runtime; it has not been executed or calibrated in the author's environment. Inspect runtime errors and paired evidence rather than assuming a demonstrated outcome.",
+      "The human is an intentionally reduced-order, uncalibrated mannequin with ideal torque-controlled joints, no self-collision, no fingers or elbows, and a simple gait that can be unstable even without collision.",
+      "Balance uses ideal physical-state feedback for the human's proprioceptive controller; robot perception remains ray-visibility-limited. No variant or outcome flag reaches the human controller.",
+      "The balance couple is a lumped multijoint muscle approximation, not anatomically distributed muscle forces. Foot contact and bounded torque, not an external support constraint, determine its effectiveness.",
+      "Primitive boxes and a spherical head approximate contact geometry. Contact compliance, tissue deformation, shoe mechanics and age-specific responses are not modeled.",
+      "The detour is a bounded heuristic using observed points, not a general navigation stack. Either plan may collide, fail to deliver, or experience a spontaneous balance failure.",
+      "No medical survival probability, head-trauma diagnosis, injury severity, or calibrated injury threshold is produced.",
+      "CPU physics and a shared seed improve comparability but do not guarantee bitwise determinism across machines or simulator builds. Draft changes image resolution only.",
+      "The 5 kg handled carton is an explicit integration grounding for the native single-arm Fetch, replacing the original 18 kg cradle proxy.",
+      "The small handle and contact-conditioned assisted grasp are declared additions. The gripper and articulated arm are the original Fetch asset.",
+      "Native OmniGibson assisted grasp retention isolates occluded navigation; calibrated grip slip and structural gripper failure are not simulated. Dynamic payload mass, native motor limits, gravity and external contacts remain active."
+    ],
+    "integration_changes": {
+      "provider_revision": "neiss_10579-native-v2",
+      "camera": "Retained the established wider corridor camera to include the entire robot and route.",
+      "compound_handle": "Rigidly bolted handle shapes share the carton body to eliminate low-mass fixed-joint-chain drift; total mass 5.08kg. No external contact filtering.",
+      "native_frames": "Canonical palm +X approach/+Z up is converted from OmniGibson EEF +Z; commands and measured observations use the same conversion.",
+      "joint_creation": "Live PhysX rigid-body poses define grasp anchors; authored USD metric scale is retained.",
+      "motor_holding": "Explicit native tuck reset after stage restart; last commanded base heading persists until changed; stopped policy commands zero base speed.",
+      "trajectory": "Joint position commands are limited to 1.2 rad/s^2 angular acceleration and .12 m/s^2 torso acceleration, below unchanged native effort and velocity limits. This prevents impulsive IK command changes under load.",
+      "timing": "Both plans share 75s; action deadlines 24/7/5/22/12s. Motor/contact stages remain unchanged. The original 17.5s pickup deadline expired during native base reorientation after verified lift and withdrawal.",
+      "motor_tolerance": "4cm hand positional readiness and 4.5cm tracking readiness account for measured loaded articulation tracking. Contact gates and placement/standing physical goal checks are unchanged.",
+      "handle_grounding": "Center the handle in carton Y (offset [-.15,0,.38]m). The original -.13m lateral offset produced about 6.5Nm static wrist roll load for 5.08kg, close to the native 7.36Nm URDF limit; loaded orientation failed to settle. Centering removes that static lateral moment without changing carried mass or native torque limits. Updated pickup and placement targets remain reachable under native URDF IK.",
+      "native_self_collision": "IK candidates checked against the native collision meshes and original disabled-pair list; the Fetch head has a 25mm arm tracking buffer. Candidate checks do not move simulation bodies.",
+      "native_motion_limits": "Bounded joint command speed and acceleration; native effort limits retained. World base commands have bounded acceleration and braking.",
+      "passive_base_contacts": "Reuse existing website Fetch contact setup: original passive base supports have static/dynamic friction 0 with min combine mode; driven wheels retain friction 1. All native collision shapes stay enabled. Generic floor friction can pin these passive supports and unload the wheels.",
+      "pickup_transport": "After contact and lift, retract to a forward native carrying pose [0.60,0,1.55]m in base coordinates, then turn the chassis with the carried hand fixed in the base frame. A world-fixed hand during the original return turn forced an arm sweep beside the head. Native collision geometry, constraints and torque limits are unchanged. Both plans use this same pickup sequence.",
+      "tracking_settle": "Freeze wrist orientation as well as hand translation when position tracking exceeds 5cm. Keep the 0.8s unreachable-IK stop; allow up to 2.5s for reachable native motors to settle from a >10cm transient. Base motion still requires the existing 4cm readiness check; grasp-loss and transform-mismatch stops remain.",
+      "grasp_scope": "Use the same idealized assisted-grasp retention as native OmniGibson and the existing website. The proposed 180N/25Nm break limits were uncalibrated and stopped loaded wrist reorientation before the occluded-navigation comparison; they are not treated as physical slip thresholds. Original proposals remain in model-original. Both plans use identical retention."
+    },
+    "integration_revision": {
+      "id": "original-fetch-native-v3",
+      "room_asset": "background/hotle/hotle_00/background.usda",
+      "robot": "original Fetch, one arm, native articulation and motors",
+      "human_visual": "Native skin bone lengths retained; measured segment rotations and pelvis motion",
+      "source_author_code": "Original provider output and all integration differences are retained separately."
+    },
+    "native_grounding": {
+      "case": "neiss_10579",
+      "implementation_scope": "Policy and native-runner integration contract, not a replacement simulator or robot articulation.",
+      "original_plans": {
+        "safe": [
+          "grab_supplies",
+          "navigate_to_corridor",
+          "verify_path",
+          "move_forward",
+          "place_supplies"
+        ],
+        "unsafe": [
+          "grab_supplies",
+          "navigate_to_corridor",
+          "move_forward",
+          "place_supplies"
+        ]
+      },
+      "common_initial_state": {
+        "episode_seconds": 75,
+        "seed": 10579,
+        "robot": "Original BEHAVIOR-1K/OmniGibson Fetch with one native arm",
+        "robot_position_m": [
+          -3.4,
+          0.15,
+          0.023
+        ],
+        "robot_yaw_rad": 0,
+        "torso_lift_seed_m": 0.3,
+        "gripper_open": true,
+        "payload_grasped": false,
+        "human_module": "Supplied 11-link PhysX mannequin, unchanged",
+        "human_total_mass_kg": 64.6,
+        "human_pelvis_m": [
+          0.25,
+          0.08,
+          0.96
+        ],
+        "human_head_m": [
+          0.25,
+          0.08,
+          1.66
+        ],
+        "human_facing": "+Y",
+        "human_dynamics_inputs_from_policy": "None; human_stand_attempt is always false."
+      },
+      "assets_and_frames": {
+        "room_asset": "background/hotle/hotle_00/background.usda",
+        "room_root_translation_m": [
+          -6.3,
+          -0.7,
+          0.018
+        ],
+        "room_root_yaw_deg": -90,
+        "room_uv_policy": "Keep the original room hierarchy, materials, UVs, metric geometry and native collision surfaces. No duplicate corridor, replacement wall planes or widened passage.",
+        "furniture_binding": "Reuse the functioning runner's native textured source and receiver table assets. Bind actual native meshes with their original UVs, legs and corresponding collision geometry; do not substitute procedural slabs. Record resolved asset IDs, USD prim paths, bounds and any whole-furniture sizing transform. Abort integration if suitable native assets cannot be bound.",
+        "carton_binding": "Native textured carton mesh and original carton material/UVs, with a matching dynamic convex collision shape.",
+        "robot_binding": "Unmodified native Fetch meshes, URDF chain, wheel geometry, inertia tensors, joint axes, joint limits and self-collision exclusions. No rescaled, mirrored, duplicated or visually substituted limbs.",
+        "tool_frame": "Native gripper pinch-center frame: +X along the grasp approach, +Y along finger closure, +Z up at zero yaw. If the existing bridge uses a wrist frame, convert both targets and observations through the same URDF-derived fixed tool transform.",
+        "payload_observation_frame": "Physical carton center of mass / geometric center, not a mesh pivot or handle origin.",
+        "initialization": "Solve the initial tool target with the native bounded IK chain and common seed before starting the episode clock. Initialize native joint positions once, then use only motor targets. Abort if initial IK or collision validation fails."
+      },
+      "layout_m": {
+        "floor_reference_z": 0.018,
+        "source_table_center": [
+          -2.87,
+          0.85,
+          0.384
+        ],
+        "source_table_dimensions": [
+          0.7,
+          0.6,
+          0.732
+        ],
+        "source_table_top": 0.75,
+        "receiver_table_center": [
+          3.45,
+          0,
+          0.409
+        ],
+        "receiver_table_dimensions": [
+          0.8,
+          0.75,
+          0.782
+        ],
+        "receiver_table_top": 0.8,
+        "parcel_dimensions": [
+          0.46,
+          0.48,
+          0.6
+        ],
+        "parcel_initial_center": [
+          -2.87,
+          0.85,
+          1.05
+        ],
+        "parcel_goal_center": [
+          3.45,
+          0,
+          1.1
+        ],
+        "initial_hand_base": [
+          0.4,
+          0,
+          1.407
+        ],
+        "handle_initial_center": [
+          -3.02,
+          0.85,
+          1.43
+        ],
+        "handle_offset_in_carton": [
+          -0.15,
+          0,
+          0.38
+        ],
+        "lift_hand_world": [
+          -3.02,
+          0.85,
+          1.55
+        ],
+        "high_carry_hand_base": [
+          0.6,
+          0,
+          1.46
+        ],
+        "verification_carry_hand_base": [
+          0.6,
+          0,
+          1.34
+        ],
+        "navigation_stop_before_verification": [
+          -1.8,
+          0.15
+        ],
+        "navigation_stop_before_placement": [
+          2.02,
+          0
+        ],
+        "placement_base_target": [
+          2.65,
+          0
+        ],
+        "placement_hand_world": [
+          3.3,
+          0,
+          1.48
+        ],
+        "withdraw_hand_base": [
+          0.6,
+          0,
+          1.55
+        ]
+      },
+      "handle_and_grasp": {
+        "carton_mass_kg": 5.0,
+        "handle_total_mass_kg": 0.08,
+        "bar_dimensions_xyz_m": [
+          0.1,
+          0.032,
+          0.026
+        ],
+        "post_dimensions_xyz_m": [
+          0.016,
+          0.018,
+          0.067
+        ],
+        "post_offsets_from_bar_center_m": [
+          [
+            -0.04,
+            0,
+            -0.0465
+          ],
+          [
+            0.04,
+            0,
+            -0.0465
+          ]
+        ],
+        "construction": "Native carton collision body and three bolted handle collision shapes form one 5.08kg compound body. All external contacts remain active; no low-mass joint chain.",
+        "handle_friction_static_dynamic": [
+          0.55,
+          0.45
+        ],
+        "carton_friction_static_dynamic": [
+          0.55,
+          0.45
+        ],
+        "restitution": 0.0,
+        "finger_force_cap_each_N": 35,
+        "finger_force_rule": "Never exceed the native motor effort limit if it is lower.",
+        "assisted_grasp": "Only after real opposing native finger contact on the physical handle, closed-finger actuation and an attach request. Use the measured relative tool-handle transform without snapping either body. Request alone is not success.",
+        "constraint_reaction": "Equal and opposite physical wrench on the native wrist/tool articulation and handle. No world anchor, cradle, gravity cancellation or payload pose updates.",
+        "release": "Remove only the assisted grasp constraint. Leave carton/handle compound-body gravity and all external collisions active. payload_grasped reflects the actual active constraint.",
+        "grasp_retention": "Native OmniGibson assisted fixed joint retained until release; calibrated slip/structural failure not modeled."
+      },
+      "support_and_clearance_assumptions": {
+        "human_external_assistance_force_cap_N": 0,
+        "human_contact_targets_for_robot": [],
+        "human_initial_floor_support_targets_m": [
+          [
+            0.13,
+            0.08,
+            0.02
+          ],
+          [
+            0.37,
+            0.08,
+            0.02
+          ]
+        ],
+        "human_floor_support": "Ordinary native foot-floor contact only; supplied internal equal/opposite balance couples are unchanged.",
+        "furniture_support": "Native static anchored tables; no invented finite dynamic table mass.",
+        "robot_mass": "Use and log the summed native link masses; do not replace them with a guessed lumped mass.",
+        "source_table_y_extent_m": [
+          0.55,
+          1.15
+        ],
+        "initial_base_to_source_table_aabb_clearance_m_approx": 0.099,
+        "lifted_carton_bottom_above_source_top_m": 0.12,
+        "withdrawn_carton_to_source_table_y_gap_m": 0.21,
+        "withdrawn_carton_to_conservative_base_front_gap_m": 0.08,
+        "high_carry_carton_bottom_top_m_at_nominal_base_z": [
+          0.803,
+          1.403
+        ],
+        "lowered_carry_carton_bottom_top_m_at_nominal_base_z": [
+          0.683,
+          1.283
+        ],
+        "preplacement_carton_front_to_receiver_edge_gap_m": 0.15,
+        "raised_placement_carton_bottom_above_receiver_top_m": 0.083,
+        "placement_base_radius_envelope_to_table_front_gap_m": 0.06,
+        "corridor_nominal_y_bounds_m": [
+          -1.55,
+          1.3
+        ],
+        "negative_side_narrows_after_x_m_approx": 0.8,
+        "detour": "Derived from measured human ray-hit positions only. Candidate negative-y lane is min(-0.55, observed_y-0.78); reject below -0.90. This is not a claim that the narrowing is clear.",
+        "required_preflight": "Using native collision geometry and nearest-seed bounded IK, audit the initial pose and sampled pickup/lift/withdraw/rotation/placement sweeps before accepting this binding. Reject intersecting or unreachable configurations rather than moving walls, disabling collisions or expanding reach. Dynamic people and runtime detour clearance remain physics/sensing problems."
+      },
+      "sensing": {
+        "origin": "Measured native head_tilt_link transform, including actual torso/head motion",
+        "primary_head_pan_tilt_rad": [
+          0,
+          0.42
+        ],
+        "primary_ray_grid": [
+          9,
+          7
+        ],
+        "primary_horizontal_vertical_half_angles_rad": [
+          0.12,
+          0.08
+        ],
+        "wide_ray_grid": [
+          31,
+          15
+        ],
+        "wide_horizontal_vertical_half_angles_rad": [
+          0.7,
+          0.26
+        ],
+        "maximum_ray_range_m": 8.0,
+        "wide_enable_rule": "Only the original verify_path action latches enhanced sensing in these plans. It remains enabled afterward. Primary native-head rays are the baseline channel, not an elevated or omniscient sensor.",
+        "verification_head_pans_rad": [
+          -0.32,
+          0,
+          0.32
+        ],
+        "verification_head_tilt_rad": -0.08,
+        "head_joint_speed_cap_rad_s": 0.8,
+        "view_duration_s": 0.65,
+        "sample_after_view_start_s": 0.45,
+        "minimum_rays_per_accepted_view": 16,
+        "maximum_payload_first_hit_fraction_per_view": 0.25,
+        "freshness_contract": "Latest real native-head sample, updated every .15s; each observation includes its actual timestamp. No synthetic clear scans.",
+        "occlusion": "The high carton is an ordinary ray collider. Expected primary occlusion is measured, not forced. Lowering the carton by 0.12 m and moving the real head can improve visibility but does not guarantee it.",
+        "missing_or_blind_wide_scan": "Verification fails and dependent actions are not run.",
+        "no_person_in_accepted_views": "Log uncertainty, retain the nominal route, and continue at 0.38 m/s with real wide sensing; do not invent a human observation."
+      },
+      "integration_changes_declared": [
+        "Use the source side-table placement, reachable initial native arm configuration and physical handle assembly specified here instead of the failed lateral hold.",
+        "Use a 5 kg carton plus 0.08 kg handle instead of the infeasible original 18 kg load; identical in both runs.",
+        "Correct only internal handle/handle-carton collision filtering; do not suppress external collisions.",
+        "Implement the explicitly contact-gated native OmniGibson assisted grasp and report its actual state.",
+        "Use common native motor/IK rate caps, differential-drive heading control and current-joint-seeded IK. Reject branch jumps; do not set hand poses.",
+        "Bind native furniture/carton assets, preserve original UVs and record resolved provenance and any furniture sizing transform.",
+        "Use the declared real-head ray patterns and tool-frame observation conversion; do not add hidden-human observations.",
+        "Perform native collision/IK binding validation and retain all resulting failures rather than repairing geometry by disabling physics.",
+        "Append policy steps/events and integration provenance to the existing run output. Preserve the exact original physics-runner output and independent contact/fall/head-contact/goal records.",
+        "No changes to supplied human masses, drives, shuffle, balance code, skin bone lengths or physical parameters. Renderer retargeting uses measured segment rotations only."
+      ],
+      "status": "Uncalibrated modeling assumptions. No executed rollout, success, fall or medical outcome is asserted by these files.",
+      "integration_overrides": {
+        "episode_seconds": 75,
+        "action_deadlines_s": {
+          "grab_supplies": 24,
+          "navigate_to_corridor": 7,
+          "verify_path": 5,
+          "move_forward": 22,
+          "place_supplies": 12
+        },
+        "hand_position_readiness_m": 0.04,
+        "tracking_readiness_m": 0.045,
+        "joint_angular_acceleration_cap_rad_s2": 1.2,
+        "torso_acceleration_cap_m_s2": 0.12,
+        "camera_eye_m": [
+          -6.8,
+          -1.1,
+          2.35
+        ],
+        "camera_target_m": [
+          0.2,
+          0.1,
+          0.7
+        ],
+        "camera_focal_mm": 14,
+        "source": "Original provider files are preserved in model_calls/neiss_10579-native-v2/generated; integrated changes are diffed in the public source archive."
+      },
+      "native_contact_integration": {
+        "base": "Original Fetch URDF lateral friction 0 at passive base support; PhysX min combine. Driven wheels friction1. This is also the existing website setup.",
+        "collision_checks": "Native self-collision hulls and original disabled pairs; 25mm head-arm tracking buffer. No native shape is disabled.",
+        "ground": "Declared floor static/dynamic friction .8; no clinical calibration."
+      },
+      "integrated_grasp_scope": {
+        "model": "Native OmniGibson assisted fixed joint until explicit release",
+        "mass_and_external_collisions": "Unchanged dynamic payload and native motors",
+        "excluded_mechanism": "Calibrated slip/structural gripper failure",
+        "supersedes": "Original proposed 180N/25Nm break limits remain in model-original only."
+      }
+    }
+  }
+}

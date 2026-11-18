@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='eeb0a2b7cd8d';
+const $=id=>document.getElementById(id), release='8e9c72a8ff48';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 let evidences={};
@@ -43,9 +43,10 @@ function tick(){if(!playing)return;if(linked){elapsed=timeOf(master);variants.fo
 function showError(s){$('error').hidden=false;$('error').textContent=s;}
 function stateAt(k,t){const a=traces[k];if(!a?.length)return null;let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m].t<=t)lo=m+1;else hi=m;}return a[Math.max(0,lo-1)];}
 function metricKey(){const m=selected.case.metric;return m==='bed_contact_frames'?'bed_contact':m==='max_stool_displacement_m'?'stool_displacement_m':m==='min_chair_clearance_m'?'chair_clearance_m':m==='max_navigation_tilt_deg'?'object_tilt_deg':m;}
-function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_ml'))return `${liquidAmount(v)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
+function metricFormat(v,key=selected.case.metric){if(v===undefined||v===null)return '—';if(key.includes('contact'))return `${v}`;if(key.endsWith('_m_s'))return `${Number(v).toFixed(2)} m/s`;if(key.endsWith('_ml'))return `${liquidAmount(v)} ml`;if(key.endsWith('_deg'))return `${Number(v).toFixed(1)}°`;return `${(v*100).toFixed(1)} cm`;}
 function metricSeries(k){const key=metricKey();let contacts=0;return traces[k].map(s=>{if(key==='bed_contact'){contacts+=Number(s.metrics[key]);return contacts;}if(['edge_margin_m','reach_distance_m'].includes(key)&&!(s.metrics.support_contact&&!s.metrics.robot_contact&&s.step>0))return null;if(selected.case.metric==='max_navigation_tilt_deg'&&s.phase!=='navigating')return null;return s.metrics[key]*(['degrees','millilitres'].includes(selected.case.unit)?1:100);});}
 function outcome(r){
+ if(r.human_model){const m=r.metrics;if(m.ever_human_fallen)return 'Human fall observed'+(m.ever_head_contact?' · head contact recorded':'');if(m.ever_robot_human_contact&&!r.physical_safety_conditions_met)return 'Robot–human contact recorded · inspect measured outcome';}
  if(r.status==='blocked'&&r.spec.placement_pose_revision&&r.planning_stop?.action==='place_sponge toilet_tank')return 'Reached the tank · placement stopped before release';
  if(r.status==='blocked')return r.planning_stop?'Motion planner stopped · later actions not executed':'Navigation blocked · later actions not executed';
  if(r.spec.spatial_contract&&r.metrics.below_source_danger_distance)return 'Close pass observed · below the source 0.5 m danger distance';
@@ -123,7 +124,7 @@ function renderPanel(k){
  const violations=new Set((item.semantic?.violation_steps||[]).map(v=>v.step_index));
  const list=$(k+'-plan');list.replaceChildren();r.plan.forEach((action,i)=>{const step=r.steps[i],li=node('li'),b=node('button');b.dataset.step=i;
   if(k==='unsafe'&&violations.has(i)){b.classList.add('violation');b.title='Safety violation in the original task rules. '+selected.metadata.danger_formalization.cause_of_danger;b.setAttribute('aria-label',`Step ${i+1}: ${rawActions?.[i]||`(${action})`}. Safety violation in the original task rules.`);}
-  b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',step?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(step)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
+  const ran=step&&step.ran!==false&&step.start!==null;b.append(node('span',String(i+1).padStart(2,'0'),'num'));const text=node('span');text.append(node('code',rawActions?.[i]||`(${action})`,'plan-action'),node('small',ran?`${seconds(step.start)} – ${seconds(step.end)} · ${step.status}${executionNote(step)}`:'Not executed'));b.append(text);if(ran)b.onclick=()=>seekOne(k,step.start+1/r.video_fps);else b.disabled=true;li.append(b);list.append(li);});
  $(k+'-seek').max=r.duration;$(k+'-seek').step=1/r.video_fps;$(k+'-seek').value=0;
  document.getElementById(k+'-placement-events')?.remove();
  if(r.spec.placement_pose_revision){
@@ -198,6 +199,7 @@ function renderPanel(k){
   }else seekOne(key,t);
   v.scrollIntoView({behavior:'smooth',block:'center'});if(v.paused)await playOne(key);
  }});
+ window.DespiteHumanModels?.render(k,r,{url,path:item.path,jump:jumpTo,metricCell});
  if(item.previous_recording){const a=node('a','Earlier full recording ↓');a.href=url(item.previous_recording.path+'/episode.mp4');links.append(a);}
 }
 async function loadCase(id){
@@ -230,6 +232,7 @@ async function loadCase(id){
   $('liquid-validation-link').hidden=!records.safe.liquid_simulation;
   $('motion-refinement').querySelector('a').textContent=records.safe.staff_interaction?'Earlier motion-only comparison →':'See the motion refinement →';
   $('motion-refinement').querySelector('span').textContent=records.safe.staff_interaction?' · Archived comparison before the visible staff handoff was added.':' · Same original plan, a short straight approach, and a steadier arm transfer.';
+  window.DespiteHumanModels?.configure(runtime,item);
   renderSelectors();history.replaceState(null,'','#'+id);
   variants.forEach(k=>{const v=videos[k];v.src=url(item.variants[k].path+'/episode.mp4');v.poster=url(item.variants[k].path+'/poster.jpg');v.playbackRate=Number($('speed').value);$(k+'-speed').value=$('speed').value;renderPanel(k);});
   drawChart();update();await window.DespiteObjectView?.load(id);
@@ -271,9 +274,10 @@ function drawMap(){
  variants.forEach(k=>{const p=xy(stateAt(k,timeOf(k)).object.p);c.fillStyle=k==='safe'?'#467a54':'#b2764d';c.strokeStyle='white';c.lineWidth=1.5;c.beginPath();c.arc(...p,4.5,0,Math.PI*2);c.fill();c.stroke();});
  if(selected.id==='neiss_27998'){const anchor=xy(s.reach_anchor);c.fillStyle='#5e6684';c.beginPath();c.arc(...anchor,4,0,Math.PI*2);c.fill();c.font='9px system-ui';c.fillText('REACH ORIGIN',anchor[0]-60,anchor[1]-12);variants.forEach(k=>{const end=xy(stateAt(k,timeOf(k)).object.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.setLineDash([3,4]);c.beginPath();c.moveTo(...anchor);c.lineTo(...end);c.stroke();c.setLineDash([]);});}
  if(s.stool){variants.forEach(k=>{const point=stateAt(k,timeOf(k)).stool;if(!point)return;const p=xy(point.p);c.strokeStyle=k==='safe'?'#467a54':'#b2764d';c.lineWidth=2;c.beginPath();c.arc(...p,8,0,Math.PI*2);c.stroke();});}
+ window.DespiteHumanModels?.map(c,xy,Object.fromEntries(variants.map(k=>[k,stateAt(k,timeOf(k))])));
  c.strokeStyle='#87967b';c.lineWidth=1;c.beginPath();c.moveTo(25,H-18);c.lineTo(25+scale*.5,H-18);c.stroke();c.fillStyle='#87967b';c.font='10px system-ui';c.fillText('0.5 m',25,H-25);
 }
-$('play').onclick=()=>playing?pause():play();$('restart').onclick=()=>seek(0);$('back').onclick=()=>seek(elapsed-1/30);$('next').onclick=()=>seek(elapsed+1/30);$('time-slider').oninput=e=>seek(Number(e.target.value));
+$('play').onclick=()=>playing?pause():play();$('restart').onclick=()=>seek(0);$('back').onclick=()=>seek(elapsed-1/(records[master]?.video_fps||30));$('next').onclick=()=>seek(elapsed+1/(records[master]?.video_fps||30));$('time-slider').oninput=e=>seek(Number(e.target.value));
 $('speed').onchange=e=>variants.forEach(k=>{videos[k].playbackRate=Number(e.target.value);$(k+'-speed').value=e.target.value;});
 $('link-clocks').onchange=e=>{const t=timeOf(focused),rate=videos[focused].playbackRate;setLinked(e.target.checked);if(linked){variants.forEach(k=>{videos[k].playbackRate=rate;$(k+'-speed').value=String(rate);});$('speed').value=String(rate);seek(t);}};
 $('view').onchange=e=>{const mode=e.target.value;$('comparison').classList.toggle('single',mode!=='both');variants.forEach(k=>document.querySelector(`[data-variant="${k}"]`).hidden=mode!=='both'&&k!==mode);};
