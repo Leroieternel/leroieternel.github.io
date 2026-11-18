@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id), release='8e9c72a8ff48';
+const $=id=>document.getElementById(id), release='088a64f097e6';
 const variants=['safe','unsafe'], videos=Object.fromEntries(variants.map(k=>[k,$(k+'-video')]));
 let manifest, selected, records={}, traces={}, request=0, playing=false, loading=true, animation=0, elapsed=0, duration=0, master='safe', linked=false, focused='safe', playRequest=0;
 let evidences={};
@@ -184,7 +184,7 @@ function renderPanel(k){
   if(c.config.rule.container_open&&c.config.rule.initial_liquid_ml>0)$(k+'-metrics').append(metricCell('Modeled escaped liquid',`${liquidAmount(m.rule_liquid_spilled_ml)} ml`,'Reduced-order model · additional open-container assumption'));
   if(c.release_state)$(k+'-metrics').append(metricCell('Centre-of-mass margin at release',metricFormat(c.release_state.com_support_margin_m,'com_support_margin_m'),'Negative: outside the tabletop support'));
  }
- const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],['State trace','trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
+ const links=$(k+'-downloads');links.replaceChildren();[['Result JSON','result.json'],[r.trace_exports?'Full state trace (.gz)':'State trace',r.trace_exports?.full||'trace.json'],['Video','episode.mp4'],['Recorded source','recorded-source.zip']].forEach(([label,file])=>{const a=node('a',label+' ↓');a.href=url(`${item.path}/${file}`);links.append(a);});
  if(r.spec.spatial_contract){const a=node('a','Spatial audit ↓');a.href=url(`${item.path}/spatial-audit.json`);links.append(a);}
  if(r.liquid_simulation){const a=node('a','Fluid particle trace ↓');a.href=url(`${item.path}/${r.liquid_simulation.particle_trace}`);links.append(a);
   if(r.liquid_simulation.floor_film){const f=node('a','Floor-film ledger ↓');f.href=url(`${item.path}/floor-film.json`);links.append(f);}

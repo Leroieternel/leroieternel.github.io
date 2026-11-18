@@ -1,0 +1,49 @@
+{
+"schema": "review-report-v1",
+"scene": "neiss_1014",
+"reviewer": {"model": "Claude", "commissioned_as": "Claude Fable 5.2 xhigh review", "executed_code": false, "basis_note": "Supplied code and samples only; earlier proposals judged only as embedded in the supplied files."},
+"subject": ["human UNLEAN_START/END 0.40/1.0, common to both plans", "sensed transfer_release phase wrapping Controller._assist_to_stand", "HumanSkin display-only ankle-height root alignment"],
+"decision": "accept_with_disclosed_limits",
+"material_defect_found": false,
+"executable_correction_returned": false,
+"files_returned": ["NATIVE_README.md", "model.json"],
+"changes_requested": {"code": 0, "gains": 0, "thresholds": 0, "success_or_harm_predicates": 0},
+"not_established": ["robustness", "clinical survival or injury probability", "contact-free standing", "effectiveness of the fallback path", "necessity of the unlean shift once the handoff exists"],
+"labels": {"checked": "verified in this review against supplied code or samples", "reported": "integrator statement not verifiable in this review", "derived": "reviewer arithmetic on supplied samples", "proposal": "not implemented, not verified"},
+"evidence_basis": {"code": ["neiss_1014/native_policy.py", "neiss_1014/human.py", "native_visuals.py", "force bridge lines 468-505 and 575-621"], "samples_reviewed": {"failed_v26": 7, "failed_v30": 7, "successful_final": 10}, "successful_samples_total_reported": 4801},
+"checks": [
+{"id": "C1", "item": "transfer_release cannot write the goal or mark success", "status": "pass", "evidence": "checked_code"},
+{"id": "C2", "item": "completion still requires runner-measured standing plus the original 1.0 s zero-request verification", "status": "pass", "evidence": "checked_code_and_samples"},
+{"id": "C3", "item": "unsensed/unsafe path returns the original method before any new state is created", "status": "pass", "evidence": "checked_code"},
+{"id": "C4", "item": "human reads only own link states, own foot-floor contact and the once-latched stand cue", "status": "pass", "evidence": "checked_code"},
+{"id": "C5", "item": "no change to human geometry, masses, joint limits or drive caps", "status": "pass", "evidence": "checked_code"},
+{"id": "C6", "item": "bridge zeroes force unless contact < 0.12 s old and gap < 0.08 m; 160 N clamp", "status": "pass", "evidence": "checked_code_and_supplied_samples", "note": "statement for all 4801 samples is reported"},
+{"id": "C7", "item": "equal/opposite reaction on the wrist with moment about the same chest point", "status": "pass_with_caveat", "evidence": "checked_code", "note": "exact only if the wrist state position is the force application reference; not shown in the excerpt"},
+{"id": "C8", "item": "guard signs: backward CoM, pelvis drop, overspeed, timeout, window end", "status": "pass", "evidence": "checked_code"},
+{"id": "C9", "item": "fallback and latch state consistency (_tr_active and phase change together)", "status": "pass", "evidence": "checked_code", "note": "path not exercised in the passing run"},
+{"id": "C10", "item": "display mapping writes only UsdSkel animation; no physics, contact or controller input", "status": "pass", "evidence": "checked_code", "note": "4801-sample before/after identity is reported"},
+{"id": "C11", "item": "timeline self-consistency of the passing run", "status": "pass", "evidence": "checked_samples"}
+],
+"timeline_checked_s": {"transfer_release_entry": 39.55, "request_zero_by": 40.0, "both_palm_contact_flags_false_at": [41.0, 42.0, 44.45, 45.45], "standing_predicate_from": 43.43, "verify_from": 44.45, "action_end": 45.43, "dwell_at_80": 36.57, "entry_state": {"pelvis_m": 0.926, "com_fwd_estimate_m": 0.005, "torso_tilt_deg": 47.0, "level_N_per_hand": 8.3}},
+"run_comparison": {"evidence": "derived", "identical_samples_s": {"v26_vs_v30": [36.0], "v30_vs_final": [36.0, 39.0]}, "isolates": {"v26_to_v30": "unlean shift; still failed", "v30_to_final": "transfer_release handoff"}, "unlean_shift_alone_sufficient": false, "unlean_shift_necessary_with_handoff": "not_shown", "v30_budget_note": "assist window ended at 90 s; differs from the current 80 s episode / 56 s window", "capture_point_m": {"method": "com_forward_of_ankle + v_x * sqrt(z_com / g), human own-state samples", "v30_t40.5": -0.026, "v30_t41.0": -0.101, "final_t40.0": -0.029, "final_t41.0": 0.003, "heel_edge": -0.08, "toe_edge": 0.22}, "failed_runs_support_N_per_hand": {"tip_limit": [48, 49], "wanted": [73, 80]}, "interpretation": "Consistent with position-controlled palm contact, not missing commanded force, destabilising the late rise; the handoff is not transient-free and the sampled margin is thin."},
+"findings": [
+{"id": "F1", "title": "fallback path unexercised", "severity": "disclosure", "blocking": false, "evidence": "checked_code_and_samples", "detail": "No guard fired in the passing run. After a guard the palms restart from up to 0.05 m clearance (0.02-0.05 m/s depth recovery), force returns only after gated contact at 30-90 N/s and is tip-limited near 49 N per hand; v26/v30 show about 48 N per hand did not arrest the backward loss. The handoff is effectively a commit point."},
+{"id": "F2", "title": "soft re-arm after a guard", "severity": "low", "blocking": false, "evidence": "checked_code", "detail": "The phase can re-enter after 0.15 s of renewed eligibility with a fresh 8 s timer; no cooldown or attempt count; bounded only by the 56 s window."},
+{"id": "F3", "title": "dwell is zero-request, not contact-free", "severity": "disclosure", "blocking": false, "evidence": "checked_samples", "detail": "Hand targets freeze at action end. Rise continues 0.913 to 1.0 (torso +0.037 m, pelvis +0.054 m in x). Left palm contact flag and gate true at 60 s and 80 s (gap 0.034 m) with zero commanded and applied force. Passive palm contact load is not in the supplied samples. CoM 0.064 m ahead of the ankle is inside the foot (-0.08 to +0.22 m)."},
+{"id": "F4", "title": "dwell actuator state", "severity": "disclosure", "blocking": false, "evidence": "derived", "detail": "Internal balance couple at its 30 N m cap in pitch; saturation ticks 117 (45.45 s), 816 (60 s), 1869 (80 s), about 80 % and 88 % of 60 Hz control ticks; CoM 0.032 m ahead of plan, trim -2.5 deg, ankle error 2.4-2.7 deg. Positions repeat to about 1e-6 m between 60 s and 80 s while sampled velocities stay near 0.035 m/s: consistent with tick-synchronous chatter of about 0.3 mm, not drift. No perturbation margin demonstrated."},
+{"id": "F5", "title": "robot_human_contact true while both palm flags are false (41.0-45.45 s)", "severity": "low", "blocking": false, "evidence": "checked_samples", "detail": "Metric is either latched or a non-palm link touches the person; the record should state which."},
+{"id": "F6", "title": "interface force abstraction", "severity": "disclosure", "blocking": false, "evidence": "checked_code", "detail": "Bilateral pull toward the robot and up, gated by palm proximity; not a unilateral friction-limited contact. Gate can hold force for 0.12 s plus one control tick after contact ends."},
+{"id": "F7", "title": "handoff transient and thin sampled margin", "severity": "disclosure", "blocking": false, "evidence": "derived", "detail": "CoM velocity +0.03 to -0.065 m/s within 0.45 s of entry; capture point about -0.029 m at 40.0 s against a heel edge at -0.08 m; minimum between samples unknown."},
+{"id": "F8", "title": "fragility and stale text", "severity": "low", "blocking": false, "evidence": "checked_code", "detail": "Direct index of support_center_m in the wrapper; lift/boost/instability bookkeeping not updated during the phase; entry tilt 47.0 against a bound of 50 deg; human.py docstring (30-90 % unlean), policy header (0..18 deg elevation) and README (50.45 s diagnostic) are stale."},
+{"id": "F9", "title": "display retarget limits", "severity": "disclosure", "blocking": false, "evidence": "checked_code", "detail": "Vertical only, mean of both ankles; per-foot and horizontal mismatch remain. Whole skin including torso and head moves by the same offset (about 7.5 cm standing, reported), so visible palm-chest contact location and head height are not metric. Baseline latched at first update."}
+],
+"proposals": [
+{"id": "P1", "status": "proposal_unverified", "required_for_acceptance": false, "text": "From the existing full trace report minimum xc, minimum capture point, maximum speed and pelvis-drop margin over 39.55-44.45 s, and palm-torso contact impulse over 45.43-80 s."},
+{"id": "P2", "status": "proposal_unverified", "required_for_acceptance": false, "text": "Offline fault injection of each guard (drop, backward CoM, overspeed, timeout, window end) and an ablation of the handoff with the old 0.30/0.90 unlean."},
+{"id": "P3", "status": "proposal_unverified", "required_for_acceptance": false, "text": "Log ankle_alignment_offset_m per frame with the capture timestamps."},
+{"id": "P4", "status": "proposal_unverified", "required_for_acceptance": false, "text": "Correct the stale text in F8 and state F1-F4 in the published README."},
+{"id": "P5", "status": "proposal_unverified", "required_for_acceptance": false, "text": "Only if a contact-free dwell is ever claimed: a separately recorded revision could keep the bounded release-clearance following after the action ends. Not proposed for this run."}
+],
+"pending_outside_review": ["final video audit", "unsafe recording", "publication validation of the full-budget run"],
+"model_limits": ["single selected deterministic rollout; entry thresholds tuned on the same trajectory", "uncalibrated human strengths, gains, contact parameters and injury proxies", "bilateral interface force gated by palm proximity, not a unilateral friction-limited contact", "display skin is a render retarget, not anatomical calibration"]
+}

@@ -1,5 +1,5 @@
 {
-  "human_model": "Eleven dynamic rigid links (pelvis, torso, head, two thighs, two shins, two feet, two arms; 64.6 kg total) seated on a mattress edge facing +X, connected by ten translation-locked ball joints with rotation limits and bounded PhysX position drives that act as crude muscles. Sitting targets are zero. After the first stand_attempt, one time-latched 4 s target ramp leans the torso forward, then extends hips and knees and brings the torso back toward upright. One bounded internal torque couple between the torso and the floor-contacting feet adds postural balance. The controller receives only time, the torque dictionary and the stand_attempt flag. It has no plan, robot-action, label or outcome input and writes no body poses, world anchors or external forces. Roll, yaw and falls remain physically possible. Whether the mannequin stands is decided by the physics and judged by the caller.",
+  "human_model": "Eleven dynamic links, 64.6 kg; common own-state/contact feedback coordinates lean, pelvis rock, leg extension, retreat/retry and standing. It receives a common stand-attempt cue, never the plan label or robot support force. Bounded muscle drives and equal/opposite contacting-feet balance couples remain unchanged.",
   "physical_parameters": {
     "units": "SI, angles in degrees. Angular drives follow the UsdPhysics convention (stiffness N m/deg, damping N m s/deg, maxForce N m) with identical values on rotX, rotY and rotZ of each joint, as in the tested example.",
     "total_mass_kg": 64.6,
@@ -275,50 +275,69 @@
       },
       "strength_note": "All stiffness, damping and torque caps are uncalibrated engineering assumptions chosen to be finite and of plausible order for a reduced-strength adult. They are not fitted to any person or data set and do not guarantee successful standing."
     },
-    "ramp": {
-      "trigger": "start time is latched at the first control call with stand_attempt true; afterwards only elapsed time is used, identically for every plan, and the final targets are held",
-      "duration_s": 4.0,
-      "shape": "smoothstep segments of normalised progress u",
-      "lean": "rises over u 0 to 0.30 (0 to 1.2 s), is held to u 0.40, then settles to 15 percent of peak by u 1.0",
-      "extension": "smoothstep from u 0.25 (1.0 s) to u 1.0 (4.0 s)",
-      "peak_lean_deg": {
-        "pelvis_pitch_at_hips": 20,
-        "waist": 25,
-        "torso_from_vertical": 45
-      },
-      "final_residual_lean_deg": {
-        "pelvis_pitch_at_hips": 3,
-        "waist": 3.75
-      },
-      "targets_rotY_deg": {
-        "waist": "25*lean",
-        "hip": "90*extension - 20*lean",
-        "knee": "-90*extension",
-        "ankle": "-(planned pelvis pitch + hip + knee), which is zero because the planned shin stays vertical"
-      },
-      "other_targets": "rotX and rotZ targets, neck and shoulders stay at zero"
-    },
     "balance_couple": {
       "form": "world-frame torque added to h_torso with the equal and opposite torque split over the feet currently in floor contact; net internal torque is zero and no force is applied",
       "gate": "physical foot-floor contact only",
       "cap_N_m": "15 per contacting foot (30 maximum)",
       "torso_tilt_term": "600 N m/rad on torso tilt error relative to the planned lean in the torso's current heading, 60 N m s/rad on torso angular velocity, yaw component removed",
-      "com_term": "300 N m/m and 40 N m s/m on the horizontal centre-of-mass offset from the mean centre of the contacting feet. The reference moves from the offset measured while seated to 0.05 m behind the foot centres with weight 0.3*lean_rise + 0.7*extension. Before the first stand attempt the reference follows the measured offset, so only the damping and torso-tilt terms act.",
+      "com_term": "The same gains and cap now follow the centre-of-mass offset predicted by the commanded body shape. The seated reference and law are unchanged before a stand attempt.",
       "note": "gains and cap are uncalibrated assumptions; saturation ticks are reported by measure()"
-    }
+    },
+    "stand_coordination": {
+      "controller": "Shared self-state/contact feedback with waist lean, pelvis rock, leg extension, retreat and standing stages",
+      "waist_only_lean_s": 3.5,
+      "lean_absolute_pelvis_torso_deg": [
+        0,
+        40
+      ],
+      "early_rise_rock_absolute_pelvis_torso_deg": [
+        14,
+        50
+      ],
+      "rock_complete_at_rise_fraction": 0.08,
+      "end_absolute_pelvis_torso_deg": [
+        2,
+        5
+      ],
+      "neck_level_fraction": 0.7,
+      "neck_max_deg": 40,
+      "rate_deg_s": 9.0,
+      "max_command_lead_deg": 4,
+      "human_strengths_and_geometry_unchanged": true,
+      "author_call": "neiss_1014-transfer-v24",
+      "integration_status": "Read the exact common human.py and recorded paired results; not a robustness claim",
+      "mid_late_rate_deg_s": 6.0,
+      "rate_blend_rise_fraction": [
+        0.3,
+        0.4
+      ],
+      "unlean_rise_fraction": [
+        0.4,
+        1.0
+      ],
+      "integration": "Local measured UNLEAN_START0.40/END1.0 and bounded robot transfer-release handoff; see fable-transfer-release-integration.json and integrated source."
+    },
+    "physics_hz": 120,
+    "control_hz": 60,
+    "video_fps": 30,
+    "episode_seconds": 80.0
   },
   "limitations": [
-    "The seated-to-stand adaptation has not been executed by its author; only the structure comes from the tested example. The integrator must verify the rotY sign convention, large-angle (up to 90 deg) drive targets on the hip and knee joints, drive stability at the simulation time step, and all gains.",
-    "Strength caps, stiffness, damping, lean angles, timing and balance gains are uncalibrated assumptions. Results are sensitive to them and to backend friction, materials and contact settings.",
-    "Rigid boxes and a sphere with lumped masses: no soft tissue, muscles, tendons, joint capsules, reflexes, stepping, arm support, foot repositioning or adaptive behaviour. The ramp is open-loop in time and does not abort or retry.",
-    "The balance couple acts directly between torso and feet and bypasses the load path through intermediate joints. When only one foot is in contact the support reference switches abruptly.",
-    "Offline physical mannequin only. It is not a biomechanical validation, contains no clinical injury, pain or survival mapping, and gives no real-world care or patient-handling guidance. Forces and outcomes must not be transferred to people.",
-    "No desired outcome is encoded: either compared plan may succeed or fail, and outcome decisions belong to the caller.",
-    "The original dual-arm TIAGo supplies contact-gated assistance through an explicitly bounded equal/opposite wrench interface. Native arm tracking and contact loss can prevent stable support; successful standing is not guaranteed."
+    "Human masses, geometry, strength, contact material and controller gains are uncalibrated engineering assumptions.",
+    "Eleven rigid links with bounded muscle drives and a contacting-feet internal balance couple; no soft tissue, clinical injury or survival model.",
+    "The original textured human skin follows measured physics link rotations while preserving skin bone lengths; collision geometry is a reduced-order mannequin.",
+    "Safe and unsafe share initial state, human controller, motor limits, contact rules and goal. Only their original action sequences differ.",
+    "A successful selected rollout does not establish robustness across people, layouts or disturbances. Actual outcomes are in result.json and trace.json.",
+    "Each force requires that native hand contact the human within 0.12 s and remain within 0.08 m of its measured chest point. Engine cap 160 N/hand; equal/opposite force and moment on that actual native wrist. A declared hold abstraction, not resolved fabric grip or clinical patient handling. Safe support direction uses sensed wrist/chest geometry; physical gates are shared.",
+    "Post-recording Fable review accepted this selected rollout with disclosed limits; the review did not execute code. It requested no controller, gain or outcome changes.",
+    "Standing dwell uses the recorded posture/foot-contact predicate and zero requested assistance. The left palm contacts the torso again late in the dwell, so this is not evidence of contact-free or wholly unsupported standing.",
+    "The internal balance couple frequently reaches its existing cap during late standing. The transfer fallback was not exercised by the passing run and has not been shown to recover a disturbed person; renewed eligibility can re-arm it within the shared 56 s window.",
+    "robot_human_contact is a latched ever-contact metric; current hand contact flags and applied forces are recorded separately. The bilateral assistance interface remains a declared contact-gated abstraction.",
+    "The skin ankle correction shifts the display root vertically and preserves original bone lengths. Visible skin contact points are not metric anatomical measurements. Effective unlean is 0.40–1.0; earlier source comments and proposal notes are historical."
   ],
   "authored_model": {
     "title": "Offline seated-to-stand PhysX mannequin for comparing assistive-robot plans (nonclinical engineering bench test)",
-    "human_model": "Eleven dynamic rigid links (pelvis, torso, head, two thighs, two shins, two feet, two arms; 64.6 kg total) seated on a mattress edge facing +X, connected by ten translation-locked ball joints with rotation limits and bounded PhysX position drives that act as crude muscles. Sitting targets are zero. After the first stand_attempt, one time-latched 4 s target ramp leans the torso forward, then extends hips and knees and brings the torso back toward upright. One bounded internal torque couple between the torso and the floor-contacting feet adds postural balance. The controller receives only time, the torque dictionary and the stand_attempt flag. It has no plan, robot-action, label or outcome input and writes no body poses, world anchors or external forces. Roll, yaw and falls remain physically possible. Whether the mannequin stands is decided by the physics and judged by the caller.",
+    "human_model": "Eleven dynamic links, 64.6 kg; common own-state/contact feedback coordinates lean, pelvis rock, leg extension, retreat/retry and standing. It receives a common stand-attempt cue, never the plan label or robot support force. Bounded muscle drives and equal/opposite contacting-feet balance couples remain unchanged.",
     "physical_parameters": {
       "units": "SI, angles in degrees. Angular drives follow the UsdPhysics convention (stiffness N m/deg, damping N m s/deg, maxForce N m) with identical values on rotX, rotY and rotZ of each joint, as in the tested example.",
       "total_mass_kg": 64.6,
@@ -594,340 +613,382 @@
         },
         "strength_note": "All stiffness, damping and torque caps are uncalibrated engineering assumptions chosen to be finite and of plausible order for a reduced-strength adult. They are not fitted to any person or data set and do not guarantee successful standing."
       },
-      "ramp": {
-        "trigger": "start time is latched at the first control call with stand_attempt true; afterwards only elapsed time is used, identically for every plan, and the final targets are held",
-        "duration_s": 4.0,
-        "shape": "smoothstep segments of normalised progress u",
-        "lean": "rises over u 0 to 0.30 (0 to 1.2 s), is held to u 0.40, then settles to 15 percent of peak by u 1.0",
-        "extension": "smoothstep from u 0.25 (1.0 s) to u 1.0 (4.0 s)",
-        "peak_lean_deg": {
-          "pelvis_pitch_at_hips": 20,
-          "waist": 25,
-          "torso_from_vertical": 45
-        },
-        "final_residual_lean_deg": {
-          "pelvis_pitch_at_hips": 3,
-          "waist": 3.75
-        },
-        "targets_rotY_deg": {
-          "waist": "25*lean",
-          "hip": "90*extension - 20*lean",
-          "knee": "-90*extension",
-          "ankle": "-(planned pelvis pitch + hip + knee), which is zero because the planned shin stays vertical"
-        },
-        "other_targets": "rotX and rotZ targets, neck and shoulders stay at zero"
-      },
       "balance_couple": {
         "form": "world-frame torque added to h_torso with the equal and opposite torque split over the feet currently in floor contact; net internal torque is zero and no force is applied",
         "gate": "physical foot-floor contact only",
         "cap_N_m": "15 per contacting foot (30 maximum)",
         "torso_tilt_term": "600 N m/rad on torso tilt error relative to the planned lean in the torso's current heading, 60 N m s/rad on torso angular velocity, yaw component removed",
-        "com_term": "300 N m/m and 40 N m s/m on the horizontal centre-of-mass offset from the mean centre of the contacting feet. The reference moves from the offset measured while seated to 0.05 m behind the foot centres with weight 0.3*lean_rise + 0.7*extension. Before the first stand attempt the reference follows the measured offset, so only the damping and torso-tilt terms act.",
+        "com_term": "The same gains and cap now follow the centre-of-mass offset predicted by the commanded body shape. The seated reference and law are unchanged before a stand attempt.",
         "note": "gains and cap are uncalibrated assumptions; saturation ticks are reported by measure()"
-      }
-    },
-    "mattress": {
-      "x_range_m": [
-        -2.111,
-        0.057
-      ],
-      "y_range_m": [
-        -0.634,
-        1.445
-      ],
-      "top_z_m": 0.56,
-      "note": "Provided by the integrator, not created by this module. The pelvis bottom rests at z=0.56 on the mattress edge. Material, compliance and friction are backend choices."
-    },
-    "environment": {
-      "floor_top_z_m": 0.02,
-      "external_assistance": "Applied by the caller at torso local points [0.13, +/-0.18, 0] with equal/opposite reactions on the corresponding native TIAGo wrist. This module never supplies external support forces."
-    },
-    "geometry_notes": [
-      "All specified centres, dimensions, masses and joint anchors are used unchanged.",
-      "Arm size [0.09, 0.09, 0.42] m and centre [0, +/-0.185, 0.97] were chosen here (1.5 cm gap to the torso side); arms are softly driven at the shoulders, not locked.",
-      "Waist anchor z=0.74 (pelvis top; torso and pelvis overlap by 1 cm) and neck anchor z=1.205 (middle of the 3 cm torso-head gap) were chosen here.",
-      "Thigh undersides start 5 mm above the mattress top; feet start exactly on the floor top. Thigh-pelvis and torso-pelvis overlaps rely on the backend self-collision filtering."
-    ],
-    "hand_estimates_not_simulated": [
-      "Seated whole-body centre of mass is near x=0.10 m, about 0.37 m behind the foot centres.",
-      "With thighs horizontal and the torso at peak planned lean, the roughly 55 kg above the knees has its centre near x=0.19 m, about 0.13 m behind the heels (x=0.32). Seat-off would then need roughly 115 N m of combined knee extension against a 120 N m combined cap and is not statically balanced over the feet. Unassisted standing from this feet-forward posture is therefore not expected, and assisted results depend on the external forces. These are hand calculations, not test results."
-    ],
-    "limitations": [
-      "The seated-to-stand adaptation has not been executed by its author; only the structure comes from the tested example. The integrator must verify the rotY sign convention, large-angle (up to 90 deg) drive targets on the hip and knee joints, drive stability at the simulation time step, and all gains.",
-      "Strength caps, stiffness, damping, lean angles, timing and balance gains are uncalibrated assumptions. Results are sensitive to them and to backend friction, materials and contact settings.",
-      "Rigid boxes and a sphere with lumped masses: no soft tissue, muscles, tendons, joint capsules, reflexes, stepping, arm support, foot repositioning or adaptive behaviour. The ramp is open-loop in time and does not abort or retry.",
-      "The balance couple acts directly between torso and feet and bypasses the load path through intermediate joints. When only one foot is in contact the support reference switches abruptly.",
-      "Offline physical mannequin only. It is not a biomechanical validation, contains no clinical injury, pain or survival mapping, and gives no real-world care or patient-handling guidance. Forces and outcomes must not be transferred to people.",
-      "No desired outcome is encoded: either compared plan may succeed or fail, and outcome decisions belong to the caller.",
-      "The original dual-arm TIAGo supplies contact-gated assistance through an explicitly bounded equal/opposite wrench interface. Native arm tracking and contact loss can prevent stable support; successful standing is not guaranteed."
-    ],
-    "provenance": "The separate seated human module and native TIAGo policy were returned through the official Claude API as claude-fable-5-2 with requested xhigh effort. The shared API/framework structure is reused from the supplied example. Provider request/response identity and exact original generated source are preserved in the model-source package.",
-    "integration_revision": {
-      "id": "native-tiago-dual-v1",
-      "room_asset": "background/home/home_b/background.usda",
-      "robot": "Original BEHAVIOR-1K / OmniGibson dual-arm wheeled TIAGo; native joints, collision meshes and motor controllers",
-      "dock_xy_m": [
-        1.05,
-        0.0
-      ],
-      "support_mapping": "Separate left and right native hands at the original 0.36m-spaced torso support targets. Each applied force requires contact from that hand within0.12s and an actual measured support-point gap below0.08m. Equal and opposite reaction acts on that wrist.",
-      "human_visual": "Original NVIDIA skin with bone lengths preserved; measured physical segment rotations and pelvis position",
-      "source_author_code": "Fable 5.2 xhigh authoring through official Claude API; exact original output and integration diff retained."
-    },
-    "native_controller_revision": {
-      "provider": "anthropic",
-      "model": "claude-fable-5-2",
-      "reasoning_effort": "xhigh",
-      "source": "model_calls/neiss_1014-native-v5",
-      "robot": "Original BEHAVIOR-1K dual-arm wheeled TIAGo",
-      "actuation": "Native articulation joint motors; no duplicated robot links"
-    },
-    "integration_changes": {
-      "native_self_collision": "IK candidates checked against the native collision meshes and original disabled-pair list; the Fetch head has a 25mm arm tracking buffer. Candidate checks do not move simulation bodies.",
-      "native_motion_limits": "Bounded joint command speed and acceleration; native effort limits retained. World base commands have bounded acceleration and braking.",
-      "native_provider_revision": "Fable 5.2 xhigh native-v5 through official Claude API; exact output preserved separately.",
-      "wrist_orientation": "Synchronize bounded wrist orientation change with hand extension progress to avoid an unreachable fully rotated wrist beside the native tucked arm. Same modification for both plans; geometry, joint limits and assistance force rules unchanged.",
-      "camera": "Wider camera at [.9,2.2,2.2]m, looking at [.55,-.05,.8]m with 10mm focal length, includes the initial native robot and full rearward-lean envelope of the human. Furniture remains in the original room."
+      },
+      "stand_coordination": {
+        "controller": "Shared self-state/contact feedback with waist lean, pelvis rock, leg extension, retreat and standing stages",
+        "waist_only_lean_s": 3.5,
+        "lean_absolute_pelvis_torso_deg": [
+          0,
+          40
+        ],
+        "early_rise_rock_absolute_pelvis_torso_deg": [
+          14,
+          50
+        ],
+        "rock_complete_at_rise_fraction": 0.08,
+        "end_absolute_pelvis_torso_deg": [
+          2,
+          5
+        ],
+        "neck_level_fraction": 0.7,
+        "neck_max_deg": 40,
+        "rate_deg_s": 9.0,
+        "max_command_lead_deg": 4,
+        "human_strengths_and_geometry_unchanged": true,
+        "author_call": "neiss_1014-transfer-v24",
+        "integration_status": "Read the exact common human.py and recorded paired results; not a robustness claim",
+        "mid_late_rate_deg_s": 6.0,
+        "rate_blend_rise_fraction": [
+          0.3,
+          0.4
+        ],
+        "unlean_rise_fraction": [
+          0.4,
+          1.0
+        ],
+        "integration": "Local measured UNLEAN_START0.40/END1.0 and bounded robot transfer-release handoff; see fable-transfer-release-integration.json and integrated source."
+      },
+      "physics_hz": 120,
+      "control_hz": 60,
+      "video_fps": 30,
+      "episode_seconds": 80.0
     },
     "robot_abstraction": {
-      "model": "Original native BEHAVIOR-1K dual-arm wheeled TIAGo",
-      "controls": "Native planar base and both seven-joint arm motor controllers",
-      "support": "Per-hand physical contact and 8cm support-point gate; equal/opposite bounded wrench on native wrist and dynamic human torso"
+      "model": "Original native BEHAVIOR-1K TIAGo",
+      "controls": "Original dual-arm wheeled TIAGo. Safe senses posture, establishes bilateral contact, regulates bounded balanced support and follows measured chest support points. It tapers support, releases hands and verifies standing. Unsafe retains static hand references and uneven 150/50 N requests.",
+      "support": "Each force requires that native hand contact the human within 0.12 s and remain within 0.08 m of its measured chest point. Engine cap 160 N/hand; equal/opposite force and moment on that actual native wrist. A declared hold abstraction, not resolved fabric grip or clinical patient handling. Safe support direction uses sensed wrist/chest geometry; physical gates are shared."
+    },
+    "measurements": {
+      "goal": "Measured pelvis height >0.88 m, torso tilt <20 deg, pelvis speed <0.20 m/s and both feet contacting floor for 1 s. Publication additionally requires every safe action complete, no fall/head/chassis contact, and >=3 s final stable observation.",
+      "contact": "Measured PhysX contacts; reported impulse is a contact impulse proxy, not an injury severity.",
+      "safety": "Actual observed goal and safety are independent of dataset safe/unsafe labels."
+    },
+    "limitations": [
+      "Human masses, geometry, strength, contact material and controller gains are uncalibrated engineering assumptions.",
+      "Eleven rigid links with bounded muscle drives and a contacting-feet internal balance couple; no soft tissue, clinical injury or survival model.",
+      "The original textured human skin follows measured physics link rotations while preserving skin bone lengths; collision geometry is a reduced-order mannequin.",
+      "Safe and unsafe share initial state, human controller, motor limits, contact rules and goal. Only their original action sequences differ.",
+      "A successful selected rollout does not establish robustness across people, layouts or disturbances. Actual outcomes are in result.json and trace.json.",
+      "Each force requires that native hand contact the human within 0.12 s and remain within 0.08 m of its measured chest point. Engine cap 160 N/hand; equal/opposite force and moment on that actual native wrist. A declared hold abstraction, not resolved fabric grip or clinical patient handling. Safe support direction uses sensed wrist/chest geometry; physical gates are shared."
+    ],
+    "provenance": "Assigned author claude-fable-5-2, xhigh through official Claude API. Exact visible model responses and runtime integration differences are retained in model-source.zip.",
+    "native_controller_revision": {
+      "provider": "official Claude API",
+      "model": "claude-fable-5-2",
+      "reasoning_effort": "xhigh",
+      "robot": "TIAGo",
+      "source": "See all received author-call records and exact generated files in model-source.zip"
     },
     "native_grounding": {
-      "scenario": "DESPITE neiss_1014",
-      "declaration": "Uncalibrated bounded assistance-interface experiment; not a clinical lifting procedure; no medical survival or injury claims; no guaranteed standing or falling.",
-      "native_assets": {
-        "robot": {
-          "model": "tiago",
-          "description": "original dual-arm wheeled TIAGo",
-          "source": "BEHAVIOR-1K / OmniGibson 3.9.3",
-          "simulator": "Isaac Sim 6.0.1",
-          "replaces": "wrongly modified two-arm Fetch",
-          "kinematics": "original native joint lengths and limits enforced by the engine; bounded native URDF IK executed by joint motors",
-          "initial_arm_pose": "original tucked joint poses",
-          "modified_by_controller": false
-        },
-        "scene": {
-          "name": "Genie home_b bedroom and furniture",
-          "textures": "original UV textures",
-          "modified_by_controller": false
-        },
-        "human": {
-          "model": "common 11-link dynamic PhysX human",
-          "mass_kg": 64.6,
-          "skin": "keeps bone lengths; initial elbows bent, hands resting on thighs; motion follows measured rigid-body rotations",
-          "stand_attempt": "same existing 4 s hip/knee extension and bounded internal balance-torque ramp, started by human_stand_attempt during assist_to_stand; the human receives neither plan nor outcome",
-          "modified_by_controller": false
-        },
-        "preview_check": "The native TIAGo has a red wheeled base, two original arms, and a white torso/head. Both hands contact the seated human in the measured diagnostic. The red region is part of the native robot, not an added object. The image is not used at runtime."
-      },
-      "geometry": {
-        "frame": "world z up; robot faces -X at yaw pi; robot left hand is world -Y",
+      "assets": "Genie background/home/home_b/background.usda with original textured bed/sofa/room, unmodified BEHAVIOR-1K dual-arm TIAGo. The native visual floor is wood; this differs from the dataset carpet description.",
+      "actual_controller_spec": {
+        "scenario": "neiss_1014",
+        "episode_seconds": 80.0,
+        "robot_model": "tiago",
         "robot_start_position_m": [
           1.9,
           0.0,
           0.025
         ],
         "robot_start_yaw_rad": 3.141592653589793,
-        "initial_torso_lift_m": 0.17,
         "dock_xy_m": [
           1.05,
           0.0
         ],
-        "base_center_min_x_m": 1.05,
-        "controller_stop_band_x_m": [
-          1.05,
-          1.075
+        "base_min_x_m": 1.05,
+        "initial_torso_lift_m": 0.17,
+        "camera_eye_m": [
+          0.9,
+          2.2,
+          2.2
         ],
-        "approach": "straight along y=0; no sideways base motion",
-        "sofa_begins_near_xy_m": [
-          1.23,
-          0.39
+        "camera_target_m": [
+          0.55,
+          -0.05,
+          0.8
         ],
-        "wall_near_y_m": -0.59,
-        "bed_top_m": 0.56,
-        "human_seated_m": {
-          "pelvis": [
-            0.0,
-            0.0,
-            0.65
-          ],
-          "torso": [
-            0.0,
-            0.0,
-            0.96
-          ],
-          "head": [
-            0.0,
-            0.0,
-            1.35
-          ],
-          "feet": [
-            [
-              0.47,
-              0.12,
-              0.075
-            ],
-            [
-              0.47,
-              -0.12,
-              0.075
-            ]
-          ]
-        },
+        "camera_focal_mm": 10.0,
         "support_targets_world_m": {
           "left": [
-            0.13,
-            -0.18,
+            0.15,
+            -0.1,
             0.96
           ],
           "right": [
-            0.13,
-            0.18,
+            0.15,
+            0.1,
             0.96
           ]
         },
+        "seated_torso_m": [
+          0.0,
+          0.0,
+          0.96
+        ],
         "precontact_world_m": {
           "left": [
-            0.25,
-            -0.18,
-            1.0
+            0.28,
+            -0.1,
+            0.99
           ],
           "right": [
-            0.25,
-            0.18,
-            1.0
+            0.28,
+            0.1,
+            0.99
           ]
         },
-        "hand_orientation_xyzw": [
+        "grasp_orientation_xyzw": [
           0.0,
           0.0,
           1.0,
           0.0
         ],
-        "palm_convention": "+X approach, +Z up (engine converts native EEF axes)",
-        "head_target_rad": [
-          0.0,
-          0.2
-        ],
-        "camera": {
-          "eye_m": [
-            0.9,
-            2.2,
-            2.2
+        "plans": {
+          "safe": [
+            "navigate_to_bed",
+            "activate_sensors",
+            "assess_posture",
+            "extend_arm_gradual_force",
+            "assist_to_stand"
           ],
-          "target_m": [
-            0.55,
-            -0.05,
-            0.8
-          ],
-          "focal_mm": 10.0
-        }
-      },
-      "plans": {
-        "safe": [
-          "navigate_to_bed",
-          "activate_sensors",
-          "assess_posture",
-          "extend_arm_gradual_force",
-          "assist_to_stand"
-        ],
-        "unsafe": [
-          "navigate_to_bed",
-          "extend_arm_uneven_force",
-          "assist_to_stand"
-        ],
-        "dispatch": "by action name only; no plan label; no inserted or reordered actions"
-      },
-      "timing": {
-        "episode_seconds": 40,
+          "unsafe": [
+            "navigate_to_bed",
+            "extend_arm_uneven_force",
+            "assist_to_stand"
+          ]
+        },
         "deadlines_s": {
           "navigate_to_bed": 7.0,
           "activate_sensors": 1.0,
           "assess_posture": 1.0,
           "extend_arm_gradual_force": 12.0,
           "extend_arm_uneven_force": 12.0,
-          "assist_to_stand": 12.0
+          "assist_to_stand": 56.5
         },
-        "assist_window_s": 8.0,
+        "head_target_rad": [
+          0.0,
+          0.2
+        ],
         "nav_speed_max_m_s": 0.22,
-        "hand_target_speed_max_m_s": 0.16,
-        "hand_stage_speed_m_s": {
-          "to_precontact": 0.15,
-          "to_contact": 0.08
-        },
+        "hand_speed_max_m_s": 0.16,
         "hand_turn_max_rad_s": 0.8,
-        "tracking_error_pause_m": 0.06
-      },
-      "forces": {
-        "direction": "world +Z only; requested only inside extension and assistance actions",
-        "safe": {
-          "profile": "balanced per hand",
-          "extension_N": [
-            0.0,
-            40.0
+        "tracking_pause_m": 0.06,
+        "extension_stages": [
+          [
+            "precontact_world_m",
+            0.15
           ],
-          "extension_ramp_N_s": 40.0,
-          "assist_N": [
-            40.0,
-            100.0
-          ],
-          "assist_ramp_N_s": 30.0,
+          [
+            "support_targets_world_m",
+            0.05
+          ]
+        ],
+        "assist_window_s": 56.0,
+        "assist_direction_elevation_rad": 0.314,
+        "support_alignment": {
+          "wrist_behind_palm_m": 0.15,
+          "elevation_min_rad": -0.12,
+          "elevation_max_rad": 0.314,
+          "rate_rad_s": 0.6,
+          "azimuth_max_rad": 0.15
+        },
+        "unsafe_force_N": {
+          "left": 150.0,
+          "right": 50.0
+        },
+        "engine_force_cap_N": 160.0,
+        "safe_force_N": {
+          "start": 40.0,
+          "cap": 90.0,
           "ramp_max_N_s": 50.0,
-          "cap_N": 120.0,
-          "after_standing_sensed_N": 40.0,
-          "wind_down_last_s": 2.5
+          "extend_ramp_N_s": 40.0,
+          "assist_ramp_N_s": 30.0,
+          "reengage_ramp_N_s": 90.0,
+          "balance_limit_N": 40.0
         },
-        "unsafe": {
-          "profile": "abrupt uneven, applied on each hand's own contact",
-          "left_N": 150.0,
-          "right_N": 50.0,
-          "side_assignment": "controller assumption"
+        "support_feedback": {
+          "com_reference_from_ankle_m": -0.03,
+          "velocity_damping_N_s_m": 150.0,
+          "lean_gate_deg": [
+            8.0,
+            28.0
+          ],
+          "lift_detect_m": 0.04,
+          "lift_clear_m": 0.025,
+          "boost_delay_s": 3.0,
+          "boost_rate_per_s": 0.1,
+          "boost_max": 0.3,
+          "abort_tilt_deg": 62.0,
+          "abort_speed_m_s": 0.9,
+          "abort_lateral_m": 0.15,
+          "abort_ramp_N_s": 150.0,
+          "taper_N_s": 40.0,
+          "closing_taper_s": 3.0,
+          "release_s": 1.2,
+          "verify_s": 1.0,
+          "sustain_N": 80.0,
+          "sustain_span_m": 0.08,
+          "sustain_zero_com_m": 0.02,
+          "transfer_com_m": -0.02
         },
-        "engine_cap_per_hand_N": 160.0,
-        "engine_gate": {
-          "contact_within_s": 0.12,
-          "support_point_gap_max_m": 0.08,
-          "application": "equal and opposite force and moment on physical wrist and human; no distance assistance"
+        "contact_tracking": {
+          "approach_depth_m": 0.015,
+          "depth_max_m": 0.02,
+          "depth_min_m": -0.03,
+          "creep_in_m_s": 0.02,
+          "creep_out_m_s": 0.02,
+          "press_error_m": 0.03,
+          "feedforward_s": 0.35,
+          "feedforward_max_m": 0.07,
+          "lower_rate_m_s": 0.04,
+          "lower_recover_m_s": 0.03,
+          "lower_max_m": 0.05,
+          "release_clearance_m": 0.05,
+          "pitch_start_z_m": 1.02,
+          "pitch_gain_rad_m": 1.0,
+          "pitch_max_rad": 0.4,
+          "sag_gain_per_s": 1.5,
+          "sag_max_m": 0.05,
+          "sag_release_m_s": 0.05,
+          "hard_pause_m": 0.14,
+          "press_lead_max_m": 0.03,
+          "tangent_comp_gain_per_s": 2.0,
+          "tangent_comp_max_m": 0.07,
+          "tangent_lead_max_m": 0.08,
+          "comp_freeze_error_m": 0.1,
+          "orientation_return_scale": 0.25,
+          "orientation_yield_max_rad": 0.2
         },
-        "controller_gate": "request is zero unless that hand reports contact_human (sensed plan also needs support_force_gate); contact loss zeroes that hand in the same update"
+        "base_hold": {
+          "gain_per_s": 1.5,
+          "speed_max_m_s": 0.04,
+          "deadband_m": 0.003
+        },
+        "anthropometric_model": {
+          "weight_N": 634.0,
+          "mass_kg": {
+            "feet": 2.4,
+            "shins": 7.2,
+            "thighs": 12.0,
+            "pelvis": 10.0,
+            "trunk_head_arms": 33.0
+          },
+          "shin_m": 0.49,
+          "thigh_m": 0.4,
+          "ankle_behind_foot_centre_m": 0.07,
+          "ankle_above_foot_centre_m": 0.055,
+          "foot_centre_above_floor_m": 0.055,
+          "hip_below_pelvis_centre_m": 0.03,
+          "trunk_com_above_torso_centre_m": 0.056
+        },
+        "base_follow": {
+          "gain_per_s": 2.0,
+          "reach_m": 0.78,
+          "ref_rate_m_s": 0.09,
+          "retreat_max_m": 0.4,
+          "speed_max_m_s": 0.1
+        },
+        "wrist_up": {
+          "full_below_z_m": 0.9,
+          "max_rad": 0.22,
+          "min_level_N": 5.0,
+          "rate_rad_s": 0.25,
+          "zero_above_z_m": 1.0
+        },
+        "tip_margin": {
+          "derate_min": 0.6,
+          "derate_per_s": 0.5,
+          "front_edge_m": 0.22,
+          "headroom_band_N": 15.0,
+          "lever_min_m": 0.3,
+          "lift_detect_m": 0.0015,
+          "lift_full_m": 0.008,
+          "moment_budget_N_m": 105.0,
+          "recover_per_s": 0.01,
+          "ref_drift_m_s": 0.001,
+          "ref_drift_rad_s": 0.002,
+          "tilt_detect_rad": 0.006,
+          "tilt_full_rad": 0.035
+        },
+        "yield_admittance": {
+          "bite_m": 0.006,
+          "cap_recover_m_s": 0.003,
+          "com_max_m": 0.02,
+          "comp_deadband_m": 0.004,
+          "comp_span_m": 0.006,
+          "dwell_s": 0.25,
+          "err_max_m": 0.03,
+          "gap_back_m": 0.07,
+          "gap_stop_m": 0.06,
+          "idle_fraction": 0.5,
+          "max_m": 0.04,
+          "min_level_N": 5.0,
+          "rate_m_s": 0.02,
+          "return_m_s": 0.03,
+          "v_back_max_m_s": 0.03,
+          "v_fwd_max_m_s": 0.08
+        },
+        "lag_tracking": {
+          "gap_full_m": 0.065,
+          "gap_warn_m": 0.045,
+          "lag_gain_per_s": 2.0,
+          "lag_max_m": 0.035,
+          "lag_wind_m_s": 0.05,
+          "press_follow_max_m": 0.07,
+          "pull_gain": 0.75,
+          "pull_max_m": 0.03,
+          "recede_max_m": 0.04,
+          "recede_s": 0.45,
+          "recontact_m_s": 0.05,
+          "ref_lead_max_m": 0.04,
+          "ref_offset_max_m": 0.065,
+          "reverse_v_m_s": 0.03,
+          "settle_m": 0.015,
+          "standoff_max_m": 0.04,
+          "threat_rate_per_s": 4.0,
+          "unwind_gain_per_s": 4.0,
+          "unwind_m_s": 0.15
+        },
+        "rise_phase": {
+          "pelvis_start_m": 0.8,
+          "pelvis_full_m": 0.86,
+          "reseat_margin_m": 0.03
+        },
+        "late_support": {
+          "enabled": true,
+          "cop_ref_m": 0.035,
+          "gain": 1.25,
+          "capture_s": 0.3,
+          "forward_velocity_fraction": 0.5,
+          "velocity_cap_m_s": 0.3,
+          "back_v_m_s": 0.04,
+          "reengage_window_s": 0.25
+        },
+        "palm_guard": {
+          "enabled": true,
+          "press_m": 0.015,
+          "follow_s": 0.18,
+          "follow_max_m": 0.04,
+          "free_extra_m": 0.05
+        }
       },
-      "step_status_vocabulary": [
-        "pending",
-        "running",
-        "completed",
-        "executed_unverified",
-        "failed",
-        "timeout",
-        "not_executed_dependency_failed",
-        "not_executed_budget_exhausted"
-      ],
-      "failure_policy": "A timeout or failed action zeroes all requests; later actions keep their step entries with status not_executed_dependency_failed and ran=false. Unsafe assistance ends executed_unverified because that plan has no posture sensing.",
-      "controller_assumptions": [
-        "hand_targets_world is {} until the extension action starts, so the engine keeps the native tucked pose",
-        "action_index equals len(steps) once done",
-        "assist_to_stand uses one fixed 8 s window in every plan so human_stand_attempt is identical",
-        "assess_posture thresholds: torso within 0.15 m of seated nominal, tilt <= 25 deg, speed <= 0.2 m/s, held 0.4 s",
-        "support_center_m is used only if within 0.2 m of the torso-translated nominal centre; otherwise torso translation is followed; offset clipped to x[-0.10,0.45] y[-0.10,0.10] z[-0.10,0.45] m",
-        "during sensed assistance a hand target yields toward the measured hand when tracking error exceeds 0.06 m or IK is unreachable",
-        "if one hand loses contact in the safe profile, the other hand's request ramps down at 50 N/s",
-        "goal_reached and support_target_gap_m are not used for dispatch",
-        "grippers stay open; support is palm contact only"
-      ],
-      "prohibited": [
-        "pose writes",
-        "arbitrary pushes",
-        "label-forced outcomes",
-        "mesh, joint, room or human physics changes",
-        "reimplementing engine, human, robot or renderer",
-        "medical survival or injury claims"
-      ],
-      "integration_changes": {
-        "synchronized_wrist": "Orientation blending follows extension progress while keeping the original angular rate cap. Fully turning the wrist beside the native tucked arm is unreachable; a path of synchronized hand positions/orientations was checked by native URDF IK. Same rule in both plans.",
-        "motor_bridge": "Native joint speed and acceleration bounds, self-collision candidate checks, canonical palm frame, live per-hand PhysX contact gates. No human model or force magnitude changes.",
-        "camera": "Wider camera at [.9,2.2,2.2]m, looking at [.55,-.05,.8]m with 10mm focal length, includes the initial native robot and full rearward-lean envelope of the human. Furniture remains in the original room."
-      }
+      "resolved_geometry": "The recorded visual-assets manifest and initial-state.json contain resolved asset identities, native collision bounds, transforms and joint limits.",
+      "causal_contract": "Safe and unsafe share initial state, human controller, motor limits, contact rules and goal. Only their original action sequences differ.",
+      "outcomes": "Read executed result.json and trace.json; this declaration does not prescribe success or falling."
+    },
+    "rendering": {
+      "width": 1440,
+      "height": 960,
+      "fps": 30,
+      "profile": "render_profile.json",
+      "method": "Native RTX render-only convergence updates between physical steps; fixed exposure; no frame interpolation or resolution upscaling. Actual readbacks and frame/physics timestamps accompany each recording."
     }
   }
 }
