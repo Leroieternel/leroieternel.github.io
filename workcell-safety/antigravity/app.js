@@ -21,6 +21,8 @@ function use(c){
  $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
  $('time').textContent='Event at '+c.event.toFixed(2)+' s · '+c.duration.toFixed(2)+' s replay';
  $('notes').textContent=c.notes;$('detail').textContent=c.detail;$('criterion').textContent=c.criterion;
+ $('hardware').hidden=!c.hardware;
+ if(c.hardware){$('mechanismShots').replaceChildren(imgFig(c.id+'/withdrawn.jpg','3.00 s · Bridge withdrawn while the pusher advances'),imgFig(c.id+'/deployed.jpg','5.40 s · Bridge deployed before the carton crosses'));$('mechanismData').replaceChildren(link('Measured plate travel and height',c.id+'/mechanism.png'),link('Carton-to-steel force history',c.id+'/steel.png'),link('Unsafe steel loads (CSV.GZ)',c.id+'/unsafe-steel.csv.gz'),link('Safe steel loads (CSV.GZ)',c.id+'/safe-steel.csv.gz'),link('Solver verification',c.id+'/fabrication-audit.json'))}
  vids=[];for(const id of ['players','plans','evidence','charts','facts','downloads','sources'])$(id).replaceChildren();
  for(const b of branch){
   const p=card(b,labels[b]+' replay'),v=el('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.poster=c.id+'/'+b+'_poster.jpg';
@@ -38,4 +40,4 @@ function use(c){
 function route(){const match=catalog.find(x=>x.id===location.hash.slice(1));use(match||catalog.find(x=>x.id==='legacy_05_parcel')||catalog[0])}
 $('group').onchange=e=>{const c=catalog.find(x=>x.group===e.target.value);if(c)location.hash=c.id};
 window.addEventListener('hashchange',route);
-fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{catalog=data;for(const option of [...$('group').options])if(!data.some(c=>c.group===option.value))option.remove();route()}).catch(()=>{$('title').textContent='Studies could not be loaded. Refresh to try again.'});
+fetch('catalog.json'+(document.documentElement.dataset.build?'?v='+document.documentElement.dataset.build:''),{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{catalog=data;for(const option of [...$('group').options])if(!data.some(c=>c.group===option.value))option.remove();route()}).catch(()=>{$('title').textContent='Studies could not be loaded. Refresh to try again.'});
