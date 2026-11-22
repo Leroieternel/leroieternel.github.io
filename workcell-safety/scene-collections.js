@@ -4,8 +4,9 @@
 // An edition-specific entry takes precedence when a rebuild moved to a different room.
 const sceneCollections = {
   'Bathroom': ['everyday_drawer', 'mobile_washroom'],
-  'Café': ['legacy_03_cafe'],
+  'Café': ['people_cafe', 'legacy_03_cafe'],
   'Coffee roastery': ['mobile_roastery'],
+  'Darkroom': ['people_darkroom'],
   'Factory': ['cnc_full', '02_service', '03_inspection', '05_shared_read', '07_aperture',
               '08_receiver', 'legacy_06_shaft'],
   'Field': ['04_field'],
