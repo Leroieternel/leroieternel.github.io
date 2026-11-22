@@ -1475,6 +1475,8 @@ def _dress_human_skins(
             elif any(k in nm for k in ("shoe", "tennis", "boot", "sneaker")):
                 garment = "shoes"
 
+        if case=='cafe' and garment=='gloves':
+            is_skin_or_face=True
         if is_skin_or_face or garment is None:
             linked_imgs: list[str] = []
             for mat in obj.data.materials:

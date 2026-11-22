@@ -44,6 +44,7 @@ function use(c){
  $('charts').append(imgFig(c.id+'/metric.png',c.metric,'chart'),imgFig(c.id+'/force.png',c.force,'chart'));
  $('downloads').append(...branch.map(b=>link(labels[b]+' solver trace (CSV.GZ)',c.id+'/'+b+'.csv.gz')));
  if(c.group==='people'){
+  if(c.performance){$('evidence').append(imgFig(c.id+'/cup-sequence.jpg','Reach, lift, sip and return'));$('downloads').append(link('Hand and cup mesh checks',c.id+'/grip-accepted.json'),link('Frame-by-frame handle clearance',c.id+'/grip-clearance.csv'));$('sources').append(link('Antigravity character performance',c.id+'/neon_cafe_performance.py'))}
   $('charts').append(imgFig(c.id+'/interaction.png',c.interactionChart,'chart'));
   $('sources').append(link('DESPITE reference plans',c.id+'/source-example.json'),link('Physics brief','sources/people_physics-prompt.txt'),link('Lighting brief','sources/people_look-prompt.txt'),link('Production physics and controller',c.id+'/physics.py'),link('Production materials and lighting',c.id+'/look.py'),link('Material inventory',c.id+'/appearance.json'),link('Authorship record',c.id+'/production.json'));
   $('downloads').append(link('Physics checks and terminal states',c.id+'/physics-audit.json'),...branch.map(b=>link(labels[b]+' complete solver trace',c.id+'/'+b+'-full.csv.gz')));

@@ -1,0 +1,204 @@
+Compose a Python module entirely in your answer, in one fenced code block. All interface and input geometry are described below. This is an offline code-generation call with zero tool permissions. Do not invoke Bash, write_file, shell, search, file inspection or any other tool; a tool call terminates this job. Your job is to output Python code in plain text; the caller runs it in a separate environment. You are Google Antigravity revising your live DESPITE cafe simulation (the darkroom is separate). The user saw the customer's flesh/glove entering the cup/espresso, stiff joint motion and awkward reading paper. Rebuild the actual character motion: preserve grounded feet; subtle shoulder lead, head tilt and gaze toward work, asymmetrical elbow and wrist follow-through, anatomically hinged wrist and articulated fingers. One fluid reach, grip the OUTSIDE handle, lift to near the lips, tilt slightly, return to SAUCER, release then withdraw hand. Use continuous easing/splines with no start-stop at every waypoint. Left arm relaxed, slight counterbalance. Park the small folded magazine flat on the back counter at (0.32,1.96,0.928), rotated 10deg Z; no need to hold it. 20s duration. Same performance for both branches. The cafe robot, droplets, mugs, layout and Genie surface maps already work; change only the human interaction. Use the outside handle, never put digits in coffee. Handle is small; you may revise it into a realistic larger D handle on negative cup-local X. Implement handle_segments() returning list of (a,b,r) in cup-local METRES to replace existing two capsules in both physics & rendering. Smooth polygon loop, centerline tube thickness 3.4-4.5 mm, starts/ends at body, extends 35-42 mm beyond wall max. Grasp demonstrably near handle (tip/pad from thumb and/or index adjacent to tube) with cup/coffee volume, tabletop and saucer cleared even during reach/release. Provide realistic closed hand orientation, no intersection fingertips/cup/rim at sip. Cup radius .0286, height .060; bottom z=0.891 when on saucer, cup center (-.74,.80,.921). Other saucer offset small. Standing human root nominal (-.60,1.18,zfloor ~0), local +X is right, +Y is forward, +Z up, rotated pi about world Z. Face points -world Y. Derive actual lips from rig head + local [0,.08,.055] near z1.56. Keep face clear or at rim creating a convincing near-sip. Root, face bones bind frame identity. Arm solver should use true wrist x~.784 from the original source joints, NOT the old hand-length-extended 'palm edge'. We recovered NVIDIA Isaac F_Business_02 full original hand / phalanx vertex weights from locally licensed USD (earlier constant forearm-only welding was wrong). Keep existing UV skin. Bind origins JSON supplied below. Expose class Performance(bind, root_pos, hand_data=None), constructor bind mapping name=>[x,y,z], root_pos in world, hand_data is dict from np.load hands.npz, fields vertices[N,3] calibrated actor-local neutral skin including both hands, bones[N,K] strings, weights[N,K], faces. NumPy and scipy are available. Expose sample(t)->(positions,quats,props), positions and quats dict EVERY bind bone name in world space, quats Mj wxyz. props mapping espresso_cup and cafe_paper -> tuple(world pos, world wxyz). Caller can precompute samples. Implement realistic skin weighted FK using original anchors/differential rotations for finger bones 1,2,3. For a real pinch use anatomy frame bound original with fingers toward +local X for right, thumb on +local Y and palm underside -Z. Rig and hand mesh align at 1:1. For reproducible robust contact, compute and verify right hand pose and cup-local wrist/grasp alignment offline from hand_data using actual skinned vertices. If using scipy.optimize do most once constructor; no expensive solving inside sample(t). Consider defining compatible wrist relative to cup and FK then derive cup frame offset from measured finger surface to get pad onto handle and never inside wall. Radial body cylinder sdf / handles capsule sdf per actual weighted vertex; use penalty for penetration; target 0-1.5mm handle surface grip distance (real tolerance) and safe separation of hand from cylinder and saucer. Keep flesh away from coffee and skin triangles out of mug. Bottommost right hand remains above tabletop z .886 while cup on saucer. For whole movement cup stable and independently resting on saucer during reach/withdraw; fingers curl/uncurl with lead/lag while arm lifts only after grip. Left hand rests naturally around own side/front not in tabletop, flexes at distinct angles. Head/shoulders/hips sense of weight transfer; no drifting feet, torso bobbing like piston, teleporting, jerky phase boundaries. A continuous curved path not repeated robotic sip. Use time zero through 20 including parked phases, include time labels accessible from module const PHASES dictionary for contact audit. Provide exact fixed camera independent numeric audit criteria via actual measurements; host will measure after. Use no file/network access, no raw USD copies beyond provided pose arrays, no Blender, no sys.exit. Keep production module focused. Avoid generated empty tests or narration. Bind origins:
+{
+  "fabric_L_leg": [
+    -0.09471527566872266,
+    0.029078603029251103,
+    0.5032030142747306
+  ],
+  "fabric_R_leg": [
+    0.09480153621397916,
+    0.029073475265502934,
+    0.5031879787963279
+  ],
+  "operator_standing": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "fabric_L_lower": [
+    -0.525,
+    -0.0018590152740478475,
+    1.3960379285429767
+  ],
+  "fabric_L_upper": [
+    -0.175,
+    -0.0,
+    1.4
+  ],
+  "fabric_R_lower": [
+    0.5251376138742607,
+    -0.0018045886993408198,
+    1.3960397117263992
+  ],
+  "fabric_R_upper": [
+    0.17516064231203524,
+    2.471637725829784e-06,
+    1.4000030800440928
+  ],
+  "fabric_head": [
+    -0.0001419379075318181,
+    0.02565460638999939,
+    1.4739993562013094
+  ],
+  "L_Hand": [
+    -0.7836079180346831,
+    -0.0016447005271911608,
+    1.3956386575639395
+  ],
+  "L_Index1": [
+    -0.8702848547709929,
+    0.027010635805130006,
+    1.395460339221698
+  ],
+  "L_Index2": [
+    -0.9020275248417203,
+    0.024949767589569096,
+    1.3950085453854917
+  ],
+  "L_Index3": [
+    -0.9236023485685289,
+    0.024806705760955814,
+    1.3935716237621927
+  ],
+  "L_Mid1": [
+    -0.872,
+    0.009858609771728517,
+    1.3957715857827013
+  ],
+  "L_Mid2": [
+    -0.9067899286733562,
+    0.00957846555709839,
+    1.3970720128203937
+  ],
+  "L_Mid3": [
+    -0.9300167060781471,
+    0.009868774318695069,
+    1.395809194742156
+  ],
+  "L_Pinky1": [
+    -0.8702946465274308,
+    -0.018024157810211175,
+    1.3903289857623222
+  ],
+  "L_Pinky2": [
+    -0.8941238765457606,
+    -0.017445900726318356,
+    1.389408863116356
+  ],
+  "L_Pinky3": [
+    -0.9071339108638323,
+    -0.017566641998291017,
+    1.3884321649236238
+  ],
+  "L_Ring1": [
+    -0.869978311044675,
+    -0.0035730884552001973,
+    1.3923780256222613
+  ],
+  "L_Ring2": [
+    -0.9032340474322749,
+    -0.004632344436645506,
+    1.3938486656230022
+  ],
+  "L_Ring3": [
+    -0.9235496011361404,
+    -0.005044385147094724,
+    1.3929494548553534
+  ],
+  "L_Thumb1": [
+    -0.8026958445348616,
+    0.018256148052215582,
+    1.3911602734523356
+  ],
+  "L_Thumb2": [
+    -0.8415552238843913,
+    0.05197585239410401,
+    1.3853793549044489
+  ],
+  "L_Thumb3": [
+    -0.865862068351885,
+    0.061486489439010625,
+    1.385257612108973
+  ],
+  "R_Hand": [
+    0.7837457524439988,
+    -0.0015787143707275363,
+    1.3956255268496474
+  ],
+  "R_Index1": [
+    0.8704138236711014,
+    0.027083351993560795,
+    1.3954540170259278
+  ],
+  "R_Index2": [
+    0.902136840898332,
+    0.02502369432449341,
+    1.3950038442655597
+  ],
+  "R_Index3": [
+    0.9237109153718397,
+    0.02488118090629578,
+    1.393567571072596
+  ],
+  "R_Mid1": [
+    0.8721097656085923,
+    0.009931940078735354,
+    1.395764128833844
+  ],
+  "R_Mid2": [
+    0.9068993945806282,
+    0.009652862358093263,
+    1.3970658527322073
+  ],
+  "R_Mid3": [
+    0.9301259472094288,
+    0.009943600749969488,
+    1.3958040072994726
+  ],
+  "R_Pinky1": [
+    0.8704258207780884,
+    -0.017949306106567378,
+    1.3903194214148746
+  ],
+  "R_Pinky2": [
+    0.8942341666316637,
+    -0.01737000780105591,
+    1.3893996229840762
+  ],
+  "R_Pinky3": [
+    0.9072444257257256,
+    -0.017492422103881838,
+    1.388424221652015
+  ],
+  "R_Ring1": [
+    0.870108779583157,
+    -0.0034989039421081543,
+    1.3923692718127332
+  ],
+  "R_Ring2": [
+    0.9033435882648769,
+    -0.004557270336151122,
+    1.3938418571044804
+  ],
+  "R_Ring3": [
+    0.9236595915207231,
+    -0.004970291614532469,
+    1.3929428084444153
+  ],
+  "R_Thumb1": [
+    0.8028256073611677,
+    0.01832588968276978,
+    1.3911498985669688
+  ],
+  "R_Thumb2": [
+    0.8416827813601484,
+    0.05204969320297242,
+    1.385372384278343
+  ],
+  "R_Thumb3": [
+    0.8659887436874223,
+    0.06156084959506989,
+    1.3852519383435382
+  ]
+}
+No tool calls. Begin your answer immediately with ```python and supply the complete module.

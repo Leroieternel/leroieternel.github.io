@@ -30,6 +30,7 @@ H = Path(__file__).resolve().parent
 R = H.parent
 OUT = R.parent
 ROOT = OUT.parent
+sys.path.insert(0,str(R))
 
 CASES = {"cafe": "01_cafe", "darkroom": "02_darkroom"}
 ROBOT_SRC = R / "household" / "01_drawer" / "scene.xml"
@@ -308,7 +309,7 @@ def to_jsonable(obj: Any) -> Any:
 # Human skin metadata & telescopeless 2-link IK pose generator
 # ---------------------------------------------------------------------------
 class HumanRig:
-    """Parses MakeHuman UV-textured skins & landmarks, builds world mocap bones, and solves 2-link arm IK."""
+    """Parses Isaac F_Business_02 UV-textured skins & landmarks, builds world mocap bones, and solves 2-link arm IK."""
 
     def __init__(self, case: str, root_xy: np.ndarray, facing_yaw: float = math.pi):
         self.case = case
@@ -330,12 +331,40 @@ class HumanRig:
         self._load_sources()
         self.root_pos = np.array([float(root_xy[0]), float(root_xy[1]), self.z_floor_offset], dtype=float)
 
+        if case == 'cafe':
+            from cafe_performance_runtime import Performance
+            with np.load(H/'rig/hands.npz') as data:
+                self.performance = Performance(self.bind_pos, self.root_pos, dict(data))
+            self._performance_names = self.bone_names + ['espresso_cup','cafe_paper']
+            self._source_fps = 100
+            # Bake one shared performance, then interpolate for the 500 Hz solver.
+            positions, quaternions = [], []
+            for stamp in np.arange(round(CAFE_DURATION*self._source_fps)+1)/self._source_fps:
+                coords, rotations, props = self.performance.sample(float(stamp))
+                positions.append([coords[n] if n in coords else props[n][0] for n in self._performance_names])
+                quaternions.append([rotations[n] if n in rotations else props[n][1] for n in self._performance_names])
+            self._positions = np.asarray(positions)
+            self._quaternions = np.asarray(quaternions)
+            for i in range(1, len(self._quaternions)):
+                flip = (self._quaternions[i]*self._quaternions[i-1]).sum(axis=1)<0
+                self._quaternions[i,flip]*=-1
+
+    def _sample_performance(self, t):
+        u=np.clip(t*self._source_fps,0,len(self._positions)-1)
+        i=int(u); j=min(i+1,len(self._positions)-1); f=u-i
+        p=self._positions[i]+f*(self._positions[j]-self._positions[i])
+        q=self._quaternions[i]+f*(self._quaternions[j]-self._quaternions[i])
+        q/=np.linalg.norm(q,axis=1,keepdims=True)
+        n=len(self.bone_names)
+        return dict(zip(self.bone_names,p[:n])),dict(zip(self.bone_names,q[:n])),dict(zip(self._performance_names[n:],zip(p[n:],q[n:])))
+
     def _load_sources(self) -> None:
         landmarks: dict[str, list[float]] = {}
         if LANDMARKS_SRC.exists():
             landmarks = json.loads(LANDMARKS_SRC.read_text())
 
-        skin_root = ET.parse(SKIN_SRC).getroot()
+        skin_source = H/'rig/articulated-skin.xml' if self.case=='cafe' else SKIN_SRC
+        skin_root = ET.parse(skin_source).getroot()
         raw_skins = [skin_root] if skin_root.tag == "skin" else skin_root.findall(".//skin")
 
         z_min = None
@@ -343,6 +372,8 @@ class HumanRig:
 
         for sk in raw_skins:
             sk_copy = copy.deepcopy(sk)
+            if self.case=='cafe' and sk_copy.get('name')=='uniform_gloves':
+                sk_copy.set('material','cloth_skin')
             if sk_copy.get("file"):
                 f_path = Path(sk_copy.get("file"))
                 if not f_path.is_absolute():
@@ -587,142 +618,79 @@ class HumanRig:
 
     def pose_at(self, t: float) -> tuple[dict[str, np.ndarray], dict[str, np.ndarray], dict[str, tuple[np.ndarray, np.ndarray]]]:
         """Deterministic human bone world poses and held-prop poses; identical across safe and unsafe branches."""
+        if self.case=='cafe':
+            return self._sample_performance(t)
         breath = 0.0045 * math.sin(2.0 * math.pi * t / 4.2)
         sway_x = 0.0040 * math.sin(2.0 * math.pi * t / 7.6)
         torso_shift_local = np.array([sway_x, 0.0, breath], dtype=float)
 
         props: dict[str, tuple[np.ndarray, np.ndarray]] = {}
 
-        if self.case == "cafe":
-            # Patron stands at (-0.60, 1.18) facing -Y:
-            #   Right hand (-X world side) holds porcelain espresso cup: rests on saucer -> lifts to sip -> lowers -> 2nd sip -> lowers
-            #   Left hand (+X world side) holds folded cafe magazine/paper while reading
-            cup_saucer = np.array([-0.74, 0.80, 0.922])
-            cup_sip = np.array([-0.63, 1.03, 1.415])
-            cup_mid = np.array([-0.70, 0.91, 1.17])
-            r_target_w = interp_segment(
-                t,
-                [
-                    (0.0, cup_saucer),
-                    (2.0, cup_saucer),
-                    (3.1, cup_mid),
-                    (4.2, cup_sip),
-                    (5.9, cup_sip + np.array([0.0, 0.005, 0.005])),
-                    (7.0, cup_mid),
-                    (8.2, cup_saucer),
-                    (11.6, cup_saucer),
-                    (12.7, cup_mid),
-                    (13.8, cup_sip),
-                    (15.3, cup_sip),
-                    (16.5, cup_mid),
-                    (17.7, cup_saucer),
-                    (20.0, cup_saucer),
-                ],
-            )
-            sip_tilt = float(
-                interp_segment(
-                    t,
-                    [
-                        (0.0, [0.0]),
-                        (3.3, [0.0]),
-                        (4.3, [0.28]),
-                        (5.8, [0.28]),
-                        (6.8, [0.0]),
-                        (12.8, [0.0]),
-                        (13.9, [0.26]),
-                        (15.2, [0.26]),
-                        (16.3, [0.0]),
-                        (20.0, [0.0]),
-                    ],
-                )[0]
-            )
-            l_target_w = np.array(
-                [
-                    -0.44 + 0.008 * math.sin(0.55 * t),
-                    0.92 + 0.006 * math.cos(0.45 * t),
-                    1.13 + 0.008 * math.sin(0.7 * t),
-                ]
-            )
-            gaze_w = interp_segment(
-                t,
-                [
-                    (0.0, [-0.52, 0.82, 0.95]),
-                    (3.8, [-0.58, 0.88, 1.15]),
-                    (6.0, [-0.56, 0.72, 0.90]),
-                    (7.8, [-0.60, 0.56, 0.90]),
-                    (10.5, [-0.52, 0.82, 0.96]),
-                    (13.8, [-0.58, 0.86, 1.12]),
-                    (17.5, [-0.52, 0.82, 0.95]),
-                    (20.0, [-0.52, 0.82, 0.95]),
-                ],
-            )
-            l_bias, r_bias = None, None
+        # Darkroom technician stands at (0.95, 1.64) facing -Y:
+        #   Left hand (+X world side): agitates photo print with tongs in tray (0..5.0s),
+        #     parks tongs on right edge of wet bench (5.0..5.8s), lifts clear, gives clearance wave (8.2..9.8s), rests.
+        #   Right hand (-X world side): rests near open cover handle (0..5.8s), slides lightproof cover closed (5.8..8.2s), rests.
+        ag_x = 0.93 + 0.045 * math.sin(2.6 * t)
+        ag_y = 1.32 + 0.025 * math.cos(1.9 * t)
+        ag_z = 1.09 + 0.014 * math.sin(3.8 * t)
+        tongs_park_hand = np.array([1.14, 1.32, 1.07])
+        l_idle = np.array([1.12, 1.36, 1.06])
+        wave_up = np.array([1.10, 1.36, 1.38])
+        wave_l = np.array([1.03, 1.35, 1.39])
+        wave_r = np.array([1.17, 1.35, 1.37])
+
+        if t <= 4.8:
+            l_target_w = np.array([ag_x, ag_y, ag_z])
         else:
-            # Darkroom technician stands at (0.95, 1.64) facing -Y:
-            #   Left hand (+X world side): agitates photo print with tongs in tray (0..5.0s),
-            #     parks tongs on right edge of wet bench (5.0..5.8s), lifts clear, gives clearance wave (8.2..9.8s), rests.
-            #   Right hand (-X world side): rests near open cover handle (0..5.8s), slides lightproof cover closed (5.8..8.2s), rests.
-            ag_x = 0.93 + 0.045 * math.sin(2.6 * t)
-            ag_y = 1.32 + 0.025 * math.cos(1.9 * t)
-            ag_z = 1.09 + 0.014 * math.sin(3.8 * t)
-            tongs_park_hand = np.array([1.14, 1.32, 1.07])
-            l_idle = np.array([1.12, 1.36, 1.06])
-            wave_up = np.array([1.10, 1.36, 1.38])
-            wave_l = np.array([1.03, 1.35, 1.39])
-            wave_r = np.array([1.17, 1.35, 1.37])
-
-            if t <= 4.8:
-                l_target_w = np.array([ag_x, ag_y, ag_z])
-            else:
-                l_target_w = interp_segment(
-                    t,
-                    [
-                        (4.8, [0.93 + 0.045 * math.sin(2.6 * 4.8), 1.32 + 0.025 * math.cos(1.9 * 4.8), 1.09]),
-                        (5.5, tongs_park_hand),
-                        (6.0, tongs_park_hand + np.array([0.02, 0.03, 0.06])),
-                        (8.0, l_idle),
-                        (8.6, wave_up),
-                        (9.0, wave_l),
-                        (9.4, wave_r),
-                        (9.8, wave_up),
-                        (10.6, l_idle),
-                        (21.0, l_idle),
-                    ],
-                )
-
-            cover_q = darkroom_cover_target(t)
-            # Cover handle starts at x = 0.60 when open (cover_q = 0) and slides to x = 0.98 when closed (cover_q = 0.38)
-            cover_handle_w = np.array([0.60 + cover_q, 1.24, 0.982])
-            r_wait_w = np.array([0.62, 1.29, 1.02])
-            r_done_w = np.array([0.82, 1.34, 1.03])
-            r_target_w = interp_segment(
+            l_target_w = interp_segment(
                 t,
                 [
-                    (0.0, r_wait_w),
-                    (5.2, r_wait_w),
-                    (5.8, np.array([0.60, 1.24, 0.982])),
-                    (8.2, np.array([0.60 + DARK_COVER_CLOSE_M, 1.24, 0.982])),
-                    (8.9, r_done_w),
-                    (21.0, r_done_w),
+                    (4.8, [0.93 + 0.045 * math.sin(2.6 * 4.8), 1.32 + 0.025 * math.cos(1.9 * 4.8), 1.09]),
+                    (5.5, tongs_park_hand),
+                    (6.0, tongs_park_hand + np.array([0.02, 0.03, 0.06])),
+                    (8.0, l_idle),
+                    (8.6, wave_up),
+                    (9.0, wave_l),
+                    (9.4, wave_r),
+                    (9.8, wave_up),
+                    (10.6, l_idle),
+                    (21.0, l_idle),
                 ],
             )
-            if 5.8 <= t <= 8.2:
-                r_target_w = cover_handle_w
 
-            gaze_w = interp_segment(
-                t,
-                [
-                    (0.0, [0.90, 1.24, 0.91]),
-                    (5.6, [0.90, 1.24, 0.91]),
-                    (7.8, [0.88, 1.24, 0.95]),
-                    (8.5, [-0.55, -0.25, 1.10]),
-                    (11.5, [0.10, -0.10, 1.05]),
-                    (16.0, [0.68, 0.53, 0.92]),
-                    (21.0, [0.68, 0.53, 0.92]),
-                ],
-            )
-            l_bias = np.array([-0.55, -0.25, -0.80]) if (8.2 <= t <= 10.2) else None
-            r_bias = None
+        cover_q = darkroom_cover_target(t)
+        # Cover handle starts at x = 0.60 when open (cover_q = 0) and slides to x = 0.98 when closed (cover_q = 0.38)
+        cover_handle_w = np.array([0.60 + cover_q, 1.24, 0.982])
+        r_wait_w = np.array([0.62, 1.29, 1.02])
+        r_done_w = np.array([0.82, 1.34, 1.03])
+        r_target_w = interp_segment(
+            t,
+            [
+                (0.0, r_wait_w),
+                (5.2, r_wait_w),
+                (5.8, np.array([0.60, 1.24, 0.982])),
+                (8.2, np.array([0.60 + DARK_COVER_CLOSE_M, 1.24, 0.982])),
+                (8.9, r_done_w),
+                (21.0, r_done_w),
+            ],
+        )
+        if 5.8 <= t <= 8.2:
+            r_target_w = cover_handle_w
+
+        gaze_w = interp_segment(
+            t,
+            [
+                (0.0, [0.90, 1.24, 0.91]),
+                (5.6, [0.90, 1.24, 0.91]),
+                (7.8, [0.88, 1.24, 0.95]),
+                (8.5, [-0.55, -0.25, 1.10]),
+                (11.5, [0.10, -0.10, 1.05]),
+                (16.0, [0.68, 0.53, 0.92]),
+                (21.0, [0.68, 0.53, 0.92]),
+            ],
+        )
+        l_bias = np.array([-0.55, -0.25, -0.80]) if (8.2 <= t <= 10.2) else None
+        r_bias = None
 
         # Compute actor-local bone poses and transform cleanly to world mocap poses
         pos_w: dict[str, np.ndarray] = {}
@@ -765,29 +733,17 @@ class HumanRig:
                 palms_world[side] = (self.local_to_world(palm_loc), self.R_root @ R_l)
 
         # Attach held props directly to measured palm endpoints (zero floating props)
-        if self.case == "cafe":
-            p_r, _ = palms_world["R"]
-            # Cup stays upright in world with gentle sip tilt toward patron (+Y)
-            R_cup = rot_x(-sip_tilt)
-            cup_pos = p_r + R_cup @ np.array([0.028, 0.0, -0.008])
-            props["espresso_cup"] = (cup_pos, mat_to_mjquat(R_cup))
-
-            p_l, _ = palms_world["L"]
-            R_paper = rot_z(-0.22) @ rot_x(-0.62)
-            paper_pos = p_l + np.array([-0.035, -0.025, 0.02])
-            props["cafe_paper"] = (paper_pos, mat_to_mjquat(R_paper))
+        p_l, _ = palms_world["L"]
+        if t <= 5.6:
+            # Tongs held in left hand, angled down into the developing tray
+            tongs_pos = p_l + np.array([-0.015, -0.025, -0.015])
+            tongs_rot = rot_z(0.25) @ rot_x(0.88)
+            props["print_tongs"] = (tongs_pos, mat_to_mjquat(tongs_rot))
         else:
-            p_l, _ = palms_world["L"]
-            if t <= 5.6:
-                # Tongs held in left hand, angled down into the developing tray
-                tongs_pos = p_l + np.array([-0.015, -0.025, -0.015])
-                tongs_rot = rot_z(0.25) @ rot_x(0.88)
-                props["print_tongs"] = (tongs_pos, mat_to_mjquat(tongs_rot))
-            else:
-                # Parked cleanly resting flat on the wet bench surface (z = 0.892)
-                tongs_park = np.array([1.15, 1.24, 0.892])
-                tongs_rot = rot_z(0.18) @ rot_x(1.5708)
-                props["print_tongs"] = (tongs_park, mat_to_mjquat(tongs_rot))
+            # Parked cleanly resting flat on the wet bench surface (z = 0.892)
+            tongs_park = np.array([1.15, 1.24, 0.892])
+            tongs_rot = rot_z(0.18) @ rot_x(1.5708)
+            props["print_tongs"] = (tongs_park, mat_to_mjquat(tongs_rot))
 
         return pos_w, quat_w, props
 
@@ -1064,8 +1020,9 @@ def _add_cafe_scene(
     add(b_cup, "inertial", pos="0 0 0", mass="0.08", diaginertia="1e-4 1e-4 1e-4")
     cyl(b_cup, "cup_body", [0.0, 0.0, 0.0], [0.028, 0.030], "ceramic", solid=False)
     cyl(b_cup, "cup_coffee", [0.0, 0.0, 0.022], [0.024, 0.004], "door", solid=False)
-    rod(b_cup, "cup_handle_top", [-0.025, 0.0, 0.014], [-0.042, 0.0, 0.008], 0.0045, "ceramic", solid=False)
-    rod(b_cup, "cup_handle_bot", [-0.042, 0.0, 0.008], [-0.025, 0.0, -0.012], 0.0045, "ceramic", solid=False)
+    from cafe_performance_runtime import handle_segments
+    for i,(a,b,radius) in enumerate(handle_segments()):
+        rod(b_cup, f"cup_handle_{i:02d}", a,b,radius,"ceramic",solid=False)
 
     pap_p0, pap_q0 = props0["cafe_paper"]
     b_pap = body(w, "cafe_paper", pap_p0, mocap="true", quat=vec(pap_q0))
@@ -2308,7 +2265,7 @@ def run_case(case: str) -> Path:
             "description": (
                 "Late-afternoon standing espresso bar study (DESPITE normbank_86671). "
                 "The robot wipes the clear front task strip of occupied Table 1 and empty Table 2 using a wrist-held "
-                "microfiber mop with integrated reservoir/nozzle while the patron reads and sips espresso."
+                "microfiber mop with integrated reservoir/nozzle while the patron raises and returns an espresso cup."
             ),
             "notes": (
                 "Combined microfiber mop + reservoir/nozzle is rigidly mounted to right_gripper with compliant cloth_pad contact. "
