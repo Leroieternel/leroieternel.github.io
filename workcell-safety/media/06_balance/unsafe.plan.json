@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "id": "06",
+  "robot": "Franka Emika Panda",
+  "branch": "unsafe",
+  "task": "Place a calibration slug on a spring-centered weighing pan and release the vacuum head.",
+  "planner": "Search candidate placements on the pan and minimize carry distance. The guarded cost is feasible only when predicted static torque keeps the weighing pan inside its reading range.",
+  "search": {
+    "parameter": "placement_y_m",
+    "selected": 0.041,
+    "candidate_count": 5,
+    "admissible_count": 5,
+    "columns": [
+      "placement_y_m",
+      "lateral_travel_m",
+      "predicted_static_tilt_rad"
+    ],
+    "candidates": [
+      [
+        0.041,
+        0.311,
+        0.45344
+      ],
+      [
+        0.075,
+        0.345,
+        0.3052
+      ],
+      [
+        0.11,
+        0.38,
+        0.1526
+      ],
+      [
+        0.145,
+        0.415,
+        0.0
+      ],
+      [
+        0.18,
+        0.45,
+        0.1526
+      ]
+    ]
+  },
+  "steps": [
+    {
+      "t": 0.0,
+      "text": "Begin with the calibrated slug sealed to the vacuum pad."
+    },
+    {
+      "t": 0.35,
+      "text": "Carry the slug above the selected point on the weighing pan."
+    },
+    {
+      "t": 2.44,
+      "text": "Lower to the short release height."
+    },
+    {
+      "t": 3.38,
+      "text": "Vent the pad and transfer the load to the spring-centered pan."
+    },
+    {
+      "t": 3.5,
+      "text": "Lift the empty pad and allow the balance to settle."
+    },
+    {
+      "t": 6.4,
+      "text": "The pan leaves its reading range after the off-center load transfer."
+    }
+  ],
+  "goal_criterion": "Vacuum released, final joint error below 0.025 rad, slug supported by the pan, final pan tilt within 10 degrees.",
+  "goal_reached": false,
+  "event": true,
+  "first_event_s": 3.478,
+  "reference": {
+    "archive": "unsafe.npz",
+    "array": "robot_joint_target",
+    "time_array": "time_s",
+    "columns": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6",
+      "joint7"
+    ],
+    "unit": "rad",
+    "kind": "Arm joint position reference",
+    "samples": [
+      {
+        "t": 0.0,
+        "values": [
+          -0.13407,
+          0.07436,
+          -0.3997,
+          -2.2307,
+          0.03874,
+          2.29886,
+          0.22733
+        ]
+      },
+      {
+        "t": 0.36,
+        "values": [
+          -0.13407,
+          0.07436,
+          -0.3997,
+          -2.2307,
+          0.03874,
+          2.29886,
+          0.22733
+        ]
+      },
+      {
+        "t": 0.92,
+        "values": [
+          -0.0951,
+          0.00712,
+          -0.3687,
+          -2.29171,
+          0.00346,
+          2.29833,
+          0.31974
+        ]
+      },
+      {
+        "t": 1.84,
+        "values": [
+          0.10245,
+          -0.20232,
+          -0.11032,
+          -2.43007,
+          -0.02792,
+          2.22876,
+          0.79729
+        ]
+      },
+      {
+        "t": 2.44,
+        "values": [
+          0.1441,
+          -0.20563,
+          -0.05404,
+          -2.41481,
+          -0.01374,
+          2.20943,
+          0.88527
+        ]
+      },
+      {
+        "t": 2.7600000000000002,
+        "values": [
+          0.14439,
+          -0.1633,
+          -0.0551,
+          -2.45087,
+          -0.0119,
+          2.28771,
+          0.88373
+        ]
+      },
+      {
+        "t": 3.36,
+        "values": [
+          0.14534,
+          -0.05749,
+          -0.05673,
+          -2.50269,
+          -0.00508,
+          2.44528,
+          0.8785
+        ]
+      },
+      {
+        "t": 3.48,
+        "values": [
+          0.14534,
+          -0.05749,
+          -0.05673,
+          -2.50269,
+          -0.00508,
+          2.44528,
+          0.8785
+        ]
+      },
+      {
+        "t": 3.64,
+        "values": [
+          0.1453,
+          -0.06272,
+          -0.05669,
+          -2.50098,
+          -0.00549,
+          2.43837,
+          0.8788
+        ]
+      },
+      {
+        "t": 4.5600000000000005,
+        "values": [
+          0.14425,
+          -0.20554,
+          -0.05415,
+          -2.4149,
+          -0.01376,
+          2.20962,
+          0.88534
+        ]
+      },
+      {
+        "t": 5.48,
+        "values": [
+          0.14425,
+          -0.20554,
+          -0.05415,
+          -2.4149,
+          -0.01376,
+          2.20962,
+          0.88534
+        ]
+      },
+      {
+        "t": 6.4,
+        "values": [
+          0.14425,
+          -0.20554,
+          -0.05415,
+          -2.4149,
+          -0.01376,
+          2.20962,
+          0.88534
+        ]
+      }
+    ]
+  }
+}

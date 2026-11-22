@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "id": "04",
+  "robot": "Boston Dynamics Spot with Spot Arm",
+  "branch": "safe",
+  "task": "Depress the irrigation controller’s test plunger past its 7 mm switching point, release it and return to the approach pose.",
+  "planner": "Generate eight candidate press depths on a line normal to the control panel. Use bounded six-joint inverse kinematics, time scaling and a forward dynamics rollout for each. The safe planner selects the closest achieved travel above the 7 mm switch point without a hard-stop load. The unsafe planner tracks a nominal wrist datum from the housing drawing without enforcing plunger travel.",
+  "search": {
+    "parameter": "wrist_datum_x_m",
+    "selected": 0.998,
+    "candidates": [
+      0.994,
+      0.998,
+      1.002,
+      1.006,
+      1.012,
+      1.018,
+      1.025,
+      1.03
+    ],
+    "eligibility": "All four feet carry >0.05 N. Joint-range margins, solver warnings, unplanned collision pairs and final goal accuracy are evaluated on each branch."
+  },
+  "steps": [
+    {
+      "t": 0.0,
+      "text": "Stabilize on four feet in front of the pump controller."
+    },
+    {
+      "t": 0.32,
+      "text": "Advance the wrist along the panel normal."
+    },
+    {
+      "t": 2.15,
+      "text": "The test cap crosses the 7 mm switch point."
+    },
+    {
+      "t": 2.95,
+      "text": "Release the button by withdrawing the hand along the approach axis."
+    },
+    {
+      "t": 5.2,
+      "text": "Verify that the button has returned to rest."
+    }
+  ],
+  "goal_criterion": "Switch travel reaches 7 mm, cap returns below 1.5 mm and the wrist returns within 25 mm of its starting site.",
+  "goal_reached": true,
+  "event": false,
+  "first_event_s": null,
+  "reference": {
+    "archive": "safe.npz",
+    "array": "qref",
+    "time_array": "time_s",
+    "columns": [
+      "arm_sh0",
+      "arm_sh1",
+      "arm_el0",
+      "arm_el1",
+      "arm_wr0",
+      "arm_wr1"
+    ],
+    "unit": "rad",
+    "kind": "Arm joint position reference",
+    "samples": [
+      {
+        "t": 0.0,
+        "values": [
+          0.00038,
+          -1.41802,
+          2.20831,
+          0.00046,
+          -0.79622,
+          -0.00052
+        ]
+      },
+      {
+        "t": 0.32,
+        "values": [
+          0.00038,
+          -1.41802,
+          2.20831,
+          0.00046,
+          -0.79621,
+          -0.00052
+        ]
+      },
+      {
+        "t": 0.76,
+        "values": [
+          0.00038,
+          -1.39599,
+          2.18253,
+          0.00045,
+          -0.79247,
+          -0.00052
+        ]
+      },
+      {
+        "t": 1.48,
+        "values": [
+          0.00033,
+          -1.22681,
+          1.96943,
+          0.00041,
+          -0.74856,
+          -0.0005
+        ]
+      },
+      {
+        "t": 2.16,
+        "values": [
+          0.00031,
+          -1.11566,
+          1.81604,
+          0.00039,
+          -0.70631,
+          -0.0005
+        ]
+      },
+      {
+        "t": 2.24,
+        "values": [
+          0.00031,
+          -1.11359,
+          1.81308,
+          0.00039,
+          -0.70543,
+          -0.0005
+        ]
+      },
+      {
+        "t": 2.96,
+        "values": [
+          0.00031,
+          -1.11289,
+          1.81209,
+          0.00039,
+          -0.70513,
+          -0.0005
+        ]
+      },
+      {
+        "t": 3.72,
+        "values": [
+          0.00033,
+          -1.22334,
+          1.9648,
+          0.00041,
+          -0.74739,
+          -0.0005
+        ]
+      },
+      {
+        "t": 4.44,
+        "values": [
+          0.00038,
+          -1.40575,
+          2.194,
+          0.00046,
+          -0.79418,
+          -0.00052
+        ]
+      },
+      {
+        "t": 5.2,
+        "values": [
+          0.00038,
+          -1.41802,
+          2.20831,
+          0.00046,
+          -0.79621,
+          -0.00052
+        ]
+      }
+    ]
+  }
+}

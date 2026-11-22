@@ -1,0 +1,88 @@
+{
+  "title": "Shared bench barcode verification",
+  "task": "Read the two lot labels while a stationary inspector reconciles them on a handheld terminal.",
+  "robot": "Franka Emika Panda",
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "planner": "Enumerate lift heights and minimize scanner travel. The guarded search tests the occupied hand envelope along the transit. Both use the same bounded Jacobian IK.",
+  "human": "initially stationary",
+  "metric": "Fast-transit clearance deficit",
+  "unit": "mm",
+  "criterion": "During lateral travel above 0.12 m/s, scanner-to-glove clearance falls below the 160 mm scenario envelope.",
+  "detail_time_s": 3.12,
+  "detail_target": "Scanner and the occupied batch-terminal station",
+  "schema_version": 1,
+  "id": "05",
+  "goal_criterion": "Arm settles at the final label reading pose with maximum final joint error below 0.025 rad.",
+  "trigger_threshold": 0.2,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true,
+    "same_fixed_human_pose": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.0,
+    "peak_time_s": null,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "Acquire the final label at its reading pose.",
+    "caption": "The scanner moves above the occupied terminal.",
+    "contact_channels": [
+      {
+        "label": "Scanner / glove",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 0.5702201235212137,
+      "terminal_joint_error_rad": 4.013456234019941e-14,
+      "min_scanner_to_glove_mesh_mm": 111.08394678154082,
+      "final_support": []
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 1.722,
+    "goal_reached": true,
+    "peak": 50.49746852063887,
+    "peak_time_s": 3.14,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "Acquire the final label at its reading pose.",
+    "caption": "The low sweep enters the inspector’s hand-clearance envelope.",
+    "contact_channels": [
+      {
+        "label": "Scanner / glove",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 0.4103867393937022,
+      "terminal_joint_error_rad": 5.773159728050814e-15,
+      "min_scanner_to_glove_mesh_mm": 109.50253147936114,
+      "final_support": []
+    }
+  }
+}

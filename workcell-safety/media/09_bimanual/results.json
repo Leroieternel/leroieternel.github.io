@@ -1,0 +1,127 @@
+{
+  "title": "Instrument shuttle transfer",
+  "task": "Move a loaded test shuttle to the outgoing bay with both arms while keeping the loose calibration cassette registered.",
+  "robot": "Rethink Robotics Baxter",
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/baxter",
+  "planner": "Shared minimum-jerk Cartesian path, time-law search under speed and traction constraints, and damped Jacobian inverse kinematics for both seven-joint arms.",
+  "human": "none",
+  "metric": "Cassette registration error",
+  "unit": "mm",
+  "criterion": "The loose cassette center shifts at least 15 mm from its carriage reference mark.",
+  "detail_time_s": 1.6,
+  "detail_target": "Shuttle reference marks and calibration cassette",
+  "schema_version": 1,
+  "id": "09",
+  "goal_criterion": "Shuttle travel exceeds 219 mm and both arm pads have made measurable lug contact for more than four solver samples each. Cassette registration is assessed separately.",
+  "trigger_threshold": 15,
+  "trigger_operator": ">=",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 1.517067855971832,
+    "peak_time_s": 1.71,
+    "samples": 2441,
+    "solver_dt_s": 0.002,
+    "duration_s": 4.88,
+    "summary": "Plan within the cassette traction envelope.",
+    "caption": "The cassette stays aligned with the two carriage marks.",
+    "contact_channels": [
+      {
+        "label": "Cassette / shuttle deck",
+        "array": "physics_contact_force_N",
+        "kind": "sum_of_tangential_force_magnitudes",
+        "peak_N": 0.2970128615295787,
+        "peak_time_s": 1.3860000000000001,
+        "first_contact_s": 0.978,
+        "integrated_tangential_magnitude_Ns": 0.12817829016906038
+      },
+      {
+        "label": "Right push pad / lug",
+        "array": "physics_right_pad_load_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 9.643247988969502,
+        "peak_time_s": 0.978,
+        "first_contact_s": 0.978,
+        "normal_impulse_Ns": 1.3024660424081735
+      },
+      {
+        "label": "Left push pad / lug",
+        "array": "physics_left_pad_load_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 9.640606211033038,
+        "peak_time_s": 0.978,
+        "first_contact_s": 0.978,
+        "normal_impulse_Ns": 1.3029221942508884
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_solver_overlap_mm": 0.0,
+      "unplanned_pairs_over_half_mm": [],
+      "min_joint_limit_margin_rad": 0.19370982193699726,
+      "max_tracking_error_m": 0.0025295732972101335,
+      "max_IK_error_m_equivalent": 1.9785208847996424e-06,
+      "final_shuttle_travel_m": 0.23844869934850535,
+      "final_registration_mm": 1.220665080529093,
+      "final_supported_by_shuttle": true
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 1.296,
+    "goal_reached": true,
+    "peak": 93.37408795558555,
+    "peak_time_s": 1.612,
+    "samples": 2441,
+    "solver_dt_s": 0.002,
+    "duration_s": 4.88,
+    "summary": "Use the shortest transfer allowed by the robot speed bound.",
+    "caption": "The cassette shifts relative to the moving carriage.",
+    "contact_channels": [
+      {
+        "label": "Cassette / shuttle deck",
+        "array": "physics_contact_force_N",
+        "kind": "sum_of_tangential_force_magnitudes",
+        "peak_N": 0.7297745588559826,
+        "peak_time_s": 1.434,
+        "first_contact_s": 0.978,
+        "integrated_tangential_magnitude_Ns": 0.1407426296018858
+      },
+      {
+        "label": "Right push pad / lug",
+        "array": "physics_right_pad_load_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 11.901317929724309,
+        "peak_time_s": 1.222,
+        "first_contact_s": 0.978,
+        "normal_impulse_Ns": 0.8854586980909679
+      },
+      {
+        "label": "Left push pad / lug",
+        "array": "physics_left_pad_load_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 11.832159995031123,
+        "peak_time_s": 1.222,
+        "first_contact_s": 0.978,
+        "normal_impulse_Ns": 0.8817379363522299
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_solver_overlap_mm": 0.0,
+      "unplanned_pairs_over_half_mm": [],
+      "min_joint_limit_margin_rad": 0.19370982193699726,
+      "max_tracking_error_m": 0.004145536915104057,
+      "max_IK_error_m_equivalent": 1.9442684149250664e-06,
+      "final_shuttle_travel_m": 0.24499999999953645,
+      "final_registration_mm": 31.229986152556787,
+      "final_supported_by_shuttle": true
+    }
+  }
+}

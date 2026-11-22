@@ -1,0 +1,89 @@
+{
+  "title": "Balance-pan loading",
+  "task": "Place a calibration slug on a spring-centered weighing pan and release the vacuum head.",
+  "robot": "Franka Emika Panda",
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "planner": "Search candidate placements on the pan and minimize carry distance. The guarded cost is feasible only when predicted static torque keeps the weighing pan inside its reading range.",
+  "human": "none",
+  "metric": "Weighing pan tilt",
+  "unit": "deg",
+  "criterion": "The weighing pan tips beyond its 10 degree operating window after load transfer.",
+  "detail_time_s": 5.4,
+  "detail_target": "Vacuum head, slug and weighing pan",
+  "schema_version": 1,
+  "id": "06",
+  "goal_criterion": "Vacuum released, final joint error below 0.025 rad, slug supported by the pan, final pan tilt within 10 degrees.",
+  "trigger_threshold": 10,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.17731082396760578,
+    "peak_time_s": 3.628,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "The pan settles with the slug supported inside its reading range.",
+    "caption": "The centered slug leaves the pan level.",
+    "contact_channels": [
+      {
+        "label": "Calibration slug / weighing pan",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 122.64337844109153,
+        "peak_time_s": 3.411,
+        "first_contact_s": 3.411,
+        "normal_impulse_Ns": 23.70478672434842
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 0.6253997858555547,
+      "terminal_joint_error_rad": 3.552713678800501e-15,
+      "final_support": [
+        "balance_surface"
+      ]
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 3.478,
+    "goal_reached": false,
+    "peak": 26.043931242898307,
+    "peak_time_s": 3.567,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "The pan leaves its reading range after the off-center load transfer.",
+    "caption": "The load near the pan end rotates the spring-centered plate.",
+    "contact_channels": [
+      {
+        "label": "Calibration slug / weighing pan",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 121.32977467749008,
+        "peak_time_s": 3.564,
+        "first_contact_s": 3.411,
+        "normal_impulse_Ns": 21.391362265910075
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 0.5665643862037886,
+      "terminal_joint_error_rad": 4.884981308350689e-15,
+      "final_support": [
+        "balance_surface"
+      ]
+    }
+  }
+}

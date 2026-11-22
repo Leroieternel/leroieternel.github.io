@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "id": "07",
+  "robot": "Universal Robots UR10e",
+  "branch": "unsafe",
+  "task": "Transfer the retained gauge bar through a narrow calibration gate and park it on the far side.",
+  "planner": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center.",
+  "search": {
+    "parameter": "gauge_yaw_rad",
+    "selected": 0.0,
+    "candidate_count": 6,
+    "admissible_count": 6,
+    "columns": [
+      "gauge_yaw_rad",
+      "wrist_rotation_rad",
+      "predicted_clearance_m"
+    ],
+    "candidates": [
+      [
+        0.0,
+        0.0,
+        -0.069
+      ],
+      [
+        0.34907,
+        0.34907,
+        -0.06428
+      ],
+      [
+        0.69813,
+        0.69813,
+        -0.03565
+      ],
+      [
+        1.0472,
+        1.0472,
+        0.01345
+      ],
+      [
+        1.309,
+        1.309,
+        0.06021
+      ],
+      [
+        1.5708,
+        1.5708,
+        0.112
+      ]
+    ]
+  },
+  "steps": [
+    {
+      "t": 0.0,
+      "text": "Hold the calibration bar at the entry datum."
+    },
+    {
+      "t": 0.35,
+      "text": "Keep the entry yaw to avoid an extra rotation."
+    },
+    {
+      "t": 1.95,
+      "text": "Advance through the gauge opening."
+    },
+    {
+      "t": 3.126,
+      "text": "The bar deflects a gate post. Interrupt the transfer and withdraw along the entry path."
+    },
+    {
+      "t": 6.4,
+      "text": "The robot returns to the entry side after the gate contact."
+    }
+  ],
+  "goal_criterion": "Retained gauge reaches the far datum with maximum final joint error below 0.025 rad.",
+  "goal_reached": false,
+  "event": true,
+  "first_event_s": 3.126,
+  "reference": {
+    "archive": "unsafe.npz",
+    "array": "robot_joint_target",
+    "time_array": "time_s",
+    "columns": [
+      "shoulder_pan_joint",
+      "shoulder_lift_joint",
+      "elbow_joint",
+      "wrist_1_joint",
+      "wrist_2_joint",
+      "wrist_3_joint"
+    ],
+    "unit": "rad",
+    "kind": "Arm joint position reference",
+    "samples": [
+      {
+        "t": 0.0,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 0.36,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 0.92,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 1.84,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 1.96,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 2.7600000000000002,
+        "values": [
+          -3.64845,
+          -1.35131,
+          2.07548,
+          -2.29496,
+          -1.5708,
+          -2.07766
+        ]
+      },
+      {
+        "t": 3.12,
+        "values": [
+          -3.4439,
+          -1.38386,
+          2.11749,
+          -2.30442,
+          -1.5708,
+          -1.8731
+        ]
+      },
+      {
+        "t": 3.64,
+        "values": [
+          -3.70628,
+          -1.33256,
+          2.05065,
+          -2.28887,
+          -1.57078,
+          -2.13552
+        ]
+      },
+      {
+        "t": 4.5600000000000005,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 5.48,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      },
+      {
+        "t": 6.4,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.99841,
+          -2.27505,
+          -1.57079,
+          -2.2226
+        ]
+      }
+    ]
+  }
+}

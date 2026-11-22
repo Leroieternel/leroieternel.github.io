@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "id": "05",
+  "robot": "Franka Emika Panda",
+  "branch": "unsafe",
+  "task": "Read the two lot labels while a stationary inspector reconciles them on a handheld terminal.",
+  "planner": "Enumerate lift heights and minimize scanner travel. The guarded search tests the occupied hand envelope along the transit. Both use the same bounded Jacobian IK.",
+  "search": {
+    "parameter": "lift_height_m",
+    "selected": 0.0,
+    "candidate_count": 6,
+    "admissible_count": 6,
+    "columns": [
+      "lift_height_m",
+      "path_length_m",
+      "predicted_clearance_m"
+    ],
+    "candidates": [
+      [
+        0.0,
+        0.555,
+        0.10007
+      ],
+      [
+        0.04,
+        0.635,
+        0.11473
+      ],
+      [
+        0.08,
+        0.715,
+        0.13622
+      ],
+      [
+        0.12,
+        0.795,
+        0.16265
+      ],
+      [
+        0.16,
+        0.875,
+        0.19254
+      ],
+      [
+        0.2,
+        0.955,
+        0.22483
+      ]
+    ]
+  },
+  "steps": [
+    {
+      "t": 0.0,
+      "text": "Acquire the first lot label while the inspector holds the batch terminal."
+    },
+    {
+      "t": 0.48,
+      "text": "Keep the scanner at reading height."
+    },
+    {
+      "t": 1.36,
+      "text": "Traverse to the second label along the chosen path."
+    },
+    {
+      "t": 3.78,
+      "text": "Settle over the second label and acquire its code."
+    },
+    {
+      "t": 6.4,
+      "text": "Acquire the final label at its reading pose."
+    }
+  ],
+  "goal_criterion": "Arm settles at the final label reading pose with maximum final joint error below 0.025 rad.",
+  "goal_reached": true,
+  "event": true,
+  "first_event_s": 1.722,
+  "reference": {
+    "archive": "unsafe.npz",
+    "array": "robot_joint_target",
+    "time_array": "time_s",
+    "columns": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6",
+      "joint7"
+    ],
+    "unit": "rad",
+    "kind": "Arm joint position reference",
+    "samples": [
+      {
+        "t": 0.0,
+        "values": [
+          -0.13222,
+          0.13762,
+          -0.40565,
+          -2.4262,
+          0.0973,
+          2.55059,
+          0.17058
+        ]
+      },
+      {
+        "t": 0.48,
+        "values": [
+          -0.13222,
+          0.13762,
+          -0.40565,
+          -2.4262,
+          0.0973,
+          2.55059,
+          0.17058
+        ]
+      },
+      {
+        "t": 0.92,
+        "values": [
+          -0.13222,
+          0.13762,
+          -0.40565,
+          -2.4262,
+          0.0973,
+          2.55059,
+          0.17058
+        ]
+      },
+      {
+        "t": 1.36,
+        "values": [
+          -0.13222,
+          0.13762,
+          -0.40565,
+          -2.4262,
+          0.0973,
+          2.55059,
+          0.17058
+        ]
+      },
+      {
+        "t": 1.84,
+        "values": [
+          -0.09369,
+          0.09639,
+          -0.38899,
+          -2.47915,
+          0.06743,
+          2.56732,
+          0.24813
+        ]
+      },
+      {
+        "t": 2.7600000000000002,
+        "values": [
+          0.26931,
+          -0.01679,
+          -0.02925,
+          -2.62172,
+          -0.00095,
+          2.60494,
+          1.02677
+        ]
+      },
+      {
+        "t": 3.64,
+        "values": [
+          0.47859,
+          0.18518,
+          0.13777,
+          -2.34346,
+          -0.04381,
+          2.52648,
+          1.43571
+        ]
+      },
+      {
+        "t": 3.7600000000000002,
+        "values": [
+          0.47958,
+          0.18645,
+          0.13821,
+          -2.34161,
+          -0.04423,
+          2.52586,
+          1.43742
+        ]
+      },
+      {
+        "t": 4.5600000000000005,
+        "values": [
+          0.47958,
+          0.18645,
+          0.13821,
+          -2.34161,
+          -0.04423,
+          2.52586,
+          1.43742
+        ]
+      },
+      {
+        "t": 5.48,
+        "values": [
+          0.47958,
+          0.18645,
+          0.13821,
+          -2.34161,
+          -0.04423,
+          2.52586,
+          1.43742
+        ]
+      },
+      {
+        "t": 6.4,
+        "values": [
+          0.47958,
+          0.18645,
+          0.13821,
+          -2.34161,
+          -0.04423,
+          2.52586,
+          1.43742
+        ]
+      }
+    ]
+  }
+}

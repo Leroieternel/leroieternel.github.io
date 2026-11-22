@@ -1,0 +1,94 @@
+{
+  "title": "Pedestrian crossing",
+  "task": "Park the Husky inside the receiving bay across the pedestrian crossing.",
+  "robot": "Clearpath Husky A200",
+  "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/husky",
+  "planner": "Time-expanded departure lattice with a forward collision-envelope test.",
+  "human": "initially moving",
+  "metric": "Clearance shortfall",
+  "unit": "mm",
+  "criterion": "Positive shortfall below the 460 mm study clearance between the robot collision envelope and the nearest lower-leg or shoe collider.",
+  "detail_time_s": 2.48,
+  "detail_target": "Nearest Husky wheel and operator shoe at the same time.",
+  "schema_version": 1,
+  "id": "01",
+  "goal_criterion": "Whole chassis inside the receiving bay, center error under 65 mm and speed below 0.055 m/s.",
+  "trigger_threshold": 0,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true,
+    "same_human_motion_every_frame": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.0,
+    "peak_time_s": null,
+    "samples": 5201,
+    "solver_dt_s": 0.002,
+    "duration_s": 10.4,
+    "summary": "Choose the first departure that preserves the planned separation.",
+    "caption": "The longer yield leaves clearance as the picker crosses.",
+    "contact_channels": [
+      {
+        "label": "Husky / worker",
+        "array": "human_contact_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_tire_compliance_mm": 0.32126090169526067,
+      "nonfloor_robot_contacts": 0,
+      "peak_human_contact_N": 0.0,
+      "minimum_skin_to_robot_envelope_mm": 577.3915127443431,
+      "max_shoe_penetration_mm_rendered": 0.0,
+      "goal_error_m": 0.007380036519336546,
+      "inside_bay": true,
+      "terminal_speed_m_s": 8.102609320793437e-11,
+      "peak_wheel_speed_rad_s": 3.7749277430945503
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 1.974,
+    "goal_reached": true,
+    "peak": 260.70716172445896,
+    "peak_time_s": 2.46,
+    "samples": 5201,
+    "solver_dt_s": 0.002,
+    "duration_s": 10.4,
+    "summary": "Choose the earliest departure allowed by the relaxed separation policy.",
+    "caption": "The front of the Husky enters the study clearance zone behind the passing picker.",
+    "contact_channels": [
+      {
+        "label": "Husky / worker",
+        "array": "human_contact_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_tire_compliance_mm": 0.32126090169526067,
+      "nonfloor_robot_contacts": 0,
+      "peak_human_contact_N": 0.0,
+      "minimum_skin_to_robot_envelope_mm": 191.52955100366364,
+      "max_shoe_penetration_mm_rendered": 0.0,
+      "goal_error_m": 0.0073568020287762565,
+      "inside_bay": true,
+      "terminal_speed_m_s": 1.2357999501674493e-10,
+      "peak_wheel_speed_rad_s": 3.7749277432523036
+    }
+  }
+}

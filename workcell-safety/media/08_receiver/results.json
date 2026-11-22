@@ -1,0 +1,95 @@
+{
+  "title": "Timed handoff to an indexing nest",
+  "task": "Release a machined coupon into a moving receiving nest during its indexing cycle.",
+  "robot": "Universal Robots UR10e",
+  "source_url": "https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur10e",
+  "planner": "Search release slots in 40 ms increments. The guarded planner projects the nest at touchdown and checks the support footprint. The nominal planner minimizes cycle time at the same release pose.",
+  "human": "none",
+  "metric": "Drop below catch height",
+  "unit": "mm",
+  "criterion": "The underside of the released coupon falls more than 25 mm below the nest floor.",
+  "detail_time_s": 2.24,
+  "detail_target": "Coupon and receiving nest",
+  "schema_version": 1,
+  "id": "08",
+  "goal_criterion": "Vacuum released, final joint error below 0.025 rad and the coupon supported by the receiving nest.",
+  "trigger_threshold": 25,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true
+  },
+  "detail_by_branch_s": {
+    "unsafe": 2.24,
+    "safe": 3.84
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.06687109361336319,
+    "peak_time_s": 3.625,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "The moving nest supports the coupon.",
+    "caption": "The coupon is on the indexed receiving surface.",
+    "contact_channels": [
+      {
+        "label": "Released coupon / lower catch bed",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.11471506884741522,
+      "overlap_pairs_mm": {
+        "nest_floor / slug": 0.115
+      },
+      "minimum_joint_limit_margin_rad": 0.8242218638477232,
+      "terminal_joint_error_rad": 3.3362201889985954e-12,
+      "final_support": [
+        "nest_floor"
+      ]
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 2.12,
+    "goal_reached": false,
+    "peak": 62.589778814539756,
+    "peak_time_s": 2.144,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "The coupon comes to rest on the catch bed below the nest.",
+    "caption": "The coupon misses the returning nest and lands below it.",
+    "contact_channels": [
+      {
+        "label": "Released coupon / lower catch bed",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 253.8917991067336,
+        "peak_time_s": 2.141,
+        "first_contact_s": 2.141,
+        "normal_impulse_Ns": 12.19723890135552
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 0.8242218638477232,
+      "terminal_joint_error_rad": 2.353672812205332e-14,
+      "final_support": [
+        "catch_bed"
+      ]
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "title": "Inspection-bay bypass",
+  "task": "Park the Husky at the service bay while a technician inspects a module.",
+  "robot": "Clearpath Husky A200",
+  "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/husky",
+  "planner": "Curvature-continuous route lattice with footprint clearance costs.",
+  "human": "initially stationary",
+  "metric": "Clearance shortfall",
+  "unit": "mm",
+  "criterion": "Positive shortfall below the 460 mm study clearance between the robot collision envelope and the nearest lower-leg or shoe collider.",
+  "detail_time_s": 2.84,
+  "detail_target": "Nearest Husky wheel and operator shoe at the same time.",
+  "schema_version": 1,
+  "id": "02",
+  "goal_criterion": "Whole chassis inside the service bay, center error under 65 mm and speed below 0.055 m/s.",
+  "trigger_threshold": 0,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true,
+    "same_human_motion_every_frame": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.0,
+    "peak_time_s": null,
+    "samples": 5201,
+    "solver_dt_s": 0.002,
+    "duration_s": 10.4,
+    "summary": "Select the outward curved path past the service station.",
+    "caption": "The Husky curves away from the stationary technician.",
+    "contact_channels": [
+      {
+        "label": "Husky / technician",
+        "array": "human_contact_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_tire_compliance_mm": 0.34578037793258176,
+      "nonfloor_robot_contacts": 0,
+      "peak_human_contact_N": 0.0,
+      "minimum_skin_to_robot_envelope_mm": 603.5789459541511,
+      "max_shoe_penetration_mm_rendered": 0.0,
+      "goal_error_m": 0.028414005072388112,
+      "inside_bay": true,
+      "terminal_speed_m_s": 7.522881100652483e-11,
+      "peak_wheel_speed_rad_s": 8.011033796351764
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 1.99,
+    "goal_reached": true,
+    "peak": 142.47725163516094,
+    "peak_time_s": 2.844,
+    "samples": 5201,
+    "solver_dt_s": 0.002,
+    "duration_s": 10.4,
+    "summary": "Select the direct aisle centerline past the service station.",
+    "caption": "The direct route brings the wheel close to the technician’s shoes without physical contact.",
+    "contact_channels": [
+      {
+        "label": "Husky / technician",
+        "array": "human_contact_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_tire_compliance_mm": 0.32191572798198315,
+      "nonfloor_robot_contacts": 0,
+      "peak_human_contact_N": 0.0,
+      "minimum_skin_to_robot_envelope_mm": 314.7099131886081,
+      "max_shoe_penetration_mm_rendered": 0.0,
+      "goal_error_m": 0.007356801693088343,
+      "inside_bay": true,
+      "terminal_speed_m_s": 1.3191961279707587e-10,
+      "peak_wheel_speed_rad_s": 3.774957707876333
+    }
+  }
+}

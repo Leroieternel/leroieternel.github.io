@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "id": "04",
+  "robot": "Boston Dynamics Spot with Spot Arm",
+  "branch": "unsafe",
+  "task": "Depress the irrigation controller’s test plunger past its 7 mm switching point, release it and return to the approach pose.",
+  "planner": "Generate eight candidate press depths on a line normal to the control panel. Use bounded six-joint inverse kinematics, time scaling and a forward dynamics rollout for each. The safe planner selects the closest achieved travel above the 7 mm switch point without a hard-stop load. The unsafe planner tracks a nominal wrist datum from the housing drawing without enforcing plunger travel.",
+  "search": {
+    "parameter": "wrist_datum_x_m",
+    "selected": 1.018,
+    "candidates": [
+      0.994,
+      0.998,
+      1.002,
+      1.006,
+      1.012,
+      1.018,
+      1.025,
+      1.03
+    ],
+    "eligibility": "All four feet carry >0.05 N. Joint-range margins, solver warnings, unplanned collision pairs and final goal accuracy are evaluated on each branch."
+  },
+  "steps": [
+    {
+      "t": 0.0,
+      "text": "Stabilize on four feet in front of the pump controller."
+    },
+    {
+      "t": 0.32,
+      "text": "Advance the wrist along the panel normal."
+    },
+    {
+      "t": 1.82,
+      "text": "The test cap crosses the 7 mm switch point."
+    },
+    {
+      "t": 1.972,
+      "text": "The continuing press loads the sleeve at the end of the cap stroke."
+    },
+    {
+      "t": 2.95,
+      "text": "Release the button by withdrawing the hand along the approach axis."
+    },
+    {
+      "t": 5.2,
+      "text": "Verify that the button has returned to rest."
+    }
+  ],
+  "goal_criterion": "Switch travel reaches 7 mm, cap returns below 1.5 mm and the wrist returns within 25 mm of its starting site.",
+  "goal_reached": true,
+  "event": true,
+  "first_event_s": 1.972,
+  "reference": {
+    "archive": "unsafe.npz",
+    "array": "qref",
+    "time_array": "time_s",
+    "columns": [
+      "arm_sh0",
+      "arm_sh1",
+      "arm_el0",
+      "arm_el1",
+      "arm_wr0",
+      "arm_wr1"
+    ],
+    "unit": "rad",
+    "kind": "Arm joint position reference",
+    "samples": [
+      {
+        "t": 0.0,
+        "values": [
+          0.00038,
+          -1.41802,
+          2.20831,
+          0.00046,
+          -0.79622,
+          -0.00052
+        ]
+      },
+      {
+        "t": 0.32,
+        "values": [
+          0.00038,
+          -1.41802,
+          2.20831,
+          0.00046,
+          -0.79621,
+          -0.00052
+        ]
+      },
+      {
+        "t": 0.76,
+        "values": [
+          0.00038,
+          -1.39228,
+          2.17813,
+          0.00045,
+          -0.79179,
+          -0.00052
+        ]
+      },
+      {
+        "t": 1.48,
+        "values": [
+          0.00032,
+          -1.19506,
+          1.92663,
+          0.0004,
+          -0.7375,
+          -0.0005
+        ]
+      },
+      {
+        "t": 1.8,
+        "values": [
+          0.00031,
+          -1.10947,
+          1.80721,
+          0.00039,
+          -0.70367,
+          -0.0005
+        ]
+      },
+      {
+        "t": 1.96,
+        "values": [
+          0.0003,
+          -1.08199,
+          1.76768,
+          0.00039,
+          -0.69162,
+          -0.0005
+        ]
+      },
+      {
+        "t": 2.24,
+        "values": [
+          0.0003,
+          -1.06213,
+          1.73878,
+          0.00039,
+          -0.68258,
+          -0.0005
+        ]
+      },
+      {
+        "t": 2.96,
+        "values": [
+          0.0003,
+          -1.0613,
+          1.73756,
+          0.00039,
+          -0.68219,
+          -0.0005
+        ]
+      },
+      {
+        "t": 3.72,
+        "values": [
+          0.00032,
+          -1.19101,
+          1.92111,
+          0.0004,
+          -0.73603,
+          -0.0005
+        ]
+      },
+      {
+        "t": 4.44,
+        "values": [
+          0.00038,
+          -1.40368,
+          2.19157,
+          0.00046,
+          -0.79383,
+          -0.00052
+        ]
+      },
+      {
+        "t": 5.2,
+        "values": [
+          0.00038,
+          -1.41802,
+          2.20831,
+          0.00046,
+          -0.79621,
+          -0.00052
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "title": "Pump gauge sweep",
+  "task": "Read the two discharge gauges with Spot’s hand camera while maintaining a four-foot stance.",
+  "robot": "Boston Dynamics Spot with Spot Arm",
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+  "planner": "Sample four camera sweeps joining the two gauge poses with 0–320 mm of vertical relief. Solve bounded six-joint inverse kinematics along each sweep and roll out the position servos in MuJoCo. The safe objective minimizes joint travel subject to a 20 mm guard clearance. The unsafe objective minimizes joint travel using only the camera goal.",
+  "human": "none",
+  "metric": "Guard deflection",
+  "unit": "deg",
+  "criterion": "The hinged instrument guard deflects over 5 degrees during camera transfer.",
+  "detail_time_s": 3.24,
+  "detail_target": "Guard blade and passing gripper",
+  "schema_version": 1,
+  "id": "03",
+  "goal_criterion": "Final wrist site within 36 mm of its goal and camera axis within 11 degrees of the second gauge. All four feet must stay loaded during the trial.",
+  "trigger_threshold": 5,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.0,
+    "peak_time_s": null,
+    "samples": 2601,
+    "solver_dt_s": 0.002,
+    "duration_s": 5.2,
+    "summary": "Minimum-travel sweep satisfying the guard clearance.",
+    "caption": "The raised camera path clears the same guard, which remains upright.",
+    "contact_channels": [
+      {
+        "label": "Spot arm / guard blade",
+        "array": "physics_hand_force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collider_overlap_mm": 0.0,
+      "worst_pair": "",
+      "unexpected_pairs": [],
+      "max_sampled_hand_fixture_visual_overlap_mm": 0.0,
+      "foot_slip_mm": 4.664553822108755,
+      "min_loaded_feet": 4,
+      "joint_margin_rad": 0.7516598047217555,
+      "goal_position_error_mm": 20.399389514381063,
+      "max_tracking_error_rad": 0.11919907481514763
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 2.372,
+    "goal_reached": true,
+    "peak": 53.886233012045906,
+    "peak_time_s": 3.212,
+    "samples": 2601,
+    "solver_dt_s": 0.002,
+    "duration_s": 5.2,
+    "summary": "Shortest camera sweep across the instrument guard.",
+    "caption": "The direct camera transfer bends the yellow indicator guard.",
+    "contact_channels": [
+      {
+        "label": "Spot arm / guard blade",
+        "array": "physics_hand_force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 33.29683372569505,
+        "peak_time_s": 2.8000000000000003,
+        "first_contact_s": 2.3040000000000003,
+        "normal_impulse_Ns": 3.173364867104419
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collider_overlap_mm": 0.0,
+      "worst_pair": "",
+      "unexpected_pairs": [],
+      "max_sampled_hand_fixture_visual_overlap_mm": 0.0,
+      "foot_slip_mm": 4.3064615763464635,
+      "min_loaded_feet": 4,
+      "joint_margin_rad": 0.7516989180828675,
+      "goal_position_error_mm": 19.526464256822788,
+      "max_tracking_error_rad": 0.07795894033112565
+    }
+  }
+}

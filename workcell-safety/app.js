@@ -32,7 +32,7 @@ function picture(url,alt){
 }
 for(const c of cases){
   const b=node('button','taskbtn');b.type='button';b.dataset.id=c.id;b.setAttribute('aria-pressed','false');
-  const im=node('img');im.src=c.base+'/thumb.jpg';im.alt='';b.append(im,node('span',null,c.short));
+  const im=node('img');im.src=c.base+'/thumb.jpg';im.alt='';const label=node('span',null,c.short);label.append(node('small','nav-model',c.robotShort||'Earlier study'));b.append(im,label);
   b.onclick=()=>{if(location.hash==='#'+c.id)render(c);else location.hash=c.id};by('nav').append(b);
 }
 function render(c){
@@ -40,6 +40,10 @@ function render(c){
   document.title=c.title+' · Workcell Safety';
   by('title').textContent=c.title;by('description').textContent=c.description;by('category').textContent=c.category;
   by('timing').textContent='Event at '+tLabel(c.event)+'  ·  '+Math.round(c.duration)+' s replay';
+  const specs=by('specs');specs.replaceChildren();
+  if(c.robot){specs.append(link(c.robot+' ↗',c.source),node('span',null,c.form),node('span',null,c.human));}
+  by('criterion').textContent=c.criterion||'';
+  by('goal-test').textContent=c.goalTest?'Task acceptance. '+c.goalTest:'';
   by('plan-intro').textContent=c.planIntro;
   by('detailintro').textContent=c.detailIntro;
   by('measurement').textContent=c.method;
@@ -54,11 +58,16 @@ function render(c){
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){const li=node('li',step.hazard?'haz':'');li.append(node('time',null,tLabel(step.t)),node('span',null,step.text));ol.append(li)}
     card.append(ol);by('plans').append(card);
-    const detail=node('figure','detail '+key);detail.append(node('h3',null,name+' at '+tLabel(c.detailTime)),picture(base+'detail_'+key+'.jpg',data.caption),node('p',null,data.caption));by('details').append(detail);
+    const detail=node('figure','detail '+key);detail.append(node('h3',null,name+' at '+tLabel(c.detailByBranch?.[key]??c.detailTime)),picture(base+'detail_'+key+'.jpg',data.caption),node('p',null,data.caption));by('details').append(detail);
   }
   for(const [label,value] of c.facts){const f=node('div','fact');f.append(node('span',null,label),node('strong',null,value));by('facts').append(f)}
   for(const [name,caption] of c.charts){const f=node('figure','chart');f.append(picture(c.base+'/'+name,caption),node('p',null,caption));by('charts').append(f)}
   for(const [name,path] of c.downloads)by('downloads').append(link(name,c.base+'/'+path))
 }
-function route(){render(cases.find(c=>c.id===location.hash.slice(1))||cases.find(c=>c.id==='03_cafe')||cases[0])}
+function route(){
+  const slug=location.hash.slice(1),found=cases.find(c=>c.id===slug);
+  by('redirect').hidden=!(slug&&!found);
+  by('redirect').textContent='The earlier task at this link has been replaced. Choose a robot task from the updated collection.';
+  render(found||cases[0])
+}
 window.addEventListener('hashchange',route);route();

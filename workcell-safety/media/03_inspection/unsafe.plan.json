@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "id": "03",
+  "robot": "Boston Dynamics Spot with Spot Arm",
+  "branch": "unsafe",
+  "task": "Read the two discharge gauges with Spot’s hand camera while maintaining a four-foot stance.",
+  "planner": "Sample four camera sweeps joining the two gauge poses with 0–320 mm of vertical relief. Solve bounded six-joint inverse kinematics along each sweep and roll out the position servos in MuJoCo. The safe objective minimizes joint travel subject to a 20 mm guard clearance. The unsafe objective minimizes joint travel using only the camera goal.",
+  "search": {
+    "parameter": "sweep_relief_m",
+    "selected": 0.0,
+    "candidates": [
+      0.0,
+      0.12,
+      0.23,
+      0.32
+    ],
+    "eligibility": "All four feet carry >0.05 N. Joint-range margins, solver warnings, unplanned collision pairs and final goal accuracy are evaluated on each branch."
+  },
+  "steps": [
+    {
+      "t": 0.0,
+      "text": "Confirm the first gauge view with the hand camera."
+    },
+    {
+      "t": 0.45,
+      "text": "Track the shortest wrist sweep toward the second gauge."
+    },
+    {
+      "t": 2.372,
+      "text": "The moving hand bends the spring-mounted indicator guard."
+    },
+    {
+      "t": 4.45,
+      "text": "Hold the second view to acquire the gauge reading."
+    },
+    {
+      "t": 5.2,
+      "text": "Complete the survey with all four feet loaded."
+    }
+  ],
+  "goal_criterion": "Final wrist site within 36 mm of its goal and camera axis within 11 degrees of the second gauge. All four feet must stay loaded during the trial.",
+  "goal_reached": true,
+  "event": true,
+  "first_event_s": 2.372,
+  "reference": {
+    "archive": "unsafe.npz",
+    "array": "qref",
+    "time_array": "time_s",
+    "columns": [
+      "arm_sh0",
+      "arm_sh1",
+      "arm_el0",
+      "arm_el1",
+      "arm_wr0",
+      "arm_wr1"
+    ],
+    "unit": "rad",
+    "kind": "Arm joint position reference",
+    "samples": [
+      {
+        "t": 0.0,
+        "values": [
+          -0.64561,
+          -1.12902,
+          1.86394,
+          -0.84268,
+          -0.94309,
+          0.5753
+        ]
+      },
+      {
+        "t": 0.44,
+        "values": [
+          -0.64561,
+          -1.12902,
+          1.86394,
+          -0.84268,
+          -0.94309,
+          0.5753
+        ]
+      },
+      {
+        "t": 0.76,
+        "values": [
+          -0.64152,
+          -1.13283,
+          1.8694,
+          -0.83758,
+          -0.94194,
+          0.57128
+        ]
+      },
+      {
+        "t": 1.48,
+        "values": [
+          -0.52605,
+          -1.22374,
+          1.99661,
+          -0.69386,
+          -0.90975,
+          0.46399
+        ]
+      },
+      {
+        "t": 2.24,
+        "values": [
+          -0.1292,
+          -1.37119,
+          2.1903,
+          -0.17925,
+          -0.833,
+          0.1105
+        ]
+      },
+      {
+        "t": 2.36,
+        "values": [
+          -0.04357,
+          -1.37838,
+          2.20024,
+          -0.06338,
+          -0.82862,
+          0.03158
+        ]
+      },
+      {
+        "t": 2.96,
+        "values": [
+          0.36136,
+          -1.30662,
+          2.11756,
+          0.47434,
+          -0.87517,
+          -0.33163
+        ]
+      },
+      {
+        "t": 3.72,
+        "values": [
+          0.63051,
+          -1.13764,
+          1.89564,
+          0.80831,
+          -0.94726,
+          -0.56447
+        ]
+      },
+      {
+        "t": 4.44,
+        "values": [
+          0.67517,
+          -1.09497,
+          1.83558,
+          0.86345,
+          -0.95987,
+          -0.60718
+        ]
+      },
+      {
+        "t": 5.2,
+        "values": [
+          0.67517,
+          -1.09496,
+          1.83557,
+          0.86345,
+          -0.95987,
+          -0.60718
+        ]
+      }
+    ]
+  }
+}

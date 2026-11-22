@@ -1,0 +1,85 @@
+{
+  "title": "Gauge bar through an inspection gate",
+  "task": "Transfer the retained gauge bar through a narrow calibration gate and park it on the far side.",
+  "robot": "Universal Robots UR10e",
+  "source_url": "https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur10e",
+  "planner": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center.",
+  "human": "none",
+  "metric": "Gauge-post deflection",
+  "unit": "deg",
+  "criterion": "Either spring-mounted opening post deflects beyond 5 degrees when the retained bar contacts it.",
+  "detail_time_s": 3.16,
+  "detail_target": "Leading gauge edge and spring-mounted gate post",
+  "schema_version": 1,
+  "id": "07",
+  "goal_criterion": "Retained gauge reaches the far datum with maximum final joint error below 0.025 rad.",
+  "trigger_threshold": 5,
+  "trigger_operator": ">",
+  "paired_state_checks": {
+    "same_initial_qpos": true,
+    "same_initial_qvel": true,
+    "same_clock": true
+  },
+  "safe": {
+    "event": false,
+    "first_event_s": null,
+    "goal_reached": true,
+    "peak": 0.0,
+    "peak_time_s": null,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "The retained bar reaches the far datum.",
+    "caption": "The wrist has turned the gauge length along the passage.",
+    "contact_channels": [
+      {
+        "label": "Carried gauge / opening posts",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 1.022946280206201,
+      "terminal_joint_error_rad": 3.816689186919575e-10,
+      "final_support": []
+    }
+  },
+  "unsafe": {
+    "event": true,
+    "first_event_s": 3.126,
+    "goal_reached": false,
+    "peak": 6.556483907708896,
+    "peak_time_s": 3.145,
+    "samples": 6401,
+    "solver_dt_s": 0.001,
+    "duration_s": 6.4,
+    "summary": "The robot returns to the entry side after the gate contact.",
+    "caption": "The crosswise bar deflects the opening post.",
+    "contact_channels": [
+      {
+        "label": "Carried gauge / opening posts",
+        "array": "force_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 69.07885819962006,
+        "peak_time_s": 3.094,
+        "first_contact_s": 3.093,
+        "normal_impulse_Ns": 0.5311290784569612
+      }
+    ],
+    "audit": {
+      "solver_warnings": 0,
+      "max_collision_overlap_mm": 0.0,
+      "overlap_pairs_mm": {},
+      "minimum_joint_limit_margin_rad": 1.0242051507493164,
+      "terminal_joint_error_rad": 0.8172779447550442,
+      "final_support": []
+    }
+  }
+}
