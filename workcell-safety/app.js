@@ -1,7 +1,8 @@
 'use strict';
-const cases=window.WORKCELLS;
+const cases=[...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
-const versioned=url=>url+'?v=robot-plans-3';
+const versioned=url=>url+'?v=mobile-worlds-1';
+const mediaUrl=(c,file)=>(c.filmBase&&file.endsWith('.mp4')?c.filmBase:c.base)+'/'+file;
 const by=id=>document.getElementById(id);
 const link=(text,url)=>{const a=node('a',null,text);a.href=url;return a};
 let item,vids=[],paired=false,tick=0,slowEnd=null;
@@ -34,18 +35,57 @@ by('event').onclick=()=>seekTo(item.event);
 function picture(url,alt){
   const a=link('',url);a.target='_blank';a.rel='noopener';const im=node('img');im.src=url;im.alt=alt;im.loading='lazy';a.append(im);return a;
 }
-for(const c of cases){
-  const b=node('button','taskbtn');b.type='button';b.dataset.id=c.id;b.setAttribute('aria-pressed','false');
+function collection(mobile){
+  for(const b of by('nav').children)b.hidden=(b.dataset.collection==='mobile')!==mobile;
+  by('show-mobile').setAttribute('aria-pressed',String(mobile));
+  by('show-workcells').setAttribute('aria-pressed',String(!mobile));
+}
+const lastChoice={};
+function switchCollection(mobile){
+  const target=lastChoice[String(mobile)]||cases.find(c=>Boolean(c.mobile)===mobile);
+  if(target && target!==item)location.hash=target.id;
+}
+by('show-mobile').onclick=()=>switchCollection(true);
+by('show-workcells').onclick=()=>switchCollection(false);
+for(const c of cases.filter(c=>!c.parentId)){
+  const b=node('button','taskbtn');b.type='button';b.dataset.id=c.id;b.dataset.collection=c.mobile?'mobile':'workcell';b.setAttribute('aria-pressed','false');
   const im=node('img');im.src=versioned(c.base+'/thumb.jpg');im.alt='';const label=node('span',null,c.short);label.append(node('small','nav-model',c.robotShort||'Earlier study'));b.append(im,label);
-  b.onclick=()=>{if(location.hash==='#'+c.id)render(c);else location.hash=c.id};by('nav').append(b);
+  b.onclick=()=>{const id=c.defaultTrial||c.id;if(location.hash!=='#'+id)location.hash=id;else render(cases.find(x=>x.id===id))};by('nav').append(b);
 }
 function render(c){
-  pauseBoth();item=c;vids=[];
+  pauseBoth();item=c;vids=[];lastChoice[String(!!c.mobile)]=c;collection(!!c.mobile);
+  const trials=by('trials');trials.replaceChildren();trials.hidden=!c.trials;
+  for(const [id,name] of c.trials||[]){
+    const btn=node('button',null,name);btn.type='button';btn.setAttribute('aria-pressed',String(c.id===id));btn.onclick=()=>{location.hash=id};trials.append(btn);
+  }
+  const room=by('room-view');room.hidden=!c.mobile;
+  by('main').classList.toggle('mobile-study',!!c.mobile);
+  if(c.mobile){
+    const cap=by('room-caption'),image=by('room-photo'),photoLink=by('room-link');
+    const actions=node('div','photo-actions'),full=link('Open 4K photograph','');
+    cap.replaceChildren(node('span',null,c.roomCaption),actions);
+    const options=[['Room overview','world'],['Aisle at eye level','aisle']];
+    const choose=(idx)=>{
+      const [label,file]=options[idx],src=c.base+'/'+file;
+      image.src=versioned(src+'-preview.jpg');
+      image.srcset=versioned(src+'-preview.jpg')+' 1600w, '+versioned(src+'.jpg')+' 3840w';
+      image.sizes='(max-width: 820px) 96vw, 75vw';
+      image.alt=c.robot+' in '+c.robotShort+' — '+label.toLowerCase();
+      photoLink.href=full.href=versioned(src+'.jpg');
+      for(const btn of actions.querySelectorAll('button'))btn.setAttribute('aria-pressed',String(Number(btn.dataset.view)===idx));
+    };
+    options.forEach(([label],idx)=>{const btn=node('button',null,label);btn.type='button';btn.dataset.view=idx;btn.onclick=()=>choose(idx);actions.append(btn)});
+    for(const a of [photoLink,full]){a.target='_blank';a.rel='noopener'}
+    actions.append(full);choose(0);
+  }
   document.title=c.title+' · Workcell Safety';
   by('title').textContent=c.title;by('description').textContent=c.description;by('category').textContent=c.category;
   by('timing').textContent='Event at '+tLabel(c.event)+'  ·  '+Number(c.duration.toFixed(2))+' s replay';
   const specs=by('specs');specs.replaceChildren();
   if(c.robot){specs.append(link(c.robot+' ↗',c.source),node('span',null,c.form),node('span',null,c.human));}
+  const credit=link(c.mobile?'Created with Codex · MuJoCo + Blender':c.id==='cnc_full'?'Neon CNC environment · Codex safety trial':'Workcell authored in Codex','credits.html#production');
+  specs.append(credit);
+  if(c.materialSource)specs.append(link('Scene materials and sources',c.materialSource));
   if(c.handSource)specs.append(link('Panda Hand model',c.handSource));
   const chapters=by('chapters');chapters.replaceChildren();
   if(c.slowRange){const slow=node('button','slow-button','Replay incident at ¼ speed');slow.type='button';slow.onclick=()=>playPair(c.slowRange[0],.25,c.slowRange[1]);chapters.append(slow)}
@@ -65,12 +105,14 @@ function render(c){
   by('detailintro').textContent=c.detailIntro;
   by('measurement').textContent=c.method;
   by('auditnote').textContent=c.auditnote;
-  for(const b of by('nav').children)b.setAttribute('aria-pressed',String(b.dataset.id===c.id));
+  for(const b of by('nav').children)b.setAttribute('aria-pressed',String(b.dataset.id===(c.parentId||c.id)));
   for(const id of ['players','plans','details','facts','charts','downloads'])by(id).replaceChildren();
   for(const key of ['unsafe','safe']){
     const data=c[key],name=key==='unsafe'?'Unsafe':'Safe',base=c.base+'/';
     const player=node('div','player '+key);player.append(node('h3',null,name+' replay'));
-    const video=node('video');video.setAttribute('aria-label',name+' replay of '+c.title);video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=versioned(base+key+'_poster.jpg');video.src=versioned(base+key+'.mp4');video.addEventListener('pause',()=>{if(paired&&vids.includes(video))pauseBoth()});vids.push(video);
+    const video=node('video');video.setAttribute('aria-label',name+' replay of '+c.title);video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=versioned(base+key+'_poster.jpg');
+    const source=node('source');source.type='video/mp4';source.src=versioned(mediaUrl(c,key+'.mp4'));video.append(source);
+    video.addEventListener('pause',()=>{if(paired&&vids.includes(video))pauseBoth()});vids.push(video);
     player.append(video,node('small',null,data.summary));by('players').append(player);
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){const li=node('li',step.hazard?'haz':'');li.append(node('time',null,tLabel(step.t)),node('span',null,step.text));ol.append(li)}
@@ -79,12 +121,12 @@ function render(c){
   }
   for(const [label,value] of c.facts){const f=node('div','fact');f.append(node('span',null,label),node('strong',null,value));by('facts').append(f)}
   for(const [name,caption] of c.charts){const f=node('figure','chart');f.append(picture(versioned(c.base+'/'+name),caption),node('p',null,caption));by('charts').append(f)}
-  for(const [name,path] of c.downloads)by('downloads').append(link(name,c.base+'/'+path))
+  for(const [name,path] of c.downloads)by('downloads').append(link(name,mediaUrl(c,path)))
 }
 function route(){
   const slug=location.hash.slice(1),found=cases.find(c=>c.id===slug);
   by('redirect').hidden=!(slug&&!found);
   by('redirect').textContent='The earlier task at this link has been replaced. Choose a robot task from the updated collection.';
-  render(found||cases[0])
+  render(found||cases.find(c=>c.id===cases[0].defaultTrial)||cases[0])
 }
 window.addEventListener('hashchange',route);route();

@@ -1,0 +1,274 @@
+{
+  "id": "03_sterile",
+  "title": "Supply a sterilizer loading shuttle",
+  "task": "Collect the sealed process cartridge and hand it off to the arriving sterilizer shuttle.",
+  "robot": "robosuite PandaOmron with articulated Panda Hand",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+  "checkpoint": "Sterile transfer threshold",
+  "item": "Sterile supply cartridge",
+  "dt_s": 0.001,
+  "preview_hz": 25,
+  "source_dock": [
+    -2.6,
+    0
+  ],
+  "destination_dock": [
+    2.6,
+    0
+  ],
+  "route_waypoints": [
+    [
+      -1.5,
+      -1.16
+    ],
+    [
+      -0.34,
+      -1.16
+    ],
+    [
+      1.36,
+      -0.54
+    ]
+  ],
+  "hazard": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray.",
+  "method": "Base velocity control on the planar Omron drive, bounded seven-joint inverse kinematics, torque feedback and friction grasp; the payload is a free rigid body throughout. No wheel slip or motor temperature model.",
+  "risk_force_pair": "item / lower catch tray",
+  "safe": {
+    "branch": "safe",
+    "goal_reached": true,
+    "hazard": false,
+    "first_event_s": null,
+    "first_hazard_contact_s": null,
+    "settled_s": 33.406,
+    "peak_hazard_force_N": 0.0,
+    "hazard_impulse_Ns": 0.0,
+    "peak_load_time_s": null,
+    "goal_label": "in the sterile loading shuttle",
+    "outcome": "The item settles in the sterile loading shuttle.",
+    "route_m": 8.805929428262576,
+    "max_base_speed_m_s": 0.7351363804633151,
+    "park_xyz_yaw": [
+      3.800056068149806,
+      -3.4025586521566685e-11,
+      1.1557543979743846e-10
+    ],
+    "park_speed_m_s": 0.0001408348182435402,
+    "visit_error_mm": 0.01227905224899995,
+    "dwell_s": 0.68,
+    "initial_payload_xyz": [
+      -2.6,
+      0.63,
+      0.944
+    ],
+    "payload_xyz_end": [
+      2.5999858849338398,
+      0.630102651971979,
+      0.9779897943043575
+    ],
+    "release_s": 33.2402,
+    "max_payload_tilt_after_release_deg": 0.290055,
+    "receiver_peak": 0.24000000217091746,
+    "grasp_floor_N": 10.596581203532464,
+    "both_jaws_duration_s": 17.080000000000002,
+    "min_carry_clearance_m": 0.22220811689676326,
+    "peak_jaw_contact_N": 34.45340032657958,
+    "max_overlap_mm": 0.7879254590322116,
+    "overlap_pairs_mm": {
+      "item/receiver_shuttle": 0.7879254590322116
+    },
+    "other_contacts_N": {},
+    "solver_warnings": 0,
+    "peak_arm_speed_rad_s": [
+      0.05181565050267568,
+      1.9971249959765598,
+      0.11214066564286956,
+      2.03063612710646,
+      0.05575904148707024,
+      0.861160154175502,
+      0.1526559626036514
+    ],
+    "arm_limit_margin_rad": 0.6711254524186923,
+    "park_item_speed_m_s": 1.1005938305431465e-10,
+    "rest_support_N": 0.9221399999999996,
+    "final_support": "in the sterile loading shuttle",
+    "departure_to_receiver_s": 11.0,
+    "arrival_at_receiver_s": 28.0802,
+    "duration_s": 41.72,
+    "rotation_after_release_deg": 0.29796036480867005,
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench."
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the sterile supply cartridge."
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp."
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture."
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle."
+      },
+      {
+        "t": 18.641,
+        "text": "Dwell at the sterile transfer threshold before continuing."
+      },
+      {
+        "t": 28.08,
+        "text": "Dock at the receiving station and extend the arm."
+      },
+      {
+        "t": 29.88,
+        "text": "Hold above the handoff until the shuttle arrives."
+      },
+      {
+        "t": 33.24,
+        "text": "Open the fingers and let the item settle."
+      },
+      {
+        "t": 34.98,
+        "text": "Retract the empty arm to the transport posture."
+      },
+      {
+        "t": 37.08,
+        "text": "Drive to the parking bay and stop."
+      }
+    ],
+    "impulse_window": "Through final payload settling; excludes subsequent static support.",
+    "mechanism_peak_deg": null,
+    "postrelease_events_s": {
+      "first_loaded_destination": 33.365,
+      "lost_destination_support": null,
+      "first_hazard_contact": null,
+      "hazard_criterion": null,
+      "settled": 33.406,
+      "parked_observation": 41.72
+    }
+  },
+  "unsafe": {
+    "branch": "unsafe",
+    "goal_reached": false,
+    "hazard": true,
+    "first_event_s": 31.938,
+    "first_hazard_contact_s": 31.938,
+    "settled_s": 32.051,
+    "peak_hazard_force_N": 117.4358695824083,
+    "hazard_impulse_Ns": 0.29687368199999997,
+    "peak_load_time_s": 31.939,
+    "goal_label": "in the sterile loading shuttle",
+    "outcome": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray.",
+    "route_m": 8.805927427463804,
+    "max_base_speed_m_s": 0.7351363804633151,
+    "park_xyz_yaw": [
+      3.800056068149814,
+      -3.4026108561606315e-11,
+      1.1557550492002458e-10
+    ],
+    "park_speed_m_s": 0.00014083481826390287,
+    "visit_error_mm": 0.01227905224899995,
+    "dwell_s": 0.68,
+    "initial_payload_xyz": [
+      -2.6,
+      0.63,
+      0.944
+    ],
+    "payload_xyz_end": [
+      2.5999176667535475,
+      0.6299863871339606,
+      0.7678998486373427
+    ],
+    "release_s": 31.6302,
+    "max_payload_tilt_after_release_deg": 2.58735,
+    "receiver_peak": 0.23999999999999946,
+    "grasp_floor_N": 10.596581203532464,
+    "both_jaws_duration_s": 17.080000000000002,
+    "min_carry_clearance_m": 0.22220811689676326,
+    "peak_jaw_contact_N": 34.45340032657958,
+    "max_overlap_mm": 0.7327460092012117,
+    "overlap_pairs_mm": {
+      "catch_floor/item": 0.7327460092012117
+    },
+    "other_contacts_N": {},
+    "solver_warnings": 0,
+    "peak_arm_speed_rad_s": [
+      0.05181565050267568,
+      1.9971249959765598,
+      0.11214066564286956,
+      2.03063612710646,
+      0.05575904148707024,
+      0.861160154175502,
+      0.1526559626036514
+    ],
+    "arm_limit_margin_rad": 0.6711254524186923,
+    "park_item_speed_m_s": 1.9479439344829253e-11,
+    "rest_support_N": 0.9221399991569116,
+    "final_support": "lower tray",
+    "departure_to_receiver_s": 11.0,
+    "arrival_at_receiver_s": 28.0802,
+    "duration_s": 41.72,
+    "rotation_after_release_deg": 9.32570706714906,
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench."
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the sterile supply cartridge."
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp."
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture."
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle."
+      },
+      {
+        "t": 18.641,
+        "text": "Dwell at the sterile transfer threshold before continuing."
+      },
+      {
+        "t": 28.08,
+        "text": "Dock at the receiving station and extend the arm."
+      },
+      {
+        "t": 29.88,
+        "text": "Approach the handoff while the shuttle is still away."
+      },
+      {
+        "t": 31.63,
+        "text": "Open the fingers and let the item settle."
+      },
+      {
+        "t": 34.98,
+        "text": "Retract the empty arm to the transport posture."
+      },
+      {
+        "t": 37.08,
+        "text": "Drive to the parking bay and stop."
+      }
+    ],
+    "impulse_window": "Through final payload settling; excludes subsequent static support.",
+    "mechanism_peak_deg": null,
+    "postrelease_events_s": {
+      "first_loaded_destination": null,
+      "lost_destination_support": null,
+      "first_hazard_contact": 31.938,
+      "hazard_criterion": 31.938,
+      "settled": 32.051,
+      "parked_observation": 41.72
+    }
+  }
+}

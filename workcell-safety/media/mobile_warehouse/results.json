@@ -1,0 +1,275 @@
+{
+  "id": "01_warehouse",
+  "title": "Dispatch a control relay",
+  "task": "Collect the boxed relay from receiving and place it securely on the outbound sort shelf.",
+  "robot": "robosuite PandaOmron with articulated Panda Hand",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+  "checkpoint": "Outbound barcode portal",
+  "item": "Outbound relay carton",
+  "dt_s": 0.001,
+  "preview_hz": 25,
+  "source_dock": [
+    -2.6,
+    0
+  ],
+  "destination_dock": [
+    2.6,
+    0
+  ],
+  "route_waypoints": [
+    [
+      -1.46,
+      -0.65
+    ],
+    [
+      -1.05,
+      -0.87
+    ],
+    [
+      1.05,
+      -0.87
+    ]
+  ],
+  "hazard": "The carton tips off the shelf edge into the lower return tote.",
+  "method": "Base velocity control on the planar Omron drive, bounded seven-joint inverse kinematics, torque feedback and friction grasp; the payload is a free rigid body throughout. No wheel slip or motor temperature model.",
+  "risk_force_pair": "item / lower catch tray",
+  "safe": {
+    "branch": "safe",
+    "goal_reached": true,
+    "hazard": false,
+    "first_event_s": null,
+    "first_hazard_contact_s": null,
+    "settled_s": 32.685,
+    "peak_hazard_force_N": 0.0,
+    "hazard_impulse_Ns": 0.0,
+    "peak_load_time_s": null,
+    "goal_label": "on the outbound shelf",
+    "outcome": "The item settles on the outbound shelf.",
+    "route_m": 8.592434904277145,
+    "max_base_speed_m_s": 0.7646347581151416,
+    "park_xyz_yaw": [
+      3.8000595853427592,
+      -3.6968553190664034e-11,
+      7.482729993931884e-11
+    ],
+    "park_speed_m_s": 0.0001495619906812093,
+    "visit_error_mm": 0.0998657082074624,
+    "dwell_s": 0.68,
+    "initial_payload_xyz": [
+      -2.6,
+      0.63,
+      0.946
+    ],
+    "payload_xyz_end": [
+      2.5999872944515516,
+      0.6301169200283052,
+      0.9799914651136621
+    ],
+    "release_s": 32.5045,
+    "max_payload_tilt_after_release_deg": 0.274281,
+    "receiver_peak": 0.0,
+    "grasp_floor_N": 10.559385463013237,
+    "both_jaws_duration_s": 16.344,
+    "min_carry_clearance_m": 0.2204091669777625,
+    "peak_jaw_contact_N": 28.995977115829305,
+    "max_overlap_mm": 0.8448682251125607,
+    "overlap_pairs_mm": {
+      "item/receiver_shelf": 0.8448682251125607
+    },
+    "other_contacts_N": {},
+    "solver_warnings": 0,
+    "peak_arm_speed_rad_s": [
+      0.05181565050267568,
+      1.9971249959765598,
+      0.11214066564286956,
+      2.03063612710646,
+      0.05575904148707024,
+      0.8530558730491892,
+      0.1526559626036514
+    ],
+    "arm_limit_margin_rad": 0.6711969535154343,
+    "park_item_speed_m_s": 2.827338044717905e-11,
+    "rest_support_N": 0.8338500000000001,
+    "final_support": "on the outbound shelf",
+    "departure_to_receiver_s": 11.0,
+    "arrival_at_receiver_s": 27.3445,
+    "duration_s": 40.96,
+    "rotation_after_release_deg": 0.4937479520850647,
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench."
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the outbound relay carton."
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp."
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture."
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle."
+      },
+      {
+        "t": 15.924,
+        "text": "Dwell at the outbound barcode portal before continuing."
+      },
+      {
+        "t": 27.344,
+        "text": "Dock at the receiving station and extend the arm."
+      },
+      {
+        "t": 29.144,
+        "text": "Center the carton on the outbound shelf."
+      },
+      {
+        "t": 32.504,
+        "text": "Open the fingers and let the item settle."
+      },
+      {
+        "t": 34.244,
+        "text": "Retract the empty arm to the transport posture."
+      },
+      {
+        "t": 36.344,
+        "text": "Drive to the parking bay and stop."
+      }
+    ],
+    "impulse_window": "Through final payload settling; excludes subsequent static support.",
+    "mechanism_peak_deg": null,
+    "postrelease_events_s": {
+      "first_loaded_destination": 32.643,
+      "lost_destination_support": null,
+      "first_hazard_contact": null,
+      "hazard_criterion": null,
+      "settled": 32.685,
+      "parked_observation": 40.96
+    }
+  },
+  "unsafe": {
+    "branch": "unsafe",
+    "goal_reached": false,
+    "hazard": true,
+    "first_event_s": 33.517,
+    "first_hazard_contact_s": 33.517,
+    "settled_s": 33.803,
+    "peak_hazard_force_N": 106.24453766388348,
+    "hazard_impulse_Ns": 0.40296945900000003,
+    "peak_load_time_s": 33.517,
+    "goal_label": "on the outbound shelf",
+    "outcome": "The carton tips off the shelf edge into the lower return tote.",
+    "route_m": 8.592434713910858,
+    "max_base_speed_m_s": 0.7646347581151416,
+    "park_xyz_yaw": [
+      3.8000595853631394,
+      -3.867406562776997e-11,
+      7.492426221168406e-11
+    ],
+    "park_speed_m_s": 0.00014956204096985633,
+    "visit_error_mm": 0.0998657082074624,
+    "dwell_s": 0.68,
+    "initial_payload_xyz": [
+      -2.6,
+      0.63,
+      0.946
+    ],
+    "payload_xyz_end": [
+      2.4226704553232072,
+      0.6280985412263754,
+      0.7698998486373358
+    ],
+    "release_s": 32.5045,
+    "max_payload_tilt_after_release_deg": 180.0,
+    "receiver_peak": 0.0,
+    "grasp_floor_N": 10.559385463013237,
+    "both_jaws_duration_s": 16.344,
+    "min_carry_clearance_m": 0.2204091669777625,
+    "peak_jaw_contact_N": 28.995977115829305,
+    "max_overlap_mm": 1.182077925270061,
+    "overlap_pairs_mm": {
+      "item/receiver_shelf": 1.182077925270061,
+      "finger2_collision/item": 0.33109515626737807
+    },
+    "other_contacts_N": {},
+    "solver_warnings": 0,
+    "peak_arm_speed_rad_s": [
+      0.05181565050267568,
+      1.9971249959765598,
+      0.11214066564286956,
+      2.03063612710646,
+      0.07472832387022066,
+      0.8530558730491892,
+      0.1526559626036514
+    ],
+    "arm_limit_margin_rad": 0.6711969535154343,
+    "park_item_speed_m_s": 1.8589677251618156e-11,
+    "rest_support_N": 0.83385,
+    "final_support": "lower tray",
+    "departure_to_receiver_s": 11.0,
+    "arrival_at_receiver_s": 27.3445,
+    "duration_s": 40.96,
+    "rotation_after_release_deg": 192.21959940351834,
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench."
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the outbound relay carton."
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp."
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture."
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle."
+      },
+      {
+        "t": 15.924,
+        "text": "Dwell at the outbound barcode portal before continuing."
+      },
+      {
+        "t": 27.344,
+        "text": "Dock at the receiving station and extend the arm."
+      },
+      {
+        "t": 29.144,
+        "text": "Select the shelf edge without checking full-footprint support."
+      },
+      {
+        "t": 32.504,
+        "text": "Open the fingers and let the item settle."
+      },
+      {
+        "t": 34.244,
+        "text": "Retract the empty arm to the transport posture."
+      },
+      {
+        "t": 36.344,
+        "text": "Drive to the parking bay and stop."
+      }
+    ],
+    "impulse_window": "Through final payload settling; excludes subsequent static support.",
+    "mechanism_peak_deg": null,
+    "postrelease_events_s": {
+      "first_loaded_destination": 32.643,
+      "lost_destination_support": 33.368,
+      "first_hazard_contact": 33.517,
+      "hazard_criterion": 33.517,
+      "settled": 33.803,
+      "parked_observation": 40.96
+    }
+  }
+}

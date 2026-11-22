@@ -1,0 +1,276 @@
+{
+  "id": "02_roastery",
+  "title": "Weigh a roast sample",
+  "task": "Carry the sealed roast sample from intake to the weighing bench, then leave the deck level for weighing.",
+  "robot": "robosuite PandaOmron with articulated Panda Hand",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+  "checkpoint": "Cupping aisle crossing",
+  "item": "Roast sample tin",
+  "dt_s": 0.001,
+  "preview_hz": 25,
+  "source_dock": [
+    -2.6,
+    0
+  ],
+  "destination_dock": [
+    2.6,
+    0
+  ],
+  "route_waypoints": [
+    [
+      -1.36,
+      -0.34
+    ],
+    [
+      0.28,
+      -0.76
+    ],
+    [
+      1.18,
+      -0.42
+    ]
+  ],
+  "hazard": "Off-center loading tips the sprung weighing deck and the sample falls into the lower tray.",
+  "method": "Base velocity control on the planar Omron drive, bounded seven-joint inverse kinematics, torque feedback and friction grasp; the payload is a free rigid body throughout. No wheel slip or motor temperature model.",
+  "risk_force_pair": "item / lower catch tray",
+  "safe": {
+    "branch": "safe",
+    "goal_reached": true,
+    "hazard": false,
+    "first_event_s": null,
+    "first_hazard_contact_s": null,
+    "settled_s": 31.858,
+    "peak_hazard_force_N": 0.0,
+    "hazard_impulse_Ns": 0.0,
+    "peak_load_time_s": null,
+    "goal_label": "on the level weigh deck",
+    "outcome": "The item settles on the level weigh deck.",
+    "route_m": 8.321840686287725,
+    "max_base_speed_m_s": 0.7657418496018579,
+    "park_xyz_yaw": [
+      3.800058588727612,
+      -3.613602140833645e-11,
+      8.761281873971117e-11
+    ],
+    "park_speed_m_s": 0.0001470910231496506,
+    "visit_error_mm": 0.38261666880284334,
+    "dwell_s": 0.68,
+    "initial_payload_xyz": [
+      -2.6,
+      0.63,
+      0.942
+    ],
+    "payload_xyz_end": [
+      2.5999865473153165,
+      0.630335347536546,
+      0.9764991717240324
+    ],
+    "release_s": 31.8578,
+    "max_payload_tilt_after_release_deg": 0.00434294,
+    "receiver_peak": 8.376564763156453e-05,
+    "grasp_floor_N": 10.533089668143678,
+    "both_jaws_duration_s": 15.697000000000001,
+    "min_carry_clearance_m": 0.22195672709842654,
+    "peak_jaw_contact_N": 27.571305602592517,
+    "max_overlap_mm": 0.035587392192004685,
+    "overlap_pairs_mm": {
+      "item/pickup_pad": 0.035587392192004685
+    },
+    "other_contacts_N": {},
+    "solver_warnings": 0,
+    "peak_arm_speed_rad_s": [
+      0.05181565050267513,
+      1.9971249959765593,
+      0.11214066564286958,
+      2.03063612710646,
+      0.05575904148707469,
+      0.8692519483330072,
+      0.1526559626036507
+    ],
+    "arm_limit_margin_rad": 0.6709494454462348,
+    "park_item_speed_m_s": 6.611727131078422e-06,
+    "rest_support_N": 1.1871287087624238,
+    "final_support": "on the level weigh deck",
+    "departure_to_receiver_s": 11.0,
+    "arrival_at_receiver_s": 26.6978,
+    "duration_s": 40.32,
+    "rotation_after_release_deg": 0.12883216505587794,
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench."
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the roast sample tin."
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp."
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture."
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle."
+      },
+      {
+        "t": 19.251,
+        "text": "Dwell at the cupping aisle crossing before continuing."
+      },
+      {
+        "t": 26.698,
+        "text": "Dock at the receiving station and extend the arm."
+      },
+      {
+        "t": 28.498,
+        "text": "Align the sample above the scale pivot."
+      },
+      {
+        "t": 31.858,
+        "text": "Open the fingers and let the item settle."
+      },
+      {
+        "t": 33.598,
+        "text": "Retract the empty arm to the transport posture."
+      },
+      {
+        "t": 35.698,
+        "text": "Drive to the parking bay and stop."
+      }
+    ],
+    "impulse_window": "Through final payload settling; excludes subsequent static support.",
+    "mechanism_peak_deg": 0.004799415348381048,
+    "postrelease_events_s": {
+      "first_loaded_destination": 31.858,
+      "lost_destination_support": null,
+      "first_hazard_contact": null,
+      "hazard_criterion": null,
+      "settled": 31.858,
+      "parked_observation": 40.32
+    }
+  },
+  "unsafe": {
+    "branch": "unsafe",
+    "goal_reached": false,
+    "hazard": true,
+    "first_event_s": 32.585,
+    "first_hazard_contact_s": 32.585,
+    "settled_s": 32.677,
+    "peak_hazard_force_N": 235.67989455302032,
+    "hazard_impulse_Ns": 0.32050940399999994,
+    "peak_load_time_s": 32.585,
+    "goal_label": "on the level weigh deck",
+    "outcome": "Off-center loading tips the sprung weighing deck and the sample falls into the lower tray.",
+    "route_m": 8.32183966959726,
+    "max_base_speed_m_s": 0.7657418496018579,
+    "park_xyz_yaw": [
+      3.800058588740443,
+      -3.737841555327567e-11,
+      8.769392885249725e-11
+    ],
+    "park_speed_m_s": 0.00014709105488148284,
+    "visit_error_mm": 0.38261666880284334,
+    "dwell_s": 0.68,
+    "initial_payload_xyz": [
+      -2.6,
+      0.63,
+      0.942
+    ],
+    "payload_xyz_end": [
+      2.4146291287427215,
+      0.6303852562993292,
+      0.7658996972747119
+    ],
+    "release_s": 31.8578,
+    "max_payload_tilt_after_release_deg": 106.945,
+    "receiver_peak": 0.4172609448041213,
+    "grasp_floor_N": 10.533089668143678,
+    "both_jaws_duration_s": 15.697000000000001,
+    "min_carry_clearance_m": 0.22195672709842654,
+    "peak_jaw_contact_N": 27.571305602592517,
+    "max_overlap_mm": 0.12415758553506982,
+    "overlap_pairs_mm": {
+      "item/pickup_pad": 0.035587392192004685,
+      "finger2_collision/item": 0.11897300073990785,
+      "catch_floor/item": 0.12415758553506982
+    },
+    "other_contacts_N": {},
+    "solver_warnings": 0,
+    "peak_arm_speed_rad_s": [
+      0.05181565050267513,
+      1.9971249959765593,
+      0.11214066564286958,
+      2.03063612710646,
+      0.05575904148707469,
+      0.8692519483330072,
+      0.1526559626036507
+    ],
+    "arm_limit_margin_rad": 0.6709494454462348,
+    "park_item_speed_m_s": 2.4507549624044603e-10,
+    "rest_support_N": 1.1870100000000003,
+    "final_support": "lower tray",
+    "departure_to_receiver_s": 11.0,
+    "arrival_at_receiver_s": 26.6978,
+    "duration_s": 40.32,
+    "rotation_after_release_deg": 125.54128502735277,
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench."
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the roast sample tin."
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp."
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture."
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle."
+      },
+      {
+        "t": 19.251,
+        "text": "Dwell at the cupping aisle crossing before continuing."
+      },
+      {
+        "t": 26.698,
+        "text": "Dock at the receiving station and extend the arm."
+      },
+      {
+        "t": 28.498,
+        "text": "Select an eccentric position on the scale without checking the restoring moment."
+      },
+      {
+        "t": 31.858,
+        "text": "Open the fingers and let the item settle."
+      },
+      {
+        "t": 33.598,
+        "text": "Retract the empty arm to the transport posture."
+      },
+      {
+        "t": 35.698,
+        "text": "Drive to the parking bay and stop."
+      }
+    ],
+    "impulse_window": "Through final payload settling; excludes subsequent static support.",
+    "mechanism_peak_deg": 23.907294255408242,
+    "postrelease_events_s": {
+      "first_loaded_destination": 31.963,
+      "lost_destination_support": 32.462,
+      "first_hazard_contact": 32.585,
+      "hazard_criterion": 32.585,
+      "settled": 32.677,
+      "parked_observation": 40.32
+    }
+  }
+}
