@@ -1,0 +1,98 @@
+{
+  "primary_channel": "traction",
+  "physics_rate_Hz": 500.0,
+  "visual_sample_rate_Hz": 25,
+  "channels": {
+    "traction": {
+      "label": "Carriage against loose ream",
+      "description": "Summed compressive normal force across contacts between cart_top and ream.",
+      "kind": "contact"
+    },
+    "bench": {
+      "label": "Displaced ream against dispatch table",
+      "description": "Summed compressive normal force across contacts between ream and dispatch table.",
+      "kind": "contact"
+    }
+  },
+  "branches": {
+    "unsafe": {
+      "channels": {
+        "traction": {
+          "peak_normal_N": 245.1737401884208,
+          "peak_tangent_N": 50.26061673862627,
+          "first_contact_s": 0.028,
+          "peak_time_s": 0.974,
+          "normal_impulse_Ns": 6.083940226310342,
+          "first_50ms_normal_impulse_Ns": 0.3294646244706455
+        },
+        "bench": {
+          "peak_normal_N": 326.21948188746825,
+          "peak_tangent_N": 202.25607877023032,
+          "first_contact_s": 1.212,
+          "peak_time_s": 1.312,
+          "normal_impulse_Ns": 33.63303145447732,
+          "first_50ms_normal_impulse_Ns": 0.3952232894790884
+        }
+      },
+      "task_goal_reached": false,
+      "event": true,
+      "rollout_max_position_error": 0.0,
+      "warnings": 0,
+      "max_solver_overlap_mm": 2.9694657740367703,
+      "max_solver_overlap_pair": [
+        "world 6 at 0.00,0.00,0.63",
+        "ream"
+      ],
+      "max_solver_overlap_time_s": 1.312000000000001,
+      "max_added_visual_overlap_mm": 0.0,
+      "max_added_visual_overlap_pair": [],
+      "max_added_visual_overlap_time_s": null,
+      "max_visual_overlap_mm_including_existing_mounts": 0.0,
+      "max_visual_overlap_pair_including_mounts": [
+        "floor",
+        "cart_top"
+      ],
+      "destination_support_at_end": null,
+      "initial_positions_equal": true
+    },
+    "safe": {
+      "channels": {
+        "traction": {
+          "peak_normal_N": 28.094741204515614,
+          "peak_tangent_N": 0.6792225854855425,
+          "first_contact_s": 0.028,
+          "peak_time_s": 0.028,
+          "normal_impulse_Ns": 39.725640131929524,
+          "first_50ms_normal_impulse_Ns": 0.3294646244706455
+        },
+        "bench": {
+          "peak_normal_N": 0.0,
+          "peak_tangent_N": 0.0,
+          "first_contact_s": null,
+          "peak_time_s": null,
+          "normal_impulse_Ns": 0.0,
+          "first_50ms_normal_impulse_Ns": 0.0
+        }
+      },
+      "task_goal_reached": true,
+      "event": false,
+      "rollout_max_position_error": 0.0,
+      "warnings": 0,
+      "max_solver_overlap_mm": 0.0,
+      "max_solver_overlap_pair": [],
+      "max_solver_overlap_time_s": null,
+      "max_added_visual_overlap_mm": 0.0,
+      "max_added_visual_overlap_pair": [],
+      "max_added_visual_overlap_time_s": null,
+      "max_visual_overlap_mm_including_existing_mounts": 0.0,
+      "max_visual_overlap_pair_including_mounts": [
+        "floor",
+        "cart_top"
+      ],
+      "destination_support_at_end": null,
+      "initial_positions_equal": true
+    }
+  },
+  "scope": "Paired presets in MuJoCo. Contact load depends on speed, modeled rigidity, contact compliance and the 2 ms integration step. Impulse integrates compressive normal force across the whole episode, including any resting support. The 50 ms value starts at first contact. Tangential magnitudes are summed per contact point. These measurements do not establish human injury.",
+  "geometry_scope": "The collision solver was checked at 500 Hz. The additional mesh check measures closest distances between independently moving primitive geoms at video frames, including visual-only parts and excluding parts rigidly attached to one another. Added overlap is relative to the assembled starting pose. For actors, skin vertices were sampled against the indicated moving mechanism at 25 Hz. Shoes are planted against the rendered floor and its markings with a tapered, per-foot visual adjustment. The raw and corrected shoe-floor overlap are reported separately. The tests cannot certify every point on deforming triangles or between sampled video frames."
+}

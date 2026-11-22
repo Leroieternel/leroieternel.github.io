@@ -1,0 +1,119 @@
+{
+  "primary_channel": "catch",
+  "physics_rate_Hz": 500.0,
+  "visual_sample_rate_Hz": 25,
+  "channels": {
+    "catch": {
+      "label": "Parcel against catch pan",
+      "description": "Summed compressive normal force across contacts between parcel and catch.",
+      "kind": "contact"
+    },
+    "delivery": {
+      "label": "Parcel against outfeed",
+      "description": "Summed compressive normal force across contacts between parcel and outfeed.",
+      "kind": "contact"
+    },
+    "drive": {
+      "label": "Pusher against parcel",
+      "description": "Summed compressive normal force across contacts between pusher_face and parcel.",
+      "kind": "contact"
+    }
+  },
+  "branches": {
+    "unsafe": {
+      "channels": {
+        "catch": {
+          "peak_normal_N": 831.0306264287528,
+          "peak_tangent_N": 149.8274093699955,
+          "first_contact_s": 1.9060000000000001,
+          "peak_time_s": 1.9060000000000001,
+          "normal_impulse_Ns": 23.72740895480337,
+          "first_50ms_normal_impulse_Ns": 1.6620612528575056
+        },
+        "delivery": {
+          "peak_normal_N": 0.0,
+          "peak_tangent_N": 0.0,
+          "first_contact_s": null,
+          "peak_time_s": null,
+          "normal_impulse_Ns": 0.0,
+          "first_50ms_normal_impulse_Ns": 0.0
+        },
+        "drive": {
+          "peak_normal_N": 168.03148500658585,
+          "peak_tangent_N": 104.17952070408323,
+          "first_contact_s": 0.72,
+          "peak_time_s": 0.72,
+          "normal_impulse_Ns": 3.410634206528205,
+          "first_50ms_normal_impulse_Ns": 0.3360629700131717
+        }
+      },
+      "task_goal_reached": false,
+      "event": true,
+      "rollout_max_position_error": 0.0,
+      "warnings": 0,
+      "max_solver_overlap_mm": 3.2172482896257533,
+      "max_solver_overlap_pair": [
+        "catch",
+        "parcel"
+      ],
+      "max_solver_overlap_time_s": 1.9060000000000015,
+      "max_added_visual_overlap_mm": 0.0,
+      "max_added_visual_overlap_pair": [],
+      "max_added_visual_overlap_time_s": null,
+      "max_visual_overlap_mm_including_existing_mounts": 0.0,
+      "max_visual_overlap_pair_including_mounts": [
+        "floor",
+        "bridge_deck"
+      ],
+      "destination_support_at_end": false,
+      "initial_positions_equal": true
+    },
+    "safe": {
+      "channels": {
+        "catch": {
+          "peak_normal_N": 0.0,
+          "peak_tangent_N": 0.0,
+          "first_contact_s": null,
+          "peak_time_s": null,
+          "normal_impulse_Ns": 0.0,
+          "first_50ms_normal_impulse_Ns": 0.0
+        },
+        "delivery": {
+          "peak_normal_N": 192.55780073859535,
+          "peak_tangent_N": 119.38583645792912,
+          "first_contact_s": 3.696,
+          "peak_time_s": 3.696,
+          "normal_impulse_Ns": 15.472836830098137,
+          "first_50ms_normal_impulse_Ns": 0.3851156014771907
+        },
+        "drive": {
+          "peak_normal_N": 168.03148500622046,
+          "peak_tangent_N": 104.1795207038567,
+          "first_contact_s": 2.12,
+          "peak_time_s": 2.12,
+          "normal_impulse_Ns": 11.285482305407436,
+          "first_50ms_normal_impulse_Ns": 0.33606297001244095
+        }
+      },
+      "task_goal_reached": true,
+      "event": false,
+      "rollout_max_position_error": 0.0,
+      "warnings": 0,
+      "max_solver_overlap_mm": 0.0,
+      "max_solver_overlap_pair": [],
+      "max_solver_overlap_time_s": null,
+      "max_added_visual_overlap_mm": 0.0,
+      "max_added_visual_overlap_pair": [],
+      "max_added_visual_overlap_time_s": null,
+      "max_visual_overlap_mm_including_existing_mounts": 0.0,
+      "max_visual_overlap_pair_including_mounts": [
+        "floor",
+        "bridge_deck"
+      ],
+      "destination_support_at_end": true,
+      "initial_positions_equal": true
+    }
+  },
+  "scope": "Paired presets in MuJoCo. Contact load depends on speed, modeled rigidity, contact compliance and the 2 ms integration step. Impulse integrates compressive normal force across the whole episode, including any resting support. The 50 ms value starts at first contact. Tangential magnitudes are summed per contact point. These measurements do not establish human injury.",
+  "geometry_scope": "The collision solver was checked at 500 Hz. The additional mesh check measures closest distances between independently moving primitive geoms at video frames, including visual-only parts and excluding parts rigidly attached to one another. Added overlap is relative to the assembled starting pose. For actors, skin vertices were sampled against the indicated moving mechanism at 25 Hz. Shoes are planted against the rendered floor and its markings with a tapered, per-foot visual adjustment. The raw and corrected shoe-floor overlap are reported separately. The tests cannot certify every point on deforming triangles or between sampled video frames."
+}
