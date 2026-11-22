@@ -75,6 +75,7 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [],
     "unsafe": {
       "summary": "Goal reached · 0.36 s departure delay",
       "steps": [
@@ -135,8 +136,8 @@ window.WORKCELLS = [
   },
   {
     "id": "02_service",
-    "short": "Inspection-bay bypass",
-    "title": "Inspection-bay bypass",
+    "short": "Parts verification and delivery",
+    "title": "Parts verification and delivery",
     "robot": "Clearpath Husky A200",
     "form": "Four-wheel skid-steer base",
     "source": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/husky",
@@ -144,14 +145,14 @@ window.WORKCELLS = [
     "robotShort": "Husky A200",
     "base": "media/02_service",
     "category": "Service inspection bay",
-    "description": "Park the Husky at the service bay while a technician inspects a module.",
-    "duration": 10.4,
-    "event": 1.99,
-    "detailTime": 2.84,
+    "description": "Carry a sealed spare-parts case from dispatch to the load reader, hold it for registration, then reach the service dock past an occupied workbench.",
+    "duration": 12.4,
+    "event": 5.846,
+    "detailTime": 6.72,
     "detailByBranch": {},
     "detailIntro": "The two close-ups use the same viewpoint and simulation time.",
-    "planIntro": "Curvature-continuous route lattice with footprint clearance costs.",
-    "goalTest": "Whole chassis inside the service bay, center error under 65 mm and speed below 0.055 m/s.",
+    "planIntro": "A two-leg mission with a measured registration interlock. A smooth departure segment aligns the case at the reader. After the full scan dwell, an 18-candidate curvature-continuous route search selects a wheel-driven path from check-in to the receiving dock.",
+    "goalTest": "Register the secured parts case at the side reader with at least 0.72 s of continuous alignment at less than 25 mm/s, then park the complete Husky footprint in the receiving bay with center error below 65 mm and terminal speed below 55 mm/s.",
     "criterion": "Positive shortfall below the 460 mm study clearance between the robot collision envelope and the nearest lower-leg or shoe collider.",
     "method": "MuJoCo sampled the Husky / technician contact at 500 Hz. Both human-contact traces are zero. The event is a modeled clearance violation.",
     "facts": [
@@ -173,6 +174,10 @@ window.WORKCELLS = [
       ]
     ],
     "charts": [
+      [
+        "mission.png",
+        "Measured wheel-base paths and speed, including the shared stop at the load reader."
+      ],
       [
         "trace.png",
         "Clearance shortfall in both rollouts. The vertical marker shows the first unsafe event."
@@ -209,33 +214,67 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [
+      [
+        "Reader dwell",
+        2.936
+      ],
+      [
+        "Read complete",
+        3.656
+      ],
+      [
+        "Unsafe passes worker",
+        5.846
+      ],
+      [
+        "Safe enters final park",
+        11.450000000000001
+      ]
+    ],
     "unsafe": {
       "summary": "Goal reached · 0.00 m lateral offset",
       "steps": [
         {
           "t": 0.0,
-          "text": "Locate the stationary technician reading the order at the inspection stand."
+          "text": "Hold the sealed spare-parts case in its rack at dispatch."
         },
         {
-          "t": 0.04,
-          "text": "Evaluate 18 routes using the relaxed clearance criterion. Select the shortest centerline."
+          "t": 0.2,
+          "text": "Drive forward and align the side code with the fixed reader."
         },
         {
-          "t": 0.6,
-          "text": "Drive directly past the technician at the service stand."
+          "t": 2.936,
+          "text": "Hold alignment below 25 mm/s for a continuous 0.72 s scan."
         },
         {
-          "t": 1.99,
-          "text": "The modeled separation falls below the study clearance limit. Robot–human contact remains zero.",
-          "hazard": true
+          "t": 3.656,
+          "text": "Register the case and authorize the second leg."
         },
         {
-          "t": 5.685167464114833,
-          "text": "Brake while tracking the marked parking bay."
+          "t": 3.8560000000000003,
+          "text": "Select the short aisle centerline past the occupied bench."
         },
         {
-          "t": 10.4,
-          "text": "Verify standstill with the full base footprint inside the receiving bay."
+          "t": 5.846,
+          "text": "The route enters the 460 mm study clearance envelope while the technician remains at the bench."
+        },
+        {
+          "t": 5.846,
+          "hazard": true,
+          "text": "Measured event begins. Positive shortfall below the 460 mm study clearance between the robot collision envelope and the nearest lower-leg or shoe collider."
+        },
+        {
+          "t": 7.456,
+          "text": "Continue past the bench toward the receiving bay."
+        },
+        {
+          "t": 10.154,
+          "text": "Brake in the marked receiving bay and hold the load for the receiver."
+        },
+        {
+          "t": 12.4,
+          "text": "Confirm the entire base is parked and the registration is complete."
         }
       ],
       "caption": "The direct route brings the wheel close to the technician’s shoes without physical contact."
@@ -245,27 +284,35 @@ window.WORKCELLS = [
       "steps": [
         {
           "t": 0.0,
-          "text": "Locate the stationary technician reading the order at the inspection stand."
+          "text": "Hold the sealed spare-parts case in its rack at dispatch."
         },
         {
-          "t": 0.04,
-          "text": "Evaluate 18 smooth routes and select the outward path with a 0.45 m nominal offset."
+          "t": 0.2,
+          "text": "Drive forward and align the side code with the fixed reader."
         },
         {
-          "t": 1.0,
-          "text": "Use differential wheel speeds to steer away from the occupied station."
+          "t": 2.936,
+          "text": "Hold alignment below 25 mm/s for a continuous 0.72 s scan."
         },
         {
-          "t": 3.3,
-          "text": "Curve back toward the parking bay once clear of the workstation."
+          "t": 3.656,
+          "text": "Register the case and authorize the second leg."
         },
         {
-          "t": 5.685167464114833,
-          "text": "Brake while tracking the marked parking bay."
+          "t": 3.8560000000000003,
+          "text": "Select a 0.45 m outward route to reserve clearance at the occupied bench."
         },
         {
-          "t": 10.4,
-          "text": "Verify standstill with the full base footprint inside the receiving bay."
+          "t": 7.456,
+          "text": "Continue past the bench toward the receiving bay."
+        },
+        {
+          "t": 11.450000000000001,
+          "text": "Brake in the marked receiving bay and hold the load for the receiver."
+        },
+        {
+          "t": 12.4,
+          "text": "Confirm the entire base is parked and the registration is complete."
         }
       ],
       "caption": "The Husky curves away from the stationary technician."
@@ -347,6 +394,7 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [],
     "unsafe": {
       "summary": "Goal reached · 0 mm clearance lift",
       "steps": [
@@ -477,6 +525,7 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [],
     "unsafe": {
       "summary": "Goal reached · 1.018 m wrist x target",
       "steps": [
@@ -537,47 +586,47 @@ window.WORKCELLS = [
   },
   {
     "id": "05_shared_read",
-    "short": "Shared barcode bench",
-    "title": "Shared bench barcode verification",
+    "short": "Sample delivery and receipt",
+    "title": "Sample delivery and operator acknowledgement",
     "robot": "Franka Emika Panda",
     "form": "Seven-joint single arm",
-    "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+    "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/robots/panda",
     "human": "Person stationary at start",
     "robotShort": "Panda",
     "base": "media/05_shared_read",
     "category": "QA bench",
-    "description": "Read the two lot labels while a stationary inspector reconciles them on a handheld terminal.",
-    "duration": 6.4,
-    "event": 1.722,
-    "detailTime": 3.12,
+    "description": "Deliver an aluminum inspection coupon, open the Panda Hand and return. The operator reaches to confirm the delivery and withdraws.",
+    "duration": 12.200000000000001,
+    "event": 7.518,
+    "detailTime": 7.52,
     "detailByBranch": {},
     "detailIntro": "The two close-ups use the same viewpoint and simulation time.",
-    "planIntro": "Enumerate lift heights and minimize scanner travel. The guarded search tests the occupied hand envelope along the transit. Both use the same bounded Jacobian IK.",
-    "goalTest": "Arm settles at the final label reading pose with maximum final joint error below 0.025 rad.",
-    "criterion": "During lateral travel above 0.12 m/s, scanner-to-glove clearance falls below the 160 mm scenario envelope.",
-    "method": "MuJoCo sampled the Scanner / glove contact at 1000 Hz. Both human-contact traces are zero. The event is a modeled clearance violation.",
+    "planIntro": "Solve bounded seven-joint inverse kinematics for an infeed pickup, transfer, placement and empty return. The guarded policy decelerates the path clock on observed aisle occupancy, holds and resumes. The nominal policy follows the original timing.",
+    "goalTest": "Coupon lifted at least 80 mm, deposited within 20 mm of the receiving nest center, receipt key depressed over 2 mm, and arm in park within 0.03 rad.",
+    "criterion": "The sum of compressive normal forces between the Panda Hand and left glove exceeds the numerical reporting floor of 0.000001 N.",
+    "method": "The solver sums compressive loads only for contacts between the Panda Hand and the glove. Glove pressure on the receipt key is plotted separately. The same reach command drives both trials. The glove can deflect on its passive support.",
     "facts": [
       [
-        "Unsafe peak · fast-transit clearance deficit",
-        "50.5 mm"
+        "Unsafe peak · hand / glove",
+        "4.35 N"
       ],
       [
-        "Safe peak · fast-transit clearance deficit",
-        "0 mm"
-      ],
-      [
-        "Unsafe peak · Scanner / glove",
+        "Safe peak · hand / glove",
         "0 N"
       ],
       [
-        "Safe peak · Scanner / glove",
-        "0 N"
+        "Unsafe contact impulse",
+        "0.08 N·s"
+      ],
+      [
+        "Unsafe loaded time",
+        "22 ms"
       ]
     ],
     "charts": [
       [
-        "trace.png",
-        "Fast-transit clearance deficit in both rollouts. The vertical marker shows the first unsafe event."
+        "motion.png",
+        "Measured contact and wrist speed during the reach."
       ],
       [
         "contact.png",
@@ -609,109 +658,210 @@ window.WORKCELLS = [
       [
         "Safe state log",
         "safe.npz"
+      ],
+      [
+        "Solver samples (CSV)",
+        "solver-traces.csv"
+      ],
+      [
+        "10× slow-motion video",
+        "incident-slow.mp4"
+      ],
+      [
+        "Safe 250 Hz states",
+        "safe.detail.npz"
+      ],
+      [
+        "Unsafe 250 Hz states",
+        "unsafe.detail.npz"
+      ],
+      [
+        "Glove geometry check",
+        "reach-audit.json"
       ]
     ],
+    "chapters": [
+      [
+        "Safe brakes",
+        6.555
+      ],
+      [
+        "Safe holds",
+        6.734
+      ],
+      [
+        "Unsafe touches glove",
+        7.518
+      ],
+      [
+        "Glove contact ends",
+        7.591
+      ],
+      [
+        "Safe resumes",
+        8.566
+      ]
+    ],
+    "slowRange": [
+      6.768,
+      8.818
+    ],
+    "handSource": "https://github.com/ARISE-Initiative/robosuite/blob/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
+    "highSpeed": true,
+    "sequenceCaption": "Approach, outer-finger contact and separation. Each panel is a frame of the same measured run.",
     "unsafe": {
-      "summary": "Goal reached · 0 mm lift",
+      "summary": "Goal reached · nominal return schedule",
       "steps": [
         {
           "t": 0.0,
-          "text": "Acquire the first lot label while the inspector holds the batch terminal."
+          "text": "Open the Panda Hand and approach the infeed nest."
         },
         {
-          "t": 0.48,
-          "text": "Keep the scanner at reading height."
+          "t": 1.58,
+          "text": "Close both jaws around the aluminum coupon."
         },
         {
-          "t": 1.36,
-          "text": "Traverse to the second label along the chosen path."
+          "t": 2.13,
+          "text": "Lift the coupon clear of the infeed rails."
         },
         {
-          "t": 1.722,
+          "t": 2.88,
+          "text": "Transport it to the receiving nest."
+        },
+        {
+          "t": 4.44,
+          "text": "Lower the coupon onto the receiving pad."
+        },
+        {
+          "t": 5.12,
+          "text": "Open the fingers and verify support in the nest."
+        },
+        {
+          "t": 5.58,
+          "text": "Lift the empty hand and follow the return path."
+        },
+        {
+          "t": 6.15,
+          "text": "Follow the nominal return schedule while the operator reaches for the receipt key."
+        },
+        {
+          "t": 7.518,
           "hazard": true,
-          "text": "Measured event begins. During lateral travel above 0.12 m/s, scanner-to-glove clearance falls below the 160 mm scenario envelope."
+          "text": "Measured event begins. The sum of compressive normal forces between the Panda Hand and left glove exceeds the numerical reporting floor of 0.000001 N."
         },
         {
-          "t": 3.78,
-          "text": "Settle over the second label and acquire its code."
-        },
-        {
-          "t": 6.4,
-          "text": "Acquire the final label at its reading pose."
+          "t": 9.700000000000001,
+          "text": "Park the open hand over the infeed side."
         }
       ],
-      "caption": "The low sweep enters the inspector’s hand-clearance envelope."
+      "caption": "An outer gripper surface briefly brushes the glove during the empty return."
     },
     "safe": {
-      "summary": "Goal reached · 160 mm lift",
+      "summary": "Goal reached · occupancy-gated return",
       "steps": [
         {
           "t": 0.0,
-          "text": "Acquire the first lot label while the inspector holds the batch terminal."
+          "text": "Open the Panda Hand and approach the infeed nest."
         },
         {
-          "t": 0.48,
-          "text": "Lift the scanner to the selected clearance height."
+          "t": 1.58,
+          "text": "Close both jaws around the aluminum coupon."
         },
         {
-          "t": 1.36,
-          "text": "Traverse to the second label along the chosen path."
+          "t": 2.13,
+          "text": "Lift the coupon clear of the infeed rails."
         },
         {
-          "t": 3.78,
-          "text": "Settle over the second label and acquire its code."
+          "t": 2.88,
+          "text": "Transport it to the receiving nest."
         },
         {
-          "t": 6.4,
-          "text": "Acquire the final label at its reading pose."
+          "t": 4.44,
+          "text": "Lower the coupon onto the receiving pad."
+        },
+        {
+          "t": 5.12,
+          "text": "Open the fingers and verify support in the nest."
+        },
+        {
+          "t": 5.58,
+          "text": "Lift the empty hand and follow the return path."
+        },
+        {
+          "t": 6.555,
+          "text": "Detect the reaching glove and decelerate along the return path."
+        },
+        {
+          "t": 6.734,
+          "text": "Hold the robot at standstill while the operator confirms receipt."
+        },
+        {
+          "t": 8.566,
+          "text": "Restart the return when the hand clears the monitored aisle."
+        },
+        {
+          "t": 11.730000000000263,
+          "text": "Park the open hand over the infeed side."
         }
       ],
-      "caption": "The scanner moves above the occupied terminal."
+      "caption": "The open hand waits outside the shared return aisle."
     }
   },
   {
     "id": "06_balance",
-    "short": "Balance-pan loading",
-    "title": "Balance-pan loading",
+    "short": "Calibration ball transfer",
+    "title": "Calibration ball transfer",
     "robot": "Franka Emika Panda",
     "form": "Seven-joint single arm",
-    "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+    "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/robots/panda",
     "human": "Object interaction",
     "robotShort": "Panda",
     "base": "media/06_balance",
     "category": "Weighing laboratory",
-    "description": "Place a calibration slug on a spring-centered weighing pan and release the vacuum head.",
-    "duration": 6.4,
-    "event": 3.478,
-    "detailTime": 5.4,
+    "description": "Pick a reference ball from its stock cradle with the Panda Hand, place it on the weighing pan and park the robot after the load settles.",
+    "duration": 18.48,
+    "event": 11.395,
+    "detailTime": 11.76,
     "detailByBranch": {},
     "detailIntro": "The two close-ups use the same viewpoint and simulation time.",
-    "planIntro": "Search candidate placements on the pan and minimize carry distance. The guarded cost is feasible only when predicted static torque keeps the weighing pan inside its reading range.",
-    "goalTest": "Vacuum released, final joint error below 0.025 rad, slug supported by the pan, final pan tilt within 10 degrees.",
-    "criterion": "The weighing pan tips beyond its 10 degree operating window after load transfer.",
-    "method": "MuJoCo sampled the Calibration slug / weighing pan contact at 1000 Hz. Each force panel reports the sum of normal loads over the named contact pairs.",
+    "planIntro": "Enumerate release offsets, minimize the carried distance and solve bounded seven-joint inverse kinematics. The guarded plan requires the ball center to land inside the locating seat. The nominal plan chooses the nearest reachable pan point.",
+    "goalTest": "After release and arm parking, the ball rests on the pan within three degrees, with its speed below 8 mm/s and spin below 0.2 rad/s for at least 0.45 s.",
+    "criterion": "After the ball has loaded the pan, the center passes the downhill edge without a supporting pan contact.",
+    "method": "The free ball is held by friction between the actuated fingers. After release, gravity and contact determine its path. Catch-tray, weighing-pan and left/right finger loads are separate solver channels.",
     "facts": [
       [
-        "Unsafe peak · weighing pan tilt",
-        "26.04 deg"
+        "Unsafe peak · unsupported travel beyond pan edge",
+        "82.21 mm"
       ],
       [
-        "Safe peak · weighing pan tilt",
-        "0.18 deg"
+        "Safe peak · unsupported travel beyond pan edge",
+        "0 mm"
       ],
       [
-        "Unsafe peak · Calibration slug / weighing pan",
-        "121.33 N"
+        "Unsafe pan tilt",
+        "25.59°"
       ],
       [
-        "Safe peak · Calibration slug / weighing pan",
-        "122.64 N"
+        "Unsafe ball rotation after release",
+        "259.44°"
+      ],
+      [
+        "Unsafe peak · Calibration ball / catch tray",
+        "315.08 N"
+      ],
+      [
+        "Safe peak · Calibration ball / catch tray",
+        "0 N"
       ]
     ],
     "charts": [
       [
+        "motion.png",
+        "Ball center height and cumulative rotation through the roll and landing."
+      ],
+      [
         "trace.png",
-        "Weighing pan tilt in both rollouts. The vertical marker shows the first unsafe event."
+        "Unsupported travel beyond pan edge in both rollouts. The vertical marker shows the first unsafe event."
       ],
       [
         "contact.png",
@@ -743,72 +893,149 @@ window.WORKCELLS = [
       [
         "Safe state log",
         "safe.npz"
+      ],
+      [
+        "Solver samples (CSV)",
+        "solver-traces.csv"
+      ],
+      [
+        "10× slow-motion video",
+        "incident-slow.mp4"
+      ],
+      [
+        "Safe 250 Hz states",
+        "safe.detail.npz"
+      ],
+      [
+        "Unsafe 250 Hz states",
+        "unsafe.detail.npz"
       ]
     ],
+    "chapters": [
+      [
+        "Fingers open",
+        10.956
+      ],
+      [
+        "Pan takes load",
+        11.118
+      ],
+      [
+        "Ball leaves pan",
+        11.395
+      ],
+      [
+        "Ball hits tray",
+        11.505
+      ],
+      [
+        "Ball settles",
+        11.558
+      ]
+    ],
+    "slowRange": [
+      10.645,
+      12.695
+    ],
+    "handSource": "https://github.com/ARISE-Initiative/robosuite/blob/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
+    "highSpeed": true,
+    "sequenceCaption": "The ball loads the tilted pan, loses support at the lip, and comes to rest in the catch tray. All frames are from the unsafe run.",
     "unsafe": {
-      "summary": "Goal missed · 0.041 m placement y",
+      "summary": "Goal missed · 0.030 m placement y",
       "steps": [
         {
           "t": 0.0,
-          "text": "Begin with the calibrated slug sealed to the vacuum pad."
+          "text": "Start with the inspection ball resting in the stock cradle and the hand open."
         },
         {
-          "t": 0.35,
-          "text": "Carry the slug above the selected point on the weighing pan."
+          "t": 1.056,
+          "text": "Move over the cradle, then lower both fingers on opposite sides of the ball."
         },
         {
-          "t": 2.44,
-          "text": "Lower to the short release height."
+          "t": 3.5475,
+          "text": "Close the Panda Hand and build contact on both finger pads."
         },
         {
-          "t": 3.38,
-          "text": "Vent the pad and transfer the load to the spring-centered pan."
+          "t": 4.983,
+          "text": "Lift the ball free of its cradle."
         },
         {
-          "t": 3.478,
+          "t": 6.764999999999999,
+          "text": "Select the shortest transfer to an off-center point on the weighing pan."
+        },
+        {
+          "t": 9.289499999999999,
+          "text": "Lower the ball to the selected release height."
+        },
+        {
+          "t": 10.956,
+          "text": "Open both fingers. The ball is free to move under gravity and contact forces."
+        },
+        {
+          "t": 11.385,
+          "text": "Retract the open hand above the pan."
+        },
+        {
+          "t": 11.395,
           "hazard": true,
-          "text": "Measured event begins. The weighing pan tips beyond its 10 degree operating window after load transfer."
+          "text": "Measured event begins. After the ball has loaded the pan, the center passes the downhill edge without a supporting pan contact."
         },
         {
-          "t": 3.5,
-          "text": "Lift the empty pad and allow the balance to settle."
+          "t": 12.952499999999999,
+          "text": "Return the unladen arm to its park pose."
         },
         {
-          "t": 6.4,
-          "text": "The pan leaves its reading range after the off-center load transfer."
+          "t": 18.48,
+          "text": "Check the final support and settled motion."
         }
       ],
-      "caption": "The load near the pan end rotates the spring-centered plate."
+      "caption": "The loose ball has rolled off the discharge edge into the rubber-lined catch tray."
     },
     "safe": {
       "summary": "Goal reached · 0.145 m placement y",
       "steps": [
         {
           "t": 0.0,
-          "text": "Begin with the calibrated slug sealed to the vacuum pad."
+          "text": "Start with the inspection ball resting in the stock cradle and the hand open."
         },
         {
-          "t": 0.35,
-          "text": "Carry the slug above the selected point on the weighing pan."
+          "t": 1.056,
+          "text": "Move over the cradle, then lower both fingers on opposite sides of the ball."
         },
         {
-          "t": 2.44,
-          "text": "Lower to the short release height."
+          "t": 3.5475,
+          "text": "Close the Panda Hand and build contact on both finger pads."
         },
         {
-          "t": 3.38,
-          "text": "Vent the pad and transfer the load to the spring-centered pan."
+          "t": 4.983,
+          "text": "Lift the ball free of its cradle."
         },
         {
-          "t": 3.5,
-          "text": "Lift the empty pad and allow the balance to settle."
+          "t": 6.764999999999999,
+          "text": "Transfer the ball above the central seat."
         },
         {
-          "t": 6.4,
-          "text": "The pan settles with the slug supported inside its reading range."
+          "t": 9.289499999999999,
+          "text": "Lower the ball to the selected release height."
+        },
+        {
+          "t": 10.956,
+          "text": "Open both fingers. The ball is free to move under gravity and contact forces."
+        },
+        {
+          "t": 11.385,
+          "text": "Retract the open hand above the pan."
+        },
+        {
+          "t": 12.952499999999999,
+          "text": "Return the unladen arm to its park pose."
+        },
+        {
+          "t": 18.48,
+          "text": "Check the final support and settled motion."
         }
       ],
-      "caption": "The centered slug leaves the pan level."
+      "caption": "The calibration ball rests on the pan after the hand withdraws."
     }
   },
   {
@@ -823,19 +1050,19 @@ window.WORKCELLS = [
     "base": "media/07_aperture",
     "category": "Gauge inspection station",
     "description": "Transfer the retained gauge bar through a narrow calibration gate and park it on the far side.",
-    "duration": 6.4,
+    "duration": 12.0,
     "event": 3.126,
-    "detailTime": 3.16,
+    "detailTime": 3.48,
     "detailByBranch": {},
     "detailIntro": "The two close-ups use the same viewpoint and simulation time.",
-    "planIntro": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center.",
+    "planIntro": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center. A loaded post triggers a smooth withdrawal, a settling interval and a second search using the full footprint before the robot retries.",
     "goalTest": "Retained gauge reaches the far datum with maximum final joint error below 0.025 rad.",
     "criterion": "Either spring-mounted opening post deflects beyond 5 degrees when the retained bar contacts it.",
     "method": "MuJoCo sampled the Carried gauge / opening posts contact at 1000 Hz. Each force panel reports the sum of normal loads over the named contact pairs.",
     "facts": [
       [
         "Unsafe peak · gauge-post deflection",
-        "6.56 deg"
+        "22.79 deg"
       ],
       [
         "Safe peak · gauge-post deflection",
@@ -843,7 +1070,7 @@ window.WORKCELLS = [
       ],
       [
         "Unsafe peak · Carried gauge / opening posts",
-        "69.08 N"
+        "242.8 N"
       ],
       [
         "Safe peak · Carried gauge / opening posts",
@@ -887,8 +1114,26 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [
+      [
+        "First post contact",
+        3.093
+      ],
+      [
+        "Post recovered",
+        5.546
+      ],
+      [
+        "Retry through gate",
+        7.496
+      ],
+      [
+        "Parked at far datum",
+        11.246
+      ]
+    ],
     "unsafe": {
-      "summary": "Goal missed · 0° gauge yaw",
+      "summary": "Goal reached · 0° gauge yaw",
       "steps": [
         {
           "t": 0.0,
@@ -904,12 +1149,32 @@ window.WORKCELLS = [
         },
         {
           "t": 3.126,
-          "text": "The bar deflects a gate post. Interrupt the transfer and withdraw along the entry path.",
-          "hazard": true
+          "text": "The crosswise bar pushes the post. Back the bar out to the entry datum."
         },
         {
-          "t": 6.4,
-          "text": "The robot returns to the entry side after the gate contact."
+          "t": 3.126,
+          "hazard": true,
+          "text": "Measured event begins. Either spring-mounted opening post deflects beyond 5 degrees when the retained bar contacts it."
+        },
+        {
+          "t": 4.826,
+          "text": "Hold at the entry until the spring posts return upright."
+        },
+        {
+          "t": 5.896,
+          "text": "Replan with the full bar footprint and rotate the tool by 60 degrees."
+        },
+        {
+          "t": 7.496,
+          "text": "Pass through the gate on the revised trajectory."
+        },
+        {
+          "t": 9.946,
+          "text": "Return the bar to its datum orientation and park beyond the gate."
+        },
+        {
+          "t": 12.0,
+          "text": "The retained bar reaches the far datum."
         }
       ],
       "caption": "The crosswise bar deflects the opening post."
@@ -934,7 +1199,7 @@ window.WORKCELLS = [
           "text": "Return the gauge to its datum orientation and park."
         },
         {
-          "t": 6.4,
+          "t": 12.0,
           "text": "The retained bar reaches the far datum."
         }
       ],
@@ -1020,6 +1285,7 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [],
     "unsafe": {
       "summary": "Goal missed · 1.96 s release",
       "steps": [
@@ -1162,6 +1428,7 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [],
     "unsafe": {
       "summary": "Goal reached · 0.72 s transfer",
       "steps": [
@@ -1288,6 +1555,7 @@ window.WORKCELLS = [
         "safe.npz"
       ]
     ],
+    "chapters": [],
     "unsafe": {
       "summary": "Goal reached · 0 mm clearance lift",
       "steps": [

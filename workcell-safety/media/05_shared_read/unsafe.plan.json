@@ -3,77 +3,56 @@
   "id": "05",
   "robot": "Franka Emika Panda",
   "branch": "unsafe",
-  "task": "Read the two lot labels while a stationary inspector reconciles them on a handheld terminal.",
-  "planner": "Enumerate lift heights and minimize scanner travel. The guarded search tests the occupied hand envelope along the transit. Both use the same bounded Jacobian IK.",
+  "task": "Deliver an aluminum inspection coupon, open the Panda Hand and return. The operator reaches to confirm the delivery and withdraws.",
+  "planner": "Solve bounded seven-joint inverse kinematics for an infeed pickup, transfer, placement and empty return. The guarded policy decelerates the path clock on observed aisle occupancy, holds and resumes. The nominal policy follows the original timing.",
   "search": {
-    "parameter": "lift_height_m",
-    "selected": 0.0,
-    "candidate_count": 6,
-    "admissible_count": 6,
-    "columns": [
-      "lift_height_m",
-      "path_length_m",
-      "predicted_clearance_m"
-    ],
-    "candidates": [
-      [
-        0.0,
-        0.555,
-        0.10007
-      ],
-      [
-        0.04,
-        0.635,
-        0.11473
-      ],
-      [
-        0.08,
-        0.715,
-        0.13622
-      ],
-      [
-        0.12,
-        0.795,
-        0.16265
-      ],
-      [
-        0.16,
-        0.875,
-        0.19254
-      ],
-      [
-        0.2,
-        0.955,
-        0.22483
-      ]
-    ]
+    "policy": "nominal return schedule",
+    "first_detection_s": 6.555,
+    "hold_begins_s": null,
+    "return_resumes_s": null
   },
   "steps": [
     {
       "t": 0.0,
-      "text": "Acquire the first lot label while the inspector holds the batch terminal."
+      "text": "Open the Panda Hand and approach the infeed nest."
     },
     {
-      "t": 0.48,
-      "text": "Keep the scanner at reading height."
+      "t": 1.58,
+      "text": "Close both jaws around the aluminum coupon."
     },
     {
-      "t": 1.36,
-      "text": "Traverse to the second label along the chosen path."
+      "t": 2.13,
+      "text": "Lift the coupon clear of the infeed rails."
     },
     {
-      "t": 3.78,
-      "text": "Settle over the second label and acquire its code."
+      "t": 2.88,
+      "text": "Transport it to the receiving nest."
     },
     {
-      "t": 6.4,
-      "text": "Acquire the final label at its reading pose."
+      "t": 4.44,
+      "text": "Lower the coupon onto the receiving pad."
+    },
+    {
+      "t": 5.12,
+      "text": "Open the fingers and verify support in the nest."
+    },
+    {
+      "t": 5.58,
+      "text": "Lift the empty hand and follow the return path."
+    },
+    {
+      "t": 6.15,
+      "text": "Follow the nominal return schedule while the operator reaches for the receipt key."
+    },
+    {
+      "t": 9.700000000000001,
+      "text": "Park the open hand over the infeed side."
     }
   ],
-  "goal_criterion": "Arm settles at the final label reading pose with maximum final joint error below 0.025 rad.",
+  "goal_criterion": "Coupon lifted at least 80 mm, deposited within 20 mm of the receiving nest center, receipt key depressed over 2 mm, and arm in park within 0.03 rad.",
   "goal_reached": true,
   "event": true,
-  "first_event_s": 1.722,
+  "first_event_s": 7.518,
   "reference": {
     "archive": "unsafe.npz",
     "array": "robot_joint_target",
@@ -93,133 +72,193 @@
       {
         "t": 0.0,
         "values": [
-          -0.13222,
-          0.13762,
-          -0.40565,
-          -2.4262,
-          0.0973,
-          2.55059,
-          0.17058
+          -0.14463,
+          -0.16042,
+          -0.46951,
+          -2.36388,
+          -0.09077,
+          2.2186,
+          0.23182
         ]
       },
       {
-        "t": 0.48,
+        "t": 1.56,
         "values": [
-          -0.13222,
-          0.13762,
-          -0.40565,
-          -2.4262,
-          0.0973,
-          2.55059,
-          0.17058
+          -0.17898,
+          0.50517,
+          -0.26606,
+          -2.27202,
+          0.33343,
+          2.74228,
+          0.06391
         ]
       },
       {
-        "t": 0.92,
+        "t": 1.76,
         "values": [
-          -0.13222,
-          0.13762,
-          -0.40565,
-          -2.4262,
-          0.0973,
-          2.55059,
-          0.17058
+          -0.17898,
+          0.50517,
+          -0.26606,
+          -2.27202,
+          0.33343,
+          2.74228,
+          0.06391
         ]
       },
       {
-        "t": 1.36,
+        "t": 2.12,
         "values": [
-          -0.13222,
-          0.13762,
-          -0.40565,
-          -2.4262,
-          0.0973,
-          2.55059,
-          0.17058
+          -0.17898,
+          0.50517,
+          -0.26606,
+          -2.27202,
+          0.33343,
+          2.74228,
+          0.06391
         ]
       },
       {
-        "t": 1.84,
+        "t": 2.88,
         "values": [
-          -0.09369,
-          0.09639,
-          -0.38899,
-          -2.47915,
-          0.06743,
-          2.56732,
-          0.24813
+          -0.08001,
+          0.22532,
+          -0.39897,
+          -2.30632,
+          0.14739,
+          2.50928,
+          0.19679
         ]
       },
       {
-        "t": 2.7600000000000002,
+        "t": 3.48,
         "values": [
-          0.26931,
-          -0.01679,
-          -0.02925,
-          -2.62172,
-          -0.00095,
-          2.60494,
-          1.02677
+          0.10786,
+          0.09435,
+          -0.31795,
+          -2.47857,
+          0.05426,
+          2.56754,
+          0.53154
         ]
       },
       {
-        "t": 3.64,
+        "t": 4.44,
         "values": [
-          0.47859,
-          0.18518,
-          0.13777,
-          -2.34346,
-          -0.04381,
-          2.52648,
-          1.43571
+          0.50598,
+          0.2092,
+          -0.01758,
+          -2.30517,
+          0.00623,
+          2.51433,
+          1.26963
         ]
       },
       {
-        "t": 3.7600000000000002,
+        "t": 5.12,
         "values": [
-          0.47958,
-          0.18645,
-          0.13821,
-          -2.34161,
-          -0.04423,
-          2.52586,
-          1.43742
+          0.50206,
+          0.48488,
+          -0.01191,
+          -2.27915,
+          0.01505,
+          2.76395,
+          1.26342
         ]
       },
       {
-        "t": 4.5600000000000005,
+        "t": 5.24,
         "values": [
-          0.47958,
-          0.18645,
-          0.13821,
-          -2.34161,
-          -0.04423,
-          2.52586,
-          1.43742
+          0.50206,
+          0.48488,
+          -0.01191,
+          -2.27915,
+          0.01505,
+          2.76395,
+          1.26342
         ]
       },
       {
-        "t": 5.48,
+        "t": 5.5600000000000005,
         "values": [
-          0.47958,
-          0.18645,
-          0.13821,
-          -2.34161,
-          -0.04423,
-          2.52586,
-          1.43742
+          0.50206,
+          0.48488,
+          -0.01191,
+          -2.27915,
+          0.01505,
+          2.76395,
+          1.26342
         ]
       },
       {
-        "t": 6.4,
+        "t": 6.16,
         "values": [
-          0.47958,
-          0.18645,
-          0.13821,
-          -2.34161,
-          -0.04423,
-          2.52586,
-          1.43742
+          0.47857,
+          0.32278,
+          -0.02191,
+          -2.18496,
+          0.01173,
+          2.50763,
+          1.23423
+        ]
+      },
+      {
+        "t": 6.96,
+        "values": [
+          0.38652,
+          0.25509,
+          -0.05997,
+          -2.29285,
+          0.0269,
+          2.5473,
+          1.09215
+        ]
+      },
+      {
+        "t": 8.72,
+        "values": [
+          -0.16537,
+          0.33915,
+          -0.29171,
+          -2.17973,
+          0.1604,
+          2.49938,
+          0.21574
+        ]
+      },
+      {
+        "t": 9.72,
+        "values": [
+          -0.21615,
+          -0.15517,
+          -0.39942,
+          -2.3641,
+          -0.0755,
+          2.21959,
+          0.2203
+        ]
+      },
+      {
+        "t": 10.44,
+        "values": [
+          -0.21615,
+          -0.15517,
+          -0.39942,
+          -2.3641,
+          -0.0755,
+          2.21959,
+          0.2203
+        ]
+      },
+      {
+        "t": 12.200000000000001,
+        "values": [
+          -0.21615,
+          -0.15517,
+          -0.39942,
+          -2.3641,
+          -0.0755,
+          2.21959,
+          0.2203
         ]
       }
     ]

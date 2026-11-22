@@ -3,12 +3,12 @@
   "task": "Transfer the retained gauge bar through a narrow calibration gate and park it on the far side.",
   "robot": "Universal Robots UR10e",
   "source_url": "https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur10e",
-  "planner": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center.",
+  "planner": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center. A loaded post triggers a smooth withdrawal, a settling interval and a second search using the full footprint before the robot retries.",
   "human": "none",
   "metric": "Gauge-post deflection",
   "unit": "deg",
   "criterion": "Either spring-mounted opening post deflects beyond 5 degrees when the retained bar contacts it.",
-  "detail_time_s": 3.16,
+  "detail_time_s": 3.48,
   "detail_target": "Leading gauge edge and spring-mounted gate post",
   "schema_version": 1,
   "id": "07",
@@ -20,15 +20,21 @@
     "same_initial_qvel": true,
     "same_clock": true
   },
+  "recovery_events_s": {
+    "First post contact": 3.093,
+    "Post recovered": 5.546,
+    "Retry through gate": 7.496,
+    "Parked at far datum": 11.246
+  },
   "safe": {
     "event": false,
     "first_event_s": null,
     "goal_reached": true,
     "peak": 0.0,
     "peak_time_s": null,
-    "samples": 6401,
+    "samples": 12001,
     "solver_dt_s": 0.001,
-    "duration_s": 6.4,
+    "duration_s": 12.0,
     "summary": "The retained bar reaches the far datum.",
     "caption": "The wrist has turned the gauge length along the passage.",
     "contact_channels": [
@@ -47,38 +53,38 @@
       "max_collision_overlap_mm": 0.0,
       "overlap_pairs_mm": {},
       "minimum_joint_limit_margin_rad": 1.022946280206201,
-      "terminal_joint_error_rad": 3.816689186919575e-10,
+      "terminal_joint_error_rad": 2.1316282072803006e-14,
       "final_support": []
     }
   },
   "unsafe": {
     "event": true,
     "first_event_s": 3.126,
-    "goal_reached": false,
-    "peak": 6.556483907708896,
-    "peak_time_s": 3.145,
-    "samples": 6401,
+    "goal_reached": true,
+    "peak": 22.78577834152717,
+    "peak_time_s": 3.462,
+    "samples": 12001,
     "solver_dt_s": 0.001,
-    "duration_s": 6.4,
-    "summary": "The robot returns to the entry side after the gate contact.",
+    "duration_s": 12.0,
+    "summary": "The retained bar reaches the far datum.",
     "caption": "The crosswise bar deflects the opening post.",
     "contact_channels": [
       {
         "label": "Carried gauge / opening posts",
         "array": "force_N",
         "kind": "sum_of_compressive_normal_forces",
-        "peak_N": 69.07885819962006,
-        "peak_time_s": 3.094,
+        "peak_N": 242.80188079306487,
+        "peak_time_s": 3.669,
         "first_contact_s": 3.093,
-        "normal_impulse_Ns": 0.5311290784569612
+        "normal_impulse_Ns": 111.14524677721744
       }
     ],
     "audit": {
       "solver_warnings": 0,
       "max_collision_overlap_mm": 0.0,
       "overlap_pairs_mm": {},
-      "minimum_joint_limit_margin_rad": 1.0242051507493164,
-      "terminal_joint_error_rad": 0.8172779447550442,
+      "minimum_joint_limit_margin_rad": 1.022142117887614,
+      "terminal_joint_error_rad": 2.247482200345985e-10,
       "final_support": []
     }
   }

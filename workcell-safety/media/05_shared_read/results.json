@@ -1,25 +1,37 @@
 {
-  "title": "Shared bench barcode verification",
-  "task": "Read the two lot labels while a stationary inspector reconciles them on a handheld terminal.",
+  "title": "Sample delivery and operator acknowledgement",
+  "task": "Deliver an aluminum inspection coupon, open the Panda Hand and return. The operator reaches to confirm the delivery and withdraws.",
   "robot": "Franka Emika Panda",
-  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
-  "planner": "Enumerate lift heights and minimize scanner travel. The guarded search tests the occupied hand envelope along the transit. Both use the same bounded Jacobian IK.",
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/robots/panda",
+  "planner": "Solve bounded seven-joint inverse kinematics for an infeed pickup, transfer, placement and empty return. The guarded policy decelerates the path clock on observed aisle occupancy, holds and resumes. The nominal policy follows the original timing.",
   "human": "initially stationary",
-  "metric": "Fast-transit clearance deficit",
-  "unit": "mm",
-  "criterion": "During lateral travel above 0.12 m/s, scanner-to-glove clearance falls below the 160 mm scenario envelope.",
-  "detail_time_s": 3.12,
-  "detail_target": "Scanner and the occupied batch-terminal station",
+  "metric": "Gripper–glove normal force",
+  "unit": "N",
+  "criterion": "The sum of compressive normal forces between the Panda Hand and left glove exceeds the numerical reporting floor of 0.000001 N.",
+  "detail_time_s": 7.52,
+  "detail_target": "Open Panda Hand and the operator’s gloved fingers at the receipt key.",
   "schema_version": 1,
   "id": "05",
-  "goal_criterion": "Arm settles at the final label reading pose with maximum final joint error below 0.025 rad.",
-  "trigger_threshold": 0.2,
+  "goal_criterion": "Coupon lifted at least 80 mm, deposited within 20 mm of the receiving nest center, receipt key depressed over 2 mm, and arm in park within 0.03 rad.",
+  "trigger_threshold": 1e-06,
   "trigger_operator": ">",
   "paired_state_checks": {
     "same_initial_qpos": true,
     "same_initial_qvel": true,
     "same_clock": true,
-    "same_fixed_human_pose": true
+    "same_human_command_every_frame": true,
+    "worker_moves_and_withdraws": true,
+    "guarded_hold_recorded": true,
+    "guarded_resume_recorded": true,
+    "human_button_operated_twice": true
+  },
+  "revision": {
+    "hand_model": "Franka Panda Hand (robosuite)",
+    "hand_source_url": "https://github.com/ARISE-Initiative/robosuite/blob/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
+    "goal_criterion": "Coupon lifted at least 80 mm, deposited within 20 mm of the receiving nest center, receipt key depressed over 2 mm, and arm in park within 0.03 rad.",
+    "trigger_threshold": 1e-06,
+    "end_effector": "Native articulated parallel-jaw Panda Hand",
+    "person_trajectory": "The same shoulder and forearm motion is prescribed in both branches. Three passive translational springs let the skinned glove and forearm yield locally under load. The forces describe this simulated interface; tissue deformation and injury are outside the model."
   },
   "safe": {
     "event": false,
@@ -27,62 +39,134 @@
     "goal_reached": true,
     "peak": 0.0,
     "peak_time_s": null,
-    "samples": 6401,
+    "samples": 12201,
     "solver_dt_s": 0.001,
-    "duration_s": 6.4,
-    "summary": "Acquire the final label at its reading pose.",
-    "caption": "The scanner moves above the occupied terminal.",
+    "duration_s": 12.200000000000001,
+    "summary": "Complete the transfer and return the open hand to park.",
+    "caption": "The open hand waits outside the shared return aisle.",
     "contact_channels": [
       {
-        "label": "Scanner / glove",
+        "label": "Panda Hand / operator glove",
         "array": "force_N",
         "kind": "sum_of_compressive_normal_forces",
         "peak_N": 0.0,
         "peak_time_s": null,
         "first_contact_s": null,
         "normal_impulse_Ns": 0.0
+      },
+      {
+        "label": "Glove / receipt key",
+        "array": "physics_glove_button_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 2.211620406122924,
+        "peak_time_s": 7.745,
+        "first_contact_s": 7.211,
+        "normal_impulse_Ns": 0.8963118701243169
       }
     ],
     "audit": {
+      "minimum_joint_limit_margin_rad": 0.556831608363292,
+      "max_joint_speed_rad_s": 1.3357528226655917,
+      "max_collision_overlap_mm": 0.3491252077669382,
+      "overlap_pairs_mm": {
+        "alloy_sample / infeed_floor": 0.27274453401190774,
+        "alloy_sample / finger1_pad_collision": 0.15103353214463622,
+        "alloy_sample / finger2_pad_collision": 0.14836513128885975,
+        "alloy_sample / outfeed_floor": 0.2784451199901871,
+        "glove_shell_5 / receipt_cap": 0.3491252077669382
+      },
       "solver_warnings": 0,
-      "max_collision_overlap_mm": 0.0,
-      "overlap_pairs_mm": {},
-      "minimum_joint_limit_margin_rad": 0.5702201235212137,
-      "terminal_joint_error_rad": 4.013456234019941e-14,
-      "min_scanner_to_glove_mesh_mm": 111.08394678154082,
-      "final_support": []
+      "terminal_joint_error_rad": 1.0357719437692481e-07,
+      "final_support": [
+        "outfeed_floor"
+      ],
+      "final_coupon_offset_mm": 1.7603887095426658,
+      "maximum_coupon_lift_mm": 112.872,
+      "button_peak_travel_mm": 9.364449837041539,
+      "button_peak_load_N": 2.211620406122924,
+      "guard_first_detected_s": 6.555,
+      "guard_stop_s": 6.734,
+      "guard_resume_s": 8.566,
+      "stop_drift_mm": 0.04282358856667094,
+      "glove_penetration_mm": 0.0,
+      "min_sampled_gripper_glove_gap_mm": 76.60835072409533,
+      "force_pairs": {},
+      "first_contact_s": null,
+      "last_contact_s": null,
+      "active_contact_s": 0.0,
+      "normal_impulse_Ns": 0.0,
+      "peak_normal_load_N": 0.0
     }
   },
   "unsafe": {
     "event": true,
-    "first_event_s": 1.722,
+    "first_event_s": 7.518,
     "goal_reached": true,
-    "peak": 50.49746852063887,
-    "peak_time_s": 3.14,
-    "samples": 6401,
+    "peak": 4.35190539074118,
+    "peak_time_s": 7.522,
+    "samples": 12201,
     "solver_dt_s": 0.001,
-    "duration_s": 6.4,
-    "summary": "Acquire the final label at its reading pose.",
-    "caption": "The low sweep enters the inspector’s hand-clearance envelope.",
+    "duration_s": 12.200000000000001,
+    "summary": "Complete the transfer and return the open hand to park.",
+    "caption": "An outer gripper surface briefly brushes the glove during the empty return.",
     "contact_channels": [
       {
-        "label": "Scanner / glove",
+        "label": "Panda Hand / operator glove",
         "array": "force_N",
         "kind": "sum_of_compressive_normal_forces",
-        "peak_N": 0.0,
-        "peak_time_s": null,
-        "first_contact_s": null,
-        "normal_impulse_Ns": 0.0
+        "peak_N": 4.35190539074118,
+        "peak_time_s": 7.522,
+        "first_contact_s": 7.518,
+        "normal_impulse_Ns": 0.07776478070014912
+      },
+      {
+        "label": "Glove / receipt key",
+        "array": "physics_glove_button_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 3.1659472747428743,
+        "peak_time_s": 7.522,
+        "first_contact_s": 7.211,
+        "normal_impulse_Ns": 0.9056958213686148
       }
     ],
     "audit": {
+      "minimum_joint_limit_margin_rad": 0.556831608363292,
+      "max_joint_speed_rad_s": 1.3357528226655917,
+      "max_collision_overlap_mm": 0.3491252077669382,
+      "overlap_pairs_mm": {
+        "alloy_sample / infeed_floor": 0.27274453401190774,
+        "alloy_sample / finger1_pad_collision": 0.15103353214463622,
+        "alloy_sample / finger2_pad_collision": 0.14836513128885975,
+        "alloy_sample / outfeed_floor": 0.2784451199901871,
+        "glove_shell_5 / receipt_cap": 0.3491252077669382,
+        "finger2_collision / glove_shell_5": 0.0160372113419344
+      },
       "solver_warnings": 0,
-      "max_collision_overlap_mm": 0.0,
-      "overlap_pairs_mm": {},
-      "minimum_joint_limit_margin_rad": 0.4103867393937022,
-      "terminal_joint_error_rad": 5.773159728050814e-15,
-      "min_scanner_to_glove_mesh_mm": 109.50253147936114,
-      "final_support": []
-    }
+      "terminal_joint_error_rad": 1.4989703922552167e-10,
+      "final_support": [
+        "outfeed_floor"
+      ],
+      "final_coupon_offset_mm": 1.7603887106809402,
+      "maximum_coupon_lift_mm": 112.872,
+      "button_peak_travel_mm": 10.626336330404314,
+      "button_peak_load_N": 3.1659472747428743,
+      "guard_first_detected_s": 6.555,
+      "guard_stop_s": null,
+      "guard_resume_s": null,
+      "stop_drift_mm": 0.0,
+      "glove_penetration_mm": 0.0160372113419344,
+      "min_sampled_gripper_glove_gap_mm": 0.12987049411296941,
+      "force_pairs": {
+        "finger2_collision / glove_shell_5": 4.35190539074118,
+        "finger2_collision / glove_shell_4": 1.6626046960511776
+      },
+      "first_contact_s": 7.518,
+      "last_contact_s": 7.591,
+      "active_contact_s": 0.022,
+      "normal_impulse_Ns": 0.07776478070014912,
+      "peak_normal_load_N": 4.35190539074118
+    },
+    "active_glove_contact_s": 0.021999999999997577,
+    "last_glove_contact_s": 7.591
   }
 }

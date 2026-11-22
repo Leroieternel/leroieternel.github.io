@@ -3,8 +3,8 @@
   "id": "02",
   "robot": "Clearpath Husky A200",
   "branch": "safe",
-  "task": "Park the Husky at the service bay while a technician inspects a module.",
-  "planner": "Curvature-continuous route lattice with footprint clearance costs.",
+  "task": "Carry a sealed spare-parts case from dispatch to the load reader, hold it for registration, then reach the service dock past an occupied workbench.",
+  "planner": "A two-leg mission with a measured registration interlock. A smooth departure segment aligns the case at the reader. After the full scan dwell, an 18-candidate curvature-continuous route search selects a wheel-driven path from check-in to the receiving dock.",
   "search": {
     "candidate_count": 18,
     "admissible_count": 9,
@@ -16,30 +16,38 @@
   "steps": [
     {
       "t": 0.0,
-      "text": "Locate the stationary technician reading the order at the inspection stand."
+      "text": "Hold the sealed spare-parts case in its rack at dispatch."
     },
     {
-      "t": 0.04,
-      "text": "Evaluate 18 smooth routes and select the outward path with a 0.45 m nominal offset."
+      "t": 0.2,
+      "text": "Drive forward and align the side code with the fixed reader."
     },
     {
-      "t": 1.0,
-      "text": "Use differential wheel speeds to steer away from the occupied station."
+      "t": 2.936,
+      "text": "Hold alignment below 25 mm/s for a continuous 0.72 s scan."
     },
     {
-      "t": 3.3,
-      "text": "Curve back toward the parking bay once clear of the workstation."
+      "t": 3.656,
+      "text": "Register the case and authorize the second leg."
     },
     {
-      "t": 5.685167464114833,
-      "text": "Brake while tracking the marked parking bay."
+      "t": 3.8560000000000003,
+      "text": "Select a 0.45 m outward route to reserve clearance at the occupied bench."
     },
     {
-      "t": 10.4,
-      "text": "Verify standstill with the full base footprint inside the receiving bay."
+      "t": 7.456,
+      "text": "Continue past the bench toward the receiving bay."
+    },
+    {
+      "t": 11.450000000000001,
+      "text": "Brake in the marked receiving bay and hold the load for the receiver."
+    },
+    {
+      "t": 12.4,
+      "text": "Confirm the entire base is parked and the registration is complete."
     }
   ],
-  "goal_criterion": "Whole chassis inside the service bay, center error under 65 mm and speed below 0.055 m/s.",
+  "goal_criterion": "Register the secured parts case at the side reader with at least 0.72 s of continuous alignment at less than 25 mm/s, then park the complete Husky footprint in the receiving bay with center error below 65 mm and terminal speed below 55 mm/s.",
   "goal_reached": true,
   "event": false,
   "first_event_s": null,
@@ -66,97 +74,115 @@
         ]
       },
       {
-        "t": 0.04,
+        "t": 0.2,
         "values": [
-          0.13126,
-          0.13126,
-          0.13126,
-          0.13126
+          2e-05,
+          2e-05,
+          2e-05,
+          2e-05
         ]
       },
       {
-        "t": 1.0,
+        "t": 1.76,
         "values": [
-          3.99572,
-          2.57537,
-          3.99572,
-          2.57537
+          3.17647,
+          3.17644,
+          3.17647,
+          3.17644
         ]
       },
       {
-        "t": 1.48,
+        "t": 2.92,
         "values": [
-          6.55121,
-          1.10855,
-          6.55121,
-          1.10855
+          0.11368,
+          0.11369,
+          0.11368,
+          0.11369
         ]
       },
       {
-        "t": 2.96,
+        "t": 3.56,
         "values": [
-          1.20712,
-          6.76071,
-          1.20712,
-          6.76071
+          0.0,
+          0.0,
+          0.0,
+          0.0
         ]
       },
       {
-        "t": 3.2800000000000002,
+        "t": 3.64,
         "values": [
-          -1.1739,
-          7.73749,
-          -1.1739,
-          7.73749
+          0.0,
+          0.0,
+          0.0,
+          0.0
         ]
       },
       {
-        "t": 4.44,
+        "t": 3.84,
         "values": [
-          2.32168,
-          6.57272,
-          2.32168,
-          6.57272
+          0.0,
+          0.0,
+          0.0,
+          0.0
         ]
       },
       {
-        "t": 5.68,
+        "t": 5.32,
         "values": [
-          4.06412,
-          0.03622,
-          4.06412,
-          0.03622
+          6.49703,
+          1.17168,
+          6.49703,
+          1.17168
         ]
       },
       {
-        "t": 5.96,
+        "t": 7.08,
         "values": [
-          2.85925,
-          -0.65727,
-          2.85925,
-          -0.65727
+          -0.85196,
+          7.51935,
+          -0.85196,
+          7.51935
         ]
       },
       {
         "t": 7.44,
         "values": [
-          0.0,
-          0.0,
-          0.0,
-          0.0
+          -0.94094,
+          7.43037,
+          -0.94094,
+          7.43037
         ]
       },
       {
-        "t": 8.92,
+        "t": 8.84,
         "values": [
-          0.0,
-          0.0,
-          0.0,
-          0.0
+          4.95412,
+          2.85719,
+          4.95412,
+          2.85719
         ]
       },
       {
-        "t": 10.4,
+        "t": 10.64,
+        "values": [
+          1.43122,
+          -1.43122,
+          1.43122,
+          -1.43122
+        ]
+      },
+      {
+        "t": 11.44,
+        "values": [
+          1.25845,
+          -1.43122,
+          1.25845,
+          -1.43122
+        ]
+      },
+      {
+        "t": 12.4,
         "values": [
           0.0,
           0.0,

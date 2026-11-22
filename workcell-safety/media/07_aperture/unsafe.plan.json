@@ -4,7 +4,7 @@
   "robot": "Universal Robots UR10e",
   "branch": "unsafe",
   "task": "Transfer the retained gauge bar through a narrow calibration gate and park it on the far side.",
-  "planner": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center.",
+  "planner": "Search six yaw candidates using the swept rectangular footprint of the retained bar. Minimize wrist rotation, then solve the full joint path. The nominal-only search checks the tool center. A loaded post triggers a smooth withdrawal, a settling interval and a second search using the full footprint before the robot retries.",
   "search": {
     "parameter": "gauge_yaw_rad",
     "selected": 0.0,
@@ -63,15 +63,31 @@
     },
     {
       "t": 3.126,
-      "text": "The bar deflects a gate post. Interrupt the transfer and withdraw along the entry path."
+      "text": "The crosswise bar pushes the post. Back the bar out to the entry datum."
     },
     {
-      "t": 6.4,
-      "text": "The robot returns to the entry side after the gate contact."
+      "t": 4.826,
+      "text": "Hold at the entry until the spring posts return upright."
+    },
+    {
+      "t": 5.896,
+      "text": "Replan with the full bar footprint and rotate the tool by 60 degrees."
+    },
+    {
+      "t": 7.496,
+      "text": "Pass through the gate on the revised trajectory."
+    },
+    {
+      "t": 9.946,
+      "text": "Return the bar to its datum orientation and park beyond the gate."
+    },
+    {
+      "t": 12.0,
+      "text": "The retained bar reaches the far datum."
     }
   ],
   "goal_criterion": "Retained gauge reaches the far datum with maximum final joint error below 0.025 rad.",
-  "goal_reached": false,
+  "goal_reached": true,
   "event": true,
   "first_event_s": 3.126,
   "reference": {
@@ -112,18 +128,7 @@
         ]
       },
       {
-        "t": 0.92,
-        "values": [
-          -3.79339,
-          -1.29417,
-          1.99841,
-          -2.27505,
-          -1.57079,
-          -2.2226
-        ]
-      },
-      {
-        "t": 1.84,
+        "t": 1.72,
         "values": [
           -3.79339,
           -1.29417,
@@ -145,17 +150,6 @@
         ]
       },
       {
-        "t": 2.7600000000000002,
-        "values": [
-          -3.64845,
-          -1.35131,
-          2.07548,
-          -2.29496,
-          -1.5708,
-          -2.07766
-        ]
-      },
-      {
         "t": 3.12,
         "values": [
           -3.4439,
@@ -167,18 +161,18 @@
         ]
       },
       {
-        "t": 3.64,
+        "t": 3.44,
         "values": [
-          -3.70628,
-          -1.33256,
-          2.05065,
-          -2.28887,
-          -1.57078,
-          -2.13552
+          -3.28282,
+          -1.38512,
+          2.11883,
+          -2.30451,
+          -1.5708,
+          -1.71202
         ]
       },
       {
-        "t": 4.5600000000000005,
+        "t": 4.84,
         "values": [
           -3.79339,
           -1.29417,
@@ -189,7 +183,7 @@
         ]
       },
       {
-        "t": 5.48,
+        "t": 5.16,
         "values": [
           -3.79339,
           -1.29417,
@@ -200,7 +194,7 @@
         ]
       },
       {
-        "t": 6.4,
+        "t": 5.88,
         "values": [
           -3.79339,
           -1.29417,
@@ -208,6 +202,72 @@
           -2.27505,
           -1.57079,
           -2.2226
+        ]
+      },
+      {
+        "t": 6.84,
+        "values": [
+          -3.79336,
+          -1.29416,
+          1.99839,
+          -2.27503,
+          -1.57084,
+          -2.91876
+        ]
+      },
+      {
+        "t": 7.48,
+        "values": [
+          -3.79339,
+          -1.29417,
+          1.9984,
+          -2.27503,
+          -1.5708,
+          -3.26972
+        ]
+      },
+      {
+        "t": 8.56,
+        "values": [
+          -3.51115,
+          -1.37841,
+          2.11054,
+          -2.30293,
+          -1.5708,
+          -2.98756
+        ]
+      },
+      {
+        "t": 9.96,
+        "values": [
+          -2.97611,
+          -1.29978,
+          2.00616,
+          -2.27717,
+          -1.5708,
+          -2.45251
+        ]
+      },
+      {
+        "t": 10.28,
+        "values": [
+          -2.9761,
+          -1.29977,
+          2.00614,
+          -2.27717,
+          -1.57077,
+          -2.33578
+        ]
+      },
+      {
+        "t": 12.0,
+        "values": [
+          -2.97608,
+          -1.29977,
+          2.00614,
+          -2.27717,
+          -1.5708,
+          -1.40532
         ]
       }
     ]

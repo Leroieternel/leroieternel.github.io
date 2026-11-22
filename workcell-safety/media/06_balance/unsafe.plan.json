@@ -3,76 +3,90 @@
   "id": "06",
   "robot": "Franka Emika Panda",
   "branch": "unsafe",
-  "task": "Place a calibration slug on a spring-centered weighing pan and release the vacuum head.",
-  "planner": "Search candidate placements on the pan and minimize carry distance. The guarded cost is feasible only when predicted static torque keeps the weighing pan inside its reading range.",
+  "task": "Pick a reference ball from its stock cradle with the Panda Hand, place it on the weighing pan and park the robot after the load settles.",
+  "planner": "Enumerate release offsets, minimize the carried distance and solve bounded seven-joint inverse kinematics. The guarded plan requires the ball center to land inside the locating seat. The nominal plan chooses the nearest reachable pan point.",
   "search": {
     "parameter": "placement_y_m",
-    "selected": 0.041,
-    "candidate_count": 5,
-    "admissible_count": 5,
+    "selected": 0.03,
     "columns": [
       "placement_y_m",
-      "lateral_travel_m",
-      "predicted_static_tilt_rad"
+      "travel_m",
+      "estimated_static_tilt_rad"
     ],
     "candidates": [
       [
-        0.041,
-        0.311,
-        0.45344
+        0.03,
+        0.34166,
+        0.43206
       ],
       [
-        0.075,
-        0.345,
-        0.3052
+        0.067,
+        0.37228,
+        0.29305
       ],
       [
-        0.11,
-        0.38,
-        0.1526
+        0.103,
+        0.40311,
+        0.15779
       ],
       [
         0.145,
-        0.415,
+        0.44007,
         0.0
       ],
       [
-        0.18,
-        0.45,
-        0.1526
+        0.187,
+        0.47787,
+        0.15779
       ]
     ]
   },
   "steps": [
     {
       "t": 0.0,
-      "text": "Begin with the calibrated slug sealed to the vacuum pad."
+      "text": "Start with the inspection ball resting in the stock cradle and the hand open."
     },
     {
-      "t": 0.35,
-      "text": "Carry the slug above the selected point on the weighing pan."
+      "t": 1.056,
+      "text": "Move over the cradle, then lower both fingers on opposite sides of the ball."
     },
     {
-      "t": 2.44,
-      "text": "Lower to the short release height."
+      "t": 3.5475,
+      "text": "Close the Panda Hand and build contact on both finger pads."
     },
     {
-      "t": 3.38,
-      "text": "Vent the pad and transfer the load to the spring-centered pan."
+      "t": 4.983,
+      "text": "Lift the ball free of its cradle."
     },
     {
-      "t": 3.5,
-      "text": "Lift the empty pad and allow the balance to settle."
+      "t": 6.764999999999999,
+      "text": "Select the shortest transfer to an off-center point on the weighing pan."
     },
     {
-      "t": 6.4,
-      "text": "The pan leaves its reading range after the off-center load transfer."
+      "t": 9.289499999999999,
+      "text": "Lower the ball to the selected release height."
+    },
+    {
+      "t": 10.956,
+      "text": "Open both fingers. The ball is free to move under gravity and contact forces."
+    },
+    {
+      "t": 11.385,
+      "text": "Retract the open hand above the pan."
+    },
+    {
+      "t": 12.952499999999999,
+      "text": "Return the unladen arm to its park pose."
+    },
+    {
+      "t": 18.48,
+      "text": "Check the final support and settled motion."
     }
   ],
-  "goal_criterion": "Vacuum released, final joint error below 0.025 rad, slug supported by the pan, final pan tilt within 10 degrees.",
+  "goal_criterion": "After release and arm parking, the ball rests on the pan within three degrees, with its speed below 8 mm/s and spin below 0.2 rad/s for at least 0.45 s.",
   "goal_reached": false,
   "event": true,
-  "first_event_s": 3.478,
+  "first_event_s": 11.395,
   "reference": {
     "archive": "unsafe.npz",
     "array": "robot_joint_target",
@@ -92,145 +106,193 @@
       {
         "t": 0.0,
         "values": [
-          -0.13407,
-          0.07436,
-          -0.3997,
-          -2.2307,
-          0.03874,
-          2.29886,
-          0.22733
+          -0.18412,
+          -0.77329,
+          -0.28324,
+          -2.74452,
+          -0.2147,
+          1.98295,
+          0.48354
         ]
       },
       {
-        "t": 0.36,
+        "t": 1.04,
         "values": [
-          -0.13407,
-          0.07436,
-          -0.3997,
-          -2.2307,
-          0.03874,
-          2.29886,
-          0.22733
+          -0.18412,
+          -0.77329,
+          -0.28324,
+          -2.74452,
+          -0.2147,
+          1.98295,
+          0.48354
         ]
       },
       {
-        "t": 0.92,
+        "t": 2.64,
         "values": [
-          -0.0951,
-          0.00712,
-          -0.3687,
-          -2.29171,
-          0.00346,
-          2.29833,
-          0.31974
+          -0.18569,
+          -0.44625,
+          -0.46798,
+          -2.59215,
+          -0.23884,
+          2.17506,
+          0.30989
         ]
       },
       {
-        "t": 1.84,
+        "t": 3.56,
         "values": [
-          0.10245,
-          -0.20232,
-          -0.11032,
-          -2.43007,
-          -0.02792,
-          2.22876,
-          0.79729
+          -0.22558,
+          0.3007,
+          -0.33174,
+          -2.6729,
+          0.48807,
+          2.93446,
+          -0.23672
         ]
       },
       {
-        "t": 2.44,
+        "t": 5.0,
         "values": [
-          0.1441,
-          -0.20563,
-          -0.05404,
-          -2.41481,
-          -0.01374,
-          2.20943,
-          0.88527
+          -0.22558,
+          0.3007,
+          -0.33174,
+          -2.6729,
+          0.48807,
+          2.93446,
+          -0.23672
         ]
       },
       {
-        "t": 2.7600000000000002,
+        "t": 5.28,
         "values": [
-          0.14439,
-          -0.1633,
-          -0.0551,
-          -2.45087,
-          -0.0119,
-          2.28771,
-          0.88373
+          -0.18741,
+          0.26451,
+          -0.38062,
+          -2.68521,
+          0.43945,
+          2.91046,
+          -0.19923
         ]
       },
       {
-        "t": 3.36,
+        "t": 6.76,
         "values": [
-          0.14534,
-          -0.05749,
-          -0.05673,
-          -2.50269,
-          -0.00508,
-          2.44528,
-          0.8785
+          -0.13886,
+          -0.51934,
+          -0.48044,
+          -2.50598,
+          -0.25791,
+          2.02341,
+          0.33699
         ]
       },
       {
-        "t": 3.48,
+        "t": 7.92,
         "values": [
-          0.14534,
-          -0.05749,
-          -0.05673,
-          -2.50269,
-          -0.00508,
-          2.44528,
-          0.8785
+          0.00601,
+          -0.41367,
+          -0.29812,
+          -2.45645,
+          -0.13383,
+          2.05541,
+          0.58027
         ]
       },
       {
-        "t": 3.64,
+        "t": 9.28,
         "values": [
-          0.1453,
-          -0.06272,
-          -0.05669,
-          -2.50098,
-          -0.00549,
-          2.43837,
-          0.8788
+          0.17159,
+          -0.1014,
+          -0.11038,
+          -2.16226,
+          -0.01264,
+          2.06144,
+          0.85362
         ]
       },
       {
-        "t": 4.5600000000000005,
+        "t": 10.56,
         "values": [
-          0.14425,
-          -0.20554,
-          -0.05415,
-          -2.4149,
-          -0.01376,
-          2.20962,
-          0.88534
+          0.17089,
+          0.02666,
+          -0.11292,
+          -2.29516,
+          0.00411,
+          2.32164,
+          0.8411
         ]
       },
       {
-        "t": 5.48,
+        "t": 10.96,
         "values": [
-          0.14425,
-          -0.20554,
-          -0.05415,
-          -2.4149,
-          -0.01376,
-          2.20962,
-          0.88534
+          0.17089,
+          0.02666,
+          -0.11292,
+          -2.29516,
+          0.00411,
+          2.32164,
+          0.8411
         ]
       },
       {
-        "t": 6.4,
+        "t": 11.4,
         "values": [
-          0.14425,
-          -0.20554,
-          -0.05415,
-          -2.4149,
-          -0.01376,
-          2.20962,
-          0.88534
+          0.17089,
+          0.02666,
+          -0.11292,
+          -2.29516,
+          0.00411,
+          2.32164,
+          0.8411
+        ]
+      },
+      {
+        "t": 12.96,
+        "values": [
+          0.17204,
+          -0.12161,
+          -0.10947,
+          -2.11399,
+          -0.01453,
+          1.99306,
+          0.85522
+        ]
+      },
+      {
+        "t": 13.200000000000001,
+        "values": [
+          0.17026,
+          -0.12725,
+          -0.11146,
+          -2.12035,
+          -0.01548,
+          1.99383,
+          0.85194
+        ]
+      },
+      {
+        "t": 15.84,
+        "values": [
+          -0.15265,
+          -0.60695,
+          -0.49202,
+          -2.51652,
+          -0.29451,
+          1.95187,
+          0.33086
+        ]
+      },
+      {
+        "t": 18.48,
+        "values": [
+          -0.15265,
+          -0.60695,
+          -0.49202,
+          -2.51652,
+          -0.29451,
+          1.95187,
+          0.33086
         ]
       }
     ]

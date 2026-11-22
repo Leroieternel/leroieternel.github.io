@@ -1,18 +1,18 @@
 {
-  "title": "Inspection-bay bypass",
-  "task": "Park the Husky at the service bay while a technician inspects a module.",
+  "title": "Parts verification and delivery",
+  "task": "Carry a sealed spare-parts case from dispatch to the load reader, hold it for registration, then reach the service dock past an occupied workbench.",
   "robot": "Clearpath Husky A200",
   "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/husky",
-  "planner": "Curvature-continuous route lattice with footprint clearance costs.",
+  "planner": "A two-leg mission with a measured registration interlock. A smooth departure segment aligns the case at the reader. After the full scan dwell, an 18-candidate curvature-continuous route search selects a wheel-driven path from check-in to the receiving dock.",
   "human": "initially stationary",
   "metric": "Clearance shortfall",
   "unit": "mm",
   "criterion": "Positive shortfall below the 460 mm study clearance between the robot collision envelope and the nearest lower-leg or shoe collider.",
-  "detail_time_s": 2.84,
+  "detail_time_s": 6.72,
   "detail_target": "Nearest Husky wheel and operator shoe at the same time.",
   "schema_version": 1,
   "id": "02",
-  "goal_criterion": "Whole chassis inside the service bay, center error under 65 mm and speed below 0.055 m/s.",
+  "goal_criterion": "Register the secured parts case at the side reader with at least 0.72 s of continuous alignment at less than 25 mm/s, then park the complete Husky footprint in the receiving bay with center error below 65 mm and terminal speed below 55 mm/s.",
   "trigger_threshold": 0,
   "trigger_operator": ">",
   "paired_state_checks": {
@@ -21,16 +21,32 @@
     "same_clock": true,
     "same_human_motion_every_frame": true
   },
+  "revision": {
+    "goal_criterion": "Register the secured parts case at the side reader with at least 0.72 s of continuous alignment at less than 25 mm/s, then park the complete Husky footprint in the receiving bay with center error below 65 mm and terminal speed below 55 mm/s.",
+    "metric": "Clearance shortfall",
+    "scan_minimum_dwell_s": 0.72,
+    "dwell_speed_limit_m_s": 0.025,
+    "phase_labels": [
+      "Dispatch",
+      "Approach reader",
+      "Stationary registration",
+      "Leave checkpoint",
+      "Pass occupied station",
+      "Approach receiving bay",
+      "Parked"
+    ],
+    "scan_model": "The side-facing code and reader sites must align in position and orientation while speed stays below threshold. The scan is modeled by pose and dwell."
+  },
   "safe": {
     "event": false,
     "first_event_s": null,
     "goal_reached": true,
     "peak": 0.0,
     "peak_time_s": null,
-    "samples": 5201,
+    "samples": 6201,
     "solver_dt_s": 0.002,
-    "duration_s": 10.4,
-    "summary": "Select the outward curved path past the service station.",
+    "duration_s": 12.4,
+    "summary": "Register the load and use the outward route to the dock.",
     "caption": "The Husky curves away from the stationary technician.",
     "contact_channels": [
       {
@@ -45,27 +61,36 @@
     ],
     "audit": {
       "solver_warnings": 0,
-      "max_tire_compliance_mm": 0.34578037793258176,
+      "max_tire_compliance_mm": 0.32157228887870803,
       "nonfloor_robot_contacts": 0,
       "peak_human_contact_N": 0.0,
-      "minimum_skin_to_robot_envelope_mm": 603.5789459541511,
+      "minimum_skin_to_robot_envelope_mm": 600.8865981745332,
       "max_shoe_penetration_mm_rendered": 0.0,
-      "goal_error_m": 0.028414005072388112,
+      "goal_error_m": 0.05961126648950213,
       "inside_bay": true,
-      "terminal_speed_m_s": 7.522881100652483e-11,
-      "peak_wheel_speed_rad_s": 8.011033796351764
+      "terminal_speed_m_s": 3.838629814884292e-08,
+      "peak_wheel_speed_rad_s": 7.980031765714023,
+      "scan_begin_s": 2.936,
+      "scan_complete_s": 3.656,
+      "scan_dwell_s": 0.7200000000000002,
+      "scan_maximum_speed_m_s": 0.024299628813853242,
+      "route_start_s": 3.8560000000000003,
+      "park_start_s": 11.450000000000001,
+      "total_base_travel_m": 4.542121759937299,
+      "stationary_in_dock_s": 0.9499999999999993,
+      "final_yaw_deg": 3.0878176563361945
     }
   },
   "unsafe": {
     "event": true,
-    "first_event_s": 1.99,
+    "first_event_s": 5.846,
     "goal_reached": true,
-    "peak": 142.47725163516094,
-    "peak_time_s": 2.844,
-    "samples": 5201,
+    "peak": 142.47680001883933,
+    "peak_time_s": 6.7,
+    "samples": 6201,
     "solver_dt_s": 0.002,
-    "duration_s": 10.4,
-    "summary": "Select the direct aisle centerline past the service station.",
+    "duration_s": 12.4,
+    "summary": "Register the same load and use the shorter centerline to the dock.",
     "caption": "The direct route brings the wheel close to the technician’s shoes without physical contact.",
     "contact_channels": [
       {
@@ -80,15 +105,24 @@
     ],
     "audit": {
       "solver_warnings": 0,
-      "max_tire_compliance_mm": 0.32191572798198315,
+      "max_tire_compliance_mm": 0.32157228887870803,
       "nonfloor_robot_contacts": 0,
       "peak_human_contact_N": 0.0,
-      "minimum_skin_to_robot_envelope_mm": 314.7099131886081,
+      "minimum_skin_to_robot_envelope_mm": 314.71036379266246,
       "max_shoe_penetration_mm_rendered": 0.0,
-      "goal_error_m": 0.007356801693088343,
+      "goal_error_m": 0.0072432415743527035,
       "inside_bay": true,
-      "terminal_speed_m_s": 1.3191961279707587e-10,
-      "peak_wheel_speed_rad_s": 3.774957707876333
+      "terminal_speed_m_s": 1.434575600800803e-10,
+      "peak_wheel_speed_rad_s": 3.773138315660596,
+      "scan_begin_s": 2.936,
+      "scan_complete_s": 3.656,
+      "scan_dwell_s": 0.7200000000000002,
+      "scan_maximum_speed_m_s": 0.024299628813853242,
+      "route_start_s": 3.8560000000000003,
+      "park_start_s": 10.154,
+      "total_base_travel_m": 4.329267417029862,
+      "stationary_in_dock_s": 2.2460000000000004,
+      "final_yaw_deg": 2.3459715603747573e-06
     }
   }
 }

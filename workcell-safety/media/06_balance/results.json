@@ -1,89 +1,303 @@
 {
-  "title": "Balance-pan loading",
-  "task": "Place a calibration slug on a spring-centered weighing pan and release the vacuum head.",
+  "title": "Calibration ball transfer",
+  "task": "Pick a reference ball from its stock cradle with the Panda Hand, place it on the weighing pan and park the robot after the load settles.",
   "robot": "Franka Emika Panda",
-  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
-  "planner": "Search candidate placements on the pan and minimize carry distance. The guarded cost is feasible only when predicted static torque keeps the weighing pan inside its reading range.",
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/robots/panda",
+  "planner": "Enumerate release offsets, minimize the carried distance and solve bounded seven-joint inverse kinematics. The guarded plan requires the ball center to land inside the locating seat. The nominal plan chooses the nearest reachable pan point.",
   "human": "none",
-  "metric": "Weighing pan tilt",
-  "unit": "deg",
-  "criterion": "The weighing pan tips beyond its 10 degree operating window after load transfer.",
-  "detail_time_s": 5.4,
-  "detail_target": "Vacuum head, slug and weighing pan",
+  "metric": "Unsupported travel beyond pan edge",
+  "unit": "mm",
+  "criterion": "After the ball has loaded the pan, the center passes the downhill edge without a supporting pan contact.",
+  "detail_time_s": 11.76,
+  "detail_target": "Ball, hinged pan and rubber-lined catch tray",
   "schema_version": 1,
   "id": "06",
-  "goal_criterion": "Vacuum released, final joint error below 0.025 rad, slug supported by the pan, final pan tilt within 10 degrees.",
-  "trigger_threshold": 10,
+  "goal_criterion": "After release and arm parking, the ball rests on the pan within three degrees, with its speed below 8 mm/s and spin below 0.2 rad/s for at least 0.45 s.",
+  "trigger_threshold": 0,
   "trigger_operator": ">",
   "paired_state_checks": {
     "same_initial_qpos": true,
     "same_initial_qvel": true,
-    "same_clock": true
+    "same_clock": true,
+    "catch_loaded_after_observed_rolloff": true,
+    "ball_in_contact_with_both_jaws_during_transit": true,
+    "guarded_ball_stays_on_pan": true
+  },
+  "revision": {
+    "hand": "Franka Panda Hand",
+    "source_url": "https://github.com/ARISE-Initiative/robosuite/blob/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
+    "goal": "After release and arm parking, the ball rests on the pan within three degrees, with its speed below 8 mm/s and spin below 0.2 rad/s for at least 0.45 s.",
+    "threshold": 0.0,
+    "channels": [
+      [
+        "pan_normal_N",
+        "Calibration ball / pan and locating seat"
+      ],
+      [
+        "catch_normal_N",
+        "Calibration ball / catch tray"
+      ],
+      [
+        "left_grip_N",
+        "Left finger / ball"
+      ],
+      [
+        "right_grip_N",
+        "Right finger / ball"
+      ]
+    ],
+    "primary_metric": "Unsupported travel beyond pan edge",
+    "dt_s": 0.001,
+    "roll_physics": "The ball is a free six-DOF rigid body for the full cycle. Pickup, transport and release use only gravity, frictional contact and the original actuated finger joints. All subsequent spin, pan deflection and tray contact emerge from forward dynamics."
   },
   "safe": {
     "event": false,
     "first_event_s": null,
     "goal_reached": true,
-    "peak": 0.17731082396760578,
-    "peak_time_s": 3.628,
-    "samples": 6401,
+    "peak": 0.0,
+    "peak_time_s": null,
+    "samples": 18481,
     "solver_dt_s": 0.001,
-    "duration_s": 6.4,
-    "summary": "The pan settles with the slug supported inside its reading range.",
-    "caption": "The centered slug leaves the pan level.",
+    "duration_s": 18.48,
+    "summary": "The ball settles in the central seat.",
+    "caption": "The calibration ball rests on the pan after the hand withdraws.",
     "contact_channels": [
       {
-        "label": "Calibration slug / weighing pan",
-        "array": "force_N",
+        "label": "Calibration ball / catch tray",
+        "array": "catch_normal_N",
         "kind": "sum_of_compressive_normal_forces",
-        "peak_N": 122.64337844109153,
-        "peak_time_s": 3.411,
-        "first_contact_s": 3.411,
-        "normal_impulse_Ns": 23.70478672434842
+        "peak_N": 0.0,
+        "peak_time_s": null,
+        "first_contact_s": null,
+        "normal_impulse_Ns": 0.0
+      },
+      {
+        "label": "Calibration ball / pan",
+        "array": "pan_normal_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 46.91907290043166,
+        "peak_time_s": 11.112,
+        "first_contact_s": 11.112,
+        "normal_impulse_Ns": 14.746224184006772
+      },
+      {
+        "label": "Left finger / ball",
+        "array": "left_grip_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 20.961469911508768,
+        "peak_time_s": 3.848,
+        "first_contact_s": 3.848,
+        "normal_impulse_Ns": 87.08844458671358
+      },
+      {
+        "label": "Right finger / ball",
+        "array": "right_grip_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 20.874782958163575,
+        "peak_time_s": 3.848,
+        "first_contact_s": 3.848,
+        "normal_impulse_Ns": 87.0855099675829
       }
     ],
     "audit": {
-      "solver_warnings": 0,
       "max_collision_overlap_mm": 0.0,
       "overlap_pairs_mm": {},
-      "minimum_joint_limit_margin_rad": 0.6253997858555547,
-      "terminal_joint_error_rad": 3.552713678800501e-15,
+      "minimum_joint_limit_margin_rad": 0.32728439955889943,
+      "max_joint_speed_rad_s": 2.2348082897029915,
+      "solver_warnings": 0,
+      "terminal_joint_error_rad": 3.040590002001409e-11,
       "final_support": [
-        "balance_surface"
-      ]
+        "weighing pan"
+      ],
+      "planner_candidates": {
+        "0.03": [
+          0.34166,
+          0.43206
+        ],
+        "0.067": [
+          0.37228,
+          0.29305
+        ],
+        "0.103": [
+          0.40311,
+          0.15779
+        ],
+        "0.145": [
+          0.44007,
+          0.0
+        ],
+        "0.187": [
+          0.47787,
+          0.15779
+        ]
+      },
+      "final_ball_xyz_m": [
+        0.515,
+        0.145,
+        1.021996435704559
+      ],
+      "final_speed_m_s": 1.7179400846383007e-12,
+      "final_angular_speed_rad_s": 1.1232553491042467e-18,
+      "placement_target_y_m": 0.145,
+      "finger_close_s": 3.5475,
+      "finger_open_s": 10.956,
+      "first_pan_support_s": 11.112,
+      "support_lost_s": null,
+      "first_tray_impact_s": null,
+      "settled_s": 11.299,
+      "peak_tray_force_N": 0.0,
+      "peak_pan_force_N": 46.91907290043166,
+      "peak_left_jaw_N": 20.961469911508768,
+      "peak_right_jaw_N": 20.874782958163575,
+      "payload_contact_geometries": [
+        "finger1_pad_collision",
+        "finger2_pad_collision"
+      ],
+      "roll_angle_after_release_deg": 13.040396054294865,
+      "ball_path_after_release_m": 0.010280909840315376,
+      "max_lift_above_pickup_mm": 295.82298573850005,
+      "unplanned_contact_N": {},
+      "last_jaw_contact_s": 11.083,
+      "max_speed_per_arm_joint_rad_s": [
+        0.6377494707924486,
+        1.4328293340269618,
+        1.0246983762467234,
+        0.5040991711722517,
+        2.2348082897029915,
+        1.4626027511796071,
+        1.5760065362555928
+      ],
+      "maximum_pan_angle_deg": 0.04071632012467588,
+      "last_pan_support_s": 18.48,
+      "min_transit_force_per_jaw_N": 11.454729231700794,
+      "min_vertical_drop_to_tray_mm": 4.539128248719271,
+      "turn_on_pan_deg": 13.010933357664928,
+      "horizontal_travel_on_pan_mm": 5.4668386394323045
     }
   },
   "unsafe": {
     "event": true,
-    "first_event_s": 3.478,
+    "first_event_s": 11.395,
     "goal_reached": false,
-    "peak": 26.043931242898307,
-    "peak_time_s": 3.567,
-    "samples": 6401,
+    "peak": 82.2139185698495,
+    "peak_time_s": 11.505,
+    "samples": 18481,
     "solver_dt_s": 0.001,
-    "duration_s": 6.4,
-    "summary": "The pan leaves its reading range after the off-center load transfer.",
-    "caption": "The load near the pan end rotates the spring-centered plate.",
+    "duration_s": 18.48,
+    "summary": "The ball rolls off the tipped pan into the catch tray.",
+    "caption": "The loose ball has rolled off the discharge edge into the rubber-lined catch tray.",
     "contact_channels": [
       {
-        "label": "Calibration slug / weighing pan",
-        "array": "force_N",
+        "label": "Calibration ball / catch tray",
+        "array": "catch_normal_N",
         "kind": "sum_of_compressive_normal_forces",
-        "peak_N": 121.32977467749008,
-        "peak_time_s": 3.564,
-        "first_contact_s": 3.411,
-        "normal_impulse_Ns": 21.391362265910075
+        "peak_N": 315.084228986736,
+        "peak_time_s": 11.505,
+        "first_contact_s": 11.505,
+        "normal_impulse_Ns": 12.586730931809939
+      },
+      {
+        "label": "Calibration ball / pan",
+        "array": "pan_normal_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 32.09122996481972,
+        "peak_time_s": 11.118,
+        "first_contact_s": 11.118,
+        "normal_impulse_Ns": 0.4803168072133698
+      },
+      {
+        "label": "Left finger / ball",
+        "array": "left_grip_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 20.961469911508768,
+        "peak_time_s": 3.848,
+        "first_contact_s": 3.848,
+        "normal_impulse_Ns": 87.08827165688811
+      },
+      {
+        "label": "Right finger / ball",
+        "array": "right_grip_N",
+        "kind": "sum_of_compressive_normal_forces",
+        "peak_N": 20.874782958163575,
+        "peak_time_s": 3.848,
+        "first_contact_s": 3.848,
+        "normal_impulse_Ns": 87.08405616733015
       }
     ],
     "audit": {
-      "solver_warnings": 0,
       "max_collision_overlap_mm": 0.0,
       "overlap_pairs_mm": {},
-      "minimum_joint_limit_margin_rad": 0.5665643862037886,
-      "terminal_joint_error_rad": 4.884981308350689e-15,
+      "minimum_joint_limit_margin_rad": 0.32728439955889943,
+      "max_joint_speed_rad_s": 2.2348082897029915,
+      "solver_warnings": 0,
+      "terminal_joint_error_rad": 2.1651569426239803e-11,
       "final_support": [
-        "balance_surface"
-      ]
+        "catch tray"
+      ],
+      "planner_candidates": {
+        "0.03": [
+          0.34166,
+          0.43206
+        ],
+        "0.067": [
+          0.37228,
+          0.29305
+        ],
+        "0.103": [
+          0.40311,
+          0.15779
+        ],
+        "0.145": [
+          0.44007,
+          0.0
+        ],
+        "0.187": [
+          0.47787,
+          0.15779
+        ]
+      },
+      "final_ball_xyz_m": [
+        0.5156261304330647,
+        -0.06171330737366759,
+        0.8414987538617786
+      ],
+      "final_speed_m_s": 2.991737737880571e-13,
+      "final_angular_speed_rad_s": 1.1332950721536737e-14,
+      "placement_target_y_m": 0.03,
+      "finger_close_s": 3.5475,
+      "finger_open_s": 10.956,
+      "first_pan_support_s": 11.118,
+      "support_lost_s": 11.395,
+      "first_tray_impact_s": 11.505,
+      "settled_s": 11.558,
+      "peak_tray_force_N": 315.084228986736,
+      "peak_pan_force_N": 32.09122996481972,
+      "peak_left_jaw_N": 20.961469911508768,
+      "peak_right_jaw_N": 20.874782958163575,
+      "payload_contact_geometries": [
+        "finger1_pad_collision",
+        "finger2_pad_collision"
+      ],
+      "roll_angle_after_release_deg": 259.440376262763,
+      "ball_path_after_release_m": 0.21948545331929317,
+      "max_lift_above_pickup_mm": 295.82298573850005,
+      "unplanned_contact_N": {},
+      "last_jaw_contact_s": 11.083,
+      "max_speed_per_arm_joint_rad_s": [
+        0.6377494707924486,
+        1.4328293340269618,
+        1.0246983762467234,
+        0.48515405569467024,
+        2.2348082897029915,
+        1.4626027511796071,
+        1.5760065362555928
+      ],
+      "maximum_pan_angle_deg": 25.58857710296859,
+      "last_pan_support_s": 11.394,
+      "min_transit_force_per_jaw_N": 11.617485389402868,
+      "min_vertical_drop_to_tray_mm": 185.00111470161485,
+      "turn_on_pan_deg": 123.18317848830831,
+      "horizontal_travel_on_pan_mm": 43.98575892537338
     }
   }
 }
