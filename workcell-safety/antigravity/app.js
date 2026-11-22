@@ -1,7 +1,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const el=(tag,text,cls)=>{const x=document.createElement(tag);if(text!=null)x.textContent=text;if(cls)x.className=cls;return x};
-const link=(text,url)=>{const a=el('a',text);a.href=url;return a};
+const build=document.documentElement.dataset.build;
+function releaseAsset(url){return build && !/^(https?:|\.\.\/|#)/.test(url) ? url+'?v='+encodeURIComponent(build) : url}
+const link=(text,url)=>{const a=el('a',text);a.href=releaseAsset(url);return a};
 let catalog=[],current,vids=[],playing=false,handle=0;
 const branch=['unsafe','safe'], labels={unsafe:'Unsafe',safe:'Safe'};
 function halt(){playing=false;cancelAnimationFrame(handle);vids.forEach(v=>v.pause());$('play').textContent='Play together'}
@@ -10,14 +12,14 @@ function jump(t){for(const v of vids){if(v.readyState>0)v.currentTime=Math.min(t
 $('play').onclick=async()=>{if(playing)return halt();if(vids.some(v=>v.ended))jump(0);else jump(vids[0].currentTime);try{await Promise.all(vids.map(v=>v.play()));playing=true;$('play').textContent='Pause both';sync()}catch{halt()}};
 $('event').onclick=()=>{halt();jump(current.event)};
 function card(key,title){const article=el('article',null,'card '+key);article.append(el('h3',title));return article}
-function imgFig(src,label,cls){const f=el('figure',null,cls),a=link('',src),i=el('img');i.src=src;i.alt=label;i.loading='lazy';a.append(i);f.append(a,el('figcaption',label));return f}
+function imgFig(src,label,cls){const f=el('figure',null,cls),a=link('',src),i=el('img');i.src=releaseAsset(src);i.alt=label;i.loading='lazy';a.append(i);f.append(a,el('figcaption',label));return f}
 function use(c){
  halt();current=c;$('group').value=c.group;
- $('tasks').replaceChildren(...catalog.filter(x=>x.group===c.group).map(x=>{const b=el('button');b.type='button';b.setAttribute('aria-current',String(c.id===x.id));const i=el('img');i.src=x.id+'/thumb.jpg';i.alt='';b.append(i,el('span',x.title));b.onclick=()=>{location.hash=x.id};return b}));
+ $('tasks').replaceChildren(...catalog.filter(x=>x.group===c.group).map(x=>{const b=el('button');b.type='button';b.setAttribute('aria-current',String(c.id===x.id));const i=el('img');i.src=releaseAsset(x.id+'/thumb.jpg');i.alt='';b.append(i,el('span',x.title));b.onclick=()=>{location.hash=x.id};return b}));
  $('title').textContent=c.title;$('robot').textContent=c.robot;$('task').textContent=c.description;document.title=c.title+' · Antigravity edition';
  const orig=$('baseline');orig.hidden=!c.baseline;if(c.baseline)orig.href=c.baseline.startsWith('archive/')?'../archive/#'+c.baseline.split('/')[1]:'../#'+c.baseline;
  $('room').hidden=!c.photos;
- function showPhoto(name){const f=$('photo'),a=link('',c.id+'/'+name+'.jpg'),im=el('img');im.src=c.id+'/'+name+'-preview.jpg';im.alt=name==='world'?'Room overview':'Alternate camera view';a.append(im);f.replaceChildren(a);for(const [id,val] of [['overview','world'],['aisle','aisle']])$(id).setAttribute('aria-pressed',String(val===name))}
+ function showPhoto(name){const f=$('photo'),a=link('',c.id+'/'+name+'.jpg'),im=el('img');im.src=releaseAsset(c.id+'/'+name+'-preview.jpg');im.alt=name==='world'?'Room overview':'Alternate camera view';a.append(im);f.replaceChildren(a);for(const [id,val] of [['overview','world'],['aisle','aisle']])$(id).setAttribute('aria-pressed',String(val===name))}
  $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
  $('time').textContent='Event at '+c.event.toFixed(2)+' s · '+c.duration.toFixed(2)+' s replay';
  $('notes').textContent=c.notes;$('detail').textContent=c.detail;$('criterion').textContent=c.criterion;
@@ -25,7 +27,7 @@ function use(c){
  if(c.hardware){$('mechanismShots').replaceChildren(imgFig(c.id+'/withdrawn.jpg','3.00 s · Bridge withdrawn while the pusher advances'),imgFig(c.id+'/deployed.jpg','5.40 s · Bridge deployed before the carton crosses'));$('mechanismData').replaceChildren(link('Measured plate travel and height',c.id+'/mechanism.png'),link('Carton-to-steel force history',c.id+'/steel.png'),link('Unsafe steel loads (CSV.GZ)',c.id+'/unsafe-steel.csv.gz'),link('Safe steel loads (CSV.GZ)',c.id+'/safe-steel.csv.gz'),link('Solver verification',c.id+'/fabrication-audit.json'))}
  vids=[];for(const id of ['players','plans','evidence','charts','facts','downloads','sources'])$(id).replaceChildren();
  for(const b of branch){
-  const p=card(b,labels[b]+' replay'),v=el('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.poster=c.id+'/'+b+'_poster.jpg';
+  const p=card(b,labels[b]+' replay'),v=el('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.poster=releaseAsset(c.id+'/'+b+'_poster.jpg');
   const s=el('source');s.type='video/mp4';s.src=c.film+'/'+b+'.mp4';v.append(s);vids.push(v);p.append(v,el('div',c[b].outcome,'caption'));$('players').append(p);
   const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');li.append(el('span',Number(step.t).toFixed(2)+' s','clock'),el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
@@ -35,7 +37,7 @@ function use(c){
  $('charts').append(imgFig(c.id+'/metric.png',c.metric,'chart'),imgFig(c.id+'/force.png',c.force,'chart'));
  $('downloads').append(...branch.map(b=>link(labels[b]+' solver trace (CSV.GZ)',c.id+'/'+b+'.csv.gz')));
  const sourceFile=c.program || {legacy:'legacy',studies:'workcells',cnc:'cnc',mobile:c.id.includes('washroom')?'washroom':'mobile'}[c.group];
- $('sources').append(link('Gemini-generated Python','sources/neon_'+sourceFile+'.py'),link('Source hashes','sources/manifest.json'));if(c.source)$('sources').append(link('Robot model library',c.source));if(c.productionFiles){$('sources').append(link('Materials used in this render',c.id+'/appearance.json'));for(const name of c.productionFiles)$('sources').append(link(name[0].toUpperCase()+name.slice(1)+' prompt','sources/'+name+'-prompt.txt'));}
+ $('sources').append(link('Gemini-generated Python','sources/neon_'+sourceFile+'.py'),link('Source hashes','sources/manifest.json'));if(c.source)$('sources').append(link('Robot model library',c.source));if(c.productionFiles){$('sources').append(link('Complete workcell brief','sources/factory-brief.md'),link('Materials used in this render',c.id+'/appearance.json'));for(const name of c.productionFiles)$('sources').append(link(name[0].toUpperCase()+name.slice(1)+' prompt','sources/'+name+'-prompt.txt'));}
 }
 function route(){const match=catalog.find(x=>x.id===location.hash.slice(1));use(match||catalog.find(x=>x.id==='legacy_05_parcel')||catalog[0])}
 $('group').onchange=e=>{const c=catalog.find(x=>x.group===e.target.value);if(c)location.hash=c.id};
