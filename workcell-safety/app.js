@@ -78,6 +78,8 @@ function render(c){
     for(const a of [photoLink,full]){a.target='_blank';a.rel='noopener'}
     actions.append(full);choose(0);
   }
+  const editionId=c.mobile||c.id==='cnc_full'?c.id:'studies_'+c.id;
+  by('updated-task').href=by('updated-edition').href='antigravity/#'+editionId;
   document.title=c.title+' · Workcell Safety';
   by('title').textContent=c.title;by('description').textContent=c.description;by('category').textContent=c.category;
   by('timing').textContent='Event at '+tLabel(c.event)+'  ·  '+Number(c.duration.toFixed(2))+' s replay';

@@ -37,6 +37,8 @@ for(const c of cases){
 }
 function render(c){
   pauseBoth();item=c;vids=[];
+  const editionId=c.id==='cnc_full'?c.id:'legacy_'+c.id;
+  by('updated-task').href=by('updated-edition').href='../antigravity/#'+editionId;
   document.title=c.title+' · Workcell Safety';
   by('title').textContent=c.title;by('description').textContent=c.description;by('category').textContent=c.category;
   by('timing').textContent='Event at '+tLabel(c.event)+'  ·  '+Math.round(c.duration)+' s replay';
