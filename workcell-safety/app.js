@@ -1,5 +1,5 @@
 'use strict';
-const cases=[...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
+const cases=[...(window.EVERYDAY_STUDIES||[]),...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
 const versioned=url=>url+'?v=mobile-worlds-1';
 const mediaUrl=(c,file)=>(c.filmBase&&file.endsWith('.mp4')?c.filmBase:c.base)+'/'+file;
@@ -35,31 +35,30 @@ by('event').onclick=()=>seekTo(item.event);
 function picture(url,alt){
   const a=link('',url);a.target='_blank';a.rel='noopener';const im=node('img');im.src=url;im.alt=alt;im.loading='lazy';a.append(im);return a;
 }
-function collection(mobile){
-  for(const b of by('nav').children)b.hidden=(b.dataset.collection==='mobile')!==mobile;
-  by('show-mobile').setAttribute('aria-pressed',String(mobile));
-  by('show-workcells').setAttribute('aria-pressed',String(!mobile));
-}
-const lastChoice={};
-function switchCollection(mobile){
-  const target=lastChoice[String(mobile)]||cases.find(c=>Boolean(c.mobile)===mobile);
-  if(target && target!==item)location.hash=target.id;
-}
-by('show-mobile').onclick=()=>switchCollection(true);
-by('show-workcells').onclick=()=>switchCollection(false);
+const sceneFilter=by('scene-filter');
+const lastChoice=new Map();
+fillSceneOptions(sceneFilter,cases.filter(c=>!c.parentId));
+sceneFilter.onchange=()=>{
+  const scene=sceneFilter.value;
+  const target=lastChoice.get(scene)||cases.find(c=>!c.parentId && taskEnvironment(c.id)===scene);
+  if(target)location.hash=target.id;
+};
 for(const c of cases.filter(c=>!c.parentId)){
-  const b=node('button','taskbtn');b.type='button';b.dataset.id=c.id;b.dataset.collection=c.mobile?'mobile':'workcell';b.setAttribute('aria-pressed','false');
+  const b=node('button','taskbtn');b.type='button';b.dataset.id=c.id;b.dataset.scene=taskEnvironment(c.id);b.setAttribute('aria-pressed','false');
   const im=node('img');im.src=versioned(c.base+'/thumb.jpg');im.alt='';const label=node('span',null,c.short);label.append(node('small','nav-model',c.robotShort||'Earlier study'));b.append(im,label);
   b.onclick=()=>{const id=c.defaultTrial||c.id;if(location.hash!=='#'+id)location.hash=id;else render(cases.find(x=>x.id===id))};by('nav').append(b);
 }
 function render(c){
-  pauseBoth();item=c;vids=[];lastChoice[String(!!c.mobile)]=c;collection(!!c.mobile);
+  pauseBoth();item=c;vids=[];
+  const scene=taskEnvironment(c.parentId||c.id);
+  sceneFilter.value=scene;lastChoice.set(scene,c);
+  for(const b of by('nav').children)b.hidden=b.dataset.scene!==scene;
   const trials=by('trials');trials.replaceChildren();trials.hidden=!c.trials;
   for(const [id,name] of c.trials||[]){
     const btn=node('button',null,name);btn.type='button';btn.setAttribute('aria-pressed',String(c.id===id));btn.onclick=()=>{location.hash=id};trials.append(btn);
   }
   const room=by('room-view');room.hidden=!c.mobile;
-  by('main').classList.toggle('mobile-study',!!c.mobile);
+  by('main').classList.toggle('mobile-study',!!(c.mobile||c.editionId));
   if(c.mobile){
     const cap=by('room-caption'),image=by('room-photo'),photoLink=by('room-link');
     const actions=node('div','photo-actions'),full=link('Open 4K photograph','');
@@ -78,14 +77,14 @@ function render(c){
     for(const a of [photoLink,full]){a.target='_blank';a.rel='noopener'}
     actions.append(full);choose(0);
   }
-  const editionId=c.mobile||c.id==='cnc_full'?c.id:'studies_'+c.id;
+  const editionId=c.editionId||(c.mobile||c.id==='cnc_full'?c.id:'studies_'+c.id);
   by('updated-task').href=by('updated-edition').href='antigravity/#'+editionId;
   document.title=c.title+' · Workcell Safety';
   by('title').textContent=c.title;by('description').textContent=c.description;by('category').textContent=c.category;
   by('timing').textContent='Event at '+tLabel(c.event)+'  ·  '+Number(c.duration.toFixed(2))+' s replay';
   const specs=by('specs');specs.replaceChildren();
   if(c.robot){specs.append(link(c.robot+' ↗',c.source),node('span',null,c.form),node('span',null,c.human));}
-  const credit=link(c.mobile?'Created with Codex · MuJoCo + Blender':c.id==='cnc_full'?'Neon CNC environment · Codex safety trial':'Workcell authored in Codex','credits.html#production');
+  const credit=link(c.credit||(c.mobile?'Created with Codex · MuJoCo + Blender':c.id==='cnc_full'?'Neon CNC environment · Codex safety trial':'Workcell authored in Codex'),c.creditUrl||'credits.html#production');
   specs.append(credit);
   if(c.materialSource)specs.append(link('Scene materials and sources',c.materialSource));
   if(c.handSource)specs.append(link('Panda Hand model',c.handSource));
@@ -105,7 +104,7 @@ function render(c){
   by('goal-test').textContent=c.goalTest?'Task acceptance. '+c.goalTest:'';
   by('plan-intro').textContent=c.planIntro;
   by('detailintro').textContent=c.detailIntro;
-  by('measurement').textContent=c.method;
+  by('measurement').textContent=c.method||'';
   by('auditnote').textContent=c.auditnote;
   for(const b of by('nav').children)b.setAttribute('aria-pressed',String(b.dataset.id===(c.parentId||c.id)));
   for(const id of ['players','plans','details','facts','charts','downloads'])by(id).replaceChildren();
@@ -119,14 +118,20 @@ function render(c){
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){const li=node('li',step.hazard?'haz':'');li.append(node('time',null,tLabel(step.t)),node('span',null,step.text));ol.append(li)}
     card.append(ol);by('plans').append(card);
-    const detail=node('figure','detail '+key);detail.append(node('h3',null,name+' at '+tLabel(c.detailByBranch?.[key]??c.detailTime)),picture(versioned(base+'detail_'+key+'.jpg'),data.caption),node('p',null,data.caption));by('details').append(detail);
+    const detailTime=c.detailByBranch?.[key]??c.detailTime;
+    const detail=node('figure','detail '+key);detail.append(node('h3',null,Number.isFinite(detailTime)?name+' at '+tLabel(detailTime):name+' event view'),picture(versioned(base+'detail_'+key+'.jpg'),data.caption),node('p',null,data.caption));by('details').append(detail);
+  }
+  for(const [key,caption] of Object.entries(c.endViews||{})){
+    const fig=node('figure','detail '+key);
+    fig.append(picture(versioned(c.base+'/end_'+key+'.jpg'),caption),node('figcaption',null,caption));
+    by('details').append(fig);
   }
   for(const [label,value] of c.facts){const f=node('div','fact');f.append(node('span',null,label),node('strong',null,value));by('facts').append(f)}
   for(const [name,caption] of c.charts){const f=node('figure','chart');f.append(picture(versioned(c.base+'/'+name),caption),node('p',null,caption));by('charts').append(f)}
   for(const [name,path] of c.downloads)by('downloads').append(link(name,mediaUrl(c,path)))
 }
 function route(){
-  if(['#mobile_washroom_bump','#everyday_drawer','#everyday_pool'].includes(location.hash)){location.replace('antigravity/'+(location.hash==='#mobile_washroom_bump'?'#everyday_drawer':location.hash));return}
+  if(location.hash==='#mobile_washroom_bump'){location.replace('#everyday_drawer');return}
   const slug=location.hash.slice(1),found=cases.find(c=>c.id===slug);
   by('redirect').hidden=!(slug&&!found);
   by('redirect').textContent='The earlier task at this link has been replaced. Choose a robot task from the updated collection.';

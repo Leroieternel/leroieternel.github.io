@@ -5,6 +5,7 @@ const build=document.documentElement.dataset.build;
 function releaseAsset(url){return build && !/^(https?:|\.\.\/|#)/.test(url) ? url+'?v='+encodeURIComponent(build) : url}
 const link=(text,url)=>{const a=el('a',text);a.href=releaseAsset(url);return a};
 let catalog=[],current,vids=[],playing=false,handle=0;
+const lastSceneTask=new Map();
 const branch=['unsafe','safe'], labels={unsafe:'Unsafe',safe:'Safe'};
 function halt(){playing=false;cancelAnimationFrame(handle);vids.forEach(v=>v.pause());$('play').textContent='Play together'}
 function sync(){if(!playing)return;if(vids.some(v=>v.ended))return halt();if(vids.every(v=>v.readyState>2)&&Math.abs(vids[0].currentTime-vids[1].currentTime)>.12)vids[1].currentTime=vids[0].currentTime;handle=requestAnimationFrame(sync)}
@@ -14,10 +15,12 @@ $('event').onclick=()=>{halt();jump(current.event)};
 function card(key,title){const article=el('article',null,'card '+key);article.append(el('h3',title));return article}
 function imgFig(src,label,cls){const f=el('figure',null,cls),a=link('',src),i=el('img');i.src=releaseAsset(src);i.alt=label;i.loading='lazy';a.append(i);f.append(a,el('figcaption',label));return f}
 function use(c){
- halt();current=c;$('group').value=c.group;
- $('tasks').replaceChildren(...catalog.filter(x=>x.group===c.group).map(x=>{const b=el('button');b.type='button';b.setAttribute('aria-current',String(c.id===x.id));const i=el('img');i.src=releaseAsset(x.id+'/thumb.jpg');i.alt='';b.append(i,el('span',x.title));b.onclick=()=>{location.hash=x.id};return b}));
+ halt();current=c;const scene=taskEnvironment(c.id);$('group').value=scene;lastSceneTask.set(scene,c);
+ $('tasks').replaceChildren(...catalog.filter(x=>taskEnvironment(x.id)===scene).map(x=>{const b=el('button');b.type='button';b.setAttribute('aria-current',String(c.id===x.id));const i=el('img');i.src=releaseAsset(x.id+'/thumb.jpg');i.alt='';b.append(i,el('span',x.title));b.onclick=()=>{location.hash=x.id};return b}));
  $('title').textContent=c.title;$('robot').textContent=c.robot;$('task').textContent=c.description;document.title=c.title+' · Antigravity edition';
- const orig=$('baseline');orig.hidden=!c.baseline;if(c.baseline)orig.href=c.baseline.startsWith('archive/')?'../archive/#'+c.baseline.split('/')[1]:'../#'+c.baseline;
+ const orig=$('baseline');
+ const mainId=c.baseline||(c.dataset?c.id:null);orig.hidden=!mainId;
+ if(mainId){orig.textContent=c.dataset?'View on the main site':'View original study ↗';orig.href=mainId.startsWith('archive/')?'../archive/#'+mainId.split('/')[1]:'../#'+mainId;}
  $('room').hidden=!c.photos;
  function showPhoto(name){const f=$('photo'),a=link('',c.id+'/'+name+'.jpg'),im=el('img');im.src=releaseAsset(c.id+'/'+name+'-preview.jpg');im.alt=name==='world'?'Room overview':'Alternate camera view';a.append(im);f.replaceChildren(a);for(const [id,val] of [['overview','world'],['aisle','aisle']])$(id).setAttribute('aria-pressed',String(val===name))}
  $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
@@ -45,6 +48,6 @@ function use(c){
  $('sources').append(link('Gemini-generated Python','sources/neon_'+sourceFile+'.py'),link('Source hashes','sources/manifest.json'));if(c.source)$('sources').append(link('Robot model library',c.source));if(c.productionFiles){$('sources').append(link('Complete workcell brief','sources/factory-brief.md'),link('Materials used in this render',c.id+'/appearance.json'));for(const name of c.productionFiles)$('sources').append(link(name[0].toUpperCase()+name.slice(1)+' prompt','sources/'+name+'-prompt.txt'));}
 }
 function route(){if(location.hash==='#mobile_washroom_bump'&&catalog.some(x=>x.id==='everyday_drawer')){location.replace('#everyday_drawer');return}const match=catalog.find(x=>x.id===location.hash.slice(1));use(match||catalog.find(x=>x.id==='everyday_drawer')||catalog.find(x=>x.id==='legacy_05_parcel')||catalog[0])}
-$('group').onchange=e=>{const c=catalog.find(x=>x.group===e.target.value);if(c)location.hash=c.id};
+$('group').onchange=e=>{const scene=e.target.value;const c=lastSceneTask.get(scene)||catalog.find(x=>taskEnvironment(x.id)===scene);if(c)location.hash=c.id};
 window.addEventListener('hashchange',route);
-fetch('catalog.json'+(document.documentElement.dataset.build?'?v='+document.documentElement.dataset.build:''),{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{catalog=data;for(const option of [...$('group').options])if(!data.some(c=>c.group===option.value))option.remove();route()}).catch(()=>{$('title').textContent='Studies could not be loaded. Refresh to try again.'});
+fetch('catalog.json'+(document.documentElement.dataset.build?'?v='+document.documentElement.dataset.build:''),{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{catalog=[...data.filter(x=>x.dataset),...data.filter(x=>!x.dataset)];fillSceneOptions($('group'),catalog);route()}).catch(()=>{$('title').textContent='Studies could not be loaded. Refresh to try again.'});
