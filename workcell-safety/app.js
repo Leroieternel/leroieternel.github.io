@@ -126,6 +126,7 @@ function render(c){
   for(const [name,path] of c.downloads)by('downloads').append(link(name,mediaUrl(c,path)))
 }
 function route(){
+  if(['#mobile_washroom_bump','#everyday_drawer','#everyday_pool'].includes(location.hash)){location.replace('antigravity/'+(location.hash==='#mobile_washroom_bump'?'#everyday_drawer':location.hash));return}
   const slug=location.hash.slice(1),found=cases.find(c=>c.id===slug);
   by('redirect').hidden=!(slug&&!found);
   by('redirect').textContent='The earlier task at this link has been replaced. Choose a robot task from the updated collection.';

@@ -21,6 +21,8 @@ function use(c){
  $('room').hidden=!c.photos;
  function showPhoto(name){const f=$('photo'),a=link('',c.id+'/'+name+'.jpg'),im=el('img');im.src=releaseAsset(c.id+'/'+name+'-preview.jpg');im.alt=name==='world'?'Room overview':'Alternate camera view';a.append(im);f.replaceChildren(a);for(const [id,val] of [['overview','world'],['aisle','aisle']])$(id).setAttribute('aria-pressed',String(val===name))}
  $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
+ $('productionNote').hidden=!c.dataset;$('editionMethods').hidden=!!c.dataset;
+ if(c.dataset)$('productionNote').textContent='Google Antigravity ran Gemini 4 Neon High on an existing MuJoCo mobile-Panda project. Gemini authored the rooms, Genie Sim surface materials, action sequences and Blender renderer, and revised the robot and tool mechanics during testing. Codex supplied the initial physics setup, ran the generated programs, checked the outputs and published the results. The two DESPITE examples supplied the reference actions. No PDDL planner was used.';
  $('time').textContent='Event at '+c.event.toFixed(2)+' s · '+c.duration.toFixed(2)+' s replay';
  $('notes').textContent=c.notes;$('detail').textContent=c.detail;$('criterion').textContent=c.criterion;
  $('hardware').hidden=!c.hardware;
@@ -32,15 +34,17 @@ function use(c){
   const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');li.append(el('span',Number(step.t).toFixed(2)+' s','clock'),el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
  }
+ if(c.id==='everyday_pool'){for(const b of branch)$('evidence').append(imgFig(c.id+'/end_'+b+'.jpg',b==='safe'?'After tool return · grit in the collection pan':'After tool return · grit on the pool floor'));$('downloads').append(link('Top-down tracks of all 24 clusters',c.id+'/particle-tracks.png'))}
  const table=el('table',null,'metrics'),head=el('tr');for(const h of ['Measurement','Unsafe','Safe'])head.append(el('th',h));table.append(head);
- for (const [name,get] of [[c.metric+' · peak ('+c.unit+')',b=>Number(c[b].peak).toLocaleString('en-US',{maximumFractionDigits:3})],[c.force+' · peak (N)',b=>Number(c[b].force).toLocaleString('en-US',{maximumFractionDigits:3})],['Task goal reached',b=>c[b].completed?'Yes':'No']]){const r=el('tr');[name,...branch.map(get)].forEach(v=>r.append(el('td',v)));table.append(r)}$('facts').append(table);
+ for (const [name,get] of [[c.metric+' · peak ('+c.unit+')',b=>Number(c[b].peak).toLocaleString('en-US',{maximumFractionDigits:3})],[c.force+' · peak (N)',b=>Number(c[b].force).toLocaleString('en-US',{maximumFractionDigits:3})],...(c.terminalMetric?[[c.terminalMetric.label,b=>c.terminalMetric[b]]]:[]),['Task goal reached',b=>c[b].completed?'Yes':'No']]){const r=el('tr');[name,...branch.map(get)].forEach(v=>r.append(el('td',v)));table.append(r)}$('facts').append(table);
  $('charts').append(imgFig(c.id+'/metric.png',c.metric,'chart'),imgFig(c.id+'/force.png',c.force,'chart'));
  $('downloads').append(...branch.map(b=>link(labels[b]+' solver trace (CSV.GZ)',c.id+'/'+b+'.csv.gz')));
+ if(c.dataset){$('sources').append(link('DESPITE example · '+c.dataset,c.id+'/source-example.json'),link('Production brief','sources/everyday-production-prompt.txt'),link('Materials used',c.id+'/appearance.json'),link('Antigravity production record',c.id+'/production.json'),link('MuJoCo scene',c.id+'/scenes.py'),link('Robot controller',c.id+'/trials.py'),link('Antigravity renderer',c.id+'/antigravity_film.py'));$('downloads').append(link('Physics checks and terminal states',c.id+'/physics-audit.json'),...branch.map(b=>link(labels[b]+' full contact log',c.id+'/'+b+'-full.csv.gz')))}
  if(c.armClearance)$('downloads').append(link('Robot-to-support clearance audit',c.id+'/arm-clearance.json'));
  const sourceFile=c.program || {legacy:'legacy',studies:'workcells',cnc:'cnc',mobile:c.id.includes('washroom')?'washroom':'mobile'}[c.group];
  $('sources').append(link('Gemini-generated Python','sources/neon_'+sourceFile+'.py'),link('Source hashes','sources/manifest.json'));if(c.source)$('sources').append(link('Robot model library',c.source));if(c.productionFiles){$('sources').append(link('Complete workcell brief','sources/factory-brief.md'),link('Materials used in this render',c.id+'/appearance.json'));for(const name of c.productionFiles)$('sources').append(link(name[0].toUpperCase()+name.slice(1)+' prompt','sources/'+name+'-prompt.txt'));}
 }
-function route(){const match=catalog.find(x=>x.id===location.hash.slice(1));use(match||catalog.find(x=>x.id==='legacy_05_parcel')||catalog[0])}
+function route(){if(location.hash==='#mobile_washroom_bump'&&catalog.some(x=>x.id==='everyday_drawer')){location.replace('#everyday_drawer');return}const match=catalog.find(x=>x.id===location.hash.slice(1));use(match||catalog.find(x=>x.id==='everyday_drawer')||catalog.find(x=>x.id==='legacy_05_parcel')||catalog[0])}
 $('group').onchange=e=>{const c=catalog.find(x=>x.group===e.target.value);if(c)location.hash=c.id};
 window.addEventListener('hashchange',route);
 fetch('catalog.json'+(document.documentElement.dataset.build?'?v='+document.documentElement.dataset.build:''),{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{catalog=data;for(const option of [...$('group').options])if(!data.some(c=>c.group===option.value))option.remove();route()}).catch(()=>{$('title').textContent='Studies could not be loaded. Refresh to try again.'});
