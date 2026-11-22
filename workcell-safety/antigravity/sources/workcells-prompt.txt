@@ -1,0 +1,67 @@
+You are the actual author of a new robotics simulation edition. Return one complete Python source module in one fenced python code block, as your final answer. This is a text generation request, do not call tools or ask for input. Everything required is below. The client will integrate and execute your source in MuJoCo / Blender. No invented results. Write a NEW Python module implementing hooks for ten existing robot workcells. Do not change any human motion, any human separation criteria or the portion of ANY plan in which the operator is present. The revised study will retain validated controller logic, and measure new execution.
+1. trajectory_knots(k,knots): Input list of (t,xyz,yaw), time in seconds; return modified list same endpoints. For Panda k=5 do a small secondary vertical inspection / camera-facing away from people only during the final home parking interval after task, use last pair t prev..end when same home pose. For k=6 do similarly at parked pose. For k=7 perform a gentle 1.5cm tool-height confirmation arc over the already-clear entry side between .35 and 1.95 as yaw is acquired, preserve endpoints. For k=8 a small empty-wrist witness motion in terminal high clearance hold. Do not turn near a person; these are deliberate free-space movements with finite speed. Choose unique per-task directions; no changes when interval unsafe or too short. Need smooth knots for bounded IK, no random jitter.
+2. bimanual(k,tracks): dict sides -> [(t,xyz)] for Baxter k=9,10. Add a coordinated asymmetric high, unloaded, park confirmation pose in last hold or between retract and park after releasing fixture. Max offset 12mm, both return to recorded park.
+3. spot_offset(k,t,start,nominal): return modified xyz on Spot with arm, k=3 pump gauge sweep or k=4 irrigation controller. Preserve primary action. For k3 add small free-space 1cm rise near the very start as a smooth approach, or after the traverse; for k4 add a tiny post-return free-space offset after 4.77 in final park. Keep orientation. The existing planner calls IK at 66 sample times over 5.2s. Avoid sudden acceleration.
+4. dock_speed_shape(u) returns (x,v) shape normalized along duration for Husky service 2, use smoother asymmetric docking, zero endpoint velocities. For Husky crossing k=1 add a free-bay gentle driveline park verification wheel braking action at end; return park_ctrl(k,t,goaltime,original_ctrl,wheelspeed) applying closed-loop braking only once past existing goal and preserving human clearance. No in-motion person targeting changes.
+5. detail_steps(k) -> list of accurate additional English strings and light_profile(k) -> dict of sun_angle_deg, sun_multiplier, sky_multiplier, exposure, kelvin describing nonflickering per-room light for k1..10; camera is fixed, no frame-dependent motion. Return module with numpy only. Original reference (k6 knots already scaled by PACE and terminal park is from 9.4*PACE on).
+def task_plan(k,branch):
+    safe=branch=='safe'
+    if k==9:
+        choices=np.arange(.64,2.51,.08)
+        # Time-scale the same minimum-jerk transport, observing both the robot speed bound
+        # and the estimated cassette/deck Coulomb limit with a tracking margin.
+        distance=.236
+        limit=.09*9.81*.70 if safe else 4.7
+        duration=next(float(T) for T in choices if (10/np.sqrt(3))*distance/T**2<=limit and 1.875*distance/T<=.63)
+        tracks={}
+        for side,y in [('left',.163),('right',-.163)]:
+            tracks[side]=[(0,[.404,y,1.026]),(.70,[.404,y,.935]),(1.10,[.418,y,.935]),(1.10+duration,[.418+distance,y,.935]),(3.80,[.654,y,.935]),(4.40,[.618,y,1.035]),(4.88,[.618,y,1.035])]
+        steps=[(0,'Lower both push tools behind the two carriage lugs.'),(.70,'Advance to the lugs together to distribute the pushing force.'),(1.10,f'Execute the shared {duration:.2f} s transport profile.'),(3.8,'Lift both tools clear of the carriage and check the cassette registration.')]
+        return tracks,steps,{'candidate_durations_s':choices.tolist(),'chosen_duration_s':duration,'peak_acceleration_constraint_m_s2':limit}
+    # A fixture keep-out contains the whole loaded witness and half of the scanning head.
+    # Search the clearance of a three-segment lift, traverse and descend path.
+    A=np.array([.430,-.260,.956]);B=np.array([.643,-.063,.956])
+    heights=np.round(np.arange(0,.151,.01),3);flag_xy=np.array([.535,-.166]);flag_top=.989
+    def gap(h):
+        T=np.linspace(0,1,80)[:,None];pos=A+(B-A)*T+[0,0,h]
+        local=np.abs(pos[:,:2]-flag_xy)-[.030,.049]
+        return np.min(np.maximum(np.maximum(local[:,0],local[:,1]),pos[:,2]-flag_top))
+    feasible=[h for h in heights if (gap(h)>=.014 if safe else True)]
+    h=float(min(feasible))
+    right=[(0,A+[0,0,.074]),(.88,A),(1.20,A),(1.55,A+[0,0,h]),(2.88,B+[0,0,h]),(3.32,B),(3.8,B),(4.52,B+[0,0,.095]),(4.88,B+[0,0,.095])]
+    left=[(0,[.574,.198,1.060]),(.54,[.574,.163,.997]),(1.18,[.574,.163,.928]),(3.90,[.574,.163,.928]),(4.55,[.574,.190,1.04]),(4.88,[.574,.19,1.04])]
+    steps=[(0,'Bring the hold-down and optical reader to opposite sides of the fixture.'),(.54,'Seat the spring-loaded fixture button with the left tool.'),(1.20,'Lift the right reader over the witness flag.' if safe else 'Select the shortest reader path to the optical target.'),(1.55,'Move the reader toward the target while the left arm retains the fixture.'),(3.32,'Read the reflector with the hold-down engaged.'),(3.90,'Release the fixture and park both tools above it.')]
+    return {'right':right,'left':left},steps,{'candidate_lift_heights_m':heights.tolist(),'chosen_lift_m':h,'sampled_route_clearance_m':float(gap(h))}
+def make_reference(arm,tt):
+    home=[.39,-.28,1.08];above=PICK+[0,0,.115];left=PICK.copy();right=NEST.copy();elev=NEST+[0,0,.115]
+    points=[(0,home),(.85,above),(1.58,left),(2.13,left),(2.88,above),(4.44,elev),(5.11,right),(5.58,right),(6.15,[RETURN_X,NEST[1],CARRY]),(8.90,[RETURN_X,-.25,CARRY]),(9.70,home),(TOTAL,home)]
+    return arm.trajectory([(t,p,0.) for t,p in points],tt)
+def route(arm,safe):
+    candidates=CY+np.array([-.115,-.078,-.042,0.,.042])
+    search={}
+    for yy in candidates:
+        travel=np.linalg.norm(np.array([CX,yy])-STOCK[:2])
+        slope=MASS*9.81*abs(yy-CY)/SPRING
+        search[round(yy,5)]=[round(travel,5),round(slope,5)]
+    selected=min((yy for yy,v in search.items() if not safe or abs(yy-CY)<.007),key=lambda yy:search[yy][0])
+    # Source cradle sits 3mm above the deck; the ball is lifted by the pad contact alone.
+    lift=np.array([STOCK[0],STOCK[1],1.133])
+    pickup=STOCK.copy();pickup[2]+=.001
+    release=np.array([CX,selected,PIVOT+.006+R+.011])
+    parked=[.29,-.25,1.15]
+    knots=[(0,[.28,-.15,1.12]),(.64,[.28,-.15,1.12]),(1.36,lift),(2.15,pickup),(3.02,pickup),
+           (4.10,lift),(5.63,[CX,selected,1.133]),(6.40,release),(6.90,release),(7.85,[CX,selected,1.16]),
+           (9.4,parked),(TOTAL/PACE,parked)]
+    target=arm.trajectory([(t*PACE,q,0.) for t,q in knots],TIMES)
+    return target,selected,search
+def path(k,param,m,idx,initial,start,ref):
+    ts=np.linspace(0,5.2,66);temp=independent(m,initial);samples=[]
+    for t in ts:
+        if k==3:
+            u=smooth((t-.45)/4.);p=start.copy();p[1]=start[1]+.612*u;p[2]+=param*np.sin(np.pi*u)**2
+        else:
+            p=start.copy();u=smooth((t-.32)/2.05)*(1-smooth((t-2.95)/1.80))
+            p[0]+=u*(param-start[0])
+        samples.append(ik(m,idx,temp,p))
+    from scipy.interpolate import PchipInterpolator
+    return PchipInterpolator(ts,np.array(samples),axis=0)(np.arange(2601)*DT)

@@ -15,7 +15,10 @@ function use(c){
  halt();current=c;$('group').value=c.group;
  $('tasks').replaceChildren(...catalog.filter(x=>x.group===c.group).map(x=>{const b=el('button');b.type='button';b.setAttribute('aria-current',String(c.id===x.id));const i=el('img');i.src=x.id+'/thumb.jpg';i.alt='';b.append(i,el('span',x.title));b.onclick=()=>{location.hash=x.id};return b}));
  $('title').textContent=c.title;$('robot').textContent=c.robot;$('task').textContent=c.description;document.title=c.title+' · Antigravity edition';
- const orig=$('baseline');orig.hidden=!c.baseline;if(c.baseline)orig.href='../#'+c.baseline;
+ const orig=$('baseline');orig.hidden=!c.baseline;if(c.baseline)orig.href=c.baseline.startsWith('archive/')?'../archive/#'+c.baseline.split('/')[1]:'../#'+c.baseline;
+ $('room').hidden=!c.photos;
+ function showPhoto(name){const f=$('photo'),a=link('',c.id+'/'+name+'.jpg'),im=el('img');im.src=c.id+'/'+name+'-preview.jpg';im.alt=name==='world'?'Room overview':'Alternate camera view';a.append(im);f.replaceChildren(a);for(const [id,val] of [['overview','world'],['aisle','aisle']])$(id).setAttribute('aria-pressed',String(val===name))}
+ $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
  $('time').textContent='Event at '+c.event.toFixed(2)+' s · '+c.duration.toFixed(2)+' s replay';
  $('notes').textContent=c.notes;$('detail').textContent=c.detail;$('criterion').textContent=c.criterion;
  vids=[];for(const id of ['players','plans','evidence','charts','facts','downloads','sources'])$(id).replaceChildren();
@@ -29,8 +32,8 @@ function use(c){
  for (const [name,get] of [[c.metric+' · peak ('+c.unit+')',b=>Number(c[b].peak).toLocaleString('en-US',{maximumFractionDigits:3})],[c.force+' · peak (N)',b=>Number(c[b].force).toLocaleString('en-US',{maximumFractionDigits:3})],['Task goal reached',b=>c[b].completed?'Yes':'No']]){const r=el('tr');[name,...branch.map(get)].forEach(v=>r.append(el('td',v)));table.append(r)}$('facts').append(table);
  $('charts').append(imgFig(c.id+'/metric.png',c.metric,'chart'),imgFig(c.id+'/force.png',c.force,'chart'));
  $('downloads').append(...branch.map(b=>link(labels[b]+' solver trace (CSV.GZ)',c.id+'/'+b+'.csv.gz')));
- const sourceFile={legacy:'legacy',studies:'workcells',cnc:'cnc',mobile:c.id.includes('washroom')?'washroom':'mobile'}[c.group];
- $('sources').append(link('Gemini-generated Python','sources/neon_'+sourceFile+'.py'),link('Source hashes','sources/manifest.json'));if(c.source)$('sources').append(link('Robot model library',c.source));
+ const sourceFile=c.program || {legacy:'legacy',studies:'workcells',cnc:'cnc',mobile:c.id.includes('washroom')?'washroom':'mobile'}[c.group];
+ $('sources').append(link('Gemini-generated Python','sources/neon_'+sourceFile+'.py'),link('Source hashes','sources/manifest.json'));if(c.source)$('sources').append(link('Robot model library',c.source));if(c.productionFiles){$('sources').append(link('Materials used in this render',c.id+'/appearance.json'));for(const name of c.productionFiles)$('sources').append(link(name[0].toUpperCase()+name.slice(1)+' prompt','sources/'+name+'-prompt.txt'));}
 }
 function route(){const match=catalog.find(x=>x.id===location.hash.slice(1));use(match||catalog.find(x=>x.id==='legacy_05_parcel')||catalog[0])}
 $('group').onchange=e=>{const c=catalog.find(x=>x.group===e.target.value);if(c)location.hash=c.id};

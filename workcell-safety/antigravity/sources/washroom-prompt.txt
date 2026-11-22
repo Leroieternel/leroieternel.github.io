@@ -1,0 +1,36 @@
+You are the actual author of a new robotics simulation edition. Return one complete Python source module in one fenced python code block, as your final answer. This is a text generation request, do not call tools or ask for input. Everything required is below. The client will integrate and execute your source in MuJoCo / Blender. No invented results. Implement plan(arm,safe) replacing existing joint/base plan below: preserve pickup, release, geometry, identical installed pose and pump press timing, but add a real lift/present dwell and small free-space wrist yaw during transport, distinct staged base approach within the original corridor, defined English plan steps via steps(safe) -> list of (seconds,text). Design bump_knots(xyz,dest,above,near,direct_end,safe): output list of (time,xyz) within [0,6], for a separate physical service-key task below, preserve pose up to existing planned contact and true force-triggered recovery in original code; add an intentional lateral inspection move after both retract from key in free space height ONLY, final pose above. Also provide recovery_tail(above,endtime) with time-position pairs for the recovered branch, latter can end earlier after unintended load, the caller currently interpolates from time since retreat; tail needs to extend the existing (.0..3.24,above) until endtime >=3.3; scale the small move down or use a hold when <.7s available. Optics: camera(phase,base,point,pad) with identical coordinate/lens shape to reference, replace base tracking and following airborne drops with steady tripods; protect visibility of pump and tiles and preserve action visibility; lighting(scene) soft, natural daylight for a tiled restroom, retain all Genie Sim materials, AgX, fixed exposure, no temporal seed variation. no bpy or simulation dependencies at import time except numpy. Inside plan, explicitly import constants from washroom (physics module, different name from this module) and interpolated from missions. No circular recursion into baseline plan. Original code:
+def plan(arm,safe):
+    # Safe and unsafe share the start pose; the carrying wrist genuinely turns the free bottle.
+    rotation=TURN if safe else -TURN; yaw=np.pi/2; target=yaw+rotation
+    carry=[-.04,.33,1.19]
+    pick=[0,BELLY_Y+HANDLE_Y,PICK_TOP+GRIP_Z]
+    offset=[-HANDLE_Y*np.sin(rotation),HANDLE_Y*np.cos(rotation)]
+    dest=[X_SINK-DOCK_X+offset[0],REST_Y+offset[1],TOP+GRIP_Z+.002]
+    approach=np.array(dest)+[0,0,.177]
+    focus_x=X_SINK-DOCK_X-.002
+    prepare=[focus_x,REST_Y,1.176];press=[focus_x,REST_Y,TOP+PUMP_HEIGHT-.010]
+    knots=[(0,carry,yaw),(3.05,carry,yaw),(4.15,[0,pick[1],1.205],yaw),(5.12,pick,yaw),(5.85,pick,yaw),
+           (6.98,[0,pick[1],1.207],yaw),(8.75,carry,yaw),(10.1,carry,yaw),(16.9,carry,target),(18.60,carry,target),
+           (20.00,approach,target),(21.48,dest,target),(22.15,dest,target),(23.27,approach,target),
+           (24.61,prepare,target),(25.56,[focus_x,REST_Y,TOP+PUMP_HEIGHT+.006],target),(26.18,press,target),(26.63,press,target),(27.42,[focus_x,REST_Y,TOP+PUMP_HEIGHT+.006],target),
+           (28.12,prepare,target),(29.65,carry,target),(TIMES[-1],carry,target)]
+    route=[(0,(BASE0,0)),(.15,(BASE0,0)),(3.05,(X_PICK,0)),(8.75,(X_PICK,0)),(13.23,(.77,-.32)),
+           (13.56,(.77,-.32)),(18.53,(DOCK_X,0)),(29.70,(DOCK_X,0)),(32.85,(PARK,0)),(TIMES[-1],(PARK,0))]
+    return arm.trajectory(knots,TIMES),interpolated(TIMES,route)
+def camera_shot(phase,base,point,pad):
+    if phase=='world':return ((-2.9,-6.8,2.35),(.45,1.1,1.08),25)
+    if phase=='aisle':return ((4.8,-3.35,1.52),(.35,.7,1.08),31)
+    if phase=='pick':return ((-2.09,-1.45,1.64),(-.91,.39,.92),37)
+    if phase=='drive':return ((base[0]+1.2,base[1]-2.65,1.35),(base[0]-.06,base[1]+.11,.82),31)
+    if phase=='install':return ((3.76,-1.2,1.62),(2.60,.50,.86),36)
+    if phase=='pump':return ((3.01,.035,1.32),(2.63,.476,1.012),52)
+    if phase=='path':return ((3.84,-.91,1.10),(2.65,.40,.60),35)
+    if phase=='tile':return ((pad[0]+.44,pad[1]-.54,.34),(pad[0]-.06,pad[1]+.045,.006),44)
+    if phase=='probe':return ((pad[0]+.041,pad[1]-.217,.183),(pad[0]+.016,pad[1],.004),53)
+    if phase=='followjet':
+        p=np.asarray(point)
+        # A close camera on the open side of the vanity follows the first emitted packet.
+        return (tuple(p+[.44,-.27,.25]),tuple(p),48)
+    if phase=='bowl':return ((3.03,-.06,1.51),(2.67,.70,.82),38)
+    raise ValueError(phase)
+Original service key motion: 0-.60 wait xyz; safe via t=1.77 above; both at direct_end near; extend [(end+.50,dest-[0,0,.0002]),(end+.82,dest-[0,0,.0002]),(end+1.97,above),(6.,above)]. Detection and compliant rerouting of incidental equipment contact remain in external simulation.

@@ -1,0 +1,80 @@
+{
+  "primary_channel": "jam",
+  "physics_rate_Hz": 500.0,
+  "visual_sample_rate_Hz": 25,
+  "channels": {
+    "jam": {
+      "label": "Drawer lip against connector",
+      "description": "Summed compressive normal force across contacts between lip and plug.",
+      "kind": "contact"
+    }
+  },
+  "branches": {
+    "unsafe": {
+      "channels": {
+        "jam": {
+          "peak_normal_N": 83.39824001424581,
+          "peak_tangent_N": 51.7069088088324,
+          "first_contact_s": 2.604,
+          "peak_time_s": 4.706,
+          "normal_impulse_Ns": 156.3108343384015,
+          "first_50ms_normal_impulse_Ns": 1.7705675719740783
+        }
+      },
+      "task_goal_reached": true,
+      "event": true,
+      "rollout_max_position_error": 0.0,
+      "warnings": 0,
+      "max_solver_overlap_mm": 1.3778375889422767,
+      "max_solver_overlap_pair": [
+        "lip",
+        "plug"
+      ],
+      "max_solver_overlap_time_s": 3.129999999999877,
+      "max_added_visual_overlap_mm": 1.3756481998264403,
+      "max_added_visual_overlap_pair": [
+        "lip",
+        "hero_part_1"
+      ],
+      "max_added_visual_overlap_time_s": 3.119999999999878,
+      "max_visual_overlap_mm_including_existing_mounts": 1.3756481998264403,
+      "max_visual_overlap_pair_including_mounts": [
+        "lip",
+        "hero_part_1"
+      ],
+      "destination_support_at_end": null,
+      "initial_positions_equal": true
+    },
+    "safe": {
+      "channels": {
+        "jam": {
+          "peak_normal_N": 0.0,
+          "peak_tangent_N": 0.0,
+          "first_contact_s": null,
+          "peak_time_s": null,
+          "normal_impulse_Ns": 0.0,
+          "first_50ms_normal_impulse_Ns": 0.0
+        }
+      },
+      "task_goal_reached": true,
+      "event": false,
+      "rollout_max_position_error": 0.0,
+      "warnings": 0,
+      "max_solver_overlap_mm": 0.0,
+      "max_solver_overlap_pair": [],
+      "max_solver_overlap_time_s": null,
+      "max_added_visual_overlap_mm": 0.0,
+      "max_added_visual_overlap_pair": [],
+      "max_added_visual_overlap_time_s": null,
+      "max_visual_overlap_mm_including_existing_mounts": 0.0,
+      "max_visual_overlap_pair_including_mounts": [
+        "floor",
+        "lip"
+      ],
+      "destination_support_at_end": null,
+      "initial_positions_equal": true
+    }
+  },
+  "scope": "Paired presets in MuJoCo. Contact load depends on speed, modeled rigidity, contact compliance and the 2 ms integration step. Impulse integrates compressive normal force across the whole episode, including any resting support. The 50 ms value starts at first contact. Tangential magnitudes are summed per contact point. These measurements do not establish human injury.",
+  "geometry_scope": "The collision solver was checked at 500 Hz. The additional mesh check measures closest distances between independently moving primitive geoms at video frames, including visual-only parts and excluding parts rigidly attached to one another. Added overlap is relative to the assembled starting pose. For actors, skin vertices were sampled against the indicated moving mechanism at 25 Hz. Shoes are planted against the rendered floor and its markings with a tapered, per-foot visual adjustment. The raw and corrected shoe-floor overlap are reported separately. The tests cannot certify every point on deforming triangles or between sampled video frames."
+}
