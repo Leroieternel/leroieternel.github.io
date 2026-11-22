@@ -1,6 +1,7 @@
 'use strict';
 const cases=window.WORKCELLS;
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
+const versioned=url=>url+'?v=robot-plans-2';
 const by=id=>document.getElementById(id);
 const link=(text,url)=>{const a=node('a',null,text);a.href=url;return a};
 let item,vids=[],paired=false,tick=0;
@@ -32,7 +33,7 @@ function picture(url,alt){
 }
 for(const c of cases){
   const b=node('button','taskbtn');b.type='button';b.dataset.id=c.id;b.setAttribute('aria-pressed','false');
-  const im=node('img');im.src=c.base+'/thumb.jpg';im.alt='';const label=node('span',null,c.short);label.append(node('small','nav-model',c.robotShort||'Earlier study'));b.append(im,label);
+  const im=node('img');im.src=versioned(c.base+'/thumb.jpg');im.alt='';const label=node('span',null,c.short);label.append(node('small','nav-model',c.robotShort||'Earlier study'));b.append(im,label);
   b.onclick=()=>{if(location.hash==='#'+c.id)render(c);else location.hash=c.id};by('nav').append(b);
 }
 function render(c){
@@ -53,12 +54,12 @@ function render(c){
   for(const key of ['unsafe','safe']){
     const data=c[key],name=key==='unsafe'?'Unsafe':'Safe',base=c.base+'/';
     const player=node('div','player '+key);player.append(node('h3',null,name+' replay'));
-    const video=node('video');video.setAttribute('aria-label',name+' replay of '+c.title);video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=base+key+'_poster.jpg';video.src=base+key+'.mp4';video.addEventListener('pause',()=>{if(paired&&vids.includes(video))pauseBoth()});vids.push(video);
+    const video=node('video');video.setAttribute('aria-label',name+' replay of '+c.title);video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=versioned(base+key+'_poster.jpg');video.src=versioned(base+key+'.mp4');video.addEventListener('pause',()=>{if(paired&&vids.includes(video))pauseBoth()});vids.push(video);
     player.append(video,node('small',null,data.summary));by('players').append(player);
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){const li=node('li',step.hazard?'haz':'');li.append(node('time',null,tLabel(step.t)),node('span',null,step.text));ol.append(li)}
     card.append(ol);by('plans').append(card);
-    const detail=node('figure','detail '+key);detail.append(node('h3',null,name+' at '+tLabel(c.detailByBranch?.[key]??c.detailTime)),picture(base+'detail_'+key+'.jpg',data.caption),node('p',null,data.caption));by('details').append(detail);
+    const detail=node('figure','detail '+key);detail.append(node('h3',null,name+' at '+tLabel(c.detailByBranch?.[key]??c.detailTime)),picture(versioned(base+'detail_'+key+'.jpg'),data.caption),node('p',null,data.caption));by('details').append(detail);
   }
   for(const [label,value] of c.facts){const f=node('div','fact');f.append(node('span',null,label),node('strong',null,value));by('facts').append(f)}
   for(const [name,caption] of c.charts){const f=node('figure','chart');f.append(picture(c.base+'/'+name,caption),node('p',null,caption));by('charts').append(f)}
