@@ -15,6 +15,7 @@ $('event').onclick=()=>{halt();jump(current.event)};
 function card(key,title){const article=el('article',null,'card '+key);article.append(el('h3',title));return article}
 function imgFig(src,label,cls){const f=el('figure',null,cls),a=link('',src),i=el('img');i.src=releaseAsset(src);i.alt=label;i.loading='lazy';a.append(i);f.append(a,el('figcaption',label));return f}
 function use(c){
+  renderEventReplay(c.eventReplay,c.film,c.id);
  halt();current=c;const scene=taskEnvironment(c.id);$('group').value=scene;lastSceneTask.set(scene,c);
  $('tasks').replaceChildren(...catalog.filter(x=>taskEnvironment(x.id)===scene).map(x=>{const b=el('button');b.type='button';b.setAttribute('aria-current',String(c.id===x.id));const i=el('img');i.src=releaseAsset(x.id+'/thumb.jpg');i.alt='';b.append(i,el('span',x.title));b.onclick=()=>{location.hash=x.id};return b}));
  $('title').textContent=c.title;$('robot').textContent=c.robot;$('task').textContent=c.description;document.title=c.title+' · Antigravity edition';
