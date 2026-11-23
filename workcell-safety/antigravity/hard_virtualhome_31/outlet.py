@@ -5,6 +5,7 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 D=Path(__file__).resolve().parent; H=D.parent;sys.path.insert(0,str(H))
 from rigid import PORT, TOP
+from bowl import route
 DT=.005
 RHO=1030.; G=9.81; INITIAL=180e-6; ORIFICE=.0105
 def cavity():
@@ -29,15 +30,11 @@ def hydraulic(branch):
         q=min(rem/DT,.54*math.pi*ORIFICE**2*speed)
         if q<1e-10:continue
         dv=q*DT;rem-=dv;vel=motion[i]+axis[i]*speed
-        def impact(z):
-            dh=origin[i,2]-z
-            return (vel[2]+math.sqrt(max(0,vel[2]**2+2*G*dh)))/G
-        tau=impact(TOP+.064);xy=origin[i,:2]+vel[:2]*tau
-        inside=np.linalg.norm(xy-bc[i,:2])<.096
-        tau=impact(bc[i,2]+.017 if inside else TOP+.0004);land=origin[i]+vel*tau;land[2]-=.5*G*tau*tau
-        outside=not(.315<land[0]<.785 and -.42<land[1]<.37)
-        if outside:raise ValueError(f'Jet crosses worktop boundary at {land}')
-        paths.append((ti,q,dv,origin[i].copy(),vel,tau,land,inside,abs(vel[2]-G*tau)))
+        path=route(origin[i],vel,bc[i],TOP)
+        tau=path.times[-1];land=path.points[-1].copy()
+        if not (.315<land[0]<.785 and -.42<land[1]<.37):
+            raise ValueError(f'Jet crosses worktop boundary at {land}')
+        paths.append((ti,q,dv,origin[i].copy(),vel,tau,land,path.inside,abs(vel[2]-G*path.first_t),path))
     return ar,t,bc,paths
 def ballistic(branch):
     ar,t,bc,paths=hydraulic(branch);vol=sum(p[2] for p in paths);capt=sum(p[2] for p in paths if p[7])

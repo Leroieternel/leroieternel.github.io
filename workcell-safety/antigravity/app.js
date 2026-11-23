@@ -41,6 +41,7 @@ function use(c){
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
  }
  if(c.fluidSurface){
+  if(c.firstTrickle){$('charts').append(imgFig(c.id+'/first-trickle.png','Where the first trickle lands','chart'));$('downloads').append(link('Offset pour · first-hit log',c.id+'/unsafe-first-contacts.csv'),link('Bowl wall geometry checks',c.id+'/wall-audit.json'))}
   for(const b of branch)$('evidence').append(imgFig(c.id+'/end_'+b+'.jpg',b==='safe'?'After withdrawal · milk stays in the bowl':'After withdrawal · milk pools on the worktop'));
   $('charts').append(imgFig(c.id+'/volume.png','Milk collected in the bowl and on the counter','chart'));
   $('downloads').append(...branch.map(b=>link(labels[b]+' volume balance and forces (CSV)',c.id+'/'+b+'-flow.csv')));

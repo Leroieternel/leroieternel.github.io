@@ -29,8 +29,14 @@ def simulate(branch):
   if r<.103:
    return cx+.104*dx/max(r,1e-7),cy+.104*dy/max(r,1e-7)
   return x,y
+ dest=D/'runs/27_virtualhome_31'
+ import csv
+ with (dest/(branch+'-first-contacts.csv')).open('w',newline='') as handle:
+  log=csv.writer(handle,lineterminator="\n");log.writerow(['emission_s','first_contact_s','first_surface','first_x_m','first_y_m','first_z_m','deposit_s','destination','volume_ml'])
+  for ti,q,dv,o,v,tau,land,inside,speed,path in emission:
+   log.writerow([ti,ti+path.first_t,path.kind,*path.first_xyz,ti+tau,'bowl' if inside else 'counter',dv*1e6])
  arrivals=sorted(emission,key=lambda p:p[0]+p[5]);ei=ai=0
- sent=deposited=0.; rows=[];frames=[];hs=[];ht=[];ripple=[];qs=[];impact_history=[]
+ sent=deposited=0.; rows=[];frames=[];wall_frames=[[],[]];hs=[];ht=[];ripple=[];qs=[];impact_history=[]
  effs=[0.,0.];bench_delta=np.zeros_like(table.h);last=[None,None]
  diskX,diskY=np.meshgrid(table.x,table.y)
  # Precompute a conservative projection to the nearest exterior boundary cell.
@@ -40,7 +46,7 @@ def simulate(branch):
   while ei<len(emission) and emission[ei][0]<=t+1e-8:
    sent+=emission[ei][2];ei+=1
   while ai<len(arrivals) and arrivals[ai][0]+arrivals[ai][5]<=t+1e-8:
-   p=arrivals[ai];ai+=1;ti,q,dv,origin,vel,tau,land,inside,speed=p
+   p=arrivals[ai];ai+=1;ti,q,dv,origin,vel,tau,land,inside,speed,path=p
    isurf=int(not inside);layer=(bowl,table)[isurf];x,y=land[:2] if inside else outside_bowl(*land[:2])
    # The impinging jet feeds a local spreading sheet. A fraction first fans out to a corrugated rim.
    volume=dv;rad=.008 if inside else .012;split=.09 if inside else .20
@@ -72,19 +78,25 @@ def simulate(branch):
   hs.append(bowl.h.astype('f').copy());ht.append(table.h.astype('f').copy())
   # Spacetime characteristics sample the single connected jet from mouth to current head.
   line=[]
-  for ti,q,dv,o,v,tau,land,inside,speed in reversed(emission[max(0,ei-115):ei]):
+  ribbons=[[],[]]
+  for ti,q,dv,o,v,tau,land,inside,speed,path in reversed(emission[max(0,ei-130):ei]):
    age=t-ti
-   if age>tau:break
-   pos=o+age*v;pos[2]-=.5*G*age**2
-   tangent=v-np.array([0.,0.,G*age])
-   radius=min(.013,np.sqrt(q/(np.pi*max(.05,np.linalg.norm(tangent)))))
-   line.append([*pos,radius])
-  if len(line)>1 and ai and t-arrivals[ai-1][0]-arrivals[ai-1][5]<.014:
-   item=arrivals[ai-1];pos=item[6].copy()
-   layer=bowl if item[7] else table
-   ix=np.argmin(abs(layer.x-pos[0]));iy=np.argmin(abs(layer.y-pos[1]))
-   pos[2]=(centers[2*i if len(centers)>len(times) else i,2]+.012 if item[7] else TOP)+layer.h[iy,ix]
-   if np.linalg.norm(pos-np.array(line[-1][:3]))<.045:line.append([*pos,line[-1][3]])
+   if age>tau:continue
+   if age>path.first_t:
+    pos=path.on_wall(age);radius=min(.005,np.sqrt(q/(np.pi*.8)))
+    ribbons[int(not inside)].append([*pos,radius])
+   else:
+    pos=o+age*v;pos[2]-=.5*G*age**2
+    tangent=v-np.array([0.,0.,G*age])
+    radius=min(.013,np.sqrt(q/(np.pi*max(.05,np.linalg.norm(tangent)))))
+    line.append([*pos,radius])
+  if len(line)>1:
+   # Terminate the airborne jet on the actual first surface, before any wall runoff.
+   live=[p for p in emission[max(0,ei-130):ei] if 0<=t-p[0]-p[9].first_t<.01]
+   if live:
+    tail=live[-1][9].first_xyz
+    if np.linalg.norm(tail-np.asarray(line[-1][:3]))<.025:line.append([*tail,line[-1][3]])
+  for n,rib in enumerate(ribbons):wall_frames[n].append(np.asarray(rib,dtype='f').reshape(-1,4))
   frames.append(np.asarray(line,dtype='f').reshape(-1,4))
   raw=[]
   for item in last:
@@ -98,7 +110,12 @@ def simulate(branch):
  np.savetxt(dest/(branch+'-flow.csv'),rows,fmt='%.9g',delimiter=',',header='time_s,bottle_ml,in_flight_ml,bowl_ml,table_ml,jet_normal_momentum_flux_N,gripper_bottle_normal_force_N,balance_error_ml',comments='')
  nmax=max(map(len,frames));jet=np.full((len(frames),nmax,4),np.nan,'f')
  for i,f in enumerate(frames):jet[i,:len(f)]=f
- np.savez_compressed(dest/(branch+'-surfaces.npz'),jet=jet,bowl=hs,table=ht,bx=bowl.x,by=bowl.y,tx=table.x,ty=table.y,impact=np.array(ripple),bowl_center=center)
+ runoff={}
+ for name,collection in zip(('inner_wall','outer_wall'),wall_frames):
+  a=np.full((len(collection),max(1,max(map(len,collection))),4),np.nan,'f')
+  for i,f in enumerate(collection):a[i,:len(f)]=f
+  runoff[name]=a
+ np.savez_compressed(dest/(branch+'-surfaces.npz'),**runoff,jet=jet,bowl=hs,table=ht,bx=bowl.x,by=bowl.y,tx=table.x,ty=table.y,impact=np.array(ripple),bowl_center=center)
  print(branch,'final budget mL',rows[-1,1:5], 'peak depth mm',np.max(hs[-1])*1000,np.max(ht[-1])*1000,flush=True)
 if __name__=='__main__':
  for b in ('safe','unsafe'):simulate(b)
