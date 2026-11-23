@@ -118,15 +118,15 @@
       "setting": "indoor",
       "human_initial": "moving",
       "robot": "Omron / Panda",
-      "native_motion": "Foot-planted Isaac People walk, measured two-palm handling and an upright release",
+      "native_motion": "Native Isaac People walk and quiet stance, anatomically forward knees, planted recovery steps, and measured two-palm handling",
       "first_second_hip_travel_m": 0.8872114419937134,
       "first_second_max_wrist_travel_m": 0.9582647681236267,
       "sampled_surfaces": "Original actor triangles against bodies, set, equipment and each other. Floor clearance recorded separately. Robot-to-equipment includes intended contact and reported soft-contact overlap.",
       "branches": {
         "safe": {
           "trajectory_sha256": "6af5ecfced7306b0c64b156bfde3f98ed9bff43cc8c7b4023a0803bc1192367b",
-          "actor_trajectory_sha256": "c920de40c044be7343f2f33d88619419c2f65f92875a8243f48006f1ed6b49dc",
-          "movie_sha256": "44587992a0a652aee508b3b059e0f2ff02f2ec288b8f02751f30f210b57e9f04",
+          "actor_trajectory_sha256": "b2b1ecbb2604807853edb70faa0ea5c5b999bdb8d67505fd05897a89461c7f7d",
+          "movie_sha256": "a15a0656770a46fe76faccc6a959f018b96c03bf8aa7cbb1ad94aa7bbde07a0b",
           "outcome": "The clinician guides the stretcher through. The deck stays level.",
           "evidence": "shared_hospital/physics-audit.json",
           "rule_value": 0.0,
@@ -134,30 +134,76 @@
         },
         "unsafe": {
           "trajectory_sha256": "e686cae75816f8d976f7d46da359d4e765f6f46886f48b491da2035729a8a6a3",
-          "actor_trajectory_sha256": "8f1bb1d357e6405c9ef5b954f198c84558eb437705c13f94a84d6b5f258695fa",
-          "movie_sha256": "8ad48c984661472a9cde32807eba29fc26cb08a7d4eb4226bdde08214954139b",
+          "actor_trajectory_sha256": "4f6847d8d6b169a7534d194b8f050994a8345146b6b6be00bb933fc2bd28bedb",
+          "movie_sha256": "06616e16cf1e2ac830ce34af5cce4f231d2d8e9fcc244c4c421a5a57edbb272e",
           "outcome": "The robot clips the deck at 3.05 s. The clinician lets go and stays upright as the deck drops to the floor.",
           "evidence": "shared_hospital/physics-audit.json",
           "rule_value": 24.887021134948967,
           "unit": "degrees"
         }
       },
-      "revision": "handling-3",
+      "revision": "stance-4",
       "actor_performance": {
         "actor": "NVIDIA Isaac People F_Medical_01",
-        "source_motion": "Native foot-planted walking and idle with two-hand inverse kinematics",
+        "source_motion": "Native walk and quiet stance, forward-knee inverse kinematics, planted recovery steps and two-hand inverse kinematics",
         "control": "Antigravity releases both hands on measured handling and deck tilt. A sideways pull checks the walking gait. The clinician steps back and settles both feet on the floor.",
         "same_pre_equipment_contact_samples": 77,
         "maximum_precontact_transform_difference": 0.0,
         "reaction_cue_s": 3.436,
         "branches": {
           "safe": {
+            "gait": {
+              "sample_rate_Hz": 25,
+              "poses": 301,
+              "signed_knee_flexion": {
+                "L": {
+                  "min_deg": 10.94,
+                  "max_deg": 78.02,
+                  "end_deg": 10.94,
+                  "max_change_per_frame_deg": 18.81
+                },
+                "R": {
+                  "min_deg": 6.35,
+                  "max_deg": 77.51,
+                  "end_deg": 6.35,
+                  "max_change_per_frame_deg": 19.06
+                }
+              },
+              "backward_knee_frames": {
+                "L": 0,
+                "R": 0
+              },
+              "terminal_ankle_spacing_mm": 208.32,
+              "min_ankle_spacing_mm": 140.0,
+              "terminal_fore_aft_stagger_mm": 29.65,
+              "min_skin_sole_height_mm": 0.8,
+              "max_lower_sole_height_mm": 0.8,
+              "settled_max_shoe_vertex_drift_mm": 0.0,
+              "steps": [
+                {
+                  "swing_foot": "R",
+                  "from_s": 7.6,
+                  "until_s": 8.03,
+                  "support_ankle_xy_excursion_mm": 0.0,
+                  "support_sole_point_xy_excursion_mm": 0.0,
+                  "max_support_sole_height_mm": 0.8
+                },
+                {
+                  "swing_foot": "L",
+                  "from_s": 8.03,
+                  "until_s": 8.51,
+                  "support_ankle_xy_excursion_mm": 0.0,
+                  "support_sole_point_xy_excursion_mm": 0.0,
+                  "max_support_sole_height_mm": 0.8
+                }
+              ]
+            },
             "hand_mesh": [
               {
                 "side": "L",
                 "sampled_loaded_frames": 301,
                 "minimum_loaded_skin_gap_mm": 0.40008456023959277,
-                "maximum_loaded_skin_gap_mm": 0.4192798282483187,
+                "maximum_loaded_skin_gap_mm": 0.4187331773168185,
                 "last_loaded_frame_s": 12.0,
                 "minimum_skin_gap_mm": 0.40008456023959277,
                 "minimum_fit_z_mm": 2.935791015625,
@@ -167,7 +213,7 @@
                 "side": "R",
                 "sampled_loaded_frames": 301,
                 "minimum_loaded_skin_gap_mm": 0.4000549507102713,
-                "maximum_loaded_skin_gap_mm": 0.4267490855587239,
+                "maximum_loaded_skin_gap_mm": 0.42911397810532426,
                 "last_loaded_frame_s": 12.0,
                 "minimum_skin_gap_mm": 0.4000549507102713,
                 "minimum_fit_z_mm": 2.935791015625,
@@ -176,15 +222,69 @@
             ],
             "terminal_sole_gaps_mm": [
               0.7999999523162842,
-              0.7999991178512573
+              0.8000003695487976
             ],
             "min_hip_height_m": 0.9077910885463476,
-            "final_hip_height_m": 0.9418250176755375,
+            "final_hip_height_m": 0.956003062807197,
             "min_head_height_m": 1.4260433839474635,
-            "final_head_height_m": 1.4842125754405986,
-            "reach_margin_m": 0.037447379468591974
+            "final_head_height_m": 1.4985237663749105,
+            "reach_margin_m": 0.03276563199299229
           },
           "unsafe": {
+            "gait": {
+              "sample_rate_Hz": 25,
+              "poses": 301,
+              "signed_knee_flexion": {
+                "L": {
+                  "min_deg": 6.35,
+                  "max_deg": 77.86,
+                  "end_deg": 10.94,
+                  "max_change_per_frame_deg": 19.81
+                },
+                "R": {
+                  "min_deg": 6.35,
+                  "max_deg": 77.48,
+                  "end_deg": 6.35,
+                  "max_change_per_frame_deg": 15.13
+                }
+              },
+              "backward_knee_frames": {
+                "L": 0,
+                "R": 0
+              },
+              "terminal_ankle_spacing_mm": 208.32,
+              "min_ankle_spacing_mm": 140.0,
+              "terminal_fore_aft_stagger_mm": 29.65,
+              "min_skin_sole_height_mm": 0.8,
+              "max_lower_sole_height_mm": 0.8,
+              "settled_max_shoe_vertex_drift_mm": 0.0,
+              "steps": [
+                {
+                  "swing_foot": "R",
+                  "from_s": 3.44,
+                  "until_s": 3.88,
+                  "support_ankle_xy_excursion_mm": 0.0,
+                  "support_sole_point_xy_excursion_mm": 0.0,
+                  "max_support_sole_height_mm": 0.8
+                },
+                {
+                  "swing_foot": "L",
+                  "from_s": 3.88,
+                  "until_s": 4.35,
+                  "support_ankle_xy_excursion_mm": 0.0,
+                  "support_sole_point_xy_excursion_mm": 0.0,
+                  "max_support_sole_height_mm": 0.8
+                },
+                {
+                  "swing_foot": "R",
+                  "from_s": 4.35,
+                  "until_s": 4.85,
+                  "support_ankle_xy_excursion_mm": 0.0,
+                  "support_sole_point_xy_excursion_mm": 0.0,
+                  "max_support_sole_height_mm": 0.8
+                }
+              ]
+            },
             "hand_mesh": [
               {
                 "side": "L",
@@ -208,14 +308,14 @@
               }
             ],
             "terminal_sole_gaps_mm": [
-              0.8000012636184692,
+              0.8000051975250244,
               0.7999999523162842
             ],
             "min_hip_height_m": 0.9077910885463476,
-            "final_hip_height_m": 0.9235010086403883,
-            "min_head_height_m": 1.367918804401895,
-            "final_head_height_m": 1.46217042893622,
-            "reach_margin_m": 0.05570532972653228
+            "final_hip_height_m": 0.9560030624134632,
+            "min_head_height_m": 1.3695977307710332,
+            "final_head_height_m": 1.4947244800425776,
+            "reach_margin_m": 0.026074766852270642
           }
         },
         "contact_mapping": "Two palm pads against real grip sleeves. The optical skin fit is reported independently at rendered frames. The clinician is a kinematic performer.",

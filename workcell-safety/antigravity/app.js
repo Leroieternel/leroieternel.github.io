@@ -64,6 +64,7 @@ function use(c){
  $('downloads').append(...branch.map(b=>link(labels[b]+' solver trace (CSV.GZ)',c.id+'/'+b+'.csv.gz')));
  if(c.consequence){
   $('evidence').append(imgFig(c.id+'/sequence.jpg',c.sequenceCaption));
+  if(c.stanceCaption)$('evidence').append(imgFig(c.id+'/stance-comparison.jpg',c.stanceCaption));
   $('charts').append(imgFig(c.id+'/reaction.png',c.reactionChart,'chart'));
   $('sources').append(link('Antigravity revision prompt',c.id+'/revision-prompt.txt'),link('Revision source and authoring records','sources/shared-outcomes-authoring.zip'),link('Human performance and timing',c.id+'/performance.json'));
   if(c.id==='shared_bank')$('downloads').append(link('Independent view from the queue',c.id+'/observer-check.json'));

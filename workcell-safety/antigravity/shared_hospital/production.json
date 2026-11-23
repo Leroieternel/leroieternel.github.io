@@ -33,35 +33,81 @@
       "prompt_sha256": "5aa1c45525500289b7921abbec7ff6d3dd94e28b073d80e752e3e548de2d50be"
     }
   },
-  "role": "Google Antigravity authored the crossing policy and the revised handling and release controller. Codex integrated the spring-driven hands, native walking rig and replay cameras, ran MuJoCo and checked the exported geometry and films.",
+  "role": "Google Antigravity authored the crossing and handling policies, the anatomical knee solver, neutral stance targets and swing interpolation. Codex integrated the gait with the native clinician and verified the skinned poses and films against the existing MuJoCo equipment and hand records.",
   "renderer": "Blender 4.5 EEVEE Next",
   "solver": "MuJoCo 4.0.1",
   "scene_id": "shared_hospital",
   "source_task": "neiss_11879",
-  "revision": "handling-3",
+  "revision": "stance-4",
   "revision_author": {
     "author": "Google Antigravity CLI",
     "model": "gemini-4-neon-high",
-    "conversation_id": "9a873c28-502f-4668-801a-de439d8cfcd1",
-    "module": "handling.py",
-    "sha256": "8b9755e117eee35d4fc929a77aef0b127901ebd886b937a8298e1a48e1982be6",
-    "prompt_sha256": "92b492450278b4773a0b5714458544da19fb70d2de72d7dca27d68424153eeb9"
+    "conversation_id": "4cfe0fa0-4d38-41df-8fe7-38b0c1f624b4",
+    "module": "stance.py",
+    "sha256": "6a8cd786e4d9dd53557f14fb867ec13f62a832212526c424cd18c8170e958ae5",
+    "prompt_sha256": "12db24d8d88f9d4b7624bcb0cfd45873438e8af4ff7c7ed25d82c5d507dc4c45"
   },
   "actor_performance": {
     "actor": "NVIDIA Isaac People F_Medical_01",
-    "source_motion": "Native foot-planted walking and idle with two-hand inverse kinematics",
+    "source_motion": "Native walk and quiet stance, forward-knee inverse kinematics, planted recovery steps and two-hand inverse kinematics",
     "control": "Antigravity releases both hands on measured handling and deck tilt. A sideways pull checks the walking gait. The clinician steps back and settles both feet on the floor.",
     "same_pre_equipment_contact_samples": 77,
     "maximum_precontact_transform_difference": 0.0,
     "reaction_cue_s": 3.436,
     "branches": {
       "safe": {
+        "gait": {
+          "sample_rate_Hz": 25,
+          "poses": 301,
+          "signed_knee_flexion": {
+            "L": {
+              "min_deg": 10.94,
+              "max_deg": 78.02,
+              "end_deg": 10.94,
+              "max_change_per_frame_deg": 18.81
+            },
+            "R": {
+              "min_deg": 6.35,
+              "max_deg": 77.51,
+              "end_deg": 6.35,
+              "max_change_per_frame_deg": 19.06
+            }
+          },
+          "backward_knee_frames": {
+            "L": 0,
+            "R": 0
+          },
+          "terminal_ankle_spacing_mm": 208.32,
+          "min_ankle_spacing_mm": 140.0,
+          "terminal_fore_aft_stagger_mm": 29.65,
+          "min_skin_sole_height_mm": 0.8,
+          "max_lower_sole_height_mm": 0.8,
+          "settled_max_shoe_vertex_drift_mm": 0.0,
+          "steps": [
+            {
+              "swing_foot": "R",
+              "from_s": 7.6,
+              "until_s": 8.03,
+              "support_ankle_xy_excursion_mm": 0.0,
+              "support_sole_point_xy_excursion_mm": 0.0,
+              "max_support_sole_height_mm": 0.8
+            },
+            {
+              "swing_foot": "L",
+              "from_s": 8.03,
+              "until_s": 8.51,
+              "support_ankle_xy_excursion_mm": 0.0,
+              "support_sole_point_xy_excursion_mm": 0.0,
+              "max_support_sole_height_mm": 0.8
+            }
+          ]
+        },
         "hand_mesh": [
           {
             "side": "L",
             "sampled_loaded_frames": 301,
             "minimum_loaded_skin_gap_mm": 0.40008456023959277,
-            "maximum_loaded_skin_gap_mm": 0.4192798282483187,
+            "maximum_loaded_skin_gap_mm": 0.4187331773168185,
             "last_loaded_frame_s": 12.0,
             "minimum_skin_gap_mm": 0.40008456023959277,
             "minimum_fit_z_mm": 2.935791015625,
@@ -71,7 +117,7 @@
             "side": "R",
             "sampled_loaded_frames": 301,
             "minimum_loaded_skin_gap_mm": 0.4000549507102713,
-            "maximum_loaded_skin_gap_mm": 0.4267490855587239,
+            "maximum_loaded_skin_gap_mm": 0.42911397810532426,
             "last_loaded_frame_s": 12.0,
             "minimum_skin_gap_mm": 0.4000549507102713,
             "minimum_fit_z_mm": 2.935791015625,
@@ -80,15 +126,69 @@
         ],
         "terminal_sole_gaps_mm": [
           0.7999999523162842,
-          0.7999991178512573
+          0.8000003695487976
         ],
         "min_hip_height_m": 0.9077910885463476,
-        "final_hip_height_m": 0.9418250176755375,
+        "final_hip_height_m": 0.956003062807197,
         "min_head_height_m": 1.4260433839474635,
-        "final_head_height_m": 1.4842125754405986,
-        "reach_margin_m": 0.037447379468591974
+        "final_head_height_m": 1.4985237663749105,
+        "reach_margin_m": 0.03276563199299229
       },
       "unsafe": {
+        "gait": {
+          "sample_rate_Hz": 25,
+          "poses": 301,
+          "signed_knee_flexion": {
+            "L": {
+              "min_deg": 6.35,
+              "max_deg": 77.86,
+              "end_deg": 10.94,
+              "max_change_per_frame_deg": 19.81
+            },
+            "R": {
+              "min_deg": 6.35,
+              "max_deg": 77.48,
+              "end_deg": 6.35,
+              "max_change_per_frame_deg": 15.13
+            }
+          },
+          "backward_knee_frames": {
+            "L": 0,
+            "R": 0
+          },
+          "terminal_ankle_spacing_mm": 208.32,
+          "min_ankle_spacing_mm": 140.0,
+          "terminal_fore_aft_stagger_mm": 29.65,
+          "min_skin_sole_height_mm": 0.8,
+          "max_lower_sole_height_mm": 0.8,
+          "settled_max_shoe_vertex_drift_mm": 0.0,
+          "steps": [
+            {
+              "swing_foot": "R",
+              "from_s": 3.44,
+              "until_s": 3.88,
+              "support_ankle_xy_excursion_mm": 0.0,
+              "support_sole_point_xy_excursion_mm": 0.0,
+              "max_support_sole_height_mm": 0.8
+            },
+            {
+              "swing_foot": "L",
+              "from_s": 3.88,
+              "until_s": 4.35,
+              "support_ankle_xy_excursion_mm": 0.0,
+              "support_sole_point_xy_excursion_mm": 0.0,
+              "max_support_sole_height_mm": 0.8
+            },
+            {
+              "swing_foot": "R",
+              "from_s": 4.35,
+              "until_s": 4.85,
+              "support_ankle_xy_excursion_mm": 0.0,
+              "support_sole_point_xy_excursion_mm": 0.0,
+              "max_support_sole_height_mm": 0.8
+            }
+          ]
+        },
         "hand_mesh": [
           {
             "side": "L",
@@ -112,14 +212,14 @@
           }
         ],
         "terminal_sole_gaps_mm": [
-          0.8000012636184692,
+          0.8000051975250244,
           0.7999999523162842
         ],
         "min_hip_height_m": 0.9077910885463476,
-        "final_hip_height_m": 0.9235010086403883,
-        "min_head_height_m": 1.367918804401895,
-        "final_head_height_m": 1.46217042893622,
-        "reach_margin_m": 0.05570532972653228
+        "final_hip_height_m": 0.9560030624134632,
+        "min_head_height_m": 1.3695977307710332,
+        "final_head_height_m": 1.4947244800425776,
+        "reach_margin_m": 0.026074766852270642
       }
     },
     "contact_mapping": "Two palm pads against real grip sleeves. The optical skin fit is reported independently at rendered frames. The clinician is a kinematic performer.",
@@ -132,5 +232,13 @@
     "module": "hospital.py",
     "sha256": "0112e97e866ef4184d8e3ef9479c2c118247ee42fbcb051dc69cc80924d186a5",
     "prompt_sha256": "8372b66a0cbb5d67c2a5b04e955e558a3f53e70f6b646d76659ae589fe71b5e9"
+  },
+  "handling_controller": {
+    "author": "Google Antigravity CLI",
+    "model": "gemini-4-neon-high",
+    "conversation_id": "9a873c28-502f-4668-801a-de439d8cfcd1",
+    "module": "handling.py",
+    "sha256": "8b9755e117eee35d4fc929a77aef0b127901ebd886b937a8298e1a48e1982be6",
+    "prompt_sha256": "92b492450278b4773a0b5714458544da19fb70d2de72d7dca27d68424153eeb9"
   }
 }
