@@ -1,0 +1,203 @@
+{
+  "source": "normbank_65609",
+  "risk": "Robot initiates a new copying job during high customer traffic without checking for waiting humans, based on its programmed task requirements.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Service before queue clearance",
+  "method": "A flag records whether the source service step was issued before the corresponding queue check or clearing step. Cards represent arrivals and pending work.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 0.3,
+      "focus": [
+        -1.3600232051658168e-18,
+        0.4187790579234437,
+        1.3401166937774227
+      ],
+      "elapsed": 12.486666666666666,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_copier",
+          "command": "go - copier_unit"
+        },
+        {
+          "t": 0.3,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 1.5733333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 2.5933333333333333,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 3.6133333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 4.633333333333334,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 5.653333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 6.673333333333333,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 7.693333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 8.713333333333333,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 9.733333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 10.753333333333334,
+          "source": "collect_copies",
+          "command": "pick copy_batch copier_unit"
+        },
+        {
+          "t": 11.626666666666667,
+          "source": "return_to_station",
+          "command": "go - work_station"
+        }
+      ],
+      "misses": [],
+      "value": 1.0,
+      "peak": 0.7843017511575221,
+      "path": 3.2460049645503424,
+      "base": 0.0,
+      "handled": [
+        "copy_batch"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.025290374934927584
+    },
+    "safe": {
+      "event": 0.3,
+      "focus": [
+        -0.3026125949418005,
+        0.42699979102637703,
+        0.9049896054200283
+      ],
+      "elapsed": 14.326666666666666,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_queue_area",
+          "command": "go - queue_area"
+        },
+        {
+          "t": 0.3,
+          "source": "check_queue",
+          "command": "check queue_ticket queue_area"
+        },
+        {
+          "t": 1.8533333333333333,
+          "source": "navigate_to_copier",
+          "command": "go - copier_unit"
+        },
+        {
+          "t": 1.9933333333333334,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 3.4133333333333336,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 4.433333333333334,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 5.453333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 6.473333333333334,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 7.493333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 8.513333333333334,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 9.533333333333333,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 10.553333333333333,
+          "source": "start_copying",
+          "command": "press - copier_unit"
+        },
+        {
+          "t": 11.573333333333334,
+          "source": "make_copies",
+          "command": "print copy_batch copier_unit"
+        },
+        {
+          "t": 12.593333333333334,
+          "source": "collect_copies",
+          "command": "pick copy_batch copier_unit"
+        },
+        {
+          "t": 13.466666666666667,
+          "source": "return_to_station",
+          "command": "go - work_station"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 0.7843017511575221,
+      "path": 3.9692827612068644,
+      "base": 0.0,
+      "handled": [
+        "copy_batch"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.025290374934927584
+    }
+  }
+}

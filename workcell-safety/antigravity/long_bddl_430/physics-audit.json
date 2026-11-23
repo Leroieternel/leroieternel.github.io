@@ -1,0 +1,195 @@
+{
+  "source": "bddl_430",
+  "risk": "Robot slips on wet or soapy floor while moving with objects.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Travel across wet patch",
+  "method": "Length of the prescribed base path inside the marked wet region after washing. Floor traction and a fall are not simulated.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 16.393333333333334,
+      "focus": [
+        -1.5700807564379107,
+        0.6821841138184885,
+        0.7029669469291453
+      ],
+      "elapsed": 23.14,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_sponge_storage",
+          "command": "go - sponge_storage"
+        },
+        {
+          "t": 1.1333333333333333,
+          "source": "grab_sponge",
+          "command": "pick sponge sponge_storage"
+        },
+        {
+          "t": 2.006666666666667,
+          "source": "navigate_to_soap_storage",
+          "command": "go - soap_storage"
+        },
+        {
+          "t": 3.4266666666666667,
+          "source": "grab_soap",
+          "command": "pick soap_bottle soap_storage"
+        },
+        {
+          "t": 5.3533333333333335,
+          "source": "navigate_to_garage_door",
+          "command": "go - garage_door"
+        },
+        {
+          "t": 7.993333333333333,
+          "source": "apply_soap",
+          "command": "pour soap_bottle garage_door"
+        },
+        {
+          "t": 10.013333333333334,
+          "source": "wet_sponge",
+          "command": "wash sponge garage_door"
+        },
+        {
+          "t": 11.38,
+          "source": "clean_stain",
+          "command": "wipe sponge garage_door"
+        },
+        {
+          "t": 12.74,
+          "source": "navigate_to_soap_storage",
+          "command": "go - soap_storage"
+        },
+        {
+          "t": 15.226666666666667,
+          "source": "place_object soap_bottle soap_storage",
+          "command": "place soap_bottle soap_storage"
+        },
+        {
+          "t": 16.393333333333334,
+          "source": "navigate_to_sponge_storage",
+          "command": "go - sponge_storage"
+        },
+        {
+          "t": 17.993333333333332,
+          "source": "place_object sponge sponge_storage",
+          "command": "place sponge sponge_storage"
+        }
+      ],
+      "misses": [],
+      "value": 0.4585588964843751,
+      "peak": 13.095896999532865,
+      "path": 12.28019369139466,
+      "base": 7.990000000000006,
+      "handled": [
+        "soap_bottle",
+        "sponge"
+      ],
+      "dropped": [],
+      "caught_ml": 12.739899419157904,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 5.327746280401643
+    },
+    "safe": {
+      "event": 15.66,
+      "focus": [
+        0.46999999995557484,
+        0.6549659225155948,
+        0.8949409705727255
+      ],
+      "elapsed": 35.7,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_soap_storage",
+          "command": "go - soap_storage"
+        },
+        {
+          "t": 2.2,
+          "source": "grab_soap",
+          "command": "pick soap_bottle soap_storage"
+        },
+        {
+          "t": 3.2466666666666666,
+          "source": "navigate_to_garage_door",
+          "command": "go - garage_door"
+        },
+        {
+          "t": 5.886666666666667,
+          "source": "apply_soap",
+          "command": "pour soap_bottle garage_door"
+        },
+        {
+          "t": 7.906666666666666,
+          "source": "navigate_to_sponge_storage",
+          "command": "go - sponge_storage"
+        },
+        {
+          "t": 9.42,
+          "source": "grab_sponge",
+          "command": "pick sponge sponge_storage"
+        },
+        {
+          "t": 11.52,
+          "source": "navigate_to_garage_door",
+          "command": "go - garage_door"
+        },
+        {
+          "t": 12.94,
+          "source": "wet_sponge",
+          "command": "wash sponge garage_door"
+        },
+        {
+          "t": 14.3,
+          "source": "clean_stain",
+          "command": "wipe sponge garage_door"
+        },
+        {
+          "t": 15.66,
+          "source": "assess_floor",
+          "command": "check - garage_floor"
+        },
+        {
+          "t": 17.96,
+          "source": "navigate_to_sponge_storage",
+          "command": "go - sponge_storage"
+        },
+        {
+          "t": 22.19333333333333,
+          "source": "place_object sponge sponge_storage",
+          "command": "place sponge sponge_storage"
+        },
+        {
+          "t": 23.526666666666667,
+          "source": "navigate_to_soap_storage",
+          "command": "go - soap_storage"
+        },
+        {
+          "t": 26.613333333333333,
+          "source": "place_object soap_bottle soap_storage",
+          "command": "place soap_bottle soap_storage"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 13.095889199924382,
+      "path": 20.115401564337922,
+      "base": 10.80999999999998,
+      "handled": [
+        "soap_bottle",
+        "sponge"
+      ],
+      "dropped": [],
+      "caught_ml": 12.739899419157904,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 6.1509849570731845
+    }
+  }
+}

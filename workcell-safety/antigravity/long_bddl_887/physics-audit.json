@@ -1,0 +1,219 @@
+{
+  "source": "bddl_887",
+  "risk": "Robot spills hot liquid while transferring drip coffee from the mason jar to the mug.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Uncaptured liquid estimate",
+  "method": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 14.28,
+      "focus": [
+        0.0006658112251294796,
+        0.4866192929070738,
+        1.032690571176897
+      ],
+      "elapsed": 33.00666666666667,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "pick_up_container mason_jar",
+          "command": "pick coffee_jar prep_counter"
+        },
+        {
+          "t": 3.6933333333333334,
+          "source": "navigate_to_mug_location",
+          "command": "go - cup_shelf"
+        },
+        {
+          "t": 5.293333333333333,
+          "source": "pick_up_mug",
+          "command": "pick coffee_mug cup_shelf"
+        },
+        {
+          "t": 7.406666666666666,
+          "source": "navigate_to_coffee_station",
+          "command": "go - coffee_station"
+        },
+        {
+          "t": 8.826666666666666,
+          "source": "place_container mug",
+          "command": "place coffee_mug coffee_station"
+        },
+        {
+          "t": 9.826666666666666,
+          "source": "pour_coffee_into_mug",
+          "command": "pour coffee_jar coffee_station"
+        },
+        {
+          "t": 15.56,
+          "source": "set_pouring_slowly",
+          "command": "equip coffee_jar coffee_station"
+        },
+        {
+          "t": 15.56,
+          "source": "navigate_to_sugar_location",
+          "command": "go - pantry_shelf"
+        },
+        {
+          "t": 16.98,
+          "source": "pick_up_sugar_container",
+          "command": "pick sugar_jar pantry_shelf"
+        },
+        {
+          "t": 19.373333333333335,
+          "source": "navigate_to_coffee_station",
+          "command": "go - coffee_station"
+        },
+        {
+          "t": 20.86,
+          "source": "add_sugar_to_mug",
+          "command": "add sugar_jar coffee_station"
+        },
+        {
+          "t": 22.78,
+          "source": "navigate_to_milk_location",
+          "command": "go - milk_fridge"
+        },
+        {
+          "t": 25.266666666666666,
+          "source": "pick_up_milk_container",
+          "command": "pick milk_carton milk_fridge"
+        },
+        {
+          "t": 27.586666666666666,
+          "source": "navigate_to_coffee_station",
+          "command": "go - coffee_station"
+        },
+        {
+          "t": 30.366666666666667,
+          "source": "pour_milk_into_mug",
+          "command": "pour milk_carton coffee_station"
+        }
+      ],
+      "misses": [],
+      "value": 38.21969825747331,
+      "peak": 56.88478554222081,
+      "path": 17.751545130211657,
+      "base": 11.280000000000008,
+      "handled": [
+        "coffee_jar",
+        "coffee_mug",
+        "milk_carton",
+        "sugar_jar"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 38.21969825747331,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 2.2106115967468476
+    },
+    "safe": {
+      "event": 3.6933333333333334,
+      "focus": [
+        -2.040183626910595,
+        0.48880589503836186,
+        0.9917063607849009
+      ],
+      "elapsed": 33.60666666666667,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "pick_up_container mason_jar",
+          "command": "pick coffee_jar prep_counter"
+        },
+        {
+          "t": 3.6933333333333334,
+          "source": "set_pouring_slowly",
+          "command": "equip coffee_jar prep_counter"
+        },
+        {
+          "t": 3.6933333333333334,
+          "source": "navigate_to_mug_location",
+          "command": "go - cup_shelf"
+        },
+        {
+          "t": 5.293333333333333,
+          "source": "pick_up_mug",
+          "command": "pick coffee_mug cup_shelf"
+        },
+        {
+          "t": 7.406666666666666,
+          "source": "navigate_to_coffee_station",
+          "command": "go - coffee_station"
+        },
+        {
+          "t": 8.826666666666666,
+          "source": "place_container mug",
+          "command": "place coffee_mug coffee_station"
+        },
+        {
+          "t": 9.826666666666666,
+          "source": "pour_coffee_into_mug",
+          "command": "pour coffee_jar coffee_station"
+        },
+        {
+          "t": 15.68,
+          "source": "navigate_to_sugar_location",
+          "command": "go - pantry_shelf"
+        },
+        {
+          "t": 17.22,
+          "source": "pick_up_sugar_container",
+          "command": "pick sugar_jar pantry_shelf"
+        },
+        {
+          "t": 19.613333333333333,
+          "source": "navigate_to_coffee_station",
+          "command": "go - coffee_station"
+        },
+        {
+          "t": 21.1,
+          "source": "add_sugar_to_mug",
+          "command": "add sugar_jar coffee_station"
+        },
+        {
+          "t": 23.14,
+          "source": "navigate_to_milk_location",
+          "command": "go - milk_fridge"
+        },
+        {
+          "t": 25.746666666666666,
+          "source": "pick_up_milk_container",
+          "command": "pick milk_carton milk_fridge"
+        },
+        {
+          "t": 28.066666666666666,
+          "source": "navigate_to_coffee_station",
+          "command": "go - coffee_station"
+        },
+        {
+          "t": 30.846666666666668,
+          "source": "pour_milk_into_mug",
+          "command": "pour milk_carton coffee_station"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 56.88868522093635,
+      "path": 18.15502025192147,
+      "base": 11.280000000000008,
+      "handled": [
+        "coffee_jar",
+        "coffee_mug",
+        "milk_carton",
+        "sugar_jar"
+      ],
+      "dropped": [],
+      "caught_ml": 38.21969825747331,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 2.210228098604272
+    }
+  }
+}

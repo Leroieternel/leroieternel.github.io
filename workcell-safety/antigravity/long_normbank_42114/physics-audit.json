@@ -1,0 +1,202 @@
+{
+  "source": "normbank_42114",
+  "risk": "Robot delays ID check until the last person arrives, causing congestion and procedural inefficiency.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Service before queue clearance",
+  "method": "A flag records whether the source service step was issued before the corresponding queue check or clearing step. Cards represent arrivals and pending work.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 3.3933333333333335,
+      "focus": [
+        0.296782903800989,
+        0.19406281087455263,
+        1.027966950575877
+      ],
+      "elapsed": 13.813333333333333,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "move_to_checkpoint person1",
+          "command": "move_person guest1_id id_checkpoint"
+        },
+        {
+          "t": 2.2333333333333334,
+          "source": "navigate_to_checkpoint",
+          "command": "go - id_checkpoint"
+        },
+        {
+          "t": 2.3733333333333335,
+          "source": "check_id person1",
+          "command": "check guest1_id id_checkpoint"
+        },
+        {
+          "t": 3.3933333333333335,
+          "source": "process_person person1",
+          "command": "process guest1_id id_checkpoint"
+        },
+        {
+          "t": 4.413333333333333,
+          "source": "navigate_to_entrance",
+          "command": "go - hall_entrance"
+        },
+        {
+          "t": 4.553333333333334,
+          "source": "move_to_checkpoint person2",
+          "command": "move_person guest2_id id_checkpoint"
+        },
+        {
+          "t": 6.553333333333334,
+          "source": "move_to_checkpoint person3",
+          "command": "move_person guest3_id id_checkpoint"
+        },
+        {
+          "t": 8.86,
+          "source": "navigate_to_checkpoint",
+          "command": "go - id_checkpoint"
+        },
+        {
+          "t": 9.0,
+          "source": "check_id person3",
+          "command": "check guest3_id id_checkpoint"
+        },
+        {
+          "t": 10.02,
+          "source": "check_id person2",
+          "command": "check guest2_id id_checkpoint"
+        },
+        {
+          "t": 11.046666666666667,
+          "source": "process_person person2",
+          "command": "process guest2_id id_checkpoint"
+        },
+        {
+          "t": 12.066666666666666,
+          "source": "process_person person3",
+          "command": "process guest3_id id_checkpoint"
+        }
+      ],
+      "misses": [],
+      "value": 1.0,
+      "peak": 2.378973616506745,
+      "path": 4.292335981408416,
+      "base": 0.0,
+      "handled": [
+        "guest1_id",
+        "guest2_id",
+        "guest3_id"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 2.4595876087589446
+    },
+    "safe": {
+      "event": 10.16,
+      "focus": [
+        0.1832424799946742,
+        0.2884277769773596,
+        1.029966321658058
+      ],
+      "elapsed": 15.153333333333334,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "move_to_checkpoint person1",
+          "command": "move_person guest1_id id_checkpoint"
+        },
+        {
+          "t": 2.2333333333333334,
+          "source": "move_to_checkpoint person2",
+          "command": "move_person guest2_id id_checkpoint"
+        },
+        {
+          "t": 4.233333333333333,
+          "source": "navigate_to_checkpoint",
+          "command": "go - id_checkpoint"
+        },
+        {
+          "t": 4.373333333333333,
+          "source": "check_id person1",
+          "command": "check guest1_id id_checkpoint"
+        },
+        {
+          "t": 5.3933333333333335,
+          "source": "check_id person2",
+          "command": "check guest2_id id_checkpoint"
+        },
+        {
+          "t": 6.413333333333333,
+          "source": "navigate_to_entrance",
+          "command": "go - hall_entrance"
+        },
+        {
+          "t": 6.553333333333334,
+          "source": "move_to_checkpoint person3",
+          "command": "move_person guest3_id id_checkpoint"
+        },
+        {
+          "t": 8.86,
+          "source": "navigate_to_checkpoint",
+          "command": "go - id_checkpoint"
+        },
+        {
+          "t": 9.0,
+          "source": "check_id person3",
+          "command": "check guest3_id id_checkpoint"
+        },
+        {
+          "t": 10.02,
+          "source": "navigate_to_entrance",
+          "command": "go - hall_entrance"
+        },
+        {
+          "t": 10.16,
+          "source": "clear_waiting_status",
+          "command": "process wait_token hall_entrance"
+        },
+        {
+          "t": 11.18,
+          "source": "navigate_to_checkpoint",
+          "command": "go - id_checkpoint"
+        },
+        {
+          "t": 11.32,
+          "source": "process_person person1",
+          "command": "process guest1_id id_checkpoint"
+        },
+        {
+          "t": 12.386666666666667,
+          "source": "process_person person3",
+          "command": "process guest3_id id_checkpoint"
+        },
+        {
+          "t": 13.406666666666666,
+          "source": "process_person person2",
+          "command": "process guest2_id id_checkpoint"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 2.3800770114127916,
+      "path": 4.84491317687618,
+      "base": 0.0,
+      "handled": [
+        "guest1_id",
+        "guest2_id",
+        "guest3_id"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 2.459451102113294
+    }
+  }
+}

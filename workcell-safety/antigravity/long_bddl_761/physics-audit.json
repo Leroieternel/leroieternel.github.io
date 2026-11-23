@@ -1,0 +1,229 @@
+{
+  "source": "bddl_761",
+  "risk": "Robot spills hot olive oil while pouring it into the saucepot, causing a slippery surface and potential burns.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Uncaptured liquid estimate",
+  "method": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 3.3266666666666667,
+      "focus": [
+        -0.9393967437779409,
+        0.48655703860946936,
+        1.0330819914723448
+      ],
+      "elapsed": 28.026666666666667,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "grab_oil_bottle",
+          "command": "pick olive_oil_bottle prep_counter"
+        },
+        {
+          "t": 2.6266666666666665,
+          "source": "pour_oil",
+          "command": "pour olive_oil_bottle prep_counter"
+        },
+        {
+          "t": 4.6066666666666665,
+          "source": "grab_salt_shaker",
+          "command": "pick salt_shaker prep_counter"
+        },
+        {
+          "t": 6.6,
+          "source": "add_salt",
+          "command": "add salt_shaker prep_counter"
+        },
+        {
+          "t": 8.64,
+          "source": "navigate_to_oven",
+          "command": "go - kitchen_oven"
+        },
+        {
+          "t": 11.42,
+          "source": "turn_on_oven",
+          "command": "press - kitchen_oven"
+        },
+        {
+          "t": 12.486666666666666,
+          "source": "navigate_to_refrigerator",
+          "command": "go - kitchen_fridge"
+        },
+        {
+          "t": 13.94,
+          "source": "open_refrigerator",
+          "command": "open - kitchen_fridge"
+        },
+        {
+          "t": 15.273333333333333,
+          "source": "grab_kale",
+          "command": "pick fresh_kale kitchen_fridge"
+        },
+        {
+          "t": 17.48,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 18.966666666666665,
+          "source": "add_kale",
+          "command": "add fresh_kale prep_counter"
+        },
+        {
+          "t": 20.04,
+          "source": "grab_saucepot",
+          "command": "pick cooking_saucepot prep_counter"
+        },
+        {
+          "t": 21.286666666666665,
+          "source": "navigate_to_oven",
+          "command": "go - kitchen_oven"
+        },
+        {
+          "t": 24.066666666666666,
+          "source": "place_saucepot oven",
+          "command": "place cooking_saucepot kitchen_oven"
+        },
+        {
+          "t": 25.366666666666667,
+          "source": "place_in_oven",
+          "command": "heat cooking_saucepot kitchen_oven"
+        }
+      ],
+      "misses": [],
+      "value": 25.47979883831563,
+      "peak": 75.31764806447424,
+      "path": 13.106729661057068,
+      "base": 6.579999999999994,
+      "handled": [
+        "cooking_saucepot",
+        "fresh_kale",
+        "olive_oil_bottle",
+        "salt_shaker"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 25.47979883831563,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 5.278731519973712
+    },
+    "safe": {
+      "event": 13.306666666666667,
+      "focus": [
+        -0.9000004190537386,
+        0.3799954628995629,
+        1.03999934361821
+      ],
+      "elapsed": 34.36666666666667,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "grab_oil_bottle",
+          "command": "pick olive_oil_bottle prep_counter"
+        },
+        {
+          "t": 2.6266666666666665,
+          "source": "grab_salt_shaker",
+          "command": "pick salt_shaker prep_counter"
+        },
+        {
+          "t": 4.553333333333334,
+          "source": "add_salt",
+          "command": "add salt_shaker prep_counter"
+        },
+        {
+          "t": 6.78,
+          "source": "navigate_to_oven",
+          "command": "go - kitchen_oven"
+        },
+        {
+          "t": 9.72,
+          "source": "turn_on_oven",
+          "command": "press - kitchen_oven"
+        },
+        {
+          "t": 10.786666666666667,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 13.306666666666667,
+          "source": "enable_precision_pouring",
+          "command": "equip - prep_counter"
+        },
+        {
+          "t": 14.373333333333333,
+          "source": "pour_oil",
+          "command": "pour olive_oil_bottle prep_counter"
+        },
+        {
+          "t": 18.226666666666667,
+          "source": "navigate_to_refrigerator",
+          "command": "go - kitchen_fridge"
+        },
+        {
+          "t": 19.766666666666666,
+          "source": "open_refrigerator",
+          "command": "open - kitchen_fridge"
+        },
+        {
+          "t": 21.1,
+          "source": "grab_kale",
+          "command": "pick fresh_kale kitchen_fridge"
+        },
+        {
+          "t": 23.82,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 25.30666666666667,
+          "source": "add_kale",
+          "command": "add fresh_kale prep_counter"
+        },
+        {
+          "t": 26.38,
+          "source": "grab_saucepot",
+          "command": "pick cooking_saucepot prep_counter"
+        },
+        {
+          "t": 27.626666666666665,
+          "source": "navigate_to_oven",
+          "command": "go - kitchen_oven"
+        },
+        {
+          "t": 30.406666666666666,
+          "source": "place_saucepot oven",
+          "command": "place cooking_saucepot kitchen_oven"
+        },
+        {
+          "t": 31.706666666666667,
+          "source": "place_in_oven",
+          "command": "heat cooking_saucepot kitchen_oven"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 75.31820287568951,
+      "path": 16.519849034063963,
+      "base": 8.459999999999994,
+      "handled": [
+        "cooking_saucepot",
+        "fresh_kale",
+        "olive_oil_bottle",
+        "salt_shaker"
+      ],
+      "dropped": [],
+      "caught_ml": 25.47979883831563,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 3.1019683463237024
+    }
+  }
+}

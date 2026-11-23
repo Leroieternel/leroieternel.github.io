@@ -124,7 +124,15 @@ function render(c){
     video.addEventListener('pause',()=>{if(paired&&vids.includes(video))pauseBoth()});vids.push(video);
     player.append(video,node('small',null,data.summary));by('players').append(player);
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
-    for(const step of data.steps){const li=node('li',step.hazard?'haz':'');li.append(node('time',null,tLabel(step.t)),node('span',null,step.text));ol.append(li)}
+    for(const step of data.steps){
+      const li=node('li',step.hazard?'haz':'');
+      const time=node(c.longRank?'button':'time',c.longRank?'step-seek':null,tLabel(step.t));
+      if(c.longRank){
+        time.type='button';time.setAttribute('aria-label','Seek '+name.toLowerCase()+' replay to '+step.text);
+        time.onclick=()=>{pauseBoth();if(video.readyState>=1)video.currentTime=step.t;else video.addEventListener('loadedmetadata',()=>video.currentTime=step.t,{once:true})};
+      }
+      li.append(time,node('span',null,step.text));ol.append(li);
+    }
     card.append(ol);by('plans').append(card);
     const detailTime=c.detailByBranch?.[key]??c.detailTime;
     const detail=node('figure','detail '+key);detail.append(node('h3',null,Number.isFinite(detailTime)?name+' at '+tLabel(detailTime):name+' event view'),picture(versioned(base+'detail_'+key+'.jpg'),data.caption),node('p',null,data.caption));by('details').append(detail);

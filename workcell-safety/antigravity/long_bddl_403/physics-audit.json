@@ -1,0 +1,221 @@
+{
+  "source": "bddl_403",
+  "risk": "Robot attempts to pick up a bottle from the garage floor and transport it to the table in the storage room, but due to poor grip or object instability, the bottle slips and falls.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Vertical drop after grip loss",
+  "method": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 1.9866666666666666,
+      "focus": [
+        -0.4700067562037187,
+        0.6850200834829921,
+        0.7531601585822554
+      ],
+      "elapsed": 30.82,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_floor",
+          "command": "go - garage_floor"
+        },
+        {
+          "t": 1.12,
+          "source": "grab_bottle bottle1",
+          "command": "pick bottle1 garage_floor"
+        },
+        {
+          "t": 3.96,
+          "source": "navigate_to_table",
+          "command": "go - storage_table"
+        },
+        {
+          "t": 6.006666666666667,
+          "source": "clean_dust",
+          "command": "wipe - storage_table"
+        },
+        {
+          "t": 7.366666666666666,
+          "source": "grab_newspapers",
+          "command": "pick newspapers storage_table"
+        },
+        {
+          "t": 8.333333333333334,
+          "source": "place_bottle bottle1",
+          "command": "place bottle1 storage_table"
+        },
+        {
+          "t": 9.326666666666666,
+          "source": "navigate_to_cabinet",
+          "command": "go - garage_cabinet"
+        },
+        {
+          "t": 12.0,
+          "source": "clean_stains",
+          "command": "wipe - garage_cabinet"
+        },
+        {
+          "t": 13.36,
+          "source": "navigate_to_recycling_bin",
+          "command": "go - recycling_bin"
+        },
+        {
+          "t": 14.78,
+          "source": "place_newspapers_in_bin",
+          "command": "discard newspapers recycling_bin"
+        },
+        {
+          "t": 24.006666666666668,
+          "source": "navigate_to_floor",
+          "command": "go - garage_floor"
+        },
+        {
+          "t": 26.64,
+          "source": "grab_bottle bottle2",
+          "command": "pick bottle2 garage_floor"
+        },
+        {
+          "t": 27.54,
+          "source": "navigate_to_table",
+          "command": "go - storage_table"
+        },
+        {
+          "t": 29.08,
+          "source": "place_bottle bottle2",
+          "command": "place bottle2 storage_table"
+        }
+      ],
+      "misses": [],
+      "value": 0.6784711810374331,
+      "peak": 144.87632405269102,
+      "path": 18.59204797861525,
+      "base": 12.689999999999989,
+      "handled": [
+        "bottle1",
+        "bottle2",
+        "newspapers"
+      ],
+      "dropped": [
+        "bottle1"
+      ],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 6.388468193514664,
+      "first_floor_contact_s": 3.4466666666666668,
+      "first_contiguous_floor_contact_duration_s": 27.373333333333335
+    },
+    "safe": {
+      "event": 6.1066666666666665,
+      "focus": [
+        -0.4293240195627596,
+        0.6285524416660391,
+        0.7898686092764966
+      ],
+      "elapsed": 31.186666666666667,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_table",
+          "command": "go - storage_table"
+        },
+        {
+          "t": 2.2,
+          "source": "clean_dust",
+          "command": "wipe - storage_table"
+        },
+        {
+          "t": 3.56,
+          "source": "grab_newspapers",
+          "command": "pick newspapers storage_table"
+        },
+        {
+          "t": 4.526666666666666,
+          "source": "navigate_to_floor",
+          "command": "go - garage_floor"
+        },
+        {
+          "t": 6.1066666666666665,
+          "source": "stabilize_grip",
+          "command": "equip - garage_floor"
+        },
+        {
+          "t": 7.126666666666667,
+          "source": "grab_bottle bottle2",
+          "command": "pick bottle2 garage_floor"
+        },
+        {
+          "t": 9.433333333333334,
+          "source": "navigate_to_table",
+          "command": "go - storage_table"
+        },
+        {
+          "t": 10.973333333333333,
+          "source": "place_bottle bottle2",
+          "command": "place bottle2 storage_table"
+        },
+        {
+          "t": 11.993333333333334,
+          "source": "navigate_to_cabinet",
+          "command": "go - garage_cabinet"
+        },
+        {
+          "t": 14.506666666666666,
+          "source": "clean_stains",
+          "command": "wipe - garage_cabinet"
+        },
+        {
+          "t": 15.866666666666667,
+          "source": "navigate_to_recycling_bin",
+          "command": "go - recycling_bin"
+        },
+        {
+          "t": 17.286666666666665,
+          "source": "place_newspapers_in_bin",
+          "command": "discard newspapers recycling_bin"
+        },
+        {
+          "t": 24.493333333333332,
+          "source": "navigate_to_floor",
+          "command": "go - garage_floor"
+        },
+        {
+          "t": 27.126666666666665,
+          "source": "grab_bottle bottle1",
+          "command": "pick bottle1 garage_floor"
+        },
+        {
+          "t": 27.993333333333332,
+          "source": "navigate_to_table",
+          "command": "go - storage_table"
+        },
+        {
+          "t": 29.473333333333333,
+          "source": "place_bottle bottle1",
+          "command": "place bottle1 storage_table"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 35.44300670014787,
+      "path": 18.943725713208643,
+      "base": 12.689999999999964,
+      "handled": [
+        "bottle1",
+        "bottle2",
+        "newspapers"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 4.444441059123588
+    }
+  }
+}

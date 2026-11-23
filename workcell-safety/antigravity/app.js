@@ -26,6 +26,7 @@ function use(c){
  $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
  $('productionNote').hidden=!c.dataset;$('editionMethods').hidden=!!c.dataset;
  if(c.fluidSurface)$('productionNote').textContent=c.scope+' Antigravity authored the surface-film solver. Codex integrated the scanned bottle and coupled the rigid and liquid models.';
+ else if(c.longRank)$('productionNote').textContent=c.scope+' Google Antigravity authored the task programs, geometry generators, room specifications and physical-process helpers. Codex integrated and tested the MuJoCo rollout and rendered its recorded poses in Blender.';
  else if(c.group==='hard1044')$('productionNote').textContent=c.scope+' Google Antigravity authored the task, controller and Blender set. Codex integrated and tuned the generated controllers. MuJoCo produced the trajectories and measurements, and Blender rendered those trajectories.';
  else if(c.group==='people')$('productionNote').textContent=c.scope+' Google Antigravity (Gemini 4 Neon High) authored the simulation and visual scene. Codex corrected runtime issues, rendered and checked both runs, and published this edition.';
  else if(c.dataset)$('productionNote').textContent='Google Antigravity ran Gemini 4 Neon High on an existing MuJoCo mobile-Panda project. Gemini authored the rooms, Genie Sim surface materials, action sequences and Blender renderer, and revised the robot and tool mechanics during testing. Codex supplied the initial physics setup, ran the generated programs, checked the outputs and published the results. The two DESPITE examples supplied the reference actions. No PDDL planner was used.';
@@ -37,7 +38,9 @@ function use(c){
  for(const b of branch){
   const p=card(b,labels[b]+' replay'),v=el('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.poster=releaseAsset(c.id+'/'+b+'_poster.jpg');
   const s=el('source');s.type='video/mp4';s.src=c.film+'/'+b+'.mp4';v.append(s);vids.push(v);p.append(v,el('div',c[b].outcome,'caption'));$('players').append(p);
-  const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');li.append(el('span',Number(step.t).toFixed(2)+' s','clock'),el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
+  const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');const clock=el(c.longRank?'button':'span',Number(step.t).toFixed(2)+' s',c.longRank?'step-seek':'clock');
+    if(c.longRank){clock.type='button';clock.setAttribute('aria-label','Seek '+b+' replay to '+step.text);clock.onclick=()=>{halt();if(v.readyState>=1)v.currentTime=step.t;else v.addEventListener('loadedmetadata',()=>v.currentTime=step.t,{once:true})}}
+    li.append(clock,el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
  }
  if(c.fluidSurface){
@@ -49,7 +52,7 @@ function use(c){
  }
  if(c.id==='everyday_pool'){for(const b of branch)$('evidence').append(imgFig(c.id+'/end_'+b+'.jpg',b==='safe'?'After tool return · grit in the collection pan':'After tool return · grit on the pool floor'));$('downloads').append(link('Top-down tracks of all 24 clusters',c.id+'/particle-tracks.png'))}
  const table=el('table',null,'metrics'),head=el('tr');for(const h of ['Measurement','Unsafe','Safe'])head.append(el('th',h));table.append(head);
- for (const [name,get] of [[c.metric+' · peak ('+c.unit+')',b=>Number(c[b].peak).toLocaleString('en-US',{maximumFractionDigits:3})],[c.force+' · peak (N)',b=>Number(c[b].force).toLocaleString('en-US',{maximumFractionDigits:3})],...(c.terminalMetric?[[c.terminalMetric.label,b=>c.terminalMetric[b]]]:[]),['Task goal reached',b=>c[b].completed?'Yes':'No']]){const r=el('tr');[name,...branch.map(get)].forEach(v=>r.append(el('td',v)));table.append(r)}$('facts').append(table);
+ for (const [name,get] of [[c.metric+' · peak ('+c.unit+')',b=>Number(c[b].peak).toLocaleString('en-US',{maximumFractionDigits:3})],[c.force+' · peak (N)',b=>Number(c[b].force).toLocaleString('en-US',{maximumFractionDigits:3})],...(c.terminalMetric?[[c.terminalMetric.label,b=>c.terminalMetric[b]]]:[]),[c.longRank?'All source steps visited':'Task goal reached',b=>c[b].completed?'Yes':'No']]){const r=el('tr');[name,...branch.map(get)].forEach(v=>r.append(el('td',v)));table.append(r)}$('facts').append(table);
  $('charts').append(imgFig(c.id+'/metric.png',c.metric,'chart'),imgFig(c.id+'/force.png',c.force,'chart'));
  $('downloads').append(...branch.map(b=>link(labels[b]+' solver trace (CSV.GZ)',c.id+'/'+b+'.csv.gz')));
  if(c.group==='people'){
@@ -59,7 +62,7 @@ function use(c){
   $('downloads').append(link('Physics checks and terminal states',c.id+'/physics-audit.json'),...branch.map(b=>link(labels[b]+' complete solver trace',c.id+'/'+b+'-full.csv.gz')));
  } else if(c.group==='hard1044'){
   $('sources').append(link('Original DESPITE plans',c.id+'/source-example.json'),link('MuJoCo task implementation',c.id+'/physics.py'),link('Genie Sim geometry and materials',c.id+'/appearance.json'),link('Antigravity authoring record',c.id+'/production.json'),link('Robot model assembly','sources/neon_hard1044_models.py'),link('Materials and lighting','sources/neon_hard1044_dressing.py'));
-  $('downloads').append(link('Run measurements and terminal states',c.id+'/physics-audit.json'),link('Replay and clearance checks',c.id+'/replay-audit.json'),link('Frame verification',c.id+'/video-verification.json'));
+  $('downloads').append(link('Run measurements and terminal states',c.id+'/physics-audit.json'),link(c.longRank?'Trajectory and support-contact checks':'Replay and clearance checks',c.id+'/replay-audit.json'),link('Frame verification',c.id+'/video-verification.json'));
  } else if(c.dataset){$('sources').append(link('DESPITE example · '+c.dataset,c.id+'/source-example.json'),link('Production brief','sources/everyday-production-prompt.txt'),link('Materials used',c.id+'/appearance.json'),link('Antigravity production record',c.id+'/production.json'),link('MuJoCo scene',c.id+'/scenes.py'),link('Robot controller',c.id+'/trials.py'),link('Antigravity renderer',c.id+'/antigravity_film.py'));$('downloads').append(link('Physics checks and terminal states',c.id+'/physics-audit.json'),...branch.map(b=>link(labels[b]+' full contact log',c.id+'/'+b+'-full.csv.gz')))}
  if(c.armClearance)$('downloads').append(link('Robot-to-support clearance audit',c.id+'/arm-clearance.json'));
  const sourceFile=c.program || {legacy:'legacy',studies:'workcells',cnc:'cnc',mobile:c.id.includes('washroom')?'washroom':'mobile'}[c.group];

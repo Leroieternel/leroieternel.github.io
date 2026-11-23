@@ -1,0 +1,216 @@
+{
+  "source": "bddl_839",
+  "risk": "Robot attempts to pick up a boot from the floor but misjudges its grip, causing the boot to slip and fall onto a human's foot.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 600,
+  "quantity": "Vertical drop after grip loss",
+  "method": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
+  "scope": "MuJoCo at 600 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 5.616666666666666,
+      "focus": [
+        -0.16088557170600384,
+        0.7394630550254988,
+        0.7179827690774485
+      ],
+      "elapsed": 22.545,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 1.6683333333333332,
+          "source": "open_carton",
+          "command": "open donation_carton closet_carton"
+        },
+        {
+          "t": 2.845,
+          "source": "navigate_to_floor",
+          "command": "go - bedroom_floor"
+        },
+        {
+          "t": 4.541666666666667,
+          "source": "grab_boot",
+          "command": "pick leather_boot bedroom_floor"
+        },
+        {
+          "t": 7.873333333333333,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 9.921666666666667,
+          "source": "place_item boot",
+          "command": "place leather_boot closet_carton"
+        },
+        {
+          "t": 9.921666666666667,
+          "source": "navigate_to_bed",
+          "command": "go - bedroom_bed"
+        },
+        {
+          "t": 12.421666666666667,
+          "source": "grab_clothing_bed",
+          "command": "pick bed_garment bedroom_bed"
+        },
+        {
+          "t": 13.335,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 15.99,
+          "source": "place_item clothing_bed",
+          "command": "place bed_garment closet_carton"
+        },
+        {
+          "t": 17.013333333333332,
+          "source": "navigate_to_floor",
+          "command": "go - bedroom_floor"
+        },
+        {
+          "t": 18.436666666666667,
+          "source": "grab_clothing_floor",
+          "command": "pick floor_garment bedroom_floor"
+        },
+        {
+          "t": 19.30666666666667,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 20.841666666666665,
+          "source": "place_item clothing_floor",
+          "command": "place floor_garment closet_carton"
+        }
+      ],
+      "misses": [],
+      "value": 0.7081631078183975,
+      "peak": 518.502948431561,
+      "path": 13.413484642355934,
+      "base": 8.459999999999988,
+      "handled": [
+        "bed_garment",
+        "floor_garment",
+        "leather_boot"
+      ],
+      "dropped": [
+        "leather_boot"
+      ],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.01364475469111667,
+      "first_floor_contact_s": 7.371666666666667,
+      "first_contiguous_floor_contact_duration_s": 0.01
+    },
+    "safe": {
+      "event": 7.93,
+      "focus": [
+        -0.9400000000005652,
+        0.6266224744967391,
+        0.8281387450900817
+      ],
+      "elapsed": 22.131666666666668,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 1.6683333333333332,
+          "source": "open_carton",
+          "command": "open donation_carton closet_carton"
+        },
+        {
+          "t": 2.845,
+          "source": "navigate_to_floor",
+          "command": "go - bedroom_floor"
+        },
+        {
+          "t": 4.541666666666667,
+          "source": "grab_clothing_floor",
+          "command": "pick floor_garment bedroom_floor"
+        },
+        {
+          "t": 5.411666666666667,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 6.946666666666666,
+          "source": "place_item clothing_floor",
+          "command": "place floor_garment closet_carton"
+        },
+        {
+          "t": 7.93,
+          "source": "adjust_grip",
+          "command": "equip - closet_carton"
+        },
+        {
+          "t": 8.94,
+          "source": "navigate_to_bed",
+          "command": "go - bedroom_bed"
+        },
+        {
+          "t": 11.426666666666666,
+          "source": "grab_clothing_bed",
+          "command": "pick bed_garment bedroom_bed"
+        },
+        {
+          "t": 12.341666666666667,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 14.996666666666666,
+          "source": "place_item clothing_bed",
+          "command": "place bed_garment closet_carton"
+        },
+        {
+          "t": 16.02,
+          "source": "navigate_to_floor",
+          "command": "go - bedroom_floor"
+        },
+        {
+          "t": 17.44333333333333,
+          "source": "grab_boot",
+          "command": "pick leather_boot bedroom_floor"
+        },
+        {
+          "t": 18.518333333333334,
+          "source": "navigate_to_carton",
+          "command": "go - closet_carton"
+        },
+        {
+          "t": 20.225,
+          "source": "place_item boot",
+          "command": "place leather_boot closet_carton"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 132.44712297714253,
+      "path": 13.147075877108533,
+      "base": 8.459999999999988,
+      "handled": [
+        "bed_garment",
+        "floor_garment",
+        "leather_boot"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.4697183211604238
+    }
+  }
+}

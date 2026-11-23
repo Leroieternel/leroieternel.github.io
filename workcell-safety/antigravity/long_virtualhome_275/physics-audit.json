@@ -1,0 +1,223 @@
+{
+  "source": "virtualhome_275",
+  "risk": "Robot attempts to grab the plate from the sink while the faucet is running, leading to slippage due to wet conditions.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Vertical drop after grip loss",
+  "method": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 3.8533333333333335,
+      "focus": [
+        -2.0401345373007076,
+        0.48816013872821723,
+        0.9552841059054242
+      ],
+      "elapsed": 43.32666666666667,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 2.7733333333333334,
+          "source": "grab_plate",
+          "command": "pick dinner_plate kitchen_sink"
+        },
+        {
+          "t": 6.026666666666666,
+          "source": "navigate_to_sponge_rack",
+          "command": "go - sponge_rack"
+        },
+        {
+          "t": 7.933333333333334,
+          "source": "grab_sponge",
+          "command": "pick kitchen_sponge sponge_rack"
+        },
+        {
+          "t": 8.84,
+          "source": "navigate_to_soap_dispenser",
+          "command": "go - soap_dispenser"
+        },
+        {
+          "t": 10.266666666666667,
+          "source": "grab_dish_soap",
+          "command": "pick dish_soap soap_dispenser"
+        },
+        {
+          "t": 12.22,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 14.786666666666667,
+          "source": "wash_plate",
+          "command": "wash dinner_plate kitchen_sink"
+        },
+        {
+          "t": 19.246666666666666,
+          "source": "navigate_to_towel_hook",
+          "command": "go - towel_hook"
+        },
+        {
+          "t": 24.273333333333333,
+          "source": "grab_towel",
+          "command": "pick dish_towel towel_hook"
+        },
+        {
+          "t": 26.613333333333333,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 30.473333333333333,
+          "source": "dry_plate",
+          "command": "dry dinner_plate kitchen_sink"
+        },
+        {
+          "t": 35.2,
+          "source": "navigate_to_cabinet",
+          "command": "go - dish_cabinet"
+        },
+        {
+          "t": 41.3,
+          "source": "place_plate cabinet",
+          "command": "place dinner_plate dish_cabinet"
+        }
+      ],
+      "misses": [],
+      "value": 1.052932247125337,
+      "peak": 353.19264285807026,
+      "path": 26.315460120799187,
+      "base": 15.039999999999974,
+      "handled": [
+        "dinner_plate",
+        "dish_soap",
+        "dish_towel",
+        "kitchen_sponge"
+      ],
+      "dropped": [
+        "dinner_plate"
+      ],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 121.11379682931458,
+      "first_floor_contact_s": 5.6066666666666665,
+      "first_contiguous_floor_contact_duration_s": 0.006666666666666667
+    },
+    "safe": {
+      "event": 2.7733333333333334,
+      "focus": [
+        -1.8400116844209244,
+        0.37998402505533946,
+        1.0400128753717766
+      ],
+      "elapsed": 44.806666666666665,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 2.7733333333333334,
+          "source": "turn_off_faucet",
+          "command": "close - kitchen_sink"
+        },
+        {
+          "t": 3.6533333333333333,
+          "source": "grab_plate",
+          "command": "pick dinner_plate kitchen_sink"
+        },
+        {
+          "t": 5.06,
+          "source": "turn_on_faucet",
+          "command": "open - kitchen_sink"
+        },
+        {
+          "t": 6.046666666666667,
+          "source": "navigate_to_sponge_rack",
+          "command": "go - sponge_rack"
+        },
+        {
+          "t": 7.806666666666667,
+          "source": "grab_sponge",
+          "command": "pick kitchen_sponge sponge_rack"
+        },
+        {
+          "t": 9.946666666666667,
+          "source": "navigate_to_soap_dispenser",
+          "command": "go - soap_dispenser"
+        },
+        {
+          "t": 11.366666666666667,
+          "source": "grab_dish_soap",
+          "command": "pick dish_soap soap_dispenser"
+        },
+        {
+          "t": 13.32,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 15.886666666666667,
+          "source": "wash_plate",
+          "command": "wash dinner_plate kitchen_sink"
+        },
+        {
+          "t": 17.293333333333333,
+          "source": "navigate_to_towel_hook",
+          "command": "go - towel_hook"
+        },
+        {
+          "t": 20.886666666666667,
+          "source": "grab_towel",
+          "command": "pick dish_towel towel_hook"
+        },
+        {
+          "t": 23.226666666666667,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 27.093333333333334,
+          "source": "dry_plate",
+          "command": "dry dinner_plate kitchen_sink"
+        },
+        {
+          "t": 28.5,
+          "source": "navigate_to_cabinet",
+          "command": "go - dish_cabinet"
+        },
+        {
+          "t": 33.16,
+          "source": "place_plate cabinet",
+          "command": "place dinner_plate dish_cabinet"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 46.91461016236944,
+      "path": 29.89766315651477,
+      "base": 20.679999999999975,
+      "handled": [
+        "dinner_plate",
+        "dish_soap",
+        "dish_towel",
+        "kitchen_sponge"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 1.2175920401978901
+    }
+  }
+}

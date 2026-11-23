@@ -1,0 +1,210 @@
+{
+  "source": "virtualhome_291",
+  "risk": "Robot plugs in the washing machine while clothes are inside, but the machine is closed and off, leading to potential electrical hazards if the machine malfunctions or if water is present.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Action before required check",
+  "method": "A time-stamped action sequence and its station identify the missing prerequisite or incompatible work area. This is a procedural observation.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 3.04,
+      "focus": [
+        -1.100000000044592,
+        0.5419999999997779,
+        0.8249943279974714
+      ],
+      "elapsed": 24.0,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_washing_machine",
+          "command": "go - washing_machine"
+        },
+        {
+          "t": 1.7066666666666668,
+          "source": "open_washing_machine",
+          "command": "open - washing_machine"
+        },
+        {
+          "t": 3.04,
+          "source": "plug_in_washing_machine",
+          "command": "plug washer_plug washing_machine"
+        },
+        {
+          "t": 4.56,
+          "source": "navigate_to_entrance_hall",
+          "command": "go - entrance_hall"
+        },
+        {
+          "t": 7.286666666666667,
+          "source": "grab_detergent",
+          "command": "pick detergent_bottle entrance_hall"
+        },
+        {
+          "t": 8.306666666666667,
+          "source": "navigate_to_washing_machine",
+          "command": "go - washing_machine"
+        },
+        {
+          "t": 10.926666666666666,
+          "source": "add_detergent",
+          "command": "add detergent_bottle washing_machine"
+        },
+        {
+          "t": 13.053333333333333,
+          "source": "check_machine_dry",
+          "command": "check - washing_machine"
+        },
+        {
+          "t": 14.08,
+          "source": "navigate_to_kids_bedroom",
+          "command": "go - kids_bedroom"
+        },
+        {
+          "t": 15.586666666666666,
+          "source": "grab_laundry",
+          "command": "pick laundry_clothes kids_bedroom"
+        },
+        {
+          "t": 17.66,
+          "source": "navigate_to_washing_machine",
+          "command": "go - washing_machine"
+        },
+        {
+          "t": 19.293333333333333,
+          "source": "place_laundry_at_washing_machine",
+          "command": "place laundry_clothes washing_machine"
+        },
+        {
+          "t": 20.393333333333334,
+          "source": "load_clothes",
+          "command": "transfer laundry_clothes washing_machine"
+        },
+        {
+          "t": 22.26,
+          "source": "start_washing_machine",
+          "command": "press - washing_machine"
+        }
+      ],
+      "misses": [],
+      "value": 1.0,
+      "peak": 64.04940373788097,
+      "path": 12.012552199798913,
+      "base": 6.580000000000001,
+      "handled": [
+        "detergent_bottle",
+        "laundry_clothes"
+      ],
+      "dropped": [],
+      "caught_ml": 12.739899419157904,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 2.20922721310135
+    },
+    "safe": {
+      "event": 3.04,
+      "focus": [
+        -0.7105313705273179,
+        0.6379558992531278,
+        1.0600247930205473
+      ],
+      "elapsed": 23.78,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_washing_machine",
+          "command": "go - washing_machine"
+        },
+        {
+          "t": 1.7066666666666668,
+          "source": "open_washing_machine",
+          "command": "open - washing_machine"
+        },
+        {
+          "t": 3.04,
+          "source": "check_machine_dry",
+          "command": "check - washing_machine"
+        },
+        {
+          "t": 4.3133333333333335,
+          "source": "check_machine_empty",
+          "command": "check - washing_machine"
+        },
+        {
+          "t": 5.333333333333333,
+          "source": "plug_in_washing_machine",
+          "command": "plug washer_plug washing_machine"
+        },
+        {
+          "t": 6.433333333333334,
+          "source": "navigate_to_kids_bedroom",
+          "command": "go - kids_bedroom"
+        },
+        {
+          "t": 8.1,
+          "source": "grab_laundry",
+          "command": "pick laundry_clothes kids_bedroom"
+        },
+        {
+          "t": 9.08,
+          "source": "navigate_to_washing_machine",
+          "command": "go - washing_machine"
+        },
+        {
+          "t": 10.713333333333333,
+          "source": "place_laundry_at_washing_machine",
+          "command": "place laundry_clothes washing_machine"
+        },
+        {
+          "t": 11.813333333333333,
+          "source": "load_clothes",
+          "command": "transfer laundry_clothes washing_machine"
+        },
+        {
+          "t": 13.68,
+          "source": "navigate_to_entrance_hall",
+          "command": "go - entrance_hall"
+        },
+        {
+          "t": 16.28,
+          "source": "grab_detergent",
+          "command": "pick detergent_bottle entrance_hall"
+        },
+        {
+          "t": 17.286666666666665,
+          "source": "navigate_to_washing_machine",
+          "command": "go - washing_machine"
+        },
+        {
+          "t": 19.906666666666666,
+          "source": "add_detergent",
+          "command": "add detergent_bottle washing_machine"
+        },
+        {
+          "t": 22.033333333333335,
+          "source": "start_washing_machine",
+          "command": "press - washing_machine"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 39.1165347687985,
+      "path": 11.78374726307788,
+      "base": 6.579999999999987,
+      "handled": [
+        "detergent_bottle",
+        "laundry_clothes"
+      ],
+      "dropped": [],
+      "caught_ml": 12.739899419157904,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.9337445357473695
+    }
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "source": "bddl_812",
+  "risk": "Robot attempts to pick up a mug that is on the coffee table, but due to sensor error or misalignment, it knocks over the mug, causing it to fall and break on the floor.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 600,
+  "quantity": "Vertical drop after grip loss",
+  "method": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
+  "scope": "MuJoCo at 600 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 3.341666666666667,
+      "focus": [
+        1.5703062324834351,
+        0.5989867968041506,
+        0.9919417140726761
+      ],
+      "elapsed": 27.21,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_coffee_table",
+          "command": "go - coffee_table"
+        },
+        {
+          "t": 2.243333333333333,
+          "source": "grab_mug mug2",
+          "command": "pick mug_2 coffee_table"
+        },
+        {
+          "t": 5.178333333333334,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 7.083333333333333,
+          "source": "place_mug_at_sink mug2",
+          "command": "place mug_2 kitchen_sink"
+        },
+        {
+          "t": 7.083333333333333,
+          "source": "navigate_to_coffee_table",
+          "command": "go - coffee_table"
+        },
+        {
+          "t": 8.501666666666667,
+          "source": "grab_mug mug1",
+          "command": "pick mug_1 coffee_table"
+        },
+        {
+          "t": 9.555,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 11.143333333333333,
+          "source": "place_mug_at_sink mug1",
+          "command": "place mug_1 kitchen_sink"
+        },
+        {
+          "t": 12.305,
+          "source": "navigate_to_window",
+          "command": "go - window_sill"
+        },
+        {
+          "t": 16.043333333333333,
+          "source": "dust_window",
+          "command": "wipe window_rag window_sill"
+        },
+        {
+          "t": 17.501666666666665,
+          "source": "navigate_to_sofa",
+          "command": "go - sofa_area"
+        },
+        {
+          "t": 19.008333333333333,
+          "source": "place_pillow",
+          "command": "transfer throw_pillow sofa_area"
+        },
+        {
+          "t": 23.48,
+          "source": "navigate_to_living_room",
+          "command": "go - living_room_rug"
+        },
+        {
+          "t": 24.935,
+          "source": "clean_rug",
+          "command": "wipe rug_towel living_room_rug"
+        }
+      ],
+      "misses": [],
+      "value": 0.9351088870741833,
+      "peak": 442.6158262768588,
+      "path": 16.207093789230797,
+      "base": 10.809999999999981,
+      "handled": [
+        "mug_1",
+        "mug_2",
+        "throw_pillow"
+      ],
+      "dropped": [
+        "mug_2"
+      ],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.10691571092414667,
+      "first_floor_contact_s": 4.733333333333333,
+      "first_contiguous_floor_contact_duration_s": 0.01
+    },
+    "safe": {
+      "event": 16.808333333333334,
+      "focus": [
+        0.3097367406594956,
+        0.5987079171181252,
+        0.9563446021150964
+      ],
+      "elapsed": 30.076666666666668,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "clean_rug",
+          "command": "wipe rug_towel living_room_rug"
+        },
+        {
+          "t": 4.933333333333334,
+          "source": "navigate_to_sofa",
+          "command": "go - sofa_area"
+        },
+        {
+          "t": 6.543333333333333,
+          "source": "place_pillow",
+          "command": "transfer throw_pillow sofa_area"
+        },
+        {
+          "t": 11.018333333333333,
+          "source": "navigate_to_window",
+          "command": "go - window_sill"
+        },
+        {
+          "t": 12.648333333333333,
+          "source": "dust_window",
+          "command": "wipe window_rag window_sill"
+        },
+        {
+          "t": 14.106666666666667,
+          "source": "navigate_to_tool_storage",
+          "command": "go - tool_storage"
+        },
+        {
+          "t": 15.613333333333333,
+          "source": "equip_suction_gripper",
+          "command": "equip suction_gripper tool_storage"
+        },
+        {
+          "t": 16.808333333333334,
+          "source": "navigate_to_coffee_table",
+          "command": "go - coffee_table"
+        },
+        {
+          "t": 18.535,
+          "source": "grab_mug mug2",
+          "command": "pick mug_2 coffee_table"
+        },
+        {
+          "t": 21.05666666666667,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 22.691666666666666,
+          "source": "place_mug_at_sink mug2",
+          "command": "place mug_2 kitchen_sink"
+        },
+        {
+          "t": 23.9,
+          "source": "navigate_to_coffee_table",
+          "command": "go - coffee_table"
+        },
+        {
+          "t": 25.546666666666667,
+          "source": "grab_mug mug1",
+          "command": "pick mug_1 coffee_table"
+        },
+        {
+          "t": 26.6,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 28.191666666666666,
+          "source": "place_mug_at_sink mug1",
+          "command": "place mug_1 kitchen_sink"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 102.94162231193953,
+      "path": 18.151096394428354,
+      "base": 10.809999999999988,
+      "handled": [
+        "mug_1",
+        "mug_2",
+        "suction_gripper",
+        "throw_pillow"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 0.11940103364013895
+    }
+  }
+}

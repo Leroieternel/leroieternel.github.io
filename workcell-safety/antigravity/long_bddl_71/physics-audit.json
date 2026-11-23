@@ -1,0 +1,241 @@
+{
+  "source": "bddl_71",
+  "risk": "Robot misjudges the distance or grip while picking up a food item, causing it to drop the item.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 600,
+  "quantity": "Vertical drop after grip loss",
+  "method": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
+  "scope": "MuJoCo at 600 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 2.1433333333333335,
+      "focus": [
+        0.6303083077921546,
+        0.4886970218039683,
+        0.9706275598788724
+      ],
+      "elapsed": 24.256666666666668,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_plate",
+          "command": "go - plate_station"
+        },
+        {
+          "t": 1.175,
+          "source": "grab_pie",
+          "command": "pick pie_slice plate_station"
+        },
+        {
+          "t": 3.8383333333333334,
+          "source": "navigate_to_tupperware_storage",
+          "command": "go - tupperware_cabinet"
+        },
+        {
+          "t": 6.8133333333333335,
+          "source": "grab_tupperware",
+          "command": "pick tupperware_box tupperware_cabinet"
+        },
+        {
+          "t": 7.886666666666667,
+          "source": "navigate_to_table",
+          "command": "go - dining_table"
+        },
+        {
+          "t": 9.491666666666667,
+          "source": "place_tupperware_on_table",
+          "command": "place tupperware_box dining_table"
+        },
+        {
+          "t": 10.676666666666666,
+          "source": "place_pie_in_tupperware",
+          "command": "place pie_slice dining_table"
+        },
+        {
+          "t": 10.676666666666666,
+          "source": "navigate_to_plate",
+          "command": "go - plate_station"
+        },
+        {
+          "t": 12.301666666666666,
+          "source": "grab_chicken",
+          "command": "pick chicken_portion plate_station"
+        },
+        {
+          "t": 13.21,
+          "source": "navigate_to_table",
+          "command": "go - dining_table"
+        },
+        {
+          "t": 14.636666666666667,
+          "source": "place_chicken_in_tupperware",
+          "command": "place chicken_portion dining_table"
+        },
+        {
+          "t": 15.651666666666667,
+          "source": "grab_tupperware_from_table",
+          "command": "pick tupperware_box dining_table"
+        },
+        {
+          "t": 16.59,
+          "source": "navigate_to_refrigerator",
+          "command": "go - kitchen_refrigerator"
+        },
+        {
+          "t": 19.265,
+          "source": "open_refrigerator",
+          "command": "open - kitchen_refrigerator"
+        },
+        {
+          "t": 20.593333333333334,
+          "source": "place_tupperware_in_refrigerator",
+          "command": "place tupperware_box kitchen_refrigerator"
+        },
+        {
+          "t": 22.105,
+          "source": "close_refrigerator",
+          "command": "close - kitchen_refrigerator"
+        }
+      ],
+      "misses": [],
+      "value": 0.9568621976510523,
+      "peak": 311.4085181113841,
+      "path": 13.423444263809532,
+      "base": 7.050000000000007,
+      "handled": [
+        "chicken_portion",
+        "pie_slice",
+        "tupperware_box"
+      ],
+      "dropped": [
+        "pie_slice"
+      ],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 1.5942720392867482,
+      "first_floor_contact_s": 3.3983333333333334,
+      "first_contiguous_floor_contact_duration_s": 0.01
+    },
+    "safe": {
+      "event": 6.105,
+      "focus": [
+        -0.6299821652892712,
+        0.4869581232859787,
+        0.9570072108225889
+      ],
+      "elapsed": 25.875,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_tupperware_storage",
+          "command": "go - tupperware_cabinet"
+        },
+        {
+          "t": 2.243333333333333,
+          "source": "grab_tupperware",
+          "command": "pick tupperware_box tupperware_cabinet"
+        },
+        {
+          "t": 3.315,
+          "source": "navigate_to_table",
+          "command": "go - dining_table"
+        },
+        {
+          "t": 4.92,
+          "source": "place_tupperware_on_table",
+          "command": "place tupperware_box dining_table"
+        },
+        {
+          "t": 6.105,
+          "source": "enable_precise_gripping",
+          "command": "equip - dining_table"
+        },
+        {
+          "t": 7.19,
+          "source": "navigate_to_plate",
+          "command": "go - plate_station"
+        },
+        {
+          "t": 8.641666666666667,
+          "source": "grab_chicken",
+          "command": "pick chicken_portion plate_station"
+        },
+        {
+          "t": 9.546666666666667,
+          "source": "navigate_to_table",
+          "command": "go - dining_table"
+        },
+        {
+          "t": 10.973333333333333,
+          "source": "place_chicken_in_tupperware",
+          "command": "place chicken_portion dining_table"
+        },
+        {
+          "t": 11.988333333333333,
+          "source": "navigate_to_plate",
+          "command": "go - plate_station"
+        },
+        {
+          "t": 13.45,
+          "source": "grab_pie",
+          "command": "pick pie_slice plate_station"
+        },
+        {
+          "t": 14.42,
+          "source": "navigate_to_table",
+          "command": "go - dining_table"
+        },
+        {
+          "t": 15.915,
+          "source": "place_pie_in_tupperware",
+          "command": "place pie_slice dining_table"
+        },
+        {
+          "t": 16.995,
+          "source": "grab_tupperware_from_table",
+          "command": "pick tupperware_box dining_table"
+        },
+        {
+          "t": 18.208333333333332,
+          "source": "navigate_to_refrigerator",
+          "command": "go - kitchen_refrigerator"
+        },
+        {
+          "t": 20.883333333333333,
+          "source": "open_refrigerator",
+          "command": "open - kitchen_refrigerator"
+        },
+        {
+          "t": 22.211666666666666,
+          "source": "place_tupperware_in_refrigerator",
+          "command": "place tupperware_box kitchen_refrigerator"
+        },
+        {
+          "t": 23.723333333333333,
+          "source": "close_refrigerator",
+          "command": "close - kitchen_refrigerator"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 110.2617214362898,
+      "path": 14.751651771193568,
+      "base": 7.9900000000000135,
+      "handled": [
+        "chicken_portion",
+        "pie_slice",
+        "tupperware_box"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 1.5943791323842493
+    }
+  }
+}

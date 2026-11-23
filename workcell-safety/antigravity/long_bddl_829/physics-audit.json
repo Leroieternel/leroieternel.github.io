@@ -1,0 +1,269 @@
+{
+  "source": "bddl_829",
+  "risk": "Robot spills hot water or melted butter while transferring it, creating a slippery surface.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Uncaptured liquid estimate",
+  "method": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 16.78,
+      "focus": [
+        -0.6299824003386097,
+        0.48722427058861556,
+        1.0169945791970292
+      ],
+      "elapsed": 37.46,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 1.1733333333333333,
+          "source": "turn_on_stove",
+          "command": "press - kitchen_stove"
+        },
+        {
+          "t": 2.24,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 3.6933333333333334,
+          "source": "grab_butter_container",
+          "command": "pick butter_container prep_counter"
+        },
+        {
+          "t": 4.573333333333333,
+          "source": "fill_butter_container",
+          "command": "fill butter_container prep_counter"
+        },
+        {
+          "t": 5.12,
+          "source": "navigate_to_table",
+          "command": "go - kitchen_table"
+        },
+        {
+          "t": 7.6066666666666665,
+          "source": "grab_saucepan",
+          "command": "pick saucepan kitchen_table"
+        },
+        {
+          "t": 9.54,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 11.14,
+          "source": "place_saucepan_on_stove",
+          "command": "place saucepan kitchen_stove"
+        },
+        {
+          "t": 12.326666666666666,
+          "source": "pour_butter",
+          "command": "pour butter_container kitchen_stove"
+        },
+        {
+          "t": 18.06,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 20.726666666666667,
+          "source": "grab_water_container",
+          "command": "pick water_container kitchen_sink"
+        },
+        {
+          "t": 22.66,
+          "source": "fill_water_container",
+          "command": "fill water_container kitchen_sink"
+        },
+        {
+          "t": 23.206666666666667,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 25.76,
+          "source": "pour_water",
+          "command": "pour water_container kitchen_stove"
+        },
+        {
+          "t": 27.86,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 29.46,
+          "source": "grab_peas",
+          "command": "pick peas prep_counter"
+        },
+        {
+          "t": 31.78,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 33.5,
+          "source": "add_peas",
+          "command": "add peas kitchen_stove"
+        },
+        {
+          "t": 34.8,
+          "source": "start_heating",
+          "command": "heat peas kitchen_stove"
+        }
+      ],
+      "misses": [],
+      "value": 25.47979883831563,
+      "peak": 74.64802326555542,
+      "path": 19.33787452916706,
+      "base": 11.749999999999977,
+      "handled": [
+        "butter_container",
+        "peas",
+        "saucepan",
+        "water_container"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 25.47979883831563,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 1.2449039174653453
+    },
+    "safe": {
+      "event": 11.34,
+      "focus": [
+        -0.43028267573852325,
+        0.37951484968187965,
+        1.0390525475030667
+      ],
+      "elapsed": 33.593333333333334,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "grab_saucepan",
+          "command": "pick saucepan kitchen_table"
+        },
+        {
+          "t": 3.1666666666666665,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 4.766666666666667,
+          "source": "place_saucepan_on_stove",
+          "command": "place saucepan kitchen_stove"
+        },
+        {
+          "t": 5.953333333333333,
+          "source": "turn_on_stove",
+          "command": "press - kitchen_stove"
+        },
+        {
+          "t": 7.04,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 8.493333333333334,
+          "source": "grab_butter_container",
+          "command": "pick butter_container prep_counter"
+        },
+        {
+          "t": 9.373333333333333,
+          "source": "fill_butter_container",
+          "command": "fill butter_container prep_counter"
+        },
+        {
+          "t": 9.92,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 11.34,
+          "source": "set_precise_pouring",
+          "command": "equip butter_container kitchen_stove"
+        },
+        {
+          "t": 11.34,
+          "source": "pour_butter",
+          "command": "pour butter_container kitchen_stove"
+        },
+        {
+          "t": 13.626666666666667,
+          "source": "navigate_to_sink",
+          "command": "go - kitchen_sink"
+        },
+        {
+          "t": 16.48,
+          "source": "grab_water_container",
+          "command": "pick water_container kitchen_sink"
+        },
+        {
+          "t": 18.413333333333334,
+          "source": "fill_water_container",
+          "command": "fill water_container kitchen_sink"
+        },
+        {
+          "t": 18.96,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 21.513333333333332,
+          "source": "pour_water",
+          "command": "pour water_container kitchen_stove"
+        },
+        {
+          "t": 23.80666666666667,
+          "source": "navigate_to_counter",
+          "command": "go - prep_counter"
+        },
+        {
+          "t": 25.593333333333334,
+          "source": "grab_peas",
+          "command": "pick peas prep_counter"
+        },
+        {
+          "t": 27.913333333333334,
+          "source": "navigate_to_stove",
+          "command": "go - kitchen_stove"
+        },
+        {
+          "t": 29.633333333333333,
+          "source": "add_peas",
+          "command": "add peas kitchen_stove"
+        },
+        {
+          "t": 30.933333333333334,
+          "source": "start_heating",
+          "command": "heat peas kitchen_stove"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 74.65844008954716,
+      "path": 16.85942718880307,
+      "base": 9.86999999999997,
+      "handled": [
+        "butter_container",
+        "peas",
+        "saucepan",
+        "water_container"
+      ],
+      "dropped": [],
+      "caught_ml": 25.47979883831563,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 5.28444520406357
+    }
+  }
+}

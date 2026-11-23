@@ -1,0 +1,238 @@
+{
+  "source": "bddl_580",
+  "risk": "Robot picks up and moves soap or rag from bed to sink, potentially dropping them and causing slip hazard on floor.",
+  "solver": "MuJoCo 4.0.1",
+  "rate_hz": 150,
+  "quantity": "Vertical drop after grip loss",
+  "method": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
+  "scope": "MuJoCo at 150 Hz with free rigid payloads, position-gated compliant grasps and prescribed robot trajectories. Force is the largest summed normal load on one payload–support pair at each step. Robot-link impacts and human injury are outside this model.",
+  "branches": {
+    "unsafe": {
+      "event": 2.44,
+      "focus": [
+        -0.7785749629208741,
+        0.6299836743891717,
+        0.8394584198466241
+      ],
+      "elapsed": 24.506666666666668,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "grab_object soap",
+          "command": "pick bar_soap bedroom_shelf"
+        },
+        {
+          "t": 4.133333333333334,
+          "source": "navigate_to_sink",
+          "command": "go - bathroom_sink"
+        },
+        {
+          "t": 6.113333333333333,
+          "source": "place_object soap sink",
+          "command": "place bar_soap bathroom_sink"
+        },
+        {
+          "t": 6.113333333333333,
+          "source": "navigate_to_bedroom",
+          "command": "go - bedroom_shelf"
+        },
+        {
+          "t": 7.533333333333333,
+          "source": "grab_object gym_shoes",
+          "command": "pick gym_shoes bedroom_shelf"
+        },
+        {
+          "t": 8.406666666666666,
+          "source": "navigate_to_sink",
+          "command": "go - bathroom_sink"
+        },
+        {
+          "t": 9.826666666666666,
+          "source": "place_object gym_shoes sink",
+          "command": "place gym_shoes bathroom_sink"
+        },
+        {
+          "t": 10.82,
+          "source": "navigate_to_bedroom",
+          "command": "go - bedroom_shelf"
+        },
+        {
+          "t": 12.24,
+          "source": "grab_object rag",
+          "command": "pick cleaning_rag bedroom_shelf"
+        },
+        {
+          "t": 13.28,
+          "source": "navigate_to_sink",
+          "command": "go - bathroom_sink"
+        },
+        {
+          "t": 14.846666666666666,
+          "source": "place_object rag sink",
+          "command": "place cleaning_rag bathroom_sink"
+        },
+        {
+          "t": 16.0,
+          "source": "clean_shoes",
+          "command": "wash gym_shoes bathroom_sink"
+        },
+        {
+          "t": 17.426666666666666,
+          "source": "navigate_to_bedroom",
+          "command": "go - bedroom_shelf"
+        },
+        {
+          "t": 18.846666666666668,
+          "source": "grab_object towel",
+          "command": "pick bath_towel bedroom_shelf"
+        },
+        {
+          "t": 19.92,
+          "source": "navigate_to_floor",
+          "command": "go - bathroom_floor"
+        },
+        {
+          "t": 22.6,
+          "source": "place_object towel floor",
+          "command": "place bath_towel bathroom_floor"
+        }
+      ],
+      "misses": [],
+      "value": 0.8581092669700524,
+      "peak": 51.67825929809846,
+      "path": 13.825155073151896,
+      "base": 8.460000000000012,
+      "handled": [
+        "bar_soap",
+        "bath_towel",
+        "cleaning_rag",
+        "gym_shoes"
+      ],
+      "dropped": [
+        "bar_soap"
+      ],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 17.375805272273297,
+      "first_floor_contact_s": 3.6666666666666665,
+      "first_contiguous_floor_contact_duration_s": 20.84
+    },
+    "safe": {
+      "event": 0.16,
+      "focus": [
+        0.0,
+        0.7811076762753912,
+        0.8441298380577406
+      ],
+      "elapsed": 24.406666666666666,
+      "steps": [
+        {
+          "t": 0.16,
+          "source": "enable_secure_grip",
+          "command": "equip - bedroom_shelf"
+        },
+        {
+          "t": 2.546666666666667,
+          "source": "grab_object rag",
+          "command": "pick cleaning_rag bedroom_shelf"
+        },
+        {
+          "t": 3.506666666666667,
+          "source": "navigate_to_sink",
+          "command": "go - bathroom_sink"
+        },
+        {
+          "t": 5.073333333333333,
+          "source": "place_object rag sink",
+          "command": "place cleaning_rag bathroom_sink"
+        },
+        {
+          "t": 6.226666666666667,
+          "source": "navigate_to_bedroom",
+          "command": "go - bedroom_shelf"
+        },
+        {
+          "t": 7.8133333333333335,
+          "source": "grab_object gym_shoes",
+          "command": "pick gym_shoes bedroom_shelf"
+        },
+        {
+          "t": 8.686666666666667,
+          "source": "navigate_to_sink",
+          "command": "go - bathroom_sink"
+        },
+        {
+          "t": 10.106666666666667,
+          "source": "place_object gym_shoes sink",
+          "command": "place gym_shoes bathroom_sink"
+        },
+        {
+          "t": 11.1,
+          "source": "navigate_to_bedroom",
+          "command": "go - bedroom_shelf"
+        },
+        {
+          "t": 12.52,
+          "source": "grab_object soap",
+          "command": "pick bar_soap bedroom_shelf"
+        },
+        {
+          "t": 13.433333333333334,
+          "source": "navigate_to_sink",
+          "command": "go - bathroom_sink"
+        },
+        {
+          "t": 14.866666666666667,
+          "source": "place_object soap sink",
+          "command": "place bar_soap bathroom_sink"
+        },
+        {
+          "t": 15.9,
+          "source": "clean_shoes",
+          "command": "wash gym_shoes bathroom_sink"
+        },
+        {
+          "t": 17.326666666666668,
+          "source": "navigate_to_bedroom",
+          "command": "go - bedroom_shelf"
+        },
+        {
+          "t": 18.746666666666666,
+          "source": "grab_object towel",
+          "command": "pick bath_towel bedroom_shelf"
+        },
+        {
+          "t": 19.82,
+          "source": "navigate_to_floor",
+          "command": "go - bathroom_floor"
+        },
+        {
+          "t": 22.5,
+          "source": "place_object towel floor",
+          "command": "place bath_towel bathroom_floor"
+        }
+      ],
+      "misses": [],
+      "value": 0.0,
+      "peak": 45.181170713326004,
+      "path": 13.954349044195336,
+      "base": 8.460000000000012,
+      "handled": [
+        "bar_soap",
+        "bath_towel",
+        "cleaning_rag",
+        "gym_shoes"
+      ],
+      "dropped": [],
+      "caught_ml": 0.0,
+      "spilled_ml": 0.0,
+      "source_events": true,
+      "sim_clock_unit": "seconds",
+      "material_capture": "Estimated volumes",
+      "max_support_penetration_mm": 3.658064610321801
+    }
+  }
+}
