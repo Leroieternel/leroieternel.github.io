@@ -1,14 +1,27 @@
 {
-  "people_intersections": {
-    "safe": {},
-    "unsafe": {}
+  "sample_rate_Hz": 25,
+  "poses_per_branch": 301,
+  "branches": {
+    "safe": {
+      "person_scene": {},
+      "robot_equipment": {},
+      "minimum_skin_z_mm": {
+        "principal": 0.8
+      }
+    },
+    "unsafe": {
+      "person_scene": {},
+      "robot_equipment": {
+        "supply_guard / deck_pan": {
+          "frames": 1,
+          "first_s": 3.08,
+          "last_s": 3.08
+        }
+      },
+      "minimum_skin_z_mm": {
+        "principal": 0.8
+      }
+    }
   },
-  "robot_and_furniture": {
-    "safe": {},
-    "unsafe": {}
-  },
-  "samples_per_branch": 301,
-  "frequency_Hz": 25,
-  "original_rig_vertices": 7710,
-  "scope": "Triangle surface crossings of original skinned person against visible robot, foreground props and set meshes at every replay sample. Also cross-check visible robot surfaces against working tables, suitcase, gurney and gantry uprights. Printed markings and the floor under planted feet are excluded. Intentional prop contacts are handled separately by MuJoCo."
+  "scope": "Original actor triangles against bodies, set, equipment and each other. Floor clearance recorded separately. Robot-to-equipment includes intended contact and reported soft-contact overlap."
 }

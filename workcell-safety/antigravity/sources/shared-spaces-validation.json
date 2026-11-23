@@ -9,8 +9,8 @@
   "solver_hz": 1000,
   "person_mesh_samples": 6020,
   "person_scene_triangle_intersections": 0,
-  "sampled_video_frames_checked_independently": 60,
-  "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+  "sampled_video_frames_checked_independently": 66,
+  "scope": "The ten pairs share their starting scene and human performances up to the relevant decision. Hospital and bank include event-driven reactions. Their linked evidence separates rigid-body dynamics, human animation and geometric observation.",
   "replays": [
     {
       "id": "shared_crossing",
@@ -118,30 +118,43 @@
       "setting": "indoor",
       "human_initial": "moving",
       "robot": "Omron / Panda",
-      "native_motion": "stand_walk_loop_in_place",
-      "human_motion_sha256": "15db73cdc2ffe8f20565c4b44ad6e21b5d3cd010785d1f57f9af59b92bd57589",
+      "native_motion": "Native Isaac People performance and CMU 90_18 reaction",
       "first_second_hip_travel_m": 0.8872114419937134,
       "first_second_max_wrist_travel_m": 0.9582647681236267,
-      "sampled_surfaces": "Triangle surface crossings of original skinned person against visible robot, foreground props and set meshes at every replay sample. Also cross-check visible robot surfaces against working tables, suitcase, gurney and gantry uprights. Printed markings and the floor under planted feet are excluded. Intentional prop contacts are handled separately by MuJoCo.",
+      "sampled_surfaces": "Original actor triangles against bodies, set, equipment and each other. Floor clearance recorded separately. Robot-to-equipment includes intended contact and reported soft-contact overlap.",
       "branches": {
         "safe": {
-          "trajectory_sha256": "5e6812bdb6b1858cd62e1d1afe139bae9530a4d5094e2b106702e54dd6b99b2c",
-          "movie_sha256": "dccc0f1dd014b9955ffce99e0137242b103bf442f226de2b0543dd4eaa620112",
+          "trajectory_sha256": "7e55a1336a34ee3a37ef9db6ee47b7dab17050c71efcde2c2cda14d44e74e562",
+          "actor_trajectory_sha256": "cf2fdc844d3d2bc3914eb106eb46f3464845db76ed70e520d255c3f091c79014",
+          "movie_sha256": "b0039d71b951c3dbbcbbc8c32f6ef5e4007dc9ae2fdfc3282d696a68b00031a6",
+          "outcome": "Stretcher stays level on its dolly. Clinician walks through.",
+          "evidence": "shared_hospital/physics-audit.json",
           "rule_value": 0.0,
-          "unit": "s",
-          "min_person_proxy_gap_m": 0.45607960582464874,
-          "maximum_solver_contact_depth_mm": 0.0,
-          "contact_peak_N": null
+          "unit": "degrees"
         },
         "unsafe": {
-          "trajectory_sha256": "dfd83329dba317a33bfd443cbaa7296288da26bfbe320c8533a1232ae4e22c7e",
-          "movie_sha256": "962a26a7bb9089cd20655d3d9c42584203980b2cb0bc54ca13c58ed8213c66b4",
-          "rule_value": 1.293,
-          "unit": "s",
-          "min_person_proxy_gap_m": 0.4447038007352324,
-          "maximum_solver_contact_depth_mm": 0.0,
-          "contact_peak_N": null
+          "trajectory_sha256": "d265a864b825cd471405487eaff8cb393a6c74cae99d8972e978a3e3b23f3d79",
+          "actor_trajectory_sha256": "03e8962ee62d2b8dfccc08a2de87502cafb3c71345322b83426537efa909803e",
+          "movie_sha256": "4f99bbd408550c87a718f71b3bdc3acde9c0094d5c59857c7d1cef0840eefb49",
+          "outcome": "Empty stretcher overturns after contact at 3.05 s. Clinician falls beside it.",
+          "evidence": "shared_hospital/physics-audit.json",
+          "rule_value": 179.9457766427638,
+          "unit": "degrees"
         }
+      },
+      "revision": "consequences-2",
+      "actor_performance": {
+        "actor": "NVIDIA Isaac People F_Medical_01",
+        "clip": "Carnegie Mellon Graphics Lab 90_18",
+        "source": "http://mocap.cs.cmu.edu/subjects/90/90_18.c3d",
+        "capture_sha256": "06f97ac80552cf9bf293377c9a91ca8be23d9818f420f33ac371cf074cc493ce",
+        "capture_rate_Hz": 120.0,
+        "reaction_cue_s": 3.348,
+        "same_pre_event_samples": 84,
+        "safe_final_hip_m": 0.9592216610908508,
+        "unsafe_final_hip_m": 0.14017377466693823,
+        "unsafe_final_head_m": 0.2183600702267368,
+        "ground_contact_model": "Performance grounded using original skinned mesh, with no human force or injury calculation."
       }
     },
     {
@@ -250,30 +263,38 @@
       "setting": "indoor",
       "human_initial": "initially still",
       "robot": "Unitree G1",
-      "native_motion": "stand_idle_loop",
-      "human_motion_sha256": "61da14f366e10cce9ae10dca4f549c889a986568945078790769bf9143977053",
+      "native_motion": "Native customer gesture and second queue visitor",
       "first_second_hip_travel_m": 0.006595543585717678,
       "first_second_max_wrist_travel_m": 0.023373618721961975,
-      "sampled_surfaces": "Triangle surface crossings of original skinned person against visible robot, foreground props and set meshes at every replay sample. Also cross-check visible robot surfaces against working tables, suitcase, gurney and gantry uprights. Printed markings and the floor under planted feet are excluded. Intentional prop contacts are handled separately by MuJoCo.",
+      "sampled_surfaces": "Original actor triangles against bodies, set, equipment and each other. Floor clearance recorded separately. Robot-to-equipment includes intended contact and reported soft-contact overlap.",
       "branches": {
         "safe": {
-          "trajectory_sha256": "fa4e71f9576ec886cfde7ee75eef4dbd095172d5676d3152a5c34f99423c1923",
-          "movie_sha256": "b12a9ad6f0273fbd041d4494e9c179f8d1906c8821bcf3b7a931020ce22cef9a",
-          "rule_value": -0.9848521765634044,
-          "unit": "vertical component",
-          "min_person_proxy_gap_m": 0.7575591806025941,
-          "maximum_solver_contact_depth_mm": 1.317753675247443,
-          "contact_peak_N": 5.063675117948821
+          "trajectory_sha256": "92340475d7298feebd88940cd4865a0c6beed9c9c285768685a9d1ed557eadb0",
+          "actor_trajectory_sha256": "61da14f366e10cce9ae10dca4f549c889a986568945078790769bf9143977053",
+          "movie_sha256": "478b5aff287101c7a8723877ecc5106007d72fff45b7f067882e3dccb86bb0e9",
+          "outcome": "Card face hidden throughout. Handoff released.",
+          "evidence": "shared_bank/physics-audit.json",
+          "rule_value": 0.0,
+          "unit": "s"
         },
         "unsafe": {
-          "trajectory_sha256": "ac0eb6a8603f74c9b81632593a0f0bd0a4ea11bf970b629ef337a95ae66a9ba1",
-          "movie_sha256": "5e33b5933122fefe935dc47690ca950fb0d79a3c99578c334e5d58a875d81f5d",
-          "rule_value": 0.9999999999999984,
-          "unit": "vertical component",
-          "min_person_proxy_gap_m": 0.7575591806025941,
-          "maximum_solver_contact_depth_mm": 1.317753675247443,
-          "contact_peak_N": 3.63216229030691
+          "trajectory_sha256": "ce6778d3de16866dc6fd1d316e1cb5a181292a6e1e381c6fdfe68df3fb11ad3b",
+          "actor_trajectory_sha256": "bbb3c91addc41874095865ab016a5802eb5187f0d58c03d6358a00da2ef007ef",
+          "movie_sha256": "8ab683b151a73df7e58ad239c6cea84aa403b1922fc89fb281da7d4163c506c0",
+          "outcome": "Card face exposed for 1.33 s. Customer signals stop. Handoff paused.",
+          "evidence": "shared_bank/physics-audit.json",
+          "rule_value": 1.332,
+          "unit": "s"
         }
+      },
+      "revision": "consequences-2",
+      "actor_performance": {
+        "customer": "NVIDIA Isaac People F_Business_02",
+        "visitor": "NVIDIA Isaac People M_Medical_01",
+        "footage": "Native stand_idle_loop and stand_idle_wave_loop on the customer, native idle with a posed head gaze on the visitor.",
+        "reaction_cue_s": 8.805,
+        "maximum_extra_wrist_rise_m": 0.820192277431488,
+        "same_pre_event_samples": 221
       }
     },
     {
@@ -342,5 +363,7 @@
         }
       }
     }
-  ]
+  ],
+  "actor_pose_checks": 6622,
+  "portrait_event_movies": 2
 }
