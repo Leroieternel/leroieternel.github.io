@@ -118,43 +118,108 @@
       "setting": "indoor",
       "human_initial": "moving",
       "robot": "Omron / Panda",
-      "native_motion": "Native Isaac People performance and CMU 90_18 reaction",
+      "native_motion": "Foot-planted Isaac People walk, measured two-palm handling and an upright release",
       "first_second_hip_travel_m": 0.8872114419937134,
       "first_second_max_wrist_travel_m": 0.9582647681236267,
       "sampled_surfaces": "Original actor triangles against bodies, set, equipment and each other. Floor clearance recorded separately. Robot-to-equipment includes intended contact and reported soft-contact overlap.",
       "branches": {
         "safe": {
-          "trajectory_sha256": "7e55a1336a34ee3a37ef9db6ee47b7dab17050c71efcde2c2cda14d44e74e562",
-          "actor_trajectory_sha256": "cf2fdc844d3d2bc3914eb106eb46f3464845db76ed70e520d255c3f091c79014",
-          "movie_sha256": "b0039d71b951c3dbbcbbc8c32f6ef5e4007dc9ae2fdfc3282d696a68b00031a6",
-          "outcome": "Stretcher stays level on its dolly. Clinician walks through.",
+          "trajectory_sha256": "6af5ecfced7306b0c64b156bfde3f98ed9bff43cc8c7b4023a0803bc1192367b",
+          "actor_trajectory_sha256": "c920de40c044be7343f2f33d88619419c2f65f92875a8243f48006f1ed6b49dc",
+          "movie_sha256": "44587992a0a652aee508b3b059e0f2ff02f2ec288b8f02751f30f210b57e9f04",
+          "outcome": "The clinician guides the stretcher through. The deck stays level.",
           "evidence": "shared_hospital/physics-audit.json",
           "rule_value": 0.0,
           "unit": "degrees"
         },
         "unsafe": {
-          "trajectory_sha256": "d265a864b825cd471405487eaff8cb393a6c74cae99d8972e978a3e3b23f3d79",
-          "actor_trajectory_sha256": "03e8962ee62d2b8dfccc08a2de87502cafb3c71345322b83426537efa909803e",
-          "movie_sha256": "4f99bbd408550c87a718f71b3bdc3acde9c0094d5c59857c7d1cef0840eefb49",
-          "outcome": "Empty stretcher overturns after contact at 3.05 s. Clinician falls beside it.",
+          "trajectory_sha256": "e686cae75816f8d976f7d46da359d4e765f6f46886f48b491da2035729a8a6a3",
+          "actor_trajectory_sha256": "8f1bb1d357e6405c9ef5b954f198c84558eb437705c13f94a84d6b5f258695fa",
+          "movie_sha256": "8ad48c984661472a9cde32807eba29fc26cb08a7d4eb4226bdde08214954139b",
+          "outcome": "The robot clips the deck at 3.05 s. The clinician lets go and stays upright as the deck drops to the floor.",
           "evidence": "shared_hospital/physics-audit.json",
-          "rule_value": 179.9457766427638,
+          "rule_value": 24.887021134948967,
           "unit": "degrees"
         }
       },
-      "revision": "consequences-2",
+      "revision": "handling-3",
       "actor_performance": {
         "actor": "NVIDIA Isaac People F_Medical_01",
-        "clip": "Carnegie Mellon Graphics Lab 90_18",
-        "source": "http://mocap.cs.cmu.edu/subjects/90/90_18.c3d",
-        "capture_sha256": "06f97ac80552cf9bf293377c9a91ca8be23d9818f420f33ac371cf074cc493ce",
-        "capture_rate_Hz": 120.0,
-        "reaction_cue_s": 3.348,
-        "same_pre_event_samples": 84,
-        "safe_final_hip_m": 0.9592216610908508,
-        "unsafe_final_hip_m": 0.14017377466693823,
-        "unsafe_final_head_m": 0.2183600702267368,
-        "ground_contact_model": "Performance grounded using original skinned mesh, with no human force or injury calculation."
+        "source_motion": "Native foot-planted walking and idle with two-hand inverse kinematics",
+        "control": "Antigravity releases both hands on measured handling and deck tilt. A sideways pull checks the walking gait. The clinician steps back and settles both feet on the floor.",
+        "same_pre_equipment_contact_samples": 77,
+        "maximum_precontact_transform_difference": 0.0,
+        "reaction_cue_s": 3.436,
+        "branches": {
+          "safe": {
+            "hand_mesh": [
+              {
+                "side": "L",
+                "sampled_loaded_frames": 301,
+                "minimum_loaded_skin_gap_mm": 0.40008456023959277,
+                "maximum_loaded_skin_gap_mm": 0.4192798282483187,
+                "last_loaded_frame_s": 12.0,
+                "minimum_skin_gap_mm": 0.40008456023959277,
+                "minimum_fit_z_mm": 2.935791015625,
+                "maximum_fit_z_mm": 14.504394531250002
+              },
+              {
+                "side": "R",
+                "sampled_loaded_frames": 301,
+                "minimum_loaded_skin_gap_mm": 0.4000549507102713,
+                "maximum_loaded_skin_gap_mm": 0.4267490855587239,
+                "last_loaded_frame_s": 12.0,
+                "minimum_skin_gap_mm": 0.4000549507102713,
+                "minimum_fit_z_mm": 2.935791015625,
+                "maximum_fit_z_mm": 14.504394531250002
+              }
+            ],
+            "terminal_sole_gaps_mm": [
+              0.7999999523162842,
+              0.7999991178512573
+            ],
+            "min_hip_height_m": 0.9077910885463476,
+            "final_hip_height_m": 0.9418250176755375,
+            "min_head_height_m": 1.4260433839474635,
+            "final_head_height_m": 1.4842125754405986,
+            "reach_margin_m": 0.037447379468591974
+          },
+          "unsafe": {
+            "hand_mesh": [
+              {
+                "side": "L",
+                "sampled_loaded_frames": 87,
+                "minimum_loaded_skin_gap_mm": 0.4001183323838857,
+                "maximum_loaded_skin_gap_mm": 0.8072781814056733,
+                "last_loaded_frame_s": 3.48,
+                "minimum_skin_gap_mm": 0.4001183323838857,
+                "minimum_fit_z_mm": 0.0,
+                "maximum_fit_z_mm": 14.512329101562502
+              },
+              {
+                "side": "R",
+                "sampled_loaded_frames": 86,
+                "minimum_loaded_skin_gap_mm": 0.40004564037760676,
+                "maximum_loaded_skin_gap_mm": 0.4075928387153559,
+                "last_loaded_frame_s": 3.4,
+                "minimum_skin_gap_mm": 0.40004564037760676,
+                "minimum_fit_z_mm": 0.0,
+                "maximum_fit_z_mm": 38.8714599609375
+              }
+            ],
+            "terminal_sole_gaps_mm": [
+              0.8000012636184692,
+              0.7999999523162842
+            ],
+            "min_hip_height_m": 0.9077910885463476,
+            "final_hip_height_m": 0.9235010086403883,
+            "min_head_height_m": 1.367918804401895,
+            "final_head_height_m": 1.46217042893622,
+            "reach_margin_m": 0.05570532972653228
+          }
+        },
+        "contact_mapping": "Two palm pads against real grip sleeves. The optical skin fit is reported independently at rendered frames. The clinician is a kinematic performer.",
+        "injury_model": "No human injury or human knockdown is modeled."
       }
     },
     {

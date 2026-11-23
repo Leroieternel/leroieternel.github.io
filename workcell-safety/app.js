@@ -2,7 +2,7 @@
 const cases=[...(window.EVERYDAY_STUDIES||[]),...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
 registerStudyScenes(window.EVERYDAY_STUDIES||[]);
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
-const versioned=url=>url+'?v='+((url.includes('/shared_hospital/')||url.includes('/shared_bank/'))?'shared-outcome-v2':url.includes('everyday_drawer/')?'drawer-contact-v1':((url.includes('/long_')||url.includes('antigravity/mobile_'))?'spatial-ff15c4b863da':url.includes('hard_virtualhome_31/')?'milk-rim-2':url.includes('people_cafe/')?'cafe-grip-2':'mobile-worlds-1'));
+const versioned=url=>url+'?v='+(url.includes('/shared_hospital/')?'hospital-handling-v3':url.includes('/shared_bank/')?'shared-outcome-v2':url.includes('everyday_drawer/')?'drawer-contact-v1':((url.includes('/long_')||url.includes('antigravity/mobile_'))?'spatial-ff15c4b863da':url.includes('hard_virtualhome_31/')?'milk-rim-2':url.includes('people_cafe/')?'cafe-grip-2':'mobile-worlds-1'));
 const mediaUrl=(c,file)=>(c.filmBase&&file.endsWith('.mp4')?c.filmBase:c.base)+'/'+file;
 const by=id=>document.getElementById(id);
 const link=(text,url)=>{const a=node('a',null,text);a.href=url;return a};
