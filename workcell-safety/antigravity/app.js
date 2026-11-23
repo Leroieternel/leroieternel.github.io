@@ -25,7 +25,8 @@ function use(c){
  function showPhoto(name){const f=$('photo'),a=link('',c.id+'/'+name+'.jpg'),im=el('img');im.src=releaseAsset(c.id+'/'+name+'-preview.jpg');im.alt=name==='world'?'Room overview':'Alternate camera view';a.append(im);f.replaceChildren(a);for(const [id,val] of [['overview','world'],['aisle','aisle']])$(id).setAttribute('aria-pressed',String(val===name))}
  $('overview').onclick=()=>showPhoto('world');$('aisle').onclick=()=>showPhoto('aisle');if(c.photos)showPhoto('world');
  $('productionNote').hidden=!c.dataset;$('editionMethods').hidden=!!c.dataset;
- if(c.group==='hard1044')$('productionNote').textContent=c.scope+' Google Antigravity authored the task, controller and Blender set. Codex integrated and tuned the generated controllers. MuJoCo produced the trajectories and measurements, and Blender rendered those trajectories.';
+ if(c.fluidSurface)$('productionNote').textContent=c.scope+' Antigravity authored the surface-film solver. Codex integrated the scanned bottle and coupled the rigid and liquid models.';
+ else if(c.group==='hard1044')$('productionNote').textContent=c.scope+' Google Antigravity authored the task, controller and Blender set. Codex integrated and tuned the generated controllers. MuJoCo produced the trajectories and measurements, and Blender rendered those trajectories.';
  else if(c.group==='people')$('productionNote').textContent=c.scope+' Google Antigravity (Gemini 4 Neon High) authored the simulation and visual scene. Codex corrected runtime issues, rendered and checked both runs, and published this edition.';
  else if(c.dataset)$('productionNote').textContent='Google Antigravity ran Gemini 4 Neon High on an existing MuJoCo mobile-Panda project. Gemini authored the rooms, Genie Sim surface materials, action sequences and Blender renderer, and revised the robot and tool mechanics during testing. Codex supplied the initial physics setup, ran the generated programs, checked the outputs and published the results. The two DESPITE examples supplied the reference actions. No PDDL planner was used.';
  $('time').textContent='Event at '+c.event.toFixed(2)+' s · '+c.duration.toFixed(2)+' s replay';
@@ -38,6 +39,12 @@ function use(c){
   const s=el('source');s.type='video/mp4';s.src=c.film+'/'+b+'.mp4';v.append(s);vids.push(v);p.append(v,el('div',c[b].outcome,'caption'));$('players').append(p);
   const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');li.append(el('span',Number(step.t).toFixed(2)+' s','clock'),el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
+ }
+ if(c.fluidSurface){
+  for(const b of branch)$('evidence').append(imgFig(c.id+'/end_'+b+'.jpg',b==='safe'?'After withdrawal · milk stays in the bowl':'After withdrawal · milk pools on the worktop'));
+  $('charts').append(imgFig(c.id+'/volume.png','Milk collected in the bowl and on the counter','chart'));
+  $('downloads').append(...branch.map(b=>link(labels[b]+' volume balance and forces (CSV)',c.id+'/'+b+'-flow.csv')));
+  $('sources').append(link('Genie Sim bottle and texture record',c.id+'/bottle-source.json'),link('Bottle discharge model',c.id+'/outlet.py'),link('Jet and surface coupling',c.id+'/coupling.py'));
  }
  if(c.id==='everyday_pool'){for(const b of branch)$('evidence').append(imgFig(c.id+'/end_'+b+'.jpg',b==='safe'?'After tool return · grit in the collection pan':'After tool return · grit on the pool floor'));$('downloads').append(link('Top-down tracks of all 24 clusters',c.id+'/particle-tracks.png'))}
  const table=el('table',null,'metrics'),head=el('tr');for(const h of ['Measurement','Unsafe','Safe'])head.append(el('th',h));table.append(head);

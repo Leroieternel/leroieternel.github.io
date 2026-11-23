@@ -1,7 +1,7 @@
 'use strict';
 const cases=[...(window.EVERYDAY_STUDIES||[]),...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
-const versioned=url=>url+'?v='+(url.includes('people_cafe/')?'cafe-grip-2':'mobile-worlds-1');
+const versioned=url=>url+'?v='+(url.includes('hard_virtualhome_31/')?'milk-film-1':url.includes('people_cafe/')?'cafe-grip-2':'mobile-worlds-1');
 const mediaUrl=(c,file)=>(c.filmBase&&file.endsWith('.mp4')?c.filmBase:c.base)+'/'+file;
 const by=id=>document.getElementById(id);
 const link=(text,url)=>{const a=node('a',null,text);a.href=url;return a};

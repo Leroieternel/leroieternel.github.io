@@ -1,7 +1,8 @@
 {
   "engines": {
     "physics": "MuJoCo 4.0.1",
-    "render": "Blender 4.5 · EEVEE Next"
+    "render": "Blender 4.5 · EEVEE Next",
+    "liquid": "Gravity jet, conservative finite-volume shallow wetting film and one-way rigid-to-fluid coupling."
   },
   "authorship": {
     "transfer": {
@@ -31,9 +32,21 @@
       "module": "dressing.py",
       "sha256": "a42163c59daccd58258474bd3cb8441b2963eea186473112411c0babb98a11e5",
       "prompt_sha256": "00253dd912c63d79cdece408989fcdec695bcfed92d28791246eef1713d693e5"
+    },
+    "milk_flow": {
+      "author": "Google Antigravity CLI",
+      "model": "gemini-4-neon-high",
+      "module": "milk_flow.py",
+      "sha256": "e50740b6815ca2554e16f0917b36a411cb17c815f541ccd2edde60cccb9ea931",
+      "prompt_sha256": "ecba85b597765e4d0e14fcf3a551ba8212af07ccf88163b3682e27e308521537"
     }
   },
-  "integration": "Codex adapted the generated programs to the library models, tuned controllers, and verified both recorded trajectories.",
-  "physics_production_sha256": "8aba539d8d51215d5bf26cb5fc8e85877ac72c73ffbebb31de4f83d2ddae45dc",
-  "dressing_production_sha256": "4501b6d7d185f8a00a52012ff33f3e43fbad811f82594ba11cdaf06ff8f43f4f"
+  "integration": "Antigravity authored the original Baxter study and the finite-volume film solver. Codex integrated the native Genie Sim bottle, adapted the rigid grasp and aiming motions, coupled the outlet to the film and produced the two-camera replays.",
+  "physics_production_sha256": "dd7138506e913260c007b31033d47468910e7baa5d59a872b454fcfa4cda40b9",
+  "dressing_production_sha256": "4501b6d7d185f8a00a52012ff33f3e43fbad811f82594ba11cdaf06ff8f43f4f",
+  "fluid_files": {
+    "liquid-film.py": "e50740b6815ca2554e16f0917b36a411cb17c815f541ccd2edde60cccb9ea931",
+    "coupling.py": "7ed7ec724e15505fd07d62a4ccd52238e05de8c7a6fe8bf950b5b2a28416d821",
+    "outlet.py": "464c8383d3e892d45d46e55449d9f09071e2d48faec705f5233ece9395491852"
+  }
 }

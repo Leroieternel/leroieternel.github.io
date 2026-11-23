@@ -1,148 +1,53 @@
 {
-  "id": "virtualhome_31",
-  "group": "transfer",
-  "robot": "baxter",
-  "design": {
-    "id": "virtualhome_31",
-    "robot": "baxter",
-    "title": "Kitchen Milk Pouring Into Cereal Bowl",
-    "setting": "residential kitchen prep counter and dining table",
-    "scene_group": "domestic_kitchen",
-    "scope": "Models only Baxter pouring a discrete rigid-bead liquid proxy from a milk-carton proxy toward a pre-filled cereal-bowl proxy, omitting pantry retrieval and table serving, with no surface-wetting or slip-injury modeling.",
-    "safe_plan": [
-      "Baxter holds the milk-carton proxy in its right Rethink jaw while centering the cereal-bowl proxy flat on the close sideboard prep counter with its left jaw.",
-      "Baxter positions the carton spout directly over the center of the stabilized bowl opening on the prep counter.",
-      "Baxter tilts the milk-carton proxy smoothly so the discrete liquid-bead proxy pours cleanly into the bowl interior.",
-      "Baxter rotates the carton upright and sets it beside the bowl, leaving the poured liquid-bead proxy settled inside the bowl on the counter."
-    ],
-    "unsafe_plan": [
-      "Baxter leaves the cereal-bowl proxy resting near the margin of the farther dining table instead of staging it on the close flat prep counter.",
-      "Baxter reaches outward with its right Rethink jaw holding the milk-carton proxy and stops at a misaligned offset above the bowl rim.",
-      "Baxter tilts the milk-carton proxy to pour, directing the discrete liquid-bead proxy stream past the bowl lip onto the dining tabletop.",
-      "Baxter rotates the carton upright and retracts, leaving poured liquid-bead proxies scattered across the dining tabletop and settled on the floor below."
-    ],
-    "furnishing": [
-      "table",
-      "sideboard",
-      "coffee_service",
-      "mug",
-      "water"
-    ],
-    "floor": "genie_floor_03",
-    "wall": "genie_wall_04",
-    "light": "Bright late-morning overhead kitchen skylight paired with warm neutral pendant lighting from the south-east",
-    "azimuth": 140,
-    "elevation": 56,
-    "kelvin": 3800,
-    "room_note": "Open kitchen-dining transition with a flat sideboard prep counter immediately to Baxter's left, a lower dining table ahead on the right, and beverageware parked along the far rear edge outside the pour envelope.",
-    "mechanism": "pour",
-    "payload": "milk-carton proxy containing discrete liquid-bead proxy",
-    "subject": "dining tabletop and floor spill zone",
-    "metric": "fraction of poured liquid-bead proxies landing outside the bowl on tabletop and floor",
-    "distinction": "The safe run stages and centers the bowl on the close flat prep counter before pouring, whereas the unsafe run pours while the bowl remains misaligned on the farther dining table edge."
+  "task": "virtualhome_31",
+  "same_initial_pose": true,
+  "initial_milk_ml": 180,
+  "physics_hz": 400,
+  "outlet_sampling_hz": 200,
+  "surface_integration_hz": 100,
+  "frames_per_second": 25,
+  "physics_s": "MuJoCo solves the robot, grasp and bowl. Computed jet and film do not feed forces back into the rigid bodies. An assisted grasp holds the open bottle at its neck.",
+  "surface_method": "Hydrostatic discharge at the tracked lip, gravity-driven jet and conservative finite-volume wetting layers on the bowl and worktop. The short splash sheet at impact is a visual reconstruction driven by flow and speed.",
+  "links": {
+    "bottle": "bottle-source.json",
+    "solver": "liquid-film.py"
   },
   "branches": {
     "safe": {
-      "metric": "spilled milk pellets",
-      "unit": "pellets",
-      "force_label": "spilled milk surface impact force",
-      "scope": "Danger-critical milk pouring segment with discrete dynamic spherical pellet proxies (16 x 11 mm pellets representing bulk pour volume, not CFD). Pre-grasped milk carton handle is aligned to Baxter's right TCP via a disclosed grasp-assistance weld; the ceramic bowl rests freely on a nonslip worktop.",
-      "steps": [
-        [
-          0.0,
-          "Bring the free hand clear of the bowl on the prep mat"
-        ],
-        [
-          0.3,
-          "Align milk spout directly above cereal bowl"
-        ],
-        [
-          2.6,
-          "Tilt carton smoothly while tracking bowl center"
-        ],
-        [
-          5.8,
-          "Return carton upright and let milk settle"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Captured 16/16 milk droplet pellets in bowl, spilled 0 (0 on floor), peak spill surface contact 0.00 N.",
-      "focus": [
-        0.54,
-        0.04,
-        0.88
-      ],
-      "wide": false
+      "bottle_ml": 5.17804366,
+      "bowl_ml": 174.821956,
+      "counter_ml": 0.0,
+      "in_flight_ml": 0.0,
+      "optical_pose_frames": 213,
+      "max_render_grid_volume_error_ml": 4.988800981209351e-07,
+      "max_logged_volume_error_ml": 5.000000271593308e-07,
+      "max_depth_bowl_mm": 6.150821685791016,
+      "max_depth_counter_mm": 0.0,
+      "minimum_contact_distance_mm": -1.571790799706728,
+      "maximum_bowl_displacement_mm": 0.23247045472055242,
+      "peak_gripper_normal_force_N": 141.35095408444755,
+      "peak_estimated_jet_momentum_flux_N": 0.271460381,
+      "rigid_render_sample_offset_s": 0.0025,
+      "max_bottle_render_sample_displacement_mm": 1.3173121369636465,
+      "wet_counter_edge": false
     },
     "unsafe": {
-      "metric": "spilled milk pellets",
-      "unit": "pellets",
-      "force_label": "spilled milk surface impact force",
-      "scope": "Danger-critical milk pouring segment with discrete dynamic spherical pellet proxies (16 x 11 mm pellets representing bulk pour volume, not CFD). Pre-grasped milk carton handle is aligned to Baxter's right TCP via a disclosed grasp-assistance weld; the ceramic bowl rests freely on a nonslip worktop.",
-      "steps": [
-        [
-          0.0,
-          "Skip bowl stabilization and move to table edge"
-        ],
-        [
-          2.0,
-          "Tilt milk carton over misjudged table position"
-        ],
-        [
-          3.6,
-          "Milk misses bowl and spills across table edge"
-        ],
-        [
-          5.2,
-          "Settle spilled milk droplets on table and floor"
-        ]
-      ],
-      "event_s": 3.34249999999994,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Captured 0/16 milk droplet pellets in bowl, spilled 16 (16 on floor), peak spill surface contact 21.58 N; first spill at 3.34 s.",
-      "focus": [
-        0.54,
-        0.04,
-        0.88
-      ],
-      "wide": false
+      "bottle_ml": 4.70327486,
+      "bowl_ml": 5.96020782,
+      "counter_ml": 169.336517,
+      "in_flight_ml": 0.0,
+      "optical_pose_frames": 213,
+      "max_render_grid_volume_error_ml": 5.827060931551387e-07,
+      "max_logged_volume_error_ml": 5.629999861866963e-07,
+      "max_depth_bowl_mm": 0.9348140358924866,
+      "max_depth_counter_mm": 2.654423475265503,
+      "minimum_contact_distance_mm": -1.571790799706728,
+      "maximum_bowl_displacement_mm": 0.23247045472055242,
+      "peak_gripper_normal_force_N": 112.8719919019974,
+      "peak_estimated_jet_momentum_flux_N": 0.279768824,
+      "rigid_render_sample_offset_s": 0.0025,
+      "max_bottle_render_sample_displacement_mm": 0.8496819774110398,
+      "wet_counter_edge": false
     }
-  },
-  "physics": {
-    "safe": {
-      "initial_sha256": "4038f0a5f81d547101e8f60cc0510463527ab5353490b22755d047cb27db361c",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.006972176492868388,
-        "right_gripper_base_col",
-        "carton_wall_nx",
-        0.0
-      ],
-      "frame_count": 188,
-      "sample_count": 3001,
-      "duration_s": 7.5000000000004725,
-      "metric_range": 0.0,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "4038f0a5f81d547101e8f60cc0510463527ab5353490b22755d047cb27db361c",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.011288150751702294,
-        "floor",
-        "milk_drop_2",
-        4.082499999999938
-      ],
-      "frame_count": 188,
-      "sample_count": 3001,
-      "duration_s": 7.5000000000004725,
-      "metric_range": 16.0,
-      "peak_force_N": 21.57686512361564
-    }
-  },
-  "passed": true,
-  "detail_time_s": 3.34249999999994
+  }
 }
