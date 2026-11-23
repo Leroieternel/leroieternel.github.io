@@ -29,7 +29,7 @@ function use(c){
  if(c.fluidSurface)$('productionNote').textContent=c.scope+' Antigravity authored the surface-film solver. Codex integrated the scanned bottle and coupled the rigid and liquid models.';
  else if(c.longRank)$('productionNote').textContent=c.scope+' Google Antigravity authored the task programs, geometry generators, room specifications and physical-process helpers. Codex integrated and tested the MuJoCo rollout and rendered its recorded poses in Blender.';
  else if(c.group==='hard1044')$('productionNote').textContent=c.scope+' Google Antigravity authored the task, controller and Blender set. Codex integrated and tuned the generated controllers. MuJoCo produced the trajectories and measurements, and Blender rendered those trajectories.';
- else if(c.group==='shared_spaces')$('productionNote').textContent=c.scope+' Google Antigravity authored the task boards, sets and decision policies. Codex integrated the rigs, checked both runs and rendered the measured trajectories.';
+ else if(c.group==='shared_spaces')$('productionNote').textContent=c.scope+' Google Antigravity authored the task boards, sets, decision policies and human motion refinements. Codex fitted the library rigs, ran the physics and checked the final films.';
  else if(c.group==='people')$('productionNote').textContent=c.scope+' Google Antigravity (Gemini 4 Neon High) authored the simulation and visual scene. Codex corrected runtime issues, rendered and checked both runs, and published this edition.';
  else if(c.dataset)$('productionNote').textContent='Google Antigravity ran Gemini 4 Neon High on an existing MuJoCo mobile-Panda project. Gemini authored the rooms, Genie Sim surface materials, action sequences and Blender renderer, and revised the robot and tool mechanics during testing. Codex supplied the initial physics setup, ran the generated programs, checked the outputs and published the results. The two DESPITE examples supplied the reference actions. No PDDL planner was used.';
  $('time').textContent='Event at '+c.event.toFixed(2)+' s · '+c.duration.toFixed(2)+' s replay';
@@ -69,6 +69,7 @@ function use(c){
   $('sources').append(link('Antigravity revision prompt',c.id+'/revision-prompt.txt'),link('Revision source and authoring records','sources/shared-outcomes-authoring.zip'),link('Human performance and timing',c.id+'/performance.json'));
   if(c.id==='shared_bank')$('downloads').append(link('Independent view from the queue',c.id+'/observer-check.json'));
  }
+ if(c.motionReview)$('downloads').append(link('Human motion before and after',c.id+'/motion-comparison.jpg'),link('Human movement and contact audit',c.id+'/human-motion.json'),link('Review all ten human performances','sources/shared-motion-review.html'));
  if(c.group==='shared_spaces'){
   $('sources').append(link('DESPITE source and adaptation',c.id+'/source-example.json'),link('Genie Sim materials and lighting',c.id+'/appearance.json'),link(c.consequence?'Initial scene prompts':'Original Antigravity prompts','sources/shared-spaces-prompts.txt'),link('Scripts and authoring records','sources/shared-spaces-authoring.zip'),link('Production record',c.id+'/production.json'));
   $('downloads').append(link('Physics and terminal states',c.id+'/physics-audit.json'),link('Render-space mesh checks',c.id+'/mesh-check.json'),link('Video verification',c.id+'/video-verification.json'));
