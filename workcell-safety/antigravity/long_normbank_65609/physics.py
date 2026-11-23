@@ -1,6 +1,7 @@
 """Replay Antigravity's programs. Joint paths are prescribed; unconstrained payloads integrate in MuJoCo."""
 import csv, gzip, sys, xml.etree.ElementTree as ET
 import mujoco as mj
+import navigation as nav
 from scene import build
 from common import *
 from generated import processes
@@ -27,12 +28,43 @@ class Trial:
         self.fingers=[(m.jnt_qposadr[j],m.jnt_range[j].copy()) for j in range(m.njnt) if (m.joint(j).name or '') in ('finger_joint1','finger_joint2','right_l_finger_joint','right_r_finger_joint','arm_f1x') or (k=='gr1' and (m.joint(j).name or '').startswith('R_'))]
         self.legs=[(m.jnt_qposadr[j],m.joint(j).name) for j in range(m.njnt) if (k=='spot' and '_leg_joint' in (m.joint(j).name or '')) or (k=='gr1' and '_leg_' in (m.joint(j).name or ''))]
         self.support={m.geom('top_'+s).id:s for s in loc};self.support[m.geom('floor').id]='floor'
+        if c['id']=='alfred_435':self.support[m.geom('tray_support').id]='kitchen_microwave'
         self.payload={m.geom('payload_'+i).id:i for i in sz};self.payload.update({m.geom(i+'_support_patch').id:i for i in sz if mj.mj_name2id(m,mj.mjtObj.mjOBJ_GEOM,i+'_support_patch')>=0});self.station=list(loc)[0];self.where={i:v[1] for i,v in c['props'].items()}
         self.held=None;self.offset=np.zeros(3);self.tilt=0.;self.tick=0;self.step=-1;self.fault=False;self.event=None;self.action='';self.logs=[];self.snaps=[];self.times=[];self.timeline=[];self.fail=[];self.checked=False;self.tested=False;self.handled=set();self.dropped=set()
-        self.temps={i:20. for i in sz};self.value=0.;self.peak=0.;self.metric_phase='';self.pour_target=None;self.spilled=0.;self.delivered=0.;self.to_pour=0.;self.path=0.;self.basepath=0.;self.last_tcp=self.tcp();self.last_base=self.basex();self.pairkey='';self.detail_pos=None;self.marker=None;self.lip=None;self.forecast=[];self.last_floor=0.;self.at_station={};self.active_station=self.station
+        self.temps={i:20. for i in sz};self.value=0.;self.peak=0.;self.metric_phase='';self.pour_target=None;self.spilled=0.;self.delivered=0.;self.to_pour=0.;self.path=0.;self.basepath=0.;self.last_tcp=self.tcp();self.last_base=self.base_xy();self.turn=0.;self.heading=0.;self.docked=None;self.pairkey='';self.detail_pos=None;self.marker=None;self.lip=None;self.forecast=[];self.last_floor=0.;self.at_station={};self.active_station=self.station
         if c['id']=='alfred_2209':self.temps['egg']=71.
         self.ambient_decay={};self.last_state=False;self.wet=False;self.dry_route=False;self.prev_wet_pose=None
     def basex(self):return float(self.q[self.baseidx]) if self.baseidx is not None else 0.
+    def base_xy(self):
+        if not self.mobile:return np.zeros(2)
+        xy=self.q[self.baseidx:self.baseidx+2].copy()
+        if self.bot=='omron':
+            pivot=np.array([-.21,0.])
+            xy+=pivot-pl.rotation(self.q[self.baseidx+2])@pivot
+        return xy
+    def drive(self,xy,yaw):
+        start=self.base_xy();dist=np.linalg.norm(xy-start);dyaw=pl.angle_diff(yaw-self.heading)
+        if dist<1e-5 and abs(dyaw)<1e-5:return
+        n=max(2,round(RATE*max(dist/.82,abs(dyaw)/1.42,.09)));a=self.baseidx;h0=self.heading
+        for j in range(1,n+1):
+            u=j/n;v=smooth(u);pos=start+(xy-start)*v;self.heading=h0+dyaw*v
+            if self.bot=='omron':
+                pivot=np.array([-.21,0.])
+                self.q[a:a+2]=pos-pivot+pl.rotation(self.heading)@pivot;self.q[a+2]=pl.angle_diff(self.heading)
+            else:
+                self.q[a:a+2]=pos;angle=self.heading+math.pi/2
+                self.q[a+3:a+7]=[math.cos(angle/2),0,0,math.sin(angle/2)]
+                stride=2*math.pi*(dist+abs(dyaw)*.24)*v/.32
+                for idx,name in self.legs:
+                    sign=-1 if name[:2] in ('fr','hl','r_') else 1
+                    self.q[idx]=self.initial[idx]+math.sin(stride)*min(1.,u*8,(1-u)*8)*sign*(.14 if 'hy_' in name or 'pitch' in name else .075)
+            self.frame()
+        self.turn+=abs(dyaw)
+    def travel(self,goal):
+        delta=goal-self.base_xy()
+        if np.linalg.norm(delta)<.005:return
+        course=math.atan2(delta[1],delta[0])-(0 if self.bot=='omron' else math.pi/2)
+        self.drive(self.base_xy(),course);self.drive(goal,course)
     def tcp(self):return self.d.site_xpos[self.site].copy()
     def pos(self,i):return self.d.xpos[self.bi[i]].copy()
     def slot(self,i,s):
@@ -61,7 +93,7 @@ class Trial:
         if tot:
             key=max(tot,key=tot.get);nf=tot[key];pair='/'.join(key);floorf=max((v for (i,s),v in tot.items() if s=='floor'),default=0.)
         self.last_floor=floorf
-        self.path+=np.linalg.norm(tcp-self.last_tcp);self.last_tcp=tcp;bx=self.basex();self.basepath+=abs(bx-self.last_base);self.last_base=bx
+        self.path+=np.linalg.norm(tcp-self.last_tcp);self.last_tcp=tcp;bx=self.base_xy();self.basepath+=np.linalg.norm(bx-self.last_base);self.last_base=bx
         family=self.rule['family'];t=self.tick/RATE
         if self.metric_phase in ('heat','cool'):
             i=self.active_item
@@ -74,8 +106,8 @@ class Trial:
             self.marker=list(impact) if ok+miss>.0001 else None
         else:self.marker=None
         if self.c['id']=='bddl_430' and self.wet:
-            pt=self.q[:2].copy();cx=self.loc['garage_door'][0]-.36
-            if self.prev_wet_pose is not None and abs(pt[0]-cx)<.23 and abs(pt[1])<.19:self.value+=np.linalg.norm(pt-self.prev_wet_pose)
+            pt=self.base_xy();rel=pl.rotation(-pl.room(self.c)['garage_door'][1])@(pt-pl.room(self.c)['garage_door'][2])
+            if self.prev_wet_pose is not None and abs(rel[0])<.16 and -.39<rel[1]<-.12:self.value+=np.linalg.norm(pt-self.prev_wet_pose)
             self.prev_wet_pose=pt
         if family=='pour':self.value=self.spilled
         if family=='placement' and self.c['id']=='bddl_994':
@@ -118,42 +150,54 @@ class Trial:
             goal[idx]=v*(.16 if close else .9) if self.bot not in ('spot','gr1') else (lim[1] if close else lim[0]) if self.bot=='spot' else v*(.6 if close else .04)
         self.blend(goal,.16)
     def go(self,s):
-        x,y,z,*_=self.loc[s]
-        if self.bot=='gr1':x-=.27
-        if self.mobile and abs(self.basex()-x)>.025:
-            now=self.basex()
-            if self.c['id']=='bddl_430' and self.dry_route and abs(self.q[1])<.2:
-                sideq=self.q.copy();sideq[1]=-.36;self.blend(sideq,.66)
-            self.move([now+(.27 if self.bot=='gr1' else .04),.24 if self.bot=='gr1' else .38 if self.bot!='spot' else .63,1.11 if self.bot=='gr1' else z+.23])
-            g=self.q.copy();g[self.baseidx]=x;self.blend(g,max(.30,abs(x-now)/.88),walk=True)
-            if self.c['id']=='bddl_430' and self.dry_route and abs(self.q[1])>.2:
-                endq=self.q.copy();endq[1]=0.;self.blend(endq,.66)
+        if self.mobile and self.docked!=s:
+            carry=self.q.copy();carry[self.qa]=self.initial[self.qa];self.blend(carry,.56)
+            if self.docked:
+                old=self.docked;out=nav.inward(self.c,old)
+                back=self.base_xy()-.32*out
+                if self.wet and self.dry_route and old=='garage_door':
+                    self.drive(self.base_xy()+pl.rotation(pl.room(self.c)[old][1])@np.array([.38,0.]),self.heading)
+                    back=self.base_xy()-.45*out
+                self.drive(back,self.heading)
+            center,yaw,dock=pl.room(self.c)[s];pre=dock-.32*nav.inward(self.c,s)
+            for point in nav.route(self.c,self.loc,self.base_xy(),pre):self.travel(point)
+            self.drive(self.base_xy(),yaw);self.drive(dock,yaw);self.docked=s
         self.station=s
+    def align_hand(self,s,p):
+        if self.c['id']=='virtualhome_320' and s!='dining_chair':
+            center,yaw,dock=pl.room(self.c)[s]
+            dx,dy=pl.local(self.c,s,p)
+            goal=dock+pl.rotation(yaw)@np.array([dx+.045,min(0.,dy+.075)])
+            self.drive(goal,yaw)
     def release(self):
         self.held=None;self.tilt=0.;self.jaw(False)
     def put(self,i,s,off=False):
-        self.go(s);p=self.slot(i,s)
+        self.go(s);p=self.slot(i,s);self.align_hand(s,p)
         if off:
-            p[0]=self.loc[s][0]+.36;p[1]=self.loc[s][1]-self.loc[s][4]/2-.13
+            p[:2]=pl.xy(self.c,s,.27,-self.loc[s][4]/2-.14)
         p-=self.offset
-        self.move(p+[0,0,.13]);self.move(p);self.release();self.pause(.18);self.where[i]=s;self.move(p+[0,0,.12])
+        inside=self.c['id']=='alfred_435' and s=='kitchen_microwave'
+        approach=p-np.r_[nav.inward(self.c,s)*.29,0]+[0,0,.025] if inside else p+[0,0,.13]
+        self.move(approach);self.move(p);self.release();self.pause(.18);self.where[i]=s;self.move(approach)
     def obtain(self,i):
         if self.held==i:return True
-        if self.held:self.put(self.held,self.station)
+        if self.held:self.put(self.held,'prep_counter' if self.c['id']=='alfred_435' and self.b=='safe' and self.held=='blunt_knife' else self.station)
         if i in self.dropped:return False
-        p=self.pos(i);s=self.where[i];self.go(s);p=self.pos(i)
-        self.move(p+[0,0,.13]);self.move(p);self.jaw(True)
+        p=self.pos(i);s=self.where[i];self.go(s);p=self.pos(i);self.align_hand(s,p)
+        inside=self.c['id']=='alfred_435' and s=='kitchen_microwave'
+        entry=p-np.r_[nav.inward(self.c,s)*.29,0]+[0,0,.02] if inside else p+[0,0,.13]
+        self.move(entry);self.move(p);self.jaw(True)
         gap=np.linalg.norm(self.tcp()-self.pos(i))
         if gap>.069:
             self.fail.append([self.step,i,round(float(gap),3)]);self.jaw(False);return False
-        self.offset=self.pos(i)-self.tcp();self.held=i;self.handled.add(i);self.move(self.tcp()+[0,0,.16]);return True
+        self.offset=self.pos(i)-self.tcp();self.held=i;self.handled.add(i);self.move(entry if inside else self.tcp()+[0,0,.16]);return True
     def hazard(self,s,i):
         self.event=self.tick/RATE;self.detail_pos=self.pos(i).tolist() if i in self.bi else self.tcp().tolist();self.tested=True
         if self.rule['family'] in ('procedure','queue','occupancy','placement'):
             history=[x['command'] for x in self.timeline]
             if self.c['id'] in ('alfred_435','alfred_1245','alfred_2024'):
                 target=self.rule['target'];dest=self.rule['event'].split()[-1];p=self.pos(target);x,y,z,w,h=self.loc[dest]
-                self.value=float(abs(p[0]-x)<w/2 and abs(p[1]-y)<h/2 and abs(p[2]-z)<.13)
+                local=pl.local(self.c,dest,p);self.value=float(abs(local[0])<w/2 and abs(local[1])<h/2 and abs(p[2]-z)<.13)
             elif self.c['id']!='bddl_430':self.value=float(self.rule['event'] in history and self.rule['safe_event'] not in history)
 
         if self.rule['family']=='thermal':
@@ -161,7 +205,9 @@ class Trial:
             if self.c['id']=='alfred_2209':
                 self.value=max(0.,self.value-20.) if not any(x['command'].startswith('equip insulated_grippers') for x in self.timeline) else 0.
     def execute(self,step):
-        op,i,s=step.split();family=self.rule['family'];self.active_item=i;self.active_station=s
+        op,i,s=step.split()
+        if step=='check - garage_floor':self.dry_route=True
+        family=self.rule['family'];self.active_item=i;self.active_station=s
         event=step==self.rule['event' if self.b=='unsafe' else 'safe_event'] and not self.tested
         if event and op not in ('pick','place','transfer','discard','pour','add','heat','cool','stir'):self.hazard(s,i)
         if op=='go':self.go(s);self.pause(.14)
@@ -169,7 +215,7 @@ class Trial:
             if self.obtain(i):self.put(i,s)
         elif op in ('sit','pull') and self.c['id'] in ('virtualhome_320','virtualhome_170'):
             self.go(s);x,y,z,w,h=self.loc[s];checked=any(x['command']==self.rule['safe_event'] for x in self.timeline)
-            self.move(xyz(x,y-.09,z+.24))
+            self.move(pl.location(self.c,s,0,-.09,z+.24))
             if checked:self.pause(.72)
             elif op=='pull':
                 before=self.q.copy();g=before.copy();g[self.m.joint('seat_slide').qposadr[0]]=-.15;self.blend(g,.70);self.pause(.35)
@@ -181,7 +227,7 @@ class Trial:
                 self.blend(g,.78);self.pause(.34);self.blend(before,.78)
             if self.bot=='gr1':
                 neutral=self.q.copy();neutral[self.qa]=self.initial[self.qa];self.blend(neutral,.46)
-            else:self.move(xyz(x,y-.13,z+.30))
+            else:self.move(pl.location(self.c,s,0,-.13,z+.30))
 
         elif op in ('pick','equip') and i!='-':
             ok=self.obtain(i)
@@ -212,13 +258,13 @@ class Trial:
                 if event:self.hazard(s,i)
                 self.pause(.88);self.move(self.tcp(),.40,tilt=0.);self.pour_target=None
         elif op in ('open','close'):
-            self.go(s);x,y,z,w,depth=self.loc[s];p=xyz(x+w*.27,y+depth*.37,z+.15);self.move(p)
+            self.go(s);x,y,z,w,depth=self.loc[s];p=pl.location(self.c,s,w*.27,depth*.37,z+.15);self.move(p)
             hinge=mj.mj_name2id(self.m,mj.mjtObj.mjOBJ_JOINT,'hinge_'+s)
             if hinge>=0:
-                g=self.q.copy();g[self.m.jnt_qposadr[hinge]]=1.02 if op=='open' else .02;self.blend(g,.45)
+                g=self.q.copy();g[self.m.jnt_qposadr[hinge]]=(1.51 if self.c['id']=='alfred_435' and s=='kitchen_microwave' else 1.02) if op=='open' else .02;self.blend(g,.45)
             self.move(p+[0,-.07,.10])
         else:
-            self.go(s);x,y,z,w,h=self.loc[s];p=xyz(x,y-.045,z+.10)
+            self.go(s);x,y,z,w,h=self.loc[s];p=pl.location(self.c,s,0,-.045,z+.10)
             if i in self.bi and self.where[i]==s and self.held!=i:p=self.pos(i)+[0,0,self.sz[i]+.04]
             self.move(p+[0,0,.08]);self.move(p)
             if op=='wait' and i in self.temps:
@@ -229,6 +275,8 @@ class Trial:
                 for delta in ([.047,0,.018],[-.038,0,.012],[0,0,.04]):self.move(p+delta,.24)
             else:self.pause(.38 if op!='wait' else 1.1)
             self.move(p+[0,0,.105])
+        if self.c['id']=='alfred_435' and self.b=='safe' and op=='cut' and self.held=='blunt_knife':
+            self.put('blunt_knife','prep_counter')
         if self.c['id']=='bddl_430':
             if op=='wipe':self.wet=True
             if step=='check - garage_floor':self.dry_route=True
@@ -238,7 +286,7 @@ class Trial:
         # An inadequately supported transported object becomes a free rigid body above the aisle.
         idx=self.bi[i];mass=self.m.body_mass[idx]
         if processes.grip_supported(mass,.18,mass*9.81*.50,.6):return
-        self.go(s);x,y,z,w,h=self.loc[self.station];self.move(xyz(x+.42,y-h/2-.10,z+.16));self.pause(.22);self.release_height=float(self.pos(i)[2]);self.dropped.add(i);self.release();self.pause(.72)
+        self.go(s);x,y,z,w,h=self.loc[self.station];self.move(pl.location(self.c,s,.33,-h/2-.13,z+.16));self.pause(.22);self.release_height=float(self.pos(i)[2]);self.dropped.add(i);self.release();self.pause(.72)
     def run(self):
         self.pause(.16)
         for n,step in enumerate(self.c[self.b]):
@@ -247,7 +295,7 @@ class Trial:
         self.pause(.72)
         if not np.isfinite(self.snaps).all() or np.max(np.abs(self.snaps))>12 or abs(self.d.time-self.tick/RATE)>1e-5 or any(w.number for w in self.d.warning):raise ValueError('Invalid trajectory or integrator warning')
         if self.event is None:self.event=self.timeline[-1]['t']
-        return dict(event=self.event,focus=self.detail_pos,elapsed=self.tick/RATE,steps=self.timeline,misses=self.fail,value=self.value,peak=self.peak,path=self.path,base=self.basepath,handled=sorted(self.handled),dropped=sorted(self.dropped),caught_ml=self.delivered,spilled_ml=self.spilled,source_events=self.tested)
+        return dict(event=self.event,focus=self.detail_pos,elapsed=self.tick/RATE,steps=self.timeline,misses=self.fail,value=self.value,peak=self.peak,path=self.path,base=self.basepath,turn_deg=math.degrees(self.turn),handled=sorted(self.handled),dropped=sorted(self.dropped),caught_ml=self.delivered,spilled_ml=self.spilled,source_events=self.tested)
 def simulate(c):
     global RATE,CAPTURE
     RATE=600 if c['id'] in ('bddl_71','bddl_527','bddl_812','bddl_839','bddl_994') else 150
@@ -264,7 +312,7 @@ def simulate(c):
         with gzip.open(out/(b+'.csv.gz'),'wt') as f:
             w=csv.writer(f);w.writerow(['time_s','step_index','peak_payload_support_N','peak_payload_floor_N','indicator','tcp_path_m','base_path_m','max_object_temp_est_C','spill_est_ml','caught_est_ml','peak_contact_pair']);w.writerows(t.logs)
         np.savez_compressed(out/(b+'.npz'),time_s=t.times,qpos=t.snaps,marker=t.forecast)
-    save(out/'info.json',dict(design=c,rule=t.rule,solver_hz=RATE,branches=branches,detail_time_s=branches['unsafe']['event']))
+    save(out/'info.json',dict(design=c,placement=pl.layout_report(c,loc),rule=t.rule,solver_hz=RATE,branches=branches,detail_time_s=branches['unsafe']['event']))
     print(c['id'],[(b,round(z['elapsed'],1),len(z['misses']),round(z['value'],2)) for b,z in branches.items()],flush=True)
 if __name__=='__main__':
     cases=list(load_cases().values())

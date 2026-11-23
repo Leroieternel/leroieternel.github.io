@@ -43,6 +43,11 @@ function use(c){
     li.append(clock,el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
  }
+ if(c.spatialMission){$('charts').append(imgFig(c.id+'/route.png',c.layoutLegend,'chart'));$('downloads').append(link('Spatial mission measurements',c.id+'/results.json'),link('Replay trajectories and models','sources/spatial-mobile-replays.zip'))}
+ if(c.spatialLayout){
+   $('charts').append(imgFig(c.id+'/layout.png',c.layoutLegend,'chart'));
+   $('downloads').append(link('Station coordinates and path measurements',c.id+'/layout.json'),link('MuJoCo model (XML.GZ)',c.id+'/scene.xml.gz'),link('Planning and replay source','sources/spatial-layout-source.zip'));
+ }
  if(c.fluidSurface){
   if(c.firstTrickle){$('charts').append(imgFig(c.id+'/first-trickle.png','Where the first trickle lands','chart'));$('downloads').append(link('Offset pour · first-hit log',c.id+'/unsafe-first-contacts.csv'),link('Bowl wall geometry checks',c.id+'/wall-audit.json'))}
   for(const b of branch)$('evidence').append(imgFig(c.id+'/end_'+b+'.jpg',b==='safe'?'After withdrawal · milk stays in the bowl':'After withdrawal · milk pools on the worktop'));
