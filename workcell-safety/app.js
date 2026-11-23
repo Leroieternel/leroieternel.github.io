@@ -127,8 +127,8 @@ function render(c){
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){
       const li=node('li',step.hazard?'haz':'');
-      const time=node(c.longRank?'button':'time',c.longRank?'step-seek':null,tLabel(step.t));
-      if(c.longRank){
+      const time=node(c.longRank||c.group==='shared_spaces'?'button':'time',c.longRank||c.group==='shared_spaces'?'step-seek':null,tLabel(step.t));
+      if(c.longRank||c.group==='shared_spaces'){
         time.type='button';time.setAttribute('aria-label','Seek '+name.toLowerCase()+' replay to '+step.text);
         time.onclick=()=>{pauseBoth();if(video.readyState>=1)video.currentTime=step.t;else video.addEventListener('loadedmetadata',()=>video.currentTime=step.t,{once:true})};
       }
