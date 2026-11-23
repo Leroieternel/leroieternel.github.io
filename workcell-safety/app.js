@@ -1,5 +1,6 @@
 'use strict';
 const cases=[...(window.EVERYDAY_STUDIES||[]),...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
+registerStudyScenes(window.EVERYDAY_STUDIES||[]);
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
 const versioned=url=>url+'?v='+(url.includes('hard_virtualhome_31/')?'milk-rim-2':url.includes('people_cafe/')?'cafe-grip-2':'mobile-worlds-1');
 const mediaUrl=(c,file)=>(c.filmBase&&file.endsWith('.mp4')?c.filmBase:c.base)+'/'+file;
@@ -52,6 +53,13 @@ function render(c){
   pauseBoth();item=c;vids=[];
   const scene=taskEnvironment(c.parentId||c.id);
   sceneFilter.value=scene;lastChoice.set(scene,c);
+  const directoryLink=by('browse-scene');
+  directoryLink.hidden=!c.dataset;
+  if(c.dataset){
+    const slug=scene.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replaceAll(' ','-');
+    directoryLink.href='despite/#'+slug;
+    directoryLink.textContent='Browse DESPITE examples in '+scene;
+  }
   for(const b of by('nav').children)b.hidden=b.dataset.scene!==scene;
   const trials=by('trials');trials.replaceChildren();trials.hidden=!c.trials;
   for(const [id,name] of c.trials||[]){
