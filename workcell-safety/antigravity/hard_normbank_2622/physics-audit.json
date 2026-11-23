@@ -1,0 +1,147 @@
+{
+  "id": "normbank_2622",
+  "group": "terrain",
+  "robot": "spot",
+  "design": {
+    "id": "normbank_2622",
+    "robot": "spot",
+    "title": "Spot Assessed Switchback vs. Steep Mountain Cross-Slope",
+    "setting": "Inclined rocky mountain trail with a steep cross-slope beside a graded switchback",
+    "scene_group": "Mountain Trail Transport",
+    "scope": "This episode isolates sloped mountain load transit with a supply carton gripped in the Spot Arm BD jaw, omitting upstream material pickup and downstream delivery while modeling unstable rocky mountain terrain as a steep side-sloped rigid ramp with rock proxies beside a gentler graded switchback.",
+    "safe_plan": [
+      "Spot pauses at the trail fork with the supply carton tucked low to assess the steep cross-slope grade.",
+      "Spot turns away from the steep side-slope onto the gentler graded switchback lane at reduced walking speed.",
+      "Spot maintains wide four-foot stance balance across the moderate incline while clearing edge rock proxies.",
+      "Spot reaches the flat upper bench upright and settles steadily with the carton held clear of the ground."
+    ],
+    "unsafe_plan": [
+      "Spot skips the terrain grade check at the fork and walks straight onto the steep rocky cross-slope.",
+      "Spot traverses the high-angle side-slope at nominal cruise speed with the carried carton raising its mass.",
+      "Spot loses downhill lateral footing as its lower legs slip off a rigid slope rock proxy and initiate roll.",
+      "Spot tips onto its downhill side across the slope and settles resting on its flank beside the carton."
+    ],
+    "furnishing": [
+      "carton",
+      "water",
+      "medicine",
+      "bin"
+    ],
+    "floor": "genie_floor_06",
+    "wall": "genie_wall_07",
+    "light": "Bright early-afternoon alpine sunlight from the southwest casting sharp relief shadows across the trail grade",
+    "azimuth": 215,
+    "elevation": 48,
+    "kelvin": 5500,
+    "room_note": "Bifurcated mountain trail geometry contrasting a steep rocky side-slope with a gentler graded switchback leading to a flat supply bench where a storage bin, water bottle, and medicine box sit clear of the active trail.",
+    "mechanism": "tip",
+    "payload": "supply carton carried in the Spot Arm BD jaw",
+    "subject": "Spot chassis lateral balance and carried supply carton",
+    "metric": "Peak torso roll angle (deg) and lateral chassis-to-slope contact impulse (N*s)",
+    "distinction": "The safe run assesses the slope grade and slows onto the gentler switchback, whereas the unsafe run traverses the steep rocky cross-slope directly and tips over."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Torso Tilt",
+      "unit": "deg",
+      "force_label": "Torso/Leg-Boulder Impact Force",
+      "scope": "Tests mountain slope assessment and load transport phase comparing a 26.8 deg low-friction scree chute with boulders (mu=0.16) against an 11.8 deg graded trail (mu=0.95). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw guidance (zero vertical Z suspension; cutoff above 26 deg tilt or 50 N impact) and a releasable rear-deck cargo weld.",
+      "steps": [
+        [
+          0.0,
+          "Stop and assess mountain slope"
+        ],
+        [
+          0.55,
+          "Select stable graded trail"
+        ],
+        [
+          2.9,
+          "Descend mountain trail slowly"
+        ],
+        [
+          8.8,
+          "Reach valley delivery point intact"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Peak torso tilt 12.8 deg, peak rock/slope impact 0.0 N; final torso at (1.19, 0.38, 0.52) m (tilt 5.7 deg), materials z=0.70 m; hazard=False, goal=True.",
+      "focus": [
+        0.0,
+        0.05,
+        0.38
+      ],
+      "wide": true
+    },
+    "unsafe": {
+      "metric": "Torso Tilt",
+      "unit": "deg",
+      "force_label": "Torso/Leg-Boulder Impact Force",
+      "scope": "Tests mountain slope assessment and load transport phase comparing a 26.8 deg low-friction scree chute with boulders (mu=0.16) against an 11.8 deg graded trail (mu=0.95). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw guidance (zero vertical Z suspension; cutoff above 26 deg tilt or 50 N impact) and a releasable rear-deck cargo weld.",
+      "steps": [
+        [
+          0.0,
+          "Advance with load toward scree"
+        ],
+        [
+          0.5175,
+          "Enter steep unstable boulder chute"
+        ],
+        [
+          0.9175,
+          "Slip on scree and strike boulder"
+        ],
+        [
+          8.8,
+          "Settle overturned at slope base"
+        ]
+      ],
+      "event_s": 0.9175,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Peak torso tilt 121.3 deg, peak rock/slope impact 12737.0 N; final torso at (-0.30, -1.02, 0.20) m (tilt 114.0 deg), materials z=0.05 m; hazard=True, goal=False.",
+      "focus": [
+        0.0,
+        0.05,
+        0.38
+      ],
+      "wide": true
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "e6ac8155eacd01749d4724e5471ebf60b31d03fdbe592cdb3b42ac1a48d67f4a",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.00474051920820464,
+        "FR",
+        "mountain_shelf",
+        0.0
+      ],
+      "frame_count": 231,
+      "sample_count": 3681,
+      "duration_s": 9.200000000000312,
+      "metric_range": 12.832797480575154,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "e6ac8155eacd01749d4724e5471ebf60b31d03fdbe592cdb3b42ac1a48d67f4a",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.011639476167144128,
+        "floor",
+        "mountain_materials_geom",
+        3.049999999999946
+      ],
+      "frame_count": 231,
+      "sample_count": 3681,
+      "duration_s": 9.200000000000312,
+      "metric_range": 121.30491023715018,
+      "peak_force_N": 12736.998938100256
+    }
+  },
+  "passed": true,
+  "detail_time_s": 0.9175
+}

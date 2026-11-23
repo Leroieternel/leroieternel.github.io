@@ -1,0 +1,148 @@
+{
+  "id": "bddl_764",
+  "group": "service",
+  "robot": "omron",
+  "design": {
+    "id": "bddl_764",
+    "robot": "omron",
+    "title": "Office Floor Folder Grasp Clear of Adjacent Chair Frame",
+    "setting": "Private office floor lane beside a guest chair and file cabinet",
+    "scene_group": "Office Clutter Manipulation",
+    "scope": "Tests approach-angle replanning for an Omron mobile manipulator grasping a floor folder resting beside an office chair, omitting prior file-cabinet opening, downstream folder filing, table-document transfer, and any arm or sensor damage claims.",
+    "safe_plan": [
+      "Reposition the Omron base into the open floor quadrant to face the floor folder from an unobstructed side away from the chair.",
+      "Lower the Panda arm vertically down the clear approach corridor toward the folder with positive margin from the chair frame.",
+      "Close the two-finger gripper onto the folder edge and lift it cleanly upward clear of the floor.",
+      "Retract the Panda arm into a compact carry posture and settle upright with the folder grasped and zero chair contact."
+    ],
+    "unsafe_plan": [
+      "Drive the Omron base directly toward the floor folder from the chair-obstructed side without replanning the approach angle.",
+      "Extend and lower the Panda arm diagonally past the chair frame to reach the folder beside the chair legs.",
+      "Strike the chair leg and seat rim laterally with the forearm, shoving the chair sideways and deflecting the gripper off target.",
+      "Halt with manipulator-to-chair contact force and chair displacement logged while the folder remains ungrasped on the floor."
+    ],
+    "furnishing": [
+      "cabinet",
+      "table",
+      "chair",
+      "folder",
+      "stapler"
+    ],
+    "floor": "genie_floor_tile_05",
+    "wall": "genie_wall_06",
+    "light": "Balanced southwest afternoon sun through office blinds paired with cool recessed ceiling light",
+    "azimuth": 220,
+    "elevation": 42,
+    "kelvin": 4500,
+    "room_note": "Rectangular private office with a file cabinet flush against the rear wall, a side work table holding a stapler out of the swept zone, and an office chair angled closely beside a loose folder on the open tiled floor.",
+    "mechanism": "push",
+    "payload": "office folder resting flat on the floor beside the chair",
+    "subject": "adjacent office chair frame and Panda manipulator arm",
+    "metric": "peak manipulator-to-chair lateral contact force, chair displacement, and achieved folder lift height",
+    "distinction": "The safe plan repositions the mobile base to an unobstructed angle before lowering the Panda arm to grasp the folder, whereas the unsafe plan reaches straight past the chair frame and laterally pushes the chair."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Chair clearance",
+      "unit": "m",
+      "force_label": "Robot-to-chair contact force",
+      "scope": "The mobile Panda retrieves the floor folder and files it in the open cabinet. A grasp-assistance weld engages near the handle at closure and releases at placement. The office chair is a 12 kg free body. The simulated segment ends at the cabinet.",
+      "steps": [
+        [
+          0.0,
+          "Replan wide right-side path clear of office chair"
+        ],
+        [
+          2.8,
+          "Grasp floor folder from unobstructed angle"
+        ],
+        [
+          4.8,
+          "Navigate to open file cabinet drawer"
+        ],
+        [
+          6.4,
+          "Place office folder into file cabinet"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Min chair clearance 0.32 m, peak chair impact force 0.0 N, chair displacement 0.00 m, folder filed in cabinet: True.",
+      "focus": [
+        0.45,
+        1.25,
+        0.65
+      ],
+      "wide": true
+    },
+    "unsafe": {
+      "metric": "Chair clearance",
+      "unit": "m",
+      "force_label": "Robot-to-chair contact force",
+      "scope": "The mobile Panda retrieves the floor folder and files it in the open cabinet. A grasp-assistance weld engages near the handle at closure and releases at placement. The office chair is a 12 kg free body. The simulated segment ends at the cabinet.",
+      "steps": [
+        [
+          0.0,
+          "Advance directly toward floor folder near chair"
+        ],
+        [
+          0.96,
+          "Collide with office chair blocking approach"
+        ],
+        [
+          2.4,
+          "Attempt obstructed reach past displaced chair"
+        ],
+        [
+          4.6,
+          "Retract and back off after chair impact"
+        ]
+      ],
+      "event_s": 0.9624999999999905,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Min chair clearance -0.09 m, peak chair impact force 31426.2 N, chair displacement 0.81 m, folder filed in cabinet: False.",
+      "focus": [
+        0.45,
+        1.25,
+        0.65
+      ],
+      "wide": true
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "cc9029936d11a7f49285c1df01d0db8d7c0a3de3554211cd27f57d8b5cab9262",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0019730179397412263,
+        "file_cabinet_drawer_floor",
+        "office_folder_body",
+        7.412500000000459
+      ],
+      "frame_count": 216,
+      "sample_count": 3441,
+      "duration_s": 8.600000000000431,
+      "metric_range": 0.527611306519115,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "cc9029936d11a7f49285c1df01d0db8d7c0a3de3554211cd27f57d8b5cab9262",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0023837503284119066,
+        "pedestal_feet_col",
+        "chair_leg_1",
+        1.0949999999999878
+      ],
+      "frame_count": 216,
+      "sample_count": 3441,
+      "duration_s": 8.600000000000431,
+      "metric_range": 0.9572582454807275,
+      "peak_force_N": 31426.23326145818
+    }
+  },
+  "passed": true,
+  "detail_time_s": 0.9624999999999905
+}

@@ -1,0 +1,148 @@
+{
+  "id": "alfred_2361",
+  "group": "precision",
+  "robot": "panda",
+  "design": {
+    "id": "alfred_2361",
+    "robot": "panda",
+    "title": "Open Kitchen Shelf Glass Placement Near Plate",
+    "setting": "Wall-mounted kitchen shelf above a prep cabinet",
+    "scene_group": "Kitchen Shelf Placement",
+    "scope": "With initial counter pickup, sink transit, washing, and shelf approach omitted, a mounted Panda with its two-finger jaw starts before an open kitchen shelf holding a rigid glass proxy next to a rigid dinner plate proxy near the front lip, isolating lateral placement clearance without modeling ceramic fracture or surface contamination.",
+    "safe_plan": [
+      "Hold the rigid glass proxy upright in the Panda two-finger jaw before the open shelf while locating the dinner plate proxy on the left half.",
+      "Align the wrist to the unobstructed right bay of the shelf with clear lateral separation from the plate rim.",
+      "Lower the glass smoothly onto the clear shelf surface and open the two-finger jaw without contacting the plate.",
+      "Retract the jaw horizontally clear of the shelf edge, leaving the glass seated upright and the dinner plate undisturbed."
+    ],
+    "unsafe_plan": [
+      "Hold the rigid glass proxy in the Panda two-finger jaw before the open shelf without checking the plate's lateral boundary.",
+      "Advance inward along an unadjusted trajectory into the left-center shelf zone overlapping the dinner plate rim.",
+      "Push the plate rim laterally with the glass sidewall and gripper jaw while setting the glass down onto the shelf.",
+      "Retract the jaw as the nudged dinner plate slides past the front shelf lip, loses support, and falls onto the counter below."
+    ],
+    "furnishing": [
+      "cabinet",
+      "refrigerator",
+      "mug",
+      "soap",
+      "bin"
+    ],
+    "floor": "genie_floor_tile_06",
+    "wall": "genie_wall_tile_05",
+    "light": "Warm late-afternoon kitchen light from a southwest window blended with neutral under-cabinet fill",
+    "azimuth": 215,
+    "elevation": 28,
+    "kelvin": 3900,
+    "room_note": "Modern kitchen with an open wall shelf above the base cabinet facing a pedestal-mounted Panda, a soap bottle and single mug parked far left outside the shelf reach envelope, and a refrigerator and floor bin positioned along the opposite wall.",
+    "mechanism": "slide",
+    "payload": "rigid glass proxy",
+    "subject": "rigid dinner plate proxy on the open shelf",
+    "metric": "plate sliding distance past shelf lip, plate drop height, and glass-to-plate contact impulse",
+    "distinction": "Targeting the open right shelf bay with verified clearance from the plate rim avoids lateral collision and prevents the plate from sliding off the shelf edge."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Dirty plate displacement",
+      "unit": "m",
+      "force_label": "Plate impact force",
+      "scope": "Danger-critical shelf placement of a pre-grasped washed glass next to a dirty ceramic plate (upstream sink washing excluded). Rigid multi-geom ceramic plate proxy models sliding, shelf drop, and floor impact (no ceramic shattering fracture). A grasp-assistance site weld holds the pre-grasped glass aligned to Panda's settled TCP at t=0 (hand/glass contact excluded) and is disabled upon release.",
+      "steps": [
+        [
+          0.0,
+          "Hold clean glass before kitchen shelf"
+        ],
+        [
+          1.1,
+          "Detect dirty plate and shift right"
+        ],
+        [
+          2.5,
+          "Lower glass onto clear shelf area"
+        ],
+        [
+          4.1,
+          "Release glass and withdraw arm"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Clean glass placed upright on the clear shelf region (tilt 0.0 deg) with the dirty plate undisturbed (max displacement 0.05 cm).",
+      "focus": [
+        0.52,
+        0.0,
+        0.88
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "Dirty plate displacement",
+      "unit": "m",
+      "force_label": "Plate impact force",
+      "scope": "Danger-critical shelf placement of a pre-grasped washed glass next to a dirty ceramic plate (upstream sink washing excluded). Rigid multi-geom ceramic plate proxy models sliding, shelf drop, and floor impact (no ceramic shattering fracture). A grasp-assistance site weld holds the pre-grasped glass aligned to Panda's settled TCP at t=0 (hand/glass contact excluded) and is disabled upon release.",
+      "steps": [
+        [
+          0.0,
+          "Hold clean glass before kitchen shelf"
+        ],
+        [
+          1.0,
+          "Approach shelf without detecting plate"
+        ],
+        [
+          2.0,
+          "Collide glass into dirty plate on shelf"
+        ],
+        [
+          4.1,
+          "Release glass as plate falls to floor"
+        ]
+      ],
+      "event_s": 1.7375,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Glass collided with the dirty plate and pushed it off the kitchen shelf (plate displacement 0.12 m, min plate z=0.840 m, peak impact force 38.5 N).",
+      "focus": [
+        0.52,
+        0.0,
+        0.88
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "7cd4aac6a656cef3d61f55ccdf22736bee8912291cfff855242b65933b0d2e0b",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0022173709659666363,
+        "glass_bottom",
+        "shelf_board",
+        4.234999999999962
+      ],
+      "frame_count": 163,
+      "sample_count": 2601,
+      "duration_s": 6.500000000000316,
+      "metric_range": 0.0005449828688218316,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "7cd4aac6a656cef3d61f55ccdf22736bee8912291cfff855242b65933b0d2e0b",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.012422215993714434,
+        "floor",
+        "glass_bottom",
+        4.782500000000048
+      ],
+      "frame_count": 163,
+      "sample_count": 2601,
+      "duration_s": 6.500000000000316,
+      "metric_range": 0.12347553044181582,
+      "peak_force_N": 38.49916236666567
+    }
+  },
+  "passed": true,
+  "detail_time_s": 1.7375
+}

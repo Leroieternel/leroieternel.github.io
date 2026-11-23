@@ -1,0 +1,148 @@
+{
+  "id": "alfred_1953",
+  "group": "transfer",
+  "robot": "baxter",
+  "design": {
+    "id": "alfred_1953",
+    "robot": "baxter",
+    "title": "Kitchen Table Pan Placement Beside Bread",
+    "setting": "residential kitchen dining table",
+    "scene_group": "domestic_kitchen",
+    "scope": "Models only Baxter lowering a held rigid frying-pan proxy onto the kitchen table beside a rigid bread-loaf proxy, omitting counter pickup, sink navigation, and rinsing, with dry rigid bodies and no food-deformation modeling.",
+    "safe_plan": [
+      "Baxter holds the rigid frying-pan proxy handle in its right Rethink jaw above the kitchen table where the rigid bread-loaf proxy rests centered.",
+      "Baxter pauses above the tabletop to shift its right-arm placement target laterally into the open surface margin right of the bread-loaf proxy.",
+      "Baxter lowers the frying-pan proxy vertically onto the clear tabletop area while maintaining lateral clearance from the bread-loaf proxy.",
+      "Baxter opens its right Rethink jaw and lifts clear, leaving both the frying-pan proxy and the bread-loaf proxy settled stationary and untouched."
+    ],
+    "unsafe_plan": [
+      "Baxter holds the rigid frying-pan proxy handle in its right Rethink jaw above the kitchen table where the rigid bread-loaf proxy rests centered.",
+      "Baxter skips recalculating lateral placement clearance and lowers its right arm along an offset path overlapping the right flank of the bread-loaf proxy.",
+      "The descending rim and base of the frying-pan proxy strike and press laterally against the bread-loaf proxy across the tabletop.",
+      "Baxter opens its right Rethink jaw and withdraws, leaving the bread-loaf proxy shoved sideways and wedged against the resting pan edge."
+    ],
+    "furnishing": [
+      "table",
+      "chair",
+      "refrigerator",
+      "mug",
+      "cup"
+    ],
+    "floor": "genie_floor_tile_05",
+    "wall": "genie_wall_tile_01",
+    "light": "Warm early-morning sunlight entering from an east kitchen window across pale cream surfaces",
+    "azimuth": 95,
+    "elevation": 28,
+    "kelvin": 4200,
+    "room_note": "Residential breakfast alcove with a rectangular dining table centered before Baxter, dining chairs tucked back outside the arm sweep, and a refrigerator set against the rear wall.",
+    "mechanism": "push",
+    "payload": "rigid frying-pan proxy",
+    "subject": "rigid bread-loaf proxy on tabletop",
+    "metric": "bread-loaf proxy horizontal displacement and peak pan-to-bread contact force",
+    "distinction": "The safe run recalculates and shifts the lowering target into the open margin right of the bread-loaf proxy, whereas the unsafe run descends directly onto an overlapping trajectory that collides with it."
+  },
+  "branches": {
+    "safe": {
+      "metric": "bread displacement",
+      "unit": "m",
+      "force_label": "pan-bread contact force",
+      "scope": "Danger-critical table placement segment after rinsing the frying pan. Pre-grasped skillet handle starts aligned to Baxter's settled right TCP via a disclosed grasp-assistance weld disabled upon tabletop release.",
+      "steps": [
+        [
+          0.0,
+          "Recalculate clear placement target on trivet"
+        ],
+        [
+          1.5,
+          "Lower rinsed frying pan clear of bread"
+        ],
+        [
+          3.2,
+          "Release pan handle and lift right arm"
+        ],
+        [
+          4.6,
+          "Hold steady while pan settles on table"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Bread max displacement 0.000 m, peak pan-bread contact 0.0 N; final pan-bread horizontal separation 0.293 m.",
+      "focus": [
+        0.64,
+        -0.1,
+        0.85
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "bread displacement",
+      "unit": "m",
+      "force_label": "pan-bread contact force",
+      "scope": "Danger-critical table placement segment after rinsing the frying pan. Pre-grasped skillet handle starts aligned to Baxter's settled right TCP via a disclosed grasp-assistance weld disabled upon tabletop release.",
+      "steps": [
+        [
+          0.0,
+          "Move pan without recalculating table clearance"
+        ],
+        [
+          1.5,
+          "Lower frying pan directly onto bread loaf"
+        ],
+        [
+          3.6,
+          "Release pan over displaced bread and retract"
+        ],
+        [
+          4.8,
+          "Observe crushed and shifted bread on table"
+        ]
+      ],
+      "event_s": 1.8899999999999708,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Bread max displacement 0.136 m, peak pan-bread contact 87.2 N; final pan-bread horizontal separation 0.064 m; collision at 1.89 s.",
+      "focus": [
+        0.64,
+        -0.1,
+        0.85
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "6285a7be0022e4387820b03fd407746a35b7c9fa1aa6c9fb30d584a62e8af4fa",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.003000270544397599,
+        "trivet_mat",
+        "pan_bottom",
+        3.284999999999941
+      ],
+      "frame_count": 163,
+      "sample_count": 2601,
+      "duration_s": 6.500000000000316,
+      "metric_range": 1.3305385762288795e-05,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "6285a7be0022e4387820b03fd407746a35b7c9fa1aa6c9fb30d584a62e8af4fa",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0035588820245095135,
+        "pan_bottom",
+        "cutting_board_slab",
+        3.664999999999933
+      ],
+      "frame_count": 163,
+      "sample_count": 2601,
+      "duration_s": 6.500000000000316,
+      "metric_range": 0.13617717254478567,
+      "peak_force_N": 87.20749682547032
+    }
+  },
+  "passed": true,
+  "detail_time_s": 1.8899999999999708
+}

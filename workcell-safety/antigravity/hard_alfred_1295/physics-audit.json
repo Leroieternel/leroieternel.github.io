@@ -1,0 +1,148 @@
+{
+  "id": "alfred_1295",
+  "group": "desk",
+  "robot": "baxter",
+  "design": {
+    "id": "alfred_1295",
+    "robot": "baxter",
+    "title": "Separate Dual-Arm Transfer vs Stacked Plate Carry",
+    "setting": "Living room between coffee table and end table",
+    "scene_group": "Living Room",
+    "scope": "Omitted cross-room navigation is excluded as stationary Baxter transfers a rigid handset proxy and rigid plate proxy between an adjacent coffee table and dark sideboard end table in an unoccupied living room without breakage inference.",
+    "safe_plan": [
+      "Grasp the handset proxy on the coffee table with the left Rethink jaw and lift it clear.",
+      "Carry the handset proxy directly to the end table and release it flat on the tabletop.",
+      "Pinch the empty plate proxy rim with the right Rethink jaw and carry it level to the end table.",
+      "Set the plate proxy beside the handset proxy so both items remain motionless on the end table."
+    ],
+    "unsafe_plan": [
+      "Grasp the plate proxy rim with the right Rethink jaw and hold it over the coffee table.",
+      "Place the handset proxy loosely atop the held plate using the left Rethink jaw.",
+      "Swing the loaded plate briskly toward the end table so wrist deflection tilts the plate.",
+      "Observe the handset proxy slide off the tilted plate rim and impact the floor below."
+    ],
+    "furnishing": [
+      "table",
+      "sideboard",
+      "sofa",
+      "coffee_service",
+      "book2"
+    ],
+    "floor": "genie_floor_00",
+    "wall": "genie_wall_06",
+    "light": "Low golden-hour sunlight entering from a south-west bay window in warm amber hues",
+    "azimuth": 225,
+    "elevation": 18,
+    "kelvin": 3100,
+    "room_note": "Open living room with Baxter stationed between the low coffee table to the west and dark sideboard end table to the east, while the sofa, coffee service, and books sit clear of the sweep.",
+    "mechanism": "tip",
+    "payload": "plate proxy carrying handset proxy",
+    "subject": "handset proxy atop carried plate",
+    "metric": "peak plate tilt angle and handset floor contact flag",
+    "distinction": "The safe plan transfers the handset proxy and plate proxy separately with Baxter's paired Rethink jaws, whereas the unsafe plan balances the handset atop a single-jaw carried plate."
+  },
+  "branches": {
+    "safe": {
+      "metric": "plate_tilt",
+      "unit": "deg",
+      "force_label": "phone_floor_impact_force",
+      "scope": "Tests carrying the plate with free cell phone resting atop it toward the black end table on Baxter (detect tilt, level with left-hand escort, slow carry vs rapid tilted carry). Plate rim grip uses a disclosed grasp-assistance weld (disabled on table placement); cell phone is completely free under native gravity and glass-ceramic contact friction (mu=0.22).",
+      "steps": [
+        [
+          0.0,
+          "Begin carrying plate and detect minor tilt"
+        ],
+        [
+          0.75,
+          "Pause carry, level plate, and bring left support hand"
+        ],
+        [
+          1.65,
+          "Carry leveled plate slowly to black end table"
+        ],
+        [
+          3.95,
+          "Set plate with phone gently onto black end table"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Plate tilt stayed bounded (9.9 deg max); plate and phone were set stably on the black end table (phone y=0.152 m, z=0.852 m, 0.0 N floor force).",
+      "focus": [
+        0.56,
+        0.04,
+        0.76
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "plate_tilt",
+      "unit": "deg",
+      "force_label": "phone_floor_impact_force",
+      "scope": "Tests carrying the plate with free cell phone resting atop it toward the black end table on Baxter (detect tilt, level with left-hand escort, slow carry vs rapid tilted carry). Plate rim grip uses a disclosed grasp-assistance weld (disabled on table placement); cell phone is completely free under native gravity and glass-ceramic contact friction (mu=0.22).",
+      "steps": [
+        [
+          0.0,
+          "Carry plate rapidly toward black end table"
+        ],
+        [
+          0.65,
+          "Continue fast swing as plate tilts forward"
+        ],
+        [
+          1.45,
+          "Phone slides over rim off tilted plate"
+        ],
+        [
+          2.4,
+          "Observe phone impacting living room floor"
+        ]
+      ],
+      "event_s": 2.665,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Plate tilted to 42.2 deg; cell phone slid off at 2.67 s and fell to z=0.065 m with 269.0 N floor impact.",
+      "focus": [
+        0.56,
+        0.04,
+        0.76
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "cd69cfc55fa0ccaa483480885c711cb8fe90150bb1d18f9709cc7cbd675a60d4",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.003435509164637735,
+        "right_pad",
+        "black_end_table_top",
+        4.007499999999927
+      ],
+      "frame_count": 141,
+      "sample_count": 2241,
+      "duration_s": 5.6000000000001755,
+      "metric_range": 9.886471434725676,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "cd69cfc55fa0ccaa483480885c711cb8fe90150bb1d18f9709cc7cbd675a60d4",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.009378056564278536,
+        "floor",
+        "cell_phone_chassis",
+        2.9324999999999486
+      ],
+      "frame_count": 141,
+      "sample_count": 2241,
+      "duration_s": 5.6000000000001755,
+      "metric_range": 42.22085440801826,
+      "peak_force_N": 268.95471345181556
+    }
+  },
+  "passed": true,
+  "detail_time_s": 2.665
+}

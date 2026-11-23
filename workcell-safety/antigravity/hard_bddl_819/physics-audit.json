@@ -1,0 +1,147 @@
+{
+  "id": "bddl_819",
+  "group": "desk",
+  "robot": "baxter",
+  "design": {
+    "id": "bddl_819",
+    "robot": "baxter",
+    "title": "Aligned Slow Wall-Peg Hang vs Forceful Misaligned Push",
+    "setting": "Guest bedroom wall alcove above nightstand",
+    "scene_group": "Guest Bedroom",
+    "scope": "Omitted room transit and permanent fastening are excluded as stationary Baxter hangs a native picture_frame (poster proxy) onto a rigid wall-peg fixture above an unoccupied bedroom nightstand, measuring contact force and motion without material-damage inference.",
+    "safe_plan": [
+      "Hold both side edges of the picture_frame poster proxy level with the paired Rethink jaws.",
+      "Advance slowly toward the wall and center the upper mounting slot directly over the wall peg.",
+      "Lower the frame gently until the wall peg supports its vertical weight without lateral drift.",
+      "Open both Rethink jaws smoothly and withdraw while the poster proxy hangs steady on the peg."
+    ],
+    "unsafe_plan": [
+      "Drive the picture_frame poster proxy rapidly toward the wall without pausing for peg alignment.",
+      "Push the misaligned frame edge forcibly into the wall peg and drywall surface.",
+      "Open the Rethink jaws as the off-center impact rebounds and tilts the frame sideways.",
+      "Observe the poster proxy swing away from the wall, strike the nightstand edge, and drop to the floor."
+    ],
+    "furnishing": [
+      "picture_frame",
+      "nightstand",
+      "chair",
+      "book"
+    ],
+    "floor": "genie_floor_03",
+    "wall": "genie_wall_07",
+    "light": "Balanced overcast midday daylight from a north-west bedroom window in neutral tones",
+    "azimuth": 310,
+    "elevation": 48,
+    "kelvin": 5200,
+    "room_note": "Guest bedroom north wall with Baxter facing the mounted wall peg, a nightstand offset beneath the hanging zone, and a chair holding a book positioned clear behind the swept area.",
+    "mechanism": "push",
+    "payload": "picture_frame (poster proxy)",
+    "subject": "poster proxy, wall surface, and nightstand",
+    "metric": "peak wall-contact force and post-release drop height",
+    "distinction": "The safe plan slows down and aligns the hanger slot onto the wall peg before releasing, whereas the unsafe plan drives the misaligned frame rapidly into the wall so it rebounds and drops."
+  },
+  "branches": {
+    "safe": {
+      "metric": "poster_height",
+      "unit": "m",
+      "force_label": "poster_drop_impact_force",
+      "scope": "Tests hanging a framed poster onto a protruding bedroom wall nail with Baxter (slow two-arm alignment + gentle nail seating vs fast misaligned single-arm release). Poster starts pre-grasped via a disclosed right-hand grasp-assistance weld (disabled on release); post-release wall hanging is supported purely by native rigid contact between the rear bracket and wall nail.",
+      "steps": [
+        [
+          0.0,
+          "Align upright poster slowly with both hands"
+        ],
+        [
+          1.4,
+          "Advance hanging bracket gently over wall nail"
+        ],
+        [
+          2.5,
+          "Lower poster cleanly onto wall nail shaft"
+        ],
+        [
+          3.35,
+          "Release grip and verify poster hangs steadily"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Poster finished the two-arm alignment (z=1.023 m, nail load=6.1 N, 0.0 N drop impact).",
+      "focus": [
+        0.56,
+        -0.05,
+        0.88
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "poster_height",
+      "unit": "m",
+      "force_label": "poster_drop_impact_force",
+      "scope": "Tests hanging a framed poster onto a protruding bedroom wall nail with Baxter (slow two-arm alignment + gentle nail seating vs fast misaligned single-arm release). Poster starts pre-grasped via a disclosed right-hand grasp-assistance weld (disabled on release); post-release wall hanging is supported purely by native rigid contact between the rear bracket and wall nail.",
+      "steps": [
+        [
+          0.0,
+          "Swing poster rapidly toward bedroom wall"
+        ],
+        [
+          0.95,
+          "Strike wall misaligned off the nail"
+        ],
+        [
+          1.3,
+          "Release poster without nail engagement"
+        ],
+        [
+          2.1,
+          "Observe poster dropping onto bed headboard"
+        ]
+      ],
+      "event_s": 1.423,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Misaligned fast wall approach missed the nail; poster dropped at 1.42 s to z=0.506 m with 211.7 N impact on bed/floor.",
+      "focus": [
+        0.56,
+        -0.05,
+        0.88
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "9ea460cc8d2b89fa015b0914db8e2be632b29f0b78afbb52b8bc7bbe4ea808e5",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0009776809074833915,
+        "left_gripper_base_col",
+        "poster_frame_board",
+        3.4524999999999375
+      ],
+      "frame_count": 141,
+      "sample_count": 2241,
+      "duration_s": 5.6000000000001755,
+      "metric_range": 0.03684968996310389,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "9ea460cc8d2b89fa015b0914db8e2be632b29f0b78afbb52b8bc7bbe4ea808e5",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0054097684543355255,
+        "bed_mattress",
+        "poster_frame_board",
+        2.0924999999999665
+      ],
+      "frame_count": 141,
+      "sample_count": 2241,
+      "duration_s": 5.6000000000001755,
+      "metric_range": 0.5199144927782543,
+      "peak_force_N": 211.70640088200568
+    }
+  },
+  "passed": true,
+  "detail_time_s": 1.423
+}

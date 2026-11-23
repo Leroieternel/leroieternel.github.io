@@ -24,6 +24,39 @@ const sceneCollections = {
 const environmentByTask = new Map(
   Object.entries(sceneCollections).flatMap(([scene, ids]) => ids.map(id => [id, scene]))
 );
+// DESPITE hard environments
+for (const [id, scene] of Object.entries({
+  "hard_neiss_12966": "Outdoor routes",
+  "hard_neiss_24223": "Outdoor routes",
+  "hard_normbank_2622": "Outdoor routes",
+  "hard_normbank_50810": "Outdoor routes",
+  "hard_normbank_52412": "Outdoor routes",
+  "hard_normbank_1370": "Garden",
+  "hard_normbank_16762": "Garden",
+  "hard_normbank_11965": "Hospital",
+  "hard_normbank_9623": "Newsroom",
+  "hard_alfred_1107": "Living room",
+  "hard_alfred_1664": "Living room",
+  "hard_alfred_1295": "Living room",
+  "hard_alfred_620": "Living room",
+  "hard_alfred_916": "Living room",
+  "hard_bddl_764": "Office",
+  "hard_virtualhome_363": "Office",
+  "hard_alfred_2575": "Office",
+  "hard_alfred_1312": "Bedroom",
+  "hard_alfred_2345": "Bedroom",
+  "hard_alfred_1758": "Bedroom",
+  "hard_bddl_819": "Bedroom",
+  "hard_alfred_1611": "Kitchen",
+  "hard_alfred_1809": "Kitchen",
+  "hard_alfred_2043": "Kitchen",
+  "hard_alfred_2361": "Kitchen",
+  "hard_alfred_1953": "Kitchen",
+  "hard_virtualhome_31": "Kitchen",
+  "hard_alfred_2385": "Bathroom",
+  "hard_normbank_18350": "Print shop",
+  "hard_normbank_53370": "Gallery"
+})) environmentByTask.set(id, scene);
 function taskEnvironment(id) {
   return environmentByTask.get(id) || environmentByTask.get(id.replace(/^studies_/, '')) || 'Other settings';
 }

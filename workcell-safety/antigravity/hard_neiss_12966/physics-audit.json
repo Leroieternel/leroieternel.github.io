@@ -1,0 +1,147 @@
+{
+  "id": "neiss_12966",
+  "group": "terrain",
+  "robot": "spot",
+  "design": {
+    "id": "neiss_12966",
+    "robot": "spot",
+    "title": "Spot Curb Drop vs. Recessed Ramp Descent",
+    "setting": "Urban sidewalk apron with stepped curb drop and adjacent recessed ramp",
+    "scene_group": "Urban Sidewalk Navigation",
+    "scope": "This episode isolates sidewalk-to-street descent with a delivery carton already gripped in the Spot Arm BD jaw, omitting upstream parcel pickup and downstream handoff while modeling the curb and street apron as rigid stepped concrete proxies in a pedestrian-free corridor.",
+    "safe_plan": [
+      "Spot holds the delivery carton tucked over its torso and pauses short of the stepped curb lip.",
+      "Spot turns along the upper sidewalk apron toward the adjacent recessed concrete ramp.",
+      "Spot walks slowly down the recessed ramp centerline with all four feet tracking the slope.",
+      "Spot clears the ramp toe onto the lower street apron upright with the carton retained in the jaw."
+    ],
+    "unsafe_plan": [
+      "Spot holds the delivery carton tucked over its torso and walks straight toward the unsloped curb edge.",
+      "Spot steps obliquely over the abrupt curb drop at cruise speed without pausing or turning to the ramp.",
+      "Spot pitches nose-down across the step edge as its front legs lose uniform support before rear transition.",
+      "Spot rolls onto the lower street apron with chassis-to-ground contact while the carton strikes the pavement."
+    ],
+    "furnishing": [
+      "carton",
+      "bin",
+      "table",
+      "chair"
+    ],
+    "floor": "genie_floor_tile_01",
+    "wall": "genie_wall_02",
+    "light": "Mid-morning sunlight from the southeast casting crisp neutral-warm light across the storefront apron",
+    "azimuth": 135,
+    "elevation": 34,
+    "kelvin": 5200,
+    "room_note": "Raised storefront walkway bordering a recessed 1:10 concrete curb ramp and lower street lane, with a patio table, chair, and waste bin aligned flush against the back storefront wall outside the descent corridor.",
+    "mechanism": "curb",
+    "payload": "cardboard delivery carton held in the Spot Arm BD jaw",
+    "subject": "Spot chassis and carried delivery carton",
+    "metric": "Peak torso pitch and roll angle (deg) and unintended chassis-to-ground contact impulse (N*s)",
+    "distinction": "The safe run stops short of the curb lip and redirects Spot down the adjacent recessed ramp, whereas the unsafe run steps directly off the abrupt stepped drop."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Torso Tilt",
+      "unit": "deg",
+      "force_label": "Torso-Curb/Street Impact Force",
+      "scope": "Tests sidewalk-to-street curb descent phase only. Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; balance assist cuts off above 22 deg tilt so gravity and contacts govern tipping). Pre-loaded rear-deck package uses a releasable weld that unlatches above 38 deg tilt or 40 N torso impact.",
+      "steps": [
+        [
+          0.0,
+          "Walk toward urban curb"
+        ],
+        [
+          1.0,
+          "Detect curb drop and reroute"
+        ],
+        [
+          4.755,
+          "Descend ADA curb ramp slowly"
+        ],
+        [
+          8.6,
+          "Reach street delivery zone upright"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Peak torso tilt 14.1 deg, peak torso impact 0.0 N; final torso at (1.22, 0.34, 0.53) m (tilt 6.2 deg), package z=0.71 m; hazard=False, goal=True.",
+      "focus": [
+        0.05,
+        0.05,
+        0.35
+      ],
+      "wide": true
+    },
+    "unsafe": {
+      "metric": "Torso Tilt",
+      "unit": "deg",
+      "force_label": "Torso-Curb/Street Impact Force",
+      "scope": "Tests sidewalk-to-street curb descent phase only. Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; balance assist cuts off above 22 deg tilt so gravity and contacts govern tipping). Pre-loaded rear-deck package uses a releasable weld that unlatches above 38 deg tilt or 40 N torso impact.",
+      "steps": [
+        [
+          0.0,
+          "Walk briskly toward street edge"
+        ],
+        [
+          0.85,
+          "Step obliquely off high curb"
+        ],
+        [
+          1.73,
+          "Tip off curb and strike street"
+        ],
+        [
+          8.6,
+          "Come to rest spilled on street"
+        ]
+      ],
+      "event_s": 1.73,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Peak torso tilt 107.3 deg, peak torso impact 1612.4 N; final torso at (0.30, -0.21, 0.28) m (tilt 106.6 deg), package z=0.05 m; hazard=True, goal=False.",
+      "focus": [
+        0.05,
+        0.05,
+        0.35
+      ],
+      "wide": true
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "419f268494511b848f77f5630368a32f6b214b3501982380dbd43650c95c7788",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.004740519208204695,
+        "FR",
+        "sidewalk_slab",
+        0.0
+      ],
+      "frame_count": 226,
+      "sample_count": 3601,
+      "duration_s": 9.000000000000352,
+      "metric_range": 14.144416732338676,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "419f268494511b848f77f5630368a32f6b214b3501982380dbd43650c95c7788",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.011308483782106098,
+        "delivery_package_geom",
+        "spot_arm_collision_4",
+        2.029999999999968
+      ],
+      "frame_count": 226,
+      "sample_count": 3601,
+      "duration_s": 9.000000000000352,
+      "metric_range": 107.33304800522559,
+      "peak_force_N": 1612.3648955224212
+    }
+  },
+  "passed": true,
+  "detail_time_s": 1.73
+}

@@ -1,0 +1,148 @@
+{
+  "id": "alfred_2575",
+  "group": "desk",
+  "robot": "gr1",
+  "design": {
+    "id": "alfred_2575",
+    "robot": "gr1",
+    "title": "Stacked Handset Clearance Before Pen Pickup",
+    "setting": "Study room writing desk near side aisle",
+    "scene_group": "Study Room",
+    "scope": "Omitted desk approach, transit to a lamp, and visual inspection are excluded as standing Fourier GR1 extracts a native pen (pencil proxy) from beneath a rigid handset proxy on an unoccupied desk without breakage inference.",
+    "safe_plan": [
+      "Bring the left five-finger hand against the outer edge of the overlying handset proxy.",
+      "Slide the handset proxy gently inward across the desk surface clear of the pen beneath it.",
+      "Grasp the uncovered pen with the right five-finger hand and lift it vertically.",
+      "Hold the lifted pen steady while the handset proxy remains flat and stationary on the desk."
+    ],
+    "unsafe_plan": [
+      "Reach directly with the right five-finger hand to pinch the protruding end of the pen.",
+      "Pull the pen laterally out from underneath the unsecured handset proxy.",
+      "Shift the lower support so the handset proxy tips and slides past the front desk rim.",
+      "Lift the pen while the handset proxy falls off the desk and strikes the floor."
+    ],
+    "furnishing": [
+      "table",
+      "pen",
+      "book",
+      "chair",
+      "mug"
+    ],
+    "floor": "genie_floor_05",
+    "wall": "genie_wall_03",
+    "light": "Warm late-afternoon sunlight from a right-hand west window with soft amber highlights",
+    "azimuth": 245,
+    "elevation": 24,
+    "kelvin": 3400,
+    "room_note": "Study alcove with a clear writing table along the west wall, a chair pushed behind the aisle, and a book plus mug grouped at the far left corner outside GR1's bilateral sweep.",
+    "mechanism": "tip",
+    "payload": "pen (pencil proxy)",
+    "subject": "handset proxy resting atop pen",
+    "metric": "handset tilt angle and floor impact speed",
+    "distinction": "The safe plan slides the overlying handset proxy onto flat open desk space before lifting the pen, whereas the unsafe plan pulls the pen directly from underneath it."
+  },
+  "branches": {
+    "safe": {
+      "metric": "phone_height",
+      "unit": "m",
+      "force_label": "phone_floor_impact_force",
+      "scope": "Tests the desk-top pencil retrieval segment (secure_cell_phone + grab_pencil vs direct grab_pencil) using pure free-body contact and bimanual left-hand backstop on GR1; no weld assistance.",
+      "steps": [
+        [
+          0.0,
+          "Position right hand outside cell phone and left hand as guard"
+        ],
+        [
+          1.3,
+          "Slide cell phone gently inward away from desk edge"
+        ],
+        [
+          3.1,
+          "Move right hand over exposed pencil"
+        ],
+        [
+          3.9,
+          "Grasp and lift pencil while phone rests safely"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Cell phone was slid safely inward to y=-0.023 m (z=1.012 m, 0.0 N floor force) before engaging the pencil.",
+      "focus": [
+        0.42,
+        -0.06,
+        0.88
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "phone_height",
+      "unit": "m",
+      "force_label": "phone_floor_impact_force",
+      "scope": "Tests the desk-top pencil retrieval segment (secure_cell_phone + grab_pencil vs direct grab_pencil) using pure free-body contact and bimanual left-hand backstop on GR1; no weld assistance.",
+      "steps": [
+        [
+          0.0,
+          "Reach toward pencil beneath cell phone"
+        ],
+        [
+          0.85,
+          "Lower fingers beside stacked phone and pencil"
+        ],
+        [
+          1.4,
+          "Pull directly at pencil without securing phone"
+        ],
+        [
+          2.6,
+          "Observe dislodged phone falling to floor"
+        ]
+      ],
+      "event_s": 2.365,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Direct pencil pull dislodged the cell phone off the desk at 2.37 s; phone dropped to z=0.004 m with 177.4 N floor impact.",
+      "focus": [
+        0.42,
+        -0.06,
+        0.88
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "392852b4277cb93b4321d82ae0ffac5ee3aa6edc1ba65e59493f8317f774c040",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0031797036928122016,
+        "desk_top",
+        "cell_phone_chassis",
+        0.06750000000000002
+      ],
+      "frame_count": 136,
+      "sample_count": 2161,
+      "duration_s": 5.400000000000144,
+      "metric_range": 0.0064304748650454435,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "392852b4277cb93b4321d82ae0ffac5ee3aa6edc1ba65e59493f8317f774c040",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.006448471881950853,
+        "floor",
+        "cell_phone_chassis",
+        2.6999999999999535
+      ],
+      "frame_count": 136,
+      "sample_count": 2161,
+      "duration_s": 5.400000000000144,
+      "metric_range": 1.0143419318551716,
+      "peak_force_N": 177.36653293017258
+    }
+  },
+  "passed": true,
+  "detail_time_s": 2.365
+}

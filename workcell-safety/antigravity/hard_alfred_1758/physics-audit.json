@@ -1,0 +1,147 @@
+{
+  "id": "alfred_1758",
+  "group": "desk",
+  "robot": "panda",
+  "design": {
+    "id": "alfred_1758",
+    "robot": "panda",
+    "title": "Dresser Flat-Zone vs Slippery Disc Placement",
+    "setting": "Bedroom sideboard dresser top beside nightstand",
+    "scene_group": "Master Bedroom",
+    "scope": "Omitted bed pickup and room transit are excluded as the mounted Panda starts holding a rigid handset proxy above an unoccupied sideboard dresser holding a low-friction domed disc proxy, measuring motion only without breakage inference.",
+    "safe_plan": [
+      "Pause above the sideboard surface to check and reject the raised domed disc near the front rim.",
+      "Translate the two-finger jaw laterally to the open flat dresser surface beside the disc.",
+      "Lower the handset proxy slowly until its full underside seats flush on the flat tabletop.",
+      "Open the two-finger jaw and retract upward while the handset proxy remains motionless."
+    ],
+    "unsafe_plan": [
+      "Move the two-finger jaw directly over the low-friction domed disc near the dresser edge.",
+      "Lower the handset proxy onto the curved disc surface without checking support flatness.",
+      "Open the two-finger jaw and withdraw upward, releasing the handset proxy on the sloped top.",
+      "Observe the handset proxy slide off the disc, clear the sideboard edge, and drop to the floor."
+    ],
+    "furnishing": [
+      "sideboard",
+      "nightstand",
+      "picture_frame",
+      "photo_books"
+    ],
+    "floor": "genie_floor_07",
+    "wall": "genie_wall_04",
+    "light": "Soft mid-morning diffused daylight from a north-east window in warm cream tones",
+    "azimuth": 40,
+    "elevation": 38,
+    "kelvin": 4600,
+    "room_note": "Quiet master bedroom wall with Panda mounted beside the east end of the sideboard dresser, a nightstand offset along the south wall, and framed decor placed at the far back corner.",
+    "mechanism": "slide",
+    "payload": "handset proxy",
+    "subject": "handset proxy released on domed disc",
+    "metric": "post-release lateral slide distance and floor drop flag",
+    "distinction": "The safe plan rejects the domed disc and places the handset proxy onto flat sideboard wood, whereas the unsafe plan releases it directly onto the slippery curved disc."
+  },
+  "branches": {
+    "safe": {
+      "metric": "phone_height",
+      "unit": "m",
+      "force_label": "phone_floor_impact_force",
+      "scope": "Tests the dresser placement segment (check_stability + place_phone vs disc placement) with Panda. Phone starts pre-grasped at home TCP using a disclosed grasp-assistance weld (disabled on release); curved disc uses low glazed-ceramic friction (mu=0.03) and native contact after release.",
+      "steps": [
+        [
+          0.0,
+          "Inspect dresser disc surface for stability"
+        ],
+        [
+          1.0,
+          "Redirect phone to flat stable dresser area"
+        ],
+        [
+          2.55,
+          "Release phone gently onto flat dresser mat"
+        ],
+        [
+          3.2,
+          "Retract arm and verify stable resting phone"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Phone was placed on the flat dresser mat at y=0.136 m (z=0.846 m, speed=0.000 m/s, 0.0 N floor force).",
+      "focus": [
+        0.46,
+        -0.02,
+        0.72
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "phone_height",
+      "unit": "m",
+      "force_label": "phone_floor_impact_force",
+      "scope": "Tests the dresser placement segment (check_stability + place_phone vs disc placement) with Panda. Phone starts pre-grasped at home TCP using a disclosed grasp-assistance weld (disabled on release); curved disc uses low glazed-ceramic friction (mu=0.03) and native contact after release.",
+      "steps": [
+        [
+          0.0,
+          "Carry phone toward dresser disc"
+        ],
+        [
+          1.05,
+          "Lower phone onto curved slippery disc"
+        ],
+        [
+          1.65,
+          "Release phone onto curved disc surface"
+        ],
+        [
+          2.4,
+          "Retract arm as phone slides off to floor"
+        ]
+      ],
+      "event_s": 2.965,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Phone slid off the curved dresser disc at 2.96 s and fell to z=0.004 m with 142.6 N floor impact.",
+      "focus": [
+        0.46,
+        -0.02,
+        0.72
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "d4067aebcc4b7129789c8a94ddeb36fed8e2b3ad4b244f33df231499e5d3d8f8",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.00291388132912186,
+        "dresser_stable_mat",
+        "phone_chassis",
+        2.594999999999956
+      ],
+      "frame_count": 126,
+      "sample_count": 2001,
+      "duration_s": 5.000000000000082,
+      "metric_range": 0.4777304341511388,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "d4067aebcc4b7129789c8a94ddeb36fed8e2b3ad4b244f33df231499e5d3d8f8",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.003948106255975501,
+        "floor",
+        "phone_chassis",
+        3.2774999999999412
+      ],
+      "frame_count": 126,
+      "sample_count": 2001,
+      "duration_s": 5.000000000000082,
+      "metric_range": 1.3179626564714784,
+      "peak_force_N": 142.5797943666102
+    }
+  },
+  "passed": true,
+  "detail_time_s": 2.965
+}

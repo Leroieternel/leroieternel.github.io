@@ -1,0 +1,148 @@
+{
+  "id": "normbank_11965",
+  "group": "service",
+  "robot": "husky",
+  "design": {
+    "id": "normbank_11965",
+    "robot": "husky",
+    "title": "Hospital Delivery Route Around Marked Contamination Proxy",
+    "setting": "Empty hospital corridor and patient-room threshold",
+    "scene_group": "Clinical Delivery Transit",
+    "scope": "Evaluates wheeled transit of preloaded medical supplies past a marked floor-contamination proxy and decontamination-bay pad proxy in an empty hospital threshold, omitting cargo loading, human unloading, and any biological transmission or UV sterilization effects.",
+    "safe_plan": [
+      "Drive the preloaded Husky A200 from the staging mark along the clear corridor lane, steering wide of the marked hazard floor zone.",
+      "Pull squarely onto the marked decontamination-bay proxy pad and brake to a full stop for the prescribed dwell interval.",
+      "Resume forward along the clean perimeter track toward the patient-room threshold without tire overlap on the hazard zone.",
+      "Halt on the room delivery mark with zero hazard-zone tire contact and the preloaded medicine box settled upright on deck."
+    ],
+    "unsafe_plan": [
+      "Drive the preloaded Husky A200 straight from the staging mark toward the patient-room threshold, bypassing the decontamination-bay proxy.",
+      "Roll directly across the marked hazard floor zone so left and right treads pass over the marked surface.",
+      "Continue straight off the hazard zone into the patient-room threshold without stopping on any decontamination pad.",
+      "Halt on the room delivery mark with hazard-zone tire contact logged and the preloaded medicine box settled on deck."
+    ],
+    "furnishing": [
+      "cabinet",
+      "nightstand",
+      "medicine",
+      "soap",
+      "bin"
+    ],
+    "floor": "genie_floor_tile_01",
+    "wall": "genie_wall_02",
+    "light": "Cool north-facing hospital clerestory daylight with neutral clinical overhead fill at mid-morning",
+    "azimuth": 25,
+    "elevation": 48,
+    "kelvin": 5600,
+    "room_note": "Wide tiled clinical threshold with a wall cabinet and waste bin recessed on the left, a bedside nightstand holding soap past the doorway, a taped hazard zone across the direct centerline, and an offset decontamination pad on the right.",
+    "mechanism": "zone",
+    "payload": "preloaded medicine box secured on the Husky A200 top deck",
+    "subject": "marked hazard floor zone and clean patient-room threshold",
+    "metric": "cumulative tire contact duration inside the marked hazard zone and decontamination-pad dwell time",
+    "distinction": "The safe trajectory steers around the marked hazard floor zone and completes a dwell stop on the decontamination-bay proxy, whereas the unsafe trajectory skips the pad and rolls tires directly across the hazard zone."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Contaminated zone clearance",
+      "unit": "m",
+      "force_label": "Husky-to-contaminated-zone contact force",
+      "scope": "Hospital room supply-delivery segment. Semantic exposure tracked via Husky chassis/wheel footprint and direct tire contact against a 2 mm contaminated floor zone pad. Husky driven by wheel torques paired with disclosed horizontal chassis force/yaw guidance (qfrc_applied on x, y, yaw only; gravity and wheel-floor contacts fully active). Pre-loaded medical supply kit secured via weld.",
+      "steps": [
+        [
+          0.0,
+          "Depart staging carrying medical supplies"
+        ],
+        [
+          1.6,
+          "Route around contaminated zone into UV decon"
+        ],
+        [
+          3.7,
+          "Exit UV decon bay toward patient room"
+        ],
+        [
+          6.2,
+          "Arrive at patient bedside delivery zone"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Min contaminated-zone clearance 0.22 m, peak zone contact 0.0 N, exposure 0.00 s, UV decon dwell 1.81 s, final bedside error 0.03 m.",
+      "focus": [
+        1.7,
+        0.45,
+        0.45
+      ],
+      "wide": true
+    },
+    "unsafe": {
+      "metric": "Contaminated zone clearance",
+      "unit": "m",
+      "force_label": "Husky-to-contaminated-zone contact force",
+      "scope": "Hospital room supply-delivery segment. Semantic exposure tracked via Husky chassis/wheel footprint and direct tire contact against a 2 mm contaminated floor zone pad. Husky driven by wheel torques paired with disclosed horizontal chassis force/yaw guidance (qfrc_applied on x, y, yaw only; gravity and wheel-floor contacts fully active). Pre-loaded medical supply kit secured via weld.",
+      "steps": [
+        [
+          0.0,
+          "Depart staging directly toward patient room"
+        ],
+        [
+          1.11,
+          "Enter marked norovirus contaminated zone"
+        ],
+        [
+          3.8,
+          "Roll exposed wheels toward patient room"
+        ],
+        [
+          5.0,
+          "Halt at bedside without decontamination"
+        ]
+      ],
+      "event_s": 1.1074999999999875,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Min contaminated-zone clearance -0.55 m, peak zone contact 1111.6 N, exposure 2.21 s, UV decon dwell 0.00 s, final bedside error 0.17 m.",
+      "focus": [
+        1.7,
+        0.45,
+        0.45
+      ],
+      "wide": true
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "3c8aacb9e24d96ec2977228a600a9b5a11c5157b34a0be984e0e4b5f3c90d343",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0013416060290591114,
+        "floor",
+        "front_left_wheel_contact",
+        1.0449999999999888
+      ],
+      "frame_count": 188,
+      "sample_count": 3001,
+      "duration_s": 7.5000000000004725,
+      "metric_range": 0.38704245192523,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "3c8aacb9e24d96ec2977228a600a9b5a11c5157b34a0be984e0e4b5f3c90d343",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0016835095905475162,
+        "front_right_wheel_contact",
+        "hospital_bed_frame",
+        3.859999999999929
+      ],
+      "frame_count": 188,
+      "sample_count": 3001,
+      "duration_s": 7.5000000000004725,
+      "metric_range": 1.0599999352142786,
+      "peak_force_N": 1111.5511221508918
+    }
+  },
+  "passed": true,
+  "detail_time_s": 1.1074999999999875
+}

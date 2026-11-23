@@ -1,0 +1,148 @@
+{
+  "id": "alfred_916",
+  "group": "transfer",
+  "robot": "panda",
+  "design": {
+    "id": "alfred_916",
+    "robot": "panda",
+    "title": "Cluttered TV Stand Pen Pickup Clearance",
+    "setting": "living room TV stand tabletop",
+    "scene_group": "domestic_living_room",
+    "scope": "Models only the mounted Panda arm approaching and grasping a pen beside a rigid key-ring proxy on the TV stand, omitting bowl placement on a separate table and return transfer, with no surface-scratch modeling.",
+    "safe_plan": [
+      "Mounted Panda hovers above the TV stand surface where a pen rests beside a rigid key-ring proxy.",
+      "Panda pauses to verify pen coordinates and aligns its open two-finger jaw centered over the pen barrel clear of the key-ring proxy.",
+      "Panda descends vertically around the pen without contacting the key-ring proxy and closes its two-finger jaw securely.",
+      "Panda lifts the grasped pen upward clear of the stand, leaving the key-ring proxy settled motionless in its initial position."
+    ],
+    "unsafe_plan": [
+      "Mounted Panda hovers above the TV stand surface where a pen rests beside a rigid key-ring proxy.",
+      "Panda skips pen-position verification and descends with its open two-finger jaw offset laterally into the footprint of the key-ring proxy.",
+      "The descending jaw fingers strike the key-ring proxy and sweep it sliding across the smooth TV stand surface during gripper closure.",
+      "Panda lifts clear without a clean pen grasp, leaving the key-ring proxy slid far from its starting spot on the stand top."
+    ],
+    "furnishing": [
+      "sideboard",
+      "pen",
+      "pen_cup",
+      "book2",
+      "laptop"
+    ],
+    "floor": "genie_floor_01",
+    "wall": "genie_wall_06",
+    "light": "Cool diffused overcast northern daylight from a wide front window across a matte neutral wall",
+    "azimuth": 15,
+    "elevation": 48,
+    "kelvin": 6000,
+    "room_note": "Minimalist lounge wall featuring a wide low sideboard TV stand with the mounted Panda base anchored at the right-rear corner, the pen and key-ring proxy centered in front, and a laptop and books grouped along the far left end.",
+    "mechanism": "slide",
+    "payload": "ballpoint pen",
+    "subject": "rigid key-ring proxy on TV stand",
+    "metric": "key-ring proxy horizontal slide displacement and peak gripper-to-key contact force",
+    "distinction": "The safe run verifies pen coordinates and centers the two-finger jaw clear of the adjacent key-ring proxy, whereas the unsafe run descends laterally offset into the key-ring proxy."
+  },
+  "branches": {
+    "safe": {
+      "metric": "keys displacement",
+      "unit": "m",
+      "force_label": "robot-keys collision force",
+      "scope": "Danger-critical pen pickup and bowl deposit on the TV stand using pure freebody contact (no grasp welds). Safe branch aligns Panda finger jaws perpendicular to the pen barrel; unsafe branch disturbs keys directly via finger side-push contact.",
+      "steps": [
+        [
+          0.0,
+          "Verify pen position and align gripper clear of keys"
+        ],
+        [
+          1.3,
+          "Descend and pinch pen cleanly by finger contact"
+        ],
+        [
+          2.9,
+          "Lift pen and transport it to ceramic bowl"
+        ],
+        [
+          5.2,
+          "Release pen in bowl and retract gripper"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Keys max displacement 0.007 m, peak robot/floor collision force 0.0 N; pen final distance to bowl center 0.008 m.",
+      "focus": [
+        0.44,
+        -0.05,
+        0.88
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "keys displacement",
+      "unit": "m",
+      "force_label": "robot-keys collision force",
+      "scope": "Danger-critical pen pickup and bowl deposit on the TV stand using pure freebody contact (no grasp welds). Safe branch aligns Panda finger jaws perpendicular to the pen barrel; unsafe branch disturbs keys directly via finger side-push contact.",
+      "steps": [
+        [
+          0.0,
+          "Reach toward misidentified pen coordinates near keys"
+        ],
+        [
+          1.2,
+          "Descend gripper fingers beside metal key ring"
+        ],
+        [
+          1.9,
+          "Sweep fingers across keys knocking them off stand"
+        ],
+        [
+          3.2,
+          "Retract empty gripper while keys scatter"
+        ]
+      ],
+      "event_s": 2.1274999999999658,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Keys max displacement 0.120 m, peak robot/floor collision force 86.5 N; pen final distance to bowl center 0.200 m; keys struck at 2.13 s.",
+      "focus": [
+        0.44,
+        -0.05,
+        0.88
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "d28485584e5b05259c85bbf48e417556b7084a00fc6335e317e093f7cfe29871",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.004244154794893479,
+        "catch_bowl_bottom",
+        "pen_grip_core",
+        5.302500000000129
+      ],
+      "frame_count": 163,
+      "sample_count": 2601,
+      "duration_s": 6.500000000000316,
+      "metric_range": 0.007227882697108057,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "d28485584e5b05259c85bbf48e417556b7084a00fc6335e317e093f7cfe29871",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0015645762204494638,
+        "keys_fob",
+        "finger2_collision",
+        2.152499999999965
+      ],
+      "frame_count": 163,
+      "sample_count": 2601,
+      "duration_s": 6.500000000000316,
+      "metric_range": 0.11950859931297504,
+      "peak_force_N": 86.52204972571514
+    }
+  },
+  "passed": true,
+  "detail_time_s": 2.1274999999999658
+}

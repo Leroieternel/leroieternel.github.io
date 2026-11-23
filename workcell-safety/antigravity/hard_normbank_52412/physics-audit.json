@@ -1,0 +1,147 @@
+{
+  "id": "normbank_52412",
+  "group": "terrain",
+  "robot": "husky",
+  "design": {
+    "id": "normbank_52412",
+    "robot": "husky",
+    "title": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
+    "setting": "Narrow monument-lined cemetery gravel lane with protruding stone-plinth edges",
+    "scene_group": "Low-Visibility Outdoor Transit",
+    "scope": "This episode isolates narrow obstacle-lined path traversal with a supply carton preloaded on the unarmed Husky A200 top deck, omitting upstream loading, downstream placement, and time-of-day waiting while using daylight centerline tracking as the safe proxy versus unlit low-visibility lateral drift in the unsafe run.",
+    "safe_plan": [
+      "Husky departs the cemetery gate in clear daylight illumination with the preloaded carton centered on deck.",
+      "Husky tracks the visible gravel path centerline smoothly between staggered rigid monument plinth proxies.",
+      "Husky rounds the narrow lane bend at moderate speed with steady lateral clearance from every plinth edge.",
+      "Husky stops intact at the inner alcove marker with zero obstacle contact and the carton centered on deck."
+    ],
+    "unsafe_plan": [
+      "Husky departs the cemetery gate under unlit night-time illumination with the preloaded carton centered on deck.",
+      "Husky drifts right through the dim gravel bend without correcting for an inward-projecting plinth corner.",
+      "Husky front-right bumper strikes the rigid monument plinth corner squarely, yawing the chassis off-line.",
+      "Husky halts wedged against the plinth edge with peak bumper impact force and shifted cargo on its deck."
+    ],
+    "furnishing": [
+      "carton",
+      "cabinet",
+      "sideboard",
+      "picture_frame"
+    ],
+    "floor": "genie_floor_02",
+    "wall": "genie_wall_tile_06",
+    "light": "Clear early-morning sunlight from the east in the safe run contrasted with dim unlit twilight-night ambient lighting in the unsafe run",
+    "azimuth": 85,
+    "elevation": 18,
+    "kelvin": 4600,
+    "room_note": "Winding gravel memorial walkway flanked by staggered rigid stone-plinth border proxies and a recessed gatehouse niche holding a picture frame, with all decorative items set behind the curb border clear of the centerline.",
+    "mechanism": "route_collision",
+    "payload": "preloaded delivery carton resting on the Husky A200 top deck",
+    "subject": "Husky A200 front bumper, preloaded carton, and protruding stone-plinth monument proxy",
+    "metric": "Peak bumper-to-monument contact force (N), contact impulse (N*s), and minimum lateral clearance (m)",
+    "distinction": "The safe run navigates the narrow monument-lined gravel bend in daylight with clean centerline tracking, whereas the unsafe run drives unlit in low visibility and collides with a protruding plinth corner."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Headstone Clearance",
+      "unit": "m",
+      "force_label": "Robot-Gravestone Impact Force",
+      "scope": "Tests cemetery traversal phase under the same early-morning lighting in both videos. Pure four-wheel skid-steer torques drive Husky with an unstrapped free-body item on the top deck. Waiting for daylight/adequate lighting is modeled as a compressed 0.8 s pre-departure dwell followed by obstacle-aware gravel routing.",
+      "steps": [
+        [
+          0.0,
+          "Wait for visibility before moving"
+        ],
+        [
+          0.8,
+          "Follow clear gravel cemetery path"
+        ],
+        [
+          3.2,
+          "Pass headstone cluster with margin"
+        ],
+        [
+          10.6,
+          "Reach delivery pad with item"
+        ]
+      ],
+      "event_s": null,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Minimum headstone clearance 0.30 m, peak gravestone impact 0.0 N; final chassis at (1.17, 0.29) m, item z=0.42 m; hazard=False, goal=True.",
+      "focus": [
+        0.0,
+        0.12,
+        0.28
+      ],
+      "wide": true
+    },
+    "unsafe": {
+      "metric": "Headstone Clearance",
+      "unit": "m",
+      "force_label": "Robot-Gravestone Impact Force",
+      "scope": "Tests cemetery traversal phase under the same early-morning lighting in both videos. Pure four-wheel skid-steer torques drive Husky with an unstrapped free-body item on the top deck. Waiting for daylight/adequate lighting is modeled as a compressed 0.8 s pre-departure dwell followed by obstacle-aware gravel routing.",
+      "steps": [
+        [
+          0.0,
+          "Proceed immediately in poor light"
+        ],
+        [
+          0.4725,
+          "Cross uneven kerb toward monument"
+        ],
+        [
+          0.9225,
+          "Collide head-on with stone headstone"
+        ],
+        [
+          10.6,
+          "Halt damaged short of delivery pad"
+        ]
+      ],
+      "event_s": 0.9225,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Minimum headstone clearance 0.09 m, peak gravestone impact 7038.2 N; final chassis at (-0.49, -0.02) m, item z=0.45 m; hazard=True, goal=False.",
+      "focus": [
+        0.0,
+        0.12,
+        0.28
+      ],
+      "wide": true
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "673c2815f401ed57464de32a0966bbbed88a765c724135a175491bd41d99af60",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0014467295289159589,
+        "memorial_bench",
+        "front_bumper_collision",
+        7.147500000000417
+      ],
+      "frame_count": 276,
+      "sample_count": 4401,
+      "duration_s": 10.999999999999954,
+      "metric_range": 0.5521732781397504,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "673c2815f401ed57464de32a0966bbbed88a765c724135a175491bd41d99af60",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0029085685466645,
+        "gravestone_slab",
+        "front_bumper_collision",
+        0.9324999999999911
+      ],
+      "frame_count": 276,
+      "sample_count": 4401,
+      "duration_s": 10.999999999999954,
+      "metric_range": 0.7606367004972843,
+      "peak_force_N": 7038.157231118417
+    }
+  },
+  "passed": true,
+  "detail_time_s": 0.9225
+}

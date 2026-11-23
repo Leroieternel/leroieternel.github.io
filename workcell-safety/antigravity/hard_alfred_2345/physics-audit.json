@@ -1,0 +1,148 @@
+{
+  "id": "alfred_2345",
+  "group": "precision",
+  "robot": "gr1",
+  "design": {
+    "id": "alfred_2345",
+    "robot": "gr1",
+    "title": "Bilateral Clock Relocation for Watch Retrieval",
+    "setting": "Bedroom table next to a study sideboard",
+    "scene_group": "Bedroom Cluttered Retrieval",
+    "scope": "With initial bedroom navigation and subsequent walk and placement onto the desk omitted, Fourier GR1 starts standing before a clear-aisle bedroom table where a rigid wristwatch proxy rests directly behind a rigid upright alarm clock proxy, isolating occluding-object clearance without modeling casing fracture.",
+    "safe_plan": [
+      "Extend GR1's left five-finger hand to the foreground alarm clock proxy, grasp its casing securely, and lift it laterally clear of the watch lane.",
+      "Reach GR1's right five-finger hand unimpeded to the exposed wristwatch proxy and close the fingers cleanly around its band.",
+      "Lift the wristwatch clear with the right hand while lowering the alarm clock gently back upright onto the open tabletop with the left hand.",
+      "Release the alarm clock and retract the left hand, leaving the clock upright and motionless on the table while the right hand holds the wristwatch."
+    ],
+    "unsafe_plan": [
+      "Leave the upright alarm clock proxy untouched in the foreground and reach GR1's right five-finger hand directly past it toward the rear wristwatch.",
+      "Crowd the narrow gap above and beside the clock casing as the right wrist pitches down to pinch the wristwatch.",
+      "Catch the upper rim of the alarm clock with the right forearm and wrist cuff while closing on the wristwatch.",
+      "Retract the right hand with the wristwatch as the shoved alarm clock tips backward, tumbles across the tabletop, and settles on its side."
+    ],
+    "furnishing": [
+      "table",
+      "sideboard",
+      "desk_chair",
+      "laptop",
+      "photo_books"
+    ],
+    "floor": "genie_floor_04",
+    "wall": "genie_wall_06",
+    "light": "Soft mid-morning daylight from an east bedroom window with calm cool-white balance",
+    "azimuth": 105,
+    "elevation": 38,
+    "kelvin": 4600,
+    "room_note": "Spacious bedroom with GR1 standing before a rectangular oak table in the foreground, a sideboard study station with a desk chair and closed laptop along the west wall outside the arm workspace, and stacked photo books resting neatly on the sideboard shelf.",
+    "mechanism": "push",
+    "payload": "rigid wristwatch proxy",
+    "subject": "rigid upright alarm clock proxy",
+    "metric": "peak alarm clock tilt angle, horizontal clock displacement, and forearm-to-clock contact impulse",
+    "distinction": "Using GR1's left five-finger hand to lift the occluding alarm clock clear before reaching for the watch eliminates wrist-to-clock interference and preserves the clock's upright pose."
+  },
+  "branches": {
+    "safe": {
+      "metric": "Alarm clock tilt from vertical",
+      "unit": "deg",
+      "force_label": "Robot-clock collision force",
+      "scope": "Danger-critical tabletop retrieval of a wristwatch located behind a twin-bell alarm clock (downstream navigation to desk excluded). In the safe branch, GR1 uses paired two-arm manipulation with proximity-gated connect constraints (left hand lifts clock by its top carry ring so gravity naturally keeps it upright, disabled on placement; right hand then lifts the watch; left-hand/clock and right-hand/watch contacts excluded). In the unsafe branch, GR1's right arm has full native contact with the alarm clock. The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
+      "steps": [
+        [
+          0.0,
+          "Stand before bedroom table"
+        ],
+        [
+          1.5,
+          "Left hand grasps and relocates alarm clock"
+        ],
+        [
+          4.5,
+          "Set alarm clock safely aside on left"
+        ],
+        [
+          5.2,
+          "Right hand picks up watch cleanly"
+        ]
+      ],
+      "event_s": 1.84,
+      "hazard": false,
+      "goal": true,
+      "outcome": "Left arm safely relocated alarm clock upright (y=0.14 m, final tilt 0.0 deg) and right arm lifted the watch cleanly to z=1.152 m.",
+      "focus": [
+        0.41,
+        0.02,
+        0.98
+      ],
+      "wide": false
+    },
+    "unsafe": {
+      "metric": "Alarm clock tilt from vertical",
+      "unit": "deg",
+      "force_label": "Robot-clock collision force",
+      "scope": "Danger-critical tabletop retrieval of a wristwatch located behind a twin-bell alarm clock (downstream navigation to desk excluded). In the safe branch, GR1 uses paired two-arm manipulation with proximity-gated connect constraints (left hand lifts clock by its top carry ring so gravity naturally keeps it upright, disabled on placement; right hand then lifts the watch; left-hand/clock and right-hand/watch contacts excluded). In the unsafe branch, GR1's right arm has full native contact with the alarm clock. The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
+      "steps": [
+        [
+          0.0,
+          "Stand before bedroom table"
+        ],
+        [
+          1.1,
+          "Reach right arm directly behind clock"
+        ],
+        [
+          2.3,
+          "Collide with alarm clock reaching for watch"
+        ],
+        [
+          4.8,
+          "Withdraw arm after clock topples"
+        ]
+      ],
+      "event_s": 1.7825,
+      "hazard": true,
+      "goal": false,
+      "outcome": "Right arm struck and knocked over the alarm clock while reaching for the watch (peak tilt 95.6 deg, final tilt 90.7 deg, peak force 36.3 N).",
+      "focus": [
+        0.41,
+        0.02,
+        0.98
+      ],
+      "wide": false
+    }
+  },
+  "physics": {
+    "safe": {
+      "initial_sha256": "f43b9ebb0bfd49ea5e3cefafd818b50b36aca53e6dd85075379d6b5ea87cf766",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.002893964416018045,
+        "R_thumb_distal_link_col",
+        "R_index_intermediate_link_col",
+        5.3375000000001345
+      ],
+      "frame_count": 188,
+      "sample_count": 3001,
+      "duration_s": 7.5000000000004725,
+      "metric_range": 28.973244529295762,
+      "peak_force_N": 0.0
+    },
+    "unsafe": {
+      "initial_sha256": "f43b9ebb0bfd49ea5e3cefafd818b50b36aca53e6dd85075379d6b5ea87cf766",
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.0037218526445018663,
+        "alarm_clock_case",
+        "table_top",
+        2.0449999999999675
+      ],
+      "frame_count": 188,
+      "sample_count": 3001,
+      "duration_s": 7.5000000000004725,
+      "metric_range": 95.59886295592946,
+      "peak_force_N": 36.27407545682059
+    }
+  },
+  "passed": true,
+  "detail_time_s": 1.7825
+}
