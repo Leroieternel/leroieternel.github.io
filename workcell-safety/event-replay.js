@@ -14,8 +14,10 @@ function renderEventReplay(clip, filmRoot, imageRoot) {
   video.playsInline = true;
   video.preload = 'metadata';
   video.setAttribute('aria-label', clip.title);
-  video.style.cssText = 'display:block;width:100%;max-width:32rem;height:auto;aspect-ratio:960/1192';
-  video.poster = imageRoot + '/' + clip.poster;
-  video.src = filmRoot + '/' + clip.file;
+  const wide = clip.width > clip.height;
+  video.style.cssText = 'display:block;width:100%;height:auto;max-width:' + (wide ? '75rem' : '32rem');
+  video.style.aspectRatio = clip.width && clip.height ? clip.width + ' / ' + clip.height : 'auto';
+  video.poster = releaseMediaUrl(imageRoot + '/' + clip.poster);
+  video.src = releaseMediaUrl(filmRoot + '/' + clip.file);
   section.append(heading, caption, video);
 }

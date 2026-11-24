@@ -2,37 +2,37 @@
 const cases=[...(window.EVERYDAY_STUDIES||[]),...(window.MOBILE_WORLDS||[]),...window.WORKCELLS];
 registerStudyScenes(window.EVERYDAY_STUDIES||[]);
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
-const versioned=url=>url+'?v='+(url.includes('/shared_')?'shared-human-motion-v5':url.includes('everyday_drawer/')?'drawer-contact-v1':((url.includes('/long_')||url.includes('antigravity/mobile_'))?'spatial-ff15c4b863da':url.includes('hard_virtualhome_31/')?'milk-rim-2':url.includes('people_cafe/')?'cafe-grip-2':'mobile-worlds-1'));
+const versioned = releaseMediaUrl;
 const mediaUrl=(c,file)=>(c.filmBase&&file.endsWith('.mp4')?c.filmBase:c.base)+'/'+file;
 const by=id=>document.getElementById(id);
 const link=(text,url)=>{const a=node('a',null,text);a.href=url;return a};
 let item,vids=[],paired=false,tick=0,slowEnd=null;
 const tLabel=t=>t.toFixed(2)+' s';
 function stopPair(){
-  paired=false;cancelAnimationFrame(tick);slowEnd=null;vids.forEach(v=>v.playbackRate=1);
+  paired=false;cancelAnimationFrame(tick);slowEnd=null;vids.forEach(v=>v.playbackRate=v.defaultPlaybackRate);
   by('play').textContent='Play together';
 }
 function pauseBoth(){stopPair();vids.forEach(v=>v.pause())}
 function loop(){
   if(!paired)return;
-  if(slowEnd!==null&&vids[0].currentTime>=slowEnd){vids.forEach(v=>v.playbackRate=1);slowEnd=null}
-  if(vids.some(v=>v.ended)){pauseBoth();return}
-  if(vids.every(v=>v.readyState>=3)&&Math.abs(vids[0].currentTime-vids[1].currentTime)>.15)vids[1].currentTime=vids[0].currentTime;
+  if(slowEnd!==null&&Math.max(...vids.map(v=>v.currentTime))>=slowEnd){vids.forEach(v=>v.playbackRate=v.defaultPlaybackRate);slowEnd=null}
+  if(vids.every(atReplayEnd)){pauseBoth();return}
+  syncLiveReplays(vids);
   tick=requestAnimationFrame(loop);
 }
 async function playPair(at,rate=1,until=null){
   cancelAnimationFrame(tick);
-  if(at===undefined)at=vids.some(v=>v.ended)?0:vids[0].currentTime;
+  if(at===undefined)at=pairPosition(vids);
   slowEnd=until;
-  vids.forEach(v=>{v.currentTime=at;v.playbackRate=rate});paired=true;by('play').textContent='Pause both';
-  try{await Promise.all(vids.map(v=>v.play()));if(paired)loop()}catch{pauseBoth()}
+  paired=true;by('play').textContent='Pause both';
+  try{await startReplays(vids,at,rate);if(paired)loop()}catch{pauseBoth()}
 }
 by('play').onclick=()=>paired?pauseBoth():playPair();
 function seekTo(t){
   pauseBoth();
   vids.forEach(v=>{if(v.readyState>=1)v.currentTime=t;else v.addEventListener('loadedmetadata',()=>v.currentTime=t,{once:true})})
 }
-by('event').onclick=()=>seekTo(item.event);
+by('event').onclick=()=>seekTo(item.eventFrameTime??item.event);
 function picture(url,alt){
   const a=link('',url);a.target='_blank';a.rel='noopener';const im=node('img');im.src=url;im.alt=alt;im.loading='lazy';a.append(im);return a;
 }
@@ -66,19 +66,19 @@ function render(c){
   for(const [id,name] of c.trials||[]){
     const btn=node('button',null,name);btn.type='button';btn.setAttribute('aria-pressed',String(c.id===id));btn.onclick=()=>{location.hash=id};trials.append(btn);
   }
-  const room=by('room-view');room.hidden=!c.mobile;
+  const room=by('room-view');room.hidden=!(c.mobile||c.roomPhotographs);
   by('main').classList.toggle('mobile-study',!!(c.mobile||c.editionId));
-  if(c.mobile){
+  if(c.mobile||c.roomPhotographs){
     const cap=by('room-caption'),image=by('room-photo'),photoLink=by('room-link');
     const actions=node('div','photo-actions'),full=link('Open 4K photograph','');
     cap.replaceChildren(node('span',null,c.roomCaption),actions);
-    const options=[['Room overview','world'],['Aisle at eye level','aisle']];
+    const options=c.roomPhotographs||[['Room overview','world'],['Aisle at eye level','aisle']];
     const choose=(idx)=>{
       const [label,file]=options[idx],src=c.base+'/'+file;
       image.src=versioned(src+'-preview.jpg');
       image.srcset=versioned(src+'-preview.jpg')+' 1600w, '+versioned(src+'.jpg')+' 3840w';
       image.sizes='(max-width: 820px) 96vw, 75vw';
-      image.alt=c.robot+' in '+c.robotShort+' — '+label.toLowerCase();
+      image.alt=c.title+' · '+label;
       photoLink.href=full.href=versioned(src+'.jpg');
       for(const btn of actions.querySelectorAll('button'))btn.setAttribute('aria-pressed',String(Number(btn.dataset.view)===idx));
     };
@@ -99,11 +99,11 @@ function render(c){
   if(c.handSource)specs.append(link('Panda Hand model',c.handSource));
   const chapters=by('chapters');chapters.replaceChildren();
   if(c.slowRange){const slow=node('button','slow-button','Replay incident at ¼ speed');slow.type='button';slow.onclick=()=>playPair(c.slowRange[0],.25,c.slowRange[1]);chapters.append(slow)}
-  for(const [label,t] of c.chapters||[]){const button=node('button',null,label+' · '+tLabel(t));button.type='button';button.onclick=()=>seekTo(t);chapters.append(button)}
+  for(const [label,t] of c.chapters||[]){const button=node('button',null,label+' · '+tLabel(t));button.type='button';button.onclick=()=>seekTo(t===c.event?(c.eventFrameTime??t):t);chapters.append(button)}
   const sequence=by('sequence');sequence.replaceChildren();sequence.hidden=!c.sequenceCaption;
   const study=by('high-speed');study.replaceChildren();study.hidden=!c.highSpeed;
   if(c.highSpeed){
-    const video=node('video');video.controls=true;video.playsInline=true;video.preload='metadata';
+    const video=node('video');video.defaultPlaybackRate=c.nativePlaybackRate||1;video.playbackRate=video.defaultPlaybackRate;video.controls=true;video.playsInline=true;video.preload='metadata';
     video.poster=versioned(c.base+'/slow_poster.jpg');video.src=versioned(c.base+'/incident-slow.mp4');
     video.setAttribute('aria-label','Ten-times slow-motion incident comparison');
     study.append(node('h3',null,'Incident in slow motion'),video,node('figcaption',null,'Each frame is a MuJoCo state sampled 4 ms apart and played at 25 fps. The clock shows simulation time. The force plot uses all 1,000 solver samples per second.'));
@@ -121,9 +121,9 @@ function render(c){
   for(const key of ['unsafe','safe']){
     const data=c[key],name=key==='unsafe'?'Unsafe':'Safe',base=c.base+'/';
     const player=node('div','player '+key);player.append(node('h3',null,name+' replay'));
-    const video=node('video');video.setAttribute('aria-label',name+' replay of '+c.title);video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=versioned(base+key+'_poster.jpg');
+    const video=node('video');video.defaultPlaybackRate=c.nativePlaybackRate||1;video.playbackRate=video.defaultPlaybackRate;video.setAttribute('aria-label',name+' replay of '+c.title);video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=versioned(base+key+'_poster.jpg');
     const source=node('source');source.type='video/mp4';source.src=versioned(mediaUrl(c,key+'.mp4'));video.append(source);
-    video.addEventListener('pause',()=>{if(paired&&vids.includes(video))pauseBoth()});vids.push(video);
+    video.addEventListener('pause',()=>{if(paired&&vids.includes(video)&&!atReplayEnd(video))pauseBoth()});vids.push(video);
     player.append(video,node('small',null,data.summary));by('players').append(player);
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){
