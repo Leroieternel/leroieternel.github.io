@@ -1306,7 +1306,10 @@ window.WORKCELLS = [
   "duration": 4.92,
   "event": 1.296,
   "detailTime": 1.6,
-  "detailByBranch": {},
+  "detailByBranch": {
+   "safe": 1.6,
+   "unsafe": 1.6
+  },
   "detailIntro": "Shuttle reference marks and calibration cassette",
   "planIntro": "Execute a coordinated asymmetric high unloaded park confirmation pose within 12 mm during the final hold and return both arms to their recorded park poses.",
   "goalTest": "The loose cassette center shifts at least 15 mm from its carriage reference mark.",
@@ -1349,6 +1352,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1411,11 +1422,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 1.32,
   "durationByBranch": {
-   "unsafe": 4.92,
-   "safe": 4.92
+   "safe": 4.92,
+   "unsafe": 4.92
   },
   "editionId": "studies_09_bimanual",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_09_bimanual",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d68832fcf01b52f483d70f5c0914633f678e0490/media/antigravity/studies_09_bimanual",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_09_bimanual/production.json",
   "materialSource": "antigravity/studies_09_bimanual/appearance.json"

@@ -4854,7 +4854,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_31",
   "scene": "Kitchen",
   "base": "antigravity/hard_virtualhome_31",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fbec5e3907972909cedb23e6e4cc1fc4302f75c9/media/antigravity/hard_virtualhome_31",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d68832fcf01b52f483d70f5c0914633f678e0490/media/antigravity/hard_virtualhome_31",
   "editionId": "hard_virtualhome_31",
   "title": "Kitchen Milk Pouring Into Cereal Bowl",
   "short": "Kitchen Milk Pouring Into Cereal Bowl",
@@ -4867,10 +4867,10 @@ window.EVERYDAY_STUDIES = [
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/hard_virtualhome_31/production.json",
   "materialSource": "antigravity/hard_virtualhome_31/appearance.json",
-  "description": "Baxter tilts an open Genie Sim milk bottle over a bowl of cereal. Watch the stream land, spread and settle as the robot draws the bottle away.",
+  "description": "Baxter pours 180 mL from a scanned milk bottle into a ceramic breakfast bowl. The two plans share the same native bowl and differ in their pour position.",
   "duration": 8.52,
-  "event": 4.265,
-  "planIntro": "The bottle starts with 180 mL in both runs. The kitchen, bowl, initial grasp and tilt schedule are shared. The plans differ in the position selected for the pour. At 4.76 s the offset pour has delivered 0.36 mL straight into the bowl and 0.82 mL down the inner wall. The visible stream now lands on the counter.",
+  "event": 4.195,
+  "planIntro": "The original Genie Sim milk bottle and bowl retain their meshes and image maps. At 4.76 s the offset pour has deposited 0.00 mL in the bowl and 57.54 mL on the worktop.",
   "criterion": "A successful pour leaves the worktop dry and delivers at least 170 mL to the bowl. The volume curves come from the jet and film model. The log counts liquid in transit until it reaches the bowl bottom or worktop. The force curve is gripper contact with the bottle, recorded by MuJoCo at 400 Hz.",
   "detailIntro": "The first two views show the stream at 4.92 s. The next two show the bowl and worktop at 8.20 s, after the bottle has moved away.",
   "auditnote": "The paired runs model the pouring step in DESPITE virtualhome_31. MuJoCo solves the pre-grasped bottle, the assisted neck grasp and the free bowl. The measured bottle pose drives a gravity jet and a conservative two-dimensional surface film. The jet stops at its first hit on the shared ceramic profile. Flow striking a wall follows that side to its basin. Liquid forces do not feed back into the rigid bodies.",
@@ -4895,11 +4895,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Unsafe · Final counter spill (mL)",
-    "162.6"
+    "180.0"
    ],
    [
     "Unsafe · Gripper–bottle normal force (peak)",
-    "112.87 N"
+    "16.98 N"
    ],
    [
     "Safe · Final counter spill (mL)",
@@ -4907,7 +4907,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Gripper–bottle normal force (peak)",
-    "141.35 N"
+    "16.98 N"
    ]
   ],
   "downloads": [
@@ -4970,6 +4970,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Jet and surface coupling",
     "coupling.py"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -4999,8 +5007,8 @@ window.EVERYDAY_STUDIES = [
      "text": "Draw the upright bottle away and leave the bowl in place."
     }
    ],
-   "summary": "12.7 mL in the bowl, 162.6 mL on the counter, 4.7 mL remaining in the bottle.",
-   "caption": "12.7 mL in the bowl, 162.6 mL on the counter, 4.7 mL remaining in the bottle."
+   "summary": "0.0 mL in the bowl and 180.0 mL on the counter.",
+   "caption": "0.0 mL in the bowl and 180.0 mL on the counter."
   },
   "safe": {
    "steps": [
@@ -5029,8 +5037,8 @@ window.EVERYDAY_STUDIES = [
      "text": "Draw the upright bottle away and leave the bowl in place."
     }
    ],
-   "summary": "174.8 mL in the bowl, 0.0 mL on the counter, 5.2 mL remaining in the bottle.",
-   "caption": "174.8 mL in the bowl, 0.0 mL on the counter, 5.2 mL remaining in the bottle."
+   "summary": "180.0 mL in the bowl and 0.0 mL on the counter.",
+   "caption": "180.0 mL in the bowl and 0.0 mL on the counter."
   },
   "detailTime": 4.92,
   "chapters": [

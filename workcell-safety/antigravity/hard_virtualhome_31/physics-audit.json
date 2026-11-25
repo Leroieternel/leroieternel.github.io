@@ -1,53 +1,403 @@
 {
+ "rigid": {
   "task": "virtualhome_31",
-  "same_initial_pose": true,
-  "initial_milk_ml": 180,
-  "physics_hz": 400,
-  "outlet_sampling_hz": 200,
-  "surface_integration_hz": 100,
-  "frames_per_second": 25,
-  "physics_s": "MuJoCo solves the robot, grasp and bowl. Computed jet and film do not feed forces back into the rigid bodies. An assisted grasp holds the open bottle at its neck.",
-  "surface_method": "Hydrostatic discharge at the tracked lip, gravity-driven jet and conservative finite-volume wetting layers on the bowl and worktop. The short splash sheet at impact is a visual reconstruction driven by flow and speed.",
-  "links": {
-    "bottle": "bottle-source.json",
-    "solver": "liquid-film.py"
+  "removed_visual_helpers": [
+   "left_shank",
+   "left_grip_adapter",
+   "right_shank",
+   "right_grip_adapter"
+  ],
+  "preserved_native_gripper_geoms": {
+   "right_l_fingerpad": [
+    "right_l_fingerpad_g0"
+   ],
+   "right_r_fingerpad": [
+    "right_r_fingerpad_g0"
+   ],
+   "right_l_finger_col": [
+    "right_l_finger_g0",
+    "right_l_finger_g1",
+    "right_l_fingertip_g0",
+    "right_l_fingerpad_g0"
+   ],
+   "right_r_finger_col": [
+    "right_r_finger_g0",
+    "right_r_finger_g1",
+    "right_r_fingertip_g0",
+    "right_r_fingerpad_g0"
+   ],
+   "left_l_finger_col": [
+    "left_l_finger_g0",
+    "left_l_finger_g1",
+    "left_l_fingertip_g0",
+    "left_l_fingerpad_g0"
+   ],
+   "left_r_finger_col": [
+    "left_r_finger_g0",
+    "left_r_finger_g1",
+    "left_r_fingertip_g0",
+    "left_r_fingerpad_g0"
+   ]
+  },
+  "bottle_port_local_m": [
+   -0.0015,
+   -0.0007,
+   0.112
+  ],
+  "bottle_grip_local_m": [
+   -0.0015,
+   0.0349,
+   0.032
+  ],
+  "bottle_cross_section_at_grip_mm": {
+   "width_x": 70.201,
+   "depth_y": 118.0,
+   "z_below_port": 80.0
+  },
+  "approach_yaw_rad": 0.56,
+  "approach_yaw_deg": 32.086,
+  "pour_sign": -1,
+  "bottle_initial_yaw_deg": 122.086,
+  "barrel_flip_180": true,
+  "hand_relative_grasp": {
+   "bottle_pos_in_tcp_m": [
+    -0.032,
+    -0.0015,
+    0.0293
+   ],
+   "bottle_quat_in_tcp": [
+    -0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "jaw_axis_in_tcp": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "approach_axis_in_tcp": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pad_midpoint_in_tcp_m": [
+    -0.0,
+    0.0,
+    -0.0056
+   ]
+  },
+  "gripper_stroke_calibration": {
+   "joint_names": [
+    "right_l_finger_joint",
+    "right_r_finger_joint"
+   ],
+   "joint_ranges_m": {
+    "right_l_finger_joint": [
+     -0.0115,
+     0.020833
+    ],
+    "right_r_finger_joint": [
+     -0.020833,
+     0.0115
+    ]
+   },
+   "pad_aperture_closed_mm": 14.1,
+   "pad_aperture_midpoint_mm": 46.433,
+   "pad_aperture_open_mm": 78.766,
+   "touch_closure": 0.24516,
+   "init_contact_closure": 0.26199,
+   "commanded_closure": 0.42199,
+   "weld_solref": [
+    0.04,
+    1.0
+   ],
+   "weld_solimp": [
+    0.82,
+    0.94,
+    0.003
+   ]
+  },
+  "calibration_metrics": {
+   "max_ik_pos_err_mm": 7.039984936821526,
+   "max_ik_rot_err_deg": 0.6488006614274863,
+   "min_w2_limit_margin_rad": 2.02712669062373,
+   "min_wrist_table_clearance_mm": 247.44127975462172,
+   "min_arm_to_arm_clearance_mm": 207.72833227711072
   },
   "branches": {
-    "safe": {
-      "bottle_ml": 5.17804366,
-      "bowl_ml": 174.821956,
-      "counter_ml": 0.0,
-      "in_flight_ml": 0.0,
-      "optical_pose_frames": 213,
-      "max_render_grid_volume_error_ml": 5.738575907798804e-07,
-      "max_logged_volume_error_ml": 4.999999987376214e-07,
-      "max_depth_bowl_mm": 6.150845527648926,
-      "max_depth_counter_mm": 0.0,
-      "minimum_contact_distance_mm": -1.571790799706728,
-      "maximum_bowl_displacement_mm": 0.23247045472055242,
-      "peak_gripper_normal_force_N": 141.35095408444755,
-      "peak_estimated_jet_momentum_flux_N": 0.273671348,
-      "rigid_render_sample_offset_s": 0.0025,
-      "max_bottle_render_sample_displacement_mm": 1.3173121369636465,
-      "wet_counter_edge": false
+   "safe": {
+    "pouring_interval_s": [
+     3.68,
+     6.72
+    ],
+    "pouring_sample_count": 77,
+    "gripper_aperture_mm": {
+     "initial": 67.85,
+     "min_all": 67.85,
+     "max_all": 71.042,
+     "pouring_min": 68.868,
+     "pouring_max": 69.115,
+     "pouring_mean": 69.026,
+     "at_detail_time": 69.072
     },
-    "unsafe": {
-      "bottle_ml": 4.70327486,
-      "bowl_ml": 12.6998658,
-      "counter_ml": 162.596859,
-      "in_flight_ml": 0.0,
-      "optical_pose_frames": 213,
-      "max_render_grid_volume_error_ml": 5.783807353054726e-07,
-      "max_logged_volume_error_ml": 5.200000146032835e-07,
-      "max_depth_bowl_mm": 1.2790452241897583,
-      "max_depth_counter_mm": 2.5900723934173584,
-      "minimum_contact_distance_mm": -1.571790799706728,
-      "maximum_bowl_displacement_mm": 0.23247045472055242,
-      "peak_gripper_normal_force_N": 112.8719919019974,
-      "peak_estimated_jet_momentum_flux_N": 0.32141364,
-      "rigid_render_sample_offset_s": 0.0025,
-      "max_bottle_render_sample_displacement_mm": 0.8496819774110398,
-      "wet_counter_edge": false
+    "left_finger_surface_distance_mm": {
+     "initial": -0.35,
+     "min_all": -0.35,
+     "max_all": 2.212,
+     "pouring_min": -0.027,
+     "pouring_max": 0.001,
+     "pouring_mean": -0.016,
+     "at_detail_time": -0.015
+    },
+    "right_finger_surface_distance_mm": {
+     "initial": -0.35,
+     "min_all": -0.35,
+     "max_all": 0.717,
+     "pouring_min": -0.024,
+     "pouring_max": 0.075,
+     "pouring_mean": 0.038,
+     "at_detail_time": 0.075
+    },
+    "palm_to_bottle_clearance_mm": {
+     "initial": 10.0,
+     "min_all": 9.762,
+     "max_all": 10.411,
+     "pouring_min": 9.917,
+     "pouring_max": 10.198,
+     "pouring_mean": 9.99,
+     "at_detail_time": 9.967
+    },
+    "proximal_finger_to_bottle_clearance_mm": {
+     "initial": 1.456,
+     "min_all": 1.456,
+     "max_all": 2.586,
+     "pouring_min": 1.592,
+     "pouring_max": 1.702,
+     "pouring_mean": 1.672,
+     "at_detail_time": 1.701
+    },
+    "wrist_to_table_clearance_mm": {
+     "initial": 192.026,
+     "min_all": 178.87,
+     "max_all": 327.164,
+     "pouring_min": 288.682,
+     "pouring_max": 327.164,
+     "pouring_mean": 316.39,
+     "at_detail_time": 318.705
+    },
+    "forearm_to_table_clearance_mm": {
+     "initial": 192.026,
+     "min_all": 178.87,
+     "max_all": 327.164,
+     "pouring_min": 288.682,
+     "pouring_max": 327.164,
+     "pouring_mean": 316.39,
+     "at_detail_time": 318.705
+    },
+    "wrist_to_table_back_lip_clearance_mm": {
+     "initial": 192.026,
+     "min_all": 178.87,
+     "max_all": 327.165,
+     "pouring_min": 291.658,
+     "pouring_max": 327.165,
+     "pouring_mean": 316.993,
+     "at_detail_time": 318.749
+    },
+    "right_arm_to_left_arm_clearance_mm": {
+     "initial": 270.369,
+     "min_all": 233.695,
+     "max_all": 333.26,
+     "pouring_min": 272.762,
+     "pouring_max": 319.93,
+     "pouring_mean": 285.531,
+     "at_detail_time": 272.954
+    },
+    "mouth_to_finger_clearance_mm": {
+     "initial": 79.043,
+     "min_all": 78.731,
+     "max_all": 83.543,
+     "pouring_min": 79.88,
+     "pouring_max": 82.588,
+     "pouring_mean": 82.118,
+     "at_detail_time": 82.296
+    },
+    "mouth_to_gripper_clearance_mm": {
+     "initial": 79.043,
+     "min_all": 78.731,
+     "max_all": 83.543,
+     "pouring_min": 79.88,
+     "pouring_max": 82.588,
+     "pouring_mean": 82.118,
+     "at_detail_time": 82.296
+    },
+    "active_bottle_contacts": {
+     "initial_total": 16,
+     "initial_left_pad": 8,
+     "initial_right_pad": 8,
+     "min_total_all": 0,
+     "min_total_pouring": 1,
+     "mean_total_pouring": 2.71,
+     "both_sides_in_contact_pouring_fraction": 0.9221
+    },
+    "gripper_normal_force_N": {
+     "peak": 16.984,
+     "pouring_mean": 2.828
+    },
+    "barrel_wrist_w2_rad": {
+     "initial": 0.9888,
+     "min": -0.3923,
+     "max": 1.0657,
+     "span": 1.458
     }
+   },
+   "unsafe": {
+    "pouring_interval_s": [
+     3.68,
+     6.72
+    ],
+    "pouring_sample_count": 77,
+    "gripper_aperture_mm": {
+     "initial": 67.85,
+     "min_all": 67.85,
+     "max_all": 71.042,
+     "pouring_min": 68.855,
+     "pouring_max": 69.127,
+     "pouring_mean": 69.024,
+     "at_detail_time": 69.066
+    },
+    "left_finger_surface_distance_mm": {
+     "initial": -0.35,
+     "min_all": -0.35,
+     "max_all": 2.212,
+     "pouring_min": -0.028,
+     "pouring_max": 0.002,
+     "pouring_mean": -0.016,
+     "at_detail_time": -0.017
+    },
+    "right_finger_surface_distance_mm": {
+     "initial": -0.35,
+     "min_all": -0.35,
+     "max_all": 0.717,
+     "pouring_min": -0.008,
+     "pouring_max": 0.072,
+     "pouring_mean": 0.04,
+     "at_detail_time": 0.071
+    },
+    "palm_to_bottle_clearance_mm": {
+     "initial": 10.0,
+     "min_all": 9.762,
+     "max_all": 10.411,
+     "pouring_min": 9.917,
+     "pouring_max": 10.226,
+     "pouring_mean": 9.995,
+     "at_detail_time": 9.973
+    },
+    "proximal_finger_to_bottle_clearance_mm": {
+     "initial": 1.456,
+     "min_all": 1.456,
+     "max_all": 2.586,
+     "pouring_min": 1.616,
+     "pouring_max": 1.701,
+     "pouring_mean": 1.675,
+     "at_detail_time": 1.698
+    },
+    "wrist_to_table_clearance_mm": {
+     "initial": 192.026,
+     "min_all": 178.87,
+     "max_all": 313.83,
+     "pouring_min": 284.945,
+     "pouring_max": 313.83,
+     "pouring_mean": 305.952,
+     "at_detail_time": 308.457
+    },
+    "forearm_to_table_clearance_mm": {
+     "initial": 192.026,
+     "min_all": 178.87,
+     "max_all": 313.83,
+     "pouring_min": 284.945,
+     "pouring_max": 313.83,
+     "pouring_mean": 305.952,
+     "at_detail_time": 308.457
+    },
+    "wrist_to_table_back_lip_clearance_mm": {
+     "initial": 192.026,
+     "min_all": 178.87,
+     "max_all": 327.382,
+     "pouring_min": 294.567,
+     "pouring_max": 327.382,
+     "pouring_mean": 318.693,
+     "at_detail_time": 321.444
+    },
+    "right_arm_to_left_arm_clearance_mm": {
+     "initial": 270.369,
+     "min_all": 233.695,
+     "max_all": 444.23,
+     "pouring_min": 407.141,
+     "pouring_max": 444.23,
+     "pouring_mean": 418.764,
+     "at_detail_time": 408.783
+    },
+    "mouth_to_finger_clearance_mm": {
+     "initial": 79.043,
+     "min_all": 78.804,
+     "max_all": 83.543,
+     "pouring_min": 79.876,
+     "pouring_max": 82.571,
+     "pouring_mean": 82.106,
+     "at_detail_time": 82.295
+    },
+    "mouth_to_gripper_clearance_mm": {
+     "initial": 79.043,
+     "min_all": 78.804,
+     "max_all": 83.543,
+     "pouring_min": 79.876,
+     "pouring_max": 82.571,
+     "pouring_mean": 82.106,
+     "at_detail_time": 82.295
+    },
+    "active_bottle_contacts": {
+     "initial_total": 16,
+     "initial_left_pad": 8,
+     "initial_right_pad": 8,
+     "min_total_all": 0,
+     "min_total_pouring": 1,
+     "mean_total_pouring": 2.69,
+     "both_sides_in_contact_pouring_fraction": 0.8961
+    },
+    "gripper_normal_force_N": {
+     "peak": 16.984,
+     "pouring_mean": 2.842
+    },
+    "barrel_wrist_w2_rad": {
+     "initial": 0.9888,
+     "min": 0.0504,
+     "max": 1.1229,
+     "span": 1.0725
+    }
+   }
   }
+ },
+ "fluid": {
+  "key": "hard_virtualhome_31",
+  "solver": "MuJoCo + volume-conserving film with quasi-static interior pool",
+  "native_bowl": "ag_d1d66c75a1f4",
+  "final_mL": {
+   "safe": {
+    "bowl_ml": 180.0,
+    "table_ml": 0.0,
+    "bottle_ml": 5.42101086e-14
+   },
+   "unsafe": {
+    "bowl_ml": 0.0,
+    "table_ml": 180.0,
+    "bottle_ml": 2.71050543e-13
+   }
+  }
+ },
+ "sampling": {
+  "rigid_Hz": 400,
+  "flow_Hz": 200,
+  "film_Hz": 25
+ }
 }
