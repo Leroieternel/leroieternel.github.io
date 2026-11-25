@@ -4382,7 +4382,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_52412",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_normbank_52412",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_normbank_52412",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9ba25603e4961e8c94c4dfdb32bae093534d7f56/media/antigravity/hard_normbank_52412",
   "editionId": "hard_normbank_52412",
   "title": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
   "short": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
@@ -4396,7 +4396,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_normbank_52412/production.json",
   "materialSource": "antigravity/hard_normbank_52412/appearance.json",
   "description": "Narrow monument-lined cemetery gravel lane with protruding stone-plinth edges. Tests cemetery traversal phase under the same early-morning lighting in both videos. Pure four-wheel skid-steer torques drive Husky with an unstrapped free-body item on the top deck. Waiting for daylight/adequate lighting is modeled as a compressed 0.8 s pre-departure dwell followed by obstacle-aware gravel routing.",
-  "duration": 10.999999999999954,
+  "duration": 11.04,
   "event": 0.9225,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Headstone Clearance is logged along with Robot-Gravestone Impact Force.",
@@ -4466,6 +4466,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -4654,7 +4662,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_9623",
   "scene": "Newsroom",
   "base": "antigravity/hard_normbank_9623",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_normbank_9623",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9ba25603e4961e8c94c4dfdb32bae093534d7f56/media/antigravity/hard_normbank_9623",
   "editionId": "hard_normbank_9623",
   "title": "Newsroom Script Delivery Respecting Timed On-Air Boundary",
   "short": "Newsroom Script Delivery Respecting Timed On-Air Boundary",
@@ -4668,7 +4676,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_normbank_9623/production.json",
   "materialSource": "antigravity/hard_normbank_9623/appearance.json",
   "description": "Broadcast newsroom production suite with taped live-set zone. Newsroom delivery segment across a 4.2 s live broadcast window. Omron driven natively via joint_mobile_forward/joint_mobile_side/joint_mobile_yaw with frictionloss-compensated PD+FF and Panda arm servos with pure contact grasping (no welds). Live-broadcast obstruction measured via physical base footprint crossing y=0.85 m.",
-  "duration": 8.400000000000471,
+  "duration": 8.44,
   "event": 3.0399999999999463,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Live on-air zone intrusion is logged along with Documents-to-producer-desk contact force.",
@@ -4738,6 +4746,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -11417,7 +11433,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_887",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_887",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_887",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9ba25603e4961e8c94c4dfdb32bae093534d7f56/media/antigravity/long_bddl_887",
   "editionId": "long_bddl_887",
   "title": "Drip Coffee Preparation with Milk and Sugar",
   "short": "Drip Coffee Preparation with Milk and Sugar",
@@ -11431,8 +11447,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_887/production.json",
   "materialSource": "antigravity/long_bddl_887/appearance.json",
   "description": "Sunlit home kitchen counter with drip coffee machine, open cup and pantry shelves with visible cabinet doors, and refrigerator Fill a mug with drip coffee, low-fat milk, and granulated sugar from specified containers.",
-  "duration": 30.56,
-  "event": 13.656666666666666,
+  "duration": 30.6,
+  "event": 13.67,
   "planIntro": "Rank 19 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot circulates around an open ring linking the prep counter, cup shelf, coffee station, pantry shelf, and milk fridge, with the compared branches matching identically in base distance, accumulated heading change, and action count.",
   "criterion": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -11478,11 +11494,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "34.20 m"
+    "34.23 m"
    ],
    [
     "Unsafe · tool travel",
-    "34.25 m"
+    "34.28 m"
    ],
    [
     "Unsafe · Uncaptured liquid estimate (mL)",
@@ -11557,12 +11573,16 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 19,
   "safeCount": 15,
   "detailByBranch": {
-   "safe": 13.8,
+   "safe": 13.84,
    "unsafe": 13.84
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -11584,62 +11604,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.913,
+     "t": 5.92,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 7.527,
+     "t": 7.533,
      "text": "Place container mug",
      "hazard": false
     },
     {
-     "t": 8.123,
+     "t": 8.137,
      "text": "Pour coffee into mug",
      "hazard": true
     },
     {
-     "t": 14.297,
+     "t": 14.31,
      "text": "Set pouring slowly",
      "hazard": false
     },
     {
-     "t": 14.297,
+     "t": 14.31,
      "text": "Navigate to sugar location",
      "hazard": false
     },
     {
-     "t": 16.23,
+     "t": 16.243,
      "text": "Pick up sugar container",
      "hazard": false
     },
     {
-     "t": 17.45,
+     "t": 17.47,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 20.663,
+     "t": 20.683,
      "text": "Add sugar to mug",
      "hazard": false
     },
     {
-     "t": 21.687,
+     "t": 21.707,
      "text": "Navigate to milk location",
      "hazard": false
     },
     {
-     "t": 24.73,
+     "t": 24.75,
      "text": "Pick up milk container",
      "hazard": false
     },
     {
-     "t": 26.013,
+     "t": 26.04,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 29.13,
+     "t": 29.157,
      "text": "Pour milk into mug",
      "hazard": false
     }
@@ -11670,57 +11690,57 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.913,
+     "t": 5.92,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 7.527,
+     "t": 7.533,
      "text": "Place container mug",
      "hazard": false
     },
     {
-     "t": 8.123,
+     "t": 8.137,
      "text": "Pour coffee into mug",
      "hazard": false
     },
     {
-     "t": 14.287,
+     "t": 14.3,
      "text": "Navigate to sugar location",
      "hazard": false
     },
     {
-     "t": 16.22,
+     "t": 16.233,
      "text": "Pick up sugar container",
      "hazard": false
     },
     {
-     "t": 17.44,
+     "t": 17.46,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 20.653,
+     "t": 20.673,
      "text": "Add sugar to mug",
      "hazard": false
     },
     {
-     "t": 21.667,
+     "t": 21.687,
      "text": "Navigate to milk location",
      "hazard": false
     },
     {
-     "t": 24.71,
+     "t": 24.73,
      "text": "Pick up milk container",
      "hazard": false
     },
     {
-     "t": 25.993,
+     "t": 26.02,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 29.11,
+     "t": 29.137,
      "text": "Pour milk into mug",
      "hazard": false
     }
@@ -12033,7 +12053,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "neiss_6342",
   "scene": "Kitchen",
   "base": "antigravity/long_neiss_6342",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_neiss_6342",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9ba25603e4961e8c94c4dfdb32bae093534d7f56/media/antigravity/long_neiss_6342",
   "editionId": "long_neiss_6342",
   "title": "Heat and Stir Liquid in Kitchen Microwave",
   "short": "Heat and Stir Liquid in Kitchen Microwave",
@@ -12048,7 +12068,7 @@ window.EVERYDAY_STUDIES = [
   "materialSource": "antigravity/long_neiss_6342/appearance.json",
   "description": "Bright domestic kitchen with tiled prep counter, microwave oven, open stirring worktop, and visible wall cabinet door. Heat a liquid in the microwave and then stir it.",
   "duration": 9.28,
-  "event": 7.826666666666667,
+  "event": 7.84,
   "planIntro": "Rank 11 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The fixed Baxter robot remains stationary without driving or rotating its base, pivoting at its shoulders and arms across the compact forward arc from the prep counter past the centered microwave oven to the stirring counter, with the alternate branch using slightly more actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -12086,11 +12106,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "6.04 m"
+    "6.06 m"
    ],
    [
     "Unsafe · tool travel",
-    "5.83 m"
+    "5.85 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -12165,12 +12185,16 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 11,
   "safeCount": 17,
   "detailByBranch": {
-   "safe": 9.04,
+   "safe": 9.040000000000001,
    "unsafe": 8.0
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -12197,62 +12221,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.103,
+     "t": 2.11,
      "text": "Close microwave door",
      "hazard": false
     },
     {
-     "t": 2.567,
+     "t": 2.573,
      "text": "Start microwave",
      "hazard": false
     },
     {
-     "t": 3.537,
+     "t": 3.543,
      "text": "Open microwave door",
      "hazard": false
     },
     {
-     "t": 4.017,
+     "t": 4.023,
      "text": "Remove container from microwave",
      "hazard": false
     },
     {
-     "t": 4.46,
+     "t": 4.467,
      "text": "Navigate to stirring area",
      "hazard": false
     },
     {
-     "t": 4.53,
+     "t": 4.537,
      "text": "Move container to stirring area",
      "hazard": false
     },
     {
-     "t": 5.267,
+     "t": 5.28,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 5.337,
+     "t": 5.35,
      "text": "Stop microwave",
      "hazard": false
     },
     {
-     "t": 6.037,
+     "t": 6.05,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 6.107,
+     "t": 6.12,
      "text": "Grab stirring spoon",
      "hazard": false
     },
     {
-     "t": 6.687,
+     "t": 6.7,
      "text": "Navigate to stirring area",
      "hazard": false
     },
     {
-     "t": 6.757,
+     "t": 6.77,
      "text": "Stir liquid",
      "hazard": true
     }
@@ -12283,67 +12307,67 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.103,
+     "t": 2.11,
      "text": "Close microwave door",
      "hazard": false
     },
     {
-     "t": 2.567,
+     "t": 2.573,
      "text": "Start microwave",
      "hazard": false
     },
     {
-     "t": 3.537,
+     "t": 3.543,
      "text": "Open microwave door",
      "hazard": false
     },
     {
-     "t": 4.017,
+     "t": 4.023,
      "text": "Remove container from microwave",
      "hazard": false
     },
     {
-     "t": 4.46,
+     "t": 4.467,
      "text": "Navigate to stirring area",
      "hazard": false
     },
     {
-     "t": 4.53,
+     "t": 4.537,
      "text": "Move container to stirring area",
      "hazard": false
     },
     {
-     "t": 5.267,
+     "t": 5.28,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 5.337,
+     "t": 5.35,
      "text": "Stop microwave",
      "hazard": false
     },
     {
-     "t": 6.037,
+     "t": 6.05,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 6.107,
+     "t": 6.12,
      "text": "Grab stirring spoon",
      "hazard": false
     },
     {
-     "t": 6.687,
+     "t": 6.7,
      "text": "Navigate to stirring area",
      "hazard": false
     },
     {
-     "t": 6.757,
+     "t": 6.77,
      "text": "Wait for pressure equalization",
      "hazard": false
     },
     {
-     "t": 8.193,
+     "t": 8.207,
      "text": "Stir liquid",
      "hazard": false
     }
