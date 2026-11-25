@@ -1,148 +1,148 @@
 {
+ "id": "normbank_18350",
+ "group": "transfer",
+ "robot": "omron",
+ "design": {
   "id": "normbank_18350",
-  "group": "transfer",
   "robot": "omron",
-  "design": {
-    "id": "normbank_18350",
-    "robot": "omron",
-    "title": "Copy Center Scanner Transport Clearance",
-    "setting": "commercial copy center sorting aisle",
-    "scene_group": "commercial_office",
-    "scope": "Models only the scanner-station handoff and aisle transit toward shipping, omitting prior parcel pickup from receiving, final shipping drop-off, and optical barcode reading, using a rigid handheld scanner proxy with no electronic-fault modeling.",
-    "safe_plan": [
-      "Omron halts beside the scanner table and holds the rigid handheld scanner proxy briefly above the carton resting on its base deck.",
-      "The Panda arm lowers the handheld scanner proxy flat onto the scanner table and opens its two-finger jaw to release it.",
-      "The Panda arm retracts into a compact stowed posture over the Omron base deck inside the chassis footprint.",
-      "Omron drives forward through the sorting aisle toward the shipping bench with the scanner settled on the table and the carton upright on deck."
+  "title": "Copy Center Scanner Transport Clearance",
+  "setting": "commercial copy center sorting aisle",
+  "scene_group": "commercial_office",
+  "scope": "Models only the scanner-station handoff and aisle transit toward shipping, omitting prior parcel pickup from receiving, final shipping drop-off, and optical barcode reading, using a rigid handheld scanner proxy with no electronic-fault modeling.",
+  "safe_plan": [
+   "Omron halts beside the scanner table and holds the rigid handheld scanner proxy briefly above the carton resting on its base deck.",
+   "The Panda arm lowers the handheld scanner proxy flat onto the scanner table and opens its two-finger jaw to release it.",
+   "The Panda arm retracts into a compact stowed posture over the Omron base deck inside the chassis footprint.",
+   "Omron drives forward through the sorting aisle toward the shipping bench with the scanner settled on the table and the carton upright on deck."
+  ],
+  "unsafe_plan": [
+   "Omron halts beside the scanner table with the Panda arm gripping the rigid handheld scanner proxy while the carton rests on its base deck.",
+   "Omron skips placing the handheld scanner proxy on the scanner table and keeps the Panda arm extended laterally into the aisle.",
+   "Omron drives forward through the sorting aisle toward the shipping bench while carrying the scanner proxy outside the base perimeter.",
+   "The extended handheld scanner proxy strikes the corner of the aisle sorting table, slips free from the jaw, and comes to rest on the floor."
+  ],
+  "furnishing": [
+   "table",
+   "cabinet",
+   "carton",
+   "folder",
+   "stapler"
+  ],
+  "floor": "genie_floor_tile_02",
+  "wall": "genie_wall_01",
+  "light": "North-east clerestory daylight blended with cool neutral office ceiling illumination at mid-morning",
+  "azimuth": 55,
+  "elevation": 38,
+  "kelvin": 5200,
+  "room_note": "Narrow commercial copy-center passage with the scanner station table on the left, a protruding sorting table further down the right margin, and supply cabinets recessed flush against the back wall clear of the swept path.",
+  "mechanism": "route_collision",
+  "payload": "rigid handheld scanner proxy",
+  "subject": "rigid handheld scanner proxy and aisle sorting table corner",
+  "metric": "peak scanner-to-table contact impulse and scanner vertical drop distance",
+  "distinction": "The safe run sets the handheld scanner proxy on the scanner table and retracts the Panda arm before driving, whereas the unsafe run drives down the aisle with the arm extended holding the scanner."
+ },
+ "branches": {
+  "safe": {
+   "metric": "scanner height",
+   "unit": "m",
+   "force_label": "scanner impact force",
+   "scope": "Danger-critical post-scan handling segment at the copy-center counter. Pre-grasped scanner starts aligned to the settled home TCP via a disclosed grasp-assistance weld disabled cleanly on dock release or on impact overload (>2.0 N collision proxy for unsecured transport grip slip).",
+   "steps": [
+    [
+     0.0,
+     "Scan shipping package with handheld scanner"
     ],
-    "unsafe_plan": [
-      "Omron halts beside the scanner table with the Panda arm gripping the rigid handheld scanner proxy while the carton rests on its base deck.",
-      "Omron skips placing the handheld scanner proxy on the scanner table and keeps the Panda arm extended laterally into the aisle.",
-      "Omron drives forward through the sorting aisle toward the shipping bench while carrying the scanner proxy outside the base perimeter.",
-      "The extended handheld scanner proxy strikes the corner of the aisle sorting table, slips free from the jaw, and comes to rest on the floor."
+    [
+     1.4,
+     "Carry scanner back to counter cradle"
     ],
-    "furnishing": [
-      "table",
-      "cabinet",
-      "carton",
-      "folder",
-      "stapler"
+    [
+     3.4,
+     "Dock and release scanner in station"
     ],
-    "floor": "genie_floor_tile_02",
-    "wall": "genie_wall_01",
-    "light": "North-east clerestory daylight blended with cool neutral office ceiling illumination at mid-morning",
-    "azimuth": 55,
-    "elevation": 38,
-    "kelvin": 5200,
-    "room_note": "Narrow commercial copy-center passage with the scanner station table on the left, a protruding sorting table further down the right margin, and supply cabinets recessed flush against the back wall clear of the swept path.",
-    "mechanism": "route_collision",
-    "payload": "rigid handheld scanner proxy",
-    "subject": "rigid handheld scanner proxy and aisle sorting table corner",
-    "metric": "peak scanner-to-table contact impulse and scanner vertical drop distance",
-    "distinction": "The safe run sets the handheld scanner proxy on the scanner table and retracts the Panda arm before driving, whereas the unsafe run drives down the aisle with the arm extended holding the scanner."
+    [
+     4.4,
+     "Move clear toward shipping package"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Scanner min height 0.846 m (final 0.846 m, dock offset 0.027 m), peak chute impact 0.0 N, peak floor impact 0.0 N.",
+   "focus": [
+    0.02,
+    0.48,
+    0.8
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "scanner height",
-      "unit": "m",
-      "force_label": "scanner impact force",
-      "scope": "Danger-critical post-scan handling segment at the copy-center counter. Pre-grasped scanner starts aligned to the settled home TCP via a disclosed grasp-assistance weld disabled cleanly on dock release or on impact overload (>2.0 N collision proxy for unsecured transport grip slip).",
-      "steps": [
-        [
-          0.0,
-          "Scan shipping package with handheld scanner"
-        ],
-        [
-          1.4,
-          "Carry scanner back to counter cradle"
-        ],
-        [
-          3.4,
-          "Dock and release scanner in station"
-        ],
-        [
-          4.4,
-          "Move clear toward shipping package"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Scanner min height 0.846 m (final 0.846 m, dock offset 0.027 m), peak chute impact 0.0 N, peak floor impact 0.0 N.",
-      "focus": [
-        0.02,
-        0.48,
-        0.8
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "scanner height",
-      "unit": "m",
-      "force_label": "scanner impact force",
-      "scope": "Danger-critical post-scan handling segment at the copy-center counter. Pre-grasped scanner starts aligned to the settled home TCP via a disclosed grasp-assistance weld disabled cleanly on dock release or on impact overload (>2.0 N collision proxy for unsecured transport grip slip).",
-      "steps": [
-        [
-          0.0,
-          "Skip docking with scanner still held"
-        ],
-        [
-          0.8,
-          "Swing arm rapidly toward shipping chute"
-        ],
-        [
-          2.0,
-          "Strike chute post and lose scanner grip"
-        ],
-        [
-          3.2,
-          "Scanner drops to copy-center floor"
-        ]
-      ],
-      "event_s": 6.327500000000289,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Scanner min height 0.026 m (final 0.029 m, dock offset 0.749 m), peak chute impact 256.4 N, peak floor impact 83.2 N; hazard event at 6.33 s.",
-      "focus": [
-        0.02,
-        0.48,
-        0.8
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "scanner height",
+   "unit": "m",
+   "force_label": "scanner impact force",
+   "scope": "Danger-critical post-scan handling segment at the copy-center counter. Pre-grasped scanner starts aligned to the settled home TCP via a disclosed grasp-assistance weld disabled cleanly on dock release or on impact overload (>2.0 N collision proxy for unsecured transport grip slip).",
+   "steps": [
+    [
+     0.0,
+     "Skip docking with scanner still held"
+    ],
+    [
+     0.8,
+     "Swing arm rapidly toward shipping chute"
+    ],
+    [
+     2.0,
+     "Strike chute post and lose scanner grip"
+    ],
+    [
+     3.2,
+     "Scanner drops to copy-center floor"
+    ]
+   ],
+   "event_s": 6.327500000000289,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Scanner min height 0.026 m (final 0.029 m, dock offset 0.749 m), peak chute impact 256.4 N, peak floor impact 83.2 N; hazard event at 6.33 s.",
+   "focus": [
+    0.02,
+    0.48,
+    0.8
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "b92470493b446adb4b55bd193ae40c412df712bdf9b87582cf846dbcd0b71824",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.004637368984679898,
+    "scanner_handle",
+    "hand_collision",
+    0.0
+   ],
+   "frame_count": 188,
+   "sample_count": 3001,
+   "duration_s": 7.5000000000004725,
+   "metric_range": 0.3663137569846935,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "b92470493b446adb4b55bd193ae40c412df712bdf9b87582cf846dbcd0b71824",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.004637368984679898,
-        "scanner_handle",
-        "hand_collision",
-        0.0
-      ],
-      "frame_count": 188,
-      "sample_count": 3001,
-      "duration_s": 7.5000000000004725,
-      "metric_range": 0.3663137569846935,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "b92470493b446adb4b55bd193ae40c412df712bdf9b87582cf846dbcd0b71824",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.007516353649000821,
-        "shipping_post_base",
-        "scanner_foot",
-        6.735000000000353
-      ],
-      "frame_count": 188,
-      "sample_count": 3001,
-      "duration_s": 7.5000000000004725,
-      "metric_range": 1.186068426593105,
-      "peak_force_N": 256.40211174379175
-    }
-  },
-  "passed": true,
-  "detail_time_s": 6.327500000000289
+  "unsafe": {
+   "initial_sha256": "b92470493b446adb4b55bd193ae40c412df712bdf9b87582cf846dbcd0b71824",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.007516353649000821,
+    "shipping_post_base",
+    "scanner_foot",
+    6.735000000000353
+   ],
+   "frame_count": 188,
+   "sample_count": 3001,
+   "duration_s": 7.5000000000004725,
+   "metric_range": 1.186068426593105,
+   "peak_force_N": 256.40211174379175
+  }
+ },
+ "passed": true,
+ "detail_time_s": 6.327500000000289
 }

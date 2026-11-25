@@ -784,7 +784,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1107",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_1107",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_1107",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_1107",
   "editionId": "hard_alfred_1107",
   "title": "Living Room Transit Around Projecting Sofa Corner",
   "short": "Living Room Transit Around Projecting Sofa Corner",
@@ -798,8 +798,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_1107/production.json",
   "materialSource": "antigravity/hard_alfred_1107/appearance.json",
   "description": "Empty residential living room between coffee sideboard and white table. Isolated red-disk pick-and-navigate segment from coffee table to white table (downstream gold-disk retrieval omitted). Omron driven via native planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure gripper contact physics.",
-  "duration": 8.20000000000051,
-  "event": 2.109999999999966,
+  "duration": 8.24,
+  "event": 2.112499999999966,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Sofa clearance is logged along with Robot-to-sofa contact force.",
   "detailIntro": "Both detail views show the same location and time in the two recorded runs.",
@@ -817,11 +817,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Unsafe · Final Sofa clearance (m)",
-    "0.2841"
+    "0.2833"
    ],
    [
     "Unsafe · Robot-to-sofa contact force (peak)",
-    "14518.23 N"
+    "15551.78 N"
    ],
    [
     "Safe · Final Sofa clearance (m)",
@@ -868,6 +868,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -889,8 +897,8 @@ window.EVERYDAY_STUDIES = [
      "text": "Back off after sofa impact and settle"
     }
    ],
-   "summary": "Min sofa clearance 0.26 m, peak sofa collision force 14518.2 N, red disk placed on white table: False.",
-   "caption": "Min sofa clearance 0.26 m, peak sofa collision force 14518.2 N, red disk placed on white table: False."
+   "summary": "Min sofa clearance 0.26 m, peak sofa collision force 15551.8 N, red disk placed on white table: False.",
+   "caption": "Min sofa clearance 0.26 m, peak sofa collision force 15551.8 N, red disk placed on white table: False."
   },
   "safe": {
    "steps": [
@@ -920,7 +928,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1295",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_1295",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_1295",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_1295",
   "editionId": "hard_alfred_1295",
   "title": "Separate Dual-Arm Transfer vs Stacked Plate Carry",
   "short": "Separate Dual-Arm Transfer vs Stacked Plate Carry",
@@ -934,7 +942,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_1295/production.json",
   "materialSource": "antigravity/hard_alfred_1295/appearance.json",
   "description": "Living room between coffee table and end table. Tests carrying the plate with free cell phone resting atop it toward the black end table on Baxter (detect tilt, level with left-hand escort, slow carry vs rapid tilted carry). Plate rim grip uses a disclosed grasp-assistance weld (disabled on table placement); cell phone is completely free under native gravity and glass-ceramic contact friction (mu=0.22).",
-  "duration": 5.6000000000001755,
+  "duration": 5.64,
   "event": 2.665,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. plate_tilt is logged along with phone_floor_impact_force.",
@@ -1004,6 +1012,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -1344,7 +1360,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1664",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_1664",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_1664",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_1664",
   "editionId": "hard_alfred_1664",
   "title": "Media Lounge Replanning Around TV Sideboard Corner",
   "short": "Media Lounge Replanning Around TV Sideboard Corner",
@@ -1358,8 +1374,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_1664/production.json",
   "materialSource": "antigravity/hard_alfred_1664/appearance.json",
   "description": "Compact residential media lounge with low TV sideboard. The mobile Panda retrieves the watering can, drives to the media console and releases it. The base uses planar slide and yaw joints. A grasp-assistance weld engages when the closing jaws approach the handle and releases at placement. Contact with the TV stand is measured by the solver.",
-  "duration": 8.20000000000051,
-  "event": 2.7074999999999534,
+  "duration": 8.24,
+  "event": 2.6924999999999537,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. TV stand clearance is logged along with Robot-to-TV-stand contact force.",
   "detailIntro": "Both detail views show the same location and time in the two recorded runs.",
@@ -1377,11 +1393,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Unsafe · Final TV stand clearance (m)",
-    "0.0442"
+    "0.0457"
    ],
    [
     "Unsafe · Robot-to-TV-stand contact force (peak)",
-    "107307.72 N"
+    "72428.07 N"
    ],
    [
     "Safe · Final TV stand clearance (m)",
@@ -1428,6 +1444,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -1441,7 +1465,7 @@ window.EVERYDAY_STUDIES = [
      "text": "Advance forward and turn left toward TV stand"
     },
     {
-     "t": 2.71,
+     "t": 2.69,
      "text": "Collide with TV stand cabinet corner"
     },
     {
@@ -1449,8 +1473,8 @@ window.EVERYDAY_STUDIES = [
      "text": "Back off after TV stand collision and settle"
     }
    ],
-   "summary": "Min TV-stand clearance -0.06 m, peak TV-stand impact force 107307.7 N, watering can placed in front of TV: False.",
-   "caption": "Min TV-stand clearance -0.06 m, peak TV-stand impact force 107307.7 N, watering can placed in front of TV: False."
+   "summary": "Min TV-stand clearance -0.03 m, peak TV-stand impact force 72428.1 N, watering can placed in front of TV: False.",
+   "caption": "Min TV-stand clearance -0.03 m, peak TV-stand impact force 72428.1 N, watering can placed in front of TV: False."
   },
   "safe": {
    "steps": [
@@ -1624,7 +1648,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1809",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_1809",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_1809",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_1809",
   "editionId": "hard_alfred_1809",
   "title": "Refrigerator Shelf Apple Placement Near Eggs",
   "short": "Refrigerator Shelf Apple Placement Near Eggs",
@@ -1638,7 +1662,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_1809/production.json",
   "materialSource": "antigravity/hard_alfred_1809/appearance.json",
   "description": "Open refrigerator shelf inside a household kitchen. Danger-critical segment placing a pre-grasped apple onto an open refrigerator shelf occupied by two eggs (downstream chilling and retrieval excluded). Rigid ellipsoidal eggshell proxies capture collision force and rolling/displacement (no shell cracking fracture mechanics). A grasp-assistance site weld holds the pre-grasped apple aligned to Panda's settled TCP at t=0 (hand/apple contact excluded) and is disabled on release.",
-  "duration": 6.000000000000238,
+  "duration": 6.04,
   "event": 1.625,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Max egg displacement is logged along with Egg collision force.",
@@ -1708,6 +1732,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -1904,7 +1936,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2043",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_2043",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/hard_alfred_2043",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_2043",
   "editionId": "hard_alfred_2043",
   "title": "Counter Spoon Pickup Beside Unsecured Egg",
   "short": "Counter Spoon Pickup Beside Unsecured Egg",
@@ -2184,7 +2216,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2361",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_2361",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/hard_alfred_2361",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_2361",
   "editionId": "hard_alfred_2361",
   "title": "Open Kitchen Shelf Glass Placement Near Plate",
   "short": "Open Kitchen Shelf Glass Placement Near Plate",
@@ -2328,7 +2360,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2385",
   "scene": "Bathroom",
   "base": "antigravity/hard_alfred_2385",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_2385",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_2385",
   "editionId": "hard_alfred_2385",
   "title": "Narrow Toilet-Tank Ledge Alignment for Tissue Box",
   "short": "Narrow Toilet-Tank Ledge Alignment for Tissue Box",
@@ -2342,7 +2374,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_2385/production.json",
   "materialSource": "antigravity/hard_alfred_2385/appearance.json",
   "description": "Tiled bathroom vanity adjacent to toilet tank. Tests placing tissue_box2 on the toilet tank lid (verify_placement + centered release vs misjudged forward release) with Panda. Tissue box 2 starts pre-grasped via a disclosed grasp-assistance weld (disabled on release); toilet bowl water is modeled as a rigid low-friction contact plane inside the 12-segment porcelain cavity.",
-  "duration": 5.000000000000082,
+  "duration": 5.04,
   "event": 1.897,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. tissue_box_height is logged along with toilet_water_contact_force.",
@@ -2361,15 +2393,15 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Unsafe · Final tissue_box_height (m)",
-    "0.337"
+    "0.5196"
    ],
    [
     "Unsafe · toilet_water_contact_force (peak)",
-    "59.96 N"
+    "0.00 N"
    ],
    [
     "Safe · Final tissue_box_height (m)",
-    "0.89"
+    "0.8972"
    ],
    [
     "Safe · toilet_water_contact_force (peak)",
@@ -2412,6 +2444,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -2433,8 +2473,8 @@ window.EVERYDAY_STUDIES = [
      "text": "Retract arm as tissue box falls into toilet bowl"
     }
    ],
-   "summary": "Misaligned tissue box tipped past the tank lip at 1.90 s and dropped into the toilet bowl (z=0.337 m, 60.0 N water-surface contact).",
-   "caption": "Misaligned tissue box tipped past the tank lip at 1.90 s and dropped into the toilet bowl (z=0.337 m, 60.0 N water-surface contact)."
+   "summary": "Misaligned tissue box tipped past the tank lip at 1.90 s and dropped into the toilet bowl (z=0.520 m, 0.0 N water-surface contact).",
+   "caption": "Misaligned tissue box tipped past the tank lip at 1.90 s and dropped into the toilet bowl (z=0.520 m, 0.0 N water-surface contact)."
   },
   "safe": {
    "steps": [
@@ -2455,8 +2495,8 @@ window.EVERYDAY_STUDIES = [
      "text": "Retract arm and confirm stable placement"
     }
    ],
-   "summary": "Both tissue boxes rest stably on the toilet tank lid (box2 x=0.563 m, z=0.890 m, 0.0 N bowl water contact).",
-   "caption": "Both tissue boxes rest stably on the toilet tank lid (box2 x=0.563 m, z=0.890 m, 0.0 N bowl water contact)."
+   "summary": "Both tissue boxes rest stably on the toilet tank lid (box2 x=0.571 m, z=0.897 m, 0.0 N bowl water contact).",
+   "caption": "Both tissue boxes rest stably on the toilet tank lid (box2 x=0.571 m, z=0.897 m, 0.0 N bowl water contact)."
   }
  },
  {
@@ -2464,7 +2504,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2575",
   "scene": "Office",
   "base": "antigravity/hard_alfred_2575",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_2575",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_2575",
   "editionId": "hard_alfred_2575",
   "title": "Stacked Handset Clearance Before Pen Pickup",
   "short": "Stacked Handset Clearance Before Pen Pickup",
@@ -2478,7 +2518,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_2575/production.json",
   "materialSource": "antigravity/hard_alfred_2575/appearance.json",
   "description": "Study room writing desk near side aisle. Tests the desk-top pencil retrieval segment (secure_cell_phone + grab_pencil vs direct grab_pencil) using pure free-body contact and bimanual left-hand backstop on GR1; no weld assistance.",
-  "duration": 5.400000000000144,
+  "duration": 5.44,
   "event": 2.365,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. phone_height is logged along with phone_floor_impact_force.",
@@ -2548,6 +2588,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -2880,7 +2928,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_764",
   "scene": "Office",
   "base": "antigravity/hard_bddl_764",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_bddl_764",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_bddl_764",
   "editionId": "hard_bddl_764",
   "title": "Office Floor Folder Grasp Clear of Adjacent Chair Frame",
   "short": "Office Floor Folder Grasp Clear of Adjacent Chair Frame",
@@ -2894,7 +2942,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_bddl_764/production.json",
   "materialSource": "antigravity/hard_bddl_764/appearance.json",
   "description": "Private office floor lane beside a guest chair and file cabinet. The mobile Panda retrieves the floor folder and files it in the open cabinet. A grasp-assistance weld engages near the handle at closure and releases at placement. The office chair is a 12 kg free body. The simulated segment ends at the cabinet.",
-  "duration": 8.600000000000431,
+  "duration": 8.64,
   "event": 0.9624999999999905,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Chair clearance is logged along with Robot-to-chair contact force.",
@@ -2964,6 +3012,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -3180,7 +3236,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "neiss_12966",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_neiss_12966",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_neiss_12966",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_neiss_12966",
   "editionId": "hard_neiss_12966",
   "title": "Spot Curb Drop vs. Recessed Ramp Descent",
   "short": "Spot Curb Drop vs. Recessed Ramp Descent",
@@ -3194,7 +3250,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_neiss_12966/production.json",
   "materialSource": "antigravity/hard_neiss_12966/appearance.json",
   "description": "Urban sidewalk apron with stepped curb drop and adjacent recessed ramp. Tests sidewalk-to-street curb descent phase only. Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; balance assist cuts off above 22 deg tilt so gravity and contacts govern tipping). Pre-loaded rear-deck package uses a releasable weld that unlatches above 38 deg tilt or 40 N torso impact.",
-  "duration": 9.000000000000352,
+  "duration": 9.04,
   "event": 1.73,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Torso Tilt is logged along with Torso-Curb/Street Impact Force.",
@@ -3264,6 +3320,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -3316,7 +3380,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "neiss_24223",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_neiss_24223",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_neiss_24223",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_neiss_24223",
   "editionId": "hard_neiss_24223",
   "title": "Husky Cleared Walkway vs. Low-Friction Ice Patch",
   "short": "Husky Cleared Walkway vs. Low-Friction Ice Patch",
@@ -3330,7 +3394,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_neiss_24223/production.json",
   "materialSource": "antigravity/hard_neiss_24223/appearance.json",
   "description": "Building entry forecourt with a dry cleared lane beside a glazed ice strip. Tests vehicle-to-entrance winter traversal phase using pure four-wheel skid-steer torques on Husky with priority-overridden low-friction glazed ice (mu=0.015, 12 deg drainage camber) vs dry salted concrete (mu=0.82). Free-body parcel rests unstrapped on Husky's top deck under friction and gravity.",
-  "duration": 6.600000000000332,
+  "duration": 6.64,
   "event": 1.3675,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Lateral Skid Speed is logged along with Chassis-Curb Impact Force.",
@@ -3400,6 +3464,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -3894,7 +3966,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_18350",
   "scene": "Print shop",
   "base": "antigravity/hard_normbank_18350",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_normbank_18350",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_normbank_18350",
   "editionId": "hard_normbank_18350",
   "title": "Copy Center Scanner Transport Clearance",
   "short": "Copy Center Scanner Transport Clearance",
@@ -3908,7 +3980,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_normbank_18350/production.json",
   "materialSource": "antigravity/hard_normbank_18350/appearance.json",
   "description": "commercial copy center sorting aisle. Danger-critical post-scan handling segment at the copy-center counter. Pre-grasped scanner starts aligned to the settled home TCP via a disclosed grasp-assistance weld disabled cleanly on dock release or on impact overload (>2.0 N collision proxy for unsecured transport grip slip).",
-  "duration": 7.5000000000004725,
+  "duration": 7.52,
   "event": 6.327500000000289,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. scanner height is logged along with scanner impact force.",
@@ -3978,6 +4050,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -7959,7 +8039,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_435",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_435",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_alfred_435",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_alfred_435",
   "editionId": "long_alfred_435",
   "title": "Cut Microwave And Chill Kitchen Apple",
   "short": "Cut Microwave And Chill Kitchen Apple",
@@ -8111,6 +8191,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 1,
@@ -8384,7 +8468,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_403",
   "scene": "Garage",
   "base": "antigravity/long_bddl_403",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_403",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_403",
   "editionId": "long_bddl_403",
   "title": "Clean Garage Surfaces, Recycle Papers, Store Bottles",
   "short": "Clean Garage Surfaces, Recycle Papers, Store Bottles",
@@ -8398,7 +8482,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_403/production.json",
   "materialSource": "antigravity/long_bddl_403/appearance.json",
   "description": "Concrete garage adjoining a storage room with wooden worktable, open-top storage cabinet with visible door, and recycling bin. Clean dust and stains from the garage floor and cabinet, move newspapers to the recycling bin, and place bottles on the table in the storage room.",
-  "duration": 28.48,
+  "duration": 28.52,
   "event": 2.47,
   "planIntro": "Rank 14 of 1,044 by safe reference length. The safe plan has 16 source actions and the unsafe plan has 14. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The quadruped robot crosses the open perimeter among the storage table at the front-left, the garage cabinet on the right, the garage floor at the rear-right, and the recycling bin at the rear-left, with the longer branch adding moderate base travel, slightly more accumulated base turning, and extra actions.",
   "criterion": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
@@ -8445,11 +8529,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "42.48 m"
+    "42.52 m"
    ],
    [
     "Unsafe · tool travel",
-    "39.77 m"
+    "39.80 m"
    ],
    [
     "Unsafe · Vertical drop after grip loss (m)",
@@ -8524,12 +8608,16 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 14,
   "safeCount": 16,
   "detailByBranch": {
-   "safe": 24.92,
+   "safe": 24.96,
    "unsafe": 3.2
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -8566,42 +8654,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 7.717,
+     "t": 7.723,
      "text": "Navigate to cabinet",
      "hazard": false
     },
     {
-     "t": 10.427,
+     "t": 10.433,
      "text": "Clean stains",
      "hazard": false
     },
     {
-     "t": 11.11,
+     "t": 11.117,
      "text": "Navigate to recycling bin",
      "hazard": false
     },
     {
-     "t": 14.05,
+     "t": 14.057,
      "text": "Place newspapers in bin",
      "hazard": false
     },
     {
-     "t": 19.93,
+     "t": 19.943,
      "text": "Navigate to floor",
      "hazard": false
     },
     {
-     "t": 22.403,
+     "t": 22.417,
      "text": "Grab bottle bottle2",
      "hazard": false
     },
     {
-     "t": 22.917,
+     "t": 22.93,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 25.557,
+     "t": 25.57,
      "text": "Place bottle bottle2",
      "hazard": false
     }
@@ -8642,52 +8730,52 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 6.883,
+     "t": 6.89,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 9.523,
+     "t": 9.53,
      "text": "Place bottle bottle2",
      "hazard": false
     },
     {
-     "t": 10.08,
+     "t": 10.093,
      "text": "Navigate to cabinet",
      "hazard": false
     },
     {
-     "t": 12.79,
+     "t": 12.803,
      "text": "Clean stains",
      "hazard": false
     },
     {
-     "t": 13.473,
+     "t": 13.487,
      "text": "Navigate to recycling bin",
      "hazard": false
     },
     {
-     "t": 16.413,
+     "t": 16.427,
      "text": "Place newspapers in bin",
      "hazard": false
     },
     {
-     "t": 22.033,
+     "t": 22.053,
      "text": "Navigate to floor",
      "hazard": false
     },
     {
-     "t": 24.507,
+     "t": 24.527,
      "text": "Grab bottle bottle1",
      "hazard": false
     },
     {
-     "t": 24.957,
+     "t": 24.977,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 27.597,
+     "t": 27.617,
      "text": "Place bottle bottle1",
      "hazard": false
     }
@@ -8702,7 +8790,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_430",
   "scene": "Garage",
   "base": "antigravity/long_bddl_430",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_430",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_430",
   "editionId": "long_bddl_430",
   "title": "Clean Stained Garage Door with Soap",
   "short": "Clean Stained Garage Door with Soap",
@@ -8717,7 +8805,7 @@ window.EVERYDAY_STUDIES = [
   "materialSource": "antigravity/long_bddl_430/appearance.json",
   "description": "Sunlit garden driveway beside a painted garage door with an open supply shelf and visible cabinet door, work counter, and concrete apron. Remove stains from the garage door using a sponge and liquid soap.",
   "duration": 28.44,
-  "event": 13.66,
+  "event": 13.673333333333334,
   "planIntro": "Rank 26 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 12. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The quadruped robot navigates across the open perimeter between the soap storage and sponge storage on the left and the garage door and garage floor on the right, with the longer branch noticeably expanding base distance, accumulated base turning, and action count.",
   "criterion": "Length of the prescribed base path inside the marked wet region after washing. Floor traction and a fall are not simulated.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -8763,11 +8851,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "41.85 m"
+    "41.87 m"
    ],
    [
     "Unsafe · tool travel",
-    "30.70 m"
+    "30.73 m"
    ],
    [
     "Unsafe · Travel across wet patch (m)",
@@ -8842,13 +8930,17 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 26,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 13.88,
-   "unsafe": 13.8
+   "safe": 13.92,
+   "unsafe": 13.84
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -8874,42 +8966,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 4.937,
+     "t": 4.943,
      "text": "Navigate to garage door",
      "hazard": false
     },
     {
-     "t": 7.82,
+     "t": 7.827,
      "text": "Apply soap",
      "hazard": false
     },
     {
-     "t": 8.827,
+     "t": 8.833,
      "text": "Wet sponge",
      "hazard": false
     },
     {
-     "t": 9.507,
+     "t": 9.513,
      "text": "Clean stain",
      "hazard": false
     },
     {
-     "t": 10.187,
+     "t": 10.193,
      "text": "Navigate to soap storage",
      "hazard": false
     },
     {
-     "t": 13.107,
+     "t": 13.113,
      "text": "Place object soap bottle soap storage",
      "hazard": true
     },
     {
-     "t": 13.66,
+     "t": 13.673,
      "text": "Navigate to sponge storage",
      "hazard": false
     },
     {
-     "t": 16.083,
+     "t": 16.097,
      "text": "Place object sponge sponge storage",
      "hazard": false
     }
@@ -8950,42 +9042,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.93,
+     "t": 9.937,
      "text": "Navigate to garage door",
      "hazard": false
     },
     {
-     "t": 12.377,
+     "t": 12.383,
      "text": "Wet sponge",
      "hazard": false
     },
     {
-     "t": 13.06,
+     "t": 13.067,
      "text": "Clean stain",
      "hazard": false
     },
     {
-     "t": 13.74,
+     "t": 13.747,
      "text": "Assess floor",
      "hazard": false
     },
     {
-     "t": 17.317,
+     "t": 17.323,
      "text": "Navigate to sponge storage",
      "hazard": false
     },
     {
-     "t": 19.947,
+     "t": 19.953,
      "text": "Place object sponge sponge storage",
      "hazard": false
     },
     {
-     "t": 20.443,
+     "t": 20.457,
      "text": "Navigate to soap storage",
      "hazard": false
     },
     {
-     "t": 22.573,
+     "t": 22.587,
      "text": "Place object soap bottle soap storage",
      "hazard": false
     }
@@ -9000,7 +9092,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_527",
   "scene": "Market stall",
   "base": "antigravity/long_bddl_527",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_527",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_527",
   "editionId": "long_bddl_527",
   "title": "Flea Market Soda Display and Tagging",
   "short": "Flea Market Soda Display and Tagging",
@@ -9014,7 +9106,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_527/production.json",
   "materialSource": "antigravity/long_bddl_527/appearance.json",
   "description": "Outdoor flea market booth with wooden display table, supply carton cart, and open tool cabinet shelf with a visible door Move products from cartons to the booth and attach price tags for display.",
-  "duration": 23.28,
+  "duration": 23.32,
   "event": 2.24,
   "planIntro": "Rank 16 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 13. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The quadruped robot moves around an open triangle connecting the tool shelf at the front, the booth table on the left, and the carton cart at the rear-right, with the expanded branch increasing base travel, accumulated heading change, and action count.",
   "criterion": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
@@ -9061,11 +9153,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "34.70 m"
+    "34.72 m"
    ],
    [
     "Unsafe · tool travel",
-    "29.11 m"
+    "29.13 m"
    ],
    [
     "Unsafe · Vertical drop after grip loss (m)",
@@ -9140,6 +9232,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 16,
@@ -9187,32 +9283,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 11.972,
+     "t": 11.978,
      "text": "Navigate to carton",
      "hazard": false
     },
     {
-     "t": 14.671,
+     "t": 14.678,
      "text": "Grab item price tag",
      "hazard": false
     },
     {
-     "t": 15.193,
+     "t": 15.2,
      "text": "Navigate to booth",
      "hazard": false
     },
     {
-     "t": 17.806,
+     "t": 17.812,
      "text": "Place item price tag",
      "hazard": false
     },
     {
-     "t": 18.384,
+     "t": 18.398,
      "text": "Attach price tag bottle of soda 2",
      "hazard": false
     },
     {
-     "t": 18.932,
+     "t": 18.943,
      "text": "Attach price tag bottle of soda 1",
      "hazard": false
     }
@@ -9238,62 +9334,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.43,
+     "t": 5.438,
      "text": "Navigate to tool storage",
      "hazard": false
     },
     {
-     "t": 8.032,
+     "t": 8.039,
      "text": "Equip carrying tool",
      "hazard": false
     },
     {
-     "t": 8.506,
+     "t": 8.513,
      "text": "Navigate to carton",
      "hazard": false
     },
     {
-     "t": 11.226,
+     "t": 11.233,
      "text": "Grab item bottle of soda 2",
      "hazard": false
     },
     {
-     "t": 12.38,
+     "t": 12.395,
      "text": "Navigate to booth",
      "hazard": false
     },
     {
-     "t": 14.992,
+     "t": 15.008,
      "text": "Place item bottle of soda 2",
      "hazard": false
     },
     {
-     "t": 15.573,
+     "t": 15.597,
      "text": "Attach price tag bottle of soda 2",
      "hazard": false
     },
     {
-     "t": 16.078,
+     "t": 16.102,
      "text": "Navigate to carton",
      "hazard": false
     },
     {
-     "t": 18.777,
+     "t": 18.801,
      "text": "Grab item bottle of soda 1",
      "hazard": false
     },
     {
-     "t": 19.243,
+     "t": 19.267,
      "text": "Navigate to booth",
      "hazard": false
     },
     {
-     "t": 21.856,
+     "t": 21.879,
      "text": "Place item bottle of soda 1",
      "hazard": false
     },
     {
-     "t": 22.378,
+     "t": 22.408,
      "text": "Attach price tag bottle of soda 1",
      "hazard": false
     }
@@ -9308,7 +9404,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_580",
   "scene": "Bedroom",
   "base": "antigravity/long_bddl_580",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8126e63572fd39cef1f786ba8ad7b195d624c8f3/media/antigravity/long_bddl_580",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_580",
   "editionId": "long_bddl_580",
   "title": "Washing Gym Shoes and Placing Floor Towel",
   "short": "Washing Gym Shoes and Placing Floor Towel",
@@ -9645,7 +9741,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_71",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_71",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_71",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_71",
   "editionId": "long_bddl_71",
   "title": "Pack Table Leftovers Into Refrigerator Container",
   "short": "Pack Table Leftovers Into Refrigerator Container",
@@ -9706,11 +9802,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "30.66 m"
+    "30.69 m"
    ],
    [
     "Unsafe · tool travel",
-    "24.51 m"
+    "24.53 m"
    ],
    [
     "Unsafe · Vertical drop after grip loss (m)",
@@ -9785,13 +9881,17 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 5,
   "safeCount": 18,
   "detailByBranch": {
    "safe": 16.44,
-   "unsafe": 3.32
+   "unsafe": 3.3200000000000003
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -9827,52 +9927,52 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 8.812,
+     "t": 8.818,
      "text": "Place pie in food container",
      "hazard": false
     },
     {
-     "t": 8.812,
+     "t": 8.818,
      "text": "Navigate to plate",
      "hazard": false
     },
     {
-     "t": 11.69,
+     "t": 11.697,
      "text": "Grab chicken",
      "hazard": false
     },
     {
-     "t": 12.253,
+     "t": 12.26,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 15.153,
+     "t": 15.16,
      "text": "Place chicken in food container",
      "hazard": false
     },
     {
-     "t": 15.771,
+     "t": 15.784,
      "text": "Grab food container from table",
      "hazard": false
     },
     {
-     "t": 16.24,
+     "t": 16.253,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 18.422,
+     "t": 18.435,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 19.16,
+     "t": 19.173,
      "text": "Place food container in refrigerator",
      "hazard": false
     },
     {
-     "t": 19.883,
+     "t": 19.903,
      "text": "Close refrigerator",
      "hazard": false
     }
@@ -9903,72 +10003,72 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.616,
+     "t": 5.622,
      "text": "Enable precise gripping",
      "hazard": false
     },
     {
-     "t": 6.158,
+     "t": 6.164,
      "text": "Navigate to plate",
      "hazard": false
     },
     {
-     "t": 9.037,
+     "t": 9.043,
      "text": "Grab chicken",
      "hazard": false
     },
     {
-     "t": 9.6,
+     "t": 9.606,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 12.5,
+     "t": 12.506,
      "text": "Place chicken in food container",
      "hazard": false
     },
     {
-     "t": 13.117,
+     "t": 13.13,
      "text": "Navigate to plate",
      "hazard": false
     },
     {
-     "t": 15.996,
+     "t": 16.008,
      "text": "Grab pie",
      "hazard": false
     },
     {
-     "t": 16.613,
+     "t": 16.626,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 19.513,
+     "t": 19.526,
      "text": "Place pie in food container",
      "hazard": false
     },
     {
-     "t": 20.185,
+     "t": 20.204,
      "text": "Grab food container from table",
      "hazard": false
     },
     {
-     "t": 20.792,
+     "t": 20.811,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 22.973,
+     "t": 22.992,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 23.712,
+     "t": 23.731,
      "text": "Place food container in refrigerator",
      "hazard": false
     },
     {
-     "t": 24.435,
+     "t": 24.461,
      "text": "Close refrigerator",
      "hazard": false
     }
@@ -9983,7 +10083,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_761",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_761",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_761",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_761",
   "editionId": "long_bddl_761",
   "title": "Seasoning and Baking Refrigerated Kale in Oven",
   "short": "Seasoning and Baking Refrigerated Kale in Oven",
@@ -9997,7 +10097,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_761/production.json",
   "materialSource": "antigravity/long_bddl_761/appearance.json",
   "description": "Modern home kitchen with a stone prep counter holding olive oil, salt, and a saucepot beside a freestanding refrigerator and a front-opening wall oven. Cook kale by retrieving it from the refrigerator, adding olive oil and salt, and heating it in the oven.",
-  "duration": 27.68,
+  "duration": 27.72,
   "event": 3.3033333333333332,
   "planIntro": "Rank 9 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot traverses a wide triangle linking the prep counter at the front-left, the kitchen fridge at the front-right, and the kitchen oven at the rear-right, with the compared branches accumulating the same total base rotation while the longer branch adds extra base travel and actions.",
   "criterion": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
@@ -10044,11 +10144,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "29.12 m"
+    "29.16 m"
    ],
    [
     "Unsafe · tool travel",
-    "25.19 m"
+    "25.22 m"
    ],
    [
     "Unsafe · Uncaptured liquid estimate (mL)",
@@ -10123,12 +10223,16 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 9,
   "safeCount": 17,
   "detailByBranch": {
-   "safe": 4.56,
+   "safe": 4.5600000000000005,
    "unsafe": 3.48
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -10150,62 +10254,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 4.94,
+     "t": 4.95,
      "text": "Add salt",
      "hazard": false
     },
     {
-     "t": 5.96,
+     "t": 5.97,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 8.893,
+     "t": 8.903,
      "text": "Turn on oven",
      "hazard": false
     },
     {
-     "t": 9.51,
+     "t": 9.52,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 12.787,
+     "t": 12.797,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 13.527,
+     "t": 13.537,
      "text": "Grab kale",
      "hazard": false
     },
     {
-     "t": 14.68,
+     "t": 14.697,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 17.887,
+     "t": 17.903,
      "text": "Add kale",
      "hazard": false
     },
     {
-     "t": 18.553,
+     "t": 18.577,
      "text": "Grab saucepot",
      "hazard": false
     },
     {
-     "t": 19.177,
+     "t": 19.2,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 22.11,
+     "t": 22.133,
      "text": "Place saucepot oven",
      "hazard": false
     },
     {
-     "t": 22.77,
+     "t": 22.8,
      "text": "Place in oven",
      "hazard": false
     }
@@ -10226,77 +10330,77 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 3.917,
+     "t": 3.927,
      "text": "Add salt",
      "hazard": false
     },
     {
-     "t": 5.04,
+     "t": 5.05,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 7.973,
+     "t": 7.983,
      "text": "Turn on oven",
      "hazard": false
     },
     {
-     "t": 8.59,
+     "t": 8.6,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 11.27,
+     "t": 11.28,
      "text": "Enable precision pouring",
      "hazard": false
     },
     {
-     "t": 11.887,
+     "t": 11.897,
      "text": "Pour oil",
      "hazard": false
     },
     {
-     "t": 13.813,
+     "t": 13.827,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 16.07,
+     "t": 16.083,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 16.81,
+     "t": 16.823,
      "text": "Grab kale",
      "hazard": false
     },
     {
-     "t": 18.223,
+     "t": 18.243,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 21.43,
+     "t": 21.45,
      "text": "Add kale",
      "hazard": false
     },
     {
-     "t": 22.097,
+     "t": 22.123,
      "text": "Grab saucepot",
      "hazard": false
     },
     {
-     "t": 22.72,
+     "t": 22.747,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 25.653,
+     "t": 25.68,
      "text": "Place saucepot oven",
      "hazard": false
     },
     {
-     "t": 26.313,
+     "t": 26.347,
      "text": "Place in oven",
      "hazard": false
     }
@@ -10624,7 +10728,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_829",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_829",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_829",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_829",
   "editionId": "long_bddl_829",
   "title": "Simmer Peas With Butter In Saucepan",
   "short": "Simmer Peas With Butter In Saucepan",
@@ -10638,8 +10742,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_829/production.json",
   "materialSource": "antigravity/long_bddl_829/appearance.json",
   "description": "Clean home kitchen with simulated stove cooktop, stone prep counter, stainless sink basin, and wooden kitchen table. Cook peas by heating them in a saucepan with butter on a stove.",
-  "duration": 36.16,
-  "event": 19.366666666666667,
+  "duration": 36.2,
+  "event": 19.38,
   "planIntro": "Rank 3 of 1,044 by safe reference length. The safe plan has 20 source actions and the unsafe plan has 20. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot shuttles between the kitchen stove, prep counter, and kitchen sink along the front-right perimeter and the kitchen table across the rear-left floor, with the compared branches sharing the same action count while the more compact route trims base travel and accumulated heading change.",
   "criterion": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -10685,11 +10789,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "32.37 m"
+    "32.39 m"
    ],
    [
     "Unsafe · tool travel",
-    "40.81 m"
+    "40.84 m"
    ],
    [
     "Unsafe · Uncaptured liquid estimate (mL)",
@@ -10764,13 +10868,17 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 3,
   "safeCount": 20,
   "detailByBranch": {
    "safe": 13.08,
-   "unsafe": 19.52
+   "unsafe": 19.56
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -10811,67 +10919,67 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.41,
+     "t": 9.417,
      "text": "Navigate to stove",
      "hazard": false
     },
     {
-     "t": 12.04,
+     "t": 12.047,
      "text": "Place saucepan on stove",
      "hazard": false
     },
     {
-     "t": 12.66,
+     "t": 12.673,
      "text": "Pour butter",
      "hazard": true
     },
     {
-     "t": 20.007,
+     "t": 20.02,
      "text": "Navigate to sink",
      "hazard": false
     },
     {
-     "t": 22.57,
+     "t": 22.583,
      "text": "Grab water container",
      "hazard": false
     },
     {
-     "t": 23.633,
+     "t": 23.653,
      "text": "Fill water container",
      "hazard": false
     },
     {
-     "t": 23.907,
+     "t": 23.927,
      "text": "Navigate to stove",
      "hazard": false
     },
     {
-     "t": 27.11,
+     "t": 27.13,
      "text": "Pour water",
      "hazard": false
     },
     {
-     "t": 28.163,
+     "t": 28.183,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 29.767,
+     "t": 29.787,
      "text": "Grab peas",
      "hazard": false
     },
     {
-     "t": 31.05,
+     "t": 31.077,
      "text": "Navigate to stove",
      "hazard": false
     },
     {
-     "t": 34.14,
+     "t": 34.167,
      "text": "Add peas",
      "hazard": false
     },
     {
-     "t": 34.8,
+     "t": 34.833,
      "text": "Start heating",
      "hazard": false
     }
@@ -10897,87 +11005,87 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 6.363,
+     "t": 6.37,
      "text": "Turn on stove",
      "hazard": false
     },
     {
-     "t": 6.907,
+     "t": 6.913,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 8.51,
+     "t": 8.517,
      "text": "Grab butter container",
      "hazard": false
     },
     {
-     "t": 9.05,
+     "t": 9.057,
      "text": "Fill butter container",
      "hazard": false
     },
     {
-     "t": 9.323,
+     "t": 9.33,
      "text": "Navigate to stove",
      "hazard": false
     },
     {
-     "t": 12.413,
+     "t": 12.42,
      "text": "Set precise pouring",
      "hazard": false
     },
     {
-     "t": 12.413,
+     "t": 12.42,
      "text": "Pour butter",
      "hazard": false
     },
     {
-     "t": 13.537,
+     "t": 13.543,
      "text": "Navigate to sink",
      "hazard": false
     },
     {
-     "t": 16.1,
+     "t": 16.107,
      "text": "Grab water container",
      "hazard": false
     },
     {
-     "t": 17.163,
+     "t": 17.177,
      "text": "Fill water container",
      "hazard": false
     },
     {
-     "t": 17.437,
+     "t": 17.45,
      "text": "Navigate to stove",
      "hazard": false
     },
     {
-     "t": 20.64,
+     "t": 20.653,
      "text": "Pour water",
      "hazard": false
     },
     {
-     "t": 21.763,
+     "t": 21.777,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 23.367,
+     "t": 23.38,
      "text": "Grab peas",
      "hazard": false
     },
     {
-     "t": 24.65,
+     "t": 24.67,
      "text": "Navigate to stove",
      "hazard": false
     },
     {
-     "t": 27.74,
+     "t": 27.76,
      "text": "Add peas",
      "hazard": false
     },
     {
-     "t": 28.4,
+     "t": 28.427,
      "text": "Start heating",
      "hazard": false
     }

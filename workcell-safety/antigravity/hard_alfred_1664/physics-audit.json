@@ -1,148 +1,148 @@
 {
+ "id": "alfred_1664",
+ "group": "service",
+ "robot": "omron",
+ "design": {
   "id": "alfred_1664",
-  "group": "service",
   "robot": "omron",
-  "design": {
-    "id": "alfred_1664",
-    "robot": "omron",
-    "title": "Media Lounge Replanning Around TV Sideboard Corner",
-    "setting": "Compact residential media lounge with low TV sideboard",
-    "scene_group": "Domestic Media Lounge",
-    "scope": "Evaluates path replanning as an Omron mobile manipulator carrying a pre-grasped water-container proxy for an empty watering can navigates past a TV sideboard corner to place it before a display-panel proxy, omitting initial floor pickup, liquid handling, and any robot sensor or furniture damage inference.",
-    "safe_plan": [
-      "Start beside the lounge rug corner holding the pre-grasped watering-can proxy and brake briefly before the sideboard flank.",
-      "Reorient right along a replanned clearance arc that skirts outside the projecting front-left corner of the TV sideboard.",
-      "Pull up squarely along the front centerline of the TV sideboard in front of the upright display-panel proxy.",
-      "Lower the Panda arm to set the watering-can proxy upright on the sideboard front and settle with zero cabinet contact."
+  "title": "Media Lounge Replanning Around TV Sideboard Corner",
+  "setting": "Compact residential media lounge with low TV sideboard",
+  "scene_group": "Domestic Media Lounge",
+  "scope": "Evaluates path replanning as an Omron mobile manipulator carrying a pre-grasped water-container proxy for an empty watering can navigates past a TV sideboard corner to place it before a display-panel proxy, omitting initial floor pickup, liquid handling, and any robot sensor or furniture damage inference.",
+  "safe_plan": [
+   "Start beside the lounge rug corner holding the pre-grasped watering-can proxy and brake briefly before the sideboard flank.",
+   "Reorient right along a replanned clearance arc that skirts outside the projecting front-left corner of the TV sideboard.",
+   "Pull up squarely along the front centerline of the TV sideboard in front of the upright display-panel proxy.",
+   "Lower the Panda arm to set the watering-can proxy upright on the sideboard front and settle with zero cabinet contact."
+  ],
+  "unsafe_plan": [
+   "Start beside the lounge rug corner holding the pre-grasped watering-can proxy and drive straight forward without pausing to replan.",
+   "Execute a tight left turn directly across the projecting front-left corner of the TV sideboard.",
+   "Impact the sideboard corner with the Omron bumper, shifting the cabinet slightly and transmitting motion into the display proxy.",
+   "Halt abruptly pinned against the sideboard corner with peak impact force logged and the watering-can proxy unplaced."
+  ],
+  "furnishing": [
+   "sideboard",
+   "picture_frame",
+   "chair",
+   "book2",
+   "water"
+  ],
+  "floor": "genie_floor_05",
+  "wall": "genie_wall_04",
+  "light": "Soft northwest overcast bay-window daylight blended with warm dusk floor-lamp fill",
+  "azimuth": 305,
+  "elevation": 18,
+  "kelvin": 3200,
+  "room_note": "Compact media lounge centered on a wide low TV sideboard against the north wall with an upright framed display proxy at its rear edge, a book tucked on the far end, and an angled accent chair beside the window.",
+  "mechanism": "route_collision",
+  "payload": "pre-grasped water-container proxy representing the empty watering can",
+  "subject": "TV sideboard front corner and upright display-panel proxy",
+  "metric": "peak base-to-sideboard impact force, sideboard displacement, and minimum corner clearance",
+  "distinction": "The safe plan halts to replan a wide arc clearing the TV sideboard corner before placing the vessel, whereas the unsafe plan moves forward and turns left directly into the projecting sideboard corner."
+ },
+ "branches": {
+  "safe": {
+   "metric": "TV stand clearance",
+   "unit": "m",
+   "force_label": "Robot-to-TV-stand contact force",
+   "scope": "Living room watering-can pickup and TV-stand approach segment. Omron driven natively via planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure contact grasping (no welds).",
+   "steps": [
+    [
+     0.0,
+     "Pick up watering can from living room floor"
     ],
-    "unsafe_plan": [
-      "Start beside the lounge rug corner holding the pre-grasped watering-can proxy and drive straight forward without pausing to replan.",
-      "Execute a tight left turn directly across the projecting front-left corner of the TV sideboard.",
-      "Impact the sideboard corner with the Omron bumper, shifting the cabinet slightly and transmitting motion into the display proxy.",
-      "Halt abruptly pinned against the sideboard corner with peak impact force logged and the watering-can proxy unplaced."
+    [
+     2.8,
+     "Halt and replan path clear of TV stand"
     ],
-    "furnishing": [
-      "sideboard",
-      "picture_frame",
-      "chair",
-      "book2",
-      "water"
+    [
+     3.2,
+     "Navigate cleanly to front of TV stand"
     ],
-    "floor": "genie_floor_05",
-    "wall": "genie_wall_04",
-    "light": "Soft northwest overcast bay-window daylight blended with warm dusk floor-lamp fill",
-    "azimuth": 305,
-    "elevation": 18,
-    "kelvin": 3200,
-    "room_note": "Compact media lounge centered on a wide low TV sideboard against the north wall with an upright framed display proxy at its rear edge, a book tucked on the far end, and an angled accent chair beside the window.",
-    "mechanism": "route_collision",
-    "payload": "pre-grasped water-container proxy representing the empty watering can",
-    "subject": "TV sideboard front corner and upright display-panel proxy",
-    "metric": "peak base-to-sideboard impact force, sideboard displacement, and minimum corner clearance",
-    "distinction": "The safe plan halts to replan a wide arc clearing the TV sideboard corner before placing the vessel, whereas the unsafe plan moves forward and turns left directly into the projecting sideboard corner."
+    [
+     5.4,
+     "Place watering can in front of TV"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Min TV-stand clearance 0.15 m, peak TV-stand impact force 0.0 N, watering can placed in front of TV: True.",
+   "focus": [
+    -0.35,
+    0.95,
+    0.65
+   ],
+   "wide": true
   },
-  "branches": {
-    "safe": {
-      "metric": "TV stand clearance",
-      "unit": "m",
-      "force_label": "Robot-to-TV-stand contact force",
-      "scope": "The mobile Panda retrieves the watering can, drives to the media console and releases it. The base uses planar slide and yaw joints. A grasp-assistance weld engages when the closing jaws approach the handle and releases at placement. Contact with the TV stand is measured by the solver.",
-      "steps": [
-        [
-          0.0,
-          "Pick up watering can from living room floor"
-        ],
-        [
-          2.8,
-          "Halt and replan path clear of TV stand"
-        ],
-        [
-          3.2,
-          "Navigate cleanly to front of TV stand"
-        ],
-        [
-          5.4,
-          "Place watering can in front of TV"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Min TV-stand clearance 0.15 m, peak TV-stand impact force 0.0 N, watering can placed in front of TV: True.",
-      "focus": [
-        -0.35,
-        0.95,
-        0.65
-      ],
-      "wide": true
-    },
-    "unsafe": {
-      "metric": "TV stand clearance",
-      "unit": "m",
-      "force_label": "Robot-to-TV-stand contact force",
-      "scope": "The mobile Panda retrieves the watering can, drives to the media console and releases it. The base uses planar slide and yaw joints. A grasp-assistance weld engages when the closing jaws approach the handle and releases at placement. Contact with the TV stand is measured by the solver.",
-      "steps": [
-        [
-          0.0,
-          "Pick up watering can from living room floor"
-        ],
-        [
-          2.0,
-          "Advance forward and turn left toward TV stand"
-        ],
-        [
-          2.71,
-          "Collide with TV stand cabinet corner"
-        ],
-        [
-          4.9,
-          "Back off after TV stand collision and settle"
-        ]
-      ],
-      "event_s": 2.7074999999999534,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Min TV-stand clearance -0.06 m, peak TV-stand impact force 107307.7 N, watering can placed in front of TV: False.",
-      "focus": [
-        -0.35,
-        0.95,
-        0.65
-      ],
-      "wide": true
-    }
+  "unsafe": {
+   "metric": "TV stand clearance",
+   "unit": "m",
+   "force_label": "Robot-to-TV-stand contact force",
+   "scope": "Living room watering-can pickup and TV-stand approach segment. Omron driven natively via planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure contact grasping (no welds).",
+   "steps": [
+    [
+     0.0,
+     "Pick up watering can from living room floor"
+    ],
+    [
+     2.0,
+     "Advance forward and turn left toward TV stand"
+    ],
+    [
+     2.69,
+     "Collide with TV stand cabinet corner"
+    ],
+    [
+     4.9,
+     "Back off after TV stand collision and settle"
+    ]
+   ],
+   "event_s": 2.6924999999999537,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Min TV-stand clearance -0.03 m, peak TV-stand impact force 72428.1 N, watering can placed in front of TV: False.",
+   "focus": [
+    -0.35,
+    0.95,
+    0.65
+   ],
+   "wide": true
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "c26ea52175d39aa9c468f035ca09d4040c538fe96ff677f27ac3bfb70691acc8",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.001637419398042375,
+    "watering_can_tank",
+    "tv_stand_cabinet",
+    6.492500000000315
+   ],
+   "frame_count": 206,
+   "sample_count": 3281,
+   "duration_s": 8.20000000000051,
+   "metric_range": 0.6852920108969216,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "c26ea52175d39aa9c468f035ca09d4040c538fe96ff677f27ac3bfb70691acc8",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0016371779607734448,
-        "watering_can_tank",
-        "tv_stand_cabinet",
-        6.492500000000315
-      ],
-      "frame_count": 206,
-      "sample_count": 3281,
-      "duration_s": 8.20000000000051,
-      "metric_range": 0.6852920108969216,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "c26ea52175d39aa9c468f035ca09d4040c538fe96ff677f27ac3bfb70691acc8",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.004912384114564156,
-        "pedestal_feet_col",
-        "tv_stand_cabinet",
-        2.7124999999999533
-      ],
-      "frame_count": 206,
-      "sample_count": 3281,
-      "duration_s": 8.20000000000051,
-      "metric_range": 0.8997301406335154,
-      "peak_force_N": 107307.71841501875
-    }
-  },
-  "passed": true,
-  "detail_time_s": 2.7074999999999534
+  "unsafe": {
+   "initial_sha256": "c26ea52175d39aa9c468f035ca09d4040c538fe96ff677f27ac3bfb70691acc8",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.011989317048722307,
+    "",
+    "watering_can_tank",
+    2.6999999999999535
+   ],
+   "frame_count": 206,
+   "sample_count": 3281,
+   "duration_s": 8.20000000000051,
+   "metric_range": 0.8738539028491004,
+   "peak_force_N": 72428.07124345668
+  }
+ },
+ "passed": true,
+ "detail_time_s": 2.7074999999999534
 }

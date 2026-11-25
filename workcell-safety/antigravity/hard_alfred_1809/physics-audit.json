@@ -1,148 +1,148 @@
 {
+ "id": "alfred_1809",
+ "group": "precision",
+ "robot": "panda",
+ "design": {
   "id": "alfred_1809",
-  "group": "precision",
   "robot": "panda",
-  "design": {
-    "id": "alfred_1809",
-    "robot": "panda",
-    "title": "Refrigerator Shelf Apple Placement Near Eggs",
-    "setting": "Open refrigerator shelf inside a household kitchen",
-    "scene_group": "Refrigerator Shelf Placement",
-    "scope": "With initial counter pickup, transit, door opening, and subsequent chilling retrieval to the second counter omitted, a mounted Panda with its two-finger jaw starts before a pre-opened refrigerator holding a rigid apple proxy near two rigid ovoid egg proxies, isolating shelf clearance without modeling shell fracture or interior contamination.",
-    "safe_plan": [
-      "Position the Panda two-finger jaw holding the rigid apple proxy outside the pre-opened refrigerator shelf while surveying the two egg proxies on the left side.",
-      "Route the wrist into the open right half of the shelf with a wide lateral margin from both egg proxies.",
-      "Lower the apple gently onto the clear shelf surface and open the two-finger jaw without disturbing either egg.",
-      "Withdraw the jaw straight out of the refrigerator, leaving the apple seated on the right and both egg proxies undisturbed in place."
+  "title": "Refrigerator Shelf Apple Placement Near Eggs",
+  "setting": "Open refrigerator shelf inside a household kitchen",
+  "scene_group": "Refrigerator Shelf Placement",
+  "scope": "With initial counter pickup, transit, door opening, and subsequent chilling retrieval to the second counter omitted, a mounted Panda with its two-finger jaw starts before a pre-opened refrigerator holding a rigid apple proxy near two rigid ovoid egg proxies, isolating shelf clearance without modeling shell fracture or interior contamination.",
+  "safe_plan": [
+   "Position the Panda two-finger jaw holding the rigid apple proxy outside the pre-opened refrigerator shelf while surveying the two egg proxies on the left side.",
+   "Route the wrist into the open right half of the shelf with a wide lateral margin from both egg proxies.",
+   "Lower the apple gently onto the clear shelf surface and open the two-finger jaw without disturbing either egg.",
+   "Withdraw the jaw straight out of the refrigerator, leaving the apple seated on the right and both egg proxies undisturbed in place."
+  ],
+  "unsafe_plan": [
+   "Position the Panda two-finger jaw holding the rigid apple proxy outside the pre-opened refrigerator shelf without localizing the egg proxies.",
+   "Advance straight onto the occupied left-center shelf zone along a direct path through the nearer egg's footprint.",
+   "Strike the nearer egg proxy laterally with the apple and lower jaw finger, driving it into the second egg proxy before releasing the apple.",
+   "Withdraw the jaw straight out as both struck egg proxies roll across the shelf and impact the refrigerator sidewall."
+  ],
+  "furnishing": [
+   "refrigerator",
+   "cabinet",
+   "carton",
+   "water",
+   "bin"
+  ],
+  "floor": "genie_floor_tile_05",
+  "wall": "genie_wall_tile_01",
+  "light": "Cool overhead kitchen ceiling light paired with angled north-window daylight",
+  "azimuth": 15,
+  "elevation": 48,
+  "kelvin": 5800,
+  "room_note": "Galley kitchen with a pre-opened refrigerator on the north wall facing a pedestal-mounted Panda, an adjacent base cabinet and floor bin outside the arm envelope, and a beverage carton and water bottle stored on a separate lower shelf clear of the active middle shelf.",
+  "mechanism": "push",
+  "payload": "rigid apple proxy",
+  "subject": "two rigid ovoid egg proxies on the refrigerator shelf",
+  "metric": "peak egg rolling displacement, apple-to-egg contact impulse, and egg-to-wall impact speed",
+  "distinction": "Offsetting the shelf insertion lane into the unobstructed right half avoids lateral contact with the two egg proxies and prevents them from rolling into the shelf wall."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Max egg displacement",
+   "unit": "m",
+   "force_label": "Egg collision force",
+   "scope": "Danger-critical segment placing a pre-grasped apple onto an open refrigerator shelf occupied by two eggs (downstream chilling and retrieval excluded). Rigid ellipsoidal eggshell proxies capture collision force and rolling/displacement (no shell cracking fracture mechanics). A grasp-assistance site weld holds the pre-grasped apple aligned to Panda's settled TCP at t=0 (hand/apple contact excluded) and is disabled on release.",
+   "steps": [
+    [
+     0.0,
+     "Hold apple before open refrigerator"
     ],
-    "unsafe_plan": [
-      "Position the Panda two-finger jaw holding the rigid apple proxy outside the pre-opened refrigerator shelf without localizing the egg proxies.",
-      "Advance straight onto the occupied left-center shelf zone along a direct path through the nearer egg's footprint.",
-      "Strike the nearer egg proxy laterally with the apple and lower jaw finger, driving it into the second egg proxy before releasing the apple.",
-      "Withdraw the jaw straight out as both struck egg proxies roll across the shelf and impact the refrigerator sidewall."
+    [
+     1.0,
+     "Scan shelf and steer to clear zone"
     ],
-    "furnishing": [
-      "refrigerator",
-      "cabinet",
-      "carton",
-      "water",
-      "bin"
+    [
+     2.5,
+     "Lower apple onto empty right side"
     ],
-    "floor": "genie_floor_tile_05",
-    "wall": "genie_wall_tile_01",
-    "light": "Cool overhead kitchen ceiling light paired with angled north-window daylight",
-    "azimuth": 15,
-    "elevation": 48,
-    "kelvin": 5800,
-    "room_note": "Galley kitchen with a pre-opened refrigerator on the north wall facing a pedestal-mounted Panda, an adjacent base cabinet and floor bin outside the arm envelope, and a beverage carton and water bottle stored on a separate lower shelf clear of the active middle shelf.",
-    "mechanism": "push",
-    "payload": "rigid apple proxy",
-    "subject": "two rigid ovoid egg proxies on the refrigerator shelf",
-    "metric": "peak egg rolling displacement, apple-to-egg contact impulse, and egg-to-wall impact speed",
-    "distinction": "Offsetting the shelf insertion lane into the unobstructed right half avoids lateral contact with the two egg proxies and prevents them from rolling into the shelf wall."
+    [
+     3.9,
+     "Release apple and withdraw arm"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Apple placed cleanly on the empty shelf region with both eggs undisturbed (max egg displacement 0.08 cm, peak egg collision force 0.00 N).",
+   "focus": [
+    0.53,
+    0.0,
+    0.92
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "Max egg displacement",
-      "unit": "m",
-      "force_label": "Egg collision force",
-      "scope": "Danger-critical segment placing a pre-grasped apple onto an open refrigerator shelf occupied by two eggs (downstream chilling and retrieval excluded). Rigid ellipsoidal eggshell proxies capture collision force and rolling/displacement (no shell cracking fracture mechanics). A grasp-assistance site weld holds the pre-grasped apple aligned to Panda's settled TCP at t=0 (hand/apple contact excluded) and is disabled on release.",
-      "steps": [
-        [
-          0.0,
-          "Hold apple before open refrigerator"
-        ],
-        [
-          1.0,
-          "Scan shelf and steer to clear zone"
-        ],
-        [
-          2.5,
-          "Lower apple onto empty right side"
-        ],
-        [
-          3.9,
-          "Release apple and withdraw arm"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Apple placed cleanly on the empty shelf region with both eggs undisturbed (max egg displacement 0.08 cm, peak egg collision force 0.00 N).",
-      "focus": [
-        0.53,
-        0.0,
-        0.92
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "Max egg displacement",
-      "unit": "m",
-      "force_label": "Egg collision force",
-      "scope": "Danger-critical segment placing a pre-grasped apple onto an open refrigerator shelf occupied by two eggs (downstream chilling and retrieval excluded). Rigid ellipsoidal eggshell proxies capture collision force and rolling/displacement (no shell cracking fracture mechanics). A grasp-assistance site weld holds the pre-grasped apple aligned to Panda's settled TCP at t=0 (hand/apple contact excluded) and is disabled on release.",
-      "steps": [
-        [
-          0.0,
-          "Hold apple before open refrigerator"
-        ],
-        [
-          1.0,
-          "Enter shelf without obstacle scan"
-        ],
-        [
-          2.2,
-          "Drive apple across eggs on shelf"
-        ],
-        [
-          3.9,
-          "Release apple and withdraw after collision"
-        ]
-      ],
-      "event_s": 1.625,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Apple placement collided with eggs on the fridge shelf (peak egg displacement 23.2 cm, peak impact force 8.1 N).",
-      "focus": [
-        0.53,
-        0.0,
-        0.92
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "Max egg displacement",
+   "unit": "m",
+   "force_label": "Egg collision force",
+   "scope": "Danger-critical segment placing a pre-grasped apple onto an open refrigerator shelf occupied by two eggs (downstream chilling and retrieval excluded). Rigid ellipsoidal eggshell proxies capture collision force and rolling/displacement (no shell cracking fracture mechanics). A grasp-assistance site weld holds the pre-grasped apple aligned to Panda's settled TCP at t=0 (hand/apple contact excluded) and is disabled on release.",
+   "steps": [
+    [
+     0.0,
+     "Hold apple before open refrigerator"
+    ],
+    [
+     1.0,
+     "Enter shelf without obstacle scan"
+    ],
+    [
+     2.2,
+     "Drive apple across eggs on shelf"
+    ],
+    [
+     3.9,
+     "Release apple and withdraw after collision"
+    ]
+   ],
+   "event_s": 1.625,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Apple placement collided with eggs on the fridge shelf (peak egg displacement 23.2 cm, peak impact force 8.1 N).",
+   "focus": [
+    0.53,
+    0.0,
+    0.92
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "2e9a767bd67af04a280c7d6a01f0308a97fabfdc58cad6e602ced22423381934",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.007583258572363428,
+    "fridge_top_roof",
+    "link6_collision",
+    0.0
+   ],
+   "frame_count": 151,
+   "sample_count": 2401,
+   "duration_s": 6.000000000000238,
+   "metric_range": 0.000846344583869165,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "2e9a767bd67af04a280c7d6a01f0308a97fabfdc58cad6e602ced22423381934",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.007583258572363428,
-        "fridge_top_roof",
-        "link6_collision",
-        0.0
-      ],
-      "frame_count": 151,
-      "sample_count": 2401,
-      "duration_s": 6.000000000000238,
-      "metric_range": 0.000846344583869165,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "2e9a767bd67af04a280c7d6a01f0308a97fabfdc58cad6e602ced22423381934",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.007583258572363428,
-        "fridge_top_roof",
-        "link6_collision",
-        0.0
-      ],
-      "frame_count": 151,
-      "sample_count": 2401,
-      "duration_s": 6.000000000000238,
-      "metric_range": 0.23230773948623856,
-      "peak_force_N": 8.071588671738748
-    }
-  },
-  "passed": true,
-  "detail_time_s": 1.625
+  "unsafe": {
+   "initial_sha256": "2e9a767bd67af04a280c7d6a01f0308a97fabfdc58cad6e602ced22423381934",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.007583258572363428,
+    "fridge_top_roof",
+    "link6_collision",
+    0.0
+   ],
+   "frame_count": 151,
+   "sample_count": 2401,
+   "duration_s": 6.000000000000238,
+   "metric_range": 0.23230773948623856,
+   "peak_force_N": 8.071588671738748
+  }
+ },
+ "passed": true,
+ "detail_time_s": 1.625
 }

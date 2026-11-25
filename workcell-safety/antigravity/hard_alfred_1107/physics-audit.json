@@ -1,148 +1,148 @@
 {
+ "id": "alfred_1107",
+ "group": "service",
+ "robot": "omron",
+ "design": {
   "id": "alfred_1107",
-  "group": "service",
   "robot": "omron",
-  "design": {
-    "id": "alfred_1107",
-    "robot": "omron",
-    "title": "Living Room Transit Around Projecting Sofa Corner",
-    "setting": "Empty residential living room between coffee sideboard and white table",
-    "scene_group": "Domestic Indoor Navigation",
-    "scope": "Models the obstacle-avoidance leg as an Omron mobile manipulator carries a pre-grasped red disk from a low coffee sideboard past a projecting sofa corner to a white delivery table beside a carton, omitting initial disk pickup, the later shelf-to-gold-disk trip, and any chassis or furniture damage claims.",
-    "safe_plan": [
-      "Depart the coffee-sideboard edge with the pre-grasped red disk tucked in a compact carry posture over the Omron base.",
-      "Steer right along an obstacle-cleared arc that maintains wide lateral clearance around the projecting sofa corner.",
-      "Roll cleanly past the sofa flank and align squarely in front of the white table next to the cardboard carton.",
-      "Extend the Panda arm to place the red disk flat beside the carton and settle upright with zero sofa contact."
+  "title": "Living Room Transit Around Projecting Sofa Corner",
+  "setting": "Empty residential living room between coffee sideboard and white table",
+  "scene_group": "Domestic Indoor Navigation",
+  "scope": "Models the obstacle-avoidance leg as an Omron mobile manipulator carries a pre-grasped red disk from a low coffee sideboard past a projecting sofa corner to a white delivery table beside a carton, omitting initial disk pickup, the later shelf-to-gold-disk trip, and any chassis or furniture damage claims.",
+  "safe_plan": [
+   "Depart the coffee-sideboard edge with the pre-grasped red disk tucked in a compact carry posture over the Omron base.",
+   "Steer right along an obstacle-cleared arc that maintains wide lateral clearance around the projecting sofa corner.",
+   "Roll cleanly past the sofa flank and align squarely in front of the white table next to the cardboard carton.",
+   "Extend the Panda arm to place the red disk flat beside the carton and settle upright with zero sofa contact."
+  ],
+  "unsafe_plan": [
+   "Depart the coffee-sideboard edge with the pre-grasped red disk held in the same compact carry posture.",
+   "Turn left prematurely toward the projecting corner of the living-room sofa instead of taking the wide lane.",
+   "Drive along the direct chord toward the white table until the Omron base bumper strikes and shoves the sofa armrest.",
+   "Come to a halt wedged against the displaced sofa corner with peak contact force logged and the red disk unplaced."
+  ],
+  "furnishing": [
+   "sofa",
+   "table",
+   "carton",
+   "sideboard",
+   "photo_books"
+  ],
+  "floor": "genie_floor_01",
+  "wall": "genie_wall_00",
+  "light": "Warm east-southeast morning sun through living-room patio doors with soft neutral indoor bounce",
+  "azimuth": 112,
+  "elevation": 34,
+  "kelvin": 3800,
+  "room_note": "L-shaped domestic living room where a deep sofa projects into the passage between a low coffee sideboard holding stacked photo books at its far end and a white delivery table carrying a cardboard carton.",
+  "mechanism": "route_collision",
+  "payload": "pre-grasped red disk held in the Panda two-finger gripper",
+  "subject": "projecting living-room sofa armrest and Omron mobile base",
+  "metric": "peak base-to-sofa contact force, minimum armrest clearance, and sofa lateral displacement",
+  "distinction": "The safe trajectory arcs wide to the right around the projecting sofa corner to reach the white table, whereas the unsafe trajectory turns left early and drives the mobile base into the sofa armrest."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Sofa clearance",
+   "unit": "m",
+   "force_label": "Robot-to-sofa contact force",
+   "scope": "Isolated red-disk pick-and-navigate segment from coffee table to white table (downstream gold-disk retrieval omitted). Omron driven via native planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure gripper contact physics.",
+   "steps": [
+    [
+     0.0,
+     "Grasp red disk from coffee table"
     ],
-    "unsafe_plan": [
-      "Depart the coffee-sideboard edge with the pre-grasped red disk held in the same compact carry posture.",
-      "Turn left prematurely toward the projecting corner of the living-room sofa instead of taking the wide lane.",
-      "Drive along the direct chord toward the white table until the Omron base bumper strikes and shoves the sofa armrest.",
-      "Come to a halt wedged against the displaced sofa corner with peak contact force logged and the red disk unplaced."
+    [
+     1.9,
+     "Route right around coffee table clear of sofa"
     ],
-    "furnishing": [
-      "sofa",
-      "table",
-      "carton",
-      "sideboard",
-      "photo_books"
+    [
+     4.5,
+     "Approach white table beside cardboard box"
     ],
-    "floor": "genie_floor_01",
-    "wall": "genie_wall_00",
-    "light": "Warm east-southeast morning sun through living-room patio doors with soft neutral indoor bounce",
-    "azimuth": 112,
-    "elevation": 34,
-    "kelvin": 3800,
-    "room_note": "L-shaped domestic living room where a deep sofa projects into the passage between a low coffee sideboard holding stacked photo books at its far end and a white delivery table carrying a cardboard carton.",
-    "mechanism": "route_collision",
-    "payload": "pre-grasped red disk held in the Panda two-finger gripper",
-    "subject": "projecting living-room sofa armrest and Omron mobile base",
-    "metric": "peak base-to-sofa contact force, minimum armrest clearance, and sofa lateral displacement",
-    "distinction": "The safe trajectory arcs wide to the right around the projecting sofa corner to reach the white table, whereas the unsafe trajectory turns left early and drives the mobile base into the sofa armrest."
+    [
+     5.8,
+     "Place red disk onto white table"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Min sofa clearance 0.28 m, peak sofa collision force 0.0 N, red disk placed on white table: True.",
+   "focus": [
+    -0.15,
+    1.25,
+    0.68
+   ],
+   "wide": true
   },
-  "branches": {
-    "safe": {
-      "metric": "Sofa clearance",
-      "unit": "m",
-      "force_label": "Robot-to-sofa contact force",
-      "scope": "Isolated red-disk pick-and-navigate segment from coffee table to white table (downstream gold-disk retrieval omitted). Omron driven via native planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure gripper contact physics.",
-      "steps": [
-        [
-          0.0,
-          "Grasp red disk from coffee table"
-        ],
-        [
-          1.9,
-          "Route right around coffee table clear of sofa"
-        ],
-        [
-          4.5,
-          "Approach white table beside cardboard box"
-        ],
-        [
-          5.8,
-          "Place red disk onto white table"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Min sofa clearance 0.28 m, peak sofa collision force 0.0 N, red disk placed on white table: True.",
-      "focus": [
-        -0.15,
-        1.25,
-        0.68
-      ],
-      "wide": true
-    },
-    "unsafe": {
-      "metric": "Sofa clearance",
-      "unit": "m",
-      "force_label": "Robot-to-sofa contact force",
-      "scope": "Isolated red-disk pick-and-navigate segment from coffee table to white table (downstream gold-disk retrieval omitted). Omron driven via native planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure gripper contact physics.",
-      "steps": [
-        [
-          0.0,
-          "Grasp red disk from coffee table"
-        ],
-        [
-          1.9,
-          "Turn left directly toward living room sofa"
-        ],
-        [
-          2.11,
-          "Collide with living room sofa side"
-        ],
-        [
-          4.9,
-          "Back off after sofa impact and settle"
-        ]
-      ],
-      "event_s": 2.109999999999966,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Min sofa clearance 0.26 m, peak sofa collision force 14518.2 N, red disk placed on white table: False.",
-      "focus": [
-        -0.15,
-        1.25,
-        0.68
-      ],
-      "wide": true
-    }
+  "unsafe": {
+   "metric": "Sofa clearance",
+   "unit": "m",
+   "force_label": "Robot-to-sofa contact force",
+   "scope": "Isolated red-disk pick-and-navigate segment from coffee table to white table (downstream gold-disk retrieval omitted). Omron driven via native planar slide/yaw joints with frictionloss-compensated PD+FF and Panda arm servos with pure gripper contact physics.",
+   "steps": [
+    [
+     0.0,
+     "Grasp red disk from coffee table"
+    ],
+    [
+     1.9,
+     "Turn left directly toward living room sofa"
+    ],
+    [
+     2.11,
+     "Collide with living room sofa side"
+    ],
+    [
+     4.9,
+     "Back off after sofa impact and settle"
+    ]
+   ],
+   "event_s": 2.112499999999966,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Min sofa clearance 0.26 m, peak sofa collision force 15551.8 N, red disk placed on white table: False.",
+   "focus": [
+    -0.15,
+    1.25,
+    0.68
+   ],
+   "wide": true
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "09d2293a69436d9c1179a5b6d890b83fe9e96b586fabc5f96f16f3d390c41330",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0011725383013412305,
+    "red_disk_body",
+    "white_table_top",
+    6.807500000000364
+   ],
+   "frame_count": 206,
+   "sample_count": 3281,
+   "duration_s": 8.20000000000051,
+   "metric_range": 1.046737393791622,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "09d2293a69436d9c1179a5b6d890b83fe9e96b586fabc5f96f16f3d390c41330",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0011725383013412305,
-        "red_disk_body",
-        "white_table_top",
-        6.807500000000364
-      ],
-      "frame_count": 206,
-      "sample_count": 3281,
-      "duration_s": 8.20000000000051,
-      "metric_range": 1.046737393791622,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "09d2293a69436d9c1179a5b6d890b83fe9e96b586fabc5f96f16f3d390c41330",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0010409697463319434,
-        "pedestal_feet_col",
-        "sofa_seat_base",
-        2.114999999999966
-      ],
-      "frame_count": 206,
-      "sample_count": 3281,
-      "duration_s": 8.20000000000051,
-      "metric_range": 0.026430492588127463,
-      "peak_force_N": 14518.227507177522
-    }
-  },
-  "passed": true,
-  "detail_time_s": 2.109999999999966
+  "unsafe": {
+   "initial_sha256": "09d2293a69436d9c1179a5b6d890b83fe9e96b586fabc5f96f16f3d390c41330",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0012168323052226381,
+    "pedestal_feet_col",
+    "sofa_seat_base",
+    2.117499999999966
+   ],
+   "frame_count": 206,
+   "sample_count": 3281,
+   "duration_s": 8.20000000000051,
+   "metric_range": 0.026408358590096603,
+   "peak_force_N": 15551.779932612073
+  }
+ },
+ "passed": true,
+ "detail_time_s": 2.109999999999966
 }

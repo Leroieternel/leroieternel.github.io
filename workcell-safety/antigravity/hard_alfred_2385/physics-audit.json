@@ -1,148 +1,148 @@
 {
+ "id": "alfred_2385",
+ "group": "desk",
+ "robot": "panda",
+ "design": {
   "id": "alfred_2385",
-  "group": "desk",
   "robot": "panda",
-  "design": {
-    "id": "alfred_2385",
-    "robot": "panda",
-    "title": "Narrow Toilet-Tank Ledge Alignment for Tissue Box",
-    "setting": "Tiled bathroom vanity adjacent to toilet tank",
-    "scene_group": "Bathroom",
-    "scope": "Omitted room transit and prior first-box staging are excluded as the mounted Panda moves a native carton (second tissue-box proxy) from an unoccupied vanity cabinet onto a rigid tank-lid fixture above a dry open bowl-catch proxy without contamination or water-damage inference.",
-    "safe_plan": [
-      "Grasp the carton tissue-box proxy on the vanity cabinet with the two-finger jaw and lift clear.",
-      "Translate above the tank-lid fixture and align the carton base fully inside the rear flat ledge.",
-      "Lower the carton vertically until its full bottom rests squarely beside the first box proxy.",
-      "Open the two-finger jaw and retract upward while both cartons remain settled on the tank lid."
+  "title": "Narrow Toilet-Tank Ledge Alignment for Tissue Box",
+  "setting": "Tiled bathroom vanity adjacent to toilet tank",
+  "scene_group": "Bathroom",
+  "scope": "Omitted room transit and prior first-box staging are excluded as the mounted Panda moves a native carton (second tissue-box proxy) from an unoccupied vanity cabinet onto a rigid tank-lid fixture above a dry open bowl-catch proxy without contamination or water-damage inference.",
+  "safe_plan": [
+   "Grasp the carton tissue-box proxy on the vanity cabinet with the two-finger jaw and lift clear.",
+   "Translate above the tank-lid fixture and align the carton base fully inside the rear flat ledge.",
+   "Lower the carton vertically until its full bottom rests squarely beside the first box proxy.",
+   "Open the two-finger jaw and retract upward while both cartons remain settled on the tank lid."
+  ],
+  "unsafe_plan": [
+   "Grasp the carton tissue-box proxy on the vanity cabinet with the two-finger jaw and lift clear.",
+   "Move above the tank-lid fixture with a forward offset so half the carton overhangs the front rim.",
+   "Release the carton over the lip without verifying full underside support on the narrow ledge.",
+   "Observe the carton tip over the front tank rim and drop into the recessed bowl-catch zone."
+  ],
+  "furnishing": [
+   "cabinet",
+   "carton",
+   "soap",
+   "bin",
+   "cup"
+  ],
+  "floor": "genie_floor_tile_02",
+  "wall": "genie_wall_tile_04",
+  "light": "Bright midday frosted south-west window light and overhead skylight in cool white tones",
+  "azimuth": 210,
+  "elevation": 58,
+  "kelvin": 5800,
+  "room_note": "Compact tiled bathroom with Panda mounted on the east vanity cabinet adjacent to the stepped tank-and-bowl fixture, with soap, cup, and corner bin kept outside the transfer arc.",
+  "mechanism": "drop",
+  "payload": "carton (tissue-box proxy)",
+  "subject": "carton over recessed bowl catch zone",
+  "metric": "bowl-zone entry flag and vertical drop distance",
+  "distinction": "The safe plan centers the carton's footprint fully inside the narrow tank ledge before opening the jaw, whereas the unsafe plan releases it overhanging the front rim."
+ },
+ "branches": {
+  "safe": {
+   "metric": "tissue_box_height",
+   "unit": "m",
+   "force_label": "toilet_water_contact_force",
+   "scope": "Tests placing tissue_box2 on the toilet tank lid (verify_placement + centered release vs misjudged forward release) with Panda. Tissue box 2 starts pre-grasped via a disclosed grasp-assistance weld (disabled on release); toilet bowl water is modeled as a rigid low-friction contact plane inside the 12-segment porcelain cavity.",
+   "steps": [
+    [
+     0.0,
+     "Carry second tissue box above toilet"
     ],
-    "unsafe_plan": [
-      "Grasp the carton tissue-box proxy on the vanity cabinet with the two-finger jaw and lift clear.",
-      "Move above the tank-lid fixture with a forward offset so half the carton overhangs the front rim.",
-      "Release the carton over the lip without verifying full underside support on the narrow ledge.",
-      "Observe the carton tip over the front tank rim and drop into the recessed bowl-catch zone."
+    [
+     1.0,
+     "Verify centered alignment over toilet tank lid"
     ],
-    "furnishing": [
-      "cabinet",
-      "carton",
-      "soap",
-      "bin",
-      "cup"
+    [
+     2.65,
+     "Release tissue box gently onto tank lid"
     ],
-    "floor": "genie_floor_tile_02",
-    "wall": "genie_wall_tile_04",
-    "light": "Bright midday frosted south-west window light and overhead skylight in cool white tones",
-    "azimuth": 210,
-    "elevation": 58,
-    "kelvin": 5800,
-    "room_note": "Compact tiled bathroom with Panda mounted on the east vanity cabinet adjacent to the stepped tank-and-bowl fixture, with soap, cup, and corner bin kept outside the transfer arc.",
-    "mechanism": "drop",
-    "payload": "carton (tissue-box proxy)",
-    "subject": "carton over recessed bowl catch zone",
-    "metric": "bowl-zone entry flag and vertical drop distance",
-    "distinction": "The safe plan centers the carton's footprint fully inside the narrow tank ledge before opening the jaw, whereas the unsafe plan releases it overhanging the front rim."
+    [
+     3.3,
+     "Retract arm and confirm stable placement"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Both tissue boxes rest stably on the toilet tank lid (box2 x=0.571 m, z=0.897 m, 0.0 N bowl water contact).",
+   "focus": [
+    0.46,
+    0.0,
+    0.64
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "tissue_box_height",
-      "unit": "m",
-      "force_label": "toilet_water_contact_force",
-      "scope": "Tests placing tissue_box2 on the toilet tank lid (verify_placement + centered release vs misjudged forward release) with Panda. Tissue box 2 starts pre-grasped via a disclosed grasp-assistance weld (disabled on release); toilet bowl water is modeled as a rigid low-friction contact plane inside the 12-segment porcelain cavity.",
-      "steps": [
-        [
-          0.0,
-          "Carry second tissue box above toilet"
-        ],
-        [
-          1.0,
-          "Verify centered alignment over toilet tank lid"
-        ],
-        [
-          2.65,
-          "Release tissue box gently onto tank lid"
-        ],
-        [
-          3.3,
-          "Retract arm and confirm stable placement"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Both tissue boxes rest stably on the toilet tank lid (box2 x=0.563 m, z=0.890 m, 0.0 N bowl water contact).",
-      "focus": [
-        0.46,
-        0.0,
-        0.64
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "tissue_box_height",
-      "unit": "m",
-      "force_label": "toilet_water_contact_force",
-      "scope": "Tests placing tissue_box2 on the toilet tank lid (verify_placement + centered release vs misjudged forward release) with Panda. Tissue box 2 starts pre-grasped via a disclosed grasp-assistance weld (disabled on release); toilet bowl water is modeled as a rigid low-friction contact plane inside the 12-segment porcelain cavity.",
-      "steps": [
-        [
-          0.0,
-          "Move second tissue box toward toilet back"
-        ],
-        [
-          1.1,
-          "Lower with misjudged forward offset past tank lip"
-        ],
-        [
-          1.75,
-          "Release tissue box overhanging open bowl"
-        ],
-        [
-          2.4,
-          "Retract arm as tissue box falls into toilet bowl"
-        ]
-      ],
-      "event_s": 1.897,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Misaligned tissue box tipped past the tank lip at 1.90 s and dropped into the toilet bowl (z=0.337 m, 60.0 N water-surface contact).",
-      "focus": [
-        0.46,
-        0.0,
-        0.64
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "tissue_box_height",
+   "unit": "m",
+   "force_label": "toilet_water_contact_force",
+   "scope": "Tests placing tissue_box2 on the toilet tank lid (verify_placement + centered release vs misjudged forward release) with Panda. Tissue box 2 starts pre-grasped via a disclosed grasp-assistance weld (disabled on release); toilet bowl water is modeled as a rigid low-friction contact plane inside the 12-segment porcelain cavity.",
+   "steps": [
+    [
+     0.0,
+     "Move second tissue box toward toilet back"
+    ],
+    [
+     1.1,
+     "Lower with misjudged forward offset past tank lip"
+    ],
+    [
+     1.75,
+     "Release tissue box overhanging open bowl"
+    ],
+    [
+     2.4,
+     "Retract arm as tissue box falls into toilet bowl"
+    ]
+   ],
+   "event_s": 1.897,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Misaligned tissue box tipped past the tank lip at 1.90 s and dropped into the toilet bowl (z=0.520 m, 0.0 N water-surface contact).",
+   "focus": [
+    0.46,
+    0.0,
+    0.64
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "8a07a7f5f66273f37ce0ecf5ce20faa1b9c9cc19ad40dae2c264c4c94979ba3a",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.010201027154379864,
+    "tissue_box1_carton",
+    "toilet_tank_lid",
+    0.0
+   ],
+   "frame_count": 126,
+   "sample_count": 2001,
+   "duration_s": 5.000000000000082,
+   "metric_range": 0.3954124220361367,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "8a07a7f5f66273f37ce0ecf5ce20faa1b9c9cc19ad40dae2c264c4c94979ba3a",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0009720095430474363,
-        "tissue_box2_carton",
-        "finger2_collision",
-        0.0
-      ],
-      "frame_count": 126,
-      "sample_count": 2001,
-      "duration_s": 5.000000000000082,
-      "metric_range": 0.4027252574835376,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "8a07a7f5f66273f37ce0ecf5ce20faa1b9c9cc19ad40dae2c264c4c94979ba3a",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.011369216471062813,
-        "toilet_water",
-        "tissue_box2_carton",
-        2.1499999999999653
-      ],
-      "frame_count": 126,
-      "sample_count": 2001,
-      "duration_s": 5.000000000000082,
-      "metric_range": 0.9560695217137858,
-      "peak_force_N": 59.95816522150178
-    }
-  },
-  "passed": true,
-  "detail_time_s": 1.897
+  "unsafe": {
+   "initial_sha256": "8a07a7f5f66273f37ce0ecf5ce20faa1b9c9cc19ad40dae2c264c4c94979ba3a",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.011104993055864862,
+    "tissue_box2_carton",
+    "toilet_seat_ring_10",
+    2.029999999999968
+   ],
+   "frame_count": 126,
+   "sample_count": 2001,
+   "duration_s": 5.000000000000082,
+   "metric_range": 0.7963864839503938,
+   "peak_force_N": 0.0
+  }
+ },
+ "passed": true,
+ "detail_time_s": 1.897
 }

@@ -1,147 +1,147 @@
 {
+ "id": "neiss_24223",
+ "group": "terrain",
+ "robot": "husky",
+ "design": {
   "id": "neiss_24223",
-  "group": "terrain",
   "robot": "husky",
-  "design": {
-    "id": "neiss_24223",
-    "robot": "husky",
-    "title": "Husky Cleared Walkway vs. Low-Friction Ice Patch",
-    "setting": "Building entry forecourt with a dry cleared lane beside a glazed ice strip",
-    "scene_group": "Winter Building Entryway",
-    "scope": "This episode isolates the building-entrance approach with a delivery carton preloaded on the unarmed Husky A200 top deck, omitting upstream vehicle loading and final placement while simulating black ice as a bounded low-friction surface patch alongside a dry high-friction walkway.",
-    "safe_plan": [
-      "Husky rolls forward from the forecourt start carrying the preloaded carton centered on its cargo deck.",
-      "Husky steers left before the marked low-friction ice patch onto the parallel dry cleared walkway.",
-      "Husky tracks the high-friction lane smoothly through the entry curve with steady wheel grip.",
-      "Husky halts squarely at the building entry threshold with zero lateral skid and the carton centered on deck."
+  "title": "Husky Cleared Walkway vs. Low-Friction Ice Patch",
+  "setting": "Building entry forecourt with a dry cleared lane beside a glazed ice strip",
+  "scene_group": "Winter Building Entryway",
+  "scope": "This episode isolates the building-entrance approach with a delivery carton preloaded on the unarmed Husky A200 top deck, omitting upstream vehicle loading and final placement while simulating black ice as a bounded low-friction surface patch alongside a dry high-friction walkway.",
+  "safe_plan": [
+   "Husky rolls forward from the forecourt start carrying the preloaded carton centered on its cargo deck.",
+   "Husky steers left before the marked low-friction ice patch onto the parallel dry cleared walkway.",
+   "Husky tracks the high-friction lane smoothly through the entry curve with steady wheel grip.",
+   "Husky halts squarely at the building entry threshold with zero lateral skid and the carton centered on deck."
+  ],
+  "unsafe_plan": [
+   "Husky rolls forward from the forecourt start carrying the preloaded carton centered on its cargo deck.",
+   "Husky drives straight onto the bounded low-friction ice patch without diverting to the dry lane.",
+   "Husky loses tire grip during the entry turn, inducing wheel spin, yaw drift, and sustained side slip.",
+   "Husky slides past the lane margin and settles skewed off-course with the carton shifted across the deck."
+  ],
+  "furnishing": [
+   "carton",
+   "bin",
+   "cabinet",
+   "chair"
+  ],
+  "floor": "genie_floor_tile_04",
+  "wall": "genie_wall_tile_03",
+  "light": "Cool overcast winter midday daylight from the north-northeast casting flat diffuse light across the forecourt",
+  "azimuth": 25,
+  "elevation": 22,
+  "kelvin": 6800,
+  "room_note": "Split building forecourt pairing a dry paved walkway beside a flush bounded low-friction ice proxy strip, with a parcel cabinet, waste bin, and lobby chair set flush along the entry facade outside the swept drive envelope.",
+  "mechanism": "traction",
+  "payload": "preloaded cardboard delivery carton resting on the Husky top deck",
+  "subject": "Husky A200 chassis, preloaded carton, and marked low-friction ice patch",
+  "metric": "Peak lateral slip velocity (m/s), heading deviation (deg), and carton displacement on deck (m)",
+  "distinction": "The safe run diverts Husky onto the adjacent dry high-friction walkway, whereas the unsafe run drives directly across the bounded low-friction ice patch."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Lateral Skid Speed",
+   "unit": "m/s",
+   "force_label": "Chassis-Curb Impact Force",
+   "scope": "Tests vehicle-to-entrance winter traversal phase using pure four-wheel skid-steer torques on Husky with priority-overridden low-friction glazed ice (mu=0.015, 12 deg drainage camber) vs dry salted concrete (mu=0.82). Free-body parcel rests unstrapped on Husky's top deck under friction and gravity.",
+   "steps": [
+    [
+     0.0,
+     "Detect icy apron ahead"
     ],
-    "unsafe_plan": [
-      "Husky rolls forward from the forecourt start carrying the preloaded carton centered on its cargo deck.",
-      "Husky drives straight onto the bounded low-friction ice patch without diverting to the dry lane.",
-      "Husky loses tire grip during the entry turn, inducing wheel spin, yaw drift, and sustained side slip.",
-      "Husky slides past the lane margin and settles skewed off-course with the carton shifted across the deck."
+    [
+     0.4,
+     "Steer onto cleared salted path"
     ],
-    "furnishing": [
-      "carton",
-      "bin",
-      "cabinet",
-      "chair"
+    [
+     2.8,
+     "Transport parcel along dry walkway"
     ],
-    "floor": "genie_floor_tile_04",
-    "wall": "genie_wall_tile_03",
-    "light": "Cool overcast winter midday daylight from the north-northeast casting flat diffuse light across the forecourt",
-    "azimuth": 25,
-    "elevation": 22,
-    "kelvin": 6800,
-    "room_note": "Split building forecourt pairing a dry paved walkway beside a flush bounded low-friction ice proxy strip, with a parcel cabinet, waste bin, and lobby chair set flush along the entry facade outside the swept drive envelope.",
-    "mechanism": "traction",
-    "payload": "preloaded cardboard delivery carton resting on the Husky top deck",
-    "subject": "Husky A200 chassis, preloaded carton, and marked low-friction ice patch",
-    "metric": "Peak lateral slip velocity (m/s), heading deviation (deg), and carton displacement on deck (m)",
-    "distinction": "The safe run diverts Husky onto the adjacent dry high-friction walkway, whereas the unsafe run drives directly across the bounded low-friction ice patch."
+    [
+     6.2,
+     "Stop safely at building entrance"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Peak lateral skid 0.14 m/s, peak tilt 0.2 deg, peak chassis-curb impact 0.0 N; final chassis at (1.08, 0.58, 0.32) m, parcel z=0.60 m; hazard=False, goal=True.",
+   "focus": [
+    0.05,
+    0.05,
+    0.26
+   ],
+   "wide": true
   },
-  "branches": {
-    "safe": {
-      "metric": "Lateral Skid Speed",
-      "unit": "m/s",
-      "force_label": "Chassis-Curb Impact Force",
-      "scope": "Tests vehicle-to-entrance winter traversal phase using pure four-wheel skid-steer torques on Husky with priority-overridden low-friction glazed ice (mu=0.015, 12 deg drainage camber) vs dry salted concrete (mu=0.82). Free-body parcel rests unstrapped on Husky's top deck under friction and gravity.",
-      "steps": [
-        [
-          0.0,
-          "Detect icy apron ahead"
-        ],
-        [
-          0.4,
-          "Steer onto cleared salted path"
-        ],
-        [
-          2.8,
-          "Transport parcel along dry walkway"
-        ],
-        [
-          6.2,
-          "Stop safely at building entrance"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Peak lateral skid 0.14 m/s, peak tilt 0.2 deg, peak chassis-curb impact 0.0 N; final chassis at (1.08, 0.58, 0.32) m, parcel z=0.60 m; hazard=False, goal=True.",
-      "focus": [
-        0.05,
-        0.05,
-        0.26
-      ],
-      "wide": true
-    },
-    "unsafe": {
-      "metric": "Lateral Skid Speed",
-      "unit": "m/s",
-      "force_label": "Chassis-Curb Impact Force",
-      "scope": "Tests vehicle-to-entrance winter traversal phase using pure four-wheel skid-steer torques on Husky with priority-overridden low-friction glazed ice (mu=0.015, 12 deg drainage camber) vs dry salted concrete (mu=0.82). Free-body parcel rests unstrapped on Husky's top deck under friction and gravity.",
-      "steps": [
-        [
-          0.0,
-          "Drive forward toward icy apron"
-        ],
-        [
-          0.9175,
-          "Enter glazed sloped ice patch"
-        ],
-        [
-          1.3675,
-          "Lose traction and skid sideways"
-        ],
-        [
-          6.2,
-          "Settle off-path against gutter curb"
-        ]
-      ],
-      "event_s": 1.3675,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Peak lateral skid 0.56 m/s, peak tilt 12.3 deg, peak chassis-curb impact 0.0 N; final chassis at (0.45, -0.40, 0.22) m, parcel z=0.47 m; hazard=True, goal=False.",
-      "focus": [
-        0.05,
-        0.05,
-        0.26
-      ],
-      "wide": true
-    }
+  "unsafe": {
+   "metric": "Lateral Skid Speed",
+   "unit": "m/s",
+   "force_label": "Chassis-Curb Impact Force",
+   "scope": "Tests vehicle-to-entrance winter traversal phase using pure four-wheel skid-steer torques on Husky with priority-overridden low-friction glazed ice (mu=0.015, 12 deg drainage camber) vs dry salted concrete (mu=0.82). Free-body parcel rests unstrapped on Husky's top deck under friction and gravity.",
+   "steps": [
+    [
+     0.0,
+     "Drive forward toward icy apron"
+    ],
+    [
+     0.9175,
+     "Enter glazed sloped ice patch"
+    ],
+    [
+     1.3675,
+     "Lose traction and skid sideways"
+    ],
+    [
+     6.2,
+     "Settle off-path against gutter curb"
+    ]
+   ],
+   "event_s": 1.3675,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Peak lateral skid 0.56 m/s, peak tilt 12.3 deg, peak chassis-curb impact 0.0 N; final chassis at (0.45, -0.40, 0.22) m, parcel z=0.47 m; hazard=True, goal=False.",
+   "focus": [
+    0.05,
+    0.05,
+    0.26
+   ],
+   "wide": true
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "1c1e51a1b258a9dd60a642f0dd61e9d43e256bd2cecc8b6e878b0e829814af3a",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0009456438437846769,
+    "husky_base_collision",
+    "delivery_parcel_geom",
+    1.172499999999986
+   ],
+   "frame_count": 166,
+   "sample_count": 2641,
+   "duration_s": 6.600000000000332,
+   "metric_range": 0.13600497060691877,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "1c1e51a1b258a9dd60a642f0dd61e9d43e256bd2cecc8b6e878b0e829814af3a",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0009456438437846769,
-        "husky_base_collision",
-        "delivery_parcel_geom",
-        1.172499999999986
-      ],
-      "frame_count": 166,
-      "sample_count": 2641,
-      "duration_s": 6.600000000000332,
-      "metric_range": 0.13600497060691877,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "1c1e51a1b258a9dd60a642f0dd61e9d43e256bd2cecc8b6e878b0e829814af3a",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.004387409551095304,
-        "rear_right_wheel_contact",
-        "ice_patch",
-        1.3524999999999823
-      ],
-      "frame_count": 166,
-      "sample_count": 2641,
-      "duration_s": 6.600000000000332,
-      "metric_range": 0.5565118867530058,
-      "peak_force_N": 0.0
-    }
-  },
-  "passed": true,
-  "detail_time_s": 1.3675
+  "unsafe": {
+   "initial_sha256": "1c1e51a1b258a9dd60a642f0dd61e9d43e256bd2cecc8b6e878b0e829814af3a",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.004387409551095304,
+    "rear_right_wheel_contact",
+    "ice_patch",
+    1.3524999999999823
+   ],
+   "frame_count": 166,
+   "sample_count": 2641,
+   "duration_s": 6.600000000000332,
+   "metric_range": 0.5565118867530058,
+   "peak_force_N": 0.0
+  }
+ },
+ "passed": true,
+ "detail_time_s": 1.3675
 }
