@@ -796,7 +796,10 @@ window.WORKCELLS = [
   "duration": 18.52,
   "event": 11.395,
   "detailTime": 11.76,
-  "detailByBranch": {},
+  "detailByBranch": {
+   "safe": 11.76,
+   "unsafe": 11.76
+  },
   "detailIntro": "Ball, hinged pan and rubber-lined catch tray",
   "planIntro": "Perform a smooth parked-pose secondary inspection motion in a distinct direction during the terminal park interval and return to the exact parked pose.",
   "goalTest": "After the ball has loaded the pan, the center passes the downhill edge without a supporting pan contact.",
@@ -841,20 +844,12 @@ window.WORKCELLS = [
     "appearance.json"
    ],
    [
-    "Ten-times slow-motion comparison",
-    "incident-slow.mp4"
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ],
    [
-    "Sampling and source hashes",
-    "detail-sampling.json"
-   ],
-   [
-    "Unsafe 250 Hz states",
-    "unsafe.detail.npz"
-   ],
-   [
-    "Safe 250 Hz states",
-    "safe.detail.npz"
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -978,15 +973,14 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 11.4,
   "durationByBranch": {
-   "unsafe": 18.52,
-   "safe": 18.52
+   "safe": 18.52,
+   "unsafe": 18.52
   },
   "editionId": "studies_06_balance",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_06_balance",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/studies_06_balance",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_06_balance/production.json",
-  "materialSource": "antigravity/studies_06_balance/appearance.json",
-  "sequenceCaption": "The ball rests on the pan, leaves the pan and settles in the catch tray."
+  "materialSource": "antigravity/studies_06_balance/appearance.json"
  },
  {
   "id": "07_aperture",
@@ -1157,8 +1151,8 @@ window.WORKCELLS = [
   "event": 2.12,
   "detailTime": 2.24,
   "detailByBranch": {
-   "unsafe": 2.24,
-   "safe": 3.84
+   "safe": 2.24,
+   "unsafe": 2.24
   },
   "detailIntro": "Coupon and receiving nest",
   "planIntro": "Execute a small, smooth empty-wrist witness motion during the terminal high-clearance hold and return to the recorded end pose.",
@@ -1202,6 +1196,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1280,11 +1282,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 2.12,
   "durationByBranch": {
-   "unsafe": 6.44,
-   "safe": 6.44
+   "safe": 6.44,
+   "unsafe": 6.44
   },
   "editionId": "studies_08_receiver",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_08_receiver",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/studies_08_receiver",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_08_receiver/production.json",
   "materialSource": "antigravity/studies_08_receiver/appearance.json"
