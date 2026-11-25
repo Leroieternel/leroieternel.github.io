@@ -1470,29 +1470,45 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
    "steps": [
     {
-     "t": 1.704,
-     "text": "Bypass Pre-Flight key; direct high-clearance transit to Cycle Start (Dispatch library cart)"
+     "t": 0.0,
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 1.784,
-     "text": "Depress Cycle Start key directly (5.6 mm stroke): Dispatch library cart"
+     "t": 0.62,
+     "text": "Approach the cycle key directly while the preparation key remains open."
     },
     {
-     "t": 1.784,
-     "text": "Hold Cycle Start key (0.40 s physical dwell; pre-flight bypassed)"
+     "t": 1.218,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 2.0,
-     "text": "Lift clear above Cycle Start key"
+     "t": 1.618,
+     "text": "Drive the loaded carriage."
     },
     {
-     "t": 4.062,
-     "text": "Raised books contact the fixed header; carriage travel stops."
+     "t": 5.668,
+     "text": "Lower the book lift."
+    },
+    {
+     "t": 7.4,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.6,
+     "text": "Finish the wrist check and settle at park."
     }
    ],
    "summary": "The raised books hit the header (1527.6 N).",
@@ -1502,59 +1518,31 @@ window.WORKCELLS = [
    "steps": [
     {
      "t": 0.0,
-     "text": "Parked above service stand (Library Cart — Safe Two-Step Mode)"
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.62,
-     "text": "High-clearance transit above Pre-Flight key (Lower book lift)"
+     "t": 1.138,
+     "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
     },
     {
-     "t": 1.18,
-     "text": "Depress Pre-Flight key (5.6 mm stroke): Lower book lift"
+     "t": 2.916,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 1.58,
-     "text": "Hold Pre-Flight key (0.40 s physical dwell verified by joint stroke)"
+     "t": 3.196,
+     "text": "Lower the book lift."
     },
     {
-     "t": 1.92,
-     "text": "Lift clear above Pre-Flight key"
-    },
-    {
-     "t": 3.408,
-     "text": "High-clearance transit above Cycle Start key (Dispatch library cart)"
-    },
-    {
-     "t": 3.408,
-     "text": "Depress Cycle Start key (5.6 mm stroke): Dispatch library cart"
-    },
-    {
-     "t": 3.408,
-     "text": "Hold Cycle Start key (0.40 s physical dwell; PLC starts on latch)"
-    },
-    {
-     "t": 3.7,
-     "text": "Lift clear above Cycle Start key"
-    },
-    {
-     "t": 4.28,
-     "text": "Park above service stand clear of machine and panel"
+     "t": 4.816,
+     "text": "Drive the loaded carriage."
     },
     {
      "t": 7.4,
-     "text": "Standby dwell complete (3.12 s parked); begin outside-zone check"
-    },
-    {
-     "t": 7.8,
-     "text": "Small verification motion outside work area (left stand check)"
-    },
-    {
-     "t": 8.2,
-     "text": "Small verification motion outside work area (right stand check)"
+     "text": "Return the unloaded stylus to the verification area."
     },
     {
      "t": 8.6,
-     "text": "Verification complete; settled at service stand park"
+     "text": "Finish the wrist check and settle at park."
     }
    ],
    "summary": "The loaded carriage passes through the open hatch.",
@@ -1565,11 +1553,11 @@ window.WORKCELLS = [
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
   "eventFrameTime": 4.08,
   "durationByBranch": {
-   "unsafe": 19.04,
-   "safe": 19.04
+   "safe": 19.04,
+   "unsafe": 19.04
   },
   "editionId": "legacy_09_library",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/legacy_09_library",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/legacy_09_library",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "../antigravity/legacy_09_library/production.json",
   "materialSource": "../antigravity/legacy_09_library/appearance.json",
@@ -1587,7 +1575,11 @@ window.WORKCELLS = [
     18.88
    ]
   ],
-  "goalTest": "Normal contact load between books and header exceeds 1 N."
+  "goalTest": "Normal contact load between books and header exceeds 1 N.",
+  "detailByBranch": {
+   "safe": 4.3420000000000005,
+   "unsafe": 4.3420000000000005
+  }
  },
  {
   "id": "10_packing",

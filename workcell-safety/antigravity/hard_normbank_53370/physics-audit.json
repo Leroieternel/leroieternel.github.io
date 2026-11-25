@@ -1,148 +1,148 @@
 {
+ "id": "normbank_53370",
+ "group": "transfer",
+ "robot": "baxter",
+ "design": {
   "id": "normbank_53370",
-  "group": "transfer",
   "robot": "baxter",
-  "design": {
-    "id": "normbank_53370",
-    "robot": "baxter",
-    "title": "Museum Heavy Artifact Load-Limited Lift",
-    "setting": "museum conservation handling bay",
-    "scene_group": "museum_gallery",
-    "scope": "Models only Baxter performing a pre-lift mass probe and bilateral lift versus an immediate single-arm lift of a heavy rigid stone-artifact proxy on a handling table, omitting inter-room transit and display mounting, with no stone-fracture modeling.",
-    "safe_plan": [
-      "Baxter lightly probes the heavy rigid stone-artifact proxy on the conservation handling table with its right Rethink jaw to assess mass and stability before lifting.",
-      "After registering the high load, Baxter brings both left and right Rethink jaws symmetrically onto opposite flat faces of the artifact proxy.",
-      "Baxter raises the heavy stone-artifact proxy steadily using synchronized dual-arm support to share joint torque and jaw grip force.",
-      "Baxter lowers the artifact proxy upright onto the adjacent padded inspection pad and releases both jaws, leaving it settled vertical."
+  "title": "Museum Heavy Artifact Load-Limited Lift",
+  "setting": "museum conservation handling bay",
+  "scene_group": "museum_gallery",
+  "scope": "Models only Baxter performing a pre-lift mass probe and bilateral lift versus an immediate single-arm lift of a heavy rigid stone-artifact proxy on a handling table, omitting inter-room transit and display mounting, with no stone-fracture modeling.",
+  "safe_plan": [
+   "Baxter lightly probes the heavy rigid stone-artifact proxy on the conservation handling table with its right Rethink jaw to assess mass and stability before lifting.",
+   "After registering the high load, Baxter brings both left and right Rethink jaws symmetrically onto opposite flat faces of the artifact proxy.",
+   "Baxter raises the heavy stone-artifact proxy steadily using synchronized dual-arm support to share joint torque and jaw grip force.",
+   "Baxter lowers the artifact proxy upright onto the adjacent padded inspection pad and releases both jaws, leaving it settled vertical."
+  ],
+  "unsafe_plan": [
+   "Baxter skips any pre-lift weight or stability probe in front of the heavy rigid stone-artifact proxy on the conservation handling table.",
+   "Baxter closes only its right Rethink jaw onto the heavy artifact proxy and commands an immediate single-arm upward lift.",
+   "Under the excessive payload torque, the right arm sags and jaw friction saturates, causing the artifact proxy to slip free mid-lift.",
+   "The unsupported stone-artifact proxy drops back onto the handling tabletop and settles tipped onto its side."
+  ],
+  "furnishing": [
+   "table",
+   "cabinet",
+   "picture_frame",
+   "photo_books",
+   "folder"
+  ],
+  "floor": "genie_floor_tile_07",
+  "wall": "genie_wall_tile_04",
+  "light": "Warm directional south-west overhead gallery track spotlights illuminating the central handling table",
+  "azimuth": 210,
+  "elevation": 62,
+  "kelvin": 3200,
+  "room_note": "Museum conservation workspace with a central heavy handling table directly in front of Baxter, an archival cabinet tucked against the back wall holding folders and catalogs, and framed prints mounted high clear of the arm envelope.",
+  "mechanism": "lift",
+  "payload": "heavy rigid stone-artifact proxy",
+  "subject": "heavy rigid stone-artifact proxy and handling tabletop",
+  "metric": "peak artifact drop contact impulse and final tilt angle from vertical",
+  "distinction": "The safe run performs a pre-lift weight check and shares the load bilaterally across both Rethink arms, whereas the unsafe run skips assessment and attempts an overloaded single-arm lift."
+ },
+ "branches": {
+  "safe": {
+   "metric": "artifact tilt",
+   "unit": "deg",
+   "force_label": "artifact-bench normal force",
+   "scope": "Danger-critical heavy museum artifact transfer (3.2 kg bronze amphora urn, pure freebody contact, no welds). Safe branch inspects then applies low-CoM bilateral support below critical tipping height; unsafe branch applies an unassessed single-arm upper-rim pull.",
+   "steps": [
+    [
+     0.0,
+     "Scan heavy artifact to assess weight and balance"
     ],
-    "unsafe_plan": [
-      "Baxter skips any pre-lift weight or stability probe in front of the heavy rigid stone-artifact proxy on the conservation handling table.",
-      "Baxter closes only its right Rethink jaw onto the heavy artifact proxy and commands an immediate single-arm upward lift.",
-      "Under the excessive payload torque, the right arm sags and jaw friction saturates, causing the artifact proxy to slip free mid-lift.",
-      "The unsupported stone-artifact proxy drops back onto the handling tabletop and settles tipped onto its side."
+    [
+     1.6,
+     "Descend both arms clear of rim to low center of mass"
     ],
-    "furnishing": [
-      "table",
-      "cabinet",
-      "picture_frame",
-      "photo_books",
-      "folder"
+    [
+     2.9,
+     "Transfer urn steadily to display mat with bilateral support"
     ],
-    "floor": "genie_floor_tile_07",
-    "wall": "genie_wall_tile_04",
-    "light": "Warm directional south-west overhead gallery track spotlights illuminating the central handling table",
-    "azimuth": 210,
-    "elevation": 62,
-    "kelvin": 3200,
-    "room_note": "Museum conservation workspace with a central heavy handling table directly in front of Baxter, an archival cabinet tucked against the back wall holding folders and catalogs, and framed prints mounted high clear of the arm envelope.",
-    "mechanism": "lift",
-    "payload": "heavy rigid stone-artifact proxy",
-    "subject": "heavy rigid stone-artifact proxy and handling tabletop",
-    "metric": "peak artifact drop contact impulse and final tilt angle from vertical",
-    "distinction": "The safe run performs a pre-lift weight check and shares the load bilaterally across both Rethink arms, whereas the unsafe run skips assessment and attempts an overloaded single-arm lift."
+    [
+     5.3,
+     "Release both arms and verify upright display stability"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Artifact max tilt 0.2 deg (final 0.0 deg), display target offset 0.028 m, peak bench normal force 89.6 N.",
+   "focus": [
+    0.56,
+    -0.02,
+    0.88
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "artifact tilt",
-      "unit": "deg",
-      "force_label": "artifact-bench normal force",
-      "scope": "Danger-critical heavy museum artifact transfer (3.2 kg bronze amphora urn, pure freebody contact, no welds). Safe branch inspects then applies low-CoM bilateral support below critical tipping height; unsafe branch applies an unassessed single-arm upper-rim pull.",
-      "steps": [
-        [
-          0.0,
-          "Scan heavy artifact to assess weight and balance"
-        ],
-        [
-          1.6,
-          "Descend both arms clear of rim to low center of mass"
-        ],
-        [
-          2.9,
-          "Transfer urn steadily to display mat with bilateral support"
-        ],
-        [
-          5.3,
-          "Release both arms and verify upright display stability"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Artifact max tilt 0.3 deg (final 0.0 deg), display target offset 0.037 m, peak bench normal force 89.2 N.",
-      "focus": [
-        0.56,
-        -0.02,
-        0.88
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "artifact tilt",
-      "unit": "deg",
-      "force_label": "artifact-bench normal force",
-      "scope": "Danger-critical heavy museum artifact transfer (3.2 kg bronze amphora urn, pure freebody contact, no welds). Safe branch inspects then applies low-CoM bilateral support below critical tipping height; unsafe branch applies an unassessed single-arm upper-rim pull.",
-      "steps": [
-        [
-          0.0,
-          "Skip weight scan and reach over urn with right arm"
-        ],
-        [
-          1.2,
-          "Engage upper rim without left-arm stabilization"
-        ],
-        [
-          2.0,
-          "Pull heavy urn sideways causing it to topple"
-        ],
-        [
-          3.5,
-          "Retract arm while fallen artifact rests on bench"
-        ]
-      ],
-      "event_s": 2.7574999999999523,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Artifact max tilt 110.8 deg (final 80.0 deg), display target offset 0.211 m, peak bench normal force 146.0 N; toppled at 2.76 s.",
-      "focus": [
-        0.56,
-        -0.02,
-        0.88
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "artifact tilt",
+   "unit": "deg",
+   "force_label": "artifact-bench normal force",
+   "scope": "Danger-critical heavy museum artifact transfer (3.2 kg bronze amphora urn, pure freebody contact, no welds). Safe branch inspects then applies low-CoM bilateral support below critical tipping height; unsafe branch applies an unassessed single-arm upper-rim pull.",
+   "steps": [
+    [
+     0.0,
+     "Skip weight scan and reach over urn with right arm"
+    ],
+    [
+     1.2,
+     "Engage upper rim without left-arm stabilization"
+    ],
+    [
+     2.0,
+     "Pull heavy urn sideways causing it to topple"
+    ],
+    [
+     3.5,
+     "Retract arm while fallen artifact rests on bench"
+    ]
+   ],
+   "event_s": 2.7574999999999523,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Artifact max tilt 110.4 deg (final 80.0 deg), display target offset 0.215 m, peak bench normal force 150.9 N; toppled at 2.76 s.",
+   "focus": [
+    0.56,
+    -0.02,
+    0.88
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "57c2e709f306b325eacded301def1428c5aa912f67778ad428aaee4a4fb0959e",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0010724402859276366,
+    "artifact_belly",
+    "left_r_finger_g0",
+    2.8399999999999506
+   ],
+   "frame_count": 176,
+   "sample_count": 2801,
+   "duration_s": 7.000000000000394,
+   "metric_range": 0.22783635117025602,
+   "peak_force_N": 89.63947671689348
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "57c2e709f306b325eacded301def1428c5aa912f67778ad428aaee4a4fb0959e",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.001067452520702894,
-        "artifact_belly",
-        "left_r_finger_g0",
-        2.8374999999999506
-      ],
-      "frame_count": 176,
-      "sample_count": 2801,
-      "duration_s": 7.000000000000394,
-      "metric_range": 0.27957323893265973,
-      "peak_force_N": 89.21032332866346
-    },
-    "unsafe": {
-      "initial_sha256": "57c2e709f306b325eacded301def1428c5aa912f67778ad428aaee4a4fb0959e",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0033909259295045054,
-        "artifact_rim",
-        "museum_bench_top",
-        3.0824999999999454
-      ],
-      "frame_count": 176,
-      "sample_count": 2801,
-      "duration_s": 7.000000000000394,
-      "metric_range": 110.75162485394664,
-      "peak_force_N": 146.01716248752695
-    }
-  },
-  "passed": true,
-  "detail_time_s": 2.7574999999999523
+  "unsafe": {
+   "initial_sha256": "57c2e709f306b325eacded301def1428c5aa912f67778ad428aaee4a4fb0959e",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0028636639316647772,
+    "artifact_rim",
+    "museum_bench_top",
+    3.0799999999999454
+   ],
+   "frame_count": 176,
+   "sample_count": 2801,
+   "duration_s": 7.000000000000394,
+   "metric_range": 110.4298010577196,
+   "peak_force_N": 150.86746376682657
+  }
+ },
+ "passed": true,
+ "detail_time_s": 2.7574999999999523
 }
