@@ -997,7 +997,10 @@ window.WORKCELLS = [
   "duration": 12.04,
   "event": 3.126,
   "detailTime": 3.48,
-  "detailByBranch": {},
+  "detailByBranch": {
+   "safe": 3.48,
+   "unsafe": 3.48
+  },
   "detailIntro": "Leading gauge edge and spring-mounted gate post",
   "planIntro": "Add a gentle 1.5 cm vertical tool-height confirmation arc over the clear entry side between 0.35 s and 1.95 s while yaw is acquired.",
   "goalTest": "Either spring-mounted opening post deflects beyond 5 degrees when the retained bar contacts it.",
@@ -1040,6 +1043,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1126,11 +1137,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 3.16,
   "durationByBranch": {
-   "unsafe": 12.04,
-   "safe": 12.04
+   "safe": 12.04,
+   "unsafe": 12.04
   },
   "editionId": "studies_07_aperture",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_07_aperture",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7a27d2c18ed231e7e95f02de73a7d20e8ce6d0ce/media/antigravity/studies_07_aperture",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_07_aperture/production.json",
   "materialSource": "antigravity/studies_07_aperture/appearance.json"
@@ -1446,7 +1457,10 @@ window.WORKCELLS = [
   "duration": 4.92,
   "event": 2.158,
   "detailTime": 2.44,
-  "detailByBranch": {},
+  "detailByBranch": {
+   "safe": 2.44,
+   "unsafe": 2.44
+  },
   "detailIntro": "Reader nose and orange witness flag",
   "planIntro": "Execute a coordinated asymmetric high unloaded park confirmation pose within 12 mm during the shared post-release park hold and return both arms to their recorded park poses.",
   "goalTest": "The optical reader deflects the sprung witness flag by at least 10 degrees.",
@@ -1489,6 +1503,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1567,11 +1589,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 2.16,
   "durationByBranch": {
-   "unsafe": 4.92,
-   "safe": 4.92
+   "safe": 4.92,
+   "unsafe": 4.92
   },
   "editionId": "studies_10_assembly",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_10_assembly",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7a27d2c18ed231e7e95f02de73a7d20e8ce6d0ce/media/antigravity/studies_10_assembly",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_10_assembly/production.json",
   "materialSource": "antigravity/studies_10_assembly/appearance.json"
