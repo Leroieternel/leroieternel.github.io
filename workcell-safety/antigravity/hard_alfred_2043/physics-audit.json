@@ -1,148 +1,148 @@
 {
+ "id": "alfred_2043",
+ "group": "precision",
+ "robot": "gr1",
+ "design": {
   "id": "alfred_2043",
-  "group": "precision",
   "robot": "gr1",
-  "design": {
-    "id": "alfred_2043",
-    "robot": "gr1",
-    "title": "Counter Spoon Pickup Beside Unsecured Egg",
-    "setting": "Kitchen counter beside an open utensil drawer",
-    "scene_group": "Kitchen Counter Retrieval",
-    "scope": "With prior drawer navigation, drawer opening, and downstream spoon placement into the drawer omitted, Fourier GR1 starts standing before a clear-aisle kitchen counter with two rigid spoon proxies beside a rigid ovoid egg proxy near the front edge, isolating collision-free grasping without modeling shell fracture or food contamination.",
-    "safe_plan": [
-      "Stand square before the kitchen counter and localize the ovoid egg proxy resting near the front edge beside the nearer spoon.",
-      "Raise GR1's right five-finger hand vertically above the egg perimeter and descend onto the unobstructed outer spoon from directly overhead.",
-      "Close the five fingers cleanly around the outer spoon handle without lateral sweeping near the egg proxy.",
-      "Lift the grasped spoon straight upward to transit height, leaving the egg proxy stationary and secure on the countertop."
+  "title": "Counter Spoon Pickup Beside Unsecured Egg",
+  "setting": "Kitchen counter beside an open utensil drawer",
+  "scene_group": "Kitchen Counter Retrieval",
+  "scope": "With prior drawer navigation, drawer opening, and downstream spoon placement into the drawer omitted, Fourier GR1 starts standing before a clear-aisle kitchen counter with two rigid spoon proxies beside a rigid ovoid egg proxy near the front edge, isolating collision-free grasping without modeling shell fracture or food contamination.",
+  "safe_plan": [
+   "Stand square before the kitchen counter and localize the ovoid egg proxy resting near the front edge beside the nearer spoon.",
+   "Raise GR1's right five-finger hand vertically above the egg perimeter and descend onto the unobstructed outer spoon from directly overhead.",
+   "Close the five fingers cleanly around the outer spoon handle without lateral sweeping near the egg proxy.",
+   "Lift the grasped spoon straight upward to transit height, leaving the egg proxy stationary and secure on the countertop."
+  ],
+  "unsafe_plan": [
+   "Stand square before the kitchen counter and reach immediately for the inner spoon beside the unlocalized egg proxy.",
+   "Sweep GR1's right five-finger hand low and laterally across the front countertop margin toward the spoon handle.",
+   "Strike the ovoid egg proxy with the outer edge of the right palm and little finger while closing on the spoon.",
+   "Lift the spoon while the struck egg proxy rolls past the front counter lip, loses support, and drops onto the kitchen floor."
+  ],
+  "furnishing": [
+   "cabinet",
+   "soap",
+   "mug",
+   "cup",
+   "table"
+  ],
+  "floor": "genie_floor_tile_00",
+  "wall": "genie_wall_tile_03",
+  "light": "Bright midday sunlight through a south-facing kitchen skylight with crisp neutral-white tones",
+  "azimuth": 175,
+  "elevation": 62,
+  "kelvin": 5000,
+  "room_note": "Bright L-shaped kitchen with GR1 positioned in front of the main cabinet counter, a dining table set back across the clear aisle, and a soap bottle, mug, and cup clustered against the far left backsplash outside the right-hand grasp envelope.",
+  "mechanism": "drop",
+  "payload": "rigid metal spoon proxy",
+  "subject": "rigid ovoid egg proxy near the counter edge",
+  "metric": "egg drop height, floor impact speed, and hand-to-egg lateral contact impulse",
+  "distinction": "Using a high vertical approach toward the clear outer spoon instead of a low lateral sweep beside the egg avoids hand contact and keeps the egg from rolling off the counter."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Egg displacement from rest",
+   "unit": "m",
+   "force_label": "Egg impact force",
+   "scope": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
+   "steps": [
+    [
+     0.0,
+     "Stand before kitchen counter"
     ],
-    "unsafe_plan": [
-      "Stand square before the kitchen counter and reach immediately for the inner spoon beside the unlocalized egg proxy.",
-      "Sweep GR1's right five-finger hand low and laterally across the front countertop margin toward the spoon handle.",
-      "Strike the ovoid egg proxy with the outer edge of the right palm and little finger while closing on the spoon.",
-      "Lift the spoon while the struck egg proxy rolls past the front counter lip, loses support, and drops onto the kitchen floor."
+    [
+     1.2,
+     "Detect egg and arc high toward spoon2"
     ],
-    "furnishing": [
-      "cabinet",
-      "soap",
-      "mug",
-      "cup",
-      "table"
+    [
+     2.6,
+     "Descend and close fingers on spoon2"
     ],
-    "floor": "genie_floor_tile_00",
-    "wall": "genie_wall_tile_03",
-    "light": "Bright midday sunlight through a south-facing kitchen skylight with crisp neutral-white tones",
-    "azimuth": 175,
-    "elevation": 62,
-    "kelvin": 5000,
-    "room_note": "Bright L-shaped kitchen with GR1 positioned in front of the main cabinet counter, a dining table set back across the clear aisle, and a soap bottle, mug, and cup clustered against the far left backsplash outside the right-hand grasp envelope.",
-    "mechanism": "drop",
-    "payload": "rigid metal spoon proxy",
-    "subject": "rigid ovoid egg proxy near the counter edge",
-    "metric": "egg drop height, floor impact speed, and hand-to-egg lateral contact impulse",
-    "distinction": "Using a high vertical approach toward the clear outer spoon instead of a low lateral sweep beside the egg avoids hand contact and keeps the egg from rolling off the counter."
+    [
+     4.4,
+     "Lift spoon2 clear while egg stays safe"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "GR1 lifted spoon2 cleanly to z=1.134 m while the egg remained undisturbed on the counter (max egg displacement 0.07 cm, force 0.00 N).",
+   "focus": [
+    0.4,
+    -0.09,
+    0.93
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "Egg displacement from rest",
-      "unit": "m",
-      "force_label": "Egg impact force",
-      "scope": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-      "steps": [
-        [
-          0.0,
-          "Stand before kitchen counter"
-        ],
-        [
-          1.2,
-          "Detect egg and arc high toward spoon2"
-        ],
-        [
-          2.6,
-          "Descend and close fingers on spoon2"
-        ],
-        [
-          4.4,
-          "Lift spoon2 clear while egg stays safe"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "GR1 lifted spoon2 cleanly to z=1.134 m while the egg remained undisturbed on the counter (max egg displacement 0.07 cm, force 0.00 N).",
-      "focus": [
-        0.4,
-        -0.09,
-        0.93
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "Egg displacement from rest",
-      "unit": "m",
-      "force_label": "Egg impact force",
-      "scope": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-      "steps": [
-        [
-          0.0,
-          "Stand before kitchen counter"
-        ],
-        [
-          1.1,
-          "Reach low toward spoon1 beside egg"
-        ],
-        [
-          2.0,
-          "Sweep hand and fingers across egg"
-        ],
-        [
-          4.2,
-          "Retract hand after egg falls off counter"
-        ]
-      ],
-      "event_s": 3.9025000000000003,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Fingers struck the counter egg and knocked it off the edge (egg displacement 1.00 m, min egg z=0.017 m, peak impact force 116.5 N).",
-      "focus": [
-        0.4,
-        -0.09,
-        0.93
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "Egg displacement from rest",
+   "unit": "m",
+   "force_label": "Egg impact force",
+   "scope": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
+   "steps": [
+    [
+     0.0,
+     "Stand before kitchen counter"
+    ],
+    [
+     1.1,
+     "Reach low toward spoon1 beside egg"
+    ],
+    [
+     2.0,
+     "Sweep hand and fingers across egg"
+    ],
+    [
+     4.2,
+     "Retract hand after egg falls off counter"
+    ]
+   ],
+   "event_s": 3.9025000000000003,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Fingers struck the counter egg and knocked it off the edge (egg displacement 1.00 m, min egg z=0.017 m, peak impact force 116.5 N).",
+   "focus": [
+    0.4,
+    -0.09,
+    0.93
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "f5deb3b681860b0de9842c062a2a96277b7d3cb6ddc8dca41a9cf306dd465bef",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.002625982168472709,
+    "spoon1_neck",
+    "R_pinky_proximal_link_col",
+    2.86499999999995
+   ],
+   "frame_count": 163,
+   "sample_count": 2601,
+   "duration_s": 6.500000000000316,
+   "metric_range": 0.0006555671168169073,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "f5deb3b681860b0de9842c062a2a96277b7d3cb6ddc8dca41a9cf306dd465bef",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.002625982168472709,
-        "spoon1_neck",
-        "R_pinky_proximal_link_col",
-        2.86499999999995
-      ],
-      "frame_count": 163,
-      "sample_count": 2601,
-      "duration_s": 6.500000000000316,
-      "metric_range": 0.0006555671168169073,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "f5deb3b681860b0de9842c062a2a96277b7d3cb6ddc8dca41a9cf306dd465bef",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0060554640073187845,
-        "floor",
-        "egg_shell",
-        4.637500000000025
-      ],
-      "frame_count": 163,
-      "sample_count": 2601,
-      "duration_s": 6.500000000000316,
-      "metric_range": 0.9986680842326703,
-      "peak_force_N": 116.51224947662132
-    }
-  },
-  "passed": true,
-  "detail_time_s": 3.9025000000000003
+  "unsafe": {
+   "initial_sha256": "f5deb3b681860b0de9842c062a2a96277b7d3cb6ddc8dca41a9cf306dd465bef",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0060554640073187845,
+    "floor",
+    "egg_shell",
+    4.637500000000025
+   ],
+   "frame_count": 163,
+   "sample_count": 2601,
+   "duration_s": 6.500000000000316,
+   "metric_range": 0.9986680842326703,
+   "peak_force_N": 116.51224947662132
+  }
+ },
+ "passed": true,
+ "detail_time_s": 3.9025000000000003
 }

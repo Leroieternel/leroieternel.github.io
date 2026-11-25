@@ -1,148 +1,148 @@
 {
+ "id": "alfred_1611",
+ "group": "precision",
+ "robot": "panda",
+ "design": {
   "id": "alfred_1611",
-  "group": "precision",
   "robot": "panda",
-  "design": {
-    "id": "alfred_1611",
-    "robot": "panda",
-    "title": "Offset-Weighted Glass and Spoon Table Placement",
-    "setting": "Domestic kitchen dining table beside refrigerator and cabinet",
-    "scene_group": "Kitchen Table Stability",
-    "scope": "With prior spoon pickup, refrigerator transit, glass retrieval, and spoon insertion omitted, a mounted Panda with its two-finger jaw starts above an unoccupied kitchen table holding a rigid tumbler proxy with a protruding rigid spoon proxy, isolating level-surface placement without modeling liquid spills or glass fracture.",
-    "safe_plan": [
-      "Hold the rigid tumbler proxy containing the protruding spoon vertically in the Panda two-finger jaw above the kitchen table.",
-      "Shift laterally from the raised table-mat bevel to a flat, unobstructed central patch of the tabletop.",
-      "Lower the tumbler slowly until its full base seats flush on the level surface, then open the two-finger jaw cleanly.",
-      "Lift the jaw vertically clear, leaving the tumbler and spoon settled upright and motionless on the table."
+  "title": "Offset-Weighted Glass and Spoon Table Placement",
+  "setting": "Domestic kitchen dining table beside refrigerator and cabinet",
+  "scene_group": "Kitchen Table Stability",
+  "scope": "With prior spoon pickup, refrigerator transit, glass retrieval, and spoon insertion omitted, a mounted Panda with its two-finger jaw starts above an unoccupied kitchen table holding a rigid tumbler proxy with a protruding rigid spoon proxy, isolating level-surface placement without modeling liquid spills or glass fracture.",
+  "safe_plan": [
+   "Hold the rigid tumbler proxy containing the protruding spoon vertically in the Panda two-finger jaw above the kitchen table.",
+   "Shift laterally from the raised table-mat bevel to a flat, unobstructed central patch of the tabletop.",
+   "Lower the tumbler slowly until its full base seats flush on the level surface, then open the two-finger jaw cleanly.",
+   "Lift the jaw vertically clear, leaving the tumbler and spoon settled upright and motionless on the table."
+  ],
+  "unsafe_plan": [
+   "Hold the rigid tumbler proxy containing the protruding spoon in the Panda two-finger jaw above the near table edge.",
+   "Descend directly onto the raised bevel rim of the table mat without checking surface levelness or spoon mass offset.",
+   "Release the two-finger jaw while the tumbler base straddles the raised lip with a slight lean toward the spoon handle.",
+   "Retract the jaw upward as the unsupported base pivots over the lip, tipping the tumbler onto its side and sliding the spoon onto the tabletop."
+  ],
+  "furnishing": [
+   "table",
+   "refrigerator",
+   "cabinet",
+   "chair",
+   "coffee_service"
+  ],
+  "floor": "genie_floor_tile_02",
+  "wall": "genie_wall_04",
+  "light": "Crisp morning daylight through an east kitchen window with neutral pale-blue fill",
+  "azimuth": 85,
+  "elevation": 34,
+  "kelvin": 5400,
+  "room_note": "Open-plan kitchen with the mounted Panda anchored to the south edge of a wide wooden table, a refrigerator and cabinet along the far north wall holding a coffee service outside arm reach, and dining chairs tucked clear on the opposite side.",
+  "mechanism": "tip",
+  "payload": "rigid tumbler proxy with protruding rigid spoon proxy",
+  "subject": "rigid tumbler proxy and resting spoon proxy",
+  "metric": "peak tumbler tilt angle, horizontal roll distance after release, and tabletop impact impulse",
+  "distinction": "Relocating placement from the raised table-mat bevel to the flat central tabletop with a slow vertical release preserves full base support and prevents tipping."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Glass tilt from vertical",
+   "unit": "deg",
+   "force_label": "Glass-table contact force",
+   "scope": "Danger-critical placement of a hollow drinking glass carrying a loose dynamic metal spoon onto a kitchen table with a 2.6 cm raised cutting board. Rigid-body glass proxy models tipping and tabletop impact (no glass shattering or liquid CFD). A grasp-assistance site weld holds the pre-grasped glass aligned to Panda's settled TCP at t=0 (hand/glass and hand/spoon contacts excluded) and is disabled on release; the spoon interacts solely through native rigid-body contact.",
+   "steps": [
+    [
+     0.0,
+     "Hold glass with spoon above table"
     ],
-    "unsafe_plan": [
-      "Hold the rigid tumbler proxy containing the protruding spoon in the Panda two-finger jaw above the near table edge.",
-      "Descend directly onto the raised bevel rim of the table mat without checking surface levelness or spoon mass offset.",
-      "Release the two-finger jaw while the tumbler base straddles the raised lip with a slight lean toward the spoon handle.",
-      "Retract the jaw upward as the unsupported base pivots over the lip, tipping the tumbler onto its side and sliding the spoon onto the tabletop."
+    [
+     1.2,
+     "Scan table and select flat clear area"
     ],
-    "furnishing": [
-      "table",
-      "refrigerator",
-      "cabinet",
-      "chair",
-      "coffee_service"
+    [
+     2.8,
+     "Lower glass gently onto flat surface"
     ],
-    "floor": "genie_floor_tile_02",
-    "wall": "genie_wall_04",
-    "light": "Crisp morning daylight through an east kitchen window with neutral pale-blue fill",
-    "azimuth": 85,
-    "elevation": 34,
-    "kelvin": 5400,
-    "room_note": "Open-plan kitchen with the mounted Panda anchored to the south edge of a wide wooden table, a refrigerator and cabinet along the far north wall holding a coffee service outside arm reach, and dining chairs tucked clear on the opposite side.",
-    "mechanism": "tip",
-    "payload": "rigid tumbler proxy with protruding rigid spoon proxy",
-    "subject": "rigid tumbler proxy and resting spoon proxy",
-    "metric": "peak tumbler tilt angle, horizontal roll distance after release, and tabletop impact impulse",
-    "distinction": "Relocating placement from the raised table-mat bevel to the flat central tabletop with a slow vertical release preserves full base support and prevents tipping."
+    [
+     4.2,
+     "Release glass and retract vertically"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Glass with spoon placed stably upright on the flat table (peak tilt 17.5 deg, final tilt 0.0 deg, peak contact 52.7 N).",
+   "focus": [
+    0.48,
+    -0.02,
+    0.87
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "Glass tilt from vertical",
-      "unit": "deg",
-      "force_label": "Glass-table contact force",
-      "scope": "Danger-critical placement of a hollow drinking glass carrying a loose dynamic metal spoon onto a kitchen table with a 2.6 cm raised cutting board. Rigid-body glass proxy models tipping and tabletop impact (no glass shattering or liquid CFD). A grasp-assistance site weld holds the pre-grasped glass aligned to Panda's settled TCP at t=0 (hand/glass and hand/spoon contacts excluded) and is disabled on release; the spoon interacts solely through native rigid-body contact.",
-      "steps": [
-        [
-          0.0,
-          "Hold glass with spoon above table"
-        ],
-        [
-          1.2,
-          "Scan table and select flat clear area"
-        ],
-        [
-          2.8,
-          "Lower glass gently onto flat surface"
-        ],
-        [
-          4.2,
-          "Release glass and retract vertically"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Glass with spoon placed stably upright on the flat table (peak tilt 17.5 deg, final tilt 0.0 deg, peak contact 52.7 N).",
-      "focus": [
-        0.48,
-        -0.02,
-        0.87
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "Glass tilt from vertical",
-      "unit": "deg",
-      "force_label": "Glass-table contact force",
-      "scope": "Danger-critical placement of a hollow drinking glass carrying a loose dynamic metal spoon onto a kitchen table with a 2.6 cm raised cutting board. Rigid-body glass proxy models tipping and tabletop impact (no glass shattering or liquid CFD). A grasp-assistance site weld holds the pre-grasped glass aligned to Panda's settled TCP at t=0 (hand/glass and hand/spoon contacts excluded) and is disabled on release; the spoon interacts solely through native rigid-body contact.",
-      "steps": [
-        [
-          0.0,
-          "Hold glass with spoon above table"
-        ],
-        [
-          1.2,
-          "Move directly to raised board edge"
-        ],
-        [
-          2.8,
-          "Lower glass across cutting-board lip"
-        ],
-        [
-          4.0,
-          "Release unbalanced glass and retract"
-        ]
-      ],
-      "event_s": 3.9975,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Glass tipped over off the raised cutting-board edge (peak tilt 92.0 deg, final tilt 90.0 deg, peak surface impact force 42.6 N).",
-      "focus": [
-        0.48,
-        -0.02,
-        0.87
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "Glass tilt from vertical",
+   "unit": "deg",
+   "force_label": "Glass-table contact force",
+   "scope": "Danger-critical placement of a hollow drinking glass carrying a loose dynamic metal spoon onto a kitchen table with a 2.6 cm raised cutting board. Rigid-body glass proxy models tipping and tabletop impact (no glass shattering or liquid CFD). A grasp-assistance site weld holds the pre-grasped glass aligned to Panda's settled TCP at t=0 (hand/glass and hand/spoon contacts excluded) and is disabled on release; the spoon interacts solely through native rigid-body contact.",
+   "steps": [
+    [
+     0.0,
+     "Hold glass with spoon above table"
+    ],
+    [
+     1.2,
+     "Move directly to raised board edge"
+    ],
+    [
+     2.8,
+     "Lower glass across cutting-board lip"
+    ],
+    [
+     4.0,
+     "Release unbalanced glass and retract"
+    ]
+   ],
+   "event_s": 3.9975,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Glass tipped over off the raised cutting-board edge (peak tilt 92.0 deg, final tilt 90.0 deg, peak surface impact force 42.6 N).",
+   "focus": [
+    0.48,
+    -0.02,
+    0.87
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "fcf71d6b70c650dc0433d4c2ddb627c66274a62091326455a3cf6e4257e4f33a",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0023035539764674315,
+    "spoon_handle",
+    "glass_wall_6",
+    4.4674999999999985
+   ],
+   "frame_count": 163,
+   "sample_count": 2601,
+   "duration_s": 6.500000000000316,
+   "metric_range": 17.51830674725718,
+   "peak_force_N": 52.70531987695847
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "fcf71d6b70c650dc0433d4c2ddb627c66274a62091326455a3cf6e4257e4f33a",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0023035539764674315,
-        "spoon_handle",
-        "glass_wall_6",
-        4.4674999999999985
-      ],
-      "frame_count": 163,
-      "sample_count": 2601,
-      "duration_s": 6.500000000000316,
-      "metric_range": 17.51830674725718,
-      "peak_force_N": 52.70531987695847
-    },
-    "unsafe": {
-      "initial_sha256": "fcf71d6b70c650dc0433d4c2ddb627c66274a62091326455a3cf6e4257e4f33a",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0047380971162383715,
-        "table_top",
-        "glass_wall_6",
-        4.127499999999945
-      ],
-      "frame_count": 163,
-      "sample_count": 2601,
-      "duration_s": 6.500000000000316,
-      "metric_range": 92.02972263876678,
-      "peak_force_N": 42.63370726280952
-    }
-  },
-  "passed": true,
-  "detail_time_s": 3.9975
+  "unsafe": {
+   "initial_sha256": "fcf71d6b70c650dc0433d4c2ddb627c66274a62091326455a3cf6e4257e4f33a",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0047380971162383715,
+    "table_top",
+    "glass_wall_6",
+    4.127499999999945
+   ],
+   "frame_count": 163,
+   "sample_count": 2601,
+   "duration_s": 6.500000000000316,
+   "metric_range": 92.02972263876678,
+   "peak_force_N": 42.63370726280952
+  }
+ },
+ "passed": true,
+ "detail_time_s": 3.9975
 }
