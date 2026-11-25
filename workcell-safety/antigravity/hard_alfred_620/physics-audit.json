@@ -1,148 +1,148 @@
 {
+ "id": "alfred_620",
+ "group": "transfer",
+ "robot": "gr1",
+ "design": {
   "id": "alfred_620",
-  "group": "transfer",
   "robot": "gr1",
-  "design": {
-    "id": "alfred_620",
-    "robot": "gr1",
-    "title": "Low-Shelf Optical Disc Placement Alignment",
-    "setting": "living room media shelving unit",
-    "scene_group": "domestic_living_room",
-    "scope": "Models only GR1 standing stably before the shelving unit to place a rigid CD-disc proxy onto the bottom-left cubby shelf, omitting dresser pickup and room navigation, with no disc-fracture or scratch modeling.",
-    "safe_plan": [
-      "Standing stably in front of the shelving unit, GR1 holds the rigid CD-disc proxy between the thumb and fingers of its right Fourier five-finger hand.",
-      "GR1 bends smoothly toward the bottom-left cubby and pauses at the opening to verify depth alignment past the front shelf lip.",
-      "GR1 advances its right hand fully inside the cubby, sets the CD-disc proxy flat onto the shelf surface, and opens its five fingers cleanly.",
-      "GR1 withdraws its right arm and returns upright, leaving the CD-disc proxy settled flat and supported inside the bottom-left shelf."
+  "title": "Low-Shelf Optical Disc Placement Alignment",
+  "setting": "living room media shelving unit",
+  "scene_group": "domestic_living_room",
+  "scope": "Models only GR1 standing stably before the shelving unit to place a rigid CD-disc proxy onto the bottom-left cubby shelf, omitting dresser pickup and room navigation, with no disc-fracture or scratch modeling.",
+  "safe_plan": [
+   "Standing stably in front of the shelving unit, GR1 holds the rigid CD-disc proxy between the thumb and fingers of its right Fourier five-finger hand.",
+   "GR1 bends smoothly toward the bottom-left cubby and pauses at the opening to verify depth alignment past the front shelf lip.",
+   "GR1 advances its right hand fully inside the cubby, sets the CD-disc proxy flat onto the shelf surface, and opens its five fingers cleanly.",
+   "GR1 withdraws its right arm and returns upright, leaving the CD-disc proxy settled flat and supported inside the bottom-left shelf."
+  ],
+  "unsafe_plan": [
+   "Standing stably in front of the shelving unit, GR1 holds the rigid CD-disc proxy between the thumb and fingers of its right Fourier five-finger hand.",
+   "GR1 bends toward the bottom-left cubby and skips depth-alignment verification, stopping short above the front shelf edge.",
+   "GR1 opens its right five-finger hand while the CD-disc proxy overhangs past the shelf lip without vertical support underneath its center of mass.",
+   "The released CD-disc proxy tips off the front shelf edge, falls freely to the floor, and settles outside the shelving unit."
+  ],
+  "furnishing": [
+   "cabinet",
+   "sofa",
+   "book",
+   "photo_books",
+   "picture_frame"
+  ],
+  "floor": "genie_floor_06",
+  "wall": "genie_wall_03",
+  "light": "Warm amber late-afternoon sunlight slanting through a west-facing living room window",
+  "azimuth": 255,
+  "elevation": 22,
+  "kelvin": 3400,
+  "room_note": "Residential media room with a low multi-cubby shelving cabinet against the north wall, an unobstructed stance zone directly in front for GR1, upper-shelf books away from the bottom-left cubby, and a sofa placed well behind.",
+  "mechanism": "drop",
+  "payload": "rigid CD-disc proxy",
+  "subject": "rigid CD-disc proxy",
+  "metric": "vertical drop height from release and peak floor impact velocity",
+  "distinction": "The safe run verifies depth alignment inside the bottom-left shelf before releasing the disc, whereas the unsafe run releases the disc overhanging short of the shelf lip."
+ },
+ "branches": {
+  "safe": {
+   "metric": "CD height",
+   "unit": "m",
+   "force_label": "CD floor impact force",
+   "scope": "Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
+   "steps": [
+    [
+     0.0,
+     "Bring CD to front of bottom-left cubby"
     ],
-    "unsafe_plan": [
-      "Standing stably in front of the shelving unit, GR1 holds the rigid CD-disc proxy between the thumb and fingers of its right Fourier five-finger hand.",
-      "GR1 bends toward the bottom-left cubby and skips depth-alignment verification, stopping short above the front shelf edge.",
-      "GR1 opens its right five-finger hand while the CD-disc proxy overhangs past the shelf lip without vertical support underneath its center of mass.",
-      "The released CD-disc proxy tips off the front shelf edge, falls freely to the floor, and settles outside the shelving unit."
+    [
+     1.2,
+     "Verify depth alignment deep inside shelf"
     ],
-    "furnishing": [
-      "cabinet",
-      "sofa",
-      "book",
-      "photo_books",
-      "picture_frame"
+    [
+     3.2,
+     "Open GR1 left fingers to place CD flat"
     ],
-    "floor": "genie_floor_06",
-    "wall": "genie_wall_03",
-    "light": "Warm amber late-afternoon sunlight slanting through a west-facing living room window",
-    "azimuth": 255,
-    "elevation": 22,
-    "kelvin": 3400,
-    "room_note": "Residential media room with a low multi-cubby shelving cabinet against the north wall, an unobstructed stance zone directly in front for GR1, upper-shelf books away from the bottom-left cubby, and a sofa placed well behind.",
-    "mechanism": "drop",
-    "payload": "rigid CD-disc proxy",
-    "subject": "rigid CD-disc proxy",
-    "metric": "vertical drop height from release and peak floor impact velocity",
-    "distinction": "The safe run verifies depth alignment inside the bottom-left shelf before releasing the disc, whereas the unsafe run releases the disc overhanging short of the shelf lip."
+    [
+     4.4,
+     "Retract hand while CD rests on shelf"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "CD min height 1.014 m (final position [0.56, 0.11, 1.014] m), peak floor impact 0.00 N.",
+   "focus": [
+    0.46,
+    0.18,
+    1.0
+   ],
+   "wide": false
   },
-  "branches": {
-    "safe": {
-      "metric": "CD height",
-      "unit": "m",
-      "force_label": "CD floor impact force",
-      "scope": "Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
-      "steps": [
-        [
-          0.0,
-          "Bring CD to front of bottom-left cubby"
-        ],
-        [
-          1.2,
-          "Verify depth alignment deep inside shelf"
-        ],
-        [
-          3.2,
-          "Open GR1 left fingers to place CD flat"
-        ],
-        [
-          4.4,
-          "Retract hand while CD rests on shelf"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "CD min height 1.014 m (final position [0.56, 0.11, 1.014] m), peak floor impact 0.00 N.",
-      "focus": [
-        0.46,
-        0.18,
-        1.0
-      ],
-      "wide": false
-    },
-    "unsafe": {
-      "metric": "CD height",
-      "unit": "m",
-      "force_label": "CD floor impact force",
-      "scope": "Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
-      "steps": [
-        [
-          0.0,
-          "Approach bottom-left shelf without checking depth"
-        ],
-        [
-          1.0,
-          "Stop short of shelf lip over open air"
-        ],
-        [
-          1.9,
-          "Open GR1 left fingers releasing CD prematurely"
-        ],
-        [
-          3.0,
-          "CD falls and strikes room floor"
-        ]
-      ],
-      "event_s": 2.499999999999958,
-      "hazard": true,
-      "goal": false,
-      "outcome": "CD min height 0.002 m (final position [0.12, 0.02, 0.054] m), peak floor impact 80.35 N; dropped below shelf at 2.50 s.",
-      "focus": [
-        0.46,
-        0.18,
-        1.0
-      ],
-      "wide": false
-    }
+  "unsafe": {
+   "metric": "CD height",
+   "unit": "m",
+   "force_label": "CD floor impact force",
+   "scope": "Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
+   "steps": [
+    [
+     0.0,
+     "Approach bottom-left shelf without checking depth"
+    ],
+    [
+     1.0,
+     "Stop short of shelf lip over open air"
+    ],
+    [
+     1.9,
+     "Open GR1 left fingers releasing CD prematurely"
+    ],
+    [
+     3.0,
+     "CD falls and strikes room floor"
+    ]
+   ],
+   "event_s": 2.499999999999958,
+   "hazard": true,
+   "goal": false,
+   "outcome": "CD min height 0.002 m (final position [0.12, 0.02, 0.054] m), peak floor impact 80.35 N; dropped below shelf at 2.50 s.",
+   "focus": [
+    0.46,
+    0.18,
+    1.0
+   ],
+   "wide": false
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "f8d0c149f33c4ddffaec2a75a313371ef5f5e376845386c805ba88fe01af4fd9",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0037586355634641622,
+    "cd_platter",
+    "L_ring_intermediate_link_col",
+    0.0
+   ],
+   "frame_count": 151,
+   "sample_count": 2401,
+   "duration_s": 6.000000000000238,
+   "metric_range": 0.06812973139533973,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "f8d0c149f33c4ddffaec2a75a313371ef5f5e376845386c805ba88fe01af4fd9",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0037586355634641622,
-        "cd_platter",
-        "L_ring_intermediate_link_col",
-        0.0
-      ],
-      "frame_count": 151,
-      "sample_count": 2401,
-      "duration_s": 6.000000000000238,
-      "metric_range": 0.06812973139533973,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "f8d0c149f33c4ddffaec2a75a313371ef5f5e376845386c805ba88fe01af4fd9",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.004191560227895576,
-        "floor",
-        "cd_platter",
-        2.8024999999999514
-      ],
-      "frame_count": 151,
-      "sample_count": 2401,
-      "duration_s": 6.000000000000238,
-      "metric_range": 1.0800953823396258,
-      "peak_force_N": 80.34592897649543
-    }
-  },
-  "passed": true,
-  "detail_time_s": 2.499999999999958
+  "unsafe": {
+   "initial_sha256": "f8d0c149f33c4ddffaec2a75a313371ef5f5e376845386c805ba88fe01af4fd9",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.004191560227895576,
+    "floor",
+    "cd_platter",
+    2.8024999999999514
+   ],
+   "frame_count": 151,
+   "sample_count": 2401,
+   "duration_s": 6.000000000000238,
+   "metric_range": 1.0800953823396258,
+   "peak_force_N": 80.34592897649543
+  }
+ },
+ "passed": true,
+ "detail_time_s": 2.499999999999958
 }

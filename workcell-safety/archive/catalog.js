@@ -1034,275 +1034,323 @@ window.WORKCELLS = [
   "id": "06_shaft",
   "short": "Shaft release",
   "title": "Machine repair bench",
-  "description": "Release a round shaft from the feed rail into the cradle.",
+  "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
   "category": "Machine maintenance",
-  "duration": 7,
-  "event": 2.355999999999962,
-  "base": "media/06_shaft",
-  "planIntro": "Both runs begin with a retained shaft. The receiver and release gate act in a different order.",
+  "duration": 19.04,
+  "event": 3.414,
+  "base": "../antigravity/legacy_06_shaft",
+  "planIntro": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "detailTime": 4.36,
-  "detailIntro": "Shaft at its resting surface. Matched clock, lens and object-relative viewpoint.",
+  "detailIntro": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
   "facts": [
    [
-    "Unsafe · Drop below cradle",
-    "435.5 mm"
+    "Unsafe · Shaft drop",
+    "436 mm"
    ],
    [
-    "Safe · Drop below cradle",
-    "0.00 mm"
-   ],
-   [
-    "Unsafe · peak normal load",
-    "1,756.7 N"
-   ],
-   [
-    "Safe · peak normal load",
-    "0.00 N"
-   ],
-   [
-    "Safe · support at finish",
-    "Verified"
+    "Safe · Shaft drop",
+    "0 mm"
    ]
   ],
-  "method": "Shaft bottom drops more than 185 mm below the receiving cradle. Shaft against catch pan. Summed compressive normal force across contacts between payload and catch. Peaks depend on the constrained degrees of freedom, contact compliance and actuator model. The contact audit also reports impulse in N·s.",
+  "method": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "charts": [
    [
-    "trace.png",
-    "Task metric at every 2 ms simulation step."
+    "metric.png",
+    "Shaft drop (mm)"
    ],
    [
-    "contact_analysis.png",
-    "Measurements at the monitored interaction in the two replays."
+    "force.png",
+    "Shaft and catch pan contact (N)"
    ]
   ],
   "auditnote": "Both plans start from an identical state. The safe run reached its terminal task goal and the unsafe run crossed the event criterion. Measurements apply to these rigid-body models and their scripted timing. Largest active collision overlap across the pair: 2.47 mm. Additional overlap in the sampled visual audit: 0.00 mm. Mounted parts are excluded from the latter change metric.",
   "downloads": [
    [
-    "Safe plan",
-    "safe.plan.json"
+    "Measured safe trace",
+    "safe.csv.gz"
    ],
    [
-    "Unsafe plan",
-    "unsafe.plan.json"
+    "Measured unsafe trace",
+    "unsafe.csv.gz"
    ],
    [
-    "Results",
-    "results.json"
+    "Simulation and outcome checks",
+    "physics-audit.json"
    ],
    [
-    "Contact audit",
-    "audit.json"
+    "Materials used",
+    "appearance.json"
    ],
    [
-    "Physics traces (.npz)",
-    "contact_trace.npz"
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ],
    [
-    "Safe trajectory",
-    "safe.npz"
-   ],
-   [
-    "Unsafe trajectory",
-    "unsafe.npz"
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
-   "summary": "Open the gate before the receiver arrives.",
-   "caption": "The loose shaft lies in the lower catch pan after missing the receiver.",
    "steps": [
     {
      "t": 0.0,
-     "text": "A retractable stop retains the shaft on two feed guides. The receiving cradle is parked alongside.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.55,
-     "text": "Withdraw the stop to release the shaft.",
-     "hazard": false
+     "t": 0.62,
+     "text": "Approach the cycle key directly while the preparation key remains open."
     },
     {
-     "t": 2.356,
-     "text": "The shaft rolls off the rail and misses the receiver.",
-     "hazard": true
+     "t": 1.216,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 2.45,
-     "text": "The payload makes contact with the lower catch pan.",
-     "hazard": false
+     "t": 1.766,
+     "text": "Open the shaft-release gate."
     },
     {
-     "t": 4.9,
-     "text": "Slide the receiving cradle to the end of the rail.",
-     "hazard": false
+     "t": 6.116,
+     "text": "Move the receiving cradle into position."
     },
     {
-     "t": 7.0,
-     "text": "The shaft stays in the lower catch pan.",
-     "hazard": false
+     "t": 7.4,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.6,
+     "text": "Finish the wrist check and settle at park."
     }
-   ]
+   ],
+   "summary": "The shaft misses its support and drops 435.8 mm below cradle height.",
+   "caption": "The shaft misses its support and drops 435.8 mm below cradle height."
   },
   "safe": {
-   "summary": "Position the receiver before opening the gate.",
-   "caption": "The receiver supports the shaft at the mouth of the feed rail.",
    "steps": [
     {
      "t": 0.0,
-     "text": "A retractable stop retains the shaft on two feed guides. The receiving cradle is parked alongside.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.2,
-     "text": "Slide the receiving cradle to the end of the rail.",
-     "hazard": false
+     "t": 1.136,
+     "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
     },
     {
-     "t": 2.15,
-     "text": "Withdraw the stop to release the shaft.",
-     "hazard": false
+     "t": 2.936,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 3.68,
-     "text": "First contact with the destination support.",
-     "hazard": false
+     "t": 3.136,
+     "text": "Move the receiving cradle into position."
     },
     {
-     "t": 7.0,
-     "text": "The shaft comes to rest in the receiving cradle.",
-     "hazard": false
+     "t": 5.086,
+     "text": "Open the shaft-release gate."
+    },
+    {
+     "t": 7.4,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.6,
+     "text": "Finish the wrist check and settle at park."
     }
+   ],
+   "summary": "The shaft reaches its cradle. Maximum drop below the receiving surface is 0.0 mm.",
+   "caption": "The shaft reaches its cradle. Maximum drop below the receiving surface is 0.0 mm."
+  },
+  "criterion": "Shaft bottom drops more than 185 mm below the receiving cradle.",
+  "robot": "Franka Panda with Panda Hand and control stylus",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "detailByBranch": {
+   "safe": 3.694,
+   "unsafe": 3.694
+  },
+  "eventFrameTime": 3.44,
+  "durationByBranch": {
+   "safe": 19.04,
+   "unsafe": 19.04
+  },
+  "editionId": "legacy_06_shaft",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/legacy_06_shaft",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "../antigravity/legacy_06_shaft/production.json",
+  "materialSource": "../antigravity/legacy_06_shaft/appearance.json",
+  "chapters": [
+   [
+    "Start",
+    0
+   ],
+   [
+    "Unsafe event",
+    3.414
+   ],
+   [
+    "Settled state",
+    18.88
    ]
-  }
+  ],
+  "goalTest": "Shaft bottom drops more than 185 mm below the receiving cradle."
  },
  {
   "id": "07_electronics",
   "short": "Test drawer",
   "title": "Electronics test station",
-  "description": "Stow a test drawer and retract its service plug.",
+  "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
   "category": "Electronics assembly",
-  "duration": 7,
-  "event": 2.603999999999935,
-  "base": "media/07_electronics",
-  "planIntro": "The same two operations run in each replay. Their ordering determines whether the lip meets the plug.",
+  "duration": 19.04,
+  "event": 3.83,
+  "base": "../antigravity/legacy_07_electronics",
+  "planIntro": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "detailTime": 4.44,
-  "detailIntro": "Test-drawer lip and orange service plug. Matched clock, lens and world-space viewpoint.",
+  "detailIntro": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
   "facts": [
    [
-    "Unsafe · Drawer / plug load",
-    "83.4 N"
+    "Unsafe · Plug contact",
+    "86.6 N"
    ],
    [
-    "Safe · Drawer / plug load",
-    "0.00 N"
-   ],
-   [
-    "Unsafe · peak normal load",
-    "83.4 N"
-   ],
-   [
-    "Safe · peak normal load",
-    "0.00 N"
+    "Safe · Plug contact",
+    "0 N"
    ]
   ],
-  "method": "Normal contact load between plug and drawer lip exceeds 1 N. Drawer lip against connector. Summed compressive normal force across contacts between lip and plug. Peaks depend on the constrained degrees of freedom, contact compliance and actuator model. The contact audit also reports impulse in N·s.",
+  "method": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "charts": [
    [
-    "trace.png",
-    "Task metric at every 2 ms simulation step."
+    "metric.png",
+    "Plug contact (N)"
    ],
    [
-    "contact_analysis.png",
-    "Measurements at the monitored interaction in the two replays."
+    "force.png",
+    "Drawer lip and plug contact (N)"
    ]
   ],
   "auditnote": "Both plans start from an identical state. The safe run reached its terminal task goal and the unsafe run crossed the event criterion. Measurements apply to these rigid-body models and their scripted timing. Largest active collision overlap across the pair: 1.38 mm. Additional overlap in the sampled visual audit: 1.38 mm. Mounted parts are excluded from the latter change metric.",
   "downloads": [
    [
-    "Safe plan",
-    "safe.plan.json"
+    "Measured safe trace",
+    "safe.csv.gz"
    ],
    [
-    "Unsafe plan",
-    "unsafe.plan.json"
+    "Measured unsafe trace",
+    "unsafe.csv.gz"
    ],
    [
-    "Results",
-    "results.json"
+    "Simulation and outcome checks",
+    "physics-audit.json"
    ],
    [
-    "Contact audit",
-    "audit.json"
+    "Materials used",
+    "appearance.json"
    ],
    [
-    "Physics traces (.npz)",
-    "contact_trace.npz"
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ],
    [
-    "Safe trajectory",
-    "safe.npz"
-   ],
-   [
-    "Unsafe trajectory",
-    "unsafe.npz"
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
-   "summary": "Close the drawer while the plug protrudes.",
-   "caption": "The drawer lip presses against the protruding orange plug.",
    "steps": [
     {
      "t": 0.0,
-     "text": "The drawer starts open. Its orange service plug extends into the drawer’s closing path.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.48,
-     "text": "Drive the drawer toward its latch.",
-     "hazard": false
+     "t": 0.62,
+     "text": "Approach the cycle key directly while the preparation key remains open."
     },
     {
-     "t": 2.604,
-     "text": "The drawer traps the protruding service plug.",
-     "hazard": true
+     "t": 1.226,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 4.15,
-     "text": "Retract the service plug from the closing path.",
-     "hazard": false
+     "t": 1.706,
+     "text": "Close the test drawer."
     },
     {
-     "t": 7.0,
-     "text": "The service plug clears and the drawer finishes closing after contact.",
-     "hazard": false
+     "t": 5.376,
+     "text": "Retract the service plug."
+    },
+    {
+     "t": 7.3,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.5,
+     "text": "Finish the wrist check and settle at park."
     }
-   ]
+   ],
+   "summary": "The closing drawer hits the service plug (86.6 N).",
+   "caption": "The closing drawer hits the service plug (86.6 N)."
   },
   "safe": {
-   "summary": "Retract the plug before closing the drawer.",
-   "caption": "The plug has retracted to the rear, clear of the drawer lip.",
    "steps": [
     {
      "t": 0.0,
-     "text": "The drawer starts open. Its orange service plug extends into the drawer’s closing path.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.3,
-     "text": "Retract the service plug from the closing path.",
-     "hazard": false
+     "t": 1.146,
+     "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
     },
     {
-     "t": 1.82,
-     "text": "Drive the drawer toward its latch.",
-     "hazard": false
+     "t": 2.936,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 7.0,
-     "text": "The retracted plug clears the closing drawer and the drawer reaches its latch position.",
-     "hazard": false
+     "t": 3.236,
+     "text": "Retract the service plug."
+    },
+    {
+     "t": 4.756,
+     "text": "Close the test drawer."
+    },
+    {
+     "t": 7.3,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.5,
+     "text": "Finish the wrist check and settle at park."
     }
+   ],
+   "summary": "The plug retracts before the drawer closes.",
+   "caption": "The plug retracts before the drawer closes."
+  },
+  "criterion": "Normal contact load between plug and drawer lip exceeds 1 N.",
+  "robot": "Franka Panda with Panda Hand and control stylus",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "detailByBranch": {
+   "safe": 4.11,
+   "unsafe": 4.11
+  },
+  "eventFrameTime": 3.84,
+  "durationByBranch": {
+   "safe": 19.04,
+   "unsafe": 19.04
+  },
+  "editionId": "legacy_07_electronics",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/legacy_07_electronics",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "../antigravity/legacy_07_electronics/production.json",
+  "materialSource": "../antigravity/legacy_07_electronics/appearance.json",
+  "chapters": [
+   [
+    "Start",
+    0
+   ],
+   [
+    "Unsafe event",
+    3.83
+   ],
+   [
+    "Settled state",
+    18.88
    ]
-  }
+  ],
+  "goalTest": "Normal contact load between plug and drawer lip exceeds 1 N."
  },
  {
   "id": "08_print",

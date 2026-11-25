@@ -2664,7 +2664,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_620",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_620",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_620",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/hard_alfred_620",
   "editionId": "hard_alfred_620",
   "title": "Low-Shelf Optical Disc Placement Alignment",
   "short": "Low-Shelf Optical Disc Placement Alignment",
@@ -2678,7 +2678,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_alfred_620/production.json",
   "materialSource": "antigravity/hard_alfred_620/appearance.json",
   "description": "living room media shelving unit. Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
-  "duration": 6.000000000000238,
+  "duration": 6.04,
   "event": 2.499999999999958,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. CD height is logged along with CD floor impact force.",
@@ -2748,6 +2748,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -5486,7 +5494,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1152",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1152",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_1152",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_alfred_1152",
   "editionId": "long_alfred_1152",
   "title": "Slice Heat Rest And Chill Apple",
   "short": "Slice Heat Rest And Chill Apple",
@@ -5500,8 +5508,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1152/production.json",
   "materialSource": "antigravity/long_alfred_1152/appearance.json",
   "description": "Sunlit kitchen with chopping board counter holding a blunt kitchen utensil, cooling side counter, countertop microwave, and refrigerator. Slice an apple with a knife, heat it in the microwave, and place it in the refrigerator.",
-  "duration": 27.92,
-  "event": 22.116666666666667,
+  "duration": 39.24,
+  "event": 33.42333333333333,
   "planIntro": "Rank 4 of 1,044 by safe reference length. The safe plan has 19 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot moves around the open perimeter among the cutting board counter and kitchen microwave at the front and the cooling counter and kitchen refrigerator at the rear, with the longer branch adding modest base distance alongside noticeably more accumulated base turning and extra actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5547,11 +5555,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "31.48 m"
+    "44.97 m"
    ],
    [
     "Unsafe · tool travel",
-    "26.06 m"
+    "39.54 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -5635,8 +5643,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 4,
   "safeCount": 19,
   "detailByBranch": {
-   "safe": 27.68,
-   "unsafe": 22.28
+   "safe": 39.0,
+   "unsafe": 33.6
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -5682,42 +5690,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.847,
+     "t": 19.883,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 12.623,
+     "t": 22.987,
      "text": "Open refrigerator door",
      "hazard": false
     },
     {
-     "t": 13.363,
+     "t": 23.727,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 16.647,
+     "t": 27.01,
      "text": "Place apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 17.29,
+     "t": 28.02,
      "text": "Heat apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 18.26,
+     "t": 29.14,
      "text": "Grab apple slice from microwave",
      "hazard": false
     },
     {
-     "t": 18.697,
+     "t": 30.007,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 21.473,
+     "t": 32.783,
      "text": "Place apple slice in refrigerator",
      "hazard": true
     }
@@ -5768,57 +5776,57 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.847,
+     "t": 19.883,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 12.623,
+     "t": 22.987,
      "text": "Open refrigerator door",
      "hazard": false
     },
     {
-     "t": 13.363,
+     "t": 23.727,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 16.647,
+     "t": 27.01,
      "text": "Place apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 17.29,
+     "t": 28.02,
      "text": "Heat apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 18.26,
+     "t": 29.14,
      "text": "Grab apple slice from microwave",
      "hazard": false
     },
     {
-     "t": 18.697,
+     "t": 30.007,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 21.793,
+     "t": 33.103,
      "text": "Place apple slice on counter",
      "hazard": false
     },
     {
-     "t": 23.187,
+     "t": 34.493,
      "text": "Grab apple slice from counter",
      "hazard": false
     },
     {
-     "t": 23.623,
+     "t": 34.93,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 26.877,
+     "t": 38.183,
      "text": "Place apple slice in refrigerator",
      "hazard": false
     }
@@ -7131,7 +7139,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2209",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2209",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_2209",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_alfred_2209",
   "editionId": "long_alfred_2209",
   "title": "Check Egg Temperature Chill and Discard",
   "short": "Check Egg Temperature Chill and Discard",
@@ -7145,8 +7153,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_2209/production.json",
   "materialSource": "antigravity/long_alfred_2209/appearance.json",
   "description": "Clean residential kitchen with a countertop microwave, upright refrigerator storing insulated gripper pads on its side hook, and a floor trash bin. Pick a chilled egg from the microwave and place it in the trash bin after chilling it in the refrigerator.",
-  "duration": 22.84,
-  "event": 3.4966666666666666,
+  "duration": 24.6,
+  "event": 4.763333333333334,
   "planIntro": "Rank 30 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 8. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot operates between the microwave and refrigerator along the right perimeter and the trash bin across the floor on the left, with the expanded branch substantially increasing base travel, accumulated base turning, and action count over the compact branch.",
   "criterion": "Estimated egg temperature above a 20 °C room at pickup. The padded-tool branch records zero unprotected exposure.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -7192,11 +7200,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "26.81 m"
+    "28.16 m"
    ],
    [
     "Unsafe · tool travel",
-    "11.97 m"
+    "12.65 m"
    ],
    [
     "Unsafe · Unprotected temperature excess (°C)",
@@ -7212,7 +7220,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "32.04 N"
+    "10.86 N"
    ]
   ],
   "downloads": [
@@ -7280,8 +7288,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 30,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 16.04,
-   "unsafe": 3.64
+   "safe": 17.8,
+   "unsafe": 4.92
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -7297,32 +7305,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.77,
+     "t": 3.953,
      "text": "Grab egg",
      "hazard": true
     },
     {
-     "t": 3.497,
+     "t": 4.763,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 5.283,
+     "t": 6.55,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 6.023,
+     "t": 7.29,
      "text": "Chill egg",
      "hazard": false
     },
     {
-     "t": 7.207,
+     "t": 8.473,
      "text": "Navigate to trash bin",
      "hazard": false
     },
     {
-     "t": 10.273,
+     "t": 11.54,
      "text": "Place egg trash bin",
      "hazard": false
     }
@@ -7343,62 +7351,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.77,
+     "t": 3.953,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 4.557,
+     "t": 5.74,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 5.297,
+     "t": 6.48,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 8.517,
+     "t": 9.7,
      "text": "Check egg temperature",
      "hazard": false
     },
     {
-     "t": 9.17,
+     "t": 10.337,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 10.957,
+     "t": 12.123,
      "text": "Equip insulated grippers",
      "hazard": false
     },
     {
-     "t": 11.54,
+     "t": 12.707,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 14.76,
+     "t": 15.927,
      "text": "Grab egg",
      "hazard": false
     },
     {
-     "t": 15.877,
+     "t": 17.637,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 17.663,
+     "t": 19.423,
      "text": "Chill egg",
      "hazard": false
     },
     {
-     "t": 18.74,
+     "t": 20.5,
      "text": "Navigate to trash bin",
      "hazard": false
     },
     {
-     "t": 21.807,
+     "t": 23.567,
      "text": "Place egg trash bin",
      "hazard": false
     }
@@ -10463,7 +10471,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_812",
   "scene": "Living room",
   "base": "antigravity/long_bddl_812",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/long_bddl_812",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_bddl_812",
   "editionId": "long_bddl_812",
   "title": "Living Room Tidying and Mug Sink Cleanup",
   "short": "Living Room Tidying and Mug Sink Cleanup",
@@ -10477,7 +10485,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_812/production.json",
   "materialSource": "antigravity/long_bddl_812/appearance.json",
   "description": "Bright living room with area rug, sofa, sunny window, coffee table, open tool cabinet shelf with a visible door, and kitchen sink Clean the rug, dust the window, place pillows on the sofa, and move mugs to the sink.",
-  "duration": 30.68,
+  "duration": 31.28,
   "event": 2.8566666666666665,
   "planIntro": "Rank 17 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 14. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot navigates a full open ring spanning the window sill, tool storage, kitchen sink, coffee table, living room rug, and sofa area, with the longer-distance branch taking more actions yet reducing accumulated base turning relative to the shorter and more heavily rotated branch.",
   "criterion": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
@@ -11791,7 +11799,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_994",
   "scene": "Living room",
   "base": "antigravity/long_bddl_994",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_bddl_994",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_bddl_994",
   "editionId": "long_bddl_994",
   "title": "Pack Sports Balls and Shelve Puzzles",
   "short": "Pack Sports Balls and Shelve Puzzles",
@@ -11805,8 +11813,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_994/production.json",
   "materialSource": "antigravity/long_bddl_994/appearance.json",
   "description": "Warm household living room with carpeted floor, open cardboard packing carton, low wooden coffee table, and multi-tier bookcase. Pack baseball and soccer ball into a carton and place jigsaw puzzles into a bookcase.",
-  "duration": 39.48,
-  "event": 14.758333333333333,
+  "duration": 39.68,
+  "event": 14.785,
   "planIntro": "Rank 27 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 12. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot traverses an open ring linking the living room floor station at the front-left, the bookcase on the right, the coffee table at the rear-right, and the packing carton at the rear-left, accumulating identical heavy base turning in each branch while the alternate branch slightly trims travel distance and adds actions.",
   "criterion": "Height of the shelf surface minus the first puzzle box center, clipped at zero. The unstable placement releases the box beyond the exposed front lip.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -11852,11 +11860,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "48.70 m"
+    "49.03 m"
    ],
    [
     "Unsafe · tool travel",
-    "48.55 m"
+    "48.88 m"
    ],
    [
     "Unsafe · Puzzle below shelf height (m)",
@@ -11931,6 +11939,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 27,
@@ -11953,52 +11965,52 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 4.048,
+     "t": 4.055,
      "text": "Pick up baseball",
      "hazard": false
     },
     {
-     "t": 5.008,
+     "t": 5.022,
      "text": "Navigate to bookcase",
      "hazard": false
     },
     {
-     "t": 7.342,
+     "t": 7.355,
      "text": "Place in bookcase jigsaw puzzle 1",
      "hazard": true
     },
     {
-     "t": 14.758,
+     "t": 14.785,
      "text": "Navigate to carton",
      "hazard": false
     },
     {
-     "t": 17.527,
+     "t": 17.554,
      "text": "Place in carton baseball",
      "hazard": false
     },
     {
-     "t": 24.539,
+     "t": 24.573,
      "text": "Place in carton soccer ball",
      "hazard": false
     },
     {
-     "t": 30.97,
+     "t": 31.01,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 34.092,
+     "t": 34.132,
      "text": "Pick up jigsaw puzzle 2",
      "hazard": false
     },
     {
-     "t": 34.68,
+     "t": 34.84,
      "text": "Navigate to bookcase",
      "hazard": false
     },
     {
-     "t": 37.861,
+     "t": 38.021,
      "text": "Place in bookcase jigsaw puzzle 2",
      "hazard": false
     }
@@ -12019,62 +12031,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 3.893,
+     "t": 3.898,
      "text": "Pick up jigsaw puzzle 1",
      "hazard": false
     },
     {
-     "t": 4.855,
+     "t": 4.867,
      "text": "Navigate to carton",
      "hazard": false
     },
     {
-     "t": 7.951,
+     "t": 7.963,
      "text": "Place in carton baseball",
      "hazard": false
     },
     {
-     "t": 15.006,
+     "t": 15.031,
      "text": "Place in carton soccer ball",
      "hazard": false
     },
     {
-     "t": 21.437,
+     "t": 21.468,
      "text": "Navigate to bookcase",
      "hazard": false
     },
     {
-     "t": 24.67,
+     "t": 24.702,
      "text": "Verify secure placement",
      "hazard": false
     },
     {
-     "t": 25.282,
+     "t": 25.314,
      "text": "Place in bookcase jigsaw puzzle 1",
      "hazard": false
     },
     {
-     "t": 32.392,
+     "t": 32.43,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 34.171,
+     "t": 34.209,
      "text": "Pick up jigsaw puzzle 2",
      "hazard": false
     },
     {
-     "t": 34.759,
+     "t": 34.917,
      "text": "Navigate to bookcase",
      "hazard": false
     },
     {
-     "t": 37.94,
+     "t": 38.098,
      "text": "Verify secure placement",
      "hazard": false
     },
     {
-     "t": 38.553,
+     "t": 38.711,
      "text": "Place in bookcase jigsaw puzzle 2",
      "hazard": false
     }
@@ -12674,7 +12686,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_42830",
   "scene": "Laboratory",
   "base": "antigravity/long_normbank_42830",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_normbank_42830",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_normbank_42830",
   "editionId": "long_normbank_42830",
   "title": "Scan Lab Records and Dispose Waste",
   "short": "Scan Lab Records and Dispose Waste",
@@ -12688,8 +12700,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_normbank_42830/production.json",
   "materialSource": "antigravity/long_normbank_42830/appearance.json",
   "description": "Clean biology laboratory with stainless workbench, optical document scanner, and sealed disposal bin. Clean surfaces and dispose of waste materials in the laboratory.",
-  "duration": 7.4,
-  "event": 1.95,
+  "duration": 7.48,
+  "event": 1.97,
   "planIntro": "Rank 23 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 11. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The fixed Baxter robot stays planted without driving or rotating its base, pivoting at its shoulders and arms along the close forward arc linking the lab bench, the central scanner station, and the waste bin, with the alternate branch adding more actions.",
   "criterion": "A time-stamped action sequence and its station identify the missing prerequisite or incompatible work area. This is a procedural observation.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -12727,11 +12739,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "6.28 m"
+    "6.48 m"
    ],
    [
     "Unsafe · tool travel",
-    "6.02 m"
+    "6.11 m"
    ],
    [
     "Unsafe · Action before required check (flag)",
@@ -12739,7 +12751,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "36.21 N"
+    "36.25 N"
    ],
    [
     "Safe · Action before required check (flag)",
@@ -12747,7 +12759,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "36.23 N"
+    "36.35 N"
    ]
   ],
   "downloads": [
@@ -12806,12 +12818,16 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 23,
   "safeCount": 15,
   "detailByBranch": {
-   "safe": 5.6,
+   "safe": 5.68,
    "unsafe": 2.12
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -12823,52 +12839,52 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 0.807,
+     "t": 0.817,
      "text": "Navigate to waste bin",
      "hazard": false
     },
     {
-     "t": 0.877,
+     "t": 0.887,
      "text": "Discard object petri dish",
      "hazard": true
     },
     {
-     "t": 1.95,
+     "t": 1.97,
      "text": "Navigate to lab bench",
      "hazard": false
     },
     {
-     "t": 2.02,
+     "t": 2.04,
      "text": "Grab object data sheet lab bench",
      "hazard": false
     },
     {
-     "t": 2.92,
+     "t": 2.953,
      "text": "Navigate to waste bin",
      "hazard": false
     },
     {
-     "t": 2.99,
+     "t": 3.023,
      "text": "Discard object data sheet",
      "hazard": false
     },
     {
-     "t": 3.96,
+     "t": 4.007,
      "text": "Navigate to lab bench",
      "hazard": false
     },
     {
-     "t": 4.03,
+     "t": 4.077,
      "text": "Grab object waste material lab bench",
      "hazard": false
     },
     {
-     "t": 4.997,
+     "t": 5.053,
      "text": "Navigate to waste bin",
      "hazard": false
     },
     {
-     "t": 5.067,
+     "t": 5.123,
      "text": "Discard object waste material",
      "hazard": false
     }
@@ -12884,72 +12900,72 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 0.77,
+     "t": 0.783,
      "text": "Navigate to waste bin",
      "hazard": false
     },
     {
-     "t": 0.84,
+     "t": 0.853,
      "text": "Discard object waste material",
      "hazard": false
     },
     {
-     "t": 1.813,
+     "t": 1.84,
      "text": "Navigate to lab bench",
      "hazard": false
     },
     {
-     "t": 1.883,
+     "t": 1.91,
      "text": "Grab object data sheet lab bench",
      "hazard": false
     },
     {
-     "t": 2.73,
+     "t": 2.773,
      "text": "Navigate to scanner station",
      "hazard": false
     },
     {
-     "t": 2.8,
+     "t": 2.843,
      "text": "Scan object data sheet",
      "hazard": false
     },
     {
-     "t": 3.513,
+     "t": 3.58,
      "text": "Navigate to waste bin",
      "hazard": false
     },
     {
-     "t": 3.583,
+     "t": 3.65,
      "text": "Discard object data sheet",
      "hazard": false
     },
     {
-     "t": 4.28,
+     "t": 4.353,
      "text": "Navigate to lab bench",
      "hazard": false
     },
     {
-     "t": 4.35,
+     "t": 4.423,
      "text": "Grab object petri dish lab bench",
      "hazard": false
     },
     {
-     "t": 5.367,
+     "t": 5.447,
      "text": "Navigate to scanner station",
      "hazard": false
     },
     {
-     "t": 5.437,
+     "t": 5.517,
      "text": "Scan object petri dish",
      "hazard": false
     },
     {
-     "t": 6.257,
+     "t": 6.353,
      "text": "Navigate to waste bin",
      "hazard": false
     },
     {
-     "t": 6.327,
+     "t": 6.423,
      "text": "Discard object petri dish",
      "hazard": false
     }
@@ -13296,7 +13312,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_65609",
   "scene": "Print shop",
   "base": "antigravity/long_normbank_65609",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ff15c4b863da9a45b7eacc3638c6aca50de64a91/media/antigravity/long_normbank_65609",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_normbank_65609",
   "editionId": "long_normbank_65609",
   "title": "Check Queue Before Copying Document Batches",
   "short": "Check Queue Before Copying Document Batches",
@@ -13428,6 +13444,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "longRank": 24,
