@@ -12,9 +12,10 @@
 <script>
 const get=id=>document.getElementById(id), node=(tag,words)=>{const el=document.createElement(tag);if(words)el.textContent=words;return el}, link=(url,words)=>{const a=node('a',words);a.href=url;return a};
 fetch('catalog.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{
-const cases=data.tasks;get('totals').textContent=data.cases+' tasks · '+data.original_pairs+' original film pairs sampled · '+cases.filter(x=>x.updated).length+' updated pairs published';
+const cases=data.tasks;get('totals').textContent=data.cases+' tasks · '+data.paired_solver_runs+' paired simulations rerun · '+cases.filter(x=>x.updated).length+' updated video pairs published';
 for(const label of [...new Set(cases.map(x=>x.setting))].sort())get('room').add(new Option(label,label));
 function detail(item,body){const links=node('p');links.append(link(item.current.edition,'Open task'));if(item.current.scene_assets)links.append(' · ',link(item.current.scene_assets,'Replacement sources'), ' · ',link(item.physics.file,'MuJoCo recording'));body.append(links);
+if(item.physics?.summary){const p=node('p');p.append(link(item.physics.summary,'Measurement record'),' · ',link(item.physics.series.safe,'Safe time series (CSV.gz)'),' · ',link(item.physics.series.unsafe,'Unsafe time series (CSV.gz)'));body.append(p)}
 if(item.swapped.length){body.append(node('h2','Replaced objects'));const u=node('ul');for(const b of item.swapped){const line=node('li');line.append((b.role||b.source_body).replaceAll('_',' ')+' — ');const found=item.registered_meshes.find(x=>x.id===b.model_id);line.append(found?link(found.url,found.id):node('span',b.model_id||'see source record'));u.append(line)}body.append(u)}
 if(item.registered_meshes.length){const d=node('details'),s=node('summary','Documented native meshes ('+item.registered_meshes.length+')');d.append(s);const u=node('ul');for(const x of item.registered_meshes){const li=node('li');li.append(link(x.url,x.id));u.append(li)}d.append(u);body.append(d)}
 if(item.asset_note)body.append(node('p',item.asset_note));
