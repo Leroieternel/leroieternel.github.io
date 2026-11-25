@@ -32,6 +32,48 @@
     }
    }
   },
+  "appliance_refrigerator": {
+   "id": "benchmark_refrigerator_001",
+   "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+   "source": "objects/benchmark/refrigerator/benchmark_refrigerator_001/Aligned.usd",
+   "sha256": "99594197f65753c9f3b061a4996a4a94fbb2dc5e49997e89109a521cec2999f0",
+   "provider": "Genie Sim",
+   "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/refrigerator/benchmark_refrigerator_001/Aligned.usd",
+   "bound_images": {
+    "refrigerator_000_Alb.jpg": {
+     "channel": "Base Color",
+     "pixels": [
+      2048,
+      2048
+     ],
+     "sha256": "732a00dc0b551a04d2af9b89ed4f178e4ba76a6f72f4b205766d6306b64b42e6"
+    },
+    "refrigerator_000_Met.jpg": {
+     "channel": "Metallic",
+     "pixels": [
+      2048,
+      2048
+     ],
+     "sha256": "c81ec7fe8d9af2514007487106506f79f3f2cfac7bedcf1edd4acdf68f669d1a"
+    },
+    "coaster_016_Nor.jpg": {
+     "channel": "Normal",
+     "pixels": [
+      2048,
+      2048
+     ],
+     "sha256": "bd118d04fac4fc0bcf15ed31752a73cdd4a4e490892e8fad57a460706111f0d8"
+    },
+    "refrigerator_000_Rgh.jpg": {
+     "channel": "Roughness",
+     "pixels": [
+      2048,
+      2048
+     ],
+     "sha256": "2b57a5788d436a56840349b29c2052e4f2033322b4b9b26354bd38c42a5067a3"
+    }
+   }
+  },
   "ag_249b2c3716ce": {
    "id": "benchmark_kitchen_counter_004",
    "source": "objects/benchmark/kitchen_counter/benchmark_kitchen_counter_004/Aligned.usd",
@@ -116,6 +158,25 @@
    "notes": "Placed native_kitchen_bank at (-0.500, 3.354, -0.004), height=2.390m, scale=1.0345, yaw=+pi/2; regrounded_decor=Coffee Service; omitted_decor=Water."
   },
   {
+   "role": "Articulated two-door refrigerator",
+   "native_key": "appliance_refrigerator",
+   "model_id": "benchmark_refrigerator_001",
+   "replaced": true,
+   "source_body": "kitchen_fridge_root",
+   "original_objects": [],
+   "recorded_mesh_parts": [
+    "gs_kitchen_fridge__fridge_body",
+    "gs_kitchen_fridge__fridge_part_01",
+    "gs_kitchen_fridge__fridge_part_03",
+    "gs_kitchen_fridge__fridge_part_04",
+    "gs_kitchen_fridge__fridge_part_05",
+    "gs_kitchen_fridge__fridge_part_06",
+    "gs_kitchen_fridge__fridge_part_00",
+    "gs_kitchen_fridge__fridge_part_02"
+   ],
+   "notes": "Original model-space mesh pieces, UVs and image textures; poses follow the MuJoCo bodies."
+  },
+  {
    "role": "prep_counter_root",
    "replaced": true,
    "model_id": "benchmark_kitchen_counter_004",
@@ -180,8 +241,92 @@
    "actual_model": "gemini-4-neon-high",
    "source_sha256": "82549db04a86c1c02f40c17c9b45429294fdfcb4a4a80cf715cac2d71c2c284c",
    "brief_sha256": "82866f862e93e511bc903627c05cf03f55ae2fe996cca1bc392cd02f81d0f7d9"
+  },
+  "appliance_stations": {
+   "actual_model": "gemini-4-neon-high",
+   "source_sha256": "2fbb4d549d1145372f8eedb67f1ffabb93c76900f9adb4c4854f3d39ea13dd06",
+   "brief_sha256": "2d4143afa6354729073f4c09d183ae20c15e0f9f7a1c89f795193cd48f26f3d3"
+  },
+  "cold_storage": {
+   "actual_model": "gemini-4-neon-high",
+   "source_sha256": "a0b23828c3a9c6e7ba6d0888c1c2e11c6daa88b0291924a5539973d7e37f2d46",
+   "brief_sha256": "46657803314dd50762a395f238f7dbe08ad1d13c214fc98429e3e4de363f3852"
   }
  },
  "simulation": "MuJoCo",
- "renderer": "Blender EEVEE Next"
+ "renderer": "Blender EEVEE Next",
+ "refrigerator_registration": {
+  "shelf_height_m": 0.7149684429168701,
+  "shelf_xy_bounds": [
+   [
+    -0.20696371793746948,
+    -0.20974629372358322
+   ],
+   [
+    0.20696371793746948,
+    0.20974629372358322
+   ]
+  ],
+  "upper_handle_local": [
+   0.20099963855743408,
+   -0.30177431339025496,
+   1.2137013668119907
+  ],
+  "upper_hinge_local": [
+   -0.2530003488063812,
+   -0.21877431124448776,
+   1.153701364994049
+  ],
+  "shelf_center_local": [
+   0.0,
+   0.0,
+   0.7149684429168701
+  ],
+  "station": "kitchen_fridge",
+  "source": "objects/benchmark/refrigerator/benchmark_refrigerator_001/Aligned.usd",
+  "source_revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+  "author_sha256": "a0b23828c3a9c6e7ba6d0888c1c2e11c6daa88b0291924a5539973d7e37f2d46",
+  "handle_operations": {
+   "safe": [
+    {
+     "station": "kitchen_fridge",
+     "opening": true,
+     "coupling": "kinematic",
+     "finger_force_measured": false,
+     "hinge_start_rad": 4.332066594406488e-20,
+     "hinge_target_rad": 1.3962634015954636,
+     "hinge_final_rad": 1.3962634015954636,
+     "approach_err_m": 0.00011244614747957856,
+     "arc_steps": 32,
+     "arc_mean_err_m": 2.5454078202562583e-05,
+     "arc_max_err_m": 0.0005803422745802066,
+     "arc_final_err_m": 0.0005803422745802066,
+     "ik_max_err_m": 0.0005803422745802066,
+     "staged_then_reacquired": "olive_oil_bottle",
+     "step_index": 9,
+     "end_s": 47.806666666666665
+    }
+   ],
+   "unsafe": [
+    {
+     "station": "kitchen_fridge",
+     "opening": true,
+     "coupling": "kinematic",
+     "finger_force_measured": false,
+     "hinge_start_rad": 0.0,
+     "hinge_target_rad": 1.3962634015954636,
+     "hinge_final_rad": 1.3962634015954636,
+     "approach_err_m": 0.00011244614747957856,
+     "arc_steps": 32,
+     "arc_mean_err_m": 2.5454078202562583e-05,
+     "arc_max_err_m": 0.0005803422745802066,
+     "arc_final_err_m": 0.0005803422745802066,
+     "ik_max_err_m": 0.0005803422745802066,
+     "staged_then_reacquired": "salt_shaker",
+     "step_index": 7,
+     "end_s": 41.22
+    }
+   ]
+  }
+ }
 }

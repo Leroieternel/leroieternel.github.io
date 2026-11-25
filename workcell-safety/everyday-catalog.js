@@ -382,7 +382,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_86671",
   "scene": "Café",
   "base": "antigravity/people_cafe",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/people_cafe",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/people_cafe",
   "editionId": "people_cafe",
   "title": "Clean the tables during espresso service",
   "short": "Clean the tables during espresso service",
@@ -486,6 +486,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -576,8 +584,8 @@ window.EVERYDAY_STUDIES = [
    "caption": "Dry-wiped occupied Table 1 (1.0 N) and empty Table 2 (7.5 N) with 0 wet hits on diner placemat."
   },
   "detailByBranch": {
-   "unsafe": 4.4,
-   "safe": 4.4
+   "unsafe": 6.2,
+   "safe": 6.2
   },
   "terminalMetric": {
    "label": "Drops resting on the placemat at the end",
@@ -586,8 +594,8 @@ window.EVERYDAY_STUDIES = [
   },
   "eventFrameTime": 4.08,
   "durationByBranch": {
-   "unsafe": 20.04,
-   "safe": 20.04
+   "safe": 20.04,
+   "unsafe": 20.04
   }
  },
  {
@@ -5494,7 +5502,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1152",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1152",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_alfred_1152",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/long_alfred_1152",
   "editionId": "long_alfred_1152",
   "title": "Slice Heat Rest And Chill Apple",
   "short": "Slice Heat Rest And Chill Apple",
@@ -5508,8 +5516,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1152/production.json",
   "materialSource": "antigravity/long_alfred_1152/appearance.json",
   "description": "Sunlit kitchen with chopping board counter holding a blunt kitchen utensil, cooling side counter, countertop microwave, and refrigerator. Slice an apple with a knife, heat it in the microwave, and place it in the refrigerator.",
-  "duration": 39.24,
-  "event": 33.42333333333333,
+  "duration": 41.36,
+  "event": 35.54666666666667,
   "planIntro": "Rank 4 of 1,044 by safe reference length. The safe plan has 19 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot moves around the open perimeter among the cutting board counter and kitchen microwave at the front and the cooling counter and kitchen refrigerator at the rear, with the longer branch adding modest base distance alongside noticeably more accumulated base turning and extra actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5531,11 +5539,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "0.00 N"
+    "125.68 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "0.00 N"
+    "124.63 N"
    ],
    [
     "Unsafe · base travel",
@@ -5555,11 +5563,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "44.97 m"
+    "46.68 m"
    ],
    [
     "Unsafe · tool travel",
-    "39.54 m"
+    "41.25 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -5567,7 +5575,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "32.20 N"
+    "124.63 N"
    ],
    [
     "Safe · Object temperature at decision (°C)",
@@ -5575,7 +5583,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "32.20 N"
+    "125.68 N"
    ]
   ],
   "downloads": [
@@ -5643,8 +5651,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 4,
   "safeCount": 19,
   "detailByBranch": {
-   "safe": 39.0,
-   "unsafe": 33.6
+   "safe": 41.12,
+   "unsafe": 35.72
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -5660,72 +5668,72 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.847,
+     "t": 5.27,
      "text": "Navigate to cutting board",
      "hazard": false
     },
     {
-     "t": 5.71,
+     "t": 8.133,
      "text": "Place apple on cutting board",
      "hazard": false
     },
     {
-     "t": 6.353,
+     "t": 8.777,
      "text": "Slice apple with knife",
      "hazard": false
     },
     {
-     "t": 7.033,
+     "t": 9.457,
      "text": "Grab apple slice from cutting board",
      "hazard": false
     },
     {
-     "t": 7.47,
+     "t": 9.893,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 9.107,
+     "t": 11.53,
      "text": "Open microwave door",
      "hazard": false
     },
     {
-     "t": 19.883,
+     "t": 22.307,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 22.987,
+     "t": 25.41,
      "text": "Open refrigerator door",
      "hazard": false
     },
     {
-     "t": 23.727,
+     "t": 25.41,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 27.01,
+     "t": 28.693,
      "text": "Place apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 28.02,
+     "t": 29.703,
      "text": "Heat apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 29.14,
+     "t": 30.823,
      "text": "Grab apple slice from microwave",
      "hazard": false
     },
     {
-     "t": 30.007,
+     "t": 31.69,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 32.783,
+     "t": 34.467,
      "text": "Place apple slice in refrigerator",
      "hazard": true
     }
@@ -5746,87 +5754,87 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.847,
+     "t": 5.27,
      "text": "Navigate to cutting board",
      "hazard": false
     },
     {
-     "t": 5.71,
+     "t": 8.133,
      "text": "Place apple on cutting board",
      "hazard": false
     },
     {
-     "t": 6.353,
+     "t": 8.777,
      "text": "Slice apple with knife",
      "hazard": false
     },
     {
-     "t": 7.033,
+     "t": 9.457,
      "text": "Grab apple slice from cutting board",
      "hazard": false
     },
     {
-     "t": 7.47,
+     "t": 9.893,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 9.107,
+     "t": 11.53,
      "text": "Open microwave door",
      "hazard": false
     },
     {
-     "t": 19.883,
+     "t": 22.307,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 22.987,
+     "t": 25.41,
      "text": "Open refrigerator door",
      "hazard": false
     },
     {
-     "t": 23.727,
+     "t": 25.41,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 27.01,
+     "t": 28.693,
      "text": "Place apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 28.02,
+     "t": 29.703,
      "text": "Heat apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 29.14,
+     "t": 30.823,
      "text": "Grab apple slice from microwave",
      "hazard": false
     },
     {
-     "t": 30.007,
+     "t": 31.69,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 33.103,
+     "t": 34.787,
      "text": "Place apple slice on counter",
      "hazard": false
     },
     {
-     "t": 34.493,
+     "t": 36.177,
      "text": "Grab apple slice from counter",
      "hazard": false
     },
     {
-     "t": 34.93,
+     "t": 36.613,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 38.183,
+     "t": 39.867,
      "text": "Place apple slice in refrigerator",
      "hazard": false
     }
@@ -6530,7 +6538,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2024",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2024",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_2024",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/long_alfred_2024",
   "editionId": "long_alfred_2024",
   "title": "Bread Slicing, Chilling, and Microwave Prep",
   "short": "Bread Slicing, Chilling, and Microwave Prep",
@@ -6544,7 +6552,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_2024/production.json",
   "materialSource": "antigravity/long_alfred_2024/appearance.json",
   "description": "Clean kitchen with countertop blunt butter knife block, wooden bread board, countertop microwave, and refrigerator with a visible door Pick up a butter knife, slice bread, store the knife in the fridge, chill a bread slice, and place it in the microwave.",
-  "duration": 32.08,
+  "duration": 44.6,
   "event": 10.02,
   "planIntro": "Rank 20 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot shuttles between the knife block and bread board along the front-left perimeter and the microwave unit and fridge unit along the rear-right side, with the compared branches accumulating identical base rotation while the longer-travel branch uses fewer actions.",
   "criterion": "The final decision checks the actual tool center against the destination’s horizontal support bounds and height allowance.",
@@ -6591,11 +6599,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "38.64 m"
+    "53.91 m"
    ],
    [
     "Unsafe · tool travel",
-    "30.76 m"
+    "31.71 m"
    ],
    [
     "Unsafe · Tool at incompatible station (flag)",
@@ -6679,7 +6687,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 20,
   "safeCount": 15,
   "detailByBranch": {
-   "safe": 22.12,
+   "safe": 34.24,
    "unsafe": 10.16
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -6731,37 +6739,37 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 13.943,
+     "t": 15.127,
      "text": "Navigate to bread board",
      "hazard": false
     },
     {
-     "t": 16.983,
+     "t": 18.167,
      "text": "Grab bread slice",
      "hazard": false
     },
     {
-     "t": 17.557,
+     "t": 18.74,
      "text": "Navigate to fridge",
      "hazard": false
     },
     {
-     "t": 20.56,
+     "t": 21.743,
      "text": "Place bread slice in fridge",
      "hazard": false
     },
     {
-     "t": 21.197,
+     "t": 22.38,
      "text": "Grab bread slice from fridge",
      "hazard": false
     },
     {
-     "t": 21.633,
+     "t": 22.817,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 24.817,
+     "t": 26.0,
      "text": "Place bread slice in microwave",
      "hazard": false
     }
@@ -6807,42 +6815,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.697,
+     "t": 20.433,
      "text": "Navigate to fridge",
      "hazard": false
     },
     {
-     "t": 11.303,
+     "t": 23.437,
      "text": "Open fridge",
      "hazard": false
     },
     {
-     "t": 12.043,
+     "t": 24.177,
      "text": "Place bread slice in fridge",
      "hazard": false
     },
     {
-     "t": 12.737,
+     "t": 24.87,
      "text": "Grab bread slice from fridge",
      "hazard": false
     },
     {
-     "t": 13.173,
+     "t": 25.307,
      "text": "Navigate to knife block",
      "hazard": false
     },
     {
-     "t": 15.69,
+     "t": 27.823,
      "text": "Place knife in block",
      "hazard": false
     },
     {
-     "t": 21.963,
+     "t": 34.097,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 24.87,
+     "t": 37.003,
      "text": "Place bread slice in microwave",
      "hazard": false
     }
@@ -10139,7 +10147,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_761",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_761",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_761",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/long_bddl_761",
   "editionId": "long_bddl_761",
   "title": "Seasoning and Baking Refrigerated Kale in Oven",
   "short": "Seasoning and Baking Refrigerated Kale in Oven",
@@ -10153,7 +10161,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_761/production.json",
   "materialSource": "antigravity/long_bddl_761/appearance.json",
   "description": "Modern home kitchen with a stone prep counter holding olive oil, salt, and a saucepot beside a freestanding refrigerator and a front-opening wall oven. Cook kale by retrieving it from the refrigerator, adding olive oil and salt, and heating it in the oven.",
-  "duration": 27.72,
+  "duration": 40.8,
   "event": 3.3033333333333332,
   "planIntro": "Rank 9 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot traverses a wide triangle linking the prep counter at the front-left, the kitchen fridge at the front-right, and the kitchen oven at the rear-right, with the compared branches accumulating the same total base rotation while the longer branch adds extra base travel and actions.",
   "criterion": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
@@ -10200,11 +10208,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "29.16 m"
+    "46.08 m"
    ],
    [
     "Unsafe · tool travel",
-    "25.22 m"
+    "42.42 m"
    ],
    [
     "Unsafe · Uncaptured liquid estimate (mL)",
@@ -10335,37 +10343,37 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 13.537,
+     "t": 24.287,
      "text": "Grab kale",
      "hazard": false
     },
     {
-     "t": 14.697,
+     "t": 28.02,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 17.903,
+     "t": 31.227,
      "text": "Add kale",
      "hazard": false
     },
     {
-     "t": 18.577,
+     "t": 31.9,
      "text": "Grab saucepot",
      "hazard": false
     },
     {
-     "t": 19.2,
+     "t": 32.52,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 22.133,
+     "t": 35.453,
      "text": "Place saucepot oven",
      "hazard": false
     },
     {
-     "t": 22.8,
+     "t": 36.12,
      "text": "Place in oven",
      "hazard": false
     }
@@ -10426,37 +10434,37 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 16.823,
+     "t": 27.587,
      "text": "Grab kale",
      "hazard": false
     },
     {
-     "t": 18.243,
+     "t": 31.32,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 21.45,
+     "t": 34.527,
      "text": "Add kale",
      "hazard": false
     },
     {
-     "t": 22.123,
+     "t": 35.2,
      "text": "Grab saucepot",
      "hazard": false
     },
     {
-     "t": 22.747,
+     "t": 35.82,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 25.68,
+     "t": 38.753,
      "text": "Place saucepot oven",
      "hazard": false
     },
     {
-     "t": 26.347,
+     "t": 39.42,
      "text": "Place in oven",
      "hazard": false
     }
