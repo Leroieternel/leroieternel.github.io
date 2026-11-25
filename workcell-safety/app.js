@@ -96,6 +96,7 @@ function render(c){
   const credit=link(c.credit||(c.mobile?'Created with Codex · MuJoCo + Blender':c.id==='cnc_full'?'Neon CNC environment · Codex safety trial':'Workcell authored in Codex'),c.creditUrl||'credits.html#production');
   specs.append(credit);
   if(c.materialSource)specs.append(link('Scene materials and sources',c.materialSource));
+  specs.append(link('Asset audit and paired measurements','native-assets/#'+encodeURIComponent(editionId)));
   if(c.handSource)specs.append(link('Panda Hand model',c.handSource));
   const chapters=by('chapters');chapters.replaceChildren();
   if(c.slowRange){const slow=node('button','slow-button','Replay incident at ¼ speed');slow.type='button';slow.onclick=()=>playPair(c.slowRange[0],.25,c.slowRange[1]);chapters.append(slow)}

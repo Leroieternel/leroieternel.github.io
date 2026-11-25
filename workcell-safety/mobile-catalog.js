@@ -659,7 +659,7 @@ window.MOBILE_WORLDS = [
   "description": "Carry the sealed roast sample from intake to the weighing bench, then leave the deck level for weighing.",
   "roomCaption": "Genie Sim’s warm wood floor runs from the sample bench to the weighing station. The background includes a roasting drum, a brick wall and a cupping bar.",
   "duration": 54.24,
-  "event": 43.573,
+  "event": 43.57,
   "detailTime": 46.72,
   "planIntro": "The receiving station faces 70° away from the pickup station. Both plans carry the same item through the marked aisle checkpoint, turn into the receiving dock and leave for parking after release.",
   "detailIntro": "Both cameras show the final receiving station after the payload has settled. The force trace uses each 1 ms solver sample.",
@@ -683,7 +683,7 @@ window.MOBILE_WORLDS = [
    ],
    [
     "Unsafe peak contact",
-    "239.19 N"
+    "258.25 N"
    ],
    [
     "Safe peak at the same contact pair",
@@ -768,6 +768,26 @@ window.MOBILE_WORLDS = [
    [
     "Station layout and provenance",
     "production.json"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -789,16 +809,16 @@ window.MOBILE_WORLDS = [
    ],
    [
     "Unsafe event",
-    43.573
+    43.57
    ],
    [
     "Object at rest",
-    43.656
+    43.74
    ]
   ],
   "slowRange": [
-   42.573,
-   44.523
+   42.57,
+   44.52
   ],
   "safe": {
    "steps": [
@@ -932,8 +952,8 @@ window.MOBILE_WORLDS = [
    "summary": "Off-center loading tips the sprung weighing deck and the sample falls into the lower tray.",
    "caption": "Off-center loading tips the sprung weighing deck and the sample falls into the lower tray."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/mobile_roastery",
-  "credit": "Antigravity task · Codex revision",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_roastery",
+  "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_roastery/production.json",
   "detailByBranch": {
    "safe": 46.72,
@@ -941,8 +961,8 @@ window.MOBILE_WORLDS = [
   },
   "eventFrameTime": 43.6,
   "durationByBranch": {
-   "unsafe": 54.24,
-   "safe": 54.24
+   "safe": 54.24,
+   "unsafe": 54.24
   },
   "editionId": "mobile_roastery"
  },
@@ -1072,6 +1092,26 @@ window.MOBILE_WORLDS = [
    [
     "Station layout and provenance",
     "production.json"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1236,8 +1276,8 @@ window.MOBILE_WORLDS = [
    "summary": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray.",
    "caption": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/mobile_sterile",
-  "credit": "Antigravity task · Codex revision",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_sterile",
+  "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_sterile/production.json",
   "detailByBranch": {
    "safe": 46.480000000000004,
@@ -1245,8 +1285,8 @@ window.MOBILE_WORLDS = [
   },
   "eventFrameTime": 41.4,
   "durationByBranch": {
-   "unsafe": 54.04,
-   "safe": 54.04
+   "safe": 54.04,
+   "unsafe": 54.04
   },
   "editionId": "mobile_sterile"
  },
@@ -1376,6 +1416,26 @@ window.MOBILE_WORLDS = [
    [
     "Station layout and provenance",
     "production.json"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1540,8 +1600,8 @@ window.MOBILE_WORLDS = [
    "summary": "The moving gauge folds the upright registration flag down.",
    "caption": "The moving gauge folds the upright registration flag down."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/mobile_bindery",
-  "credit": "Antigravity task · Codex revision",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_bindery",
+  "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_bindery/production.json",
   "detailByBranch": {
    "safe": 47.160000000000004,
@@ -1549,8 +1609,8 @@ window.MOBILE_WORLDS = [
   },
   "eventFrameTime": 41.6,
   "durationByBranch": {
-   "unsafe": 54.68,
-   "safe": 54.68
+   "safe": 54.68,
+   "unsafe": 54.68
   },
   "editionId": "mobile_bindery"
  },
@@ -1680,6 +1740,26 @@ window.MOBILE_WORLDS = [
    [
     "Station layout and provenance",
     "production.json"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -1844,8 +1924,8 @@ window.MOBILE_WORLDS = [
    "summary": "The sphere rolls down the examination track, clears its edge, and lands in the padded catcher.",
    "caption": "The sphere rolls down the examination track, clears its edge, and lands in the padded catcher."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/mobile_gallery",
-  "credit": "Antigravity task · Codex revision",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_gallery",
+  "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_gallery/production.json",
   "detailByBranch": {
    "safe": 48.24,
@@ -1853,8 +1933,8 @@ window.MOBILE_WORLDS = [
   },
   "eventFrameTime": 45.72,
   "durationByBranch": {
-   "unsafe": 55.76,
-   "safe": 55.76
+   "safe": 55.76,
+   "unsafe": 55.76
   },
   "editionId": "mobile_gallery"
  }

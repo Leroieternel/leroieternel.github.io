@@ -7,7 +7,7 @@
 <div class="metrics" id="totals" aria-live="polite">Loading the catalogue…</div>
 <p>Each original video pair was sampled at the start, the unsafe event and the end. Published replacements link to the original mesh and texture records. A physics model can also contain simplified collision surfaces. Bodies whose appearance could not be attributed are listed separately.</p>
 <a href="catalog.csv" download>Download task table (CSV)</a> · <a href="catalog.json">Download full audit (JSON)</a>
-<fieldset><label>Setting<select id="room"><option value="">All settings</option></select></label><label>Recording<select id="revision"><option value="">All recordings</option><option value="new">Updated and published</option><option value="old">Original recording</option></select></label><label>Find a task<input id="q" type="search" placeholder="Task name or identifier"></label></fieldset>
+<fieldset><label>Setting<select id="room"><option value="">All settings</option></select></label><label>Recording<select id="revision"><option value="">All recordings</option><option value="new">Updated and published</option><option value="old">Original recording</option></select></label><label>Asset evidence<select id="asset"><option value="">All assets</option><option value="visible">Visible procedural objects</option><option value="unresolved">Unresolved model sources</option><option value="fit">Library candidates that did not fit</option></select></label><label>Find a task or model<input id="q" type="search" placeholder="Task, object or model ID"></label></fieldset>
 <output id="count"></output><section id="tasks" aria-label="Catalogue tasks"></section><footer><a href="../">Return to the task collection</a></footer></main>
 <script>
 const get=id=>document.getElementById(id), node=(tag,words)=>{const el=document.createElement(tag);if(words)el.textContent=words;return el}, link=(url,words)=>{const a=node('a',words);a.href=url;return a};
@@ -19,11 +19,28 @@ if(item.physics?.summary){const p=node('p');p.append(link(item.physics.summary,'
 if(item.swapped.length){body.append(node('h2','Replaced objects'));const u=node('ul');for(const b of item.swapped){const line=node('li');line.append((b.role||b.source_body).replaceAll('_',' ')+' — ');const found=item.registered_meshes.find(x=>x.id===b.model_id);line.append(found?link(found.url,found.id):node('span',b.model_id||'see source record'));u.append(line)}body.append(u)}
 if(item.registered_meshes.length){const d=node('details'),s=node('summary','Documented native meshes ('+item.registered_meshes.length+')');d.append(s);const u=node('ul');for(const x of item.registered_meshes){const li=node('li');li.append(link(x.url,x.id));u.append(li)}d.append(u);body.append(d)}
 if(item.asset_note)body.append(node('p',item.asset_note));
+if(item.candidate_fits_not_installed?.length){const d=node('details'),u=node('ul');d.append(node('summary','Candidate meshes that did not fit ('+item.candidate_fits_not_installed.length+')'));for(const r of item.candidate_fits_not_installed){let text=(r.role||r.source_body).replaceAll('_',' ')+' — '+r.model_id;if(Number.isFinite(r.extent_error_mm))text+=' · envelope difference '+r.extent_error_mm.toFixed(1)+' mm';else if(r.reason)text+=' · '+r.reason;u.append(node('li',text))}d.append(u);body.append(d)}
 for(const a of item.additional_sources||[]){const l=node('p');l.append(a.role+' · '+a.provider+' · ',link(a.url,a.id));body.append(l)}
-if(item.authoring_visibility?.checked){for(const [field,title] of [['visible_parameterized_bodies','Visible procedural geometry'],['hidden_parameterized_bodies','Hidden simulation geometry']]){const parts=item.authoring_visibility[field];if(!parts.length)continue;const group=node('details');group.append(node('summary',title+' ('+parts.length+' bodies)'),node('p',parts.map(x=>x.body.replaceAll('_',' ')).join(', ')));body.append(group)}}
+if(item.authoring_visibility?.checked){for(const [field,title] of [['visible_parameterized_bodies','Visible procedural geometry'],['hidden_parameterized_bodies','Hidden simulation geometry']]){const parts=item.authoring_visibility[field];if(!parts.length)continue;const group=node('details'),list=node('ul');group.append(node('summary',title+' ('+parts.length+' bodies)'));for(const part of parts){const li=node('li');li.append(node('b',part.body.replaceAll('_',' ')),document.createTextNode(' — '+part.objects.map(s=>s.replaceAll('_',' ')).join(', ')));list.append(li)}group.append(list);body.append(group)}}
 const world=item.authoring_visibility?.fixed_scenery?.visible_parameterized||[];if(world.length){const d=node('details');d.append(node('summary','Visible procedural elements fixed to the room ('+world.length+')'),node('p',world.map(s=>s.replaceAll('_',' ')).join(', ')));body.append(d)}
 if(item.unverified_source_bodies.length){const d=node('details');d.append(node('summary','Unresolved source bodies ('+item.unverified_source_bodies.length+')'),node('p',item.unverified_source_bodies.map(x=>x.ingredient).join(', ')));body.append(d)}
 }
-function render(){const rows=cases.filter(t=>(!get('room').value||t.setting===get('room').value)&&(!get('revision').value||t.updated===(get('revision').value==='new'))&&(t.id+' '+t.title).toLowerCase().includes(get('q').value.toLowerCase()));get('count').textContent=rows.length+' tasks';const root=get('tasks');root.replaceChildren();for(const t of rows){const article=node('article'),d=node('details'),s=node('summary'),b=node('b',t.title);s.append(b,' · '+t.setting,node('br'),node('small',t.id+' · '+t.status));d.append(s);const body=node('div');body.className='detail';d.append(body);d.addEventListener('toggle',()=>{if(d.open&&!body.childNodes.length)detail(t,body)});article.append(d);root.append(article)}}for(const id of ['room','revision','q'])get(id).addEventListener('input',render);render()
+const searchable=new Map(cases.map(t=>[t.id,[t.id,t.title,t.asset_note,...t.swapped.map(a=>a.role||a.source_body),...t.registered_meshes.map(a=>a.id),...(t.authoring_visibility?.visible_parameterized_bodies||[]).map(a=>a.body),...(t.additional_sources||[]).map(a=>a.id)].join(' ').replaceAll('_',' ').toLowerCase()]));
+function matchesAsset(t,mode){if(mode==='visible')return t.authoring_visibility?.visible_parameterized_bodies?.length>0;if(mode==='unresolved')return t.unverified_source_bodies.length>0||t.status.includes('incomplete');if(mode==='fit')return t.candidate_fits_not_installed?.length>0;return true}
+function render(){
+ const query=get('q').value.trim().replaceAll('_',' ').toLowerCase();
+ const rows=cases.filter(t=>(!get('room').value||t.setting===get('room').value)&&(!get('revision').value||t.updated===(get('revision').value==='new'))&&matchesAsset(t,get('asset').value)&&searchable.get(t.id).includes(query));
+ get('count').textContent=rows.length+(rows.length===1?' task':' tasks');const root=get('tasks');root.replaceChildren();
+ for(const t of rows){
+  const article=node('article'),d=node('details'),s=node('summary'),b=node('b',t.title);
+  s.append(b,' · '+t.setting,node('br'),node('small',t.id+' · '+t.status));d.append(s);
+  const body=node('div');body.className='detail';d.append(body);
+  d.addEventListener('toggle',()=>{if(d.open&&!body.childNodes.length)detail(t,body)});
+  article.append(d);root.append(article);if(t.id===get('q').value.trim())d.open=true;
+ }
+}
+function selectTask(){const task=location.hash.slice(1);get('q').value=cases.some(t=>t.id===task)?task:'';render()}
+for(const id of ['room','revision','asset','q'])get(id).addEventListener('input',render);
+window.addEventListener('hashchange',selectTask);selectTask();
 }).catch(()=>{get('totals').textContent='The catalogue could not be loaded. The CSV and JSON files are linked below.'});
 </script></body></html>

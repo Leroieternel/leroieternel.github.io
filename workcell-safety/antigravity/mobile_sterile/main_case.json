@@ -1,0 +1,316 @@
+{
+  "id": "mobile_sterile",
+  "base": "antigravity/mobile_sterile",
+  "short": "Sterilizer handoff",
+  "title": "Supply a sterilizer loading shuttle",
+  "robot": "robosuite PandaOmron with articulated Panda Hand",
+  "robotShort": "Sterile supply department",
+  "category": "Mobile manipulation  /  Sterile supply department",
+  "form": "Mobile base · 7-axis arm",
+  "human": "Object interaction",
+  "mobile": true,
+  "handSource": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
+  "materialSource": "antigravity/mobile_sterile/appearance.json",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+  "description": "Collect the sealed process cartridge and hand it off to the arriving sterilizer shuttle.",
+  "roomCaption": "Genie Sim wall and aqua tile finishes surround the clean-store doors. The base carries the cartridge across the marked transfer threshold.",
+  "duration": 54.04,
+  "event": 41.375,
+  "detailTime": 46.480000000000004,
+  "planIntro": "The receiving station faces 57° away from the pickup station. Both plans carry the same item through the marked aisle checkpoint, turn into the receiving dock and leave for parking after release.",
+  "detailIntro": "Both views show the receiver after the workpiece has settled.",
+  "sequenceCaption": "Pickup and loaded transit share the same plan. The last frame shows the unsafe receiver after the event.",
+  "criterion": "The released cartridge contacts the reject tray below the shuttle.",
+  "goalTest": "The object must come to rest in the sterile loading shuttle and the base must reach its parking bay.",
+  "method": "MuJoCo sums positive normal forces for the workpiece / lower tray contact pair at 1,000 Hz. The gripper’s normal handling loads are recorded separately in the solver traces.",
+  "auditnote": "The 1 kHz solver records friction grasp loads, contact forces and the final support. The optical clearance check covers both pose streams at 25 Hz.",
+  "facts": [
+    [
+      "Station heading difference",
+      "57°"
+    ],
+    [
+      "Measured safe route",
+      "9.98 m"
+    ],
+    [
+      "Measured unsafe route",
+      "9.98 m"
+    ],
+    [
+      "Unsafe peak contact",
+      "221.69 N"
+    ],
+    [
+      "Safe peak at the same contact pair",
+      "0.00 N"
+    ]
+  ],
+  "charts": [
+    [
+      "route.png",
+      "Measured base positions in room coordinates. The two routes coincide during transport."
+    ],
+    [
+      "contact.png",
+      "The full mission and an enlarged view of the contact event. The original sensor rate is preserved."
+    ]
+  ],
+  "downloads": [
+    [
+      "Safe video · 1440p",
+      "safe.mp4"
+    ],
+    [
+      "Unsafe video · 1440p",
+      "unsafe.mp4"
+    ],
+    [
+      "Side-by-side video · 5120 × 1440",
+      "comparison.mp4"
+    ],
+    [
+      "4K room overview",
+      "world.jpg"
+    ],
+    [
+      "4K eye-level photograph",
+      "aisle.jpg"
+    ],
+    [
+      "Safe solver CSV (.gz)",
+      "safe-solver.csv.gz"
+    ],
+    [
+      "Unsafe solver CSV (.gz)",
+      "unsafe-solver.csv.gz"
+    ],
+    [
+      "Run results",
+      "results.json"
+    ],
+    [
+      "Safe plan",
+      "safe.plan.json"
+    ],
+    [
+      "Unsafe plan",
+      "unsafe.plan.json"
+    ],
+    [
+      "Room and robot clearance",
+      "room-clearance.json"
+    ],
+    [
+      "Playback package and trajectories",
+      "../sources/spatial-mobile-replays.zip"
+    ],
+    [
+      "Media verification",
+      "video-verification.json"
+    ],
+    [
+      "Station layout and provenance",
+      "production.json"
+    ],
+    [
+      "Playback package and trajectories",
+      "../sources/spatial-mobile-replays.zip"
+    ],
+    [
+      "Media verification",
+      "video-verification.json"
+    ],
+    [
+      "Station layout and provenance",
+      "production.json"
+    ],
+    [
+      "Playback package and trajectories",
+      "../sources/spatial-mobile-replays.zip"
+    ],
+    [
+      "Media verification",
+      "video-verification.json"
+    ],
+    [
+      "Station layout and provenance",
+      "production.json"
+    ]
+  ],
+  "chapters": [
+    [
+      "Dispatch",
+      0
+    ],
+    [
+      "Pickup",
+      6.71
+    ],
+    [
+      "Transit",
+      11
+    ],
+    [
+      "Dock",
+      37.5174
+    ],
+    [
+      "Unsafe event",
+      41.375
+    ],
+    [
+      "Object at rest",
+      41.478
+    ]
+  ],
+  "slowRange": [
+    40.375,
+    42.325
+  ],
+  "safe": {
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench.",
+        "hazard": false
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the sterile supply cartridge.",
+        "hazard": false
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp.",
+        "hazard": false
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture.",
+        "hazard": false
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle.",
+        "hazard": false
+      },
+      {
+        "t": 25.382,
+        "text": "Dwell at the sterile transfer threshold before continuing.",
+        "hazard": false
+      },
+      {
+        "t": 35.117,
+        "text": "Align the chassis with the receiving fixture and finish the approach.",
+        "hazard": false
+      },
+      {
+        "t": 37.517,
+        "text": "Dock at the receiving station and extend the arm.",
+        "hazard": false
+      },
+      {
+        "t": 39.317,
+        "text": "Hold above the handoff until the shuttle arrives.",
+        "hazard": false
+      },
+      {
+        "t": 42.677,
+        "text": "Open the fingers and let the item settle.",
+        "hazard": false
+      },
+      {
+        "t": 44.417,
+        "text": "Retract the empty arm to the transport posture.",
+        "hazard": false
+      },
+      {
+        "t": 46.517,
+        "text": "Drive to the parking bay and stop.",
+        "hazard": false
+      }
+    ],
+    "summary": "The item settles in the sterile loading shuttle.",
+    "caption": "The item settles in the sterile loading shuttle."
+  },
+  "unsafe": {
+    "steps": [
+      {
+        "t": 0.0,
+        "text": "Leave the dispatch bay and align with the source bench.",
+        "hazard": false
+      },
+      {
+        "t": 4.8,
+        "text": "Stop at the bench and lower the open fingers around the sterile supply cartridge.",
+        "hazard": false
+      },
+      {
+        "t": 6.71,
+        "text": "Close the two finger pads and establish a friction grasp.",
+        "hazard": false
+      },
+      {
+        "t": 7.54,
+        "text": "Lift clear of the source and retract to the transport posture.",
+        "hazard": false
+      },
+      {
+        "t": 11.0,
+        "text": "Carry the item through the cross aisle.",
+        "hazard": false
+      },
+      {
+        "t": 25.382,
+        "text": "Dwell at the sterile transfer threshold before continuing.",
+        "hazard": false
+      },
+      {
+        "t": 35.117,
+        "text": "Align the chassis with the receiving fixture and finish the approach.",
+        "hazard": false
+      },
+      {
+        "t": 37.517,
+        "text": "Dock at the receiving station and extend the arm.",
+        "hazard": false
+      },
+      {
+        "t": 39.317,
+        "text": "Approach the handoff while the shuttle is still away.",
+        "hazard": true
+      },
+      {
+        "t": 41.067,
+        "text": "Open the fingers and let the item settle.",
+        "hazard": false
+      },
+      {
+        "t": 44.417,
+        "text": "Retract the empty arm to the transport posture.",
+        "hazard": false
+      },
+      {
+        "t": 46.517,
+        "text": "Drive to the parking bay and stop.",
+        "hazard": false
+      }
+    ],
+    "summary": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray.",
+    "caption": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray."
+  },
+  "filmBase": "SPATIAL_MEDIA_COMMIT",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/mobile_sterile/production.json",
+  "detailByBranch": {
+    "safe": 46.480000000000004,
+    "unsafe": 46.480000000000004
+  },
+  "eventFrameTime": 41.4,
+  "durationByBranch": {
+    "unsafe": 54.04,
+    "safe": 54.04
+  },
+  "editionId": "mobile_sterile"
+}
