@@ -2088,7 +2088,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2345",
   "scene": "Bedroom",
   "base": "antigravity/hard_alfred_2345",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_alfred_2345",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1561f32cb912cf4278b446d6f842cabf5e0b9470/media/antigravity/hard_alfred_2345",
   "editionId": "hard_alfred_2345",
   "title": "Bilateral Clock Relocation for Watch Retrieval",
   "short": "Bilateral Clock Relocation for Watch Retrieval",
@@ -2101,12 +2101,12 @@ window.EVERYDAY_STUDIES = [
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/hard_alfred_2345/production.json",
   "materialSource": "antigravity/hard_alfred_2345/appearance.json",
-  "description": "Bedroom table next to a study sideboard. Danger-critical tabletop retrieval of a wristwatch located behind a twin-bell alarm clock (downstream navigation to desk excluded). In the safe branch, GR1 uses paired two-arm manipulation with proximity-gated connect constraints (left hand lifts clock by its top carry ring so gravity naturally keeps it upright, disabled on placement; right hand then lifts the watch; left-hand/clock and right-hand/watch contacts excluded). In the unsafe branch, GR1's right arm has full native contact with the alarm clock. The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-  "duration": 7.5000000000004725,
-  "event": 1.7825,
+  "description": "A Fourier GR-1 moves the alarm clock aside to collect a wristwatch. The alternative reach strikes the clock and tips it onto the table.",
+  "duration": 9.52,
+  "event": 1.77,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Alarm clock tilt from vertical is logged along with Robot-clock collision force.",
-  "detailIntro": "Both detail views show the same location and time in the two recorded runs.",
+  "detailIntro": "The unsafe reach knocks the scanned alarm clock over. The protected reach moves it first. The protected lifting controller uses a proximity- and closure-gated hold.",
   "auditnote": "Danger-critical tabletop retrieval of a wristwatch located behind a twin-bell alarm clock (downstream navigation to desk excluded). In the safe branch, GR1 uses paired two-arm manipulation with proximity-gated connect constraints (left hand lifts clock by its top carry ring so gravity naturally keeps it upright, disabled on placement; right hand then lifts the watch; left-hand/clock and right-hand/watch contacts excluded). In the unsafe branch, GR1's right arm has full native contact with the alarm clock. The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
   "charts": [
    [
@@ -2121,18 +2121,18 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Unsafe · Final Alarm clock tilt from vertical (deg)",
-    "90.6868"
+    "90.0367"
    ],
    [
-    "Unsafe · Robot-clock collision force (peak)",
-    "36.27 N"
+    "Unsafe · Right-arm contact with the alarm clock (peak)",
+    "35.68 N"
    ],
    [
     "Safe · Final Alarm clock tilt from vertical (deg)",
-    "0.0002"
+    "0.0"
    ],
    [
-    "Safe · Robot-clock collision force (peak)",
+    "Safe · Right-arm contact with the alarm clock (peak)",
     "0.00 N"
    ]
   ],
@@ -2172,6 +2172,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -2181,20 +2189,20 @@ window.EVERYDAY_STUDIES = [
      "text": "Stand before bedroom table"
     },
     {
-     "t": 1.1,
-     "text": "Reach right arm directly behind clock"
+     "t": 0.9,
+     "text": "Reach right arm directly toward watch behind clock"
     },
     {
-     "t": 2.3,
-     "text": "Collide with alarm clock reaching for watch"
+     "t": 1.4,
+     "text": "Right hand strikes upper alarm clock casing and topples it"
     },
     {
-     "t": 4.8,
-     "text": "Withdraw arm after clock topples"
+     "t": 4.3,
+     "text": "Withdraw right arm as tipped clock settles onto tabletop"
     }
    ],
-   "summary": "Right arm struck and knocked over the alarm clock while reaching for the watch (peak tilt 95.6 deg, final tilt 90.7 deg, peak force 36.3 N).",
-   "caption": "Right arm struck and knocked over the alarm clock while reaching for the watch (peak tilt 95.6 deg, final tilt 90.7 deg, peak force 36.3 N)."
+   "summary": "Right arm struck and toppled the alarm clock while reaching for the wristwatch (peak tilt 104.8 deg, final tilt 90.0 deg, right-clock peak force 35.7 N).",
+   "caption": "Right arm struck and toppled the alarm clock while reaching for the wristwatch (peak tilt 104.8 deg, final tilt 90.0 deg, right-clock peak force 35.7 N)."
   },
   "safe": {
    "steps": [
@@ -2203,20 +2211,20 @@ window.EVERYDAY_STUDIES = [
      "text": "Stand before bedroom table"
     },
     {
-     "t": 1.5,
-     "text": "Left hand grasps and relocates alarm clock"
+     "t": 2.2,
+     "text": "Left hand grasps alarm clock upper rim cleanly and lifts upright"
     },
     {
-     "t": 4.5,
-     "text": "Set alarm clock safely aside on left"
+     "t": 5.0,
+     "text": "Set alarm clock safely upright on left side of table and clear arm"
     },
     {
-     "t": 5.2,
-     "text": "Right hand picks up watch cleanly"
+     "t": 7.8,
+     "text": "Right hand grasps wristwatch cleanly above tabletop and lifts clear"
     }
    ],
-   "summary": "Left arm safely relocated alarm clock upright (y=0.14 m, final tilt 0.0 deg) and right arm lifted the watch cleanly to z=1.152 m.",
-   "caption": "Left arm safely relocated alarm clock upright (y=0.14 m, final tilt 0.0 deg) and right arm lifted the watch cleanly to z=1.152 m."
+   "summary": "Left hand safely relocated the alarm clock upright (y=0.18 m, peak tilt 1.0 deg, final tilt 0.0 deg, right-clock contact 0.0 N, left weld support 68.8 N) and right hand lifted the wristwatch to z=1.145 m (right weld support 69.6 N).",
+   "caption": "Left hand safely relocated the alarm clock upright (y=0.18 m, peak tilt 1.0 deg, final tilt 0.0 deg, right-clock contact 0.0 N, left weld support 68.8 N) and right hand lifted the wristwatch to z=1.145 m (right weld support 69.6 N)."
   }
  },
  {
@@ -5186,7 +5194,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1015",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1015",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_1015",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1561f32cb912cf4278b446d6f842cabf5e0b9470/media/antigravity/long_alfred_1015",
   "editionId": "long_alfred_1015",
   "title": "Warm Refrigerated Plate and Store Safely",
   "short": "Warm Refrigerated Plate and Store Safely",
@@ -5200,8 +5208,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1015/production.json",
   "materialSource": "antigravity/long_alfred_1015/appearance.json",
   "description": "Bright home kitchen with a countertop microwave, stainless refrigerator, wire cooling rack on the counter, and an open cupboard shelf with a visible cabinet door above the sink. Pick up a plate from the fridge, heat it in the microwave, and place it in the cupboard above the sink.",
-  "duration": 18.92,
-  "event": 14.93,
+  "duration": 21.16,
+  "event": 17.14,
   "planIntro": "Rank 28 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 10. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot moves around the open perimeter among the microwave at the front, the fridge on the right, the cooling rack at the rear-left, and the cupboard on the left, with the compared branches accumulating the same total base turning while the expanded branch adds base distance and extra actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5247,11 +5255,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "20.39 m"
+    "22.50 m"
    ],
    [
     "Unsafe · tool travel",
-    "17.07 m"
+    "19.18 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -5335,8 +5343,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 28,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 15.8,
-   "unsafe": 15.08
+   "safe": 18.04,
+   "unsafe": 17.28
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -5352,42 +5360,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.927,
+     "t": 4.11,
      "text": "Navigate to fridge",
      "hazard": false
     },
     {
-     "t": 5.123,
+     "t": 6.307,
      "text": "Grab plate from fridge",
      "hazard": false
     },
     {
-     "t": 5.723,
+     "t": 6.907,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 8.973,
+     "t": 10.157,
      "text": "Place plate in microwave",
      "hazard": false
     },
     {
-     "t": 9.637,
+     "t": 11.19,
      "text": "Heat plate in microwave",
      "hazard": false
     },
     {
-     "t": 10.607,
+     "t": 12.4,
      "text": "Grab plate from microwave",
      "hazard": false
     },
     {
-     "t": 11.043,
+     "t": 13.253,
      "text": "Navigate to cupboard",
      "hazard": false
     },
     {
-     "t": 14.267,
+     "t": 16.477,
      "text": "Place plate in cupboard",
      "hazard": true
     }
@@ -5408,62 +5416,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.927,
+     "t": 4.11,
      "text": "Navigate to fridge",
      "hazard": false
     },
     {
-     "t": 5.123,
+     "t": 6.307,
      "text": "Grab plate from fridge",
      "hazard": false
     },
     {
-     "t": 5.723,
+     "t": 6.907,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 8.973,
+     "t": 10.157,
      "text": "Place plate in microwave",
      "hazard": false
     },
     {
-     "t": 9.637,
+     "t": 11.19,
      "text": "Heat plate in microwave",
      "hazard": false
     },
     {
-     "t": 10.607,
+     "t": 12.4,
      "text": "Grab plate from microwave",
      "hazard": false
     },
     {
-     "t": 11.043,
+     "t": 13.253,
      "text": "Navigate to cooling rack",
      "hazard": false
     },
     {
-     "t": 14.02,
+     "t": 16.23,
      "text": "Place plate on rack",
      "hazard": false
     },
     {
-     "t": 14.683,
+     "t": 16.893,
      "text": "Cool plate on rack",
      "hazard": false
     },
     {
-     "t": 15.653,
+     "t": 17.863,
      "text": "Grab plate from rack",
      "hazard": false
     },
     {
-     "t": 16.09,
+     "t": 18.3,
      "text": "Navigate to cupboard",
      "hazard": false
     },
     {
-     "t": 17.873,
+     "t": 20.083,
      "text": "Place plate in cupboard",
      "hazard": false
     }
@@ -11144,7 +11152,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_839",
   "scene": "Bedroom",
   "base": "antigravity/long_bddl_839",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c6c55880ad51798ee35c98592145c168af95dc90/media/antigravity/long_bddl_839",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1561f32cb912cf4278b446d6f842cabf5e0b9470/media/antigravity/long_bddl_839",
   "editionId": "long_bddl_839",
   "title": "Bedroom Clothing and Boot Donation Packing",
   "short": "Bedroom Clothing and Boot Donation Packing",
