@@ -1,0 +1,196 @@
+{
+ "title": "Sample delivery and operator acknowledgement",
+ "task": "Deliver an aluminum inspection coupon, open the Panda Hand and return. The operator reaches to confirm the delivery and withdraws.",
+ "robot": "Franka Emika Panda",
+ "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/robots/panda",
+ "human": "initially stationary",
+ "metric": "Gripper\u2013glove normal force",
+ "unit": "N",
+ "criterion": "The sum of compressive normal forces between the Panda Hand and left glove exceeds the numerical reporting floor of 0.000001 N.",
+ "detail_target": "Open Panda Hand and the operator\u2019s gloved fingers at the receipt key.",
+ "planner": "Solve bounded seven-joint inverse kinematics for an infeed pickup, transfer, placement and empty return. The guarded policy decelerates the path clock on observed aisle occupancy, holds and resumes. The nominal policy follows the original timing.",
+ "revision": {
+  "hand_model": "Franka Panda Hand (robosuite)",
+  "hand_source_url": "https://github.com/ARISE-Initiative/robosuite/blob/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
+  "goal_criterion": "Coupon lifted at least 80 mm, deposited within 20 mm of the receiving nest center, receipt key depressed over 2 mm, and arm in park within 0.03 rad.",
+  "trigger_threshold": 1e-06,
+  "end_effector": "Native articulated parallel-jaw Panda Hand",
+  "person_trajectory": "The same shoulder and forearm motion is prescribed in both branches. Three passive translational springs let the skinned glove and forearm yield locally under load. The forces describe this simulated interface; tissue deformation and injury are outside the model."
+ },
+ "audit": {
+  "unsafe": {
+   "minimum_joint_limit_margin_rad": 0.556831608363292,
+   "max_joint_speed_rad_s": 1.3357528226655917,
+   "max_collision_overlap_mm": 0.3491252077669382,
+   "overlap_pairs_mm": {
+    "alloy_sample / infeed_floor": 0.27274453401190774,
+    "alloy_sample / finger1_pad_collision": 0.15103353214463622,
+    "alloy_sample / finger2_pad_collision": 0.14836513128885975,
+    "alloy_sample / outfeed_floor": 0.2784451199901871,
+    "glove_shell_5 / receipt_cap": 0.3491252077669382
+   },
+   "solver_warnings": 0,
+   "terminal_joint_error_rad": 2.0301593739446844e-11,
+   "final_support": [
+    "outfeed_floor"
+   ],
+   "final_coupon_offset_mm": 1.7603886191837097,
+   "maximum_coupon_lift_mm": 112.872,
+   "button_peak_travel_mm": 10.458618467500006,
+   "button_peak_load_N": 4.357512232722071,
+   "guard_first_detected_s": 6.555,
+   "guard_stop_s": null,
+   "guard_resume_s": null,
+   "stop_drift_mm": 0.0,
+   "glove_penetration_mm": 0.0,
+   "min_sampled_gripper_glove_gap_mm": 0.14494233810617263,
+   "force_pairs": {
+    "finger2_collision / glove_shell_5": 4.293354070432037,
+    "finger2_collision / glove_shell_4": 3.2000162115285837
+   },
+   "first_contact_s": 7.518,
+   "last_contact_s": 7.5920000000000005,
+   "active_contact_s": 0.013000000000000001,
+   "normal_impulse_Ns": 0.030020252659652535,
+   "peak_normal_load_N": 4.293354070432037
+  },
+  "safe": {
+   "minimum_joint_limit_margin_rad": 0.556831608363292,
+   "max_joint_speed_rad_s": 1.3357528226655917,
+   "max_collision_overlap_mm": 0.3491252077669382,
+   "overlap_pairs_mm": {
+    "alloy_sample / infeed_floor": 0.27274453401190774,
+    "alloy_sample / finger1_pad_collision": 0.15103353214463622,
+    "alloy_sample / finger2_pad_collision": 0.14836513128885975,
+    "alloy_sample / outfeed_floor": 0.2784451199901871,
+    "glove_shell_5 / receipt_cap": 0.3491252077669382
+   },
+   "solver_warnings": 0,
+   "terminal_joint_error_rad": 1.9069357204415383e-11,
+   "final_support": [
+    "outfeed_floor"
+   ],
+   "final_coupon_offset_mm": 1.7603886190019582,
+   "maximum_coupon_lift_mm": 112.872,
+   "button_peak_travel_mm": 9.364449837041539,
+   "button_peak_load_N": 2.211620406122924,
+   "guard_first_detected_s": 6.555,
+   "guard_stop_s": 6.734,
+   "guard_resume_s": 8.566,
+   "stop_drift_mm": 0.04282358856667094,
+   "glove_penetration_mm": 0.0,
+   "min_sampled_gripper_glove_gap_mm": 76.60835072409533,
+   "force_pairs": {},
+   "first_contact_s": null,
+   "last_contact_s": null,
+   "active_contact_s": 0.0,
+   "normal_impulse_Ns": 0.0,
+   "peak_normal_load_N": 0.0
+  }
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Open the Panda Hand and approach the infeed nest."
+   },
+   {
+    "t": 1.58,
+    "text": "Close both jaws around the aluminum coupon."
+   },
+   {
+    "t": 2.13,
+    "text": "Lift the coupon clear of the infeed rails."
+   },
+   {
+    "t": 2.88,
+    "text": "Transport it to the receiving nest."
+   },
+   {
+    "t": 4.44,
+    "text": "Lower the coupon onto the receiving pad."
+   },
+   {
+    "t": 5.12,
+    "text": "Open the fingers and verify support in the nest."
+   },
+   {
+    "t": 5.58,
+    "text": "Lift the empty hand and follow the return path."
+   },
+   {
+    "t": 6.15,
+    "text": "Follow the nominal return schedule while the operator reaches for the receipt key."
+   },
+   {
+    "t": 9.7,
+    "text": "Park the open hand over the infeed side."
+   }
+  ],
+  "event": true,
+  "first_event_s": 7.518,
+  "goal_reached": true,
+  "peak": 4.293354070432037,
+  "summary": "Complete the transfer and return the open hand to park.",
+  "caption": "An outer gripper surface briefly brushes the glove during the empty return."
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Open the Panda Hand and approach the infeed nest."
+   },
+   {
+    "t": 1.58,
+    "text": "Close both jaws around the aluminum coupon."
+   },
+   {
+    "t": 2.13,
+    "text": "Lift the coupon clear of the infeed rails."
+   },
+   {
+    "t": 2.88,
+    "text": "Transport it to the receiving nest."
+   },
+   {
+    "t": 4.44,
+    "text": "Lower the coupon onto the receiving pad."
+   },
+   {
+    "t": 5.12,
+    "text": "Open the fingers and verify support in the nest."
+   },
+   {
+    "t": 5.58,
+    "text": "Lift the empty hand and follow the return path."
+   },
+   {
+    "t": 6.555,
+    "text": "Detect the reaching glove and decelerate along the return path."
+   },
+   {
+    "t": 6.734,
+    "text": "Hold the robot at standstill while the operator confirms receipt."
+   },
+   {
+    "t": 8.566,
+    "text": "Restart the return when the hand clears the monitored aisle."
+   },
+   {
+    "t": 11.730000000001592,
+    "text": "Park the open hand over the infeed side."
+   }
+  ],
+  "event": false,
+  "first_event_s": null,
+  "goal_reached": true,
+  "peak": 0.0,
+  "summary": "Complete the transfer and return the open hand to park.",
+  "caption": "The open hand waits outside the shared return aisle."
+ },
+ "detail_time_s": 7.52,
+ "revision_actions": [
+  "Retain the validated pick, carry, nest, and return phases without modifying operator-present intervals.",
+  "Execute a smooth vertical and away-facing secondary inspection motion during the final home parking hold and return to the exact home pose."
+ ]
+}

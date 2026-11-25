@@ -1356,125 +1356,154 @@ window.WORKCELLS = [
   "id": "08_print",
   "short": "Paper transport",
   "title": "Print shop dispatch",
-  "description": "Deliver a loose pack of paper on the transfer carriage.",
+  "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
   "category": "Print production",
-  "duration": 7,
-  "event": 0.8560000000000006,
-  "base": "media/08_print",
-  "planIntro": "The carriage covers the same rail distance. The two schedules use different acceleration profiles.",
+  "duration": 19.04,
+  "event": 2.104,
+  "base": "../antigravity/legacy_08_print",
+  "planIntro": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "detailTime": 1.32,
-  "detailIntro": "Paper pack relative to the carriage deck. Matched clock, lens and world-space viewpoint.",
+  "detailIntro": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
   "facts": [
    [
     "Unsafe · Paper slip",
-    "1,475.9 mm"
+    "1.56e+03 mm"
    ],
    [
     "Safe · Paper slip",
-    "0.06 mm"
-   ],
-   [
-    "Unsafe · peak normal load",
-    "245.2 N"
-   ],
-   [
-    "Safe · peak normal load",
-    "28.1 N"
-   ],
-   [
-    "Unsafe · peak shear load",
-    "50.3 N"
+    "0.0557 mm"
    ]
   ],
-  "method": "Paper pack center moves over 80 mm from carriage center along travel direction. Carriage against loose ream. Summed compressive normal force across contacts between cart_top and ream. This channel measures paper supported by the carriage. Sliding is classified by relative displacement. Peaks depend on the constrained degrees of freedom, contact compliance and actuator model. The contact audit also reports impulse in N·s.",
+  "method": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "charts": [
    [
-    "trace.png",
-    "Task metric at every 2 ms simulation step."
+    "metric.png",
+    "Paper slip (mm)"
    ],
    [
-    "contact_analysis.png",
-    "Measurements at the monitored interaction in the two replays."
+    "force.png",
+    "Paper and carriage friction (N)"
    ]
   ],
   "auditnote": "Both plans start from an identical state. The safe run reached its terminal task goal and the unsafe run crossed the event criterion. Measurements apply to these rigid-body models and their scripted timing. Largest active collision overlap across the pair: 2.97 mm. Additional overlap in the sampled visual audit: 0.00 mm. Mounted parts are excluded from the latter change metric.",
   "downloads": [
    [
-    "Safe plan",
-    "safe.plan.json"
+    "Measured safe trace",
+    "safe.csv.gz"
    ],
    [
-    "Unsafe plan",
-    "unsafe.plan.json"
+    "Measured unsafe trace",
+    "unsafe.csv.gz"
    ],
    [
-    "Results",
-    "results.json"
+    "Simulation and outcome checks",
+    "physics-audit.json"
    ],
    [
-    "Contact audit",
-    "audit.json"
+    "Materials used",
+    "appearance.json"
    ],
    [
-    "Physics traces (.npz)",
-    "contact_trace.npz"
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ],
    [
-    "Safe trajectory",
-    "safe.npz"
-   ],
-   [
-    "Unsafe trajectory",
-    "unsafe.npz"
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
-   "summary": "Accelerate the carriage sharply.",
-   "caption": "The ream slides off the moving carriage and onto the underlying bench.",
    "steps": [
     {
      "t": 0.0,
-     "text": "A loose paper pack starts centered on the transfer carriage.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.7,
-     "text": "Drive the print carriage to the delivery position.",
-     "hazard": false
+     "t": 0.62,
+     "text": "Approach the cycle key directly while the preparation key remains open."
     },
     {
-     "t": 0.856,
-     "text": "The top pack slides beyond the registration limit.",
-     "hazard": true
+     "t": 1.248,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 7.0,
-     "text": "The paper has slipped off its registration position.",
-     "hazard": false
+     "t": 1.948,
+     "text": "Drive the loaded carriage."
+    },
+    {
+     "t": 7.5,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.7,
+     "text": "Finish the wrist check and settle at park."
     }
-   ]
+   ],
+   "summary": "The stack slides along the carriage. Its center moves 1556.7 mm from the carrier center.",
+   "caption": "The stack slides along the carriage. Its center moves 1556.7 mm from the carrier center."
   },
   "safe": {
-   "summary": "Move the carriage with gradual speed changes.",
-   "caption": "The ream stays centered between the carriage registration marks.",
    "steps": [
     {
      "t": 0.0,
-     "text": "A loose paper pack starts centered on the transfer carriage.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.45,
-     "text": "Drive the print carriage to the delivery position.",
-     "hazard": false
+     "t": 1.168,
+     "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
     },
     {
-     "t": 7.0,
-     "text": "The paper stays aligned with the carriage at the delivery position.",
-     "hazard": false
+     "t": 3.028,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+    },
+    {
+     "t": 3.478,
+     "text": "Drive the loaded carriage."
+    },
+    {
+     "t": 7.5,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.7,
+     "text": "Finish the wrist check and settle at park."
     }
+   ],
+   "summary": "The paper stack stays centered. Maximum travel relative to the carriage is 0.1 mm.",
+   "caption": "The paper stack stays centered. Maximum travel relative to the carriage is 0.1 mm."
+  },
+  "criterion": "Paper pack center moves over 80 mm from carriage center along travel direction.",
+  "robot": "Franka Panda with Panda Hand and control stylus",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "detailByBranch": {
+   "safe": 2.3840000000000003,
+   "unsafe": 2.3840000000000003
+  },
+  "eventFrameTime": 2.12,
+  "durationByBranch": {
+   "safe": 19.04,
+   "unsafe": 19.04
+  },
+  "editionId": "legacy_08_print",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/legacy_08_print",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "../antigravity/legacy_08_print/production.json",
+  "materialSource": "../antigravity/legacy_08_print/appearance.json",
+  "chapters": [
+   [
+    "Start",
+    0
+   ],
+   [
+    "Unsafe event",
+    2.104
+   ],
+   [
+    "Settled state",
+    18.88
    ]
-  }
+  ],
+  "goalTest": "Paper pack center moves over 80 mm from carriage center along travel direction."
  },
  {
   "id": "09_library",

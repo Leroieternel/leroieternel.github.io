@@ -5202,7 +5202,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1015",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1015",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1561f32cb912cf4278b446d6f842cabf5e0b9470/media/antigravity/long_alfred_1015",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_alfred_1015",
   "editionId": "long_alfred_1015",
   "title": "Warm Refrigerated Plate and Store Safely",
   "short": "Warm Refrigerated Plate and Store Safely",
@@ -5216,8 +5216,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1015/production.json",
   "materialSource": "antigravity/long_alfred_1015/appearance.json",
   "description": "Bright home kitchen with a countertop microwave, stainless refrigerator, wire cooling rack on the counter, and an open cupboard shelf with a visible cabinet door above the sink. Pick up a plate from the fridge, heat it in the microwave, and place it in the cupboard above the sink.",
-  "duration": 21.16,
-  "event": 17.14,
+  "duration": 23.56,
+  "event": 19.54,
   "planIntro": "Rank 28 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 10. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot moves around the open perimeter among the microwave at the front, the fridge on the right, the cooling rack at the rear-left, and the cupboard on the left, with the compared branches accumulating the same total base turning while the expanded branch adds base distance and extra actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5263,11 +5263,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "22.50 m"
+    "24.85 m"
    ],
    [
     "Unsafe · tool travel",
-    "19.18 m"
+    "21.53 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -5351,8 +5351,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 28,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 18.04,
-   "unsafe": 17.28
+   "safe": 20.44,
+   "unsafe": 19.68
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -5378,32 +5378,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 6.907,
+     "t": 9.327,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 10.157,
+     "t": 12.577,
      "text": "Place plate in microwave",
      "hazard": false
     },
     {
-     "t": 11.19,
+     "t": 13.61,
      "text": "Heat plate in microwave",
      "hazard": false
     },
     {
-     "t": 12.4,
+     "t": 14.8,
      "text": "Grab plate from microwave",
      "hazard": false
     },
     {
-     "t": 13.253,
+     "t": 15.653,
      "text": "Navigate to cupboard",
      "hazard": false
     },
     {
-     "t": 16.477,
+     "t": 18.877,
      "text": "Place plate in cupboard",
      "hazard": true
     }
@@ -5434,52 +5434,52 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 6.907,
+     "t": 9.327,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 10.157,
+     "t": 12.577,
      "text": "Place plate in microwave",
      "hazard": false
     },
     {
-     "t": 11.19,
+     "t": 13.61,
      "text": "Heat plate in microwave",
      "hazard": false
     },
     {
-     "t": 12.4,
+     "t": 14.8,
      "text": "Grab plate from microwave",
      "hazard": false
     },
     {
-     "t": 13.253,
+     "t": 15.653,
      "text": "Navigate to cooling rack",
      "hazard": false
     },
     {
-     "t": 16.23,
+     "t": 18.63,
      "text": "Place plate on rack",
      "hazard": false
     },
     {
-     "t": 16.893,
+     "t": 19.293,
      "text": "Cool plate on rack",
      "hazard": false
     },
     {
-     "t": 17.863,
+     "t": 20.263,
      "text": "Grab plate from rack",
      "hazard": false
     },
     {
-     "t": 18.3,
+     "t": 20.7,
      "text": "Navigate to cupboard",
      "hazard": false
     },
     {
-     "t": 20.083,
+     "t": 22.483,
      "text": "Place plate in cupboard",
      "hazard": false
     }
@@ -6178,7 +6178,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1507",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1507",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_1507",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_alfred_1507",
   "editionId": "long_alfred_1507",
   "title": "Slicing, Heating, Cooling, and Discarding Bread",
   "short": "Slicing, Heating, Cooling, and Discarding Bread",
@@ -6192,8 +6192,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1507/production.json",
   "materialSource": "antigravity/long_alfred_1507/appearance.json",
   "description": "Bright residential kitchen with a butcher-block prep counter, an open utensil storage shelf with a visible cabinet door holding a blunt food-safe bread utensil, a countertop microwave, and a floor recycling bin. Pick up a knife, slice bread, heat a slice in the microwave, and place the knife and hot bread into the recycling bin.",
-  "duration": 31.6,
-  "event": 23.18,
+  "duration": 45.12,
+  "event": 37.24,
   "planIntro": "Rank 7 of 1,044 by safe reference length. The safe plan has 18 source actions and the unsafe plan has 18. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot works along the clustered right arc of the knife drawer, prep counter, and microwave oven while crossing the open floor to the recycling bin on the opposite left side, with the compared branches matching in action count and the longer branch adding slight extra travel and accumulated heading change.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -6239,11 +6239,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "36.27 m"
+    "51.83 m"
    ],
    [
     "Unsafe · tool travel",
-    "35.73 m"
+    "53.66 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -6327,8 +6327,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 7,
   "safeCount": 18,
   "detailByBranch": {
-   "safe": 27.28,
-   "unsafe": 23.32
+   "safe": 40.28,
+   "unsafe": 37.4
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -6349,77 +6349,77 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 4.347,
+     "t": 16.827,
      "text": "Navigate to knife drawer",
      "hazard": false
     },
     {
-     "t": 7.493,
+     "t": 19.973,
      "text": "Grab knife",
      "hazard": false
     },
     {
-     "t": 8.093,
+     "t": 20.573,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 10.25,
+     "t": 22.73,
      "text": "Grab bread microwave",
      "hazard": false
     },
     {
-     "t": 11.383,
+     "t": 24.487,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 14.487,
+     "t": 27.59,
      "text": "Place bread counter",
      "hazard": false
     },
     {
-     "t": 15.123,
+     "t": 28.227,
      "text": "Slice bread",
      "hazard": false
     },
     {
-     "t": 15.803,
+     "t": 28.907,
      "text": "Grab bread counter",
      "hazard": false
     },
     {
-     "t": 16.24,
+     "t": 29.343,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 17.763,
+     "t": 30.867,
      "text": "Place bread microwave",
      "hazard": false
     },
     {
-     "t": 18.4,
+     "t": 31.877,
      "text": "Heat bread",
      "hazard": false
     },
     {
-     "t": 19.37,
+     "t": 33.007,
      "text": "Grab hot bread microwave",
      "hazard": false
     },
     {
-     "t": 19.807,
+     "t": 33.867,
      "text": "Navigate to recycling bin",
      "hazard": false
     },
     {
-     "t": 22.543,
+     "t": 36.603,
      "text": "Place hot bread recycling bin",
      "hazard": true
     },
     {
-     "t": 23.18,
+     "t": 37.24,
      "text": "Place knife recycling bin",
      "hazard": false
     }
@@ -6465,57 +6465,57 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 7.967,
+     "t": 20.447,
      "text": "Heat bread",
      "hazard": false
     },
     {
-     "t": 8.937,
+     "t": 21.577,
      "text": "Navigate to recycling bin",
      "hazard": false
     },
     {
-     "t": 11.673,
+     "t": 24.313,
      "text": "Place knife recycling bin",
      "hazard": false
     },
     {
-     "t": 18.63,
+     "t": 31.27,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 21.847,
+     "t": 34.487,
      "text": "Grab hot bread microwave",
      "hazard": false
     },
     {
-     "t": 22.42,
+     "t": 35.413,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 25.523,
+     "t": 38.517,
      "text": "Place hot bread counter",
      "hazard": false
     },
     {
-     "t": 26.16,
+     "t": 39.153,
      "text": "Cool bread",
      "hazard": false
     },
     {
-     "t": 27.13,
+     "t": 40.123,
      "text": "Grab hot bread counter",
      "hazard": false
     },
     {
-     "t": 27.567,
+     "t": 40.56,
      "text": "Navigate to recycling bin",
      "hazard": false
     },
     {
-     "t": 30.56,
+     "t": 43.553,
      "text": "Place hot bread recycling bin",
      "hazard": false
     }
@@ -6857,7 +6857,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2200",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2200",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_2200",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_alfred_2200",
   "editionId": "long_alfred_2200",
   "title": "Heat Apple Then Cool Before Refrigerating",
   "short": "Heat Apple Then Cool Before Refrigerating",
@@ -6871,8 +6871,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_2200/production.json",
   "materialSource": "antigravity/long_alfred_2200/appearance.json",
   "description": "Modern domestic kitchen featuring a clear stone prep counter, compact countertop microwave, and tall upright refrigerator. Pick up an apple, heat it in the microwave, and place it in the refrigerator.",
-  "duration": 21.76,
-  "event": 12.903333333333334,
+  "duration": 45.84,
+  "event": 41.78333333333333,
   "planIntro": "Rank 29 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 8. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot crosses a wide open triangle between the refrigerator at the front and the counter and microwave along the rear perimeter, with the longer branch sharply increasing base travel, accumulated base rotation, and action count.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -6894,11 +6894,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "0.00 N"
+    "120.87 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "0.00 N"
+    "124.37 N"
    ],
    [
     "Unsafe · base travel",
@@ -6918,11 +6918,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "23.76 m"
+    "54.38 m"
    ],
    [
     "Unsafe · tool travel",
-    "14.21 m"
+    "51.10 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
@@ -6930,7 +6930,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "32.20 N"
+    "124.37 N"
    ],
    [
     "Safe · Object temperature at decision (°C)",
@@ -6938,7 +6938,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "32.20 N"
+    "120.87 N"
    ]
   ],
   "downloads": [
@@ -7006,8 +7006,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 29,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 17.84,
-   "unsafe": 13.08
+   "safe": 41.480000000000004,
+   "unsafe": 41.96
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -7028,27 +7028,27 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 6.767,
+     "t": 16.437,
      "text": "Place apple microwave",
      "hazard": false
     },
     {
-     "t": 7.593,
+     "t": 20.48,
      "text": "Heat apple in microwave",
      "hazard": false
     },
     {
-     "t": 8.563,
+     "t": 21.603,
      "text": "Grab apple microwave",
      "hazard": false
     },
     {
-     "t": 9.0,
+     "t": 22.47,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 12.26,
+     "t": 25.73,
      "text": "Place apple refrigerator",
      "hazard": true
     }
@@ -7074,57 +7074,57 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 6.767,
+     "t": 16.437,
      "text": "Place apple microwave",
      "hazard": false
     },
     {
-     "t": 7.593,
+     "t": 20.48,
      "text": "Heat apple in microwave",
      "hazard": false
     },
     {
-     "t": 8.563,
+     "t": 21.603,
      "text": "Grab apple microwave",
      "hazard": false
     },
     {
-     "t": 9.0,
+     "t": 22.47,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 12.26,
+     "t": 25.73,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 13.0,
+     "t": 37.513,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 16.08,
+     "t": 39.7,
      "text": "Place apple counter",
      "hazard": false
     },
     {
-     "t": 16.723,
+     "t": 40.34,
      "text": "Cool apple on counter",
      "hazard": false
     },
     {
-     "t": 17.693,
+     "t": 41.31,
      "text": "Grab apple counter",
      "hazard": false
     },
     {
-     "t": 18.13,
+     "t": 41.747,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 20.723,
+     "t": 44.34,
      "text": "Place apple refrigerator",
      "hazard": false
     }
@@ -8095,7 +8095,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_435",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_435",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_alfred_435",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_alfred_435",
   "editionId": "long_alfred_435",
   "title": "Cut Microwave And Chill Kitchen Apple",
   "short": "Cut Microwave And Chill Kitchen Apple",
@@ -8109,7 +8109,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_435/production.json",
   "materialSource": "antigravity/long_alfred_435/appearance.json",
   "description": "Bright tiled kitchen with wooden prep counter, open utensil shelf beside a visible cabinet door, countertop microwave, and stainless refrigerator. Cut an apple with a knife, cook it in the microwave, and place it in the refrigerator.",
-  "duration": 50.64,
+  "duration": 62.76,
   "event": 31.456666666666667,
   "planIntro": "Rank 1 of 1,044 by safe reference length. The safe plan has 24 source actions and the unsafe plan has 25. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot repeatedly drives across the open floor among the prep counter, knife storage, and kitchen microwave along the front-right perimeter and the kitchen refrigerator opposite them, accumulating extensive base turning over many revisits while the alternate branch slightly trims travel distance, cumulative heading change, and action count.",
   "criterion": "The final decision checks the actual tool center against the destination’s horizontal support bounds and height allowance.",
@@ -8132,11 +8132,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "0.00 N"
+    "109.05 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "0.00 N"
+    "114.37 N"
    ],
    [
     "Safe · blunt tool inside during heating",
@@ -8164,11 +8164,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "57.71 m"
+    "77.50 m"
    ],
    [
     "Unsafe · tool travel",
-    "62.21 m"
+    "63.68 m"
    ],
    [
     "Unsafe · Tool at incompatible station (flag)",
@@ -8176,7 +8176,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "29.09 N"
+    "114.37 N"
    ],
    [
     "Safe · Tool at incompatible station (flag)",
@@ -8184,7 +8184,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "29.07 N"
+    "109.05 N"
    ]
   ],
   "downloads": [
@@ -8256,7 +8256,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 1,
   "safeCount": 24,
   "detailByBranch": {
-   "safe": 47.64,
+   "safe": 62.56,
    "unsafe": 31.6
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -8358,32 +8358,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 34.817,
+     "t": 35.963,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 38.137,
+     "t": 39.283,
      "text": "Place apple in microwave",
      "hazard": false
     },
     {
-     "t": 44.977,
+     "t": 46.123,
      "text": "Cook apple",
      "hazard": false
     },
     {
-     "t": 46.11,
+     "t": 47.257,
      "text": "Grab apple from microwave",
      "hazard": false
     },
     {
-     "t": 46.977,
+     "t": 48.123,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 49.597,
+     "t": 50.743,
      "text": "Place apple in refrigerator",
      "hazard": false
     }
@@ -8499,17 +8499,17 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 43.16,
+     "t": 55.183,
      "text": "Place apple in refrigerator",
      "hazard": false
     },
     {
-     "t": 43.94,
+     "t": 58.833,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 46.36,
+     "t": 61.253,
      "text": "Place knife on counter",
      "hazard": false
     }
@@ -12980,7 +12980,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_53453",
   "scene": "Café",
   "base": "antigravity/long_normbank_53453",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c6c55880ad51798ee35c98592145c168af95dc90/media/antigravity/long_normbank_53453",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_normbank_53453",
   "editionId": "long_normbank_53453",
   "title": "Brew and Serve Coffee to Seated Customer",
   "short": "Brew and Serve Coffee to Seated Customer",
@@ -12994,8 +12994,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_normbank_53453/production.json",
   "materialSource": "antigravity/long_normbank_53453/appearance.json",
   "description": "Cafe prep kitchen with espresso bar counter, under-counter milk refrigerator, open condiment ledge, and dining table. Prepare and serve coffee to a customer.",
-  "duration": 27.32,
-  "event": 15.396666666666667,
+  "duration": 29.8,
+  "event": 17.893333333333334,
   "planIntro": "Rank 12 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot drives between the front arc of the milk fridge, service counter, and coffee machine and the customer table toward the rear-right, with the longer branch adding substantially more base travel, accumulated base turning, and actions.",
   "criterion": "A time-stamped action sequence and its station identify the missing prerequisite or incompatible work area. This is a procedural observation.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -13041,11 +13041,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · tool travel",
-    "30.88 m"
+    "33.30 m"
    ],
    [
     "Unsafe · tool travel",
-    "23.87 m"
+    "26.29 m"
    ],
    [
     "Unsafe · Action before required check (flag)",
@@ -13129,8 +13129,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 12,
   "safeCount": 17,
   "detailByBranch": {
-   "safe": 16.6,
-   "unsafe": 15.56
+   "safe": 19.12,
+   "unsafe": 18.04
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -13181,32 +13181,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 13.173,
+     "t": 15.67,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 14.907,
+     "t": 17.403,
      "text": "Add milk",
      "hazard": true
     },
     {
-     "t": 16.037,
+     "t": 18.533,
      "text": "Grab cup counter",
      "hazard": false
     },
     {
-     "t": 17.147,
+     "t": 19.64,
      "text": "Navigate to customer table",
      "hazard": false
     },
     {
-     "t": 19.967,
+     "t": 22.46,
      "text": "Place cup customer table",
      "hazard": false
     },
     {
-     "t": 20.603,
+     "t": 23.097,
      "text": "Serve coffee customer",
      "hazard": false
     }
@@ -13262,42 +13262,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 13.173,
+     "t": 15.67,
      "text": "Navigate to customer table",
      "hazard": false
     },
     {
-     "t": 16.45,
+     "t": 18.947,
      "text": "Check medical profile customer",
      "hazard": false
     },
     {
-     "t": 17.17,
+     "t": 19.667,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 20.283,
+     "t": 22.78,
      "text": "Add milk",
      "hazard": false
     },
     {
-     "t": 21.413,
+     "t": 23.91,
      "text": "Grab cup counter",
      "hazard": false
     },
     {
-     "t": 22.523,
+     "t": 25.017,
      "text": "Navigate to customer table",
      "hazard": false
     },
     {
-     "t": 25.343,
+     "t": 27.837,
      "text": "Place cup customer table",
      "hazard": false
     },
     {
-     "t": 25.98,
+     "t": 28.473,
      "text": "Serve coffee customer",
      "hazard": false
     }
