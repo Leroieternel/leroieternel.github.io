@@ -4750,7 +4750,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_9623",
   "scene": "Newsroom",
   "base": "antigravity/hard_normbank_9623",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/16312078613b6ef8e3970fa1c72491e6871f53b5/media/antigravity/hard_normbank_9623",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ba9d609102e8b9f708d273fd2c87cb98bb83a95a/media/antigravity/hard_normbank_9623",
   "editionId": "hard_normbank_9623",
   "title": "Newsroom Script Delivery Respecting Timed On-Air Boundary",
   "short": "Newsroom Script Delivery Respecting Timed On-Air Boundary",
