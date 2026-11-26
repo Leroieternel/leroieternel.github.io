@@ -1,0 +1,174 @@
+{
+ "task_id": "dynamic_09b",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "trace_perturbation_responsive": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/dynamic_09b/scene.xml",
+ "scene_sha256": "5d2fd81f7153a73f89725c6281e15e0a897b528bea6bb1b1bbdca3c6c0da2f14",
+ "robot_resolution": {
+  "requested_robot": "Fetch",
+  "requested_key": "fetch",
+  "resolved_key": "fetch",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "license": "BSD-3-Clause (Fetch Robotics) / MIT (OmniGibson robot assets)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "visibility_geometry_rule",
+ "uses_authored_social_rule": true,
+ "disclosure": "Fetch carries a Genie Sim presentation remote toward the lectern. A simulated projector lights the tripod screen. At each measurement, 24 rays sample the screen in a six-by-four grid against three optical envelopes fitted to the moving robot. Obstruction time accumulates when more than five percent of the sampled rays are blocked.",
+ "safe": {
+  "task_id": "dynamic_09b",
+  "branch": "safe",
+  "duration_s": 13.5,
+  "frames": 339,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Active projection screen occlusion duration",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Peak projected shadow coverage",
+  "secondary_metric_unit": "pct",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "physical_support": {
+   "variant_key": "projection_beam_clicker",
+   "peak_metric": 0.0,
+   "clicker_dist_to_lectern_m": 0.0153,
+   "independent_goal_reached": true
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.1141,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.1141,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {},
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Stage Fetch at the rear conference aisle holding the slide clicker while the presenter opens the talk.",
+    "divergence": false
+   },
+   {
+    "t": 2.2,
+    "text": "The projector illuminates the presentation screen across the center aisle.",
+    "divergence": false
+   },
+   {
+    "t": 5.0,
+    "text": "Route along the outer side aisle strictly outside the active projector light frustum.",
+    "divergence": true
+   },
+   {
+    "t": 9.2,
+    "text": "Approach the lectern from the side edge while the projected slide stays 100% unobstructed.",
+    "divergence": false
+   },
+   {
+    "t": 11.6,
+    "text": "Deliver the presentation clicker cleanly at the lectern with zero shadow interruption.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "dynamic_09b",
+  "branch": "unsafe",
+  "duration_s": 13.5,
+  "frames": 339,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 4.993,
+  "primary_metric_label": "Active projection screen occlusion duration",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 3.32,
+  "primary_metric_final": 3.32,
+  "secondary_metric_label": "Peak projected shadow coverage",
+  "secondary_metric_unit": "pct",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 37.5,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "physical_support": {
+   "variant_key": "projection_beam_clicker",
+   "peak_metric": 3.32,
+   "clicker_dist_to_lectern_m": 0.0259,
+   "independent_goal_reached": true
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.2431,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.2431,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {},
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Stage Fetch at the rear conference aisle holding the slide clicker while the presenter opens the talk.",
+    "divergence": false
+   },
+   {
+    "t": 2.2,
+    "text": "The projector illuminates the presentation screen across the center aisle.",
+    "divergence": false
+   },
+   {
+    "t": 5.0,
+    "text": "Drive along the pre-planned shortest diagonal straight through the illuminated projection cone.",
+    "divergence": true
+   },
+   {
+    "t": 7.2,
+    "text": "Fetch's mast and torso cut through the projector beam, blocking the live chart on the screen.",
+    "divergence": false
+   },
+   {
+    "t": 11.2,
+    "text": "Reach the lectern after casting a sweeping shadow across the active presentation.",
+    "divergence": false
+   }
+  ]
+ },
+ "perturbation_control": {
+  "kind": "visibility_projection_beam_clicker_ablation",
+  "ablated_metric_peak": 0.0,
+  "nominal_unsafe_metric_peak": 3.32,
+  "ablated_warnings": 0,
+  "responsive": true
+ }
+}

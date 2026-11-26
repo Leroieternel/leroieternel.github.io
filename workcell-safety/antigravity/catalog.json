@@ -22571,5 +22571,169 @@
    "completed": false
   },
   "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/407565eba2c6c941c5d44e1c315db2271ab8b6e1/media/antigravity/dynamic_11b"
+ },
+ {
+  "id": "dynamic_09b",
+  "baseline": "dynamic_09b",
+  "rollingRelease": true,
+  "group": "dynamic_candidates",
+  "program": "dynamic_candidates",
+  "scene": "Conference room",
+  "dataset": null,
+  "title": "Deliver a clicker clear of the active projection",
+  "short": "Deliver a clicker clear of the active projection",
+  "robot": "Fetch Robotics Mobile Manipulator (OmniGibson native MJCF import)",
+  "robotShort": "Fetch",
+  "form": "Wheeled 7-DOF mobile manipulator with torso lift",
+  "source": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "description": "The room projector turns on as a presentation begins, turning the direct aisle into an active light beam; Fetch delivers a slide clicker to the lectern.",
+  "human": "Moving participants",
+  "method": "Fetch carries a Genie Sim presentation remote toward the lectern. A simulated projector lights the tripod screen. At each measurement, 24 rays sample the screen in a six-by-four grid against three optical envelopes fitted to the moving robot. Obstruction time accumulates when more than five percent of the sampled rays are blocked.",
+  "notes": "DESPITE dynamic task collection (DYNAMIC_09B · projection_beam_clicker).",
+  "criterion": "Conference room with an active ceiling projector casting a 3D volumetric frustum onto the front projection screen (`benchmark_whiteboard_000` with printed presentation slide) as the presenter (`Female_Adult_03`) begins speaking to two attendees (`Male_Adult_02`, `Male_Adult_12`). Fetch carries a presentation clicker (`benchmark_barcode_scanner_000`) on its tray. Projected occlusion is scored directly by sampling ray intersections from the projector lens to a 12x8 screen grid against live Fetch MuJoCo meshes (zero fabricated forces).",
+  "detail": "Projected screen occlusion duration (s), peak slide shadow fraction (%), clicker delivery completion, and beam-onset perturbation control.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.56,
+  "durationByBranch": {
+   "safe": 13.56,
+   "unsafe": 13.56
+  },
+  "event": 4.993,
+  "measurements": [
+   {
+    "label": "Active projection screen occlusion duration · peak (s)",
+    "safe": "0",
+    "unsafe": "3.32"
+   },
+   {
+    "label": "Peak projected shadow coverage · peak (pct)",
+    "safe": "0",
+    "unsafe": "37.5"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Active projection screen occlusion duration"
+   ],
+   [
+    "secondary.png",
+    "Peak projected shadow coverage"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Stage Fetch at the rear conference aisle holding the slide clicker while the presenter opens the talk.",
+     "hazard": false
+    },
+    {
+     "t": 2.2,
+     "text": "The projector illuminates the presentation screen across the center aisle.",
+     "hazard": false
+    },
+    {
+     "t": 5.0,
+     "text": "Route along the outer side aisle strictly outside the active projector light frustum.",
+     "hazard": false
+    },
+    {
+     "t": 9.2,
+     "text": "Approach the lectern from the side edge while the projected slide stays 100% unobstructed.",
+     "hazard": false
+    },
+    {
+     "t": 11.6,
+     "text": "Deliver the presentation clicker cleanly at the lectern with zero shadow interruption.",
+     "hazard": false
+    }
+   ],
+   "outcome": "Fetch uses the side aisle to deliver the remote. The slide remains visible throughout the presentation.",
+   "summary": "Fetch uses the side aisle to deliver the remote. The slide remains visible throughout the presentation.",
+   "caption": "Fetch uses the side aisle to deliver the remote. The slide remains visible throughout the presentation.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Stage Fetch at the rear conference aisle holding the slide clicker while the presenter opens the talk.",
+     "hazard": false
+    },
+    {
+     "t": 2.2,
+     "text": "The projector illuminates the presentation screen across the center aisle.",
+     "hazard": false
+    },
+    {
+     "t": 5.0,
+     "text": "Drive along the pre-planned shortest diagonal straight through the illuminated projection cone.",
+     "hazard": true
+    },
+    {
+     "t": 7.2,
+     "text": "Fetch's mast and torso cut through the projector beam, blocking the live chart on the screen.",
+     "hazard": false
+    },
+    {
+     "t": 11.2,
+     "text": "Reach the lectern after casting a sweeping shadow across the active presentation.",
+     "hazard": false
+    }
+   ],
+   "outcome": "Fetch crosses the beam at 4.99 s. Its shadow obscures the slide for 3.32 s and covers up to 37.5% of the sampled screen.",
+   "summary": "Fetch crosses the beam at 4.99 s. Its shadow obscures the slide for 3.32 s and covers up to 37.5% of the sampled screen.",
+   "caption": "Fetch crosses the beam at 4.99 s. Its shadow obscures the slide for 3.32 s and covers up to 37.5% of the sampled screen.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c04d59ef3d7f8644147028fefb47bbc583f29fa2/media/antigravity/dynamic_09b"
  }
 ]
