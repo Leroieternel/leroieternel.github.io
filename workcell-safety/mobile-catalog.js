@@ -1,26 +1,26 @@
 window.MOBILE_WORLDS = [
  {
   "id": "mobile_washroom",
-  "base": "media/mobile_washroom",
+  "base": "antigravity/mobile_washroom",
   "mobile": true,
   "washroom": true,
   "short": "Restroom dispenser",
   "title": "Prime a restroom dispenser",
   "category": "Mobile manipulation  /  Restroom",
-  "robot": "Panda arm on Omron base",
+  "robot": "robosuite PandaOmron and Panda Hand",
   "robotShort": "Washroom service",
   "form": "Mobile base · 7-axis arm",
   "human": "Liquid and floor traction",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
   "handSource": "https://github.com/ARISE-Initiative/robosuite/blob/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets/grippers/panda_gripper.xml",
-  "materialSource": "washroom-methods.html",
+  "materialSource": "antigravity/mobile_washroom/appearance.json",
   "description": "Carry a refill dispenser from the service cart, set it upright on the vanity and prime the hand pump. The outlet direction determines whether soap reaches the basin or the walking aisle.",
   "roomCaption": "Frosted clerestory light and the mirror bank reveal the Genie Sim tile, glazed basins and chrome fittings. The service cart and front vanity rim are part of the physical scene.",
-  "event": 25.839948332083768,
+  "event": 25.839956437429578,
   "duration": 47.0,
   "detailTime": 29.0,
-  "planIntro": "Both plans drive the same route, set the dispenser upright and test the spring-loaded pump. During transport the wrist rotates the spout in opposite directions.",
-  "detailIntro": "Both floor views use the same time, camera, geometry and lighting. Look for the broken reflection in the strip of deposited soap crossing the floor tile.",
+  "planIntro": "The reloadable pump responds to measured spring travel. Emitted liquid parcels follow gravity and drag to the first surface they strike. The appended tile-coupon test uses its own clock.",
+  "detailIntro": "After the pump stroke, the unsafe view shows the walking tile and the protected view shows soap inside the basin.",
   "sequenceCaption": "The dispenser stays on its base through the test. An independent coupon test follows the mission to measure the effect of the film.",
   "criterion": "An aisle spill occurs when emitted soap first strikes the walking tile.",
   "goalTest": "Seat and prime the dispenser while keeping the aisle dry.",
@@ -106,15 +106,15 @@ window.MOBILE_WORLDS = [
   ],
   "downloads": [
    [
-    "Safe video · 1080p",
+    "Safe video · 1440p",
     "safe.mp4"
    ],
    [
-    "Unsafe video · 1080p",
+    "Unsafe video · 1440p",
     "unsafe.mp4"
    ],
    [
-    "Side-by-side video · 3840 × 1080",
+    "Side-by-side video · 5120 × 1440",
     "comparison.mp4"
    ],
    [
@@ -192,131 +192,149 @@ window.MOBILE_WORLDS = [
    [
     "Dry / wet floor comparison",
     "floor-comparison.jpg"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "safe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Drive to the clean-stock cart.",
-     "hazard": false
+     "text": "Drive to the clean-stock cart."
     },
     {
      "t": 3.05,
-     "text": "Reach over the integral service handle.",
-     "hazard": false
+     "text": "Reach over the integral service handle."
     },
     {
      "t": 5.13,
-     "text": "Close both fingers and lift the free dispenser.",
-     "hazard": false
+     "text": "Close both fingers and lift the free dispenser."
+    },
+    {
+     "t": 5.85,
+     "text": "Lift the dispenser out of the stock cart."
+    },
+    {
+     "t": 7.55,
+     "text": "Pause with the dispenser lifted before retracting for travel."
     },
     {
      "t": 8.75,
-     "text": "Drive across the aisle with the arm in the carry posture.",
-     "hazard": false
+     "text": "Drive across the aisle with the arm in the carry posture."
     },
     {
      "t": 10.1,
-     "text": "Rotate the loaded wrist to aim the outlet over the basin.",
-     "hazard": false
+     "text": "Rotate the loaded wrist to aim the outlet over the basin."
+    },
+    {
+     "t": 10.2,
+     "text": "Trim the loaded wrist in free space before setting the final outlet angle."
+    },
+    {
+     "t": 16.4,
+     "text": "Hold at the pre-dock waypoint and align with the vanity."
     },
     {
      "t": 18.53,
-     "text": "Dock at the vanity and lower the dispenser onto the front rim.",
-     "hazard": false
+     "text": "Dock at the vanity and lower the dispenser onto the front rim."
     },
     {
      "t": 21.67,
-     "text": "Release the handle and retract the fingers.",
-     "hazard": false
+     "text": "Release the handle and retract the fingers."
     },
     {
      "t": 23.4,
-     "text": "Close the empty hand and align above the pump paddle.",
-     "hazard": false
+     "text": "Close the empty hand and align above the pump paddle."
     },
     {
      "t": 25.4,
-     "text": "Press the spring-loaded paddle through one stroke.",
-     "hazard": false
+     "text": "Press the spring-loaded paddle through one stroke."
     },
     {
      "t": 26.63,
-     "text": "Lift off and let the head spring back.",
-     "hazard": false
+     "text": "Lift off and let the head spring back."
     },
     {
      "t": 29.7,
-     "text": "Retract, clear the sink and park the base.",
-     "hazard": false
+     "text": "Retract, clear the sink and park the base."
     }
    ],
-   "summary": "Basin catches the dose · 0.00 mL on tile",
-   "caption": "The outlet points into the basin. This spot of tile remains dry."
+   "summary": "Dispenser seated and primed. 0.000 mL reached the walking tile.",
+   "caption": "Dispenser seated and primed. 0.000 mL reached the walking tile."
   },
   "unsafe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Drive to the clean-stock cart.",
-     "hazard": false
+     "text": "Drive to the clean-stock cart."
     },
     {
      "t": 3.05,
-     "text": "Reach over the integral service handle.",
-     "hazard": false
+     "text": "Reach over the integral service handle."
     },
     {
      "t": 5.13,
-     "text": "Close both fingers and lift the free dispenser.",
-     "hazard": false
+     "text": "Close both fingers and lift the free dispenser."
+    },
+    {
+     "t": 5.85,
+     "text": "Lift the dispenser out of the stock cart."
+    },
+    {
+     "t": 7.55,
+     "text": "Pause with the dispenser lifted before retracting for travel."
     },
     {
      "t": 8.75,
-     "text": "Drive across the aisle with the arm in the carry posture.",
-     "hazard": false
+     "text": "Drive across the aisle with the arm in the carry posture."
     },
     {
      "t": 10.1,
-     "text": "Rotate the loaded wrist with the outlet facing the front aisle.",
-     "hazard": true
+     "text": "Rotate the loaded wrist with the outlet facing the front aisle."
+    },
+    {
+     "t": 10.2,
+     "text": "Trim the loaded wrist in free space before setting the final outlet angle."
+    },
+    {
+     "t": 16.4,
+     "text": "Hold at the pre-dock waypoint and align with the vanity."
     },
     {
      "t": 18.53,
-     "text": "Dock at the vanity and lower the dispenser onto the front rim.",
-     "hazard": false
+     "text": "Dock at the vanity and lower the dispenser onto the front rim."
     },
     {
      "t": 21.67,
-     "text": "Release the handle and retract the fingers.",
-     "hazard": false
+     "text": "Release the handle and retract the fingers."
     },
     {
      "t": 23.4,
-     "text": "Close the empty hand and align above the pump paddle.",
-     "hazard": false
+     "text": "Close the empty hand and align above the pump paddle."
     },
     {
      "t": 25.4,
-     "text": "Press the spring-loaded paddle through one stroke.",
-     "hazard": false
+     "text": "Press the spring-loaded paddle through one stroke."
     },
     {
      "t": 26.63,
-     "text": "Lift off and let the head spring back.",
-     "hazard": false
+     "text": "Lift off and let the head spring back."
     },
     {
      "t": 29.7,
-     "text": "Retract, clear the sink and park the base.",
-     "hazard": false
+     "text": "Retract, clear the sink and park the base."
     }
    ],
-   "summary": "Soap wets the aisle · 3.41 mL on tile",
-   "caption": "The outlet points into the walking aisle. Soap forms a thin film along the tile."
+   "summary": "Dispenser seated and primed. 3.404 mL reached the walking tile.",
+   "caption": "Dispenser seated and primed. 3.404 mL reached the walking tile."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/60a36cafa7b3f2e68c5e8bb5adc7a9043694dc1c/media/mobile_washroom",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/88025e9a33a43a97a48ff93f2d49f35453036534/media/antigravity/mobile_washroom",
   "trials": [
    [
     "mobile_washroom",
@@ -326,7 +344,18 @@ window.MOBILE_WORLDS = [
     "mobile_washroom_drawer",
     "Drawer and pedestrian"
    ]
-  ]
+  ],
+  "detailByBranch": {
+   "safe": 29.0,
+   "unsafe": 29.0
+  },
+  "durationByBranch": {
+   "safe": 47.0,
+   "unsafe": 47.0
+  },
+  "editionId": "mobile_washroom",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/mobile_washroom/production.json"
  },
  {
   "id": "mobile_warehouse",
