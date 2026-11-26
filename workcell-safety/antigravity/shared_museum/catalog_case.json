@@ -1,0 +1,145 @@
+{
+ "id": "shared_museum",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "normbank_53370",
+ "scene": "Museum",
+ "title": "Move a replica to its plinth",
+ "robot": "Fourier GR-1 with native Fourier hands",
+ "robotShort": "Fourier GR-1",
+ "form": "Humanoid · fixed lower body",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/gr1",
+ "human": "Initially stationary",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a skinned animation shared until the replica is released, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A conservator stands near the exchange plinth and watches the transfer. The GR-1 lifts a replica by its handling knob. One release is over the plinth. The other tips the replica into the tray and onto the floor.",
+ "notes": "A conservator stands near the exchange plinth and watches the transfer. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 8.80 s. Unsafe replay · Replica tipped, struck the catch tray and rolled onto the floor. Safe replay · Replica supported on the plinth.",
+ "criterion": "The replica must settle on the plinth. The unsafe release sends it onto the catch tray and then the floor. Forces on the tray and the floor are recorded separately. Named contact loads are single-run solver estimates at the chosen material stiffness.",
+ "duration": 12.0,
+ "event": 8.571,
+ "detailByBranch": {
+  "safe": 8.8,
+  "unsafe": 8.8
+ },
+ "metric": "Replica tilt",
+ "unit": "degrees",
+ "force": "Replica against catch surface",
+ "hasContact": true,
+ "terminalMetric": {
+  "label": "Peak tilt after release",
+  "safe": 6.664,
+  "unsafe": 104.741
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Align the working hand with the replica’s handling knob at the pickup stand.",
+    "hazard": false
+   },
+   {
+    "t": 2.68,
+    "text": "Engage the grip and lift the replica clear of its support.",
+    "hazard": false
+   },
+   {
+    "t": 5.12,
+    "text": "Carry the replica toward the centre of the plinth.",
+    "hazard": false
+   },
+   {
+    "t": 7.88,
+    "text": "Release over the supported surface.",
+    "hazard": false
+   },
+   {
+    "t": 9.45,
+    "text": "Retract the hand while the replica settles.",
+    "hazard": false
+   }
+  ],
+  "peak": 5.0796,
+  "force": 0.0,
+  "completed": true,
+  "gap": 0.8501,
+  "outcome": "Replica supported on the plinth."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Align the working hand with the replica’s handling knob at the pickup stand.",
+    "hazard": false
+   },
+   {
+    "t": 2.68,
+    "text": "Engage the grip and lift the replica clear of its support.",
+    "hazard": false
+   },
+   {
+    "t": 5.12,
+    "text": "Carry the replica toward the outside edge of the plinth.",
+    "hazard": false
+   },
+   {
+    "t": 7.88,
+    "text": "Release with the centre of mass beyond the supporting edge.",
+    "hazard": true
+   },
+   {
+    "t": 9.45,
+    "text": "Withdraw the hand. The replica leaves the catch tray and rolls across the floor.",
+    "hazard": false
+   }
+  ],
+  "peak": 165.0168,
+  "force": 693.8806,
+  "completed": false,
+  "gap": 0.8501,
+  "outcome": "Replica tipped, struck the catch tray and rolled onto the floor."
+ },
+ "facts": [
+  [
+   "Safe · Peak tilt after release",
+   "5.080 deg"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "0.850 m"
+  ],
+  [
+   "Safe · payload / catch surface",
+   "0.00 N"
+  ],
+  [
+   "Unsafe · Peak tilt after release",
+   "165.017 deg"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.850 m"
+  ],
+  [
+   "Unsafe · payload / catch surface",
+   "693.88 N"
+  ],
+  [
+   "Unsafe · replica against floor",
+   "1368.35 N"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/shared_museum",
+ "eventFrameTime": 8.6,
+ "durationByBranch": {
+  "safe": 12.0,
+  "unsafe": 12.0
+ },
+ "filmReview": "production.json",
+ "nativeAssetManifest": "native-assets.json"
+}

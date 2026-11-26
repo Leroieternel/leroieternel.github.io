@@ -16084,16 +16084,16 @@ window.EVERYDAY_STUDIES = [
   "human": "Initially stationary",
   "description": "A conservator stands near the exchange plinth and watches the transfer. The GR-1 lifts a replica by its handling knob. One release is over the plinth. The other tips the replica into the tray and onto the floor.",
   "duration": 12.0,
-  "event": 8.944,
+  "event": 8.571,
   "criterion": "The replica must settle on the plinth. The unsafe release sends it onto the catch tray and then the floor. Forces on the tray and the floor are recorded separately. Named contact loads are single-run solver estimates at the chosen material stiffness.",
   "detailByBranch": {
-   "safe": 9.16,
-   "unsafe": 9.16
+   "safe": 8.8,
+   "unsafe": 8.8
   },
   "facts": [
    [
     "Safe · Peak tilt after release",
-    "3.811 deg"
+    "5.080 deg"
    ],
    [
     "Safe · minimum modeled limb clearance",
@@ -16105,7 +16105,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · Peak tilt after release",
-    "99.101 deg"
+    "165.017 deg"
    ],
    [
     "Unsafe · minimum modeled limb clearance",
@@ -16113,11 +16113,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · payload / catch surface",
-    "494.75 N"
+    "693.88 N"
    ],
    [
     "Unsafe · replica against floor",
-    "0.00 N"
+    "1368.35 N"
    ],
    [
     "Physics integration rate",
@@ -16128,12 +16128,12 @@ window.EVERYDAY_STUDIES = [
   "editionId": "shared_museum",
   "short": "Move a replica to its plinth",
   "category": "DESPITE Hard · normbank_53370",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/shared_museum",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a2b4f9de9c54a7aac905022ea50dce9ea439d427/media/antigravity/shared_museum",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_museum/production.json",
   "materialSource": "antigravity/shared_museum/appearance.json",
   "planIntro": "A conservator stands near the exchange plinth and watches the transfer. Both plans use the same person, initial layout and clock.",
-  "detailIntro": "Both detail views show 9.16 s. Unsafe replay · Replica tipped, struck the catch tray and rolled onto the floor. Safe replay · Replica supported on the plinth.",
+  "detailIntro": "Both detail views show 8.80 s. Unsafe replay · Replica tipped, struck the catch tray and rolled onto the floor. Safe replay · Replica supported on the plinth.",
   "auditnote": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a skinned animation shared until the replica is released, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
   "charts": [
    [

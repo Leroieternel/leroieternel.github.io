@@ -1672,7 +1672,7 @@ window.WORKCELLS = [
    "unsafe": 19.04
   },
   "editionId": "legacy_09_library",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/legacy_09_library",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a2b4f9de9c54a7aac905022ea50dce9ea439d427/media/antigravity/legacy_09_library",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "../antigravity/legacy_09_library/production.json",
   "materialSource": "../antigravity/legacy_09_library/appearance.json",
