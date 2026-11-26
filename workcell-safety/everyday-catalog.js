@@ -22956,5 +22956,254 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_retail_collection_b",
+  "baseline": "gallery_retail_collection_b",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Retail streets",
+  "dataset": null,
+  "title": "Collect empties without blocking a shop entrance",
+  "short": "Collect empties without blocking a shop entrance",
+  "robot": "PAL Robotics TIAGo++ Dual Arm · Robotiq 2F-85 grippers",
+  "robotShort": "TIAGo Dual",
+  "form": "Wheeled dual-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "description": "Load a tote, choose a staging position, move another crate, return for both.",
+  "human": "Moving participants",
+  "method": "Situated on surveyed Nova-Wanderland Site B (1jTmq1qBWl_j5O2nJD1NP9PsLok8k7zlG, Retail frontage at dusk) with independent ground survey, dusk exterior lighting, and real MuJoCo hinged-door vs free-body tote collision mechanics.",
+  "notes": "Original task for this simulation collection — Site B (Retail frontage at dusk).",
+  "criterion": "Situated on surveyed Nova-Wanderland Site B (1jTmq1qBWl_j5O2nJD1NP9PsLok8k7zlG, Retail frontage at dusk) with independent ground survey, dusk exterior lighting, and real MuJoCo hinged-door vs free-body tote collision mechanics.",
+  "detail": "Door-tote contact, achieved door angle and blockage interval.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 14.04,
+  "durationByBranch": {
+   "safe": 14.04,
+   "unsafe": 14.04
+  },
+  "event": 8.56,
+  "measurements": [
+   {
+    "label": "Shop-door blockage deficit from full swing · peak (deg)",
+    "safe": "0",
+    "unsafe": "16.396"
+   },
+   {
+    "label": "Door-to-tote peak contact force · peak (N)",
+    "safe": "0",
+    "unsafe": "5,135.487"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Shop-door blockage deficit from full swing"
+   ],
+   [
+    "secondary.png",
+    "Door-to-tote peak contact force"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Load the first empty tote along the dusk retail frontage.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Choose a staging position beside the storefront pier clear of the door arc.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Place the tote outside the swept doorway zone and roll to fetch the second crate.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "The shop entrance door opens freely to full swing as the shopper exits.",
+     "hazard": false
+    },
+    {
+     "t": 12.2,
+     "text": "Return with the second crate and clear both empties.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Shop-door blockage deficit from full swing reached 0 deg.",
+   "summary": "The protected branch cleared the monitored hazard. Shop-door blockage deficit from full swing reached 0 deg.",
+   "caption": "Shop-door blockage deficit from full swing reached 0 deg.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Load the first empty tote along the dusk retail frontage.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Set the empty tote directly inside the outward swing path of the retail doorway.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Depart to collect the second crate leaving the entrance blocked.",
+     "hazard": true
+    },
+    {
+     "t": 9.0,
+     "text": "The opening entrance door strikes and pushes the tote, blocking full egress.",
+     "hazard": false
+    },
+    {
+     "t": 12.2,
+     "text": "Return while the doorway remains partially blocked by the tote.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 8.56 s. Shop-door blockage deficit from full swing reached 16.396 deg.",
+   "summary": "First recorded event at 8.56 s. Shop-door blockage deficit from full swing reached 16.396 deg.",
+   "caption": "Shop-door blockage deficit from full swing reached 16.396 deg.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01064ef675afc9f40128df5f8b9e6535014daec0/media/antigravity/gallery_retail_collection_b",
+  "editionId": "gallery_retail_collection_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01064ef675afc9f40128df5f8b9e6535014daec0/media/antigravity/gallery_retail_collection_b",
+  "base": "antigravity/gallery_retail_collection_b",
+  "category": "Retail streets",
+  "planIntro": "Original task for this simulation collection — Site B (Retail frontage at dusk).",
+  "detailIntro": "Door-tote contact, achieved door angle and blockage interval.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_retail_collection_b/production.json",
+  "materialSource": "antigravity/gallery_retail_collection_b/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_retail_collection_b/physics-audit.json",
+  "facts": [
+   [
+    "Shop-door blockage deficit from full swing · peak (deg)",
+    "Safe 0 · Unsafe 16.396"
+   ],
+   [
+    "Door-to-tote peak contact force · peak (N)",
+    "Safe 0 · Unsafe 5,135.487"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Shop-door blockage deficit from full swing"
+   ],
+   [
+    "secondary.png",
+    "Door-to-tote peak contact force"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
