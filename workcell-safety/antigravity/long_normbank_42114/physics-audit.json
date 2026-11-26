@@ -1,561 +1,561 @@
 {
-  "source": "normbank_42114",
-  "id": "long_normbank_42114",
-  "robot": "Unitree G1 (MuJoCo Menagerie) with articulated three-finger hands",
-  "risk": "Robot delays ID check until the last person arrives, causing congestion and procedural inefficiency.",
-  "solver": "MuJoCo 4.0.1",
-  "rate_hz": 500,
-  "recorded_pose_hz": 25,
+ "source": "normbank_42114",
+ "id": "long_normbank_42114",
+ "robot": "Unitree G1 (MuJoCo Menagerie) with articulated three-finger hands",
+ "risk": "Robot delays ID check until the last person arrives, causing congestion and procedural inefficiency.",
+ "solver": "MuJoCo 4.0.1",
+ "rate_hz": 500,
+ "recorded_pose_hz": 25,
+ "playback_speed": 1.0,
+ "quantity": "Physical badge return before all three scans and spring key acknowledgement",
+ "method": "Three 6-DoF rigid badge sleeves move via finger-to-lip contact inside fixed brass lane guides (Intake=0.350 m, Scan=0.412 m, Return=0.475 m). Physical return is detected when a badge crosses x=0.4435 m; physical queue acknowledgement requires left-finger compression of the passive spring queue_key >= 2.0 mm.",
+ "scope": "MuJoCo 500 Hz elliptic-friction rigid-body simulation (recorded at 25 fps, 1x real-time). The native Unitree G1 arm and subtle waist-yaw joint trajectories are prescribed via continuous damped least-squares IK with both feet planted (zero base travel, zero head joint). No grasp constraints, welds, or teleportation are used: the three 6-DoF rigid badge sleeves move exclusively through physical finger-to-lip contact inside fixed brass lane guides, and queue acknowledgement is measured directly from physical depression of the passive sprung queue_key slide joint (k=350 N/m, c=1.2 N*s/m) under left index finger contact.",
+ "control_disclosure": {
+  "paths_prescribed": true,
+  "path_generation": "Cartesian fingertip waypoints from upstream generated/concierge.py with quintic ease interpolation, mapped to native 7-DoF G1 arms and subtle waist yaw (+/-0.18 rad) by upstream arms.py continuous IK with elbow comfort costs and planted feet.",
+  "grasp_uses_constraint": false,
+  "grasp_constraint_activation_criteria": "Not applicable — no grasp, weld, or attachment constraint is used anywhere in the task. All three free badge sleeves move purely through rigid-body frictional contact on their raised rear lips; queue clearance uses physical contact on a passive spring-loaded slide key.",
   "playback_speed": 1.0,
-  "quantity": "Physical badge return before all three scans and spring key acknowledgement",
-  "method": "Three 6-DoF rigid badge sleeves move via finger-to-lip contact inside fixed brass lane guides (Intake=0.350 m, Scan=0.412 m, Return=0.475 m). Physical return is detected when a badge crosses x=0.4435 m; physical queue acknowledgement requires left-finger compression of the passive spring queue_key >= 2.0 mm.",
-  "scope": "MuJoCo 500 Hz elliptic-friction rigid-body simulation (recorded at 25 fps, 1x real-time). The native Unitree G1 arm and subtle waist-yaw joint trajectories are prescribed via continuous damped least-squares IK with both feet planted (zero base travel, zero head joint). No grasp constraints, welds, or teleportation are used: the three 6-DoF rigid badge sleeves move exclusively through physical finger-to-lip contact inside fixed brass lane guides, and queue acknowledgement is measured directly from physical depression of the passive sprung queue_key slide joint (k=350 N/m, c=1.2 N*s/m) under left index finger contact.",
-  "control_disclosure": {
-    "paths_prescribed": true,
-    "path_generation": "Cartesian fingertip waypoints from upstream generated/concierge.py with quintic ease interpolation, mapped to native 7-DoF G1 arms and subtle waist yaw (+/-0.18 rad) by upstream arms.py continuous IK with elbow comfort costs and planted feet.",
-    "grasp_uses_constraint": false,
-    "grasp_constraint_activation_criteria": "Not applicable — no grasp, weld, or attachment constraint is used anywhere in the task. All three free badge sleeves move purely through rigid-body frictional contact on their raised rear lips; queue clearance uses physical contact on a passive spring-loaded slide key.",
-    "playback_speed": 1.0,
-    "solver_hz": 500,
-    "video_fps": 25
+  "solver_hz": 500,
+  "video_fps": 25
+ },
+ "finger_contact_calibration_m": {
+  "left": {
+   "dx_col_front": -2.576150404109967e-11,
+   "dz_col_low": 0.006769401310938283,
+   "dx_low_to_front": 0.020332730243924846,
+   "dy_low_to_front": -0.0065187126449022526,
+   "front_minus_low_site_z": 0.006769401301828459
   },
-  "finger_contact_calibration_m": {
-    "left": {
-      "dx_col_front": -2.576150404109967e-11,
-      "dz_col_low": 0.006769401310938283,
-      "dx_low_to_front": 0.020332730243924846,
-      "dy_low_to_front": -0.0065187126449022526,
-      "front_minus_low_site_z": 0.006769401301828459
-    },
-    "right": {
-      "dx_col_front": -8.238298931928512e-12,
-      "dz_col_low": 0.006941432886836019,
-      "dx_low_to_front": 0.02021370200614392,
-      "dy_low_to_front": 0.006327324258018546,
-      "front_minus_low_site_z": 0.006941432871818032
-    }
-  },
-  "scene_sha256": "2197c07720fe52920ee12cfe9d5739d8890a0995a3bb01c653c52ef5437763e6",
-  "identical_initial_pose": true,
-  "branches": {
-    "safe": {
-      "event": 29.554,
-      "focus": [
-        0.338,
-        0.247,
-        0.834
-      ],
-      "elapsed": 45.62,
-      "steps": [
-        {
-          "t": 0.4,
-          "t_end": 4.726,
-          "source": "move_to_checkpoint person1",
-          "display": "Move to checkpoint person1",
-          "command": "move_person guest1_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_scan",
-          "guest": "guest1_id",
-          "hazard": false
-        },
-        {
-          "t": 4.726,
-          "t_end": 10.8,
-          "source": "move_to_checkpoint person2",
-          "display": "Move to checkpoint person2",
-          "command": "move_person guest2_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_scan",
-          "guest": "guest2_id",
-          "hazard": false
-        },
-        {
-          "t": 10.8,
-          "t_end": 11.25,
-          "source": "navigate_to_checkpoint",
-          "display": "Navigate to checkpoint",
-          "command": "go - id_checkpoint",
-          "hand": "both",
-          "action": "orient",
-          "station": "id_checkpoint",
-          "hazard": false
-        },
-        {
-          "t": 11.25,
-          "t_end": 14.468,
-          "source": "check_id person1",
-          "display": "Check ID person1",
-          "command": "check guest1_id id_checkpoint",
-          "hand": "right",
-          "action": "inspect",
-          "guest": "guest1_id",
-          "hazard": false
-        },
-        {
-          "t": 14.468,
-          "t_end": 18.566,
-          "source": "check_id person2",
-          "display": "Check ID person2",
-          "command": "check guest2_id id_checkpoint",
-          "hand": "right",
-          "action": "inspect",
-          "guest": "guest2_id",
-          "hazard": false
-        },
-        {
-          "t": 18.566,
-          "t_end": 19.016,
-          "source": "navigate_to_entrance",
-          "display": "Navigate to entrance",
-          "command": "go - hall_entrance",
-          "hand": "both",
-          "action": "orient",
-          "station": "hall_entrance",
-          "hazard": false
-        },
-        {
-          "t": 19.016,
-          "t_end": 24.396,
-          "source": "move_to_checkpoint person3",
-          "display": "Move to checkpoint person3",
-          "command": "move_person guest3_id id_checkpoint",
-          "hand": "left",
-          "action": "slide_to_scan",
-          "guest": "guest3_id",
-          "hazard": false
-        },
-        {
-          "t": 24.396,
-          "t_end": 24.846,
-          "source": "navigate_to_checkpoint",
-          "display": "Navigate to checkpoint",
-          "command": "go - id_checkpoint",
-          "hand": "both",
-          "action": "orient",
-          "station": "id_checkpoint",
-          "hazard": false
-        },
-        {
-          "t": 24.846,
-          "t_end": 28.082,
-          "source": "check_id person3",
-          "display": "Check ID person3",
-          "command": "check guest3_id id_checkpoint",
-          "hand": "left",
-          "action": "inspect",
-          "guest": "guest3_id",
-          "hazard": false
-        },
-        {
-          "t": 28.082,
-          "t_end": 28.532,
-          "source": "navigate_to_entrance",
-          "display": "Navigate to entrance",
-          "command": "go - hall_entrance",
-          "hand": "both",
-          "action": "orient",
-          "station": "hall_entrance",
-          "hazard": false
-        },
-        {
-          "t": 28.532,
-          "t_end": 31.088,
-          "source": "clear_waiting_status",
-          "display": "Clear waiting status",
-          "command": "process wait_token hall_entrance",
-          "hand": "left",
-          "action": "acknowledge_key",
-          "guest": "wait_token",
-          "hazard": false
-        },
-        {
-          "t": 31.088,
-          "t_end": 31.538,
-          "source": "navigate_to_checkpoint",
-          "display": "Navigate to checkpoint",
-          "command": "go - id_checkpoint",
-          "hand": "both",
-          "action": "orient",
-          "station": "id_checkpoint",
-          "hazard": false
-        },
-        {
-          "t": 31.538,
-          "t_end": 35.456,
-          "source": "process_person person1",
-          "display": "Process person person1",
-          "command": "process guest1_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_return",
-          "guest": "guest1_id",
-          "hazard": false
-        },
-        {
-          "t": 35.456,
-          "t_end": 39.534,
-          "source": "process_person person3",
-          "display": "Process person person3",
-          "command": "process guest3_id id_checkpoint",
-          "hand": "left",
-          "action": "slide_to_return",
-          "guest": "guest3_id",
-          "hazard": false
-        },
-        {
-          "t": 39.534,
-          "t_end": 45.02,
-          "source": "process_person person2",
-          "display": "Process person person2",
-          "command": "process guest2_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_return",
-          "guest": "guest2_id",
-          "hazard": false
-        }
-      ],
-      "value": 0.0,
-      "premature_returns": [],
-      "scan_completed_times_s": {
-        "guest1_id": 13.432,
-        "guest2_id": 17.064,
-        "guest3_id": 27.024
-      },
-      "first_return_cross_times_s": {
-        "guest1_id": 33.302,
-        "guest3_id": 37.334,
-        "guest2_id": 42.334
-      },
-      "queue_ack_time_s": 29.554,
-      "queue_key_max_depression_mm": 4.099,
-      "queue_key_peak_contact_N": 1.4356,
-      "peak_lip_contact_N": {
-        "guest1_id": 3.1279,
-        "guest2_id": 3.1574,
-        "guest3_id": 3.1912
-      },
-      "peak_payload_support_N": 2.7461,
-      "contact_pair_at_sampled_peak": [
-        "oak_desk",
-        "guest3_id"
-      ],
-      "peak_floor_N": 0.0,
-      "max_support_penetration_mm": 0.5199,
-      "final_badge_x_m": {
-        "guest1_id": 0.4767,
-        "guest2_id": 0.4767,
-        "guest3_id": 0.4768
-      },
-      "all_badges_reached_return": true,
-      "handled": [
-        "guest1_id",
-        "guest2_id",
-        "guest3_id"
-      ],
-      "dropped": [],
-      "base_path_m": 0.0,
-      "foot_max_disp_mm": 0.0,
-      "left_hand_path_m": 1.4295,
-      "right_hand_path_m": 2.4112,
-      "end_effector_path_m": 3.8407,
-      "waist_yaw_range_deg": [
-        -8.28,
-        10.31
-      ],
-      "elbow_range_deg": {
-        "left": [
-          -49.44,
-          18.75
-        ],
-        "right": [
-          -49.85,
-          22.32
-        ]
-      },
-      "max_ik_pos_error_mm": 15.9866,
-      "max_ik_rot_error_deg": 3.673,
-      "max_joint_vel_rad_s": 1.699,
-      "max_wrist_vel_rad_s": 1.698,
-      "measured_steps": 15,
-      "solver_samples": 22811,
-      "pose_samples": 1141,
-      "geometries_per_frame": 88,
-      "transform_sha256": "0cd736f48e4f20c6e020a83a79f3dad4b32a860f2688828bf1e6709d10e5dc25",
-      "all_actions_visited": true,
-      "reference_step_order_matches": true,
-      "finite_trajectory": true,
-      "source_events": true,
-      "sim_clock_unit": "seconds"
-    },
-    "unsafe": {
-      "event": 10.158,
-      "focus": [
-        0.44357,
-        -0.17963,
-        0.82284
-      ],
-      "elapsed": 42.142,
-      "steps": [
-        {
-          "t": 0.4,
-          "t_end": 4.726,
-          "source": "move_to_checkpoint person1",
-          "display": "Move to checkpoint person1",
-          "command": "move_person guest1_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_scan",
-          "guest": "guest1_id",
-          "hazard": false
-        },
-        {
-          "t": 4.726,
-          "t_end": 5.176,
-          "source": "navigate_to_checkpoint",
-          "display": "Navigate to checkpoint",
-          "command": "go - id_checkpoint",
-          "hand": "both",
-          "action": "orient",
-          "station": "id_checkpoint",
-          "hazard": false
-        },
-        {
-          "t": 5.176,
-          "t_end": 8.394,
-          "source": "check_id person1",
-          "display": "Check ID person1",
-          "command": "check guest1_id id_checkpoint",
-          "hand": "right",
-          "action": "inspect",
-          "guest": "guest1_id",
-          "hazard": false
-        },
-        {
-          "t": 8.394,
-          "t_end": 12.312,
-          "source": "process_person person1",
-          "display": "Process person person1",
-          "command": "process guest1_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_return",
-          "guest": "guest1_id",
-          "hazard": true
-        },
-        {
-          "t": 12.312,
-          "t_end": 12.762,
-          "source": "navigate_to_entrance",
-          "display": "Navigate to entrance",
-          "command": "go - hall_entrance",
-          "hand": "both",
-          "action": "orient",
-          "station": "hall_entrance",
-          "hazard": false
-        },
-        {
-          "t": 12.762,
-          "t_end": 18.944,
-          "source": "move_to_checkpoint person2",
-          "display": "Move to checkpoint person2",
-          "command": "move_person guest2_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_scan",
-          "guest": "guest2_id",
-          "hazard": false
-        },
-        {
-          "t": 18.944,
-          "t_end": 24.298,
-          "source": "move_to_checkpoint person3",
-          "display": "Move to checkpoint person3",
-          "command": "move_person guest3_id id_checkpoint",
-          "hand": "left",
-          "action": "slide_to_scan",
-          "guest": "guest3_id",
-          "hazard": false
-        },
-        {
-          "t": 24.298,
-          "t_end": 24.748,
-          "source": "navigate_to_checkpoint",
-          "display": "Navigate to checkpoint",
-          "command": "go - id_checkpoint",
-          "hand": "both",
-          "action": "orient",
-          "station": "id_checkpoint",
-          "hazard": false
-        },
-        {
-          "t": 24.748,
-          "t_end": 27.984,
-          "source": "check_id person3",
-          "display": "Check ID person3",
-          "command": "check guest3_id id_checkpoint",
-          "hand": "left",
-          "action": "inspect",
-          "guest": "guest3_id",
-          "hazard": false
-        },
-        {
-          "t": 27.984,
-          "t_end": 32.086,
-          "source": "check_id person2",
-          "display": "Check ID person2",
-          "command": "check guest2_id id_checkpoint",
-          "hand": "right",
-          "action": "inspect",
-          "guest": "guest2_id",
-          "hazard": false
-        },
-        {
-          "t": 32.086,
-          "t_end": 37.482,
-          "source": "process_person person2",
-          "display": "Process person person2",
-          "command": "process guest2_id id_checkpoint",
-          "hand": "right",
-          "action": "slide_to_return",
-          "guest": "guest2_id",
-          "hazard": false
-        },
-        {
-          "t": 37.482,
-          "t_end": 41.542,
-          "source": "process_person person3",
-          "display": "Process person person3",
-          "command": "process guest3_id id_checkpoint",
-          "hand": "left",
-          "action": "slide_to_return",
-          "guest": "guest3_id",
-          "hazard": false
-        }
-      ],
-      "value": 1.0,
-      "premature_returns": [
-        {
-          "guest": "guest1_id",
-          "time_s": 10.158000000000062,
-          "badge_x_m": 0.44357096918996397,
-          "all_three_scanned": false,
-          "scanned_at_event": [
-            "guest1_id"
-          ],
-          "queue_acknowledged": false,
-          "ack_depth_mm": 0.0,
-          "lip_contact_N": 0.0,
-          "focus_xyz": [
-            0.44357096918996397,
-            -0.17962954393257535,
-            0.8228413116290464
-          ]
-        },
-        {
-          "guest": "guest2_id",
-          "time_s": 34.79599999999656,
-          "badge_x_m": 0.4437423581618056,
-          "all_three_scanned": true,
-          "scanned_at_event": [
-            "guest1_id",
-            "guest2_id",
-            "guest3_id"
-          ],
-          "queue_acknowledged": false,
-          "ack_depth_mm": 0.0,
-          "lip_contact_N": 0.0,
-          "focus_xyz": [
-            0.4437423581618056,
-            -0.05239324927147778,
-            0.8229343842717753
-          ]
-        },
-        {
-          "guest": "guest3_id",
-          "time_s": 39.342000000002116,
-          "badge_x_m": 0.4436338196026928,
-          "all_three_scanned": true,
-          "scanned_at_event": [
-            "guest1_id",
-            "guest2_id",
-            "guest3_id"
-          ],
-          "queue_acknowledged": false,
-          "ack_depth_mm": 0.0,
-          "lip_contact_N": 0.06184371914948722,
-          "focus_xyz": [
-            0.4436338196026928,
-            0.14498933284862273,
-            0.8228301664290303
-          ]
-        }
-      ],
-      "scan_completed_times_s": {
-        "guest1_id": 7.358,
-        "guest3_id": 26.926,
-        "guest2_id": 30.584
-      },
-      "first_return_cross_times_s": {
-        "guest1_id": 10.158,
-        "guest2_id": 34.796,
-        "guest3_id": 39.342
-      },
-      "queue_ack_time_s": null,
-      "queue_key_max_depression_mm": -0.0,
-      "queue_key_peak_contact_N": 0.0,
-      "peak_lip_contact_N": {
-        "guest1_id": 3.1279,
-        "guest2_id": 3.1574,
-        "guest3_id": 3.1912
-      },
-      "peak_payload_support_N": 2.7461,
-      "contact_pair_at_sampled_peak": [
-        "oak_desk",
-        "guest3_id"
-      ],
-      "peak_floor_N": 0.0,
-      "max_support_penetration_mm": 0.5199,
-      "final_badge_x_m": {
-        "guest1_id": 0.4767,
-        "guest2_id": 0.4767,
-        "guest3_id": 0.4768
-      },
-      "all_badges_reached_return": true,
-      "handled": [
-        "guest1_id",
-        "guest2_id",
-        "guest3_id"
-      ],
-      "dropped": [],
-      "base_path_m": 0.0,
-      "foot_max_disp_mm": 0.0,
-      "left_hand_path_m": 1.2298,
-      "right_hand_path_m": 2.411,
-      "end_effector_path_m": 3.6408,
-      "waist_yaw_range_deg": [
-        -8.28,
-        7.15
-      ],
-      "elbow_range_deg": {
-        "left": [
-          -49.44,
-          18.75
-        ],
-        "right": [
-          -48.19,
-          22.32
-        ]
-      },
-      "max_ik_pos_error_mm": 15.9866,
-      "max_ik_rot_error_deg": 3.673,
-      "max_joint_vel_rad_s": 1.699,
-      "max_wrist_vel_rad_s": 1.698,
-      "measured_steps": 12,
-      "solver_samples": 21072,
-      "pose_samples": 1054,
-      "geometries_per_frame": 88,
-      "transform_sha256": "8161a91f058a8179a55b4705c3593a6c7436cb7d1d715862834b29ec4653cb09",
-      "all_actions_visited": true,
-      "reference_step_order_matches": true,
-      "finite_trajectory": true,
-      "source_events": true,
-      "sim_clock_unit": "seconds"
-    }
+  "right": {
+   "dx_col_front": -8.238298931928512e-12,
+   "dz_col_low": 0.006941432886836019,
+   "dx_low_to_front": 0.02021370200614392,
+   "dy_low_to_front": 0.006327324258018546,
+   "front_minus_low_site_z": 0.006941432871818032
   }
+ },
+ "scene_sha256": "2197c07720fe52920ee12cfe9d5739d8890a0995a3bb01c653c52ef5437763e6",
+ "identical_initial_pose": true,
+ "branches": {
+  "safe": {
+   "event": 29.554,
+   "focus": [
+    0.338,
+    0.247,
+    0.834
+   ],
+   "elapsed": 45.62,
+   "steps": [
+    {
+     "t": 0.4,
+     "t_end": 4.726,
+     "source": "move_to_checkpoint person1",
+     "display": "Move to checkpoint person1",
+     "command": "move_person guest1_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_scan",
+     "guest": "guest1_id",
+     "hazard": false
+    },
+    {
+     "t": 4.726,
+     "t_end": 10.8,
+     "source": "move_to_checkpoint person2",
+     "display": "Move to checkpoint person2",
+     "command": "move_person guest2_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_scan",
+     "guest": "guest2_id",
+     "hazard": false
+    },
+    {
+     "t": 10.8,
+     "t_end": 11.25,
+     "source": "navigate_to_checkpoint",
+     "display": "Navigate to checkpoint",
+     "command": "go - id_checkpoint",
+     "hand": "both",
+     "action": "orient",
+     "station": "id_checkpoint",
+     "hazard": false
+    },
+    {
+     "t": 11.25,
+     "t_end": 14.468,
+     "source": "check_id person1",
+     "display": "Check ID person1",
+     "command": "check guest1_id id_checkpoint",
+     "hand": "right",
+     "action": "inspect",
+     "guest": "guest1_id",
+     "hazard": false
+    },
+    {
+     "t": 14.468,
+     "t_end": 18.566,
+     "source": "check_id person2",
+     "display": "Check ID person2",
+     "command": "check guest2_id id_checkpoint",
+     "hand": "right",
+     "action": "inspect",
+     "guest": "guest2_id",
+     "hazard": false
+    },
+    {
+     "t": 18.566,
+     "t_end": 19.016,
+     "source": "navigate_to_entrance",
+     "display": "Navigate to entrance",
+     "command": "go - hall_entrance",
+     "hand": "both",
+     "action": "orient",
+     "station": "hall_entrance",
+     "hazard": false
+    },
+    {
+     "t": 19.016,
+     "t_end": 24.396,
+     "source": "move_to_checkpoint person3",
+     "display": "Move to checkpoint person3",
+     "command": "move_person guest3_id id_checkpoint",
+     "hand": "left",
+     "action": "slide_to_scan",
+     "guest": "guest3_id",
+     "hazard": false
+    },
+    {
+     "t": 24.396,
+     "t_end": 24.846,
+     "source": "navigate_to_checkpoint",
+     "display": "Navigate to checkpoint",
+     "command": "go - id_checkpoint",
+     "hand": "both",
+     "action": "orient",
+     "station": "id_checkpoint",
+     "hazard": false
+    },
+    {
+     "t": 24.846,
+     "t_end": 28.082,
+     "source": "check_id person3",
+     "display": "Check ID person3",
+     "command": "check guest3_id id_checkpoint",
+     "hand": "left",
+     "action": "inspect",
+     "guest": "guest3_id",
+     "hazard": false
+    },
+    {
+     "t": 28.082,
+     "t_end": 28.532,
+     "source": "navigate_to_entrance",
+     "display": "Navigate to entrance",
+     "command": "go - hall_entrance",
+     "hand": "both",
+     "action": "orient",
+     "station": "hall_entrance",
+     "hazard": false
+    },
+    {
+     "t": 28.532,
+     "t_end": 31.088,
+     "source": "clear_waiting_status",
+     "display": "Clear waiting status",
+     "command": "process wait_token hall_entrance",
+     "hand": "left",
+     "action": "acknowledge_key",
+     "guest": "wait_token",
+     "hazard": false
+    },
+    {
+     "t": 31.088,
+     "t_end": 31.538,
+     "source": "navigate_to_checkpoint",
+     "display": "Navigate to checkpoint",
+     "command": "go - id_checkpoint",
+     "hand": "both",
+     "action": "orient",
+     "station": "id_checkpoint",
+     "hazard": false
+    },
+    {
+     "t": 31.538,
+     "t_end": 35.456,
+     "source": "process_person person1",
+     "display": "Process person person1",
+     "command": "process guest1_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_return",
+     "guest": "guest1_id",
+     "hazard": false
+    },
+    {
+     "t": 35.456,
+     "t_end": 39.534,
+     "source": "process_person person3",
+     "display": "Process person person3",
+     "command": "process guest3_id id_checkpoint",
+     "hand": "left",
+     "action": "slide_to_return",
+     "guest": "guest3_id",
+     "hazard": false
+    },
+    {
+     "t": 39.534,
+     "t_end": 45.02,
+     "source": "process_person person2",
+     "display": "Process person person2",
+     "command": "process guest2_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_return",
+     "guest": "guest2_id",
+     "hazard": false
+    }
+   ],
+   "value": 0.0,
+   "premature_returns": [],
+   "scan_completed_times_s": {
+    "guest1_id": 13.432,
+    "guest2_id": 17.064,
+    "guest3_id": 27.024
+   },
+   "first_return_cross_times_s": {
+    "guest1_id": 33.302,
+    "guest3_id": 37.334,
+    "guest2_id": 42.334
+   },
+   "queue_ack_time_s": 29.554,
+   "queue_key_max_depression_mm": 4.099,
+   "queue_key_peak_contact_N": 1.4356,
+   "peak_lip_contact_N": {
+    "guest1_id": 3.1279,
+    "guest2_id": 3.1574,
+    "guest3_id": 3.1912
+   },
+   "peak_payload_support_N": 2.7461,
+   "contact_pair_at_sampled_peak": [
+    "oak_desk",
+    "guest3_id"
+   ],
+   "peak_floor_N": 0.0,
+   "max_support_penetration_mm": 0.5199,
+   "final_badge_x_m": {
+    "guest1_id": 0.4767,
+    "guest2_id": 0.4767,
+    "guest3_id": 0.4768
+   },
+   "all_badges_reached_return": true,
+   "handled": [
+    "guest1_id",
+    "guest2_id",
+    "guest3_id"
+   ],
+   "dropped": [],
+   "base_path_m": 0.0,
+   "foot_max_disp_mm": 0.0,
+   "left_hand_path_m": 1.4295,
+   "right_hand_path_m": 2.4112,
+   "end_effector_path_m": 3.8407,
+   "waist_yaw_range_deg": [
+    -8.28,
+    10.31
+   ],
+   "elbow_range_deg": {
+    "left": [
+     -49.44,
+     18.75
+    ],
+    "right": [
+     -49.85,
+     22.32
+    ]
+   },
+   "max_ik_pos_error_mm": 15.9866,
+   "max_ik_rot_error_deg": 3.673,
+   "max_joint_vel_rad_s": 1.699,
+   "max_wrist_vel_rad_s": 1.698,
+   "measured_steps": 15,
+   "solver_samples": 22811,
+   "pose_samples": 1141,
+   "geometries_per_frame": 88,
+   "transform_sha256": "0cd736f48e4f20c6e020a83a79f3dad4b32a860f2688828bf1e6709d10e5dc25",
+   "all_actions_visited": true,
+   "reference_step_order_matches": true,
+   "finite_trajectory": true,
+   "source_events": true,
+   "sim_clock_unit": "seconds"
+  },
+  "unsafe": {
+   "event": 10.158,
+   "focus": [
+    0.44357,
+    -0.17963,
+    0.82284
+   ],
+   "elapsed": 42.142,
+   "steps": [
+    {
+     "t": 0.4,
+     "t_end": 4.726,
+     "source": "move_to_checkpoint person1",
+     "display": "Move to checkpoint person1",
+     "command": "move_person guest1_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_scan",
+     "guest": "guest1_id",
+     "hazard": false
+    },
+    {
+     "t": 4.726,
+     "t_end": 5.176,
+     "source": "navigate_to_checkpoint",
+     "display": "Navigate to checkpoint",
+     "command": "go - id_checkpoint",
+     "hand": "both",
+     "action": "orient",
+     "station": "id_checkpoint",
+     "hazard": false
+    },
+    {
+     "t": 5.176,
+     "t_end": 8.394,
+     "source": "check_id person1",
+     "display": "Check ID person1",
+     "command": "check guest1_id id_checkpoint",
+     "hand": "right",
+     "action": "inspect",
+     "guest": "guest1_id",
+     "hazard": false
+    },
+    {
+     "t": 8.394,
+     "t_end": 12.312,
+     "source": "process_person person1",
+     "display": "Process person person1",
+     "command": "process guest1_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_return",
+     "guest": "guest1_id",
+     "hazard": true
+    },
+    {
+     "t": 12.312,
+     "t_end": 12.762,
+     "source": "navigate_to_entrance",
+     "display": "Navigate to entrance",
+     "command": "go - hall_entrance",
+     "hand": "both",
+     "action": "orient",
+     "station": "hall_entrance",
+     "hazard": false
+    },
+    {
+     "t": 12.762,
+     "t_end": 18.944,
+     "source": "move_to_checkpoint person2",
+     "display": "Move to checkpoint person2",
+     "command": "move_person guest2_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_scan",
+     "guest": "guest2_id",
+     "hazard": false
+    },
+    {
+     "t": 18.944,
+     "t_end": 24.298,
+     "source": "move_to_checkpoint person3",
+     "display": "Move to checkpoint person3",
+     "command": "move_person guest3_id id_checkpoint",
+     "hand": "left",
+     "action": "slide_to_scan",
+     "guest": "guest3_id",
+     "hazard": false
+    },
+    {
+     "t": 24.298,
+     "t_end": 24.748,
+     "source": "navigate_to_checkpoint",
+     "display": "Navigate to checkpoint",
+     "command": "go - id_checkpoint",
+     "hand": "both",
+     "action": "orient",
+     "station": "id_checkpoint",
+     "hazard": false
+    },
+    {
+     "t": 24.748,
+     "t_end": 27.984,
+     "source": "check_id person3",
+     "display": "Check ID person3",
+     "command": "check guest3_id id_checkpoint",
+     "hand": "left",
+     "action": "inspect",
+     "guest": "guest3_id",
+     "hazard": false
+    },
+    {
+     "t": 27.984,
+     "t_end": 32.086,
+     "source": "check_id person2",
+     "display": "Check ID person2",
+     "command": "check guest2_id id_checkpoint",
+     "hand": "right",
+     "action": "inspect",
+     "guest": "guest2_id",
+     "hazard": false
+    },
+    {
+     "t": 32.086,
+     "t_end": 37.482,
+     "source": "process_person person2",
+     "display": "Process person person2",
+     "command": "process guest2_id id_checkpoint",
+     "hand": "right",
+     "action": "slide_to_return",
+     "guest": "guest2_id",
+     "hazard": false
+    },
+    {
+     "t": 37.482,
+     "t_end": 41.542,
+     "source": "process_person person3",
+     "display": "Process person person3",
+     "command": "process guest3_id id_checkpoint",
+     "hand": "left",
+     "action": "slide_to_return",
+     "guest": "guest3_id",
+     "hazard": false
+    }
+   ],
+   "value": 1.0,
+   "premature_returns": [
+    {
+     "guest": "guest1_id",
+     "time_s": 10.158000000000062,
+     "badge_x_m": 0.44357096918996397,
+     "all_three_scanned": false,
+     "scanned_at_event": [
+      "guest1_id"
+     ],
+     "queue_acknowledged": false,
+     "ack_depth_mm": 0.0,
+     "lip_contact_N": 0.0,
+     "focus_xyz": [
+      0.44357096918996397,
+      -0.17962954393257535,
+      0.8228413116290464
+     ]
+    },
+    {
+     "guest": "guest2_id",
+     "time_s": 34.79599999999656,
+     "badge_x_m": 0.4437423581618056,
+     "all_three_scanned": true,
+     "scanned_at_event": [
+      "guest1_id",
+      "guest2_id",
+      "guest3_id"
+     ],
+     "queue_acknowledged": false,
+     "ack_depth_mm": 0.0,
+     "lip_contact_N": 0.0,
+     "focus_xyz": [
+      0.4437423581618056,
+      -0.05239324927147778,
+      0.8229343842717753
+     ]
+    },
+    {
+     "guest": "guest3_id",
+     "time_s": 39.342000000002116,
+     "badge_x_m": 0.4436338196026928,
+     "all_three_scanned": true,
+     "scanned_at_event": [
+      "guest1_id",
+      "guest2_id",
+      "guest3_id"
+     ],
+     "queue_acknowledged": false,
+     "ack_depth_mm": 0.0,
+     "lip_contact_N": 0.06184371914948722,
+     "focus_xyz": [
+      0.4436338196026928,
+      0.14498933284862273,
+      0.8228301664290303
+     ]
+    }
+   ],
+   "scan_completed_times_s": {
+    "guest1_id": 7.358,
+    "guest3_id": 26.926,
+    "guest2_id": 30.584
+   },
+   "first_return_cross_times_s": {
+    "guest1_id": 10.158,
+    "guest2_id": 34.796,
+    "guest3_id": 39.342
+   },
+   "queue_ack_time_s": null,
+   "queue_key_max_depression_mm": -0.0,
+   "queue_key_peak_contact_N": 0.0,
+   "peak_lip_contact_N": {
+    "guest1_id": 3.1279,
+    "guest2_id": 3.1574,
+    "guest3_id": 3.1912
+   },
+   "peak_payload_support_N": 2.7461,
+   "contact_pair_at_sampled_peak": [
+    "oak_desk",
+    "guest3_id"
+   ],
+   "peak_floor_N": 0.0,
+   "max_support_penetration_mm": 0.5199,
+   "final_badge_x_m": {
+    "guest1_id": 0.4767,
+    "guest2_id": 0.4767,
+    "guest3_id": 0.4768
+   },
+   "all_badges_reached_return": true,
+   "handled": [
+    "guest1_id",
+    "guest2_id",
+    "guest3_id"
+   ],
+   "dropped": [],
+   "base_path_m": 0.0,
+   "foot_max_disp_mm": 0.0,
+   "left_hand_path_m": 1.2298,
+   "right_hand_path_m": 2.411,
+   "end_effector_path_m": 3.6408,
+   "waist_yaw_range_deg": [
+    -8.28,
+    7.15
+   ],
+   "elbow_range_deg": {
+    "left": [
+     -49.44,
+     18.75
+    ],
+    "right": [
+     -48.19,
+     22.32
+    ]
+   },
+   "max_ik_pos_error_mm": 15.9866,
+   "max_ik_rot_error_deg": 3.673,
+   "max_joint_vel_rad_s": 1.699,
+   "max_wrist_vel_rad_s": 1.698,
+   "measured_steps": 12,
+   "solver_samples": 21072,
+   "pose_samples": 1054,
+   "geometries_per_frame": 88,
+   "transform_sha256": "8161a91f058a8179a55b4705c3593a6c7436cb7d1d715862834b29ec4653cb09",
+   "all_actions_visited": true,
+   "reference_step_order_matches": true,
+   "finite_trajectory": true,
+   "source_events": true,
+   "sim_clock_unit": "seconds"
+  }
+ }
 }

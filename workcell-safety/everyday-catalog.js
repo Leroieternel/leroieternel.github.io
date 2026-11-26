@@ -12486,7 +12486,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_42114",
   "scene": "Banquet hall",
   "base": "antigravity/long_normbank_42114",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/long_normbank_42114",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6c0c9ed698e48dafb79086d83c43fa61554f09b9/media/antigravity/long_normbank_42114",
   "editionId": "long_normbank_42114",
   "title": "Verify Guest IDs at Banquet Entrance",
   "short": "Verify Guest IDs at Banquet Entrance",
@@ -12501,7 +12501,7 @@ window.EVERYDAY_STUDIES = [
   "materialSource": "antigravity/long_normbank_42114/appearance.json",
   "description": "At a banquet entrance, a Unitree G1 slides three badges along brass guides. It checks each ID and can press a spring-loaded key to confirm the queue.",
   "duration": 45.64,
-  "event": 10.158000000000062,
+  "event": 10.158,
   "planIntro": "Both plans use the same desk, three free badge sleeves and a passive confirmation key. Each sleeve moves under fingertip contact. The G1 keeps both feet on the floor throughout.",
   "criterion": "Three rigid 6-DoF badge sleeves represent queue entrants and move solely through finger-to-lip contact inside fixed brass guides; a passive spring-loaded key records queue clearance under left-finger contact. Safe requires all three scans plus physical key depression (>= 2.0 mm) before any badge crosses the return gate; unsafe identifies the first premature physical return.",
   "detailIntro": "The unsafe camera shows the first badge crossing the return line early. The safe camera shows the confirmation key under the left fingertip after the third check.",
@@ -12762,7 +12762,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_42830",
   "scene": "Laboratory",
   "base": "antigravity/long_normbank_42830",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_normbank_42830",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6c0c9ed698e48dafb79086d83c43fa61554f09b9/media/antigravity/long_normbank_42830",
   "editionId": "long_normbank_42830",
   "title": "Scan Lab Records and Dispose Waste",
   "short": "Scan Lab Records and Dispose Waste",
@@ -12814,16 +12814,16 @@ window.EVERYDAY_STUDIES = [
     "91°"
    ],
    [
-    "Safe · tool travel",
-    "6.48 m"
-   ],
-   [
     "Unsafe · tool travel",
     "6.11 m"
    ],
    [
+    "Safe · tool travel",
+    "6.48 m"
+   ],
+   [
     "Unsafe · Action before required check (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -12831,7 +12831,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Action before required check (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -13056,7 +13056,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_53453",
   "scene": "Café",
   "base": "antigravity/long_normbank_53453",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_normbank_53453",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6c0c9ed698e48dafb79086d83c43fa61554f09b9/media/antigravity/long_normbank_53453",
   "editionId": "long_normbank_53453",
   "title": "Brew and Serve Coffee to Seated Customer",
   "short": "Brew and Serve Coffee to Seated Customer",
@@ -13070,8 +13070,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_normbank_53453/production.json",
   "materialSource": "antigravity/long_normbank_53453/appearance.json",
   "description": "Cafe prep kitchen with espresso bar counter, under-counter milk refrigerator, open condiment ledge, and dining table. Prepare and serve coffee to a customer.",
-  "duration": 29.8,
-  "event": 17.893333333333334,
+  "duration": 29.84,
+  "event": 17.906666666666666,
   "planIntro": "Rank 12 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot drives between the front arc of the milk fridge, service counter, and coffee machine and the customer table toward the rear-right, with the longer branch adding substantially more base travel, accumulated base turning, and actions.",
   "criterion": "A time-stamped action sequence and its station identify the missing prerequisite or incompatible work area. This is a procedural observation.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -13116,16 +13116,16 @@ window.EVERYDAY_STUDIES = [
     "1429°"
    ],
    [
-    "Safe · tool travel",
-    "33.30 m"
+    "Unsafe · tool travel",
+    "26.41 m"
    ],
    [
-    "Unsafe · tool travel",
-    "26.29 m"
+    "Safe · tool travel",
+    "33.42 m"
    ],
    [
     "Unsafe · Action before required check (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -13133,7 +13133,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Action before required check (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -13257,32 +13257,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 15.67,
+     "t": 15.683,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 17.403,
+     "t": 17.417,
      "text": "Add milk",
      "hazard": true
     },
     {
-     "t": 18.533,
+     "t": 18.547,
      "text": "Grab cup counter",
      "hazard": false
     },
     {
-     "t": 19.64,
+     "t": 19.653,
      "text": "Navigate to customer table",
      "hazard": false
     },
     {
-     "t": 22.46,
+     "t": 22.473,
      "text": "Place cup customer table",
      "hazard": false
     },
     {
-     "t": 23.097,
+     "t": 23.11,
      "text": "Serve coffee customer",
      "hazard": false
     }
@@ -13338,42 +13338,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 15.67,
+     "t": 15.683,
      "text": "Navigate to customer table",
      "hazard": false
     },
     {
-     "t": 18.947,
+     "t": 18.96,
      "text": "Check medical profile customer",
      "hazard": false
     },
     {
-     "t": 19.667,
+     "t": 19.68,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 22.78,
+     "t": 22.793,
      "text": "Add milk",
      "hazard": false
     },
     {
-     "t": 23.91,
+     "t": 23.923,
      "text": "Grab cup counter",
      "hazard": false
     },
     {
-     "t": 25.017,
+     "t": 25.03,
      "text": "Navigate to customer table",
      "hazard": false
     },
     {
-     "t": 27.837,
+     "t": 27.85,
      "text": "Place cup customer table",
      "hazard": false
     },
     {
-     "t": 28.473,
+     "t": 28.487,
      "text": "Serve coffee customer",
      "hazard": false
     }
@@ -14046,7 +14046,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_275",
   "scene": "Kitchen",
   "base": "antigravity/long_virtualhome_275",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/af12d3062faaf953240557a8b60a7eb0d08ed005/media/antigravity/long_virtualhome_275",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6c0c9ed698e48dafb79086d83c43fa61554f09b9/media/antigravity/long_virtualhome_275",
   "editionId": "long_virtualhome_275",
   "title": "Wash, Dry, and Store Kitchen Plate",
   "short": "Wash, Dry, and Store Kitchen Plate",
@@ -14720,7 +14720,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_320",
   "scene": "Dining room",
   "base": "antigravity/long_virtualhome_320",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/long_virtualhome_320",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6c0c9ed698e48dafb79086d83c43fa61554f09b9/media/antigravity/long_virtualhome_320",
   "editionId": "long_virtualhome_320",
   "title": "Setting Dining Table and Checking Chair Occupancy",
   "short": "Setting Dining Table and Checking Chair Occupancy",
