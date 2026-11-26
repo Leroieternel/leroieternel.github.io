@@ -7469,7 +7469,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2781",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2781",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_alfred_2781",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fd70aed943da7c581cb5e783e98e23415c166890/media/antigravity/long_alfred_2781",
   "editionId": "long_alfred_2781",
   "title": "Slice, Warm, and Refrigerate Bread",
   "short": "Slice, Warm, and Refrigerate Bread",
@@ -7483,8 +7483,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_2781/production.json",
   "materialSource": "antigravity/long_alfred_2781/appearance.json",
   "description": "Bright tiled kitchen with wooden cutting counter, simulated microwave, and stainless refrigerator. Pick up a knife, slice bread, warm a slice in the microwave, and place the warm slice in the refrigerator.",
-  "duration": 43.16,
-  "event": 42.27333333333333,
+  "duration": 43.12,
+  "event": 42.263333333333335,
   "planIntro": "Rank 21 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 13. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot drives among the prep counter on the left, the microwave unit at the front, and the fridge unit across at the rear-right, with the compared branches accumulating the same total base turning while the longer branch adds extra base travel and actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -7506,11 +7506,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "139.53 N"
+    "107.41 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "115.31 N"
+    "77.66 N"
    ],
    [
     "Unsafe · base travel",
@@ -7529,28 +7529,28 @@ window.EVERYDAY_STUDIES = [
     "841°"
    ],
    [
-    "Safe · tool travel",
-    "50.06 m"
+    "Unsafe · tool travel",
+    "50.68 m"
    ],
    [
-    "Unsafe · tool travel",
-    "50.69 m"
+    "Safe · tool travel",
+    "50.02 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
-    "68.34 °C"
+    "68.34470955121056"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "115.31 N"
+    "77.66 N"
    ],
    [
     "Safe · Object temperature at decision (°C)",
-    "21.58 °C"
+    "21.579809333099238"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "139.53 N"
+    "107.41 N"
    ]
   ],
   "downloads": [
@@ -7618,7 +7618,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 21,
   "safeCount": 15,
   "detailByBranch": {
-   "safe": 42.92,
+   "safe": 42.88,
    "unsafe": 42.44
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
