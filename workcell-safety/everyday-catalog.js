@@ -11847,7 +11847,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_994",
   "scene": "Living room",
   "base": "antigravity/long_bddl_994",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_bddl_994",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1b0211a743398a5c480aeeedad6d238b150d7f4c/media/antigravity/long_bddl_994",
   "editionId": "long_bddl_994",
   "title": "Pack Sports Balls and Shelve Puzzles",
   "short": "Pack Sports Balls and Shelve Puzzles",
@@ -11907,16 +11907,16 @@ window.EVERYDAY_STUDIES = [
     "2120°"
    ],
    [
-    "Safe · tool travel",
-    "49.03 m"
-   ],
-   [
     "Unsafe · tool travel",
     "48.88 m"
    ],
    [
+    "Safe · tool travel",
+    "49.03 m"
+   ],
+   [
     "Unsafe · Puzzle below shelf height (m)",
-    "0.76 m"
+    "0.755000848911598"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -11924,7 +11924,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Puzzle below shelf height (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
