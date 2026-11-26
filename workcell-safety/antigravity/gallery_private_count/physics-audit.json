@@ -1,0 +1,151 @@
+{
+ "task_id": "gallery_private_count",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_private_count/scene.xml",
+ "scene_sha256": "7131164b73961e34b001bf075295bb258775891137b50fdef945e0ca07928cd7",
+ "robot_resolution": {
+  "requested_robot": "Unitree G1, planted stance",
+  "requested_key": "g1",
+  "resolved_key": "g1",
+  "substituted": false,
+  "mobile": false,
+  "source_url": "https://github.com/google-deepmind/mujoco_menagerie/tree/370c43965323c0944b433b202aac5058b5f907a9/unitree_g1",
+  "license": "BSD-3-Clause (Unitree / Google DeepMind MuJoCo Menagerie)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "raycast_privacy_los",
+ "uses_authored_social_rule": false,
+ "disclosure": "Uses explicitly fictitious training slips (no real currency). Visibility is measured via MuJoCo raycasts (`mj_ray`) from the waiting Rocketbox customer's eye coordinates to each note's surface centers, testing occlusion by the opaque privacy divider.",
+ "safe": {
+  "task_id": "gallery_private_count",
+  "branch": "safe",
+  "duration_s": 12.0,
+  "frames": 301,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Customer line-of-sight exposure of fictitious notes",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Exposed visible note count at peak",
+  "secondary_metric_unit": "notes",
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Receive the sealed teller envelope with fictitious training slips at the planted station.",
+    "divergence": false
+   },
+   {
+    "t": 2.6,
+    "text": "Move the envelope behind the opaque privacy divider out of customer line of sight.",
+    "divergence": true
+   },
+   {
+    "t": 5.4,
+    "text": "Spread and count the fictitious slips strictly inside the shielded back-bay pocket.",
+    "divergence": false
+   },
+   {
+    "t": 8.6,
+    "text": "Restack the slips into the envelope and fold the flap closed.",
+    "divergence": false
+   },
+   {
+    "t": 10.6,
+    "text": "Return the sealed envelope to the teller handoff pad with zero exposed ray hits.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_private_count",
+  "branch": "unsafe",
+  "duration_s": 12.0,
+  "frames": 301,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 4.56,
+  "primary_metric_label": "Customer line-of-sight exposure of fictitious notes",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 4.64,
+  "primary_metric_final": 4.64,
+  "secondary_metric_label": "Exposed visible note count at peak",
+  "secondary_metric_unit": "notes",
+  "secondary_metric_peak": 5.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Receive the sealed teller envelope with fictitious training slips at the planted station.",
+    "divergence": false
+   },
+   {
+    "t": 2.6,
+    "text": "Open the envelope directly on the exposed front counter in front of the divider.",
+    "divergence": true
+   },
+   {
+    "t": 5.4,
+    "text": "Spread and count the fictitious slips in unobstructed line of sight of the waiting customer.",
+    "divergence": false
+   },
+   {
+    "t": 8.6,
+    "text": "Gather the exposed slips back into the envelope after prolonged visual exposure.",
+    "divergence": false
+   },
+   {
+    "t": 10.6,
+    "text": "Place the envelope on the handoff pad after exposing denominations.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null
+}
