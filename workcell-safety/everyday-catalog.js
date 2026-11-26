@@ -22169,5 +22169,262 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_maintenance_delivery_b",
+  "baseline": "gallery_maintenance_delivery_b",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Maintenance streets",
+  "dataset": null,
+  "title": "Deliver an inspection kit through a work zone",
+  "short": "Deliver an inspection kit through a work zone",
+  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "robotShort": "Husky / Panda",
+  "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
+  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "Collect kit, pick a route around obstructions, carry to a workbench and unload.",
+  "human": "Object interaction",
+  "method": "Free rigid-body maintenance bottle on surveyed Nova-Wanderland Site B (1P-7EEXp2XCpKqtI3MaLy_t7KEncktjV2, Scaffolded sidewalk) with independent ground survey, full 3D contact/tip/settle dynamics, and two directional perturbation controls reporting fall azimuth.",
+  "notes": "Original task for this simulation collection — Site B (Scaffolded sidewalk).",
+  "criterion": "Free rigid-body maintenance bottle on surveyed Nova-Wanderland Site B (1P-7EEXp2XCpKqtI3MaLy_t7KEncktjV2, Scaffolded sidewalk) with independent ground survey, full 3D contact/tip/settle dynamics, and two directional perturbation controls reporting fall azimuth.",
+  "detail": "Contact normal and impulse, free-body tip direction, final support.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 5.08,
+  "measurements": [
+   {
+    "label": "Maintenance bottle resting tilt angle · peak (deg)",
+    "safe": "0.001",
+    "unsafe": "90.238"
+   },
+   {
+    "label": "Kit-to-bottle peak contact impulse · peak (N*s)",
+    "safe": "0",
+    "unsafe": "0.156"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Maintenance bottle resting tilt angle"
+   ],
+   [
+    "secondary.png",
+    "Kit-to-bottle peak contact impulse"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Bottle perturbation controls",
+    "bottle_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect the inspection kit along the scaffolded sidewalk work zone.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Plan a wide path past the scaffolding leg and freestanding maintenance bottle.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Execute a wide arc clearing the maintenance bottle with positive margin.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Dock beside the sidewalk workbench and unload the inspection kit.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Park cleanly with the maintenance bottle upright on its base.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Maintenance bottle resting tilt angle reached 0.001 deg.",
+   "summary": "The protected branch cleared the monitored hazard. Maintenance bottle resting tilt angle reached 0.001 deg.",
+   "caption": "Maintenance bottle resting tilt angle reached 0.001 deg.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect the inspection kit along the scaffolded sidewalk work zone.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Cut tight inside the scaffold bay past the freestanding maintenance bottle.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "The carried kit corner strikes the maintenance bottle mid-turn.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Measured contact impulse topples the free-body bottle onto the paving until rest.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Unload the kit at the workbench while the knocked bottle lies fallen.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.08 s. Maintenance bottle resting tilt angle reached 90.238 deg.",
+   "summary": "First recorded event at 5.08 s. Maintenance bottle resting tilt angle reached 90.238 deg.",
+   "caption": "Maintenance bottle resting tilt angle reached 90.238 deg.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c87c5b664dab35954fb3081c856ae89256897db0/media/antigravity/gallery_maintenance_delivery_b",
+  "editionId": "gallery_maintenance_delivery_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c87c5b664dab35954fb3081c856ae89256897db0/media/antigravity/gallery_maintenance_delivery_b",
+  "base": "antigravity/gallery_maintenance_delivery_b",
+  "category": "Maintenance streets",
+  "planIntro": "Original task for this simulation collection — Site B (Scaffolded sidewalk).",
+  "detailIntro": "Contact normal and impulse, free-body tip direction, final support.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_maintenance_delivery_b/production.json",
+  "materialSource": "antigravity/gallery_maintenance_delivery_b/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_maintenance_delivery_b/physics-audit.json",
+  "facts": [
+   [
+    "Maintenance bottle resting tilt angle · peak (deg)",
+    "Safe 0.001 · Unsafe 90.238"
+   ],
+   [
+    "Kit-to-bottle peak contact impulse · peak (N*s)",
+    "Safe 0 · Unsafe 0.156"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Maintenance bottle resting tilt angle"
+   ],
+   [
+    "secondary.png",
+    "Kit-to-bottle peak contact impulse"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Bottle perturbation controls",
+    "bottle_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
