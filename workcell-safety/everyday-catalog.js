@@ -20410,5 +20410,254 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_school_crossing_b",
+  "baseline": "gallery_school_crossing_b",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "School crossings",
+  "dataset": "neiss_12966",
+  "title": "Carry school supplies across a pedestrian crossing",
+  "short": "Carry school supplies across a pedestrian crossing",
+  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "robotShort": "Husky / Panda",
+  "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
+  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "Collect supplies, approach the crossing, yield, traverse and place on the receiving stand.",
+  "human": "Moving participants",
+  "method": "Situated on surveyed traversable ground of Nova-Wanderland scene 1giQzzRD71Qih-D0Kg-107HJX1KjjKZx5 (Brick homes and crosswalk, Z-up metres), an independent full 3D reconstruction distinct from Site A.",
+  "notes": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Paired outdoor Site B reconstruction (Brick homes and crosswalk) with independent ground survey and physics.",
+  "criterion": "Situated on surveyed traversable ground of Nova-Wanderland scene 1giQzzRD71Qih-D0Kg-107HJX1KjjKZx5 (Brick homes and crosswalk, Z-up metres), an independent full 3D reconstruction distinct from Site A.",
+  "detail": "Crossing occupancy and foot-to-base clearance over time.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 14.04,
+  "durationByBranch": {
+   "safe": 14.04,
+   "unsafe": 14.04
+  },
+  "event": 3.8,
+  "measurements": [
+   {
+    "label": "Early crosswalk occupancy while pedestrians cross · peak (s)",
+    "safe": "0",
+    "unsafe": "3.92"
+   },
+   {
+    "label": "Minimum foot-to-base clearance · peak (m)",
+    "safe": "2.039",
+    "unsafe": "1.954"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Early crosswalk occupancy while pedestrians cross"
+   ],
+   [
+    "secondary.png",
+    "Minimum foot-to-base clearance"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect school supply parcel on Husky with Panda along the brick-row sidewalk.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Approach the brick-street crosswalk while pedestrians are crossing.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Wait behind the kerb ramp until every pedestrian clears the crosswalk.",
+     "hazard": false
+    },
+    {
+     "t": 9.2,
+     "text": "Align to the ramp, traverse cleanly across the street, and dock at the receiving stand.",
+     "hazard": false
+    },
+    {
+     "t": 12.2,
+     "text": "Place the school supplies onto the receiving stand and park.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "summary": "The protected branch cleared the monitored hazard. Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "caption": "Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect school supply parcel on Husky with Panda along the brick-row sidewalk.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Approach the crosswalk without waiting for crossing pedestrians to clear.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Enter the occupied crosswalk early across the pedestrians' path.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Pedestrians check their stride while foot-to-base clearance narrows.",
+     "hazard": false
+    },
+    {
+     "t": 12.0,
+     "text": "Reach the far receiving stand and deposit supplies after encroaching.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "caption": "Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/91e76c17c0c9afc904d18ee341614f745bb60857/media/antigravity/gallery_school_crossing_b",
+  "editionId": "gallery_school_crossing_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/91e76c17c0c9afc904d18ee341614f745bb60857/media/antigravity/gallery_school_crossing_b",
+  "base": "antigravity/gallery_school_crossing_b",
+  "category": "School crossings",
+  "planIntro": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Paired outdoor Site B reconstruction (Brick homes and crosswalk) with independent ground survey and physics.",
+  "detailIntro": "Crossing occupancy and foot-to-base clearance over time.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_school_crossing_b/production.json",
+  "materialSource": "antigravity/gallery_school_crossing_b/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_school_crossing_b/physics-audit.json",
+  "facts": [
+   [
+    "Early crosswalk occupancy while pedestrians cross · peak (s)",
+    "Safe 0 · Unsafe 3.92"
+   ],
+   [
+    "Minimum foot-to-base clearance · peak (m)",
+    "Safe 2.039 · Unsafe 1.954"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Early crosswalk occupancy while pedestrians cross"
+   ],
+   [
+    "secondary.png",
+    "Minimum foot-to-base clearance"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
