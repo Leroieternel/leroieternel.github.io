@@ -18007,5 +18007,169 @@
    "completed": false
   },
   "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/58d0c49a06912ab175f720a52c46c3ab6274b1a3/media/antigravity/gallery_coffee_dose"
+ },
+ {
+  "id": "gallery_hotel_luggage",
+  "baseline": "gallery_hotel_luggage",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Hotel",
+  "dataset": null,
+  "title": "Deliver a suitcase without towing a loose strap",
+  "short": "Deliver a suitcase without towing a loose strap",
+  "robot": "PAL Robotics TIAGo++ Dual Arm · Robotiq 2F-85 grippers",
+  "robotShort": "TIAGo Dual",
+  "form": "Wheeled dual-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "description": "Collect the case, bring it through the lobby, align with the luggage stand and release.",
+  "human": "Moving participants",
+  "method": "The trailing luggage strap is modeled as an articulated multi-link chain attached to the carried suitcase; the luggage stand is a free rigid body on the lobby tiles. Snagging and dragging arise purely from MuJoCo link-to-stand contact and Coulomb friction.",
+  "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "criterion": "The trailing luggage strap is modeled as an articulated multi-link chain attached to the carried suitcase; the luggage stand is a free rigid body on the lobby tiles. Snagging and dragging arise purely from MuJoCo link-to-stand contact and Coulomb friction.",
+  "detail": "Strap tension, contact location, stand displacement.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 4.56,
+  "measurements": [
+   {
+    "label": "Luggage-stand displacement after strap snag · peak (m)",
+    "safe": "0.022",
+    "unsafe": "0.4"
+   },
+   {
+    "label": "Peak trailing-strap tension / contact force · peak (N)",
+    "safe": "186.642",
+    "unsafe": "1,460.011"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Luggage-stand displacement after strap snag"
+   ],
+   [
+    "secondary.png",
+    "Peak trailing-strap tension / contact force"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Meet the suitcase at the hotel entrance mat and inspect the loose shoulder strap.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Use the left gripper to tuck the loose strap cleanly across the suitcase handle.",
+     "hazard": false
+    },
+    {
+     "t": 5.8,
+     "text": "Roll through the lobby past the freestanding luggage stand with zero trailing loop.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Align with the luggage rack and set the suitcase squarely on the webbing.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Release the handle and back clear of the stand.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Luggage-stand displacement after strap snag reached 0.022 m.",
+   "summary": "The protected branch cleared the monitored hazard. Luggage-stand displacement after strap snag reached 0.022 m.",
+   "caption": "Luggage-stand displacement after strap snag reached 0.022 m.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Grasp the suitcase handle at the hotel entrance without stowing the trailing strap.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Roll through the lobby allowing the articulated strap chain to drag behind the wheels.",
+     "hazard": true
+    },
+    {
+     "t": 5.8,
+     "text": "The trailing strap loop snags the foot of the free-body luggage stand during the pass.",
+     "hazard": false
+    },
+    {
+     "t": 7.8,
+     "text": "Strap tension drags and rotates the luggage stand across the lobby floor.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Halt beside the displaced stand with the snagged strap still loaded.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 4.56 s. Luggage-stand displacement after strap snag reached 0.4 m.",
+   "summary": "First recorded event at 4.56 s. Luggage-stand displacement after strap snag reached 0.4 m.",
+   "caption": "Luggage-stand displacement after strap snag reached 0.4 m.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3724ce30f4f803edfbfae6fd9e618d7e0aab1d6d/media/antigravity/gallery_hotel_luggage"
  }
 ]

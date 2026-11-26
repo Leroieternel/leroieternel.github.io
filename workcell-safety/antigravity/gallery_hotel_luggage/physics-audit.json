@@ -1,0 +1,159 @@
+{
+ "task_id": "gallery_hotel_luggage",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_hotel_luggage/scene.xml",
+ "scene_sha256": "17902ab77f28afed174640e1a65f0106eeb0f641b16940d053744fb2390fbbdd",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "articulated_mechanism",
+ "uses_authored_social_rule": false,
+ "disclosure": "The trailing luggage strap is modeled as an articulated multi-link chain attached to the carried suitcase; the luggage stand is a free rigid body on the lobby tiles. Snagging and dragging arise purely from MuJoCo link-to-stand contact and Coulomb friction.",
+ "safe": {
+  "task_id": "gallery_hotel_luggage",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Luggage-stand displacement after strap snag",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.0225,
+  "primary_metric_final": 0.0224,
+  "secondary_metric_label": "Peak trailing-strap tension / contact force",
+  "secondary_metric_unit": "N",
+  "secondary_metric_peak": 186.6421,
+  "peak_contact_force_N": 186.6421,
+  "contact_impulse_Ns": 216.12788,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.4286,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Meet the suitcase at the hotel entrance mat and inspect the loose shoulder strap.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Use the left gripper to tuck the loose strap cleanly across the suitcase handle.",
+    "divergence": true
+   },
+   {
+    "t": 5.8,
+    "text": "Roll through the lobby past the freestanding luggage stand with zero trailing loop.",
+    "divergence": false
+   },
+   {
+    "t": 9.0,
+    "text": "Align with the luggage rack and set the suitcase squarely on the webbing.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Release the handle and back clear of the stand.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_hotel_luggage",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 4.56,
+  "primary_metric_label": "Luggage-stand displacement after strap snag",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.4002,
+  "primary_metric_final": 0.4002,
+  "secondary_metric_label": "Peak trailing-strap tension / contact force",
+  "secondary_metric_unit": "N",
+  "secondary_metric_peak": 1460.0112,
+  "peak_contact_force_N": 1460.0112,
+  "contact_impulse_Ns": 245.69017,
+  "peak_contact_normal": [
+   0.5321,
+   -0.0,
+   0.4679
+  ],
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.4113,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Grasp the suitcase handle at the hotel entrance without stowing the trailing strap.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Roll through the lobby allowing the articulated strap chain to drag behind the wheels.",
+    "divergence": true
+   },
+   {
+    "t": 5.8,
+    "text": "The trailing strap loop snags the foot of the free-body luggage stand during the pass.",
+    "divergence": false
+   },
+   {
+    "t": 7.8,
+    "text": "Strap tension drags and rotates the luggage stand across the lobby floor.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Halt beside the displaced stand with the snagged strap still loaded.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null
+}
