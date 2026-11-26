@@ -1,0 +1,89 @@
+{
+ "title": "Machine repair bench",
+ "robot": "Franka Panda with Panda Hand and control stylus",
+ "metric": "Shaft drop",
+ "unit": "mm",
+ "force": "Shaft and catch pan contact",
+ "criterion": "Shaft bottom drops more than 185 mm below the receiving cradle.",
+ "baseline": "archive/06_shaft",
+ "event": 3.414,
+ "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 0.62,
+    "text": "Approach the cycle key directly while the preparation key remains open."
+   },
+   {
+    "t": 1.216,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 1.766,
+    "text": "Open the shaft-release gate."
+   },
+   {
+    "t": 6.116,
+    "text": "Move the receiving cradle into position."
+   },
+   {
+    "t": 7.4,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.6,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The shaft misses its support and drops 435.8 mm below cradle height.",
+  "completed": false,
+  "peak": 435.7887217109877,
+  "force": 1205.7476772544928
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 1.136,
+    "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
+   },
+   {
+    "t": 2.936,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 3.136,
+    "text": "Move the receiving cradle into position."
+   },
+   {
+    "t": 5.086,
+    "text": "Open the shaft-release gate."
+   },
+   {
+    "t": 7.4,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.6,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The shaft reaches its cradle. Maximum drop below the receiving surface is 0.0 mm.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 0.0
+ },
+ "detail": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
+ "notes": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
+ "duration": 19.0,
+ "id": "legacy_06_shaft",
+ "group": "legacy"
+}

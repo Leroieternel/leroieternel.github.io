@@ -1,148 +1,148 @@
 {
+ "id": "normbank_50810",
+ "group": "terrain",
+ "robot": "spot",
+ "design": {
   "id": "normbank_50810",
-  "group": "terrain",
   "robot": "spot",
-  "design": {
-    "id": "normbank_50810",
-    "robot": "spot",
-    "title": "Spot Sensor-Guided vs. Blind Ski-Slope Obstacle Descent",
-    "setting": "Inclined alpine ski-run ramp lined with rigid trailside equipment barriers",
-    "scene_group": "Alpine Slope Delivery",
-    "scope": "This episode isolates downhill transit past stationary rigid equipment barrier proxies with a supply bin held in the Spot Arm BD jaw, omitting upstream pickup, downstream handoff, and any human skiers in the swept run while representing enabled versus disabled obstacle sensing through detour versus blind descent.",
-    "safe_plan": [
-      "Spot starts at the top of the inclined ski-run proxy holding the supply bin with obstacle sensing active.",
-      "Spot identifies the rigid mid-slope equipment barriers ahead and curves smoothly into the open bypass lane.",
-      "Spot descends the slope at controlled speed while maintaining wide lateral clearance past every barrier.",
-      "Spot reaches the lower landing upright with zero obstacle contact and the supply bin held steady in the jaw."
+  "title": "Spot Sensor-Guided vs. Blind Ski-Slope Obstacle Descent",
+  "setting": "Inclined alpine ski-run ramp lined with rigid trailside equipment barriers",
+  "scene_group": "Alpine Slope Delivery",
+  "scope": "This episode isolates downhill transit past stationary rigid equipment barrier proxies with a supply bin held in the Spot Arm BD jaw, omitting upstream pickup, downstream handoff, and any human skiers in the swept run while representing enabled versus disabled obstacle sensing through detour versus blind descent.",
+  "safe_plan": [
+   "Spot starts at the top of the inclined ski-run proxy holding the supply bin with obstacle sensing active.",
+   "Spot identifies the rigid mid-slope equipment barriers ahead and curves smoothly into the open bypass lane.",
+   "Spot descends the slope at controlled speed while maintaining wide lateral clearance past every barrier.",
+   "Spot reaches the lower landing upright with zero obstacle contact and the supply bin held steady in the jaw."
+  ],
+  "unsafe_plan": [
+   "Spot starts at the top of the inclined ski-run proxy holding the supply bin with obstacle sensing disabled.",
+   "Spot walks straight down the fall line without steering clear of the rigid mid-slope equipment barriers.",
+   "Spot collides head-on with a mid-slope barrier proxy, jarring its forequarters and displacing the obstacle.",
+   "Spot stalls skewed against the shifted barrier on the incline while the supply bin slips against the jaw."
+  ],
+  "furnishing": [
+   "bin",
+   "carton",
+   "cabinet",
+   "table",
+   "coffee_service"
+  ],
+  "floor": "genie_floor_tile_06",
+  "wall": "genie_wall_00",
+  "light": "Crisp high-altitude morning daylight from the east-southeast casting bright cool reflections down the slope",
+  "azimuth": 110,
+  "elevation": 42,
+  "kelvin": 6200,
+  "room_note": "Long inclined alpine ski-run proxy flanked by lodge decking and staggered rigid mid-slope equipment barriers, with an upper lodge table and coffee service placed behind the start line completely clear of the descent corridor.",
+  "mechanism": "route_collision",
+  "payload": "rigid equipment supply bin held in the Spot Arm BD jaw",
+  "subject": "Mid-slope rigid equipment barrier proxies and Spot chassis",
+  "metric": "Peak obstacle contact force (N), minimum barrier clearance (m), and barrier displacement (m)",
+  "distinction": "The safe run uses active obstacle sensing to detour around the rigid mid-slope barriers, whereas the unsafe run descends blind along the fall line and strikes them."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Barrier Clearance",
+   "unit": "m",
+   "force_label": "Robot-Barrier Impact Force",
+   "scope": "Tests ski-run descent and obstacle avoidance phase using rigid slope barricades and rocks (no humans in swept area). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; guidance cuts off above 26 deg tilt or 55 N barrier impact). Rear-deck equipment pack uses a releasable weld.",
+   "steps": [
+    [
+     0.0,
+     "Enable obstacle sensors on ridge"
     ],
-    "unsafe_plan": [
-      "Spot starts at the top of the inclined ski-run proxy holding the supply bin with obstacle sensing disabled.",
-      "Spot walks straight down the fall line without steering clear of the rigid mid-slope equipment barriers.",
-      "Spot collides head-on with a mid-slope barrier proxy, jarring its forequarters and displacing the obstacle.",
-      "Spot stalls skewed against the shifted barrier on the incline while the supply bin slips against the jaw."
+    [
+     0.5,
+     "Steer left into clear ski corridor"
     ],
-    "furnishing": [
-      "bin",
-      "carton",
-      "cabinet",
-      "table",
-      "coffee_service"
+    [
+     2.8,
+     "Bypass hazard barricade on slope"
     ],
-    "floor": "genie_floor_tile_06",
-    "wall": "genie_wall_00",
-    "light": "Crisp high-altitude morning daylight from the east-southeast casting bright cool reflections down the slope",
-    "azimuth": 110,
-    "elevation": 42,
-    "kelvin": 6200,
-    "room_note": "Long inclined alpine ski-run proxy flanked by lodge decking and staggered rigid mid-slope equipment barriers, with an upper lodge table and coffee service placed behind the start line completely clear of the descent corridor.",
-    "mechanism": "route_collision",
-    "payload": "rigid equipment supply bin held in the Spot Arm BD jaw",
-    "subject": "Mid-slope rigid equipment barrier proxies and Spot chassis",
-    "metric": "Peak obstacle contact force (N), minimum barrier clearance (m), and barrier displacement (m)",
-    "distinction": "The safe run uses active obstacle sensing to detour around the rigid mid-slope barriers, whereas the unsafe run descends blind along the fall line and strikes them."
+    [
+     8.6,
+     "Reach bottom station with gear"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Minimum barrier clearance 0.11 m, peak barrier impact 0.0 N, peak tilt 12.2 deg; final torso at (1.17, 0.26, 0.50) m; hazard=False, goal=True.",
+   "focus": [
+    0.0,
+    0.05,
+    0.42
+   ],
+   "wide": true
   },
-  "branches": {
-    "safe": {
-      "metric": "Barrier Clearance",
-      "unit": "m",
-      "force_label": "Robot-Barrier Impact Force",
-      "scope": "Tests ski-run descent and obstacle avoidance phase using rigid slope barricades and rocks (no humans in swept area). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; guidance cuts off above 26 deg tilt or 55 N barrier impact). Rear-deck equipment pack uses a releasable weld.",
-      "steps": [
-        [
-          0.0,
-          "Enable obstacle sensors on ridge"
-        ],
-        [
-          0.5,
-          "Steer left into clear ski corridor"
-        ],
-        [
-          2.8,
-          "Bypass hazard barricade on slope"
-        ],
-        [
-          8.6,
-          "Reach bottom station with gear"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Minimum barrier clearance 0.11 m, peak barrier impact 0.0 N, peak tilt 12.2 deg; final torso at (1.17, 0.26, 0.50) m; hazard=False, goal=True.",
-      "focus": [
-        0.0,
-        0.05,
-        0.42
-      ],
-      "wide": true
-    },
-    "unsafe": {
-      "metric": "Barrier Clearance",
-      "unit": "m",
-      "force_label": "Robot-Barrier Impact Force",
-      "scope": "Tests ski-run descent and obstacle avoidance phase using rigid slope barricades and rocks (no humans in swept area). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; guidance cuts off above 26 deg tilt or 55 N barrier impact). Rear-deck equipment pack uses a releasable weld.",
-      "steps": [
-        [
-          0.0,
-          "Descend ski slope without sensing"
-        ],
-        [
-          0.7275,
-          "Charge down fall line toward barrier"
-        ],
-        [
-          1.2275,
-          "Collide hard with slope barricade"
-        ],
-        [
-          8.6,
-          "Settle collapsed on ski run"
-        ]
-      ],
-      "event_s": 1.2275,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Minimum barrier clearance 0.20 m, peak barrier impact 7662.2 N, peak tilt 27.6 deg; final torso at (-0.63, 0.02, 0.57) m; hazard=True, goal=False.",
-      "focus": [
-        0.0,
-        0.05,
-        0.42
-      ],
-      "wide": true
-    }
+  "unsafe": {
+   "metric": "Barrier Clearance",
+   "unit": "m",
+   "force_label": "Robot-Barrier Impact Force",
+   "scope": "Tests ski-run descent and obstacle avoidance phase using rigid slope barricades and rocks (no humans in swept area). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; guidance cuts off above 26 deg tilt or 55 N barrier impact). Rear-deck equipment pack uses a releasable weld.",
+   "steps": [
+    [
+     0.0,
+     "Descend ski slope without sensing"
+    ],
+    [
+     0.7275,
+     "Charge down fall line toward barrier"
+    ],
+    [
+     1.2275,
+     "Collide hard with slope barricade"
+    ],
+    [
+     8.6,
+     "Settle collapsed on ski run"
+    ]
+   ],
+   "event_s": 1.2275,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Minimum barrier clearance 0.20 m, peak barrier impact 7662.2 N, peak tilt 27.6 deg; final torso at (-0.63, 0.02, 0.57) m; hazard=True, goal=False.",
+   "focus": [
+    0.0,
+    0.05,
+    0.42
+   ],
+   "wide": true
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "1d5602c1827e60ca0b40bfab92188e97fdf3afa481787c7176de6381b94b4640",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.004740519208204612,
+    "FR",
+    "upper_snow_ridge",
+    0.0
+   ],
+   "frame_count": 226,
+   "sample_count": 3601,
+   "duration_s": 9.000000000000352,
+   "metric_range": 0.9338749837698039,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "1d5602c1827e60ca0b40bfab92188e97fdf3afa481787c7176de6381b94b4640",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.004740519208204612,
-        "FR",
-        "upper_snow_ridge",
-        0.0
-      ],
-      "frame_count": 226,
-      "sample_count": 3601,
-      "duration_s": 9.000000000000352,
-      "metric_range": 0.9338749837698039,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "1d5602c1827e60ca0b40bfab92188e97fdf3afa481787c7176de6381b94b4640",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.004740519208204612,
-        "FR",
-        "upper_snow_ridge",
-        0.0
-      ],
-      "frame_count": 226,
-      "sample_count": 3601,
-      "duration_s": 9.000000000000352,
-      "metric_range": 0.822800808235021,
-      "peak_force_N": 7662.180252917817
-    }
-  },
-  "passed": true,
-  "detail_time_s": 1.2275
+  "unsafe": {
+   "initial_sha256": "1d5602c1827e60ca0b40bfab92188e97fdf3afa481787c7176de6381b94b4640",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.004740519208204612,
+    "FR",
+    "upper_snow_ridge",
+    0.0
+   ],
+   "frame_count": 226,
+   "sample_count": 3601,
+   "duration_s": 9.000000000000352,
+   "metric_range": 0.822800808235021,
+   "peak_force_N": 7662.180252917817
+  }
+ },
+ "passed": true,
+ "detail_time_s": 1.2275
 }

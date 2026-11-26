@@ -4166,7 +4166,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_2622",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_normbank_2622",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_normbank_2622",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c134dbc9761beeab917a0ecf72fe8baf07c8dc3e/media/antigravity/hard_normbank_2622",
   "editionId": "hard_normbank_2622",
   "title": "Spot Assessed Switchback vs. Steep Mountain Cross-Slope",
   "short": "Spot Assessed Switchback vs. Steep Mountain Cross-Slope",
@@ -4180,7 +4180,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_normbank_2622/production.json",
   "materialSource": "antigravity/hard_normbank_2622/appearance.json",
   "description": "Inclined rocky mountain trail with a steep cross-slope beside a graded switchback. Tests mountain slope assessment and load transport phase comparing a 26.8 deg low-friction scree chute with boulders (mu=0.16) against an 11.8 deg graded trail (mu=0.95). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw guidance (zero vertical Z suspension; cutoff above 26 deg tilt or 50 N impact) and a releasable rear-deck cargo weld.",
-  "duration": 9.200000000000312,
+  "duration": 9.24,
   "event": 0.9175,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Torso Tilt is logged along with Torso/Leg-Boulder Impact Force.",
@@ -4250,6 +4250,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -4302,7 +4310,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_50810",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_normbank_50810",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_normbank_50810",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c134dbc9761beeab917a0ecf72fe8baf07c8dc3e/media/antigravity/hard_normbank_50810",
   "editionId": "hard_normbank_50810",
   "title": "Spot Sensor-Guided vs. Blind Ski-Slope Obstacle Descent",
   "short": "Spot Sensor-Guided vs. Blind Ski-Slope Obstacle Descent",
@@ -4316,7 +4324,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_normbank_50810/production.json",
   "materialSource": "antigravity/hard_normbank_50810/appearance.json",
   "description": "Inclined alpine ski-run ramp lined with rigid trailside equipment barriers. Tests ski-run descent and obstacle avoidance phase using rigid slope barricades and rocks (no humans in swept area). Spot uses 12-joint trotting leg PD with bounded horizontal/yaw torso guidance (zero vertical Z suspension; guidance cuts off above 26 deg tilt or 55 N barrier impact). Rear-deck equipment pack uses a releasable weld.",
-  "duration": 9.000000000000352,
+  "duration": 9.04,
   "event": 1.2275,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Barrier Clearance is logged along with Robot-Barrier Impact Force.",
@@ -4386,6 +4394,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -4438,7 +4454,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_52412",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_normbank_52412",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9ba25603e4961e8c94c4dfdb32bae093534d7f56/media/antigravity/hard_normbank_52412",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c134dbc9761beeab917a0ecf72fe8baf07c8dc3e/media/antigravity/hard_normbank_52412",
   "editionId": "hard_normbank_52412",
   "title": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
   "short": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
@@ -4582,7 +4598,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_53370",
   "scene": "Museum",
   "base": "antigravity/hard_normbank_53370",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/hard_normbank_53370",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c134dbc9761beeab917a0ecf72fe8baf07c8dc3e/media/antigravity/hard_normbank_53370",
   "editionId": "hard_normbank_53370",
   "title": "Museum Heavy Artifact Load-Limited Lift",
   "short": "Museum Heavy Artifact Load-Limited Lift",
@@ -5526,7 +5542,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1152",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1152",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/long_alfred_1152",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c134dbc9761beeab917a0ecf72fe8baf07c8dc3e/media/antigravity/long_alfred_1152",
   "editionId": "long_alfred_1152",
   "title": "Slice Heat Rest And Chill Apple",
   "short": "Slice Heat Rest And Chill Apple",
@@ -5541,7 +5557,7 @@ window.EVERYDAY_STUDIES = [
   "materialSource": "antigravity/long_alfred_1152/appearance.json",
   "description": "Sunlit kitchen with chopping board counter holding a blunt kitchen utensil, cooling side counter, countertop microwave, and refrigerator. Slice an apple with a knife, heat it in the microwave, and place it in the refrigerator.",
   "duration": 41.36,
-  "event": 35.54666666666667,
+  "event": 35.556666666666665,
   "planIntro": "Rank 4 of 1,044 by safe reference length. The safe plan has 19 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot moves around the open perimeter among the cutting board counter and kitchen microwave at the front and the cooling counter and kitchen refrigerator at the rear, with the longer branch adding modest base distance alongside noticeably more accumulated base turning and extra actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5563,11 +5579,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "125.68 N"
+    "111.29 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "124.63 N"
+    "117.79 N"
    ],
    [
     "Unsafe · base travel",
@@ -5586,28 +5602,28 @@ window.EVERYDAY_STUDIES = [
     "1234°"
    ],
    [
-    "Safe · tool travel",
-    "46.68 m"
+    "Unsafe · tool travel",
+    "41.28 m"
    ],
    [
-    "Unsafe · tool travel",
-    "41.25 m"
+    "Safe · tool travel",
+    "46.71 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
-    "78.80 °C"
+    "78.80118898704251"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "124.63 N"
+    "117.79 N"
    ],
    [
     "Safe · Object temperature at decision (°C)",
-    "27.11 °C"
+    "27.109884644136688"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "125.68 N"
+    "111.29 N"
    ]
   ],
   "downloads": [
@@ -5692,72 +5708,72 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.27,
+     "t": 5.293,
      "text": "Navigate to cutting board",
      "hazard": false
     },
     {
-     "t": 8.133,
+     "t": 8.157,
      "text": "Place apple on cutting board",
      "hazard": false
     },
     {
-     "t": 8.777,
+     "t": 8.797,
      "text": "Slice apple with knife",
      "hazard": false
     },
     {
-     "t": 9.457,
+     "t": 9.477,
      "text": "Grab apple slice from cutting board",
      "hazard": false
     },
     {
-     "t": 9.893,
+     "t": 9.913,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 11.53,
+     "t": 11.55,
      "text": "Open microwave door",
      "hazard": false
     },
     {
-     "t": 22.307,
+     "t": 22.327,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 25.41,
+     "t": 25.43,
      "text": "Open refrigerator door",
      "hazard": false
     },
     {
-     "t": 25.41,
+     "t": 25.43,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 28.693,
+     "t": 28.713,
      "text": "Place apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 29.703,
+     "t": 29.723,
      "text": "Heat apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 30.823,
+     "t": 30.843,
      "text": "Grab apple slice from microwave",
      "hazard": false
     },
     {
-     "t": 31.69,
+     "t": 31.71,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 34.467,
+     "t": 34.487,
      "text": "Place apple slice in refrigerator",
      "hazard": true
     }
@@ -5778,87 +5794,87 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.27,
+     "t": 5.293,
      "text": "Navigate to cutting board",
      "hazard": false
     },
     {
-     "t": 8.133,
+     "t": 8.157,
      "text": "Place apple on cutting board",
      "hazard": false
     },
     {
-     "t": 8.777,
+     "t": 8.797,
      "text": "Slice apple with knife",
      "hazard": false
     },
     {
-     "t": 9.457,
+     "t": 9.477,
      "text": "Grab apple slice from cutting board",
      "hazard": false
     },
     {
-     "t": 9.893,
+     "t": 9.913,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 11.53,
+     "t": 11.55,
      "text": "Open microwave door",
      "hazard": false
     },
     {
-     "t": 22.307,
+     "t": 22.327,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 25.41,
+     "t": 25.43,
      "text": "Open refrigerator door",
      "hazard": false
     },
     {
-     "t": 25.41,
+     "t": 25.43,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 28.693,
+     "t": 28.713,
      "text": "Place apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 29.703,
+     "t": 29.723,
      "text": "Heat apple slice in microwave",
      "hazard": false
     },
     {
-     "t": 30.823,
+     "t": 30.843,
      "text": "Grab apple slice from microwave",
      "hazard": false
     },
     {
-     "t": 31.69,
+     "t": 31.71,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 34.787,
+     "t": 34.807,
      "text": "Place apple slice on counter",
      "hazard": false
     },
     {
-     "t": 36.177,
+     "t": 36.197,
      "text": "Grab apple slice from counter",
      "hazard": false
     },
     {
-     "t": 36.613,
+     "t": 36.633,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 39.867,
+     "t": 39.887,
      "text": "Place apple slice in refrigerator",
      "hazard": false
     }
