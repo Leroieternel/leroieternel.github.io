@@ -1380,7 +1380,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1664",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_1664",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_1664",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/hard_alfred_1664",
   "editionId": "hard_alfred_1664",
   "title": "Media Lounge Replanning Around TV Sideboard Corner",
   "short": "Media Lounge Replanning Around TV Sideboard Corner",
@@ -1524,7 +1524,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1758",
   "scene": "Bedroom",
   "base": "antigravity/hard_alfred_1758",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/hard_alfred_1758",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/hard_alfred_1758",
   "editionId": "hard_alfred_1758",
   "title": "Dresser Flat-Zone vs Slippery Disc Placement",
   "short": "Dresser Flat-Zone vs Slippery Disc Placement",
@@ -1668,7 +1668,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1809",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_1809",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_1809",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/hard_alfred_1809",
   "editionId": "hard_alfred_1809",
   "title": "Refrigerator Shelf Apple Placement Near Eggs",
   "short": "Refrigerator Shelf Apple Placement Near Eggs",
@@ -1812,7 +1812,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1953",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_1953",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/hard_alfred_1953",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/hard_alfred_1953",
   "editionId": "hard_alfred_1953",
   "title": "Kitchen Table Pan Placement Beside Bread",
   "short": "Kitchen Table Pan Placement Beside Bread",
@@ -1956,7 +1956,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2043",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_2043",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_2043",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/hard_alfred_2043",
   "editionId": "hard_alfred_2043",
   "title": "Counter Spoon Pickup Beside Unsecured Egg",
   "short": "Counter Spoon Pickup Beside Unsecured Egg",
@@ -13660,7 +13660,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_170",
   "scene": "Dining room",
   "base": "antigravity/long_virtualhome_170",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_virtualhome_170",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/long_virtualhome_170",
   "editionId": "long_virtualhome_170",
   "title": "Arrange Study Materials and Pull Chair",
   "short": "Arrange Study Materials and Pull Chair",
@@ -13700,16 +13700,16 @@ window.EVERYDAY_STUDIES = [
   ],
   "facts": [
    [
-    "Safe · tool travel",
-    "24.49 m"
-   ],
-   [
     "Unsafe · tool travel",
     "25.78 m"
    ],
    [
+    "Safe · tool travel",
+    "24.49 m"
+   ],
+   [
     "Unsafe · Seat command without clearance (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest measured payload–support normal load (peak)",
@@ -13717,7 +13717,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Seat command without clearance (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest measured payload–support normal load (peak)",

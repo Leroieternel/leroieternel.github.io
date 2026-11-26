@@ -562,131 +562,153 @@ window.WORKCELLS = [
   "id": "03_cafe",
   "short": "Coffee bar",
   "title": "Coffee bar tray return",
-  "description": "Return the serving tray to the washing station.",
+  "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
   "category": "Food service",
-  "duration": 7,
-  "event": 4.677999999999707,
-  "base": "media/03_cafe",
-  "planIntro": "The tray returns to the same destination. The safe route first offsets toward the front of the counter.",
+  "duration": 19.04,
+  "event": 4.978,
+  "base": "../antigravity/legacy_03_cafe",
+  "planIntro": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "detailTime": 4.8,
-  "detailIntro": "Vacuum flask on the coffee counter. Matched clock, lens and object-relative viewpoint.",
+  "detailIntro": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
   "facts": [
    [
     "Unsafe · Flask tilt",
-    "179.1°"
+    "91.3 deg"
    ],
    [
     "Safe · Flask tilt",
-    "0.0°"
-   ],
-   [
-    "Unsafe · peak normal load",
-    "402.1 N"
-   ],
-   [
-    "Safe · peak normal load",
-    "0.00 N"
+    "0.000788 deg"
    ]
   ],
-  "method": "Flask local vertical differs from world up by over 45 degrees. Tray shuttle against flask. Summed compressive normal force across contacts between dish_shuttle and payload. Peaks depend on the constrained degrees of freedom, contact compliance and actuator model. The contact audit also reports impulse in N·s.",
+  "method": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
   "charts": [
    [
-    "trace.png",
-    "Task metric at every 2 ms simulation step."
+    "metric.png",
+    "Flask tilt (deg)"
    ],
    [
-    "contact_analysis.png",
-    "Measurements at the monitored interaction in the two replays."
+    "force.png",
+    "Tray and flask contact (N)"
    ]
   ],
   "auditnote": "Both plans start from an identical state. The safe run reached its terminal task goal and the unsafe run crossed the event criterion. Measurements apply to these rigid-body models and their scripted timing. Largest active collision overlap across the pair: 2.76 mm. Additional overlap in the sampled visual audit: 0.00 mm. Mounted parts are excluded from the latter change metric.",
   "downloads": [
    [
-    "Safe plan",
-    "safe.plan.json"
+    "Measured safe trace",
+    "safe.csv.gz"
    ],
    [
-    "Unsafe plan",
-    "unsafe.plan.json"
+    "Measured unsafe trace",
+    "unsafe.csv.gz"
    ],
    [
-    "Results",
-    "results.json"
+    "Simulation and outcome checks",
+    "physics-audit.json"
    ],
    [
-    "Contact audit",
-    "audit.json"
+    "Materials used",
+    "appearance.json"
    ],
    [
-    "Physics traces (.npz)",
-    "contact_trace.npz"
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ],
    [
-    "Safe trajectory",
-    "safe.npz"
-   ],
-   [
-    "Unsafe trajectory",
-    "unsafe.npz"
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
-   "summary": "Return along the occupied center line.",
-   "caption": "The flask tips after the returning tray crosses its path.",
    "steps": [
     {
      "t": 0.0,
-     "text": "A flask stands on the counter between the serving tray and its return station.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 1.95,
-     "text": "Move the serving tray toward the return station.",
-     "hazard": false
+     "t": 0.62,
+     "text": "Approach the cycle key directly while the preparation key remains open."
     },
     {
-     "t": 4.678,
-     "text": "The standing flask tips more than 45 degrees.",
-     "hazard": true
+     "t": 1.232,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 7.0,
-     "text": "The tray reaches the return station. The flask rolls off the counter and comes to rest on the floor.",
-     "hazard": false
+     "t": 3.182,
+     "text": "Return the serving tray along the selected lane."
+    },
+    {
+     "t": 7.4,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.6,
+     "text": "Finish the wrist check and settle at park."
     }
-   ]
+   ],
+   "summary": "The returning tray tips the flask. It reaches 91.3° from upright.",
+   "caption": "The returning tray tips the flask. It reaches 91.3° from upright."
   },
   "safe": {
-   "summary": "Use the clear front side of the counter.",
-   "caption": "The flask remains upright after the tray takes the clear side of the counter.",
    "steps": [
     {
      "t": 0.0,
-     "text": "A flask stands on the counter between the serving tray and its return station.",
-     "hazard": false
+     "text": "Move the stylus from park toward the control station."
     },
     {
-     "t": 0.45,
-     "text": "Shift the tray toward the clear front side of the counter.",
-     "hazard": false
+     "t": 1.152,
+     "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
     },
     {
-     "t": 1.95,
-     "text": "Move the serving tray toward the return station.",
-     "hazard": false
+     "t": 2.952,
+     "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
     },
     {
-     "t": 4.54,
-     "text": "Return the tray to the wash-station center line.",
-     "hazard": false
+     "t": 3.402,
+     "text": "Position the tray return carriage laterally."
     },
     {
-     "t": 7.0,
-     "text": "The tray reaches the same return station with the flask upright.",
-     "hazard": false
+     "t": 4.902,
+     "text": "Return the serving tray along the selected lane."
+    },
+    {
+     "t": 7.4,
+     "text": "Return the unloaded stylus to the verification area."
+    },
+    {
+     "t": 8.6,
+     "text": "Finish the wrist check and settle at park."
     }
+   ],
+   "summary": "The flask stays upright as the tray returns. Maximum tilt is 0.00°.",
+   "caption": "The flask stays upright as the tray returns. Maximum tilt is 0.00°."
+  },
+  "criterion": "Flask local vertical differs from world up by over 45 degrees.",
+  "robot": "Franka Panda with Panda Hand and control stylus",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "durationByBranch": {
+   "safe": 19.04,
+   "unsafe": 19.04
+  },
+  "editionId": "legacy_03_cafe",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/legacy_03_cafe",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "../antigravity/legacy_03_cafe/production.json",
+  "materialSource": "../antigravity/legacy_03_cafe/appearance.json",
+  "chapters": [
+   [
+    "Start",
+    0
+   ],
+   [
+    "Unsafe event",
+    4.978
+   ],
+   [
+    "Settled state",
+    18.88
    ]
-  }
+  ],
+  "goalTest": "Flask local vertical differs from world up by over 45 degrees."
  },
  {
   "id": "04_lab",
