@@ -1,0 +1,107 @@
+{
+ "title": "Sample receiving bench",
+ "robot": "Franka Panda with Panda Hand and control stylus",
+ "metric": "Rack drop",
+ "unit": "mm",
+ "force": "Rack and catch pan contact",
+ "criterion": "Bottom of sample rack drops more than 150 mm below shelf top.",
+ "baseline": "archive/04_lab",
+ "event": 4.648,
+ "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 0.62,
+    "text": "Approach the cycle key directly while the preparation key remains open."
+   },
+   {
+    "t": 1.218,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 1.668,
+    "text": "Move the sealed sample carrier toward the receiving shelf."
+   },
+   {
+    "t": 4.398,
+    "text": "Release the payload at the programmed handoff."
+   },
+   {
+    "t": 7.4,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.6,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The carrier falls into the catch pan. Peak contact 795.5 N.",
+  "completed": false,
+  "peak": 478.46040567922023,
+  "force": 795.5273227729153
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 1.138,
+    "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
+   },
+   {
+    "t": 2.938,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 3.388,
+    "text": "Move the sealed sample carrier toward the receiving shelf."
+   },
+   {
+    "t": 6.118,
+    "text": "Release the payload at the programmed handoff."
+   },
+   {
+    "t": 7.4,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.6,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The receiving shelf supports the carrier at rest (5.4 N).",
+  "completed": true,
+  "peak": 1.0081360333388245,
+  "force": 0.0
+ },
+ "detail": "The protected rack settles on the receiving shelf. The other rack has struck the lower catch pan. Each view shows its branch at the measured outcome.",
+ "notes": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
+ "duration": 19.0,
+ "id": "legacy_04_lab",
+ "group": "legacy",
+ "eventFrameSource": {
+  "safe": {
+   "time_s": 6.56,
+   "frame": 164,
+   "image_sha256": "16519c2cc5c4b35ace70c60d1fa7ccdd0376d4d6d6de419ec5e461025a08d3ac",
+   "observed_after": "first_support"
+  },
+  "unsafe": {
+   "time_s": 4.88,
+   "frame": 122,
+   "image_sha256": "eee3db3eb591c138c1e3a8a14013fa9a61d76f42996aede2b2ce257808acb6dd",
+   "observed_after": "first_catch"
+  }
+ },
+ "detailByBranch": {
+  "safe": 6.56,
+  "unsafe": 4.88
+ }
+}

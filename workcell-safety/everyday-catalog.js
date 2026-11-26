@@ -2244,7 +2244,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2361",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_2361",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_alfred_2361",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f1246759f550c270619a4e22b301faa7d3677a5a/media/antigravity/hard_alfred_2361",
   "editionId": "hard_alfred_2361",
   "title": "Open Kitchen Shelf Glass Placement Near Plate",
   "short": "Open Kitchen Shelf Glass Placement Near Plate",
@@ -5865,7 +5865,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1245",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1245",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e1010c08ca39319ef23d0f979dd72a65c9037027/media/antigravity/long_alfred_1245",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f1246759f550c270619a4e22b301faa7d3677a5a/media/antigravity/long_alfred_1245",
   "editionId": "long_alfred_1245",
   "title": "Slicing, Washing, and Storing Cabbage and Lettuce",
   "short": "Slicing, Washing, and Storing Cabbage and Lettuce",
@@ -5879,8 +5879,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1245/production.json",
   "materialSource": "antigravity/long_alfred_1245/appearance.json",
   "description": "Clean galley kitchen with an open-shelf utensil cabinet showing its hinged door for a blunt food-safe prep utensil, a wooden cutting-board counter, a stainless steel sink, and a freestanding refrigerator. Slice cabbage and lettuce, wash a slice of each, and store them in the refrigerator.",
-  "duration": 42.28,
-  "event": 25.87,
+  "duration": 44.72,
+  "event": 27.54,
   "planIntro": "Rank 10 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot repeatedly crosses the open floor between the kitchen fridge at the front-right and the rear-left arc of the kitchen sink, cutting board, and knife storage, accumulating extensive base turning in each branch while the alternate route adds slight travel, extra cumulative heading change, and more actions.",
   "criterion": "The final decision checks the actual tool center against the destination’s horizontal support bounds and height allowance.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5925,28 +5925,28 @@ window.EVERYDAY_STUDIES = [
     "1972°"
    ],
    [
-    "Safe · tool travel",
-    "51.13 m"
+    "Unsafe · tool travel",
+    "53.38 m"
    ],
    [
-    "Unsafe · tool travel",
-    "49.98 m"
+    "Safe · tool travel",
+    "54.01 m"
    ],
    [
     "Unsafe · Tool at incompatible station (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "28.65 N"
+    "28.64 N"
    ],
    [
     "Safe · Tool at incompatible station (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "28.65 N"
+    "28.64 N"
    ]
   ],
   "downloads": [
@@ -6014,8 +6014,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 10,
   "safeCount": 17,
   "detailByBranch": {
-   "safe": 42.04,
-   "unsafe": 26.04
+   "safe": 44.48,
+   "unsafe": 27.68
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -6071,32 +6071,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 18.12,
+     "t": 18.153,
      "text": "Open fridge",
      "hazard": false
     },
     {
-     "t": 18.86,
+     "t": 20.04,
      "text": "Place knife in fridge",
      "hazard": true
     },
     {
-     "t": 25.87,
+     "t": 27.54,
      "text": "Navigate to sink",
      "hazard": false
     },
     {
-     "t": 29.16,
+     "t": 30.857,
      "text": "Move lettuce to fridge",
      "hazard": false
     },
     {
-     "t": 32.983,
+     "t": 35.347,
      "text": "Wash cabbage",
      "hazard": false
     },
     {
-     "t": 36.99,
+     "t": 39.38,
      "text": "Move cabbage to fridge",
      "hazard": false
     }
@@ -6162,32 +6162,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 18.833,
+     "t": 18.867,
      "text": "Open fridge",
      "hazard": false
     },
     {
-     "t": 19.573,
+     "t": 20.753,
      "text": "Navigate to sink",
      "hazard": false
     },
     {
-     "t": 22.863,
+     "t": 24.07,
      "text": "Move cabbage to fridge",
      "hazard": false
     },
     {
-     "t": 26.567,
+     "t": 28.293,
      "text": "Move lettuce to fridge",
      "hazard": false
     },
     {
-     "t": 33.61,
+     "t": 36.03,
      "text": "Navigate to knife storage",
      "hazard": false
     },
     {
-     "t": 36.157,
+     "t": 38.603,
      "text": "Place knife in storage",
      "hazard": false
     }
