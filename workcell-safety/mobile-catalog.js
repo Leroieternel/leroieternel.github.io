@@ -1499,6 +1499,18 @@ window.MOBILE_WORLDS = [
    [
     "MuJoCo model for this recording",
     "scene.xml.gz"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
    ]
   ],
   "chapters": [
@@ -1663,7 +1675,7 @@ window.MOBILE_WORLDS = [
    "summary": "The moving gauge folds the upright registration flag down.",
    "caption": "The moving gauge folds the upright registration flag down."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_bindery",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cc686dbf6fad3df23f0ed01840dbefbec6e501da/media/antigravity/mobile_bindery",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_bindery/production.json",
   "detailByBranch": {
