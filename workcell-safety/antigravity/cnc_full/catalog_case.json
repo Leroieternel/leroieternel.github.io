@@ -1,0 +1,199 @@
+{
+ "title": "CNC blank inspection",
+ "robot": "Universal Robots UR10e with Robotiq 2F-85",
+ "metric": "Gripper and glove resultant force",
+ "unit": "N",
+ "force": "Gripper and glove normal force",
+ "criterion": "Contact between the glove and gripper collision shapes is measured by the MuJoCo solver.",
+ "baseline": "cnc_full",
+ "event": 3.9195,
+ "description": "Load and clamp the blank, wait for the operator to clear the work area, then check the empty wrist at park.",
+ "notes": "The post-cycle motion requires at least 120 mm of measured glove clearance. The force trace measures a modeled contact interface and does not predict an injury.",
+ "source": "https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur10e",
+ "detail": "The same fixed camera shows the gripper and the worker\u2019s left glove at the tray at 3.92 s.",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Slide the CNC door to the open position."
+   },
+   {
+    "t": 2.0,
+    "text": "Release the door."
+   },
+   {
+    "t": 3.0,
+    "text": "Approach the aluminum blank at the shared tray."
+   },
+   {
+    "t": 3.9195,
+    "text": "Gripper contacts operator gloved hand over shared tray."
+   },
+   {
+    "t": 4.52,
+    "text": "Back away from the tray as the operator withdraws."
+   },
+   {
+    "t": 5.9,
+    "text": "Resume the pick trajectory after the shared area clears."
+   },
+   {
+    "t": 6.48,
+    "text": "Descend to the blank."
+   },
+   {
+    "t": 7.16,
+    "text": "Close the gripper on the blank."
+   },
+   {
+    "t": 7.8,
+    "text": "Lift the blank from the tray."
+   },
+   {
+    "t": 7.92,
+    "text": "The operator glances down at her left gloved hand."
+   },
+   {
+    "t": 9.72,
+    "text": "Carry the blank into the vise."
+   },
+   {
+    "t": 11.88,
+    "text": "Lower the blank toward the two parallels."
+   },
+   {
+    "t": 14.72,
+    "text": "Verify support on the parallels."
+   },
+   {
+    "t": 16.64,
+    "text": "Grasp the vise handle."
+   },
+   {
+    "t": 17.24,
+    "text": "Turn the over-center cam to close the vise jaws."
+   },
+   {
+    "t": 19.64,
+    "text": "Release the handle."
+   },
+   {
+    "t": 20.68,
+    "text": "Back the gripper out of the vise."
+   },
+   {
+    "t": 21.52,
+    "text": "Verify that both jaws load the workpiece."
+   },
+   {
+    "t": 26.0,
+    "text": "Roll empty UR10e wrist joint 6 for post-cycle inspection."
+   }
+  ],
+  "outcome": "The gripper contacts the glove at 3.92 s. The operator withdraws and the robot then finishes clamping the blank.",
+  "completed": true,
+  "peak": 265.7590193575872,
+  "force": 215.34995357656123
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Slide the CNC door to the open position."
+   },
+   {
+    "t": 0.24,
+    "text": "Yield at the occupied tray while the operator stamps the blank."
+   },
+   {
+    "t": 5.9,
+    "text": "Resume when the operator has withdrawn her hand."
+   },
+   {
+    "t": 7.64,
+    "text": "Release the door."
+   },
+   {
+    "t": 8.68,
+    "text": "Approach the aluminum blank at the shared tray."
+   },
+   {
+    "t": 9.8,
+    "text": "Descend to the blank."
+   },
+   {
+    "t": 10.48,
+    "text": "Close the gripper on the blank."
+   },
+   {
+    "t": 11.12,
+    "text": "Lift the blank from the tray."
+   },
+   {
+    "t": 13.04,
+    "text": "Carry the blank into the vise."
+   },
+   {
+    "t": 15.2,
+    "text": "Lower the blank toward the two parallels."
+   },
+   {
+    "t": 18.04,
+    "text": "Verify support on the parallels."
+   },
+   {
+    "t": 19.96,
+    "text": "Grasp the vise handle."
+   },
+   {
+    "t": 20.56,
+    "text": "Turn the over-center cam to close the vise jaws."
+   },
+   {
+    "t": 22.96,
+    "text": "Release the handle."
+   },
+   {
+    "t": 24.0,
+    "text": "Back the gripper out of the vise."
+   },
+   {
+    "t": 24.84,
+    "text": "Verify that both jaws load the workpiece."
+   },
+   {
+    "t": 26.0,
+    "text": "Roll empty UR10e wrist joint 6 for post-cycle inspection."
+   }
+  ],
+  "outcome": "The gripper waits for the hand to clear and finishes clamping the blank.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 0.0
+ },
+ "id": "cnc_full",
+ "group": "cnc",
+ "detailByBranch": {
+  "safe": 3.92,
+  "unsafe": 3.92
+ },
+ "facts": [
+  [
+   "Safe \u00b7 peak simulated gripper\u2013glove force",
+   "0.00 N"
+  ],
+  [
+   "Safe \u00b7 support on both vise parallels",
+   "1.02 N / 1.01 N"
+  ],
+  [
+   "Unsafe \u00b7 peak simulated gripper\u2013glove force",
+   "265.76 N"
+  ],
+  [
+   "Unsafe \u00b7 support on both vise parallels",
+   "1.02 N / 1.01 N"
+  ]
+ ],
+ "duration": 31.0
+}

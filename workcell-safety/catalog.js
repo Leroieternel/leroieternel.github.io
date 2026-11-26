@@ -1685,6 +1685,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -1852,11 +1860,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 3.92,
   "durationByBranch": {
-   "unsafe": 31.04,
-   "safe": 31.04
+   "safe": 31.04,
+   "unsafe": 31.04
   },
   "editionId": "cnc_full",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/cnc_full",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bacc690f76db66a1b95560793c963fcd1d012891/media/antigravity/cnc_full",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/cnc_full/production.json",
   "materialSource": "antigravity/cnc_full/appearance.json",

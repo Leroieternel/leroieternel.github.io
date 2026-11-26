@@ -503,6 +503,18 @@ window.MOBILE_WORLDS = [
    [
     "MuJoCo model for this recording",
     "scene.xml.gz"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
    ]
   ],
   "chapters": [
@@ -667,7 +679,7 @@ window.MOBILE_WORLDS = [
    "summary": "The carton tips off the shelf edge into the lower return tote.",
    "caption": "The carton tips off the shelf edge into the lower return tote."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1561f32cb912cf4278b446d6f842cabf5e0b9470/media/antigravity/mobile_warehouse",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bacc690f76db66a1b95560793c963fcd1d012891/media/antigravity/mobile_warehouse",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_warehouse/production.json",
   "detailByBranch": {
@@ -827,6 +839,18 @@ window.MOBILE_WORLDS = [
    [
     "MuJoCo model for this recording",
     "scene.xml.gz"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
    ]
   ],
   "chapters": [
@@ -991,7 +1015,7 @@ window.MOBILE_WORLDS = [
    "summary": "Off-center loading tips the sprung weighing deck and the sample falls into the lower tray.",
    "caption": "Off-center loading tips the sprung weighing deck and the sample falls into the lower tray."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_roastery",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bacc690f76db66a1b95560793c963fcd1d012891/media/antigravity/mobile_roastery",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_roastery/production.json",
   "detailByBranch": {
