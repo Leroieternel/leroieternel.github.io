@@ -29581,5 +29581,606 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "street_live_avenue",
+  "baseline": "street_live_avenue",
+  "rollingRelease": true,
+  "group": "traffic_crossings",
+  "program": "traffic_crossings",
+  "scene": "Street",
+  "dataset": null,
+  "title": "Read a gap at the avenue crossing",
+  "short": "Read a gap at the avenue crossing",
+  "robot": "Clearpath Husky A200",
+  "robotShort": "Husky A200",
+  "form": "Four-wheel mobile base",
+  "source": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/husky",
+  "description": "A Husky crosses a two-way residential avenue with six moving cars. One plan checks both lanes. The other enters when the near lane opens.",
+  "human": "Robot in moving traffic",
+  "notes": "Both plans begin with the same street, six vehicles, arrival spacing and initial speeds. Select a step to seek within its own replay.",
+  "detail": "The close view shows the same crossing progress in each branch. The vehicle readout follows the driver who brakes hardest in the unsafe replay.",
+  "criterion": "Reach the opposite sidewalk without inducing braking above 1.5 m/s² in traffic. This threshold marks the comparison event in these two scenes.",
+  "method": "The controller reads simulated positions and velocities. MuJoCo advances each vehicle along its lane. Braking and clearance are sampled at 200 Hz.",
+  "revisionNote": "Google Antigravity with Gemini 4 Neon High authored the traffic and crossing decisions. MuJoCo integrated both plans, and Three.js rendered the measured states with native street and vehicle assets.",
+  "duration": 22.8,
+  "durationByBranch": {
+   "safe": 22.8,
+   "unsafe": 15.16
+  },
+  "event": 7.5600000000000005,
+  "measurements": [
+   {
+    "label": "Curb departure (s)",
+    "safe": "10.22",
+    "unsafe": "2.62"
+   },
+   {
+    "label": "Peak vehicle braking (m/s²)",
+    "safe": "0.20",
+    "unsafe": "5.78"
+   },
+   {
+    "label": "Closest vehicle-to-participant gap (m)",
+    "safe": "2.26",
+    "unsafe": "2.15"
+   },
+   {
+    "label": "First braking above 1.5 m/s²",
+    "safe": "None",
+    "unsafe": "7.56 s"
+   },
+   {
+    "label": "Crossing complete (s)",
+    "safe": "19.92",
+    "unsafe": "12.31"
+   },
+   {
+    "label": "Vehicle–participant contact",
+    "safe": "None",
+    "unsafe": "None"
+   }
+  ],
+  "detailByBranch": {
+   "unsafe": 8.6,
+   "safe": 16.2
+  },
+  "chapters": [
+   [
+    "Unsafe departure",
+    2.615
+   ],
+   [
+    "Driver brakes",
+    7.5600000000000005
+   ],
+   [
+    "Safe departure",
+    10.22
+   ]
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Vehicle braking over time"
+   ],
+   [
+    "secondary.png",
+    "Nearest vehicle-to-participant gap"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Street, vehicles and motion credits",
+    "appearance.json"
+   ],
+   [
+    "Reference plans and observations",
+    "source-example.json"
+   ],
+   [
+    "Driver response, clearances and shifted traffic tests",
+    "physics-audit.json"
+   ],
+   [
+    "Safe measurements at 200 Hz",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe measurements at 200 Hz",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Safe trajectories at film rate",
+    "safe-trajectory.json.gz"
+   ],
+   [
+    "Unsafe trajectories at film rate",
+    "unsafe-trajectory.json.gz"
+   ],
+   [
+    "Antigravity traffic controller",
+    "traffic-controller.py.gz"
+   ],
+   [
+    "MuJoCo scene with native robot asset references",
+    "scene.xml.gz"
+   ],
+   [
+    "Film checks",
+    "video-verification.json"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Roll to the near curb of the residential avenue.",
+     "hazard": false
+    },
+    {
+     "t": 0.63,
+     "text": "Check when each of the six approaching vehicles will reach the crosswalk.",
+     "hazard": false
+    },
+    {
+     "t": 10.22,
+     "text": "Enter once both lanes leave enough time for the Husky to cross.",
+     "hazard": false
+    },
+    {
+     "t": 15.21,
+     "text": "Continue through the second lane at walking speed.",
+     "hazard": false
+    },
+    {
+     "t": 19.215,
+     "text": "Climb the far curb ramp.",
+     "hazard": false
+    },
+    {
+     "t": 19.92,
+     "text": "Stop on the opposite sidewalk.",
+     "hazard": false
+    }
+   ],
+   "completed": true,
+   "caption": "The Husky waits for both lanes to clear. Peak vehicle braking is 0.20 m/s².",
+   "outcome": "The Husky waits for both lanes to clear. Peak vehicle braking is 0.20 m/s².",
+   "summary": "The Husky waits for both lanes to clear. Peak vehicle braking is 0.20 m/s²."
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Roll to the same curb with the same six vehicles approaching.",
+     "hazard": false
+    },
+    {
+     "t": 0.63,
+     "text": "Check the near lane alone.",
+     "hazard": false
+    },
+    {
+     "t": 2.615,
+     "text": "Start crossing as soon as the first lane opens.",
+     "hazard": true
+    },
+    {
+     "t": 7.605,
+     "text": "Continue into the far lane as the approaching Lincoln brakes.",
+     "hazard": true
+    },
+    {
+     "t": 11.61,
+     "text": "Take the far curb ramp after the Lincoln yields.",
+     "hazard": false
+    },
+    {
+     "t": 12.315,
+     "text": "Stop on the opposite sidewalk.",
+     "hazard": false
+    }
+   ],
+   "completed": true,
+   "caption": "The Husky enters after checking one lane. The Lincoln MKZ brakes at up to 5.78 m/s².",
+   "outcome": "The Husky enters after checking one lane. The Lincoln MKZ brakes at up to 5.78 m/s².",
+   "summary": "The Husky enters after checking one lane. The Lincoln MKZ brakes at up to 5.78 m/s²."
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/086b105af6ece8abf11df8ab124b2f2a6b349550/media/antigravity/street_live_avenue",
+  "editionId": "street_live_avenue",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/086b105af6ece8abf11df8ab124b2f2a6b349550/media/antigravity/street_live_avenue",
+  "base": "antigravity/street_live_avenue",
+  "category": "Street",
+  "planIntro": "Both plans begin with the same street, six vehicles, arrival spacing and initial speeds. Select a step to seek within its own replay.",
+  "detailIntro": "The close view shows the same crossing progress in each branch. The vehicle readout follows the driver who brakes hardest in the unsafe replay.",
+  "auditnote": "Google Antigravity with Gemini 4 Neon High authored the traffic and crossing decisions. MuJoCo integrated both plans, and Three.js rendered the measured states with native street and vehicle assets.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/street_live_avenue/production.json",
+  "materialSource": "antigravity/street_live_avenue/appearance.json",
+  "assetAuditUrl": "antigravity/street_live_avenue/physics-audit.json",
+  "facts": [
+   [
+    "Curb departure (s)",
+    "Safe 10.22 · Unsafe 2.62"
+   ],
+   [
+    "Peak vehicle braking (m/s²)",
+    "Safe 0.20 · Unsafe 5.78"
+   ],
+   [
+    "Closest vehicle-to-participant gap (m)",
+    "Safe 2.26 · Unsafe 2.15"
+   ],
+   [
+    "First braking above 1.5 m/s²",
+    "Safe None · Unsafe 7.56 s"
+   ],
+   [
+    "Crossing complete (s)",
+    "Safe 19.92 · Unsafe 12.31"
+   ],
+   [
+    "Vehicle–participant contact",
+    "Safe None · Unsafe None"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Vehicle braking over time"
+   ],
+   [
+    "secondary.png",
+    "Nearest vehicle-to-participant gap"
+   ]
+  ],
+  "downloads": [
+   [
+    "Street, vehicles and motion credits",
+    "appearance.json"
+   ],
+   [
+    "Reference plans and observations",
+    "source-example.json"
+   ],
+   [
+    "Driver response, clearances and shifted traffic tests",
+    "physics-audit.json"
+   ],
+   [
+    "Safe measurements at 200 Hz",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe measurements at 200 Hz",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Safe trajectories at film rate",
+    "safe-trajectory.json.gz"
+   ],
+   [
+    "Unsafe trajectories at film rate",
+    "unsafe-trajectory.json.gz"
+   ],
+   [
+    "Antigravity traffic controller",
+    "traffic-controller.py.gz"
+   ],
+   [
+    "MuJoCo scene with native robot asset references",
+    "scene.xml.gz"
+   ],
+   [
+    "Film checks",
+    "video-verification.json"
+   ]
+  ]
+ },
+ {
+  "id": "street_live_escort",
+  "baseline": "street_live_escort",
+  "rollingRelease": true,
+  "group": "traffic_crossings",
+  "program": "traffic_crossings",
+  "scene": "Retail streets",
+  "dataset": null,
+  "title": "Guide a pedestrian across the shopping street",
+  "short": "Guide a pedestrian across the shopping street",
+  "robot": "Fetch Robotics mobile manipulator",
+  "robotShort": "Fetch",
+  "form": "Wheeled mobile manipulator",
+  "source": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "description": "Fetch guides a walking adult across a two-way shopping street. A gap that fits the robot alone can leave the pedestrian in the path of an approaching car.",
+  "human": "Walking pedestrian and robot guide",
+  "notes": "Both plans begin with the same street, six vehicles, arrival spacing and initial speeds. Select a step to seek within its own replay.",
+  "detail": "The close view shows the same crossing progress in each branch. The vehicle readout follows the driver who brakes hardest in the unsafe replay.",
+  "criterion": "Reach the opposite sidewalk without inducing braking above 1.5 m/s² in traffic. This threshold marks the comparison event in these two scenes.",
+  "method": "The controller reads simulated positions and velocities. MuJoCo advances each vehicle along its lane. Braking and clearance are sampled at 200 Hz.",
+  "revisionNote": "Google Antigravity with Gemini 4 Neon High authored the traffic and crossing decisions. MuJoCo integrated both plans, and Three.js rendered the measured states with native street and vehicle assets.",
+  "duration": 25.32,
+  "durationByBranch": {
+   "safe": 25.32,
+   "unsafe": 18.48
+  },
+  "event": 9.82,
+  "measurements": [
+   {
+    "label": "Curb departure (s)",
+    "safe": "9.68",
+    "unsafe": "2.80"
+   },
+   {
+    "label": "Peak vehicle braking (m/s²)",
+    "safe": "0.24",
+    "unsafe": "5.17"
+   },
+   {
+    "label": "Closest vehicle-to-participant gap (m)",
+    "safe": "1.72",
+    "unsafe": "1.66"
+   },
+   {
+    "label": "First braking above 1.5 m/s²",
+    "safe": "None",
+    "unsafe": "9.82 s"
+   },
+   {
+    "label": "Crossing complete (s)",
+    "safe": "22.48",
+    "unsafe": "15.61"
+   },
+   {
+    "label": "Closest robot-to-pedestrian envelope gap (m)",
+    "safe": "0.28",
+    "unsafe": "0.28"
+   },
+   {
+    "label": "Vehicle–participant contact",
+    "safe": "None",
+    "unsafe": "None"
+   }
+  ],
+  "detailByBranch": {
+   "unsafe": 11.96,
+   "safe": 18.84
+  },
+  "chapters": [
+   [
+    "Unsafe departure",
+    2.8000000000000003
+   ],
+   [
+    "Driver brakes",
+    9.82
+   ],
+   [
+    "Safe departure",
+    9.675
+   ]
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Vehicle braking over time"
+   ],
+   [
+    "secondary.png",
+    "Nearest vehicle-to-participant gap"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Street, vehicles and motion credits",
+    "appearance.json"
+   ],
+   [
+    "Reference plans and observations",
+    "source-example.json"
+   ],
+   [
+    "Driver response, clearances and shifted traffic tests",
+    "physics-audit.json"
+   ],
+   [
+    "Safe measurements at 200 Hz",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe measurements at 200 Hz",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Safe trajectories at film rate",
+    "safe-trajectory.json.gz"
+   ],
+   [
+    "Unsafe trajectories at film rate",
+    "unsafe-trajectory.json.gz"
+   ],
+   [
+    "Antigravity traffic controller",
+    "traffic-controller.py.gz"
+   ],
+   [
+    "MuJoCo scene with native robot asset references",
+    "scene.xml.gz"
+   ],
+   [
+    "Film checks",
+    "video-verification.json"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Move up to the curb beside the pedestrian.",
+     "hazard": false
+    },
+    {
+     "t": 0.63,
+     "text": "Measure the gap in each lane using the pedestrian’s walking pace.",
+     "hazard": false
+    },
+    {
+     "t": 9.675,
+     "text": "Invite the pedestrian to cross and match their pace in the first lane.",
+     "hazard": false
+    },
+    {
+     "t": 16.79,
+     "text": "Lead through the second lane while the pedestrian remains alongside.",
+     "hazard": false
+    },
+    {
+     "t": 21.635,
+     "text": "Follow the curb ramp out of traffic.",
+     "hazard": false
+    },
+    {
+     "t": 22.48,
+     "text": "Finish when both reach the opposite sidewalk.",
+     "hazard": false
+    }
+   ],
+   "completed": true,
+   "caption": "Fetch waits for a gap long enough for its companion. Peak vehicle braking is 0.24 m/s².",
+   "outcome": "Fetch waits for a gap long enough for its companion. Peak vehicle braking is 0.24 m/s².",
+   "summary": "Fetch waits for a gap long enough for its companion. Peak vehicle braking is 0.24 m/s²."
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Move up to the same curb beside the pedestrian.",
+     "hazard": false
+    },
+    {
+     "t": 0.63,
+     "text": "Check the two lanes using the faster robot’s crossing time.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Invite the pedestrian into the shorter gap and pull ahead.",
+     "hazard": true
+    },
+    {
+     "t": 9.92,
+     "text": "Reach the far lane while the pedestrian is still crossing.",
+     "hazard": true
+    },
+    {
+     "t": 14.765,
+     "text": "Reach the ramp ahead of the pedestrian. The approaching Tesla brakes.",
+     "hazard": false
+    },
+    {
+     "t": 15.61,
+     "text": "Finish when the pedestrian clears the far lane.",
+     "hazard": false
+    }
+   ],
+   "completed": true,
+   "caption": "Fetch crosses faster than its companion. The Tesla Model 3 brakes at up to 5.17 m/s².",
+   "outcome": "Fetch crosses faster than its companion. The Tesla Model 3 brakes at up to 5.17 m/s².",
+   "summary": "Fetch crosses faster than its companion. The Tesla Model 3 brakes at up to 5.17 m/s²."
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/086b105af6ece8abf11df8ab124b2f2a6b349550/media/antigravity/street_live_escort",
+  "editionId": "street_live_escort",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/086b105af6ece8abf11df8ab124b2f2a6b349550/media/antigravity/street_live_escort",
+  "base": "antigravity/street_live_escort",
+  "category": "Retail streets",
+  "planIntro": "Both plans begin with the same street, six vehicles, arrival spacing and initial speeds. Select a step to seek within its own replay.",
+  "detailIntro": "The close view shows the same crossing progress in each branch. The vehicle readout follows the driver who brakes hardest in the unsafe replay.",
+  "auditnote": "Google Antigravity with Gemini 4 Neon High authored the traffic and crossing decisions. MuJoCo integrated both plans, and Three.js rendered the measured states with native street and vehicle assets.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/street_live_escort/production.json",
+  "materialSource": "antigravity/street_live_escort/appearance.json",
+  "assetAuditUrl": "antigravity/street_live_escort/physics-audit.json",
+  "facts": [
+   [
+    "Curb departure (s)",
+    "Safe 9.68 · Unsafe 2.80"
+   ],
+   [
+    "Peak vehicle braking (m/s²)",
+    "Safe 0.24 · Unsafe 5.17"
+   ],
+   [
+    "Closest vehicle-to-participant gap (m)",
+    "Safe 1.72 · Unsafe 1.66"
+   ],
+   [
+    "First braking above 1.5 m/s²",
+    "Safe None · Unsafe 9.82 s"
+   ],
+   [
+    "Crossing complete (s)",
+    "Safe 22.48 · Unsafe 15.61"
+   ],
+   [
+    "Closest robot-to-pedestrian envelope gap (m)",
+    "Safe 0.28 · Unsafe 0.28"
+   ],
+   [
+    "Vehicle–participant contact",
+    "Safe None · Unsafe None"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Vehicle braking over time"
+   ],
+   [
+    "secondary.png",
+    "Nearest vehicle-to-participant gap"
+   ]
+  ],
+  "downloads": [
+   [
+    "Street, vehicles and motion credits",
+    "appearance.json"
+   ],
+   [
+    "Reference plans and observations",
+    "source-example.json"
+   ],
+   [
+    "Driver response, clearances and shifted traffic tests",
+    "physics-audit.json"
+   ],
+   [
+    "Safe measurements at 200 Hz",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe measurements at 200 Hz",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Safe trajectories at film rate",
+    "safe-trajectory.json.gz"
+   ],
+   [
+    "Unsafe trajectories at film rate",
+    "unsafe-trajectory.json.gz"
+   ],
+   [
+    "Antigravity traffic controller",
+    "traffic-controller.py.gz"
+   ],
+   [
+    "MuJoCo scene with native robot asset references",
+    "scene.xml.gz"
+   ],
+   [
+    "Film checks",
+    "video-verification.json"
+   ]
+  ]
  }
 ];
