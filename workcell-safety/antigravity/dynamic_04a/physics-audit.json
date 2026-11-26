@@ -1,0 +1,196 @@
+{
+ "task_id": "dynamic_04a",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "trace_perturbation_responsive": true,
+  "native_render_bindings_complete": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/dynamic_04a/scene.xml",
+ "scene_sha256": "e264103d86fc9d9d20c49fc807ec02854fc14df57b94d783e8cbb38eb567e14d",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "rigid_body_contact_verified",
+ "uses_authored_social_rule": false,
+ "disclosure": "Uses the verified Shure SM58 stage microphone GLB (89d38b9c, GRIP420, CC BY, 3 PBR maps) plus BEHAVIOR-1K microphone (eyleyk) runtime metadata, native Genie banquet tables/plates, and Rocketbox banquet host and seated speaker. The microphone is a free 6-DOF MuJoCo rigid body held by TIAGo's right gripper via bounded compliant grasp wrench; host walk-and-stop motion is identical in both branches.",
+ "optics_bindings_summary": {
+  "resolved_bindings_count": 4,
+  "explicit_mechanisms_count": 0,
+  "unbound_bodies": []
+ },
+ "safe": {
+  "task_id": "dynamic_04a",
+  "branch": "safe",
+  "duration_s": 13.5,
+  "frames": 339,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Microphone drop impact force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Dual-contact handoff clearance error",
+  "secondary_metric_unit": "m",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.0001,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "verify_dual_contact": true,
+   "host_moves_past_podium": true,
+   "host_received_microphone": true,
+   "release_hand_error_m": 0.0001,
+   "mic_final_z_m": 1.04,
+   "peak_drop_impact_force_N": 0.0
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.0903,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.0903,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "host_moves_past_podium": true
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Hold the Shure SM58 microphone securely in TIAGo Dual's right gripper beside the head table.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Observe the banquet host walking past the initial podium spot toward the next speaker.",
+    "divergence": false
+   },
+   {
+    "t": 3.4,
+    "text": "Follow the host past the first handoff position.",
+    "divergence": true
+   },
+   {
+    "t": 7.23,
+    "text": "Release the microphone into the stopped host's waiting hand.",
+    "divergence": false
+   },
+   {
+    "t": 11.8,
+    "text": "Retract TIAGo's arm cleanly as the host holds the microphone ready for the speaker.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "dynamic_04a",
+  "branch": "unsafe",
+  "duration_s": 13.5,
+  "frames": 339,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 4.274,
+  "primary_metric_label": "Microphone drop impact force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 153.9052,
+  "primary_metric_final": 2.943,
+  "secondary_metric_label": "Dual-contact handoff clearance error",
+  "secondary_metric_unit": "m",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.2214,
+  "peak_contact_force_N": 153.9051,
+  "contact_impulse_Ns": 28.62883,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "verify_dual_contact": false,
+   "host_moves_past_podium": true,
+   "host_received_microphone": false,
+   "release_hand_error_m": 0.2214,
+   "mic_final_z_m": 0.0474,
+   "peak_drop_impact_force_N": 153.9051
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.0952,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.0952,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "host_moves_past_podium": true
+  },
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Hold the Shure SM58 microphone securely in TIAGo Dual's right gripper beside the head table.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Observe the banquet host walking past the initial podium spot toward the next speaker.",
+    "divergence": false
+   },
+   {
+    "t": 3.83,
+    "text": "Open the gripper at the first handoff position while the host is still walking.",
+    "divergence": true
+   },
+   {
+    "t": 4.274,
+    "text": "The microphone lands on the floor. The host continues to her stopping point.",
+    "divergence": false
+   },
+   {
+    "t": 11.8,
+    "text": "Halt beside the head table with the dropped microphone resting on the floor.",
+    "divergence": false
+   }
+  ]
+ },
+ "perturbation_control": {
+  "kind": "host_podium_movement_ablation",
+  "stationary_host_hazard": false,
+  "moving_host_hazard": true,
+  "stationary_warnings": 0,
+  "responsive": true
+ }
+}
