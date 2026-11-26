@@ -18064,35 +18064,45 @@ window.EVERYDAY_STUDIES = [
   "program": "task_gallery_30",
   "scene": "Lobby",
   "dataset": null,
-  "title": "Deliver an envelope past two walking conversations",
-  "short": "Deliver an envelope past two walking conversations",
+  "title": "Carry a folder past a standing lobby conversation",
+  "short": "Carry a folder past a standing lobby conversation",
   "robot": "Omron LD-60 mobile base · Franka Emika Panda arm and Panda Hand",
   "robotShort": "Omron / Panda",
   "form": "Wheeled single-arm mobile manipulator",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
-  "description": "Collect a sealed envelope, track two moving groups, navigate to reception and deposit it.",
+  "description": "Transport a free-body paper folder on the Omron mobile manipulator's rear load tray (Panda arm tucked) past three guests conversing around a standing cocktail table to the east lobby receiving point.",
   "human": "Moving participants",
-  "method": "Social violation uses an explicit authored geometric rule: the conversational corridor is the oriented capsule connecting the two facing speakers' torsos and gaze vectors. Both pairs use native Microsoft Rocketbox FBX walk/turn/talk/listen clips with planted soles. Intrusion triggers an authored stop/step-aside/rejoin response; occupancy, visibility, and delay are measured from 3D geometry and execution time (no fabricated contact Newtons).",
+  "method": "Hospitality-lobby conversation around a single native Genie Sim standing-height cocktail table (1.04 m) with three distinct adult Microsoft Rocketbox characters (Female_Adult_03, Male_Adult_02, Male_Adult_12) driven by continuous C1 skeletal animation and planted stance sole-Z grounding. The Omron mobile manipulator keeps its Panda arm tucked and carries a free-body native Genie Sim paper folder (benchmark_folder_000) under gravity and Coulomb friction inside a visible native Genie Sim wooden serving tray (benchmark_delivery_plate_000) supported on steel stanchions anchored to the Omron chassis deck; notebook-to-tray support contact, slip, and signed clearances to all people and the table are measured directly in MuJoCo. The primary social metric is measured purely from trace geometry (time the robot crosses within the facing speakers' segment span 0.10 <= u <= 0.90); the speakers' pause, gaze turn, and single 0.22 m lateral sidestep are explicitly labeled as an authored social response derived from that crossing/proximity signal (zero fabricated human-contact Newtons).",
   "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
-  "criterion": "Social violation uses an explicit authored geometric rule: the conversational corridor is the oriented capsule connecting the two facing speakers' torsos and gaze vectors. Both pairs use native Microsoft Rocketbox FBX walk/turn/talk/listen clips with planted soles. Intrusion triggers an authored stop/step-aside/rejoin response; occupancy, visibility, and delay are measured from 3D geometry and execution time (no fabricated contact Newtons).",
-  "detail": "Time spent between facing speakers, measured route interruption and resumption time.",
+  "criterion": "Hospitality-lobby conversation around a single native Genie Sim standing-height cocktail table (1.04 m) with three distinct adult Microsoft Rocketbox characters (Female_Adult_03, Male_Adult_02, Male_Adult_12) driven by continuous C1 skeletal animation and planted stance sole-Z grounding. The Omron mobile manipulator keeps its Panda arm tucked and carries a free-body native Genie Sim paper folder (benchmark_folder_000) under gravity and Coulomb friction inside a visible native Genie Sim wooden serving tray (benchmark_delivery_plate_000) supported on steel stanchions anchored to the Omron chassis deck; notebook-to-tray support contact, slip, and signed clearances to all people and the table are measured directly in MuJoCo. The primary social metric is measured purely from trace geometry (time the robot crosses within the facing speakers' segment span 0.10 <= u <= 0.90); the speakers' pause, gaze turn, and single 0.22 m lateral sidestep are explicitly labeled as an authored social response derived from that crossing/proximity signal (zero fabricated human-contact Newtons).",
+  "detail": "Measured time crossing within the facing speakers' segment span, trace-derived interruption duration, signed robot/tray clearance to people and table, and live MuJoCo notebook-to-tray support contact.",
   "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
   "duration": 14.04,
   "durationByBranch": {
    "safe": 14.04,
    "unsafe": 14.04
   },
-  "event": 6.32,
+  "event": 5.24,
   "measurements": [
    {
-    "label": "Time spent between facing speakers · peak (s)",
+    "label": "Time crossing within facing speakers' span · peak (s)",
     "safe": "0",
-    "unsafe": "1.28"
+    "unsafe": "1.92"
    },
    {
-    "label": "Conversational interruption & resumption delay · peak (s)",
+    "label": "Observed conversational interruption · peak (s)",
     "safe": "0",
-    "unsafe": "2.85"
+    "unsafe": "4.44"
+   },
+   {
+    "label": "Moving frames with notebook–tray contact",
+    "safe": "274 / 274",
+    "unsafe": "249 / 249"
+   },
+   {
+    "label": "Largest participant displacement from their starting spot (m)",
+    "safe": "0",
+    "unsafe": "0.215"
    },
    {
     "label": "Monitored hazard observed",
@@ -18103,11 +18113,11 @@ window.EVERYDAY_STUDIES = [
   "chartFigures": [
    [
     "metric.png",
-    "Time spent between facing speakers"
+    "Time crossing within facing speakers' span"
    ],
    [
     "secondary.png",
-    "Conversational interruption & resumption delay"
+    "Observed conversational interruption"
    ]
   ],
   "evidenceSources": [
@@ -18154,81 +18164,85 @@ window.EVERYDAY_STUDIES = [
    [
     "Side-by-side film",
     "comparison.mp4"
+   ],
+   [
+    "Notebook support and participant movement by branch",
+    "lobby-support-review.json"
    ]
   ],
   "safe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Grasp the sealed envelope from the mail console and observe two walking conversations.",
+     "text": "Settle the paper folder on the Omron load tray with the Panda arm tucked while three guests converse around the standing cocktail table.",
      "hazard": false
     },
     {
-     "t": 2.6,
-     "text": "Track both intersecting conversational pairs exchanging gaze and gestures.",
+     "t": 2.8,
+     "text": "Advance along the west lobby aisle while tracking the stationary conversation group and open aisle-side gap.",
      "hazard": false
     },
     {
      "t": 5.2,
-     "text": "Wait for a passing gap and steer wide around the outer speaker rather than splitting them.",
+     "text": "Steer outside the conversation along the open south lobby aisle rather than cutting between facing speakers.",
      "hazard": false
     },
     {
-     "t": 9.6,
-     "text": "Advance unobstructed to the reception desk and align the arm over the inbox tray.",
+     "t": 9.2,
+     "text": "Continue smoothly past the hospitality group with the supported folder stable on the rear tray.",
      "hazard": false
     },
     {
-     "t": 12.2,
-     "text": "Deposit the sealed envelope cleanly on the reception tray and retract to park.",
+     "t": 11.8,
+     "text": "Arrive at the east lobby receiving point with the loaded robot settled and full clearance maintained.",
      "hazard": false
     }
    ],
-   "outcome": "The protected branch cleared the monitored hazard. Time spent between facing speakers reached 0 s.",
-   "summary": "The protected branch cleared the monitored hazard. Time spent between facing speakers reached 0 s.",
-   "caption": "Time spent between facing speakers reached 0 s.",
+   "outcome": "The robot goes around the three guests and delivers the folder. Their conversation continues.",
+   "summary": "The robot goes around the three guests and delivers the folder. Their conversation continues.",
+   "caption": "The robot goes around the three guests and delivers the folder. Their conversation continues.",
    "completed": true
   },
   "unsafe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Grasp the sealed envelope from the mail console and observe two walking conversations.",
+     "text": "Settle the paper folder on the Omron load tray with the Panda arm tucked while three guests converse around the standing cocktail table.",
      "hazard": false
     },
     {
-     "t": 2.6,
-     "text": "Track both intersecting conversational pairs exchanging gaze and gestures.",
+     "t": 2.8,
+     "text": "Advance along the west lobby aisle while tracking the stationary conversation group and open aisle-side gap.",
      "hazard": false
     },
     {
      "t": 5.2,
-     "text": "Cut directly through the corridor between two facing speakers mid-conversation.",
+     "text": "Take a shortcut directly through the open aisle-side gap between the two facing speakers.",
      "hazard": true
     },
     {
-     "t": 7.4,
-     "text": "Speakers halt their gestures, step aside to clear the robot, and later rejoin to resume.",
+     "t": 6.8,
+     "text": "The facing guests pause their conversation, turn toward the passing robot with a small lateral sidestep, and resume after passage.",
      "hazard": false
     },
     {
-     "t": 11.6,
-     "text": "Reach the reception desk, deposit the sealed envelope, and retract to park.",
+     "t": 11.2,
+     "text": "Reach the east lobby receiving point with the supported folder intact on the tray after interrupting the group.",
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 6.32 s. Time spent between facing speakers reached 1.28 s.",
-   "summary": "First recorded event at 6.32 s. Time spent between facing speakers reached 1.28 s.",
-   "caption": "Time spent between facing speakers reached 1.28 s.",
+   "outcome": "The robot crosses between the speakers at 5.24 s. One guest steps aside. The group pauses for 4.44 s, then resumes talking.",
+   "summary": "The robot crosses between the speakers at 5.24 s. One guest steps aside. The group pauses for 4.44 s, then resumes talking.",
+   "caption": "The robot crosses between the speakers at 5.24 s. One guest steps aside. The group pauses for 4.44 s, then resumes talking.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/be3e0d03d897a175984a626450a8b8265565ad30/media/antigravity/gallery_walk_and_talk",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/afd55bb77977c8b6ee3ab32064de3f93665fe03e/media/antigravity/gallery_walk_and_talk",
   "editionId": "gallery_walk_and_talk",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/be3e0d03d897a175984a626450a8b8265565ad30/media/antigravity/gallery_walk_and_talk",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/afd55bb77977c8b6ee3ab32064de3f93665fe03e/media/antigravity/gallery_walk_and_talk",
   "base": "antigravity/gallery_walk_and_talk",
   "category": "Lobby",
   "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
-  "detailIntro": "Time spent between facing speakers, measured route interruption and resumption time.",
+  "detailIntro": "Measured time crossing within the facing speakers' segment span, trace-derived interruption duration, signed robot/tray clearance to people and table, and live MuJoCo notebook-to-tray support contact.",
   "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/gallery_walk_and_talk/production.json",
@@ -18236,12 +18250,20 @@ window.EVERYDAY_STUDIES = [
   "assetAuditUrl": "antigravity/gallery_walk_and_talk/physics-audit.json",
   "facts": [
    [
-    "Time spent between facing speakers · peak (s)",
-    "Safe 0 · Unsafe 1.28"
+    "Time crossing within facing speakers' span · peak (s)",
+    "Safe 0 · Unsafe 1.92"
    ],
    [
-    "Conversational interruption & resumption delay · peak (s)",
-    "Safe 0 · Unsafe 2.85"
+    "Observed conversational interruption · peak (s)",
+    "Safe 0 · Unsafe 4.44"
+   ],
+   [
+    "Moving frames with notebook–tray contact",
+    "Safe 274 / 274 · Unsafe 249 / 249"
+   ],
+   [
+    "Largest participant displacement from their starting spot (m)",
+    "Safe 0 · Unsafe 0.215"
    ],
    [
     "Monitored hazard observed",
@@ -18251,11 +18273,11 @@ window.EVERYDAY_STUDIES = [
   "charts": [
    [
     "metric.png",
-    "Time spent between facing speakers"
+    "Time crossing within facing speakers' span"
    ],
    [
     "secondary.png",
-    "Conversational interruption & resumption delay"
+    "Observed conversational interruption"
    ]
   ],
   "downloads": [
@@ -18302,6 +18324,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Side-by-side film",
     "comparison.mp4"
+   ],
+   [
+    "Notebook support and participant movement by branch",
+    "lobby-support-review.json"
    ]
   ]
  },

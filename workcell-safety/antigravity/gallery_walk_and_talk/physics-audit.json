@@ -11,12 +11,17 @@
   "natural_settling_verified": true,
   "matched_initial_scene_xml": true,
   "safe_zero_human_overlap_gt_2cm": true,
-  "unsafe_zero_human_overlap_gt_2cm": true
+  "unsafe_zero_human_overlap_gt_2cm": true,
+  "walk_and_talk_notebook_start_support": true,
+  "walk_and_talk_notebook_end_support": true,
+  "walk_and_talk_robot_table_clearance": true,
+  "walk_and_talk_positive_person_clearance": true,
+  "walk_and_talk_unsafe_goal_completed": true
  },
  "initial_qpos_max_diff": 0.0,
  "seed": 20261126,
- "scene_xml": "crowd_revision/physics/gallery_walk_and_talk/scene.xml",
- "scene_sha256": "578b88cf0e2af67ffce5f7f18d5f4f81dbdd7371307c77cc399196150d84e750",
+ "scene_xml": "lobby_table_revision/physics/gallery_walk_and_talk/scene.xml",
+ "scene_sha256": "f760c6d12be3d3acb1b1836a02acbd9246639be65387a49e229647676ab739c0",
  "robot_resolution": {
   "requested_robot": "Panda on Omron",
   "requested_key": "omron",
@@ -30,7 +35,7 @@
  "site_survey": null,
  "verification_kind": "social_geometry_rule",
  "uses_authored_social_rule": true,
- "disclosure": "Social violation uses an explicit authored geometric rule: the conversational corridor is the oriented capsule connecting the two facing speakers' torsos and gaze vectors. Both pairs use native Microsoft Rocketbox FBX walk/turn/talk/listen clips with planted soles. Intrusion triggers an authored stop/step-aside/rejoin response; occupancy, visibility, and delay are measured from 3D geometry and execution time (no fabricated contact Newtons).",
+ "disclosure": "Hospitality-lobby conversation around a single native Genie Sim standing-height cocktail table (1.04 m) with three distinct adult Microsoft Rocketbox characters (Female_Adult_03, Male_Adult_02, Male_Adult_12) driven by continuous C1 skeletal animation and planted stance sole-Z grounding. The Omron mobile manipulator keeps its Panda arm tucked and carries a free-body native Genie Sim paper folder (benchmark_folder_000) under gravity and Coulomb friction inside a visible native Genie Sim wooden serving tray (benchmark_delivery_plate_000) supported on steel stanchions anchored to the Omron chassis deck; notebook-to-tray support contact, slip, and signed clearances to all people and the table are measured directly in MuJoCo. The primary social metric is measured purely from trace geometry (time the robot crosses within the facing speakers' segment span 0.10 <= u <= 0.90); the speakers' pause, gaze turn, and single 0.22 m lateral sidestep are explicitly labeled as an authored social response derived from that crossing/proximity signal (zero fabricated human-contact Newtons).",
  "safe": {
   "task_id": "gallery_walk_and_talk",
   "branch": "safe",
@@ -42,11 +47,11 @@
   "task_goal_completed": true,
   "settled_speed_m_s": 0.0,
   "first_event_s": null,
-  "primary_metric_label": "Time spent between facing speakers",
+  "primary_metric_label": "Time crossing within facing speakers' span",
   "primary_metric_unit": "s",
   "primary_metric_peak": 0.0,
   "primary_metric_final": 0.0,
-  "secondary_metric_label": "Conversational interruption & resumption delay",
+  "secondary_metric_label": "Observed conversational interruption",
   "secondary_metric_unit": "s",
   "secondary_metric_aggregation": "max",
   "secondary_metric_min": 0.0,
@@ -56,59 +61,148 @@
   "peak_contact_normal": null,
   "physical_support": {
    "actual_robot_end_xy": [
-    2.1,
-    0.45
+    2.15,
+    -0.45
    ],
-   "actual_robot_travel_m": 5.466
+   "actual_robot_travel_m": 6.3738,
+   "start_support": {
+    "notebook_tray_contact_N": 4.4145,
+    "supported": true
+   },
+   "end_support": {
+    "notebook_tray_contact_N": 4.4145,
+    "notebook_end_xyz_m": [
+     1.9664,
+     -0.7559,
+     0.4558
+    ],
+    "supported": true
+   },
+   "notebook_support": {
+    "source": "measured_mujoco_contact_and_pose",
+    "nominal_weight_N": 4.4145,
+    "measured_start_contact_N": 4.4145,
+    "measured_end_contact_N": 4.4145,
+    "min_travel_contact_N": 4.4145,
+    "mean_travel_contact_N": 4.4199,
+    "supported_frame_fraction": 0.9972,
+    "max_tray_local_slip_m": 0.00508,
+    "max_vertical_gap_m": 0.0,
+    "notebook_transport_m": 4.7774,
+    "notebook_hit_floor": false
+   },
+   "route_completion": {
+    "source": "measured_mujoco_robot_pose",
+    "start_xy_m": [
+     -2.45,
+     -0.85
+    ],
+    "goal_xy_m": [
+     2.15,
+     -0.45
+    ],
+    "actual_end_xy_m": [
+     2.15,
+     -0.45
+    ],
+    "goal_error_m": 0.0,
+    "travel_m": 6.3738,
+    "completed": true
+   },
+   "signed_clearance_m": {
+    "source": "measured_mujoco_mj_geomDistance",
+    "min_robot_and_tray_to_person_m": 0.6934,
+    "min_robot_and_tray_to_table_m": 0.911,
+    "min_inter_person_m": 1.3086
+   },
+   "social_interaction": {
+    "measured_segment_crossing": {
+     "source": "measured_from_trace_geometry",
+     "crossing_frames": 0,
+     "crossing_onset_s": null,
+     "crossing_end_s": null,
+     "min_segment_dist_m": 1.2444,
+     "span_u_at_closest": 1.5692
+    },
+    "authored_actor_response": {
+     "source": "authored_social_response_derived_from_crossing_signal",
+     "triggered": false,
+     "response_onset_s": null,
+     "response_end_s": null,
+     "observed_interruption_s": 0.0,
+     "actor1_sidestep_m": 0.0
+    }
+   },
+   "human_continuity": {
+    "max_step_xy_m": 0.0,
+    "max_step_yaw_deg": 0.113,
+    "max_speed_m_s": 0.0,
+    "root_z_mode": "constant_planted_sole_floor_lock",
+    "clip_loop_mode": "continuous_single_slice_talk_and_cosine_pingpong_listen"
+   }
   },
   "pedestrian_clearance": {
    "task_id": "gallery_walk_and_talk",
    "branch": "safe",
    "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
-   "min_signed_robot_human_m": 0.6869,
+   "min_signed_robot_human_m": 0.6944,
    "overlap_frames_gt_2cm": 0,
    "refinement_passes": 0,
-   "min_inter_person_m": 0.8,
-   "max_pedestrian_speed_m_s": 0.656,
-   "max_sole_slip_mm": 0.969,
-   "actor_count": 4,
-   "live_min_signed_robot_human_m": 0.3377,
+   "min_inter_person_m": 1.3086,
+   "max_pedestrian_speed_m_s": 0.0,
+   "max_sole_slip_mm": 0.0,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.6934,
    "live_overlap_frames_gt_2cm": 0
   },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.3377,
+  "min_human_limb_clearance_m": 0.6934,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
    "triggers": [],
-   "delays_s": {},
-   "detours_m": {}
+   "delays_s": {
+    "conversation_group": 0.0
+   },
+   "detours_m": {
+    "lobby_guest_aisle": 0.0
+   },
+   "response_onset_s": null,
+   "response_end_s": null,
+   "measured_crossing_window_s": null,
+   "human_continuity": {
+    "max_step_xy_m": 0.0,
+    "max_step_yaw_deg": 0.113,
+    "max_speed_m_s": 0.0,
+    "root_z_mode": "constant_planted_sole_floor_lock",
+    "clip_loop_mode": "continuous_single_slice_talk_and_cosine_pingpong_listen"
+   }
   },
   "goal_completed": true,
   "steps": [
    {
     "t": 0.0,
-    "text": "Grasp the sealed envelope from the mail console and observe two walking conversations.",
+    "text": "Settle the paper folder on the Omron load tray with the Panda arm tucked while three guests converse around the standing cocktail table.",
     "divergence": false
    },
    {
-    "t": 2.6,
-    "text": "Track both intersecting conversational pairs exchanging gaze and gestures.",
+    "t": 2.8,
+    "text": "Advance along the west lobby aisle while tracking the stationary conversation group and open aisle-side gap.",
     "divergence": false
    },
    {
     "t": 5.2,
-    "text": "Wait for a passing gap and steer wide around the outer speaker rather than splitting them.",
+    "text": "Steer outside the conversation along the open south lobby aisle rather than cutting between facing speakers.",
     "divergence": true
    },
    {
-    "t": 9.6,
-    "text": "Advance unobstructed to the reception desk and align the arm over the inbox tray.",
+    "t": 9.2,
+    "text": "Continue smoothly past the hospitality group with the supported folder stable on the rear tray.",
     "divergence": false
    },
    {
-    "t": 12.2,
-    "text": "Deposit the sealed envelope cleanly on the reception tray and retract to park.",
+    "t": 11.8,
+    "text": "Arrive at the east lobby receiving point with the loaded robot settled and full clearance maintained.",
     "divergence": false
    }
   ]
@@ -123,81 +217,175 @@
   "hazard_triggered": true,
   "task_goal_completed": true,
   "settled_speed_m_s": 0.0,
-  "first_event_s": 6.32,
-  "primary_metric_label": "Time spent between facing speakers",
+  "first_event_s": 5.24,
+  "primary_metric_label": "Time crossing within facing speakers' span",
   "primary_metric_unit": "s",
-  "primary_metric_peak": 1.28,
-  "primary_metric_final": 1.28,
-  "secondary_metric_label": "Conversational interruption & resumption delay",
+  "primary_metric_peak": 1.92,
+  "primary_metric_final": 1.92,
+  "secondary_metric_label": "Observed conversational interruption",
   "secondary_metric_unit": "s",
   "secondary_metric_aggregation": "max",
   "secondary_metric_min": 0.0,
-  "secondary_metric_peak": 2.85,
+  "secondary_metric_peak": 4.44,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
   "physical_support": {
    "actual_robot_end_xy": [
-    2.1,
-    0.45
+    2.15,
+    -0.45
    ],
-   "actual_robot_travel_m": 4.5622
+   "actual_robot_travel_m": 4.7183,
+   "start_support": {
+    "notebook_tray_contact_N": 4.4145,
+    "supported": true
+   },
+   "end_support": {
+    "notebook_tray_contact_N": 4.4145,
+    "notebook_end_xyz_m": [
+     1.792,
+     -0.4148,
+     0.4558
+    ],
+    "supported": true
+   },
+   "notebook_support": {
+    "source": "measured_mujoco_contact_and_pose",
+    "nominal_weight_N": 4.4145,
+    "measured_start_contact_N": 4.4145,
+    "measured_end_contact_N": 4.4145,
+    "min_travel_contact_N": 4.4145,
+    "mean_travel_contact_N": 4.4181,
+    "supported_frame_fraction": 0.9972,
+    "max_tray_local_slip_m": 0.00494,
+    "max_vertical_gap_m": 0.0,
+    "notebook_transport_m": 4.6225,
+    "notebook_hit_floor": false
+   },
+   "route_completion": {
+    "source": "measured_mujoco_robot_pose",
+    "start_xy_m": [
+     -2.45,
+     -0.85
+    ],
+    "goal_xy_m": [
+     2.15,
+     -0.45
+    ],
+    "actual_end_xy_m": [
+     2.15,
+     -0.45
+    ],
+    "goal_error_m": 0.0,
+    "travel_m": 4.7183,
+    "completed": true
+   },
+   "signed_clearance_m": {
+    "source": "measured_mujoco_mj_geomDistance",
+    "min_robot_and_tray_to_person_m": 0.2089,
+    "min_robot_and_tray_to_table_m": 0.2466,
+    "min_inter_person_m": 1.3086
+   },
+   "social_interaction": {
+    "measured_segment_crossing": {
+     "source": "measured_from_trace_geometry",
+     "crossing_frames": 48,
+     "crossing_onset_s": 5.24,
+     "crossing_end_s": 7.12,
+     "min_segment_dist_m": 0.0091,
+     "span_u_at_closest": 0.5264
+    },
+    "authored_actor_response": {
+     "source": "authored_social_response_derived_from_crossing_signal",
+     "triggered": true,
+     "response_onset_s": 4.52,
+     "response_end_s": 8.95,
+     "observed_interruption_s": 4.44,
+     "actor1_sidestep_m": 0.2154
+    }
+   },
+   "human_continuity": {
+    "max_step_xy_m": 0.01195,
+    "max_step_yaw_deg": 2.395,
+    "max_speed_m_s": 0.2984,
+    "root_z_mode": "constant_planted_sole_floor_lock",
+    "clip_loop_mode": "continuous_single_slice_talk_and_cosine_pingpong_listen"
+   }
   },
   "pedestrian_clearance": {
    "task_id": "gallery_walk_and_talk",
    "branch": "unsafe",
    "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
-   "min_signed_robot_human_m": 0.6631,
+   "min_signed_robot_human_m": 0.4413,
    "overlap_frames_gt_2cm": 0,
    "refinement_passes": 0,
-   "min_inter_person_m": 0.8,
-   "max_pedestrian_speed_m_s": 1.635,
-   "max_sole_slip_mm": 1.2,
-   "actor_count": 4,
-   "live_min_signed_robot_human_m": 0.4172,
+   "min_inter_person_m": 1.3086,
+   "max_pedestrian_speed_m_s": 0.298,
+   "max_sole_slip_mm": 0.299,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.2089,
    "live_overlap_frames_gt_2cm": 0
   },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.4172,
+  "min_human_limb_clearance_m": 0.2089,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
    "triggers": [
     {
-     "t_s": 5.5,
-     "reason": "Robot crossed conversational sightline between Pair A speakers; speakers yielded with physical clearance and resumed at t=8.2s."
+     "t_s": 4.52,
+     "t_resume_s": 8.95,
+     "crossing_onset_s": 5.2,
+     "crossing_end_s": 7.12,
+     "source": "authored_social_response_derived_from_crossing_signal",
+     "reason": "Robot entered facing-speaker crossing proximity; Speaker 0 paused gestures and turned gaze while Guest 1 turned and took one 0.22 m lateral sidestep, resuming after passage."
     }
    ],
    "delays_s": {
-    "pair_a": 2.85
+    "conversation_group": 4.43
    },
-   "detours_m": {}
+   "detours_m": {
+    "lobby_guest_aisle": 0.2154
+   },
+   "response_onset_s": 4.52,
+   "response_end_s": 8.95,
+   "measured_crossing_window_s": [
+    5.2,
+    7.12
+   ],
+   "human_continuity": {
+    "max_step_xy_m": 0.01195,
+    "max_step_yaw_deg": 2.395,
+    "max_speed_m_s": 0.2984,
+    "root_z_mode": "constant_planted_sole_floor_lock",
+    "clip_loop_mode": "continuous_single_slice_talk_and_cosine_pingpong_listen"
+   }
   },
   "goal_completed": true,
   "steps": [
    {
     "t": 0.0,
-    "text": "Grasp the sealed envelope from the mail console and observe two walking conversations.",
+    "text": "Settle the paper folder on the Omron load tray with the Panda arm tucked while three guests converse around the standing cocktail table.",
     "divergence": false
    },
    {
-    "t": 2.6,
-    "text": "Track both intersecting conversational pairs exchanging gaze and gestures.",
+    "t": 2.8,
+    "text": "Advance along the west lobby aisle while tracking the stationary conversation group and open aisle-side gap.",
     "divergence": false
    },
    {
     "t": 5.2,
-    "text": "Cut directly through the corridor between two facing speakers mid-conversation.",
+    "text": "Take a shortcut directly through the open aisle-side gap between the two facing speakers.",
     "divergence": true
    },
    {
-    "t": 7.4,
-    "text": "Speakers halt their gestures, step aside to clear the robot, and later rejoin to resume.",
+    "t": 6.8,
+    "text": "The facing guests pause their conversation, turn toward the passing robot with a small lateral sidestep, and resume after passage.",
     "divergence": false
    },
    {
-    "t": 11.6,
-    "text": "Reach the reception desk, deposit the sealed envelope, and retract to park.",
+    "t": 11.2,
+    "text": "Reach the east lobby receiving point with the supported folder intact on the tray after interrupting the group.",
     "divergence": false
    }
   ]
