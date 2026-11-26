@@ -29279,5 +29279,307 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "dynamic_19b",
+  "baseline": "dynamic_19b",
+  "rollingRelease": true,
+  "group": "dynamic_candidates",
+  "program": "dynamic_candidates",
+  "scene": "Laundry room",
+  "dataset": null,
+  "title": "Measure viscous detergent as the last stream drains",
+  "short": "Measure viscous detergent as the last stream drains",
+  "robot": "Franka Emika Panda 7-DOF fixed-base arm · Panda Hand parallel gripper",
+  "robotShort": "Franka Panda",
+  "form": "Fixed-base 7-DOF articulated manipulator with parallel jaw gripper",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "Viscous laundry detergent keeps trailing a slow tail stream from the bottle spout after righting; fixed Franka Panda pours to the 80 mL cup mark.",
+  "human": "Object interaction",
+  "method": "Fixed Franka Panda pours viscous liquid laundry detergent from native Genie `iros_laundry_liquid_001` into native Genie measuring cup `benchmark_measuring_jug_001` (`V_target = 80 mL`, `V_rim = 100 mL`). Coupled viscous drainage solver models spout tail-stream inertia (`tau_tail = 1.15 s`) so fluid continues draining after the bottle begins righting. Safe Panda monitors both cup level and active tail stream, beginning bottle righting early at 64 mL so the trailing viscous stream lands squarely inside the cup at ~80 mL; unsafe Panda holds full pour tilt until 80 mL, causing the delayed viscous tail to overfill and spill onto the laundry bench.",
+  "notes": "DESPITE dynamic task collection (DYNAMIC_19B · viscous_detergent_pour).",
+  "criterion": "Fixed Franka Panda pours viscous liquid laundry detergent from native Genie `iros_laundry_liquid_001` into native Genie measuring cup `benchmark_measuring_jug_001` (`V_target = 80 mL`, `V_rim = 100 mL`). Coupled viscous drainage solver models spout tail-stream inertia (`tau_tail = 1.15 s`) so fluid continues draining after the bottle begins righting. Safe Panda monitors both cup level and active tail stream, beginning bottle righting early at 64 mL so the trailing viscous stream lands squarely inside the cup at ~80 mL; unsafe Panda holds full pour tilt until 80 mL, causing the delayed viscous tail to overfill and spill onto the laundry bench.",
+  "detail": "Detergent overflow volume on bench (mL), measuring cup error vs 80 mL mark (mL), and viscosity-lag perturbation control.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.56,
+  "durationByBranch": {
+   "safe": 13.56,
+   "unsafe": 13.56
+  },
+  "event": 8.068,
+  "measurements": [
+   {
+    "label": "Detergent overflow volume · peak (mL)",
+    "safe": "0",
+    "unsafe": "15.27"
+   },
+   {
+    "label": "Measuring cup fill error vs 80 mL mark · peak (mL)",
+    "safe": "80",
+    "unsafe": "80"
+   },
+   {
+    "label": "Released volume (mL)",
+    "safe": "81.693",
+    "unsafe": "115.286"
+   },
+   {
+    "label": "Retained in the receiver (mL)",
+    "safe": "81.693",
+    "unsafe": "100"
+   },
+   {
+    "label": "Spilled (mL)",
+    "safe": "0",
+    "unsafe": "15.27"
+   },
+   {
+    "label": "Drained (mL)",
+    "safe": "0",
+    "unsafe": "0"
+   },
+   {
+    "label": "Volume balance error (mL)",
+    "safe": "0",
+    "unsafe": "0"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Detergent overflow volume"
+   ],
+   [
+    "secondary.png",
+    "Measuring cup fill error vs 80 mL mark"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe simulated flight and landing samples (time, x, y, z, radius)",
+    "safe-liquid-samples.npz"
+   ],
+   [
+    "Unsafe simulated flight and landing samples (time, x, y, z, radius)",
+    "unsafe-liquid-samples.npz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Grip the laundry detergent bottle above the graduated measuring cup on the laundry bench.",
+     "hazard": false
+    },
+    {
+     "t": 2.2,
+     "text": "Tilt the bottle steadily to establish a smooth viscous detergent stream into the measuring cup.",
+     "hazard": false
+    },
+    {
+     "t": 5.2,
+     "text": "Observe the cup level approaching 64 mL with an active spout tail and begin righting the bottle early.",
+     "hazard": false
+    },
+    {
+     "t": 8.2,
+     "text": "Hold the spout centered over the cup while the trailing viscous thread drains right to the 80 mL mark.",
+     "hazard": false
+    },
+    {
+     "t": 11.0,
+     "text": "Set the detergent bottle back upright with 80 mL measured accurately and zero benchtop spill.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Detergent overflow volume reached 0 mL.",
+   "summary": "The protected branch cleared the monitored hazard. Detergent overflow volume reached 0 mL.",
+   "caption": "Detergent overflow volume reached 0 mL.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Grip the laundry detergent bottle above the graduated measuring cup on the laundry bench.",
+     "hazard": false
+    },
+    {
+     "t": 2.2,
+     "text": "Tilt the bottle steadily to establish a smooth viscous detergent stream into the measuring cup.",
+     "hazard": false
+    },
+    {
+     "t": 5.2,
+     "text": "Maintain full pour tilt all the way until the cup meniscus reaches the 80 mL mark.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "After righting begins, the delayed viscous spout tail continues pouring and overflows onto the bench.",
+     "hazard": false
+    },
+    {
+     "t": 11.0,
+     "text": "Return the bottle upright with detergent overfilled past the rim and pooled on the counter.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 8.07 s. Detergent overflow volume reached 15.27 mL.",
+   "summary": "First recorded event at 8.07 s. Detergent overflow volume reached 15.27 mL.",
+   "caption": "Detergent overflow volume reached 15.27 mL.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e042d036108aa27cd2a8ed87ba136490b395decf/media/antigravity/dynamic_19b",
+  "editionId": "dynamic_19b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e042d036108aa27cd2a8ed87ba136490b395decf/media/antigravity/dynamic_19b",
+  "base": "antigravity/dynamic_19b",
+  "category": "Laundry room",
+  "planIntro": "DESPITE dynamic task collection (DYNAMIC_19B · viscous_detergent_pour).",
+  "detailIntro": "Detergent overflow volume on bench (mL), measuring cup error vs 80 mL mark (mL), and viscosity-lag perturbation control.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/dynamic_19b/production.json",
+  "materialSource": "antigravity/dynamic_19b/appearance.json",
+  "assetAuditUrl": "antigravity/dynamic_19b/physics-audit.json",
+  "facts": [
+   [
+    "Detergent overflow volume · peak (mL)",
+    "Safe 0 · Unsafe 15.27"
+   ],
+   [
+    "Measuring cup fill error vs 80 mL mark · peak (mL)",
+    "Safe 80 · Unsafe 80"
+   ],
+   [
+    "Released volume (mL)",
+    "Safe 81.693 · Unsafe 115.286"
+   ],
+   [
+    "Retained in the receiver (mL)",
+    "Safe 81.693 · Unsafe 100"
+   ],
+   [
+    "Spilled (mL)",
+    "Safe 0 · Unsafe 15.27"
+   ],
+   [
+    "Drained (mL)",
+    "Safe 0 · Unsafe 0"
+   ],
+   [
+    "Volume balance error (mL)",
+    "Safe 0 · Unsafe 0"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Detergent overflow volume"
+   ],
+   [
+    "secondary.png",
+    "Measuring cup fill error vs 80 mL mark"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe simulated flight and landing samples (time, x, y, z, radius)",
+    "safe-liquid-samples.npz"
+   ],
+   [
+    "Unsafe simulated flight and landing samples (time, x, y, z, radius)",
+    "unsafe-liquid-samples.npz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];

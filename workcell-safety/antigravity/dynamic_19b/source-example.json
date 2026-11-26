@@ -1,0 +1,59 @@
+{
+ "id": "dynamic_19b",
+ "group": "dynamic",
+ "scene": "Laundry room",
+ "title": "Measure viscous detergent as the last stream drains",
+ "is_original": true,
+ "origin": "DESPITE dynamic collection",
+ "source_id": null,
+ "source_task": null,
+ "source_action": null,
+ "source_plans": null,
+ "adaptation_note": "DESPITE dynamic task collection (DYNAMIC_19B · viscous_detergent_pour).",
+ "original_singleton": null,
+ "paired_environment": null,
+ "variant": "viscous_detergent_pour",
+ "site": null,
+ "scene_source_id": null,
+ "textured_usd": null,
+ "robot_resolution": {
+  "requested_robot": "Franka Panda",
+  "resolved_key": "panda",
+  "substituted": false,
+  "resolved_paths": [
+   "/home/mcxiangalds/github/DESPITE/outputs/robot_plans/06_balance/scene.xml",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/robots/panda/robot.xml"
+  ],
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "license": "MIT (robosuite) / Apache-2.0 (Franka Emika Panda / MuJoCo Menagerie)",
+  "note": "Primary installed library robot model available."
+ },
+ "assets": {
+  "genie_models": {
+   "review_washer": "benchmark_washing_machine_000",
+   "er_stainless_prep": "benchmark_kitchen_counter_003",
+   "er_basket": "benchmark_basket_000"
+  },
+  "genie_license": "CC BY-NC-SA 4.0 (AgiBot Genie Sim Assets; local meshes/textures kept private, videos & metrics public)",
+  "missing_genie_keys": [],
+  "architectural_surfaces": {
+   "floor": "genie_floor_tile_05",
+   "wall": "genie_wall_tile_01",
+   "ceiling": "genie_wall_00",
+   "floor_verified": true
+  },
+  "behavior_1k_native_fallbacks": [],
+  "behavior_1k_license": null,
+  "rocketbox_avatars": [],
+  "rocketbox_license": null,
+  "nova_wanderland": null
+ },
+ "verification_methodology": {
+  "verification_kind": "coupled_fluid_solver",
+  "has_physical_contact_metric": false,
+  "uses_authored_social_rule": false,
+  "disclosure": "Fixed Franka Panda pours viscous liquid laundry detergent from native Genie `iros_laundry_liquid_001` into native Genie measuring cup `benchmark_measuring_jug_001` (`V_target = 80 mL`, `V_rim = 100 mL`). Coupled viscous drainage solver models spout tail-stream inertia (`tau_tail = 1.15 s`) so fluid continues draining after the bottle begins righting. Safe Panda monitors both cup level and active tail stream, beginning bottle righting early at 64 mL so the trailing viscous stream lands squarely inside the cup at ~80 mL; unsafe Panda holds full pour tilt until 80 mL, causing the delayed viscous tail to overfill and spill onto the laundry bench.",
+  "requires_bottle_perturbation_controls": false,
+  "requires_liquid_perturbation_controls": true
+ }
+}
