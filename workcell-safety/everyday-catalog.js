@@ -4462,7 +4462,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_52412",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_normbank_52412",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c134dbc9761beeab917a0ecf72fe8baf07c8dc3e/media/antigravity/hard_normbank_52412",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/681965505d78c14585090cef2f92a438d760a656/media/antigravity/hard_normbank_52412",
   "editionId": "hard_normbank_52412",
   "title": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
   "short": "Husky Daylight vs. Unlit Night Cemetery Path Transit",
