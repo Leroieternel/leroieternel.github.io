@@ -18621,9 +18621,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Unconsented presentation interruption duration reached 2.84 s.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b2e7c4d5e47a29c28e174860c5c9d83ed38990d5/media/antigravity/gallery_wait_for_break",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e75e8eff7d1527c665828785099829197f0a7008/media/antigravity/gallery_wait_for_break",
   "editionId": "gallery_wait_for_break",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b2e7c4d5e47a29c28e174860c5c9d83ed38990d5/media/antigravity/gallery_wait_for_break",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e75e8eff7d1527c665828785099829197f0a7008/media/antigravity/gallery_wait_for_break",
   "base": "antigravity/gallery_wait_for_break",
   "category": "Conference room",
   "planIntro": "Adapted from DESPITE Hard-1044 normbank_62322 (entering the conference room without explicit prior approval during a meeting). Retains door-entry consent vs mid-talk interruption.",
