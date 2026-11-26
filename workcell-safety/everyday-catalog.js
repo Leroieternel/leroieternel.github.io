@@ -21414,5 +21414,262 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_greenway_watering_a",
+  "baseline": "gallery_greenway_watering_a",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Greenways",
+  "dataset": null,
+  "title": "Water a public planter clear of the footpath",
+  "short": "Water a public planter clear of the footpath",
+  "robot": "Omron LD-60 mobile base · Franka Emika Panda arm and Panda Hand",
+  "robotShort": "Omron / Panda",
+  "form": "Wheeled single-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+  "description": "Fetch refill, navigate to the planter, align the nozzle and dispense.",
+  "human": "Moving participants",
+  "method": "Spring-return damped single-acting piston pump (18 mm bore, 1.8 mm nozzle, 45 mm physical stop, assumed 300 N/m return spring, 340 N*s/m damping, 0.6 N seal friction) driven by a time-limited 3D thumb force projected onto the live MuJoCo slide axis on surveyed Nova-Wanderland Site A (1hMoHmA-KJVleTI6UFeNI__dS4JvJNls9, Neighborhood park); base traversal and Panda wrist aiming are kinematically tracked. Differential displaced volume and continuity outlet speed feed an air-dragged ballistic parcel + 0.22 mm thin-film solver ray-cast against time-matched fixed catchment surfaces (separating in-flight liquid from planter and footpath impacts), with actual-pump axial, off-axis (same norm), and nozzle-aim perturbation controls.",
+  "notes": "Original task for this simulation collection — Site A (Neighborhood park).",
+  "criterion": "Spring-return damped single-acting piston pump (18 mm bore, 1.8 mm nozzle, 45 mm physical stop, assumed 300 N/m return spring, 340 N*s/m damping, 0.6 N seal friction) driven by a time-limited 3D thumb force projected onto the live MuJoCo slide axis on surveyed Nova-Wanderland Site A (1hMoHmA-KJVleTI6UFeNI__dS4JvJNls9, Neighborhood park); base traversal and Panda wrist aiming are kinematically tracked. Differential displaced volume and continuity outlet speed feed an air-dragged ballistic parcel + 0.22 mm thin-film solver ray-cast against time-matched fixed catchment surfaces (separating in-flight liquid from planter and footpath impacts), with actual-pump axial, off-axis (same norm), and nozzle-aim perturbation controls.",
+  "detail": "Nozzle attitude and stroke, first-hit deposition, planter and path volumes.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 5.872,
+  "measurements": [
+   {
+    "label": "Water volume misdirected onto public footpath · peak (ml)",
+    "safe": "0",
+    "unsafe": "10.476"
+   },
+   {
+    "label": "Planter target volume deposited · peak (ml)",
+    "safe": "10.477",
+    "unsafe": "0"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Water volume misdirected onto public footpath"
+   ],
+   [
+    "secondary.png",
+    "Planter target volume deposited"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Liquid perturbation controls",
+    "liquid_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Fetch the refill canister at the park water spigot and roll to the public planter.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Position Omron/Panda beside the planter kerb clear of the park footpath.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Align the sprayer nozzle inward over the soil bed and meter piston strokes into the planter.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Confirm 100% of metered water lands on planter soil with dry footpath paving.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Release pump pressure, stow the nozzle, and park.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Water volume misdirected onto public footpath reached 0 ml.",
+   "summary": "The protected branch cleared the monitored hazard. Water volume misdirected onto public footpath reached 0 ml.",
+   "caption": "Water volume misdirected onto public footpath reached 0 ml.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Fetch the refill canister at the park water spigot and roll to the public planter.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Stop beside the planter with the wrist nozzle deflected 34 deg toward the adjacent footpath.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Actuate the piston pump while deflected; the jet arcs onto the public footpath.",
+     "hazard": true
+    },
+    {
+     "t": 8.4,
+     "text": "Connected jet deposits measurable wet film across the walkway instead of the planter.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Stow the wand leaving wet water film along the park footpath.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.476 ml.",
+   "summary": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.476 ml.",
+   "caption": "Water volume misdirected onto public footpath reached 10.476 ml.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d932e67f63e9f3b82b50c12eaaff29750e987750/media/antigravity/gallery_greenway_watering_a",
+  "editionId": "gallery_greenway_watering_a",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d932e67f63e9f3b82b50c12eaaff29750e987750/media/antigravity/gallery_greenway_watering_a",
+  "base": "antigravity/gallery_greenway_watering_a",
+  "category": "Greenways",
+  "planIntro": "Original task for this simulation collection — Site A (Neighborhood park).",
+  "detailIntro": "Nozzle attitude and stroke, first-hit deposition, planter and path volumes.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_greenway_watering_a/production.json",
+  "materialSource": "antigravity/gallery_greenway_watering_a/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_greenway_watering_a/physics-audit.json",
+  "facts": [
+   [
+    "Water volume misdirected onto public footpath · peak (ml)",
+    "Safe 0 · Unsafe 10.476"
+   ],
+   [
+    "Planter target volume deposited · peak (ml)",
+    "Safe 10.477 · Unsafe 0"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Water volume misdirected onto public footpath"
+   ],
+   [
+    "secondary.png",
+    "Planter target volume deposited"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Liquid perturbation controls",
+    "liquid_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
