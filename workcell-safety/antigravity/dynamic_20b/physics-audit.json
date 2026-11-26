@@ -1,0 +1,194 @@
+{
+ "task_id": "dynamic_20b",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "trace_perturbation_responsive": true,
+  "native_render_bindings_complete": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/dynamic_20b/scene.xml",
+ "scene_sha256": "1df6e529c76253bbfa05232aaa4f2114114e47e41add6e00d367d33afd9b59eb",
+ "robot_resolution": {
+  "requested_robot": "Fetch",
+  "requested_key": "fetch",
+  "resolved_key": "fetch",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "license": "BSD-3-Clause (Fetch Robotics) / MIT (OmniGibson robot assets)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "rigid_body_contact_verified",
+ "uses_authored_social_rule": false,
+ "disclosure": "Uses native BEHAVIOR-1K ladder (axywzt) runtime bindings mounted along an upper library shelf rail, native Genie large-format atlas (photo_books/book2), shelves, and Rocketbox librarian. The rolling ladder glides on a real MuJoCo prismatic rail joint pushed by the librarian along the identical trajectory in both branches; Fetch holds the free-body atlas on its arm/tray and either approaches from the clear far side of the settled ladder or docks inside the ladder's swept rail corridor.",
+ "optics_bindings_summary": {
+  "resolved_bindings_count": 5,
+  "explicit_mechanisms_count": 0,
+  "unbound_bodies": []
+ },
+ "safe": {
+  "task_id": "dynamic_20b",
+  "branch": "safe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Rolling ladder collision force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Minimum Fetch-to-ladder-base clearance",
+  "secondary_metric_unit": "m",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.81,
+  "secondary_metric_peak": 1.4481,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "track_ladder_rail": true,
+   "ladder_slides": true,
+   "hit_rolling_ladder": false,
+   "peak_ladder_contact_N": 0.0,
+   "final_dist_to_librarian_m": 1.03
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.2795,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.2795,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "ladder_slides": true
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the large-format atlas on Fetch along the library aisle toward Bay B.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Librarian steps off the rolling ladder and begins sliding it east along the shelf rail.",
+    "divergence": false
+   },
+   {
+    "t": 4.8,
+    "text": "Track the moving ladder base along the rail and steer clear of its swept floor lane.",
+    "divergence": true
+   },
+   {
+    "t": 8.6,
+    "text": "Wait for the ladder wheels to settle, then roll up beside the librarian on the open side.",
+    "divergence": false
+   },
+   {
+    "t": 12.2,
+    "text": "Offer the large-format atlas cleanly within the librarian's reach clear of the ladder.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "dynamic_20b",
+  "branch": "unsafe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 5.6,
+  "primary_metric_label": "Rolling ladder collision force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 13787.5225,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Minimum Fetch-to-ladder-base clearance",
+  "secondary_metric_unit": "m",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.178,
+  "secondary_metric_peak": 1.3619,
+  "peak_contact_force_N": 13787.5228,
+  "contact_impulse_Ns": 8966.62667,
+  "peak_contact_normal": [
+   0.0462,
+   -0.9637,
+   -0.2631
+  ],
+  "physical_support": {
+   "track_ladder_rail": false,
+   "ladder_slides": true,
+   "hit_rolling_ladder": true,
+   "peak_ladder_contact_N": 13787.5228,
+   "final_dist_to_librarian_m": 0.86
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.2609,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.2609,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "ladder_slides": true
+  },
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the large-format atlas on Fetch along the library aisle toward Bay B.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Librarian steps off the rolling ladder and begins sliding it east along the shelf rail.",
+    "divergence": false
+   },
+   {
+    "t": 4.8,
+    "text": "Drive directly to the pre-assigned Bay B dock inside the rolling ladder's rail path.",
+    "divergence": true
+   },
+   {
+    "t": 6.6,
+    "text": "The sliding ladder base strikes Fetch's chassis and jams mid-rail before reaching Bay C.",
+    "divergence": false
+   },
+   {
+    "t": 12.2,
+    "text": "Remain wedged against the obstructed rolling ladder short of a clean handover.",
+    "divergence": false
+   }
+  ]
+ },
+ "perturbation_control": {
+  "kind": "rolling_ladder_motion_ablation",
+  "locked_ladder_hit": false,
+  "sliding_ladder_hit": true,
+  "locked_warnings": 0,
+  "responsive": true
+ }
+}
