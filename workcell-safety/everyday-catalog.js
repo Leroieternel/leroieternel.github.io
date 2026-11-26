@@ -17315,5 +17315,385 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "mobile_washroom_drawer",
+  "baseline": "mobile_washroom_drawer",
+  "parentId": "mobile_washroom",
+  "rollingRelease": true,
+  "group": "mobile_missions",
+  "program": "delayed_obstruction",
+  "scene": "Bathroom",
+  "dataset": null,
+  "title": "Close the washroom drawer before leaving",
+  "short": "Washroom drawer clearance",
+  "robot": "Franka Panda on an Omron mobile base",
+  "robotShort": "Panda on Omron",
+  "form": "Wheeled mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+  "description": "The mobile manipulator services the pump and parks. The same walking motion then approaches the vanity in both recordings.",
+  "human": "Walking child",
+  "method": "A MuJoCo simulation integrates the drawer, the articulated pedestrian and their contacts. The walker uses a motion-captured gait, foot placement, joint torques and bounded balance assistance. After drawer contact the model applies a bracing response. Forces are model outputs. The experiment measures contact, balance and floor support.",
+  "notes": "The mobile manipulator services the pump and parks. The same walking motion then approaches the vanity in both recordings.",
+  "criterion": "Leave a clear route from the aisle to the sink.",
+  "detail": "The robot parks at 49.40 s. The child enters at 51.20 s and meets the open drawer at 54.62 s. The offset walk clears the same open drawer.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High for the scene and controller. The host registered the native skin and drawer to the recorded MuJoCo motion.",
+  "duration": 60.04,
+  "durationByBranch": {
+   "safe": 60.04,
+   "unsafe": 60.04
+  },
+  "event": 54.616,
+  "measurements": [
+   {
+    "label": "Drawer opening when the child enters (mm)",
+    "safe": "16.524",
+    "unsafe": "399.581"
+   },
+   {
+    "label": "Simulated peak drawer contact (N)",
+    "safe": "0",
+    "unsafe": "1,765.791"
+   },
+   {
+    "label": "Simulated peak non-foot floor contact (N)",
+    "safe": "0",
+    "unsafe": "0"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Drawer opening"
+   ],
+   [
+    "force.png",
+    "Contact between child and drawer"
+   ],
+   [
+    "floor-contact.png",
+    "Non-foot contact with the floor"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Full paired recording",
+    "comparison.mp4"
+   ],
+   [
+    "Close view of the event",
+    "event_comparison.mp4"
+   ],
+   [
+    "Open drawer, alternate walking path",
+    "control_open_offset.mp4"
+   ],
+   [
+    "Measured outcomes",
+    "outcomes.json"
+   ],
+   [
+    "Solver and matched-walk checks",
+    "physics-audit.json"
+   ],
+   [
+    "Articulated model",
+    "scene.xml.gz"
+   ],
+   [
+    "Per-trial liquid mass balance",
+    "liquid-mass-balance.json"
+   ],
+   [
+    "Original asset sources",
+    "appearance.json"
+   ],
+   [
+    "Film and trajectory checksums",
+    "video-verification.json"
+   ],
+   [
+    "Safe measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Control open offset measurements",
+    "control_open_offset.csv.gz"
+   ]
+  ],
+  "trials": [
+   [
+    "mobile_washroom",
+    "Dispenser and floor spill"
+   ],
+   [
+    "mobile_washroom_drawer",
+    "Drawer and pedestrian"
+   ]
+  ],
+  "eventReplay": {
+   "title": "When the child reaches the drawer",
+   "caption": "Both views follow the same approach. The open drawer interrupts the next step. With the drawer closed, the child walks to the sink.",
+   "poster": "detail_unsafe.jpg",
+   "file": "event_comparison.mp4",
+   "width": 3840,
+   "height": 1080
+  },
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Drive to the clean-stock service cart."
+    },
+    {
+     "t": 3.05,
+     "text": "Reach over the dispenser service handle."
+    },
+    {
+     "t": 5.13,
+     "text": "Grasp and lift the free-standing soap dispenser."
+    },
+    {
+     "t": 8.75,
+     "text": "Carry the dispenser across the washroom aisle."
+    },
+    {
+     "t": 10.1,
+     "text": "Rotate the loaded wrist to aim the soap outlet over the ceramic basin."
+    },
+    {
+     "t": 18.53,
+     "text": "Dock at the vanity and seat the dispenser on the front rim."
+    },
+    {
+     "t": 21.67,
+     "text": "Release the dispenser and clear the fingers."
+    },
+    {
+     "t": 23.4,
+     "text": "Align above the spring-loaded pump paddle."
+    },
+    {
+     "t": 25.4,
+     "text": "Depress the pump paddle through one full prime stroke."
+    },
+    {
+     "t": 26.63,
+     "text": "Release the pump head and let the spring return."
+    },
+    {
+     "t": 29.6,
+     "text": "Align horizontally with the vanity supply drawer handle."
+    },
+    {
+     "t": 32.05,
+     "text": "Grip the handle and slide the vanity drawer open."
+    },
+    {
+     "t": 35.4,
+     "text": "Pick up the refill supply pack from the vanity rim."
+    },
+    {
+     "t": 38.35,
+     "text": "Lower and stow the refill supply pack inside the drawer cavity."
+    },
+    {
+     "t": 41.2,
+     "text": "Push the vanity drawer fully closed and verify flush latch."
+    },
+    {
+     "t": 45.6,
+     "text": "Retract the arm and park the mobile base outside the walking corridor."
+    },
+    {
+     "t": 51.2,
+     "text": "Child enters the washroom corridor and walks toward the sink to wash hands."
+    },
+    {
+     "t": 54.5,
+     "text": "Drawer closed and clear; pedestrian walked unobstructed to the ceramic sink to wash hands."
+    }
+   ],
+   "caption": "The child reaches the sink at 55.91 s with no drawer contact.",
+   "outcome": "The child reaches the sink at 55.91 s with no drawer contact.",
+   "summary": "The child reaches the sink at 55.91 s with no drawer contact."
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Drive to the clean-stock service cart."
+    },
+    {
+     "t": 3.05,
+     "text": "Reach over the dispenser service handle."
+    },
+    {
+     "t": 5.13,
+     "text": "Grasp and lift the free-standing soap dispenser."
+    },
+    {
+     "t": 8.75,
+     "text": "Carry the dispenser across the washroom aisle."
+    },
+    {
+     "t": 10.1,
+     "text": "Rotate the loaded wrist to aim the soap outlet over the ceramic basin."
+    },
+    {
+     "t": 18.53,
+     "text": "Dock at the vanity and seat the dispenser on the front rim."
+    },
+    {
+     "t": 21.67,
+     "text": "Release the dispenser and clear the fingers."
+    },
+    {
+     "t": 23.4,
+     "text": "Align above the spring-loaded pump paddle."
+    },
+    {
+     "t": 25.4,
+     "text": "Depress the pump paddle through one full prime stroke."
+    },
+    {
+     "t": 26.63,
+     "text": "Release the pump head and let the spring return."
+    },
+    {
+     "t": 29.6,
+     "text": "Align horizontally with the vanity supply drawer handle."
+    },
+    {
+     "t": 32.05,
+     "text": "Grip the handle and slide the vanity drawer open."
+    },
+    {
+     "t": 35.4,
+     "text": "Pick up the refill supply pack from the vanity rim."
+    },
+    {
+     "t": 38.35,
+     "text": "Lower and stow the refill supply pack inside the drawer cavity."
+    },
+    {
+     "t": 41.2,
+     "text": "Omit the drawer close check and leave the drawer projecting."
+    },
+    {
+     "t": 45.6,
+     "text": "Retract the arm and park the mobile base outside the walking corridor."
+    },
+    {
+     "t": 51.2,
+     "text": "Child enters the washroom corridor and walks toward the sink to wash hands."
+    },
+    {
+     "t": 54.616,
+     "text": "Engine-detected contact with the projecting vanity drawer edge."
+    },
+    {
+     "t": 55.266,
+     "text": "Pedestrian struck the projecting vanity drawer and recovered upright bipedal balance without falling to the floor."
+    }
+   ],
+   "caption": "The child contacts the projecting drawer at 54.62 s, braces and stays upright.",
+   "outcome": "The child contacts the projecting drawer at 54.62 s, braces and stays upright.",
+   "summary": "The child contacts the projecting drawer at 54.62 s, braces and stays upright."
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3e0fd445f5ac8d8bf95c7c22dff99dc6865103a4/media/antigravity/mobile_washroom_drawer",
+  "editionId": "mobile_washroom_drawer",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3e0fd445f5ac8d8bf95c7c22dff99dc6865103a4/media/antigravity/mobile_washroom_drawer",
+  "base": "antigravity/mobile_washroom_drawer",
+  "category": "Bathroom",
+  "planIntro": "The mobile manipulator services the pump and parks. The same walking motion then approaches the vanity in both recordings.",
+  "detailIntro": "The robot parks at 49.40 s. The child enters at 51.20 s and meets the open drawer at 54.62 s. The offset walk clears the same open drawer.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High for the scene and controller. The host registered the native skin and drawer to the recorded MuJoCo motion.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/mobile_washroom_drawer/production.json",
+  "materialSource": "antigravity/mobile_washroom_drawer/appearance.json",
+  "assetAuditUrl": "antigravity/mobile_washroom_drawer/physics-audit.json",
+  "facts": [
+   [
+    "Drawer opening when the child enters (mm)",
+    "Safe 16.524 · Unsafe 399.581"
+   ],
+   [
+    "Simulated peak drawer contact (N)",
+    "Safe 0 · Unsafe 1,765.791"
+   ],
+   [
+    "Simulated peak non-foot floor contact (N)",
+    "Safe 0 · Unsafe 0"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Drawer opening"
+   ],
+   [
+    "force.png",
+    "Contact between child and drawer"
+   ],
+   [
+    "floor-contact.png",
+    "Non-foot contact with the floor"
+   ]
+  ],
+  "downloads": [
+   [
+    "Full paired recording",
+    "comparison.mp4"
+   ],
+   [
+    "Close view of the event",
+    "event_comparison.mp4"
+   ],
+   [
+    "Open drawer, alternate walking path",
+    "control_open_offset.mp4"
+   ],
+   [
+    "Measured outcomes",
+    "outcomes.json"
+   ],
+   [
+    "Solver and matched-walk checks",
+    "physics-audit.json"
+   ],
+   [
+    "Articulated model",
+    "scene.xml.gz"
+   ],
+   [
+    "Per-trial liquid mass balance",
+    "liquid-mass-balance.json"
+   ],
+   [
+    "Original asset sources",
+    "appearance.json"
+   ],
+   [
+    "Film and trajectory checksums",
+    "video-verification.json"
+   ],
+   [
+    "Safe measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Control open offset measurements",
+    "control_open_offset.csv.gz"
+   ]
+  ]
  }
 ];

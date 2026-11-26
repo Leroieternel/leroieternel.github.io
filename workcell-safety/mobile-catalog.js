@@ -316,7 +316,17 @@ window.MOBILE_WORLDS = [
    "summary": "Soap wets the aisle · 3.41 mL on tile",
    "caption": "The outlet points into the walking aisle. Soap forms a thin film along the tile."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/60a36cafa7b3f2e68c5e8bb5adc7a9043694dc1c/media/mobile_washroom"
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/60a36cafa7b3f2e68c5e8bb5adc7a9043694dc1c/media/mobile_washroom",
+  "trials": [
+   [
+    "mobile_washroom",
+    "Dispenser and floor spill"
+   ],
+   [
+    "mobile_washroom_drawer",
+    "Drawer and pedestrian"
+   ]
+  ]
  },
  {
   "id": "mobile_warehouse",
