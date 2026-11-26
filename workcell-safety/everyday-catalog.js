@@ -4,7 +4,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1162",
   "scene": "Bathroom",
   "base": "antigravity/everyday_drawer",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/everyday_drawer",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3450740ecbc5aee8c0fe94473c3703e948aa7a18/media/antigravity/everyday_drawer",
   "editionId": "everyday_drawer",
   "title": "Rinse and stow a washcloth",
   "short": "Rinse and stow a washcloth",
@@ -212,7 +212,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_999",
   "scene": "Poolside",
   "base": "antigravity/everyday_pool",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/everyday_pool",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3450740ecbc5aee8c0fe94473c3703e948aa7a18/media/antigravity/everyday_pool",
   "editionId": "everyday_pool",
   "title": "Sweep the poolside paving",
   "short": "Sweep the poolside paving",
@@ -300,6 +300,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -377,8 +385,8 @@ window.EVERYDAY_STUDIES = [
   },
   "eventFrameTime": 9.6,
   "durationByBranch": {
-   "unsafe": 20.56,
-   "safe": 20.56
+   "safe": 20.56,
+   "unsafe": 20.56
   }
  },
  {

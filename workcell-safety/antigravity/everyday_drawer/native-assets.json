@@ -1,11 +1,22 @@
 {
  "task": "everyday_drawer",
+ "family": "domestic",
+ "setting": "Bathroom",
+ "simulation": "MuJoCo",
+ "renderer": "Blender 4.5 EEVEE Next (headless)",
+ "suppressed_collision_proxies": [
+  "fixed_support/fixed_support",
+  "support/support"
+ ],
  "bindings": [
   {
    "role": "Wall-mounted basin, faucet, cabinet and mirror",
    "source_body": "world",
    "native_key": "review_vanity_000",
    "model_id": "benchmark_bathroom_vanity_000",
+   "mode": "vanity_hfield",
+   "replaced": true,
+   "notes": "Registered via vanity_basin.py with native hfield bowl (<3 mm raycast error) and faucet collision shells.",
    "original_objects": [
     "vanity_plinth",
     "vanity_cabinet",
@@ -32,7 +43,95 @@
     "tap_base",
     "infrared_window"
    ],
-   "replaced": true
+   "max_raycast_disagreement_m": 0.00027720802332009686
+  },
+  {
+   "role": "Tall toiletry case",
+   "source_body": "case",
+   "native_key": "ag_10ac67881f20",
+   "model_id": "benchmark_cleaning_products_007",
+   "mode": "body_fit",
+   "replaced": true,
+   "notes": "Native Genie benchmark_cleaning_products_007 fitted within exact 61x85x200 mm envelope preserving the 29.08 s rail-jam clearance.",
+   "original_objects": [
+    "case_shell",
+    "case_lid",
+    "case_seam",
+    "case_label"
+   ],
+   "scale_in_body_axes": [
+    0.90353,
+    1.12961,
+    0.90416
+   ],
+   "aspect_distortion": 1.2502,
+   "target_extent_m": [
+    0.0606,
+    0.0848,
+    0.2
+   ]
+  },
+  {
+   "role": "bath_door",
+   "native_key": "er_door",
+   "model_id": "benchmark_door_000",
+   "xyz": [
+    -2.1,
+    0.96,
+    0.0
+   ],
+   "yaw_deg": -90.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.5118,
+   "placed": true,
+   "notes": "Bathroom entry door grounded on tile floor."
+  },
+  {
+   "role": "bath_toilet",
+   "native_key": "review_ceramic_toilet",
+   "model_id": "benchmark_toilet_000",
+   "xyz": [
+    1.62,
+    0.72,
+    0.0
+   ],
+   "yaw_deg": -90.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.4063,
+   "placed": true,
+   "notes": "Native ceramic toilet in free bathroom bay."
+  },
+  {
+   "role": "bath_waste_bin",
+   "native_key": "ag_44a5eb4e3558",
+   "model_id": "benchmark_trash_can_003",
+   "xyz": [
+    1.24,
+    0.84,
+    0.0
+   ],
+   "yaw_deg": 0.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.2601,
+   "placed": false,
+   "notes": "Bathroom waste bin.",
+   "skipped_reason": "Clearance 0.260 m < required 0.350 m"
+  },
+  {
+   "role": "bath_tissue_box",
+   "native_key": "review_tissue_holder",
+   "model_id": "benchmark_tissue_box_001",
+   "xyz": [
+    -1.12,
+    0.76,
+    0.91
+   ],
+   "yaw_deg": 0.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.0,
+   "placed": false,
+   "notes": "Tissue box on vanity side ledge clear of cloth pickup.",
+   "skipped_reason": "Clearance 0.000 m < required 0.350 m"
   }
  ],
  "new_native_models": {
@@ -49,6 +148,7 @@
    "bound_images": {
     "benchmark_bathroom_vanity_000_Alb.jpg": {
      "channel": "Base Color",
+     "file": "benchmark_bathroom_vanity_000_Alb.jpg",
      "pixels": [
       4096,
       4096
@@ -57,6 +157,7 @@
     },
     "benchmark_bathroom_vanity_000_Rgh.jpg": {
      "channel": "Roughness",
+     "file": "benchmark_bathroom_vanity_000_Rgh.jpg",
      "pixels": [
       4096,
       4096
@@ -65,6 +166,7 @@
     },
     "benchmark_bathroom_vanity_000_Met.jpg": {
      "channel": "Metallic",
+     "file": "benchmark_bathroom_vanity_000_Met.jpg",
      "pixels": [
       4096,
       4096
@@ -73,6 +175,7 @@
     },
     "benchmark_bathroom_vanity_000_Nor.jpg": {
      "channel": "Normal",
+     "file": "benchmark_bathroom_vanity_000_Nor.jpg",
      "pixels": [
       4096,
       4096
@@ -82,79 +185,212 @@
    },
    "provider": "Genie Sim",
    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/background/common/bathroom_vanity/benchmark_bathroom_vanity_000/Aligned.usd"
+  },
+  "ag_10ac67881f20": {
+   "id": "benchmark_cleaning_products_007",
+   "source": "objects/benchmark/cleaning_products/benchmark_cleaning_products_007/Aligned.usd",
+   "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+   "sha256": "0e2069e369f1397fa8872ed75934e08f9711d53d13bdeb06de835d7e080fefb7",
+   "size_m": [
+    0.06707,
+    0.07507,
+    0.2212
+   ],
+   "bound_images": {
+    "benchmark_cleaning_products_007_Alb.jpg": {
+     "channel": "Base Color",
+     "file": "benchmark_cleaning_products_007_Alb.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "c8f9e711d4b502a400d92e78fb775bb7798ba71143cdc8a85226813b214ab2a6"
+    },
+    "benchmark_cleaning_products_007_Rgh.jpg": {
+     "channel": "Roughness",
+     "file": "benchmark_cleaning_products_007_Rgh.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "f7f9ae1a802f04b80512a0fe8095fca8b649fc48d1fe2011f107d54c41d525ea"
+    },
+    "benchmark_cleaning_products_007_Met.jpg": {
+     "channel": "Metallic",
+     "file": "benchmark_cleaning_products_007_Met.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "5889814b43db29a8ba3314e09bff1fb3ab380a55a03e8d6d61c6f36b0b981800"
+    },
+    "benchmark_cleaning_products_007_Nor.jpg": {
+     "channel": "Normal",
+     "file": "benchmark_cleaning_products_007_Nor.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "ee2337533f026a939363f385cf54df5e2c7a76f67a0d236c7055725903f8aadb"
+    }
+   },
+   "provider": "Genie Sim",
+   "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/cleaning_products/benchmark_cleaning_products_007/Aligned.usd"
+  },
+  "er_door": {
+   "id": "benchmark_door_000",
+   "source": "objects/benchmark/door/benchmark_door_000/Aligned.usd",
+   "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+   "sha256": "574a91dc9dedecd5882268936b6282c8d0561155b231c15cbf65f3eeb6f5f858",
+   "size_m": [
+    0.16207,
+    1.16,
+    2.13033
+   ],
+   "bound_images": {
+    "door_000_Alb.jpg": {
+     "channel": "Base Color",
+     "file": "door_000_Alb.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "7bd99da57570b376e9a578b12bd6c96578522c689e652ceaf9888b060d5d44bf"
+    },
+    "door_000_Rgh.jpg": {
+     "channel": "Roughness",
+     "file": "door_000_Rgh.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "153ba788a7e641201bccd4b453dbec3c214896afc36faf0563471d90df018c1b"
+    },
+    "door_000_Met.jpg": {
+     "channel": "Metallic",
+     "file": "door_000_Met.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "c5026fd789c2d1b6cdaccf8be8342f4e06bd955162f8dea760b6dffe1b9992ce"
+    },
+    "door_000_Nor.jpg": {
+     "channel": "Normal",
+     "file": "door_000_Nor.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "f5bb257b81ac258faf0f327e1a5d48934b96f6ca965c01b7e8d7d4d222b94cf8"
+    },
+    "benchmark_door_handle_000_Alb.jpg": {
+     "channel": "Base Color",
+     "file": "benchmark_door_handle_000_Alb.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "4116fbc94b772a240413853bc0ce231f0835a6de9c87e0352cfa99bb7b87dacc"
+    },
+    "benchmark_door_handle_000_Rgh.jpg": {
+     "channel": "Roughness",
+     "file": "benchmark_door_handle_000_Rgh.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "fd2896fe45a5c7bbb317864e7016744600434dde4502ac53176b7d8c8502c43a"
+    },
+    "benchmark_door_handle_000_Met.jpg": {
+     "channel": "Metallic",
+     "file": "benchmark_door_handle_000_Met.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "7c279434c85b060878ea4bea5475661ec100f16e5c42dd33de1684ab64591e61"
+    },
+    "benchmark_door_handle_000_Nor.jpg": {
+     "channel": "Normal",
+     "file": "benchmark_door_handle_000_Nor.jpg",
+     "pixels": [
+      1024,
+      1024
+     ],
+     "sha256": "69bf531d1a81c86619f206660eeaf02aac93432c7d5cfbc3e7a2aeb349f48a0f"
+    }
+   },
+   "provider": "Genie Sim",
+   "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/door/benchmark_door_000/Aligned.usd"
+  },
+  "review_ceramic_toilet": {
+   "id": "benchmark_toilet_000",
+   "source": "objects/benchmark/toilet/benchmark_toilet_000/Aligned.usd",
+   "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+   "sha256": "2de067ed1a2423f7f4662901a8a7c6f9e63fadb1d20bf4b387fb1278d2f93e0b",
+   "size_m": [
+    0.71745,
+    0.38074,
+    0.79162
+   ],
+   "bound_images": {
+    "benchmark_toilet_000_Alb.jpg": {
+     "channel": "Base Color",
+     "file": "benchmark_toilet_000_Alb.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "7456125f72f4b8141afe9a7337d488efad907b5a56df63a97d2877054553bcd0"
+    },
+    "benchmark_toilet_000_Rgh.jpg": {
+     "channel": "Roughness",
+     "file": "benchmark_toilet_000_Rgh.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "022f55089a4a85f6e062ca34300e9b66065aa630930cc003768105f368bbdea8"
+    },
+    "benchmark_toilet_000_Met.jpg": {
+     "channel": "Metallic",
+     "file": "benchmark_toilet_000_Met.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "931280e268b65415cfcc2f05c18335c4aacea9785237480f501fbbcc81b573b8"
+    },
+    "benchmark_toilet_000_Nor.jpg": {
+     "channel": "Normal",
+     "file": "benchmark_toilet_000_Nor.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "5b555ae7afae801ef13d71afb39a4e48a8a3bab2f504e66de3f99a7fa4eb2257"
+    }
+   },
+   "provider": "Genie Sim",
+   "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/toilet/benchmark_toilet_000/Aligned.usd"
   }
  },
- "authoring": {
-  "registered_counters": {
-   "actual_model": "gemini-4-neon-high",
-   "source_sha256": "8841169efa5bc5edfcebe777739f2e2322ba07935f83735a767cd7a8fcc673a3",
-   "brief_sha256": "b42fc73c1b97cd0d494e11a9f38700fa3e2407ac4aaa04d10cc6d75058253bf4"
+ "unmatched_elements": [
+  {
+   "body": "drawer",
+   "classification": "preserved_industrial_jig",
+   "genie_live_path": null,
+   "behavior_category": null,
+   "reason": "Sliding vanity drawer with exact runner rails and header clearance defining the tall-case jam force."
+  },
+  {
+   "body": "cloth",
+   "classification": "behavior_og_only",
+   "genie_live_path": null,
+   "behavior_category": "hand_towel",
+   "reason": "Folded 57x136x22 mm washcloth grasped under faucet stream; BEHAVIOR hand_towel applies in OmniGibson runtime only."
   }
- },
- "simulation": "MuJoCo",
- "renderer": "Blender EEVEE Next",
- "collision_registration": {
-  "key": "review_vanity_000",
-  "original_objects": [
-   "vanity_plinth",
-   "vanity_cabinet",
-   "basin_flank-1",
-   "basin_wall-1",
-   "cabinet_cheek-1",
-   "basin_flank1",
-   "basin_wall1",
-   "cabinet_cheek1",
-   "basin_rim_front",
-   "basin_rim_back",
-   "bowl_front",
-   "bowl_back",
-   "bowl_bottom",
-   "drain",
-   "drain_slot0",
-   "drain_slot1",
-   "drain_slot2",
-   "drain_slot3",
-   "faucet_0.93_0.91",
-   "faucet_0.93_1.05",
-   "faucet_0.89_1.091",
-   "faucet_0.77_1.091",
-   "tap_base",
-   "infrared_window"
-  ],
-  "matrix": [
-   [
-    0.0,
-    1.0,
-    0.0,
-    -0.6673099159663866
-   ],
-   [
-    -1.2750740224936206,
-    0.0,
-    0.0,
-    0.717572001476808
-   ],
-   [
-    0.0,
-    0.0,
-    1.0734170557042173,
-    0.39531524649044447
-   ],
-   [
-    0.0,
-    0.0,
-    0.0,
-    1.0
-   ]
-  ],
-  "outlet_world_m": [
-   -0.67,
-   0.744,
-   1.058
-  ],
-  "back_wall_world_y_m": 1.037,
-  "cloth_support_m": 0.9100054574526752,
-  "max_raycast_disagreement_m": 0.00027720802332009686,
-  "source": "An original wall-hung sanitary fixture. Basin heights and faucet collision shells come from its source triangles. The separate storage drawer retains its measured runners and rail."
- }
+ ],
+ "physics_source": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/workcells/outputs/physics/domestic/01_drawer"
 }
