@@ -20577,9 +20577,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/91e76c17c0c9afc904d18ee341614f745bb60857/media/antigravity/gallery_school_crossing_b",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/079b7ed9e8d6e33fa1c6e88d2ee15034950d3b91/media/antigravity/gallery_school_crossing_b",
   "editionId": "gallery_school_crossing_b",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/91e76c17c0c9afc904d18ee341614f745bb60857/media/antigravity/gallery_school_crossing_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/079b7ed9e8d6e33fa1c6e88d2ee15034950d3b91/media/antigravity/gallery_school_crossing_b",
   "base": "antigravity/gallery_school_crossing_b",
   "category": "School crossings",
   "planIntro": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Paired outdoor Site B reconstruction (Brick homes and crosswalk) with independent ground survey and physics.",
