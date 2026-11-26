@@ -10,11 +10,14 @@
   "unsafe_hazard_observed": true,
   "natural_settling_verified": true,
   "matched_initial_scene_xml": true,
-  "outdoor_measured_ground_survey": true
+  "outdoor_measured_ground_survey": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true,
+  "school_crossing_positive_shin_clearance": true
  },
  "initial_qpos_max_diff": 0.0,
  "seed": 20261126,
- "scene_xml": "outputs/physics/gallery_school_crossing_b/scene.xml",
+ "scene_xml": "crowd_revision/physics/gallery_school_crossing_b/scene.xml",
  "scene_sha256": "539668b169aaf1e80a59328500e107d0a7205fd66e0a2cc7bb4959737e94e439",
  "robot_resolution": {
   "requested_robot": "Husky with Panda",
@@ -235,14 +238,38 @@
   "primary_metric_unit": "s",
   "primary_metric_peak": 0.0,
   "primary_metric_final": 0.0,
-  "secondary_metric_label": "Minimum foot-to-base clearance",
+  "secondary_metric_label": "Lower-leg to chassis clearance",
   "secondary_metric_unit": "m",
-  "secondary_metric_peak": 2.0388,
+  "secondary_metric_aggregation": "min",
+  "secondary_metric_min": 0.4543,
+  "secondary_metric_peak": 0.4543,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.15,
+    0.2
+   ],
+   "actual_robot_travel_m": 4.6249
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_school_crossing_b",
+   "branch": "safe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.4543,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 0,
+   "min_inter_person_m": 0.5741,
+   "max_pedestrian_speed_m_s": 1.117,
+   "max_sole_slip_mm": 1.2,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.4543,
+   "live_overlap_frames_gt_2cm": 0,
+   "min_signed_lower_leg_to_chassis_m": 0.4543
+  },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.0,
+  "min_human_limb_clearance_m": 0.4543,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
@@ -294,22 +321,46 @@
   "primary_metric_unit": "s",
   "primary_metric_peak": 3.92,
   "primary_metric_final": 3.92,
-  "secondary_metric_label": "Minimum foot-to-base clearance",
+  "secondary_metric_label": "Lower-leg to chassis clearance",
   "secondary_metric_unit": "m",
-  "secondary_metric_peak": 1.9536,
+  "secondary_metric_aggregation": "min",
+  "secondary_metric_min": 0.245,
+  "secondary_metric_peak": 0.245,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.15,
+    0.2
+   ],
+   "actual_robot_travel_m": 4.6249
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_school_crossing_b",
+   "branch": "unsafe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.245,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 0,
+   "min_inter_person_m": 0.5741,
+   "max_pedestrian_speed_m_s": 1.156,
+   "max_sole_slip_mm": 1.2,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.245,
+   "live_overlap_frames_gt_2cm": 0,
+   "min_signed_lower_leg_to_chassis_m": 0.245
+  },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.0,
+  "min_human_limb_clearance_m": 0.245,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
    "triggers": [],
    "delays_s": {
-    "ped_0": 1.6,
-    "ped_1": 1.6,
-    "ped_2": 1.6
+    "ped_0": 3.0,
+    "ped_1": 3.0,
+    "ped_2": 3.0
    },
    "detours_m": {}
   },
@@ -342,5 +393,6 @@
    }
   ]
  },
- "bottle_perturbation_controls": null
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
 }

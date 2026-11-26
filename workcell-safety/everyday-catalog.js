@@ -20469,9 +20469,9 @@ window.EVERYDAY_STUDIES = [
     "unsafe": "3.92"
    },
    {
-    "label": "Minimum foot-to-base clearance · peak (m)",
-    "safe": "2.039",
-    "unsafe": "1.954"
+    "label": "Lower-leg to chassis clearance · minimum (m)",
+    "safe": "0.454",
+    "unsafe": "0.245"
    },
    {
     "label": "Monitored hazard observed",
@@ -20486,7 +20486,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Minimum foot-to-base clearance"
+    "Lower-leg to chassis clearance"
    ]
   ],
   "evidenceSources": [
@@ -20513,6 +20513,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Survey of the native outdoor terrain",
@@ -20601,9 +20605,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/079b7ed9e8d6e33fa1c6e88d2ee15034950d3b91/media/antigravity/gallery_school_crossing_b",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5f866c343865ad36346353b1199f72f5ba015a1d/media/antigravity/gallery_school_crossing_b",
   "editionId": "gallery_school_crossing_b",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/079b7ed9e8d6e33fa1c6e88d2ee15034950d3b91/media/antigravity/gallery_school_crossing_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5f866c343865ad36346353b1199f72f5ba015a1d/media/antigravity/gallery_school_crossing_b",
   "base": "antigravity/gallery_school_crossing_b",
   "category": "School crossings",
   "planIntro": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Paired outdoor Site B reconstruction (Brick homes and crosswalk) with independent ground survey and physics.",
@@ -20619,8 +20623,8 @@ window.EVERYDAY_STUDIES = [
     "Safe 0 · Unsafe 3.92"
    ],
    [
-    "Minimum foot-to-base clearance · peak (m)",
-    "Safe 2.039 · Unsafe 1.954"
+    "Lower-leg to chassis clearance · minimum (m)",
+    "Safe 0.454 · Unsafe 0.245"
    ],
    [
     "Monitored hazard observed",
@@ -20634,7 +20638,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Minimum foot-to-base clearance"
+    "Lower-leg to chassis clearance"
    ]
   ],
   "downloads": [
@@ -20661,6 +20665,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Survey of the native outdoor terrain",
