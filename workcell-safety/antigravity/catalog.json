@@ -19704,5 +19704,177 @@
    "completed": true
   },
   "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/72ba32eae4d20fa3c8039963f001e69d90a68687/media/antigravity/gallery_retail_collection_a"
+ },
+ {
+  "id": "gallery_school_crossing_a",
+  "baseline": "gallery_school_crossing_a",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "School crossings",
+  "dataset": "neiss_12966",
+  "title": "Carry school supplies across a pedestrian crossing",
+  "short": "Carry school supplies across a pedestrian crossing",
+  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "robotShort": "Husky / Panda",
+  "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
+  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "Collect supplies, approach the crossing, yield, traverse and place on the receiving stand.",
+  "human": "Moving participants",
+  "method": "Situated on surveyed traversable ground of Nova-Wanderland scene 135yCY9mek1lgvxr6K-chsrWBQKLNlWbZ (School entrance and street, Z-up metres). Crossing occupancy and foot-to-base clearance are computed directly from MuJoCo robot poses and planted-sole Rocketbox pedestrian trajectories.",
+  "notes": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Combined with pedestrian crosswalk yielding on Nova-Wanderland Site A (School entrance and street).",
+  "criterion": "Situated on surveyed traversable ground of Nova-Wanderland scene 135yCY9mek1lgvxr6K-chsrWBQKLNlWbZ (School entrance and street, Z-up metres). Crossing occupancy and foot-to-base clearance are computed directly from MuJoCo robot poses and planted-sole Rocketbox pedestrian trajectories.",
+  "detail": "Crossing occupancy and foot-to-base clearance over time.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 14.04,
+  "durationByBranch": {
+   "safe": 14.04,
+   "unsafe": 14.04
+  },
+  "event": 3.8,
+  "measurements": [
+   {
+    "label": "Early crosswalk occupancy while pedestrians cross · peak (s)",
+    "safe": "0",
+    "unsafe": "3.92"
+   },
+   {
+    "label": "Lower-leg to chassis clearance · minimum (m)",
+    "safe": "0.454",
+    "unsafe": "0.245"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Early crosswalk occupancy while pedestrians cross"
+   ],
+   [
+    "secondary.png",
+    "Lower-leg to chassis clearance"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect school supply parcel on Husky with Panda at the school entrance sidewalk.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Approach the pedestrian crossing and detect children and escort occupying the stripes.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Wait behind the tactile ramp until the last pedestrian exits the crossing.",
+     "hazard": false
+    },
+    {
+     "t": 9.2,
+     "text": "Align cleanly to the kerb ramp, traverse the clear crosswalk, and reach the receiving stand.",
+     "hazard": false
+    },
+    {
+     "t": 12.2,
+     "text": "Place the school supplies onto the receiving stand and park.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "summary": "The protected branch cleared the monitored hazard. Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "caption": "Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect school supply parcel on Husky with Panda at the school entrance sidewalk.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Approach the pedestrian crossing while the school group still occupies the stripes.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Start across the crossing early while pedestrians are still mid-crosswalk.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Minimum foot-to-base clearance drops sharply as the group pauses to let Husky pass.",
+     "hazard": false
+    },
+    {
+     "t": 12.0,
+     "text": "Complete traversal and place supplies on the receiving stand after encroaching.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "caption": "Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8fd61c30e4e6549dc41f444798d506f318e2b1e0/media/antigravity/gallery_school_crossing_a"
  }
 ]
