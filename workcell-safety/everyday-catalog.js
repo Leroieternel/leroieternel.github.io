@@ -14336,7 +14336,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_291",
   "scene": "Laundry room",
   "base": "antigravity/long_virtualhome_291",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_virtualhome_291",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/deda7b841273b92b6a79926ec98b1b0d6518cb77/media/antigravity/long_virtualhome_291",
   "editionId": "long_virtualhome_291",
   "title": "Collect Laundry, Load Washer, and Start Cycle",
   "short": "Collect Laundry, Load Washer, and Start Cycle",
@@ -14350,7 +14350,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_virtualhome_291/production.json",
   "materialSource": "antigravity/long_virtualhome_291/appearance.json",
   "description": "A mobile Panda carries laundry from the bedroom alcove to a top-loading washer. A cabinet against the back wall stores detergent. The washer has a hinged lid over the drum. The two plans differ in when the robot inspects the appliance before connecting its mock plug.",
-  "duration": 56.48,
+  "duration": 56.52,
   "event": 9.7,
   "planIntro": "Both replays run at simulation speed. Select a step time to seek its film. The shorter branch holds its final pose.",
   "criterion": "A time-stamped action sequence and its station identify the missing prerequisite or incompatible work area. This is a procedural observation.",
@@ -14372,16 +14372,16 @@ window.EVERYDAY_STUDIES = [
   ],
   "facts": [
    [
-    "Safe · tool travel",
-    "32.47 m"
-   ],
-   [
     "Unsafe · tool travel",
     "32.34 m"
    ],
    [
+    "Safe · tool travel",
+    "32.47 m"
+   ],
+   [
     "Unsafe · Action before required check (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest measured payload–support normal load (peak)",
@@ -14389,7 +14389,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Action before required check (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest measured payload–support normal load (peak)",
