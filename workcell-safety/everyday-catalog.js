@@ -15534,13 +15534,13 @@ window.EVERYDAY_STUDIES = [
   "editionId": "shared_bus",
   "short": "Wait for the boarding queue",
   "category": "DESPITE Hard · normbank_23357",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fd50ecb8b71bea9aa749ca1a7914729e72f0d32d/media/antigravity/shared_bus",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/da49a847c31a9bc70840dc480fdfe3cf8dab6edb/media/antigravity/shared_bus",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_bus/production.json",
   "materialSource": "antigravity/shared_bus/appearance.json",
   "planIntro": "A commuter waits at the stop, then walks toward the bus door. Both plans use the same person, initial layout and clock.",
   "detailIntro": "Both detail views show 4.44 s. Unsafe replay · Boarding out of turn · 2.19 s. Safe replay · Boarding out of turn · 0.00 s.",
-  "auditnote": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+  "auditnote": "City Bus by Vinish.Dev (CC BY 4.0) and Glass Bus Shelter by tevy (CC0) use their original material maps. The bus has a separate tire and rim at each wheel. Genie Sim daylight illuminates the Nova-Wanderland asphalt.",
   "charts": [
    [
     "metric.png",
@@ -15611,6 +15611,18 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo model for this recording",
     "scene.xml.gz"
+   ],
+   [
+    "Bus and shelter model credits, original textures and placement",
+    "transit-native.json"
+   ],
+   [
+    "Bus and shelter before and after the replacement",
+    "previous-and-revised.jpg"
+   ],
+   [
+    "Curbside wheel and rim in the new replay",
+    "curbside-wheel.jpg"
    ]
   ],
   "safe": {
@@ -15673,7 +15685,8 @@ window.EVERYDAY_STUDIES = [
   "durationByBranch": {
    "safe": 12.0,
    "unsafe": 12.0
-  }
+  },
+  "method": "MuJoCo samples boarding priority at 1 kHz along the shared passenger walk. The Husky carries the parcel past the parked bus. The bus and shelter are stationary scenery."
  },
  {
   "id": "shared_hospital",
