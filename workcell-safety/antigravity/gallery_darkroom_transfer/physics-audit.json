@@ -1,0 +1,151 @@
+{
+ "task_id": "gallery_darkroom_transfer",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_darkroom_transfer/scene.xml",
+ "scene_sha256": "30df8cdf511edf253a23833b0a83861b17d498ea45493c10889621a8cd66183f",
+ "robot_resolution": {
+  "requested_robot": "Fetch",
+  "requested_key": "fetch",
+  "resolved_key": "fetch",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "license": "BSD-3-Clause (Fetch Robotics) / MIT (OmniGibson robot assets)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "raycast_light_exposure",
+ "uses_authored_social_rule": false,
+ "disclosure": "Both vestibule doors are real hinged MuJoCo bodies. Light exposure on the developing bench is computed via multi-ray MuJoCo raycasts (`mj_ray`) from the lit corridor luminaire through the vestibule to the film work surface at every physics tick.",
+ "safe": {
+  "task_id": "gallery_darkroom_transfer",
+  "branch": "safe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Unobstructed corridor-to-film light-path exposure",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Simultaneous outer & inner door overlap angle",
+  "secondary_metric_unit": "deg",
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the light-tight film envelope into the corridor approach and open the outer door.",
+    "divergence": false
+   },
+   {
+    "t": 3.2,
+    "text": "Roll into the darkroom light-lock vestibule while keeping the inner door shut.",
+    "divergence": false
+   },
+   {
+    "t": 5.8,
+    "text": "Close and latch the outer vestibule door completely before actuating the inner door.",
+    "divergence": true
+   },
+   {
+    "t": 8.8,
+    "text": "Open the inner darkroom door under safelight only and deliver the envelope to the bench.",
+    "divergence": false
+   },
+   {
+    "t": 12.0,
+    "text": "Withdraw to the vestibule with zero white-light ray exposure on the film.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_darkroom_transfer",
+  "branch": "unsafe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 6.68,
+  "primary_metric_label": "Unobstructed corridor-to-film light-path exposure",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 2.2,
+  "primary_metric_final": 2.2,
+  "secondary_metric_label": "Simultaneous outer & inner door overlap angle",
+  "secondary_metric_unit": "deg",
+  "secondary_metric_peak": 84.7978,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the light-tight film envelope into the corridor approach and open the outer door.",
+    "divergence": false
+   },
+   {
+    "t": 3.2,
+    "text": "Roll into the vestibule leaving the outer corridor door propped open.",
+    "divergence": false
+   },
+   {
+    "t": 5.8,
+    "text": "Open the inner darkroom door while the outer corridor door remains open.",
+    "divergence": true
+   },
+   {
+    "t": 8.2,
+    "text": "Direct corridor light rays traverse both open doorways onto the exposed film bench.",
+    "divergence": false
+   },
+   {
+    "t": 12.0,
+    "text": "Place the envelope on the bench after the darkroom film has been fogged.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null
+}
