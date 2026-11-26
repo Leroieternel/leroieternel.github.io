@@ -1,0 +1,89 @@
+{
+ "title": "Electronics test station",
+ "robot": "Franka Panda with Panda Hand and control stylus",
+ "metric": "Plug contact",
+ "unit": "N",
+ "force": "Drawer lip and plug contact",
+ "criterion": "Normal contact load between plug and drawer lip exceeds 1 N.",
+ "baseline": "archive/07_electronics",
+ "event": 3.83,
+ "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 0.62,
+    "text": "Approach the cycle key directly while the preparation key remains open."
+   },
+   {
+    "t": 1.226,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 1.706,
+    "text": "Close the test drawer."
+   },
+   {
+    "t": 5.376,
+    "text": "Retract the service plug."
+   },
+   {
+    "t": 7.3,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.5,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The closing drawer hits the service plug (86.6 N).",
+  "completed": true,
+  "peak": 86.64902894584031,
+  "force": 86.64902894584031
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 1.146,
+    "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
+   },
+   {
+    "t": 2.936,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 3.236,
+    "text": "Retract the service plug."
+   },
+   {
+    "t": 4.756,
+    "text": "Close the test drawer."
+   },
+   {
+    "t": 7.3,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.5,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The plug retracts before the drawer closes.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 0.0
+ },
+ "detail": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
+ "notes": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
+ "duration": 19.0,
+ "id": "legacy_07_electronics",
+ "group": "legacy"
+}
