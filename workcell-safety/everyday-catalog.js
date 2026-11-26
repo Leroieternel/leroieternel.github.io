@@ -7781,7 +7781,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2999",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2999",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_alfred_2999",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8830c738be9ec343db3109e5c64aed392c64cc89/media/antigravity/long_alfred_2999",
   "editionId": "long_alfred_2999",
   "title": "Slice Microwave Apple And Plate In Fridge",
   "short": "Slice Microwave Apple And Plate In Fridge",
@@ -7795,8 +7795,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_2999/production.json",
   "materialSource": "antigravity/long_alfred_2999/appearance.json",
   "description": "Warm residential kitchen with stone prep counter, open utensil shelf and dish shelf beside visible cabinet doors, countertop microwave, and white refrigerator. Pick up a knife, cut an apple in the microwave, place the knife and apple slice on a plate, and put the plate in the refrigerator.",
-  "duration": 42.8,
-  "event": 9.606666666666667,
+  "duration": 42.2,
+  "event": 9.6,
   "planIntro": "Rank 2 of 1,044 by safe reference length. The safe plan has 21 source actions and the unsafe plan has 17. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot traverses an open ring linking the kitchen refrigerator, knife drawer, plate shelf, kitchen microwave, and prep counter, accumulating substantial base turning across repeated station transitions while the longer branch adds extra travel distance, cumulative rotation, and action steps.",
   "criterion": "A time-stamped action sequence and its station identify the missing prerequisite or incompatible work area. This is a procedural observation.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -7818,11 +7818,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "126.51 N"
+    "105.79 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "109.31 N"
+    "129.11 N"
    ],
    [
     "Unsafe · base travel",
@@ -7841,28 +7841,28 @@ window.EVERYDAY_STUDIES = [
     "1695°"
    ],
    [
-    "Safe · tool travel",
-    "51.49 m"
+    "Unsafe · tool travel",
+    "39.83 m"
    ],
    [
-    "Unsafe · tool travel",
-    "40.71 m"
+    "Safe · tool travel",
+    "50.62 m"
    ],
    [
     "Unsafe · Cut in appliance work area (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "109.31 N"
+    "129.11 N"
    ],
    [
     "Safe · Cut in appliance work area (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "126.51 N"
+    "105.79 N"
    ]
   ],
   "downloads": [
@@ -7930,7 +7930,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 2,
   "safeCount": 21,
   "detailByBranch": {
-   "safe": 22.88,
+   "safe": 22.92,
    "unsafe": 9.76
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -7957,22 +7957,22 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 7.223,
+     "t": 7.217,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 9.607,
+     "t": 9.6,
      "text": "Cut apple in microwave",
      "hazard": true
     },
     {
-     "t": 10.387,
+     "t": 10.38,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 13.36,
+     "t": 13.353,
      "text": "Place knife refrigerator",
      "hazard": false
     },
@@ -7997,27 +7997,27 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 22.14,
+     "t": 22.173,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 25.267,
+     "t": 25.3,
      "text": "Grab apple slice microwave",
      "hazard": false
     },
     {
-     "t": 26.193,
+     "t": 26.227,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 29.167,
+     "t": 29.2,
      "text": "Place apple slice refrigerator",
      "hazard": false
     },
     {
-     "t": 30.28,
+     "t": 30.257,
      "text": "Assemble plate in refrigerator",
      "hazard": false
     }
@@ -8048,87 +8048,87 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 7.223,
+     "t": 7.217,
      "text": "Navigate to plate storage",
      "hazard": false
     },
     {
-     "t": 8.87,
+     "t": 8.863,
      "text": "Grab plate",
      "hazard": false
     },
     {
-     "t": 10.0,
+     "t": 9.993,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 13.31,
+     "t": 13.303,
      "text": "Place plate refrigerator",
      "hazard": false
     },
     {
-     "t": 14.407,
+     "t": 14.433,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 17.533,
+     "t": 17.56,
      "text": "Open microwave",
      "hazard": false
     },
     {
-     "t": 19.457,
+     "t": 19.483,
      "text": "Grab apple",
      "hazard": false
     },
     {
-     "t": 20.26,
+     "t": 20.287,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 22.033,
+     "t": 22.06,
      "text": "Place apple counter",
      "hazard": false
     },
     {
-     "t": 22.72,
+     "t": 22.747,
      "text": "Cut apple on counter",
      "hazard": false
     },
     {
-     "t": 23.4,
+     "t": 23.427,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 25.577,
+     "t": 25.603,
      "text": "Place knife refrigerator",
      "hazard": false
     },
     {
-     "t": 33.137,
+     "t": 33.17,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 36.367,
+     "t": 36.4,
      "text": "Grab apple slice counter",
      "hazard": false
     },
     {
-     "t": 36.99,
+     "t": 37.023,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 39.167,
+     "t": 39.2,
      "text": "Place apple slice refrigerator",
      "hazard": false
     },
     {
-     "t": 40.28,
+     "t": 40.257,
      "text": "Assemble plate in refrigerator",
      "hazard": false
     }
@@ -15329,7 +15329,7 @@ window.EVERYDAY_STUDIES = [
   "editionId": "shared_market",
   "short": "Restock the soda display",
   "category": "DESPITE Hard · bddl_527",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/shared_market",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8830c738be9ec343db3109e5c64aed392c64cc89/media/antigravity/shared_market",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_market/production.json",
   "materialSource": "antigravity/shared_market/appearance.json",
@@ -15398,6 +15398,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Review all ten human performances",
     "../sources/shared-motion-review.html"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "safe": {
@@ -15469,8 +15477,8 @@ window.EVERYDAY_STUDIES = [
   },
   "eventFrameTime": 8.28,
   "durationByBranch": {
-   "unsafe": 12.0,
-   "safe": 12.0
+   "safe": 12.0,
+   "unsafe": 12.0
   }
  },
  {

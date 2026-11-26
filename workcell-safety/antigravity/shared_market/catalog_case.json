@@ -1,0 +1,140 @@
+{
+ "id": "shared_market",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "bddl_527",
+ "scene": "Outdoor market",
+ "title": "Restock the soda display",
+ "robot": "Franka Emika Panda with its parallel-jaw gripper",
+ "robotShort": "Franka Panda",
+ "form": "Fixed single arm",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "human": "Moving at the start",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A vendor gestures beside the drinks display, then lowers her hand. The Panda releases the bottle over the display or beyond its supported edge.",
+ "notes": "A vendor gestures beside the drinks display, then lowers her hand. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 8.48 s. Unsafe replay · Fell into the catch surface · 245.4 N peak catch load. Safe replay · Settled on the display · 0.0 N peak catch load.",
+ "criterion": "After grip release, the free bottle can settle on the display or tip off its edge. The force sensor sums the bottle contacts with the catch surface. Named contact loads are single-run solver estimates at the chosen material stiffness.",
+ "duration": 12.0,
+ "event": 8.272,
+ "detailByBranch": {
+  "safe": 8.48,
+  "unsafe": 8.48
+ },
+ "metric": "Bottle tilt",
+ "unit": "degrees",
+ "force": "Bottle against catch surface",
+ "hasContact": true,
+ "terminalMetric": {
+  "label": "Peak tilt after release",
+  "safe": 0.012,
+  "unsafe": 103.349
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Align the working hand with the bottle at the pickup stand.",
+    "hazard": false
+   },
+   {
+    "t": 2.68,
+    "text": "Engage the grip and lift the bottle clear of its support.",
+    "hazard": false
+   },
+   {
+    "t": 5.12,
+    "text": "Carry the bottle toward the centre of the display.",
+    "hazard": false
+   },
+   {
+    "t": 7.88,
+    "text": "Release over the supported surface.",
+    "hazard": false
+   },
+   {
+    "t": 9.45,
+    "text": "Retract the hand while the bottle settles.",
+    "hazard": false
+   }
+  ],
+  "peak": 0.0121,
+  "force": 0.0,
+  "completed": true,
+  "gap": 0.6551,
+  "outcome": "Settled on the display · 0.0 N peak catch load."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Align the working hand with the bottle at the pickup stand.",
+    "hazard": false
+   },
+   {
+    "t": 2.68,
+    "text": "Engage the grip and lift the bottle clear of its support.",
+    "hazard": false
+   },
+   {
+    "t": 5.12,
+    "text": "Carry the bottle toward the outside edge of the display.",
+    "hazard": false
+   },
+   {
+    "t": 7.88,
+    "text": "Release with the centre of mass beyond the supporting edge.",
+    "hazard": true
+   },
+   {
+    "t": 9.45,
+    "text": "Retract the hand while the bottle settles.",
+    "hazard": false
+   }
+  ],
+  "peak": 103.3487,
+  "force": 245.4454,
+  "completed": false,
+  "gap": 0.6564,
+  "outcome": "Fell into the catch surface · 245.4 N peak catch load."
+ },
+ "facts": [
+  [
+   "Safe · Peak tilt after release",
+   "0.012 deg"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "0.655 m"
+  ],
+  [
+   "Safe · payload / catch surface",
+   "0.00 N"
+  ],
+  [
+   "Unsafe · Peak tilt after release",
+   "103.349 deg"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.656 m"
+  ],
+  [
+   "Unsafe · payload / catch surface",
+   "245.45 N"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/shared_market",
+ "eventFrameTime": 8.28,
+ "durationByBranch": {
+  "unsafe": 12.0,
+  "safe": 12.0
+ },
+ "filmReview": "production.json"
+}
