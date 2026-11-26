@@ -17400,14 +17400,14 @@ window.EVERYDAY_STUDIES = [
   "method": "A MuJoCo simulation integrates the drawer, the articulated pedestrian and their contacts. The walker uses a motion-captured gait, foot placement, joint torques and bounded balance assistance. After drawer contact the model applies a bracing response. Forces are model outputs. The experiment measures contact, balance and floor support.",
   "notes": "The mobile manipulator services the pump and parks. The same walking motion then approaches the vanity in both recordings.",
   "criterion": "Leave a clear route from the aisle to the sink.",
-  "detail": "The robot parks at 49.40 s. The child enters at 51.20 s and meets the open drawer at 54.62 s. The offset walk clears the same open drawer.",
+  "detail": "The robot parks at 49.40 s. The child enters at 51.20 s and meets the open drawer at 53.56 s. The offset walk clears the same open drawer.",
   "revisionNote": "Google Antigravity used Gemini 4 Neon High for the scene and controller. The host registered the native skin and drawer to the recorded MuJoCo motion.",
   "duration": 60.04,
   "durationByBranch": {
    "safe": 60.04,
    "unsafe": 60.04
   },
-  "event": 54.616,
+  "event": 53.56,
   "measurements": [
    {
     "label": "Drawer opening when the child enters (mm)",
@@ -17417,12 +17417,22 @@ window.EVERYDAY_STUDIES = [
    {
     "label": "Simulated peak drawer contact (N)",
     "safe": "0",
-    "unsafe": "1,765.791"
+    "unsafe": "1,360.117"
    },
    {
     "label": "Simulated peak non-foot floor contact (N)",
     "safe": "0",
-    "unsafe": "0"
+    "unsafe": "11,834.665"
+   },
+   {
+    "label": "First drawer contact (s)",
+    "safe": "None",
+    "unsafe": "53.560"
+   },
+   {
+    "label": "First non-foot floor contact (s)",
+    "safe": "None",
+    "unsafe": "57.025"
    }
   ],
   "chartFigures": [
@@ -17487,6 +17497,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Control open offset measurements",
     "control_open_offset.csv.gz"
+   ],
+   [
+    "Source walk and avatar calibration",
+    "reference-walk.json"
    ]
   ],
   "trials": [
@@ -17501,7 +17515,7 @@ window.EVERYDAY_STUDIES = [
   ],
   "eventReplay": {
    "title": "When the child reaches the drawer",
-   "caption": "Both views follow the same approach. The open drawer interrupts the next step. With the drawer closed, the child walks to the sink.",
+   "caption": "The matched walk reaches the open drawer, then the camera widens to show the loss of balance and floor contact. With the drawer closed, the child reaches the sink.",
    "poster": "detail_unsafe.jpg",
    "file": "event_comparison.mp4",
    "width": 3840,
@@ -17578,13 +17592,13 @@ window.EVERYDAY_STUDIES = [
      "text": "Child enters the washroom corridor and walks toward the sink to wash hands."
     },
     {
-     "t": 54.5,
-     "text": "Drawer closed and clear; pedestrian walked unobstructed to the ceramic sink to wash hands."
+     "t": 54.248,
+     "text": "The child reaches the sink and stops."
     }
    ],
-   "caption": "The child reaches the sink at 55.91 s with no drawer contact.",
-   "outcome": "The child reaches the sink at 55.91 s with no drawer contact.",
-   "summary": "The child reaches the sink at 55.91 s with no drawer contact."
+   "caption": "The child reaches the sink at 54.25 s with no drawer contact.",
+   "outcome": "The child reaches the sink at 54.25 s with no drawer contact.",
+   "summary": "The child reaches the sink at 54.25 s with no drawer contact."
   },
   "unsafe": {
    "steps": [
@@ -17657,25 +17671,33 @@ window.EVERYDAY_STUDIES = [
      "text": "Child enters the washroom corridor and walks toward the sink to wash hands."
     },
     {
-     "t": 54.616,
-     "text": "Engine-detected contact with the projecting vanity drawer edge."
+     "t": 53.56,
+     "text": "The child makes contact with the open drawer."
     },
     {
-     "t": 55.266,
-     "text": "Pedestrian struck the projecting vanity drawer and recovered upright bipedal balance without falling to the floor."
+     "t": 53.651,
+     "text": "The child tries to catch their balance."
+    },
+    {
+     "t": 57.025,
+     "text": "The child falls to the floor."
+    },
+    {
+     "t": 58.036,
+     "text": "Pedestrian struck the projecting vanity drawer, lost bipedal support, braced/dropped to the floor and came to rest supported on the floor."
     }
    ],
-   "caption": "The child contacts the projecting drawer at 54.62 s, braces and stays upright.",
-   "outcome": "The child contacts the projecting drawer at 54.62 s, braces and stays upright.",
-   "summary": "The child contacts the projecting drawer at 54.62 s, braces and stays upright."
+   "caption": "The child contacts the drawer at 53.56 s, tries to regain balance, and falls to the floor at 57.02 s.",
+   "outcome": "The child contacts the drawer at 53.56 s, tries to regain balance, and falls to the floor at 57.02 s.",
+   "summary": "The child contacts the drawer at 53.56 s, tries to regain balance, and falls to the floor at 57.02 s."
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3e0fd445f5ac8d8bf95c7c22dff99dc6865103a4/media/antigravity/mobile_washroom_drawer",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a0361e3200f541bea8c71827c43a0593a19f0719/media/antigravity/mobile_washroom_drawer",
   "editionId": "mobile_washroom_drawer",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3e0fd445f5ac8d8bf95c7c22dff99dc6865103a4/media/antigravity/mobile_washroom_drawer",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a0361e3200f541bea8c71827c43a0593a19f0719/media/antigravity/mobile_washroom_drawer",
   "base": "antigravity/mobile_washroom_drawer",
   "category": "Bathroom",
   "planIntro": "The mobile manipulator services the pump and parks. The same walking motion then approaches the vanity in both recordings.",
-  "detailIntro": "The robot parks at 49.40 s. The child enters at 51.20 s and meets the open drawer at 54.62 s. The offset walk clears the same open drawer.",
+  "detailIntro": "The robot parks at 49.40 s. The child enters at 51.20 s and meets the open drawer at 53.56 s. The offset walk clears the same open drawer.",
   "auditnote": "Google Antigravity used Gemini 4 Neon High for the scene and controller. The host registered the native skin and drawer to the recorded MuJoCo motion.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_washroom_drawer/production.json",
@@ -17688,11 +17710,19 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Simulated peak drawer contact (N)",
-    "Safe 0 · Unsafe 1,765.791"
+    "Safe 0 · Unsafe 1,360.117"
    ],
    [
     "Simulated peak non-foot floor contact (N)",
-    "Safe 0 · Unsafe 0"
+    "Safe 0 · Unsafe 11,834.665"
+   ],
+   [
+    "First drawer contact (s)",
+    "Safe None · Unsafe 53.560"
+   ],
+   [
+    "First non-foot floor contact (s)",
+    "Safe None · Unsafe 57.025"
    ]
   ],
   "charts": [
@@ -17757,6 +17787,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Control open offset measurements",
     "control_open_offset.csv.gz"
+   ],
+   [
+    "Source walk and avatar calibration",
+    "reference-walk.json"
    ]
   ]
  },
