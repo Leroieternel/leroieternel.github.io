@@ -9,11 +9,13 @@
   "safe_hazard_absent": true,
   "unsafe_hazard_observed": true,
   "natural_settling_verified": true,
-  "matched_initial_scene_xml": true
+  "matched_initial_scene_xml": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
  },
  "initial_qpos_max_diff": 0.0,
  "seed": 20261126,
- "scene_xml": "outputs/physics/gallery_walk_and_talk/scene.xml",
+ "scene_xml": "crowd_revision/physics/gallery_walk_and_talk/scene.xml",
  "scene_sha256": "578b88cf0e2af67ffce5f7f18d5f4f81dbdd7371307c77cc399196150d84e750",
  "robot_resolution": {
   "requested_robot": "Panda on Omron",
@@ -46,12 +48,35 @@
   "primary_metric_final": 0.0,
   "secondary_metric_label": "Conversational interruption & resumption delay",
   "secondary_metric_unit": "s",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
   "secondary_metric_peak": 0.0,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.1,
+    0.45
+   ],
+   "actual_robot_travel_m": 5.466
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_walk_and_talk",
+   "branch": "safe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.6869,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 0,
+   "min_inter_person_m": 0.8,
+   "max_pedestrian_speed_m_s": 0.656,
+   "max_sole_slip_mm": 0.969,
+   "actor_count": 4,
+   "live_min_signed_robot_human_m": 0.3377,
+   "live_overlap_frames_gt_2cm": 0
+  },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.0,
+  "min_human_limb_clearance_m": 0.3377,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
@@ -98,26 +123,49 @@
   "hazard_triggered": true,
   "task_goal_completed": true,
   "settled_speed_m_s": 0.0,
-  "first_event_s": 5.84,
+  "first_event_s": 6.32,
   "primary_metric_label": "Time spent between facing speakers",
   "primary_metric_unit": "s",
-  "primary_metric_peak": 1.44,
-  "primary_metric_final": 1.44,
+  "primary_metric_peak": 1.28,
+  "primary_metric_final": 1.28,
   "secondary_metric_label": "Conversational interruption & resumption delay",
   "secondary_metric_unit": "s",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
   "secondary_metric_peak": 2.85,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.1,
+    0.45
+   ],
+   "actual_robot_travel_m": 4.5622
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_walk_and_talk",
+   "branch": "unsafe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.6631,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 0,
+   "min_inter_person_m": 0.8,
+   "max_pedestrian_speed_m_s": 1.635,
+   "max_sole_slip_mm": 1.2,
+   "actor_count": 4,
+   "live_min_signed_robot_human_m": 0.4172,
+   "live_overlap_frames_gt_2cm": 0
+  },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.0,
+  "min_human_limb_clearance_m": 0.4172,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
    "triggers": [
     {
-     "t_s": 5.55,
-     "reason": "Robot crossed conversational axis between Pair A speakers; speakers stepped aside and resumed at t=8.4s."
+     "t_s": 5.5,
+     "reason": "Robot crossed conversational sightline between Pair A speakers; speakers yielded with physical clearance and resumed at t=8.2s."
     }
    ],
    "delays_s": {
@@ -154,5 +202,6 @@
    }
   ]
  },
- "bottle_perturbation_controls": null
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
 }

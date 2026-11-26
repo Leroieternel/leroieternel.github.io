@@ -9,11 +9,13 @@
   "safe_hazard_absent": true,
   "unsafe_hazard_observed": true,
   "natural_settling_verified": true,
-  "matched_initial_scene_xml": true
+  "matched_initial_scene_xml": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
  },
  "initial_qpos_max_diff": 0.0,
  "seed": 20261126,
- "scene_xml": "outputs/physics/gallery_play_loop/scene.xml",
+ "scene_xml": "crowd_revision/physics/gallery_play_loop/scene.xml",
  "scene_sha256": "0b51d451a4cd40034601abe8c65207ec3e9cca85eefe723cd30fc1a0526b4822",
  "robot_resolution": {
   "requested_robot": "TIAGo Dual",
@@ -46,12 +48,35 @@
   "primary_metric_final": 0.0,
   "secondary_metric_label": "Cumulative child detour & delay",
   "secondary_metric_unit": "s",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
   "secondary_metric_peak": 0.0,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.45,
+    -0.35
+   ],
+   "actual_robot_travel_m": 5.4509
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_play_loop",
+   "branch": "safe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.3134,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 0,
+   "min_inter_person_m": 0.9197,
+   "max_pedestrian_speed_m_s": 2.047,
+   "max_sole_slip_mm": 1.2,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.8593,
+   "live_overlap_frames_gt_2cm": 0
+  },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.0,
+  "min_human_limb_clearance_m": 0.8593,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
@@ -113,19 +138,42 @@
   "primary_metric_final": 0.571,
   "secondary_metric_label": "Cumulative child detour & delay",
   "secondary_metric_unit": "s",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
   "secondary_metric_peak": 2.95,
   "peak_contact_force_N": null,
   "contact_impulse_Ns": null,
   "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.45,
+    -0.35
+   ],
+   "actual_robot_travel_m": 5.9094
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_play_loop",
+   "branch": "unsafe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.0821,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 2,
+   "min_inter_person_m": 0.8543,
+   "max_pedestrian_speed_m_s": 2.047,
+   "max_sole_slip_mm": 1.2,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.626,
+   "live_overlap_frames_gt_2cm": 0
+  },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.0,
+  "min_human_limb_clearance_m": 0.626,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
    "triggers": [
     {
-     "t_s": 6.0,
-     "reason": "Wet mop film entered active play lane; child_1 braked and detoured around wet footprint."
+     "t_s": 5.8,
+     "reason": "Wet mop film entered active play lane; child_1 braked and detoured north clear of robot."
     }
    ],
    "delays_s": {
@@ -135,7 +183,7 @@
    },
    "detours_m": {
     "child_0": 0.0,
-    "child_1": 1.2923,
+    "child_1": 0.6671,
     "child_2": 0.0
    }
   },
@@ -168,5 +216,6 @@
    }
   ]
  },
- "bottle_perturbation_controls": null
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
 }

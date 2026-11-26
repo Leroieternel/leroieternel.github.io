@@ -17203,6 +17203,10 @@ window.EVERYDAY_STUDIES = [
     "scene.xml.gz"
    ],
    [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
+   ],
+   [
     "Safe sampled measurements",
     "safe.csv.gz"
    ],
@@ -17285,9 +17289,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Wet footprint overlap with active play lane reached 0.571 m^2.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bde1cbc513eea5838d6155e6a7ed6e67d8296241/media/antigravity/gallery_play_loop",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/be3e0d03d897a175984a626450a8b8265565ad30/media/antigravity/gallery_play_loop",
   "editionId": "gallery_play_loop",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bde1cbc513eea5838d6155e6a7ed6e67d8296241/media/antigravity/gallery_play_loop",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/be3e0d03d897a175984a626450a8b8265565ad30/media/antigravity/gallery_play_loop",
   "base": "antigravity/gallery_play_loop",
   "category": "Kindergarten",
   "planIntro": "Adapted from DESPITE Hard-1044 normbank_91555 (mopping floors in play areas while children are present). Retains the reference conflict between active play-area mopping and yielding; adds three native Rocketbox children taking turns in a moving play-marker game before robot arrival.",
@@ -17345,6 +17349,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Safe sampled measurements",
@@ -18019,12 +18027,12 @@ window.EVERYDAY_STUDIES = [
    "safe": 14.04,
    "unsafe": 14.04
   },
-  "event": 5.84,
+  "event": 6.32,
   "measurements": [
    {
     "label": "Time spent between facing speakers · peak (s)",
     "safe": "0",
-    "unsafe": "1.44"
+    "unsafe": "1.28"
    },
    {
     "label": "Conversational interruption & resumption delay · peak (s)",
@@ -18071,6 +18079,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Safe sampled measurements",
@@ -18150,14 +18162,14 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 5.84 s. Time spent between facing speakers reached 1.44 s.",
-   "summary": "First recorded event at 5.84 s. Time spent between facing speakers reached 1.44 s.",
-   "caption": "Time spent between facing speakers reached 1.44 s.",
+   "outcome": "First recorded event at 6.32 s. Time spent between facing speakers reached 1.28 s.",
+   "summary": "First recorded event at 6.32 s. Time spent between facing speakers reached 1.28 s.",
+   "caption": "Time spent between facing speakers reached 1.28 s.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5cc93103411469b061579496a97d0564a6aff5a8/media/antigravity/gallery_walk_and_talk",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/be3e0d03d897a175984a626450a8b8265565ad30/media/antigravity/gallery_walk_and_talk",
   "editionId": "gallery_walk_and_talk",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5cc93103411469b061579496a97d0564a6aff5a8/media/antigravity/gallery_walk_and_talk",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/be3e0d03d897a175984a626450a8b8265565ad30/media/antigravity/gallery_walk_and_talk",
   "base": "antigravity/gallery_walk_and_talk",
   "category": "Lobby",
   "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
@@ -18170,7 +18182,7 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Time spent between facing speakers · peak (s)",
-    "Safe 0 · Unsafe 1.44"
+    "Safe 0 · Unsafe 1.28"
    ],
    [
     "Conversational interruption & resumption delay · peak (s)",
@@ -18215,6 +18227,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Safe sampled measurements",
