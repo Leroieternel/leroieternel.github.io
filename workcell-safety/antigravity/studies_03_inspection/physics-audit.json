@@ -1,0 +1,237 @@
+{
+ "title": "Pump gauge sweep",
+ "task": "Read the two discharge gauges with Spot\u2019s hand camera while maintaining a four-foot stance.",
+ "robot": "Boston Dynamics Spot with Spot Arm",
+ "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+ "human": "none",
+ "planner": "Sample four camera sweeps joining the two gauge poses with 0\u2013320 mm of vertical relief. Solve bounded six-joint inverse kinematics along each sweep and roll out the position servos in MuJoCo. The safe objective minimizes joint travel subject to a 20 mm guard clearance. The unsafe objective minimizes joint travel using only the camera goal.",
+ "metric": "Guard deflection",
+ "unit": "deg",
+ "criterion": "The hinged instrument guard deflects over 5 degrees during camera transfer.",
+ "detail_target": "Guard blade and passing gripper",
+ "audit": {
+  "physics_step_ms": 2,
+  "reference_method": "MuJoCo forward dynamics, gravity enabled, free floating chassis, 12 stance joints, six arm joints and one gripper joint. Position servos use torque limits from the source robot.",
+  "candidate_count": 4,
+  "source_revision": "robosuite 3047948d2a24b3f6f1a822203016d3a4d62eb0e7",
+  "source_components": [
+   "robots/spot/robot.xml",
+   "robots/spot_arm/robot.xml",
+   "grippers/bd_gripper.xml"
+  ],
+  "eligibility": "All four feet carry >0.05 N. Joint-range margins, solver warnings, unplanned collision pairs and final goal accuracy are evaluated on each branch.",
+  "candidates": [
+   {
+    "parameter": 0.0,
+    "goal_reached": true,
+    "peak": 53.886708426498835,
+    "first_event_s": 2.372,
+    "peak_robot_fixture_normal_N": 33.299629350389864,
+    "peak_hard_stop_N": 0.0,
+    "peak_travel_mm": null,
+    "min_loaded_feet": 4,
+    "foot_slip_mm": 4.30297685656362,
+    "max_collider_overlap_mm": 0.0,
+    "worst_pair": "",
+    "unexpected_pairs": [],
+    "joint_margin_rad": 0.7517360928479604,
+    "max_speed_rad_s": 0.9876446443605033,
+    "max_tracking_error_rad": 0.07795926488966988,
+    "goal_position_error_mm": 18.40733421044424,
+    "final_camera_error_deg": 1.1620251740086864,
+    "closest_clearance_mm": 1.2263528186205024,
+    "warnings": 0,
+    "event": true,
+    "actuated_distance_rad": 2.72395860754812,
+    "lowest_visible_foot_mm": 1.356494970276595,
+    "max_sampled_hand_fixture_visual_overlap_mm": 0.0
+   },
+   {
+    "parameter": 0.12,
+    "goal_reached": true,
+    "peak": 0.0,
+    "first_event_s": null,
+    "peak_robot_fixture_normal_N": 0.0,
+    "peak_hard_stop_N": 0.0,
+    "peak_travel_mm": null,
+    "min_loaded_feet": 4,
+    "foot_slip_mm": 4.66091208198686,
+    "max_collider_overlap_mm": 0.0,
+    "worst_pair": "",
+    "unexpected_pairs": [],
+    "joint_margin_rad": 0.7516971791176359,
+    "max_speed_rad_s": 1.4467692449068261,
+    "max_tracking_error_rad": 0.11919907481514763,
+    "goal_position_error_mm": 19.355193654452638,
+    "final_camera_error_deg": 1.318384969177734,
+    "closest_clearance_mm": 26.31986617025183,
+    "warnings": 0,
+    "event": false,
+    "actuated_distance_rad": 3.0189236117066676,
+    "lowest_visible_foot_mm": 1.3562164122804254,
+    "max_sampled_hand_fixture_visual_overlap_mm": 0.0
+   },
+   {
+    "parameter": 0.23,
+    "goal_reached": true,
+    "peak": 0.0,
+    "first_event_s": null,
+    "peak_robot_fixture_normal_N": 0.0,
+    "peak_hard_stop_N": 0.0,
+    "peak_travel_mm": null,
+    "min_loaded_feet": 4,
+    "foot_slip_mm": 4.654148485786727,
+    "max_collider_overlap_mm": 0.0,
+    "worst_pair": "",
+    "unexpected_pairs": [],
+    "joint_margin_rad": 0.7517069257732086,
+    "max_speed_rad_s": 2.8457289829247996,
+    "max_tracking_error_rad": 0.25914686530195824,
+    "goal_position_error_mm": 19.35966333671761,
+    "final_camera_error_deg": 1.3199454165769455,
+    "closest_clearance_mm": 98.14748544840066,
+    "warnings": 0,
+    "event": false,
+    "actuated_distance_rad": 3.699662499263023
+   },
+   {
+    "parameter": 0.32,
+    "goal_reached": true,
+    "peak": 0.0,
+    "first_event_s": null,
+    "peak_robot_fixture_normal_N": 0.0,
+    "peak_hard_stop_N": 0.0,
+    "peak_travel_mm": null,
+    "min_loaded_feet": 4,
+    "foot_slip_mm": 4.668818356774048,
+    "max_collider_overlap_mm": 0.0,
+    "worst_pair": "",
+    "unexpected_pairs": [],
+    "joint_margin_rad": 0.31179611907001403,
+    "max_speed_rad_s": 8.701849364723975,
+    "max_tracking_error_rad": 0.7750449737429767,
+    "goal_position_error_mm": 19.55808593021033,
+    "final_camera_error_deg": 1.3485362184982284,
+    "closest_clearance_mm": 127.65007345933415,
+    "warnings": 0,
+    "event": false,
+    "actuated_distance_rad": 5.449805425213295
+   }
+  ],
+  "safe": {
+   "parameter": 0.12,
+   "goal_reached": true,
+   "peak": 0.0,
+   "first_event_s": null,
+   "peak_robot_fixture_normal_N": 0.0,
+   "peak_hard_stop_N": 0.0,
+   "peak_travel_mm": null,
+   "min_loaded_feet": 4,
+   "foot_slip_mm": 4.66091208198686,
+   "max_collider_overlap_mm": 0.0,
+   "worst_pair": "",
+   "unexpected_pairs": [],
+   "joint_margin_rad": 0.7516971791176359,
+   "max_speed_rad_s": 1.4467692449068261,
+   "max_tracking_error_rad": 0.11919907481514763,
+   "goal_position_error_mm": 19.355193654452638,
+   "final_camera_error_deg": 1.318384969177734,
+   "closest_clearance_mm": 26.31986617025183,
+   "warnings": 0,
+   "event": false,
+   "actuated_distance_rad": 3.0189236117066676,
+   "lowest_visible_foot_mm": 1.3562164122804254,
+   "max_sampled_hand_fixture_visual_overlap_mm": 0.0
+  },
+  "unsafe": {
+   "parameter": 0.0,
+   "goal_reached": true,
+   "peak": 53.886708426498835,
+   "first_event_s": 2.372,
+   "peak_robot_fixture_normal_N": 33.299629350389864,
+   "peak_hard_stop_N": 0.0,
+   "peak_travel_mm": null,
+   "min_loaded_feet": 4,
+   "foot_slip_mm": 4.30297685656362,
+   "max_collider_overlap_mm": 0.0,
+   "worst_pair": "",
+   "unexpected_pairs": [],
+   "joint_margin_rad": 0.7517360928479604,
+   "max_speed_rad_s": 0.9876446443605033,
+   "max_tracking_error_rad": 0.07795926488966988,
+   "goal_position_error_mm": 18.40733421044424,
+   "final_camera_error_deg": 1.1620251740086864,
+   "closest_clearance_mm": 1.2263528186205024,
+   "warnings": 0,
+   "event": true,
+   "actuated_distance_rad": 2.72395860754812,
+   "lowest_visible_foot_mm": 1.356494970276595,
+   "max_sampled_hand_fixture_visual_overlap_mm": 0.0
+  }
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Confirm the first gauge view with the hand camera."
+   },
+   {
+    "t": 0.45,
+    "text": "Lift the hand camera along the planned clearance arc."
+   },
+   {
+    "t": 2.45,
+    "text": "Pass above the top of the guard, then descend toward the second gauge."
+   },
+   {
+    "t": 4.45,
+    "text": "Hold the second view to acquire the gauge reading."
+   },
+   {
+    "t": 5.2,
+    "text": "Complete the survey with all four feet loaded."
+   }
+  ],
+  "event": false,
+  "first_event_s": null,
+  "goal_reached": true,
+  "peak": 0.0,
+  "summary": "Minimum-travel sweep satisfying the guard clearance.",
+  "caption": "The raised camera path clears the same guard, which remains upright."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Confirm the first gauge view with the hand camera."
+   },
+   {
+    "t": 0.45,
+    "text": "Track the shortest wrist sweep toward the second gauge."
+   },
+   {
+    "t": 2.372,
+    "text": "The moving hand bends the spring-mounted indicator guard."
+   },
+   {
+    "t": 4.45,
+    "text": "Hold the second view to acquire the gauge reading."
+   },
+   {
+    "t": 5.2,
+    "text": "Complete the survey with all four feet loaded."
+   }
+  ],
+  "event": true,
+  "first_event_s": 2.372,
+  "goal_reached": true,
+  "peak": 53.886708426498835,
+  "summary": "Shortest camera sweep across the instrument guard.",
+  "caption": "The direct camera transfer bends the yellow indicator guard."
+ },
+ "detail_time_s": 3.24,
+ "revision_actions": [
+  "Preserve the full pump gauge sweep traverse and wrist orientation.",
+  "Add a smooth 1.0 cm free-space vertical rise after the traverse during the terminal hold with bounded acceleration."
+ ]
+}

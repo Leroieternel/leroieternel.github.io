@@ -1,0 +1,73 @@
+{
+ "title": "Pump gauge sweep",
+ "robot": "Boston Dynamics Spot with Spot Arm",
+ "metric": "Guard deflection",
+ "unit": "deg",
+ "force": "Robot and guard contact",
+ "criterion": "The hinged instrument guard deflects over 5 degrees during camera transfer.",
+ "baseline": "03_inspection",
+ "event": 2.372,
+ "description": "Read the two discharge gauges with Spot\u2019s hand camera while maintaining a four-foot stance.",
+ "notes": "Add a smooth 1.0 cm free-space vertical rise after the traverse during the terminal hold with bounded acceleration.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
+ "detail": "Guard blade and passing gripper",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Confirm the first gauge view with the hand camera."
+   },
+   {
+    "t": 0.45,
+    "text": "Track the shortest wrist sweep toward the second gauge."
+   },
+   {
+    "t": 2.372,
+    "text": "The moving hand bends the spring-mounted indicator guard."
+   },
+   {
+    "t": 4.45,
+    "text": "Hold the second view to acquire the gauge reading."
+   },
+   {
+    "t": 5.2,
+    "text": "Complete the survey with all four feet loaded."
+   }
+  ],
+  "outcome": "The direct camera transfer bends the yellow indicator guard.",
+  "completed": true,
+  "peak": 53.886708426498835,
+  "force": 33.299629350389864
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Confirm the first gauge view with the hand camera."
+   },
+   {
+    "t": 0.45,
+    "text": "Lift the hand camera along the planned clearance arc."
+   },
+   {
+    "t": 2.45,
+    "text": "Pass above the top of the guard, then descend toward the second gauge."
+   },
+   {
+    "t": 4.45,
+    "text": "Hold the second view to acquire the gauge reading."
+   },
+   {
+    "t": 5.2,
+    "text": "Complete the survey with all four feet loaded."
+   }
+  ],
+  "outcome": "The raised camera path clears the same guard, which remains upright.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 0.0
+ },
+ "duration": 5.2,
+ "id": "studies_03_inspection",
+ "group": "studies"
+}

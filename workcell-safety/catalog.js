@@ -209,6 +209,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -307,11 +315,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 5.8,
   "durationByBranch": {
-   "unsafe": 12.44,
-   "safe": 12.44
+   "safe": 12.44,
+   "unsafe": 12.44
   },
   "editionId": "studies_02_service",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_02_service",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ee66e432f0dedc570260898cf2accb7143857adb/media/antigravity/studies_02_service",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_02_service/production.json",
   "materialSource": "antigravity/studies_02_service/appearance.json"
@@ -325,76 +333,80 @@ window.WORKCELLS = [
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
   "human": "Object interaction",
   "robotShort": "Spot Arm",
-  "base": "media/03_inspection",
+  "base": "antigravity/studies_03_inspection",
   "category": "Pump room",
   "description": "Read the two discharge gauges with Spot’s hand camera while maintaining a four-foot stance.",
-  "duration": 5.2,
+  "duration": 5.24,
   "event": 2.372,
   "detailTime": 3.24,
   "detailByBranch": {},
-  "detailIntro": "The two close-ups use the same viewpoint and simulation time.",
-  "planIntro": "Sample four camera sweeps joining the two gauge poses with 0–320 mm of vertical relief. Solve bounded six-joint inverse kinematics along each sweep and roll out the position servos in MuJoCo. The safe objective minimizes joint travel subject to a 20 mm guard clearance. The unsafe objective minimizes joint travel using only the camera goal.",
-  "goalTest": "Final wrist site within 36 mm of its goal and camera axis within 11 degrees of the second gauge. All four feet must stay loaded during the trial.",
+  "detailIntro": "Guard blade and passing gripper",
+  "planIntro": "Add a smooth 1.0 cm free-space vertical rise after the traverse during the terminal hold with bounded acceleration.",
+  "goalTest": "The hinged instrument guard deflects over 5 degrees during camera transfer.",
   "criterion": "The hinged instrument guard deflects over 5 degrees during camera transfer.",
-  "method": "MuJoCo sampled the Spot arm / guard blade contact at 500 Hz. Each force panel reports the sum of normal loads over the named contact pairs.",
+  "method": "Add a smooth 1.0 cm free-space vertical rise after the traverse during the terminal hold with bounded acceleration.",
   "facts": [
    [
-    "Unsafe peak · guard deflection",
-    "53.89 deg"
+    "Unsafe · Guard deflection",
+    "53.9 deg"
    ],
    [
-    "Safe peak · guard deflection",
+    "Safe · Guard deflection",
     "0 deg"
-   ],
-   [
-    "Unsafe peak · Spot arm / guard blade",
-    "33.3 N"
-   ],
-   [
-    "Safe peak · Spot arm / guard blade",
-    "0 N"
    ]
   ],
   "charts": [
    [
-    "trace.png",
-    "Guard deflection in both rollouts. The vertical marker shows the first unsafe event."
+    "metric.png",
+    "Guard deflection (deg)"
    ],
    [
-    "contact.png",
-    "Force over time at the monitored contacts."
+    "force.png",
+    "Robot and guard contact (N)"
    ]
   ],
   "auditnote": "Both plans start from identical generalized positions and velocities. Download the selected search parameters, joint or wheel commands, solver traces and numerical contact audit.",
   "downloads": [
    [
-    "Comparison video",
-    "comparison.mp4"
+    "Measured safe trace",
+    "safe.csv.gz"
    ],
    [
-    "Unsafe plan",
-    "unsafe.plan.json"
+    "Measured unsafe trace",
+    "unsafe.csv.gz"
    ],
    [
-    "Safe plan",
-    "safe.plan.json"
+    "Simulation and outcome checks",
+    "physics-audit.json"
    ],
    [
-    "Measured results",
-    "results.json"
+    "Materials used",
+    "appearance.json"
    ],
    [
-    "Unsafe state log",
-    "unsafe.npz"
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ],
    [
-    "Safe state log",
-    "safe.npz"
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
-  "chapters": [],
+  "chapters": [
+   [
+    "Start",
+    0
+   ],
+   [
+    "Unsafe event",
+    2.372
+   ],
+   [
+    "Settled state",
+    5.08
+   ]
+  ],
   "unsafe": {
-   "summary": "Goal reached · 0 mm clearance lift",
    "steps": [
     {
      "t": 0.0,
@@ -406,8 +418,7 @@ window.WORKCELLS = [
     },
     {
      "t": 2.372,
-     "text": "The moving hand bends the spring-mounted indicator guard.",
-     "hazard": true
+     "text": "The moving hand bends the spring-mounted indicator guard."
     },
     {
      "t": 4.45,
@@ -418,10 +429,10 @@ window.WORKCELLS = [
      "text": "Complete the survey with all four feet loaded."
     }
    ],
+   "summary": "The direct camera transfer bends the yellow indicator guard.",
    "caption": "The direct camera transfer bends the yellow indicator guard."
   },
   "safe": {
-   "summary": "Goal reached · 120 mm clearance lift",
    "steps": [
     {
      "t": 0.0,
@@ -444,8 +455,18 @@ window.WORKCELLS = [
      "text": "Complete the survey with all four feet loaded."
     }
    ],
+   "summary": "The raised camera path clears the same guard, which remains upright.",
    "caption": "The raised camera path clears the same guard, which remains upright."
-  }
+  },
+  "durationByBranch": {
+   "safe": 5.24,
+   "unsafe": 5.24
+  },
+  "editionId": "studies_03_inspection",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ee66e432f0dedc570260898cf2accb7143857adb/media/antigravity/studies_03_inspection",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/studies_03_inspection/production.json",
+  "materialSource": "antigravity/studies_03_inspection/appearance.json"
  },
  {
   "id": "04_field",

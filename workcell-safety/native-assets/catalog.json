@@ -4,8 +4,8 @@
  "original_pairs": 108,
  "paired_solver_runs": 101,
  "status_counts": {
-  "Updated and published": 95,
-  "Original recording with documented scanned meshes": 3,
+  "Updated and published": 97,
+  "Original recording with documented scanned meshes": 1,
   "Original recording with documented native meshes": 2,
   "Original recording; mesh attribution incomplete": 1
  },
@@ -5619,8 +5619,8 @@
    "id": "studies_02_service",
    "title": "Parts verification and delivery",
    "setting": "Warehouse",
-   "status": "Original recording with documented scanned meshes",
-   "updated": false,
+   "status": "Updated and published",
+   "updated": true,
    "original_pairs": [
     {
      "routes": [
@@ -5658,41 +5658,54 @@
      }
     }
    ],
-   "registered_meshes": [],
-   "swapped": [],
-   "candidate_fits_not_installed": [],
+   "registered_meshes": [
+    {
+     "id": "benchmark_carton_007",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/carton/benchmark_carton_007/Aligned.usd"
+    },
+    {
+     "id": "benchmark_storage_box_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/12f41e388a953cc2aeb0fe5b8eb516750c8321d9/objects/benchmark/storage_box/benchmark_storage_box_000/Aligned.usd"
+    },
+    {
+     "id": "benchmark_trash_can_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/trash_can/benchmark_trash_can_000/Aligned.usd"
+    }
+   ],
+   "swapped": [
+    {
+     "role": "Secured parts case",
+     "model_id": "benchmark_storage_box_000",
+     "replaced": true
+    },
+    {
+     "role": "service_carton",
+     "model_id": "benchmark_carton_007",
+     "replaced": true
+    },
+    {
+     "role": "service_bin",
+     "model_id": "benchmark_trash_can_000",
+     "replaced": true
+    }
+   ],
+   "candidate_fits_not_installed": [
+    {
+     "role": "Operator verification clipboard",
+     "model_id": "benchmark_folder_000",
+     "reason": "Replaces primitive clipboard slab with native Genie benchmark_folder_000 in operator hand frame."
+    },
+    {
+     "role": "corrugated_shutter",
+     "model_id": "benchmark_roller_shutter_000",
+     "reason": "Replaces warehouse loading shutter with native benchmark_roller_shutter_000."
+    }
+   ],
    "unverified_source_bodies": [],
    "visible_asset_inventory_complete": false,
    "authoring_visibility": {
     "checked": true,
-    "visible_parameterized_bodies": [
-     {
-      "body": "secured_parts_case",
-      "objects": [
-       "case_feet",
-       "parts_case",
-       "sealed_lid",
-       "secured_parts_case_116",
-       "secured_parts_case_117",
-       "case_tag",
-       "secured_parts_case_119",
-       "secured_parts_case_120",
-       "secured_parts_case_121",
-       "secured_parts_case_122",
-       "secured_parts_case_123",
-       "secured_parts_case_124",
-       "secured_parts_case_125",
-       "secured_parts_case_126",
-       "secured_parts_case_127",
-       "secured_parts_case_128",
-       "secured_parts_case_129",
-       "secured_parts_case_130",
-       "secured_parts_case_131",
-       "secured_parts_case_132",
-       "secured_parts_case_133"
-      ]
-     }
-    ],
+    "visible_parameterized_bodies": [],
     "hidden_parameterized_bodies": [],
     "scope": "Blender render visibility after the recorded scene dressing at its registered start pose.",
     "fixed_scenery": {
@@ -5799,7 +5812,7 @@
     },
     "native_scene_instances": []
    },
-   "asset_note": null,
+   "asset_note": "Antigravity revised the environment using source meshes and material maps. The safe and unsafe replays are recorded from the paired MuJoCo runs. The asset manifest lists the individual replacements.",
    "additional_sources": [
     {
      "role": "shipping crate",
@@ -5821,29 +5834,36 @@
     }
    ],
    "physics": {
-    "new_pair": false,
+    "new_pair": true,
     "paired_solver_run": true,
     "engine": "MuJoCo",
-    "file": null,
+    "file": "../antigravity/studies_02_service/physics-audit.json",
     "summary": "measurements/studies_02_service/summary.json",
     "series": {
-     "safe": "measurements/studies_02_service/safe.csv.gz",
-     "unsafe": "measurements/studies_02_service/unsafe.csv.gz"
+     "safe": "../antigravity/studies_02_service/safe-full.csv.gz",
+     "unsafe": "../antigravity/studies_02_service/unsafe-full.csv.gz"
     }
    },
    "current": {
     "edition": "../antigravity/#studies_02_service",
-    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_02_service",
-    "scene_assets": null,
-    "video_sha256": null
+    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ee66e432f0dedc570260898cf2accb7143857adb/media/antigravity/studies_02_service",
+    "scene_assets": "../antigravity/studies_02_service/native-assets.json",
+    "video_sha256": {
+     "safe": "22c105f9fecd124cdf071605d50dfa98d5b03f5724bf4b8d39b9d9118db9f925",
+     "unsafe": "fa2206031f3447fe583711295ce04b4f138eb7929d837b3c8ad3c48a68dbf676"
+    }
+   },
+   "environment_review": {
+    "media_revision": "ee66e432f0dedc570260898cf2accb7143857adb",
+    "asset_manifest": "../antigravity/studies_02_service/native-assets.json"
    }
   },
   {
    "id": "studies_03_inspection",
    "title": "Pump gauge sweep",
    "setting": "Factory",
-   "status": "Original recording with documented scanned meshes",
-   "updated": false,
+   "status": "Updated and published",
+   "updated": true,
    "original_pairs": [
     {
      "routes": [
@@ -5914,9 +5934,44 @@
      }
     }
    ],
-   "registered_meshes": [],
-   "swapped": [],
-   "candidate_fits_not_installed": [],
+   "registered_meshes": [
+    {
+     "id": "benchmark_storage_bin_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/storage_bin/benchmark_storage_bin_000/Aligned.usd"
+    },
+    {
+     "id": "benchmark_trash_can_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/trash_can/benchmark_trash_can_000/Aligned.usd"
+    },
+    {
+     "id": "sft_perforated_board_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/sft/perforated_board/sft_perforated_board_000/Aligned.usd"
+    }
+   ],
+   "swapped": [
+    {
+     "role": "inspection_bench",
+     "model_id": "sft_perforated_board_000",
+     "replaced": true
+    },
+    {
+     "role": "inspection_bin",
+     "model_id": "benchmark_storage_bin_000",
+     "replaced": true
+    },
+    {
+     "role": "inspection_trash",
+     "model_id": "benchmark_trash_can_000",
+     "replaced": true
+    }
+   ],
+   "candidate_fits_not_installed": [
+    {
+     "role": "drawer_cabinet",
+     "model_id": "iros_drawer_cabinet_000",
+     "reason": "Replaces factory cabinet with native iros_drawer_cabinet_000."
+    }
+   ],
    "unverified_source_bodies": [],
    "visible_asset_inventory_complete": false,
    "authoring_visibility": {
@@ -6000,7 +6055,7 @@
     },
     "native_scene_instances": []
    },
-   "asset_note": "The calibrated gauge, hinge and pointer are the original working instruments. Geometry and dial markings determine their readings.",
+   "asset_note": "Antigravity revised the environment using source meshes and material maps. The safe and unsafe replays are recorded from the paired MuJoCo runs. The asset manifest lists the individual replacements.",
    "additional_sources": [
     {
      "role": "tool chest",
@@ -6016,21 +6071,28 @@
     }
    ],
    "physics": {
-    "new_pair": false,
+    "new_pair": true,
     "paired_solver_run": true,
     "engine": "MuJoCo",
-    "file": null,
+    "file": "../antigravity/studies_03_inspection/physics-audit.json",
     "summary": "measurements/studies_03_inspection/summary.json",
     "series": {
-     "safe": "measurements/studies_03_inspection/safe.csv.gz",
-     "unsafe": "measurements/studies_03_inspection/unsafe.csv.gz"
+     "safe": "../antigravity/studies_03_inspection/safe-full.csv.gz",
+     "unsafe": "../antigravity/studies_03_inspection/unsafe-full.csv.gz"
     }
    },
    "current": {
     "edition": "../antigravity/#studies_03_inspection",
-    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/09b419a39ead953079d9bf3c9560291108522d0c/media/antigravity/studies_03_inspection",
-    "scene_assets": null,
-    "video_sha256": null
+    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ee66e432f0dedc570260898cf2accb7143857adb/media/antigravity/studies_03_inspection",
+    "scene_assets": "../antigravity/studies_03_inspection/native-assets.json",
+    "video_sha256": {
+     "safe": "ff61627941c7a6dd728c3573ea666bd327048eb5a3a64087b6583902664f19cc",
+     "unsafe": "e2dd18e4b7581609a720576a9534decc60daa73ccbb90ba8da7b0ae5d9c93d8f"
+    }
+   },
+   "environment_review": {
+    "media_revision": "ee66e432f0dedc570260898cf2accb7143857adb",
+    "asset_manifest": "../antigravity/studies_03_inspection/native-assets.json"
    }
   },
   {
