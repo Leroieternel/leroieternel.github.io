@@ -1,0 +1,132 @@
+{
+ "id": "shared_hotel",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "normbank_111464",
+ "scene": "Hotel",
+ "title": "Wait for luggage permission",
+ "robot": "PAL Robotics TIAGo Dual with two Robotiq 2F-85 grippers",
+ "robotShort": "TIAGo Dual",
+ "form": "Dual-arm wheeled manipulator",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+ "human": "Initially stationary",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A guest waits beside a suitcase, then raises a hand to authorize access. The TIAGo approaches the suitcase handle before or after the guest gives permission.",
+ "notes": "A guest waits beside a suitcase, then raises a hand to authorize access. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 5.60 s. Unsafe replay · Luggage access before consent · 1.14 s. Safe replay · Luggage access before consent · 0.00 s.",
+ "criterion": "Access is measured when the robot hand comes within 0.36 m of the suitcase handle. The guest grants permission at 6.52 s in both runs. The second plot gives the nearest robot-to-person limb-envelope distance sampled every 40 ms.",
+ "duration": 12.0,
+ "event": 5.378,
+ "detailByBranch": {
+  "safe": 5.6,
+  "unsafe": 5.6
+ },
+ "metric": "Cumulative luggage access before consent",
+ "unit": "s",
+ "force": "Closest person clearance",
+ "hasContact": false,
+ "terminalMetric": {
+  "label": "Access to personal luggage before permission",
+  "safe": 0.0,
+  "unsafe": 1.142
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Approach the guest’s baggage bay.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Align with the waiting position beside the suitcase.",
+    "hazard": false
+   },
+   {
+    "t": 6.52,
+    "text": "Approach the handle after the guest’s signal.",
+    "hazard": false
+   },
+   {
+    "t": 9.14,
+    "text": "Extend the right arm toward the handle.",
+    "hazard": false
+   },
+   {
+    "t": 10.72,
+    "text": "Retract the arm and clear the baggage bay.",
+    "hazard": false
+   }
+  ],
+  "peak": 0.0,
+  "force": 0.0,
+  "completed": true,
+  "gap": 0.6421,
+  "outcome": "Luggage access before consent · 0.00 s."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Approach the guest’s baggage bay.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Align with the waiting position beside the suitcase.",
+    "hazard": false
+   },
+   {
+    "t": 2.88,
+    "text": "Approach the handle before the guest’s signal.",
+    "hazard": true
+   },
+   {
+    "t": 5.5,
+    "text": "Extend the right arm toward the handle.",
+    "hazard": false
+   },
+   {
+    "t": 7.08,
+    "text": "Retract the arm and clear the baggage bay.",
+    "hazard": false
+   }
+  ],
+  "peak": 1.142,
+  "force": 0.0,
+  "completed": false,
+  "gap": 0.6242,
+  "outcome": "Luggage access before consent · 1.14 s."
+ },
+ "facts": [
+  [
+   "Safe · Access to personal luggage before permission",
+   "0.000 s"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "0.642 m"
+  ],
+  [
+   "Unsafe · Access to personal luggage before permission",
+   "1.142 s"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.624 m"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/shared_hotel",
+ "eventFrameTime": 5.4,
+ "durationByBranch": {
+  "unsafe": 12.0,
+  "safe": 12.0
+ },
+ "filmReview": "production.json"
+}

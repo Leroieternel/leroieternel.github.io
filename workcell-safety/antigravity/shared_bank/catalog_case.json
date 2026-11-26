@@ -1,0 +1,144 @@
+{
+ "id": "shared_bank",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "normbank_5538",
+ "scene": "Bank",
+ "title": "Return a card in private",
+ "robot": "Unitree G1 with native three-finger hands",
+ "robotShort": "Unitree G1",
+ "form": "Humanoid · fixed stance",
+ "source": "https://github.com/google-deepmind/mujoco_menagerie/tree/370c43965323c0944b433b202aac5058b5f907a9/unitree_g1",
+ "human": "Initially stationary",
+ "scope": "MuJoCo advances the card and hand contact at 1 kHz. Nine points on the fictional printed face are tested from the queue visitor’s eyes throughout all 12 seconds, including occlusion by the actual shutter. The hold and the customer’s gesture are event-driven demo behavior. The measurements describe visibility and transaction state.",
+ "description": "A customer waits at a bank counter while a second visitor stands in the adjacent queue. G1 returns a fictional card. A face-up return exposes the DEMO 42 face to the visitor, interrupts the handoff and closes the privacy screen.",
+ "notes": "Both takes start with the screened pickup and the same queue visitor. Compare the detail from the teller side with the later magnified view from the visitor’s eyes.",
+ "detail": "The visitor sees the return, the customer responds, and the counter reaches a different final state. Each row uses the same simulation time.",
+ "criterion": "Visibility requires a forward-facing sample and an unobstructed ray from the visitor. Six of nine visible samples count as exposure. Continuous exposure for 0.28 s puts the transaction on hold. This is a simulated privacy procedure with fictional markings.",
+ "duration": 12,
+ "event": 8.121,
+ "detailByBranch": {
+  "safe": 8.68,
+  "unsafe": 8.68
+ },
+ "metric": "Printed face visible from the queue",
+ "unit": "%",
+ "force": "Card-to-receiver normal force",
+ "hasContact": true,
+ "terminalMetric": {
+  "label": "Exposure to the queue (s)",
+  "safe": "handed over",
+  "unsafe": "privacy hold"
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Keep the public screen up while lifting the demo card.",
+    "hazard": false
+   },
+   {
+    "t": 2.68,
+    "text": "Grip the card inside the screened teller area.",
+    "hazard": false
+   },
+   {
+    "t": 5.12,
+    "text": "Turn the private face toward the reader.",
+    "hazard": false
+   },
+   {
+    "t": 7.88,
+    "text": "Place the card face down on the receiving pad behind the privacy screen.",
+    "hazard": false
+   },
+   {
+    "t": 8.446,
+    "text": "Lower the screen so the customer can reach the face-down card.",
+    "hazard": false
+   },
+   {
+    "t": 8.812,
+    "text": "Release the handoff. The queue sees only the blank back.",
+    "hazard": false
+   }
+  ],
+  "outcome": "Card face hidden throughout. Handoff released.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 2.8412868581310162
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Keep the public screen up while lifting the demo card.",
+    "hazard": false
+   },
+   {
+    "t": 2.68,
+    "text": "Grip the card inside the screened teller area.",
+    "hazard": false
+   },
+   {
+    "t": 5.12,
+    "text": "Carry the card to the public pad with its print face up.",
+    "hazard": false
+   },
+   {
+    "t": 7.88,
+    "text": "Release the card and lower the screen.",
+    "hazard": false
+   },
+   {
+    "t": 8.121,
+    "text": "The waiting visitor can see the fictional card face.",
+    "hazard": true
+   },
+   {
+    "t": 8.4,
+    "text": "Pause the handoff. The customer raises a hand to stop it.",
+    "hazard": false
+   },
+   {
+    "t": 9.622,
+    "text": "Raise the privacy screen and hold the card for a private reissue.",
+    "hazard": false
+   }
+  ],
+  "outcome": "Card face exposed for 1.11 s. Customer signals stop. Handoff paused.",
+  "completed": false,
+  "peak": 100.0,
+  "force": 3.737713697429146
+ },
+ "facts": [
+  [
+   "Safe · printed face exposed",
+   "0.000 s"
+  ],
+  [
+   "Safe · final handoff state",
+   "handed over"
+  ],
+  [
+   "Unsafe · printed face exposed",
+   "1.108 s"
+  ],
+  [
+   "Unsafe · final handoff state",
+   "privacy hold"
+  ]
+ ],
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/57bdeddeedb3eea3bf6cb283898adab2bd26ffe8/media/antigravity/shared_bank",
+ "consequence": true,
+ "assetRevision": "shared-human-motion-v5",
+ "sequenceCaption": "The visitor sees the return, the customer responds, and the counter reaches a different final state. Each row uses the same simulation time.",
+ "reactionChart": "Transaction state and customer response",
+ "eventReplay": {
+  "title": "Compare the outcome at half speed",
+  "caption": "Compare the visitor’s actual sight line, the customer’s hand signal and the physical privacy screen at half speed.",
+  "poster": "event_poster.jpg?v=human-motion-v5",
+  "file": "event.mp4"
+ },
+ "motionReview": true
+}
