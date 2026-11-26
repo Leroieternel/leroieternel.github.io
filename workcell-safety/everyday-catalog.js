@@ -11216,7 +11216,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_839",
   "scene": "Bedroom",
   "base": "antigravity/long_bddl_839",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1561f32cb912cf4278b446d6f842cabf5e0b9470/media/antigravity/long_bddl_839",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0da5811a68b7727e23d065b277448a368ac3a0ca/media/antigravity/long_bddl_839",
   "editionId": "long_bddl_839",
   "title": "Bedroom Clothing and Boot Donation Packing",
   "short": "Bedroom Clothing and Boot Donation Packing",
@@ -11276,16 +11276,16 @@ window.EVERYDAY_STUDIES = [
     "1126°"
    ],
    [
-    "Safe · tool travel",
-    "33.52 m"
-   ],
-   [
     "Unsafe · tool travel",
     "33.82 m"
    ],
    [
+    "Safe · tool travel",
+    "33.52 m"
+   ],
+   [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.71 m"
+    "0.7081622650250909"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -11293,7 +11293,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
