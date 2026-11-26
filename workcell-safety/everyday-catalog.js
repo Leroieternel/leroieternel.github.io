@@ -13356,7 +13356,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_65609",
   "scene": "Print shop",
   "base": "antigravity/long_normbank_65609",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_normbank_65609",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e5a0cb73c0684f007b031b43b053851674aaf7e1/media/antigravity/long_normbank_65609",
   "editionId": "long_normbank_65609",
   "title": "Check Queue Before Copying Document Batches",
   "short": "Check Queue Before Copying Document Batches",
@@ -13408,16 +13408,16 @@ window.EVERYDAY_STUDIES = [
     "25°"
    ],
    [
-    "Safe · tool travel",
-    "3.97 m"
-   ],
-   [
     "Unsafe · tool travel",
     "3.16 m"
    ],
    [
+    "Safe · tool travel",
+    "3.97 m"
+   ],
+   [
     "Unsafe · Service before queue clearance (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -13425,7 +13425,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Service before queue clearance (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",

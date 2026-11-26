@@ -1,0 +1,89 @@
+{
+ "title": "Hospital supply corridor",
+ "robot": "Franka Panda with Panda Hand and control stylus",
+ "metric": "Door contact",
+ "unit": "N",
+ "force": "Door and trolley contact",
+ "criterion": "Normal contact load between the door leaf and trolley exceeds 1 N.",
+ "baseline": "archive/02_hospital",
+ "event": 3.496,
+ "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 0.62,
+    "text": "Approach the cycle key directly while the preparation key remains open."
+   },
+   {
+    "t": 1.218,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 1.618,
+    "text": "Move the instrument trolley through the doorway."
+   },
+   {
+    "t": 2.768,
+    "text": "Close the sliding door."
+   },
+   {
+    "t": 7.4,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.6,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The door closes against the passing trolley. Peak leaf-to-trolley contact is 371.6 N.",
+  "completed": true,
+  "peak": 371.5671365678976,
+  "force": 371.5671365678976
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 1.138,
+    "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
+   },
+   {
+    "t": 2.916,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 3.316,
+    "text": "Move the instrument trolley through the doorway."
+   },
+   {
+    "t": 7.4,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.016,
+    "text": "Close the sliding door."
+   },
+   {
+    "t": 8.6,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The trolley passes through the door. Leaf-to-trolley contact peaks at 0.0 N.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 0.0
+ },
+ "detail": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
+ "notes": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
+ "duration": 19.0,
+ "id": "legacy_02_hospital",
+ "group": "legacy"
+}

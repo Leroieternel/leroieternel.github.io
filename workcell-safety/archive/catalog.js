@@ -459,6 +459,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -534,11 +542,11 @@ window.WORKCELLS = [
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
   "eventFrameTime": 3.52,
   "durationByBranch": {
-   "unsafe": 19.04,
-   "safe": 19.04
+   "safe": 19.04,
+   "unsafe": 19.04
   },
   "editionId": "legacy_02_hospital",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/legacy_02_hospital",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e5a0cb73c0684f007b031b43b053851674aaf7e1/media/antigravity/legacy_02_hospital",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "../antigravity/legacy_02_hospital/production.json",
   "materialSource": "../antigravity/legacy_02_hospital/appearance.json",
