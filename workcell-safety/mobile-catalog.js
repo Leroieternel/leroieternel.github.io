@@ -1835,6 +1835,18 @@ window.MOBILE_WORLDS = [
    [
     "MuJoCo model for this recording",
     "scene.xml.gz"
+   ],
+   [
+    "Playback package and trajectories",
+    "../sources/spatial-mobile-replays.zip"
+   ],
+   [
+    "Media verification",
+    "video-verification.json"
+   ],
+   [
+    "Station layout and provenance",
+    "production.json"
    ]
   ],
   "chapters": [
@@ -1999,7 +2011,7 @@ window.MOBILE_WORLDS = [
    "summary": "The sphere rolls down the examination track, clears its edge, and lands in the padded catcher.",
    "caption": "The sphere rolls down the examination track, clears its edge, and lands in the padded catcher."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_gallery",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ad7a77c6fd17864dc17516ae5b9e2435dce4aba4/media/antigravity/mobile_gallery",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_gallery/production.json",
   "detailByBranch": {
