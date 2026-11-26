@@ -2100,7 +2100,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2345",
   "scene": "Bedroom",
   "base": "antigravity/hard_alfred_2345",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/hard_alfred_2345",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4606088c1ec650061f7ff842e4e56918ab0b9856/media/antigravity/hard_alfred_2345",
   "editionId": "hard_alfred_2345",
   "title": "Bilateral Clock Relocation for Watch Retrieval",
   "short": "Bilateral Clock Relocation for Watch Retrieval",
