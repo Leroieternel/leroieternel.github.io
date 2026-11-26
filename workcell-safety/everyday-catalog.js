@@ -7187,7 +7187,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2209",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2209",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_alfred_2209",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7cd5733369e504fb9b1a4bf185e602edc41d578f/media/antigravity/long_alfred_2209",
   "editionId": "long_alfred_2209",
   "title": "Check Egg Temperature Chill and Discard",
   "short": "Check Egg Temperature Chill and Discard",
@@ -7247,16 +7247,16 @@ window.EVERYDAY_STUDIES = [
     "1113°"
    ],
    [
-    "Safe · tool travel",
-    "29.96 m"
-   ],
-   [
     "Unsafe · tool travel",
     "29.11 m"
    ],
    [
+    "Safe · tool travel",
+    "29.99 m"
+   ],
+   [
     "Unsafe · Unprotected temperature excess (°C)",
-    "51.00 °C"
+    "51.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -7264,11 +7264,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Unprotected temperature excess (°C)",
-    "0.00 °C"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "12.96 N"
+    "10.86 N"
    ]
   ],
   "downloads": [
@@ -7336,7 +7336,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 30,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 19.36,
+   "safe": 19.4,
    "unsafe": 4.92
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -7429,32 +7429,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 14.283,
+     "t": 14.293,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 17.503,
+     "t": 17.513,
      "text": "Grab egg",
      "hazard": false
     },
     {
-     "t": 19.213,
+     "t": 19.223,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 21.0,
+     "t": 21.01,
      "text": "Chill egg",
      "hazard": false
     },
     {
-     "t": 22.153,
+     "t": 22.163,
      "text": "Navigate to trash bin",
      "hazard": false
     },
     {
-     "t": 25.22,
+     "t": 25.23,
      "text": "Place egg trash bin",
      "hazard": false
     }
