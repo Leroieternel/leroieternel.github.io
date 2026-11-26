@@ -9196,7 +9196,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_527",
   "scene": "Market stall",
   "base": "antigravity/long_bddl_527",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_527",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/12d76d488262ce7d5fb74f98df3554bb42b79c3a/media/antigravity/long_bddl_527",
   "editionId": "long_bddl_527",
   "title": "Flea Market Soda Display and Tagging",
   "short": "Flea Market Soda Display and Tagging",
@@ -9237,7 +9237,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Unsafe · peak floor contact",
-    "548.93 N"
+    "784.33 N"
    ],
    [
     "Unsafe · base travel",
@@ -9256,24 +9256,24 @@ window.EVERYDAY_STUDIES = [
     "1208°"
    ],
    [
-    "Safe · tool travel",
-    "34.72 m"
-   ],
-   [
     "Unsafe · tool travel",
     "29.13 m"
    ],
    [
+    "Safe · tool travel",
+    "34.72 m"
+   ],
+   [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.80 m"
+    "0.8017769613423649"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "548.93 N"
+    "784.33 N"
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
