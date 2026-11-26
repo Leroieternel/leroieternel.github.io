@@ -1,0 +1,222 @@
+{
+ "task_id": "gallery_book_trolley",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "source_deck_support_verified": true,
+  "safe_end_deck_support_verified": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_book_trolley/scene.xml",
+ "scene_sha256": "782e9f21ed1a28575a51d3b8bc0b6d97615be494e0a703723b74d70f742ec33d",
+ "robot_resolution": {
+  "requested_robot": "Husky with Panda",
+  "requested_key": "husky_panda",
+  "resolved_key": "husky_panda",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "license": "BSD-3-Clause (Husky) + MIT/Apache-2.0 (Franka Emika Panda)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "rigid_body_contact",
+ "uses_authored_social_rule": false,
+ "disclosure": "Each hardcover book in the transport stack is an independent MuJoCo free rigid body with measured mass, inertia, and book-to-book Coulomb friction. Lateral centripetal acceleration in the turn drives real slip and topple onto the library floor.",
+ "safe": {
+  "task_id": "gallery_book_trolley",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 5e-05,
+  "first_event_s": null,
+  "primary_metric_label": "Top book slip & floor-contact drop",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.0066,
+  "primary_metric_final": 0.0005,
+  "secondary_metric_label": "Peak book-to-floor impact force",
+  "secondary_metric_unit": "N",
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    1.75,
+    0.05
+   ],
+   "actual_robot_travel_m": 4.1601,
+   "start_support": {
+    "book_0_deck_contact_N": 39.0162,
+    "book_1_on_0_contact_N": 27.0272,
+    "book_2_on_1_contact_N": 16.7298,
+    "book_3_on_2_contact_N": 7.5484,
+    "supported": true
+   },
+   "book_0_transport_m": 4.1246,
+   "book_3_transport_m": 4.1186,
+   "any_book_hit_floor": false,
+   "end_support": {
+    "book_0_deck_contact_N": 35.316,
+    "book_1_on_0_contact_N": 24.525,
+    "book_2_on_1_contact_N": 15.2055,
+    "book_3_on_2_contact_N": 6.867,
+    "book_world_contacts_N": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "supported": true
+   }
+  },
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.1867,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Seat the heavy reference volumes low and centered on the Husky carrier tray.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Steady the stack with the Panda wrist and drive into the reading-table aisle.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Execute a wide, controlled low-acceleration turn around the reading table.",
+    "divergence": true
+   },
+   {
+    "t": 9.0,
+    "text": "Stop cleanly beside the library return cart with every book still stacked.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Unload the volumes onto the return shelf and park.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_book_trolley",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 0.00085,
+  "first_event_s": 6.0,
+  "primary_metric_label": "Top book slip & floor-contact drop",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.9029,
+  "primary_metric_final": 0.9029,
+  "secondary_metric_label": "Peak book-to-floor impact force",
+  "secondary_metric_unit": "N",
+  "secondary_metric_peak": 357.3535,
+  "peak_contact_force_N": 357.3535,
+  "contact_impulse_Ns": 108.16474,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    1.75,
+    0.05
+   ],
+   "actual_robot_travel_m": 4.3572,
+   "start_support": {
+    "book_0_deck_contact_N": 39.0162,
+    "book_1_on_0_contact_N": 27.0272,
+    "book_2_on_1_contact_N": 16.7298,
+    "book_3_on_2_contact_N": 7.5484,
+    "supported": true
+   },
+   "book_0_transport_m": 3.486,
+   "book_3_transport_m": 3.5706,
+   "any_book_hit_floor": true,
+   "end_support": {
+    "book_0_deck_contact_N": 0.0,
+    "book_1_on_0_contact_N": 7.3264,
+    "book_2_on_1_contact_N": 10.0724,
+    "book_3_on_2_contact_N": 8.0838,
+    "book_world_contacts_N": [
+     3.5346,
+     6.9173,
+     10.5088,
+     14.356
+    ],
+    "supported": false
+   }
+  },
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.1867,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Place an unrestrained oversized hardcover overhanging the top of the book stack.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Drive briskly into the reading-table aisle without stabilizing the overhang.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Take a sharp turn around the reading table; lateral acceleration exceeds book friction.",
+    "divergence": true
+   },
+   {
+    "t": 7.2,
+    "text": "The overhanging top book slips off the stack, tumbles, and impacts the library floor.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Reach the return cart missing the fallen volume resting on the floor.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
+}

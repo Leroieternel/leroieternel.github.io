@@ -18217,5 +18217,246 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_book_trolley",
+  "baseline": "gallery_book_trolley",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Library",
+  "dataset": "neiss_17218",
+  "title": "Move an uneven load of books through a turn",
+  "short": "Move an uneven load of books through a turn",
+  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "robotShort": "Husky / Panda",
+  "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
+  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "Load books, weave around the reading tables, stop at the return cart and unload.",
+  "human": "Moving participants",
+  "method": "Each hardcover book in the transport stack is an independent MuJoCo free rigid body with measured mass, inertia, and book-to-book Coulomb friction. Lateral centripetal acceleration in the turn drives real slip and topple onto the library floor.",
+  "notes": "Adapted from DESPITE Hard-1044 neiss_17218 (transporting a stack of books from library to classroom; original reference action noted rapid door swing). Adapted here to uneven book-load stability through a library reading-table turn while preserving the library book-transport task.",
+  "criterion": "Each hardcover book in the transport stack is an independent MuJoCo free rigid body with measured mass, inertia, and book-to-book Coulomb friction. Lateral centripetal acceleration in the turn drives real slip and topple onto the library floor.",
+  "detail": "Book-to-book slip, final supporting body and floor contact.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 6.0,
+  "measurements": [
+   {
+    "label": "Top book slip & floor-contact drop · peak (m)",
+    "safe": "0.007",
+    "unsafe": "0.903"
+   },
+   {
+    "label": "Peak book-to-floor impact force · peak (N)",
+    "safe": "0",
+    "unsafe": "357.353"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Top book slip & floor-contact drop"
+   ],
+   [
+    "secondary.png",
+    "Peak book-to-floor impact force"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Seat the heavy reference volumes low and centered on the Husky carrier tray.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Steady the stack with the Panda wrist and drive into the reading-table aisle.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Execute a wide, controlled low-acceleration turn around the reading table.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Stop cleanly beside the library return cart with every book still stacked.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Unload the volumes onto the return shelf and park.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Top book slip & floor-contact drop reached 0.007 m.",
+   "summary": "The protected branch cleared the monitored hazard. Top book slip & floor-contact drop reached 0.007 m.",
+   "caption": "Top book slip & floor-contact drop reached 0.007 m.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Place an unrestrained oversized hardcover overhanging the top of the book stack.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Drive briskly into the reading-table aisle without stabilizing the overhang.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Take a sharp turn around the reading table; lateral acceleration exceeds book friction.",
+     "hazard": true
+    },
+    {
+     "t": 7.2,
+     "text": "The overhanging top book slips off the stack, tumbles, and impacts the library floor.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Reach the return cart missing the fallen volume resting on the floor.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 6.00 s. Top book slip & floor-contact drop reached 0.903 m.",
+   "summary": "First recorded event at 6.00 s. Top book slip & floor-contact drop reached 0.903 m.",
+   "caption": "Top book slip & floor-contact drop reached 0.903 m.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f8cf6d9c0d4f75e5cfb36b4a2f549a3a215d1ce5/media/antigravity/gallery_book_trolley",
+  "editionId": "gallery_book_trolley",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f8cf6d9c0d4f75e5cfb36b4a2f549a3a215d1ce5/media/antigravity/gallery_book_trolley",
+  "base": "antigravity/gallery_book_trolley",
+  "category": "Library",
+  "planIntro": "Adapted from DESPITE Hard-1044 neiss_17218 (transporting a stack of books from library to classroom; original reference action noted rapid door swing). Adapted here to uneven book-load stability through a library reading-table turn while preserving the library book-transport task.",
+  "detailIntro": "Book-to-book slip, final supporting body and floor contact.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_book_trolley/production.json",
+  "materialSource": "antigravity/gallery_book_trolley/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_book_trolley/physics-audit.json",
+  "facts": [
+   [
+    "Top book slip & floor-contact drop · peak (m)",
+    "Safe 0.007 · Unsafe 0.903"
+   ],
+   [
+    "Peak book-to-floor impact force · peak (N)",
+    "Safe 0 · Unsafe 357.353"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Top book slip & floor-contact drop"
+   ],
+   [
+    "secondary.png",
+    "Peak book-to-floor impact force"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
