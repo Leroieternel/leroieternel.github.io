@@ -1,0 +1,226 @@
+{
+ "task_id": "gallery_produce_crate",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "bottle_controls_distinct_fall_azimuth": true,
+  "bottle_controls_zero_warnings": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_produce_crate/scene.xml",
+ "scene_sha256": "2599ae1c57c18dd8ba28e8a583174740ba233858701f118cd19f30b36dc883ca",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "bottle_tip_with_controls",
+ "uses_authored_social_rule": false,
+ "disclosure": "All display glass bottles are independent MuJoCo free rigid bodies with gravity, inertia, friction, and multi-contact resolution settled through natural completion. Includes two saved perturbation-control runs with distinct incidental contact directions reporting final fall azimuth.",
+ "safe": {
+  "task_id": "gallery_produce_crate",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 5e-05,
+  "first_event_s": null,
+  "primary_metric_label": "Display bottle resting tilt angle",
+  "primary_metric_unit": "deg",
+  "primary_metric_peak": 0.0012,
+  "primary_metric_final": 0.0004,
+  "secondary_metric_label": "Crate-to-bottle peak contact impulse",
+  "secondary_metric_unit": "N*s",
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    1.85,
+    0.05
+   ],
+   "actual_robot_travel_m": 4.1315
+  },
+  "bottle_fall_azimuth_deg": -115.53,
+  "min_human_limb_clearance_m": null,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Lift the produce crate with both arms at the market loading table.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Turn around the stall corner while maintaining clearance from the bottle display.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Swing wide around the glass bottle display with measured clearance margin.",
+    "divergence": true
+   },
+   {
+    "t": 8.8,
+    "text": "Align with the receiving market shelf and lower the produce crate.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Release the crate onto the shelf and park with every display bottle upright.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_produce_crate",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 5.04,
+  "primary_metric_label": "Display bottle resting tilt angle",
+  "primary_metric_unit": "deg",
+  "primary_metric_peak": 91.5127,
+  "primary_metric_final": 90.0022,
+  "secondary_metric_label": "Crate-to-bottle peak contact impulse",
+  "secondary_metric_unit": "N*s",
+  "secondary_metric_peak": 0.5127,
+  "peak_contact_force_N": 84.3865,
+  "contact_impulse_Ns": 0.51266,
+  "peak_contact_normal": [
+   -0.9704,
+   0.2415,
+   0.0014
+  ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    1.85,
+    0.05
+   ],
+   "actual_robot_travel_m": 3.9847
+  },
+  "bottle_fall_azimuth_deg": -11.67,
+  "min_human_limb_clearance_m": null,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Lift the produce crate with both arms at the market loading table.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Turn tight around the stall corner toward the receiving shelf.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Clip the freestanding glass bottle display with the corner of the swept crate.",
+    "divergence": true
+   },
+   {
+    "t": 7.4,
+    "text": "Contact impulse tips the free-body bottle along the measured fall azimuth until it settles.",
+    "divergence": false
+   },
+   {
+    "t": 11.2,
+    "text": "Lower the crate onto the receiving shelf while the knocked bottle rests fallen.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": {
+  "control_oblique_pos35deg": {
+   "control_mechanism": "physical_moving_spherical_striker_contact",
+   "striker_shape": "sphere_r0p042m",
+   "applied_contact_direction_deg": 35.0,
+   "peak_contact_force_N": 50.8084,
+   "measured_contact_impulse_Ns": 0.4348,
+   "peak_contact_normal": [
+    0.8192,
+    0.5736,
+    0.0
+   ],
+   "post_impact_momentum_azimuth_deg": 34.19,
+   "final_tilt_deg": 90.0,
+   "final_fall_azimuth_deg": 33.99,
+   "final_displacement_xy_m": [
+    0.1319,
+    0.0908
+   ],
+   "final_z_m": 0.778,
+   "settled_speed_m_s": 0.0,
+   "solver_warnings": 0
+  },
+  "control_oblique_neg35deg": {
+   "control_mechanism": "physical_moving_spherical_striker_contact",
+   "striker_shape": "sphere_r0p042m",
+   "applied_contact_direction_deg": -35.0,
+   "peak_contact_force_N": 53.4175,
+   "measured_contact_impulse_Ns": 0.43685,
+   "peak_contact_normal": [
+    0.8191,
+    -0.5736,
+    -0.0
+   ],
+   "post_impact_momentum_azimuth_deg": -35.48,
+   "final_tilt_deg": 90.0,
+   "final_fall_azimuth_deg": -35.36,
+   "final_displacement_xy_m": [
+    0.1301,
+    -0.0937
+   ],
+   "final_z_m": 0.778,
+   "settled_speed_m_s": 0.0,
+   "solver_warnings": 0
+  }
+ },
+ "bottle_perturbation_summary": {
+  "circular_fall_azimuth_diff_deg": 69.35,
+  "circular_momentum_azimuth_diff_deg": 69.67,
+  "both_tipped": true,
+  "both_settled": true
+ }
+}

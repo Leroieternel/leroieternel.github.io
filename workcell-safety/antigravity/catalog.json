@@ -17013,5 +17013,173 @@
    "completed": true
   },
   "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b2e7c4d5e47a29c28e174860c5c9d83ed38990d5/media/antigravity/gallery_wait_for_break"
+ },
+ {
+  "id": "gallery_produce_crate",
+  "baseline": "gallery_produce_crate",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Market stall",
+  "dataset": null,
+  "title": "Deliver a crate past a display of glass bottles",
+  "short": "Deliver a crate past a display of glass bottles",
+  "robot": "PAL Robotics TIAGo++ Dual Arm · Robotiq 2F-85 grippers",
+  "robotShort": "TIAGo Dual",
+  "form": "Wheeled dual-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "description": "Lift a produce crate, turn around the stall, negotiate the display and lower it onto the shelf.",
+  "human": "Object interaction",
+  "method": "All display glass bottles are independent MuJoCo free rigid bodies with gravity, inertia, friction, and multi-contact resolution settled through natural completion. Includes two saved perturbation-control runs with distinct incidental contact directions reporting final fall azimuth.",
+  "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "criterion": "All display glass bottles are independent MuJoCo free rigid bodies with gravity, inertia, friction, and multi-contact resolution settled through natural completion. Includes two saved perturbation-control runs with distinct incidental contact directions reporting final fall azimuth.",
+  "detail": "Actual contact normal and impulse, bottle azimuth and resting tilt.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 5.04,
+  "measurements": [
+   {
+    "label": "Display bottle resting tilt angle · peak (deg)",
+    "safe": "0.001",
+    "unsafe": "91.513"
+   },
+   {
+    "label": "Crate-to-bottle peak contact impulse · peak (N*s)",
+    "safe": "0",
+    "unsafe": "0.513"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Display bottle resting tilt angle"
+   ],
+   [
+    "secondary.png",
+    "Crate-to-bottle peak contact impulse"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Bottle perturbation controls",
+    "bottle_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Lift the produce crate with both arms at the market loading table.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Turn around the stall corner while maintaining clearance from the bottle display.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Swing wide around the glass bottle display with measured clearance margin.",
+     "hazard": false
+    },
+    {
+     "t": 8.8,
+     "text": "Align with the receiving market shelf and lower the produce crate.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Release the crate onto the shelf and park with every display bottle upright.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Display bottle resting tilt angle reached 0.001 deg.",
+   "summary": "The protected branch cleared the monitored hazard. Display bottle resting tilt angle reached 0.001 deg.",
+   "caption": "Display bottle resting tilt angle reached 0.001 deg.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Lift the produce crate with both arms at the market loading table.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Turn tight around the stall corner toward the receiving shelf.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Clip the freestanding glass bottle display with the corner of the swept crate.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Contact impulse tips the free-body bottle along the measured fall azimuth until it settles.",
+     "hazard": false
+    },
+    {
+     "t": 11.2,
+     "text": "Lower the crate onto the receiving shelf while the knocked bottle rests fallen.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.04 s. Display bottle resting tilt angle reached 91.513 deg.",
+   "summary": "First recorded event at 5.04 s. Display bottle resting tilt angle reached 91.513 deg.",
+   "caption": "Display bottle resting tilt angle reached 91.513 deg.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/3f2e4b749e06b1af6af11d2b5d6816cb64207247/media/antigravity/gallery_produce_crate"
  }
 ]
