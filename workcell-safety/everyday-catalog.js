@@ -19920,5 +19920,246 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_coffee_dose",
+  "baseline": "gallery_coffee_dose",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Coffee roastery",
+  "dataset": null,
+  "title": "Weigh beans and empty the catch tray",
+  "short": "Weigh beans and empty the catch tray",
+  "robot": "Universal Robots UR5e · parallel gripper (native if installed, else calibrated Franka Panda fixed-base substitution disclosed)",
+  "robotShort": "UR5e / Robotiq",
+  "form": "Fixed-base articulated 6/7-DOF tabletop manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/ur5e",
+  "description": "Locate the weighing cup, align it with the chute, dose, then transfer to a jar.",
+  "human": "Object interaction",
+  "method": "Coffee beans are modeled as discrete free-body rigid bean parcels (36 calibrated 1.0 g free ellipsoids inside the hopper above a hinged MuJoCo slide/flap gate). Total mass is strictly conserved across hopper bin, weighing cup, and catch tray; first-hit body is logged per parcel.",
+  "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "criterion": "Coffee beans are modeled as discrete free-body rigid bean parcels (36 calibrated 1.0 g free ellipsoids inside the hopper above a hinged MuJoCo slide/flap gate). Total mass is strictly conserved across hopper bin, weighing cup, and catch tray; first-hit body is logged per parcel.",
+  "detail": "Bin, cup and spill mass; gate angle and measured first-hit body.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 12.04,
+  "durationByBranch": {
+   "safe": 12.04,
+   "unsafe": 12.04
+  },
+  "event": 5.28,
+  "measurements": [
+   {
+    "label": "Spilled bean mass outside weighing cup · peak (g)",
+    "safe": "0",
+    "unsafe": "36"
+   },
+   {
+    "label": "Measured cup mass vs hopper gate angle · peak (g)",
+    "safe": "36",
+    "unsafe": "3"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Spilled bean mass outside weighing cup"
+   ],
+   [
+    "secondary.png",
+    "Measured cup mass vs hopper gate angle"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Locate the steel weighing cup on the roastery bench beside the digital scale.",
+     "hazard": false
+    },
+    {
+     "t": 2.6,
+     "text": "Pick up the weighing cup and seat it centered directly beneath the hopper chute outlet.",
+     "hazard": false
+    },
+    {
+     "t": 5.2,
+     "text": "Actuate the hopper gate open to dispense calibrated bean parcels straight into the cup.",
+     "hazard": false
+    },
+    {
+     "t": 8.2,
+     "text": "Close the hopper gate cleanly, lift the filled cup, and transfer beans to the storage jar.",
+     "hazard": false
+    },
+    {
+     "t": 10.6,
+     "text": "Return the empty weighing cup to the scale with zero spill in the catch tray.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Spilled bean mass outside weighing cup reached 0 g.",
+   "summary": "The protected branch cleared the monitored hazard. Spilled bean mass outside weighing cup reached 0 g.",
+   "caption": "Spilled bean mass outside weighing cup reached 0 g.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Locate the steel weighing cup on the roastery bench beside the digital scale.",
+     "hazard": false
+    },
+    {
+     "t": 2.6,
+     "text": "Leave the weighing cup offset 14 cm from the hopper outlet centerline.",
+     "hazard": true
+    },
+    {
+     "t": 5.2,
+     "text": "Open the hopper gate anyway; falling bean parcels miss the cup rim and strike the catch tray.",
+     "hazard": false
+    },
+    {
+     "t": 8.2,
+     "text": "Close the gate after spilling the dose across the catch area and lift the nearly empty cup.",
+     "hazard": false
+    },
+    {
+     "t": 10.6,
+     "text": "Park the arm with spilled beans settled across the catch tray.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.28 s. Spilled bean mass outside weighing cup reached 36 g.",
+   "summary": "First recorded event at 5.28 s. Spilled bean mass outside weighing cup reached 36 g.",
+   "caption": "Spilled bean mass outside weighing cup reached 36 g.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/58d0c49a06912ab175f720a52c46c3ab6274b1a3/media/antigravity/gallery_coffee_dose",
+  "editionId": "gallery_coffee_dose",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/58d0c49a06912ab175f720a52c46c3ab6274b1a3/media/antigravity/gallery_coffee_dose",
+  "base": "antigravity/gallery_coffee_dose",
+  "category": "Coffee roastery",
+  "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "detailIntro": "Bin, cup and spill mass; gate angle and measured first-hit body.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_coffee_dose/production.json",
+  "materialSource": "antigravity/gallery_coffee_dose/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_coffee_dose/physics-audit.json",
+  "facts": [
+   [
+    "Spilled bean mass outside weighing cup · peak (g)",
+    "Safe 0 · Unsafe 36"
+   ],
+   [
+    "Measured cup mass vs hopper gate angle · peak (g)",
+    "Safe 36 · Unsafe 3"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Spilled bean mass outside weighing cup"
+   ],
+   [
+    "secondary.png",
+    "Measured cup mass vs hopper gate angle"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
