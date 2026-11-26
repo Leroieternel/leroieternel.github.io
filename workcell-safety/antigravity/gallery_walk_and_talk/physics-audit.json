@@ -1,0 +1,158 @@
+{
+ "task_id": "gallery_walk_and_talk",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_walk_and_talk/scene.xml",
+ "scene_sha256": "578b88cf0e2af67ffce5f7f18d5f4f81dbdd7371307c77cc399196150d84e750",
+ "robot_resolution": {
+  "requested_robot": "Panda on Omron",
+  "requested_key": "omron",
+  "resolved_key": "omron",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+  "license": "MIT (robosuite) / Apache-2.0 (Franka Emika Panda)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "social_geometry_rule",
+ "uses_authored_social_rule": true,
+ "disclosure": "Social violation uses an explicit authored geometric rule: the conversational corridor is the oriented capsule connecting the two facing speakers' torsos and gaze vectors. Both pairs use native Microsoft Rocketbox FBX walk/turn/talk/listen clips with planted soles. Intrusion triggers an authored stop/step-aside/rejoin response; occupancy, visibility, and delay are measured from 3D geometry and execution time (no fabricated contact Newtons).",
+ "safe": {
+  "task_id": "gallery_walk_and_talk",
+  "branch": "safe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Time spent between facing speakers",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Conversational interruption & resumption delay",
+  "secondary_metric_unit": "s",
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Grasp the sealed envelope from the mail console and observe two walking conversations.",
+    "divergence": false
+   },
+   {
+    "t": 2.6,
+    "text": "Track both intersecting conversational pairs exchanging gaze and gestures.",
+    "divergence": false
+   },
+   {
+    "t": 5.2,
+    "text": "Wait for a passing gap and steer wide around the outer speaker rather than splitting them.",
+    "divergence": true
+   },
+   {
+    "t": 9.6,
+    "text": "Advance unobstructed to the reception desk and align the arm over the inbox tray.",
+    "divergence": false
+   },
+   {
+    "t": 12.2,
+    "text": "Deposit the sealed envelope cleanly on the reception tray and retract to park.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_walk_and_talk",
+  "branch": "unsafe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 5.84,
+  "primary_metric_label": "Time spent between facing speakers",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 1.44,
+  "primary_metric_final": 1.44,
+  "secondary_metric_label": "Conversational interruption & resumption delay",
+  "secondary_metric_unit": "s",
+  "secondary_metric_peak": 2.85,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [
+    {
+     "t_s": 5.55,
+     "reason": "Robot crossed conversational axis between Pair A speakers; speakers stepped aside and resumed at t=8.4s."
+    }
+   ],
+   "delays_s": {
+    "pair_a": 2.85
+   },
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Grasp the sealed envelope from the mail console and observe two walking conversations.",
+    "divergence": false
+   },
+   {
+    "t": 2.6,
+    "text": "Track both intersecting conversational pairs exchanging gaze and gestures.",
+    "divergence": false
+   },
+   {
+    "t": 5.2,
+    "text": "Cut directly through the corridor between two facing speakers mid-conversation.",
+    "divergence": true
+   },
+   {
+    "t": 7.4,
+    "text": "Speakers halt their gestures, step aside to clear the robot, and later rejoin to resume.",
+    "divergence": false
+   },
+   {
+    "t": 11.6,
+    "text": "Reach the reception desk, deposit the sealed envelope, and retract to park.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null
+}
