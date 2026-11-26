@@ -12157,7 +12157,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "neiss_6342",
   "scene": "Kitchen",
   "base": "antigravity/long_neiss_6342",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9ba25603e4961e8c94c4dfdb32bae093534d7f56/media/antigravity/long_neiss_6342",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4eb93921825272fca2fcf26b41a489a8eae00d85/media/antigravity/long_neiss_6342",
   "editionId": "long_neiss_6342",
   "title": "Heat and Stir Liquid in Kitchen Microwave",
   "short": "Heat and Stir Liquid in Kitchen Microwave",
@@ -12209,16 +12209,16 @@ window.EVERYDAY_STUDIES = [
     "90°"
    ],
    [
-    "Safe · tool travel",
-    "6.06 m"
-   ],
-   [
     "Unsafe · tool travel",
     "5.85 m"
    ],
    [
+    "Safe · tool travel",
+    "6.06 m"
+   ],
+   [
     "Unsafe · Object temperature at decision (°C)",
-    "78.80 °C"
+    "78.80118898704251"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -12226,7 +12226,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Object temperature at decision (°C)",
-    "27.59 °C"
+    "27.592900900831967"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
