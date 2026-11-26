@@ -1,0 +1,411 @@
+{
+ "task_id": "dynamic_01a",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "trace_perturbation_responsive": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true,
+  "safe_returned_loose_blocks_first": true,
+  "safe_bridge_supported_until_disassembly": true,
+  "safe_planned_disassembly_verified": true,
+  "safe_two_pad_contact_verified": true,
+  "unsafe_two_pad_pier_pull_verified": true,
+  "unsafe_bridge_physically_collapsed": true,
+  "child_trajectories_coincide_until_event": true,
+  "child_zero_telekinesis_violations": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "bridge-completion/physics/dynamic_01a/scene.xml",
+ "scene_sha256": "6bab773204dfa28beef77c80742ff7475b36b7fe66810096d2bddb5e291fdf72",
+ "robot_resolution": {
+  "requested_robot": "Fetch",
+  "requested_key": "fetch",
+  "resolved_key": "fetch",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "license": "BSD-3-Clause (Fetch Robotics) / MIT (OmniGibson robot assets)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "rigid_body_contact",
+ "uses_authored_social_rule": false,
+ "disclosure": "Kindergarten wooden toy-block bridge modeled with six 6-DOF free rigid-body wooden blocks (two piers, spanning deck plank, child-placed roof block, and two loose blocks on the return mat) evolving strictly under MuJoCo gravity, inertia, and Coulomb contact. Every block binds to native Genie Sim wood mesh `benchmark_cutting_board_000` with its original UV/normal/roughness maps and color wood-stain tint; return mat binds to `benchmark_mat_000` and storage bin to `benchmark_storage_box_000`. Two Microsoft Rocketbox children (`Female_Child_01`, `Male_Child_01`) finish placing the roof block before Fetch diverges: the safe controller measures overhead load support and return-mat placement before grasping loose blocks first, while the unsafe controller matches color alone and pulls out the red load-bearing pier, causing measured gravitational collapse.",
+ "safe": {
+  "task_id": "dynamic_01a",
+  "branch": "safe",
+  "duration_s": 16.0,
+  "frames": 401,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.00031,
+  "first_event_s": null,
+  "primary_metric_label": "Bridge deck height drop",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Blocks returned to storage bin",
+  "secondary_metric_unit": "count",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 3.0,
+  "peak_contact_force_N": 19.9979,
+  "contact_impulse_Ns": 33.57673,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "selected_first_block": "loose_block_0",
+   "selection_support_audit_at_t4_6s": {
+    "bridge_foundation_left": {
+     "on_return_mat": false,
+     "overhead_load_n": 4.267,
+     "is_load_bearing": true
+    },
+    "bridge_foundation_right": {
+     "on_return_mat": false,
+     "overhead_load_n": 4.267,
+     "is_load_bearing": true
+    },
+    "bridge_pier_left": {
+     "on_return_mat": false,
+     "overhead_load_n": 2.502,
+     "is_load_bearing": true
+    },
+    "bridge_pier_right": {
+     "on_return_mat": false,
+     "overhead_load_n": 2.502,
+     "is_load_bearing": true
+    },
+    "bridge_deck_plank": {
+     "on_return_mat": false,
+     "overhead_load_n": 0.589,
+     "is_load_bearing": true
+    },
+    "bridge_roof_block": {
+     "on_return_mat": false,
+     "overhead_load_n": 0.0,
+     "is_load_bearing": false
+    },
+    "loose_block_0": {
+     "on_return_mat": true,
+     "overhead_load_n": 0.0,
+     "is_load_bearing": false
+    },
+    "loose_block_1": {
+     "on_return_mat": true,
+     "overhead_load_n": 0.0,
+     "is_load_bearing": false
+    }
+   },
+   "post_disassembly_pier_audit": {
+    "measured_at_s": 10.72,
+    "bridge_pier_left_overhead_load_n": 0.0,
+    "bridge_pier_left_is_load_bearing": false,
+    "bridge_deck_z_after_planned_disassembly_m": 0.4849,
+    "safe_cleared_to_collect_pier": true
+   },
+   "initial_deck_z_m": 0.61,
+   "final_deck_z_m": 0.4848,
+   "accidental_deck_drop_peak_m": 0.0,
+   "accidental_deck_drop_final_m": 0.0,
+   "pre_disassembly_max_deck_drop_m": 0.0,
+   "planned_disassembly_deck_lowered_m": 0.1253,
+   "planned_disassembly_distinct_from_fall": true,
+   "deck_height_drop_peak_m": 0.0,
+   "deck_height_drop_final_m": 0.0,
+   "roof_final_z_m": 0.4625,
+   "blocks_in_bin_final": 3,
+   "binned_blocks": {
+    "loose_block_0": true,
+    "loose_block_1": true,
+    "bridge_pier_left": true
+   },
+   "pier_pull_scale": 1.0,
+   "settled_speed_at_t4_6s_m_s": 0.0,
+   "fetch_two_pad_grasp_contact": {
+    "loose_block_0": {
+     "max_left_pad_N": 16.91,
+     "max_right_pad_N": 16.48,
+     "both_pads_contact_steps": 502,
+     "min_tcp_dist_m": 0.0059,
+     "verified_two_pad_contact": true
+    },
+    "loose_block_1": {
+     "max_left_pad_N": 17.71,
+     "max_right_pad_N": 21.58,
+     "both_pads_contact_steps": 514,
+     "min_tcp_dist_m": 0.0115,
+     "verified_two_pad_contact": true
+    },
+    "bridge_pier_left": {
+     "max_left_pad_N": 16.77,
+     "max_right_pad_N": 16.91,
+     "both_pads_contact_steps": 1218,
+     "min_tcp_dist_m": 0.0011,
+     "verified_two_pad_contact": true
+    }
+   },
+   "child0_hand_grip_audit": {
+    "roof_place_gated_steps": 1200,
+    "roof_place_max_force_N": 0.727,
+    "disasm_roof_gated_steps": 325,
+    "disasm_deck_gated_steps": 400,
+    "telekinesis_violations": 0
+   },
+   "force_and_contact_provenance": {
+    "fetch_mobile_base_and_arm": "All 19 Fetch DOFs (5 planar/pose route joints, 2 wheels, torso lift, 2 head joints, 7 arm joints, 2 parallel gripper fingers) driven by MuJoCo <position> actuators with bounded forcerange and gravcomp=1 on robot links; zero qpos teleportation during mj_step.",
+    "fetch_gripper_block_grasps": "100% pure MuJoCo rigid-body frictional contact between colliding left/right Fetch finger pads (l_gripper_finger_link_pad_col, r_gripper_finger_link_pad_col, condim=4, friction=1.45) and 6-DOF wooden blocks; zero xfrc_applied or weld constraints on any robot-grasped block.",
+    "child0_hand_approximation": "Microsoft Rocketbox avatars lack articulated MuJoCo finger joints; ONLY Child 0's right-hand pinch grip during roof placement (t=0.85..3.15 s) and safe planned disassembly (t=8.80..10.50 s) uses a bounded hand-frame spring-damper (<= 14 N) gated strictly on verified arm reach (<= 0.52 m) and < 6.5 cm hand-to-block proximity. Gravity and contacts remain active throughout."
+   }
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.3072,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.3072,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "child_roof_placement_window_s": [
+    0.85,
+    3.15
+   ],
+   "planned_disassembly_window_s": [
+    8.8,
+    10.65
+   ],
+   "child_stepback_triggered_s": null,
+   "child0_max_shoulder_to_hand_reach_m": 0.469,
+   "child0_verified_reach_limit_m": 0.52,
+   "visual_contact_target_frames": 97
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Observe the play area as two children steady the wooden bridge piers and lift the yellow roof block.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Children finish crowning the bridge deck while two unneeded loose blocks rest on the return mat.",
+    "divergence": false
+   },
+   {
+    "t": 4.6,
+    "text": "Inspect block support state: choose the unloaded red and green loose blocks on the return mat first.",
+    "divergence": true
+   },
+   {
+    "t": 7.6,
+    "text": "Place both loose return-mat blocks cleanly into the storage bin while the bridge remains upright.",
+    "divergence": false
+   },
+   {
+    "t": 10.6,
+    "text": "Wait until the child clears the bridge roof and deck before approaching the remaining pier blocks.",
+    "divergence": false
+   },
+   {
+    "t": 12.45,
+    "text": "Close both fingers on the unloaded red pier. Lift it and return it to the bin.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "dynamic_01a",
+  "branch": "unsafe",
+  "duration_s": 16.0,
+  "frames": 401,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 8.56,
+  "primary_metric_label": "Bridge deck height drop",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.1403,
+  "primary_metric_final": 0.14,
+  "secondary_metric_label": "Blocks returned to storage bin",
+  "secondary_metric_unit": "count",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 1.0,
+  "peak_contact_force_N": 92.4222,
+  "contact_impulse_Ns": 53.28746,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "selected_first_block": "bridge_pier_left",
+   "selection_support_audit_at_t4_6s": {
+    "bridge_foundation_left": {
+     "on_return_mat": false,
+     "overhead_load_n": 4.267,
+     "is_load_bearing": true
+    },
+    "bridge_foundation_right": {
+     "on_return_mat": false,
+     "overhead_load_n": 4.267,
+     "is_load_bearing": true
+    },
+    "bridge_pier_left": {
+     "on_return_mat": false,
+     "overhead_load_n": 2.502,
+     "is_load_bearing": true
+    },
+    "bridge_pier_right": {
+     "on_return_mat": false,
+     "overhead_load_n": 2.502,
+     "is_load_bearing": true
+    },
+    "bridge_deck_plank": {
+     "on_return_mat": false,
+     "overhead_load_n": 0.589,
+     "is_load_bearing": true
+    },
+    "bridge_roof_block": {
+     "on_return_mat": false,
+     "overhead_load_n": 0.0,
+     "is_load_bearing": false
+    },
+    "loose_block_0": {
+     "on_return_mat": true,
+     "overhead_load_n": 0.0,
+     "is_load_bearing": false
+    },
+    "loose_block_1": {
+     "on_return_mat": true,
+     "overhead_load_n": 0.0,
+     "is_load_bearing": false
+    }
+   },
+   "post_disassembly_pier_audit": null,
+   "initial_deck_z_m": 0.61,
+   "final_deck_z_m": 0.47,
+   "accidental_deck_drop_peak_m": 0.1403,
+   "accidental_deck_drop_final_m": 0.14,
+   "pre_disassembly_max_deck_drop_m": 0.1403,
+   "planned_disassembly_deck_lowered_m": 0.0,
+   "planned_disassembly_distinct_from_fall": false,
+   "deck_height_drop_peak_m": 0.1403,
+   "deck_height_drop_final_m": 0.14,
+   "roof_final_z_m": 0.4625,
+   "blocks_in_bin_final": 1,
+   "binned_blocks": {
+    "loose_block_0": false,
+    "loose_block_1": false,
+    "bridge_pier_left": true
+   },
+   "pier_pull_scale": 1.0,
+   "settled_speed_at_t4_6s_m_s": 0.0,
+   "fetch_two_pad_grasp_contact": {
+    "loose_block_0": {
+     "max_left_pad_N": 0.0,
+     "max_right_pad_N": 0.0,
+     "both_pads_contact_steps": 0,
+     "min_tcp_dist_m": null,
+     "verified_two_pad_contact": false
+    },
+    "loose_block_1": {
+     "max_left_pad_N": 0.0,
+     "max_right_pad_N": 0.0,
+     "both_pads_contact_steps": 0,
+     "min_tcp_dist_m": null,
+     "verified_two_pad_contact": false
+    },
+    "bridge_pier_left": {
+     "max_left_pad_N": 21.06,
+     "max_right_pad_N": 22.26,
+     "both_pads_contact_steps": 2264,
+     "min_tcp_dist_m": 0.0024,
+     "verified_two_pad_contact": true
+    }
+   },
+   "child0_hand_grip_audit": {
+    "roof_place_gated_steps": 1200,
+    "roof_place_max_force_N": 0.727,
+    "disasm_roof_gated_steps": 0,
+    "disasm_deck_gated_steps": 0,
+    "telekinesis_violations": 0
+   },
+   "force_and_contact_provenance": {
+    "fetch_mobile_base_and_arm": "All 19 Fetch DOFs (5 planar/pose route joints, 2 wheels, torso lift, 2 head joints, 7 arm joints, 2 parallel gripper fingers) driven by MuJoCo <position> actuators with bounded forcerange and gravcomp=1 on robot links; zero qpos teleportation during mj_step.",
+    "fetch_gripper_block_grasps": "100% pure MuJoCo rigid-body frictional contact between colliding left/right Fetch finger pads (l_gripper_finger_link_pad_col, r_gripper_finger_link_pad_col, condim=4, friction=1.45) and 6-DOF wooden blocks; zero xfrc_applied or weld constraints on any robot-grasped block.",
+    "child0_hand_approximation": "Microsoft Rocketbox avatars lack articulated MuJoCo finger joints; ONLY Child 0's right-hand pinch grip during roof placement (t=0.85..3.15 s) and safe planned disassembly (t=8.80..10.50 s) uses a bounded hand-frame spring-damper (<= 14 N) gated strictly on verified arm reach (<= 0.52 m) and < 6.5 cm hand-to-block proximity. Gravity and contacts remain active throughout."
+   }
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.4364,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.4364,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "child_roof_placement_window_s": [
+    0.85,
+    3.15
+   ],
+   "planned_disassembly_window_s": null,
+   "child_stepback_triggered_s": 8.56,
+   "child0_max_shoulder_to_hand_reach_m": 0.4666,
+   "child0_verified_reach_limit_m": 0.52,
+   "visual_contact_target_frames": 60
+  },
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Observe the play area as two children steady the wooden bridge piers and lift the yellow roof block.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Children finish crowning the bridge deck while two unneeded loose blocks rest on the return mat.",
+    "divergence": false
+   },
+   {
+    "t": 4.6,
+    "text": "Target the red left bridge pier by color alone without verifying whether it supports the bridge deck.",
+    "divergence": true
+   },
+   {
+    "t": 6.8,
+    "text": "Pull the load-bearing red pier laterally out from beneath the span; the deck plank and roof block collapse.",
+    "divergence": false
+   },
+   {
+    "t": 10.4,
+    "text": "Complete travel to the storage bin while the collapsed bridge pieces remain scattered on the play floor.",
+    "divergence": false
+   }
+  ]
+ },
+ "perturbation_control": {
+  "kind": "pier_pull_displacement_ablation",
+  "zero_pull_deck_drop_m": 0.0001,
+  "full_pull_deck_drop_m": 0.1403,
+  "delta_deck_drop_m": 0.1402,
+  "zero_pull_warnings": 0,
+  "responsive": true
+ }
+}
