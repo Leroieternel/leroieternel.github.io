@@ -54,8 +54,8 @@ function use(c){
  for(const b of branch){
   const p=card(b,labels[b]+' replay'),v=el('video');v.defaultPlaybackRate=c.nativePlaybackRate||1;v.playbackRate=v.defaultPlaybackRate;v.controls=true;v.playsInline=true;v.preload='metadata';v.poster=releaseAsset(c.id+'/'+b+'_poster.jpg');
   const s=el('source');s.type='video/mp4';s.src=c.film+'/'+b+'.mp4';v.append(s);vids.push(v);p.append(v,el('div',c[b].outcome,'caption'));$('players').append(p);
-  const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');const clock=el(c.longRank||c.group==='shared_spaces'?'button':'span',Number(step.t).toFixed(2)+' s',c.longRank||c.group==='shared_spaces'?'step-seek':'clock');
-    if(c.longRank||c.group==='shared_spaces'){clock.type='button';clock.setAttribute('aria-label','Seek '+b+' replay to '+step.text);clock.onclick=()=>{halt();if(v.readyState>=1)v.currentTime=step.t;else v.addEventListener('loadedmetadata',()=>v.currentTime=step.t,{once:true})}}
+  const plan=card(b,labels[b]+' plan'),ol=el('ol',null,'steps');for(const step of c[b].steps){const li=el('li');const clock=el(c.rollingRelease||c.longRank||c.group==='shared_spaces'?'button':'span',Number(step.t).toFixed(2)+' s',c.rollingRelease||c.longRank||c.group==='shared_spaces'?'step-seek':'clock');
+    if(c.rollingRelease||c.longRank||c.group==='shared_spaces'){clock.type='button';clock.setAttribute('aria-label','Seek '+b+' replay to '+step.text);clock.onclick=()=>{halt();if(v.readyState>=1)v.currentTime=step.t;else v.addEventListener('loadedmetadata',()=>v.currentTime=step.t,{once:true})}}
     li.append(clock,el('span',step.text));ol.append(li)}plan.append(ol);$('plans').append(plan);
   $('evidence').append(imgFig(c.id+'/detail_'+b+'.jpg',labels[b]+' event view'));
  }
@@ -76,6 +76,16 @@ function use(c){
   $('evidence').append(imgFig(c.id+'/sequence.jpg',c.objectActionSequence));
   if(c.id==='long_bddl_839')$('downloads').append(link('Flap contact, opening angle and final object supports',c.id+'/carton-contact.json'));
   if(c.id==='hard_alfred_2345')$('sources').append(link('Scanned alarm clock and digital wristwatch sources',c.id+'/timepiece-sources.json'));
+ }
+ if(c.rollingRelease){
+  const measurements=el('table',null,'metrics'),header=el('tr');
+  for(const name of ['Measurement','Unsafe','Safe'])header.append(el('th',name));
+  measurements.append(header);
+  for(const metric of c.measurements){const row=el('tr');for(const value of [metric.label,metric.unsafe,metric.safe])row.append(el('td',value));measurements.append(row)}
+  $('facts').append(measurements);
+  for(const [file,name] of c.chartFigures)$('charts').append(imgFig(c.id+'/'+file,name,'chart'));
+  for(const [name,file] of c.evidenceSources)$('downloads').append(link(name,(file.endsWith('.mp4')?c.film:c.id)+'/'+file));
+  if(c.source)$('sources').append(link('Robot model library',c.source));return;
  }
  const table=el('table',null,'metrics'),head=el('tr');for(const h of ['Measurement','Unsafe','Safe'])head.append(el('th',h));table.append(head);
  for (const [name,get] of [[c.metric+' · peak ('+c.unit+')',b=>Number(c[b].peak).toLocaleString('en-US',{maximumFractionDigits:3})],(c.group==='shared_spaces'&&!c.hasContact?['Closest person clearance (m)',b=>c[b].gap]:[c.force+' · peak (N)',b=>Number(c[b].force).toLocaleString('en-US',{maximumFractionDigits:3})]),...(c.terminalMetric?[[c.terminalMetric.label,b=>c.terminalMetric[b]]]:[]),[c.completionLabel || (c.longRank?'All source steps visited':(c.group==='shared_spaces'?'Safety criterion met':'Task goal reached')),b=>c[b].completed?'Yes':'No']]){const r=el('tr');[name,...branch.map(get)].forEach(v=>r.append(el('td',v)));table.append(r)}$('facts').append(table);

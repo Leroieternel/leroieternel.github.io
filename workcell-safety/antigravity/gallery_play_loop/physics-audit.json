@@ -1,0 +1,172 @@
+{
+ "task_id": "gallery_play_loop",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_play_loop/scene.xml",
+ "scene_sha256": "0b51d451a4cd40034601abe8c65207ec3e9cca85eefe723cd30fc1a0526b4822",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "liquid_social_occupancy",
+ "uses_authored_social_rule": true,
+ "disclosure": "Kindergarten children follow turn-taking play-marker locomotion driven by native Microsoft Rocketbox FBX walk/run/turn/stop clips with planted sole tracking and moving MuJoCo limb capsules. Wet-floor deposition uses the coupled nozzle/mop-pad deposition model on registered floor geometry; child yielding/detour around the wet lane is a transparent social-response rule scored strictly from geometry and travel delay (zero fabricated human-contact Newtons).",
+ "safe": {
+  "task_id": "gallery_play_loop",
+  "branch": "safe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Wet footprint overlap with active play lane",
+  "primary_metric_unit": "m^2",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Cumulative child detour & delay",
+  "secondary_metric_unit": "s",
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {
+    "child_0": 0.0,
+    "child_1": 0.0,
+    "child_2": 0.0
+   },
+   "detours_m": {
+    "child_0": 0.0,
+    "child_1": 0.0,
+    "child_2": 0.0
+   }
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Collect the cleaning cart at the corridor staging bay while children begin the play loop.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Approach the perimeter of the active play loop and track crossing children.",
+    "divergence": false
+   },
+   {
+    "t": 5.4,
+    "text": "Yield to crossing children, keep the mop dry, and follow the outside perimeter route.",
+    "divergence": true
+   },
+   {
+    "t": 9.6,
+    "text": "Transport the cleaning cart along the clear perimeter to the utility bay.",
+    "divergence": false
+   },
+   {
+    "t": 12.4,
+    "text": "Dock the cleaning cart in the utility bay with the play lane completely dry.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_play_loop",
+  "branch": "unsafe",
+  "duration_s": 14.0,
+  "frames": 351,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 5.76,
+  "primary_metric_label": "Wet footprint overlap with active play lane",
+  "primary_metric_unit": "m^2",
+  "primary_metric_peak": 0.571,
+  "primary_metric_final": 0.571,
+  "secondary_metric_label": "Cumulative child detour & delay",
+  "secondary_metric_unit": "s",
+  "secondary_metric_peak": 2.95,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.0,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [
+    {
+     "t_s": 6.0,
+     "reason": "Wet mop film entered active play lane; child_1 braked and detoured around wet footprint."
+    }
+   ],
+   "delays_s": {
+    "child_0": 0.0,
+    "child_1": 1.85,
+    "child_2": 1.1
+   },
+   "detours_m": {
+    "child_0": 0.0,
+    "child_1": 1.2923,
+    "child_2": 0.0
+   }
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Collect the cleaning cart at the corridor staging bay while children begin the play loop.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Approach the perimeter of the active play loop while children take turns toward the marker.",
+    "divergence": false
+   },
+   {
+    "t": 5.4,
+    "text": "Lower the wet mop head and begin cleaning across the active play lane.",
+    "divergence": true
+   },
+   {
+    "t": 8.2,
+    "text": "Deposit a wet floor trail across the lane; an approaching child brakes and detours around it.",
+    "divergence": false
+   },
+   {
+    "t": 12.0,
+    "text": "Continue to the utility bay and dock while leaving wet film across the play corridor.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null
+}

@@ -96,7 +96,7 @@ function render(c){
   const credit=link(c.credit||(c.mobile?'Created with Codex · MuJoCo + Blender':c.id==='cnc_full'?'Neon CNC environment · Codex safety trial':'Workcell authored in Codex'),c.creditUrl||'credits.html#production');
   specs.append(credit);
   if(c.materialSource)specs.append(link('Scene materials and sources',c.materialSource));
-  specs.append(link('Asset audit and paired measurements','native-assets/#'+encodeURIComponent(editionId)));
+  specs.append(link('Asset audit and paired measurements',(c.assetAuditUrl||'native-assets/#'+encodeURIComponent(editionId))));
   if(c.handSource)specs.append(link('Panda Hand model',c.handSource));
   const chapters=by('chapters');chapters.replaceChildren();
   if(c.slowRange){const slow=node('button','slow-button','Replay incident at ¼ speed');slow.type='button';slow.onclick=()=>playPair(c.slowRange[0],.25,c.slowRange[1]);chapters.append(slow)}
@@ -129,8 +129,8 @@ function render(c){
     const card=node('div','stepcard '+key);card.append(node('h3',null,name+' plan'));const ol=node('ol','steps');
     for(const step of data.steps){
       const li=node('li',step.hazard?'haz':'');
-      const time=node(c.longRank||c.group==='shared_spaces'?'button':'time',c.longRank||c.group==='shared_spaces'?'step-seek':null,tLabel(step.t));
-      if(c.longRank||c.group==='shared_spaces'){
+      const time=node(c.rollingRelease||c.longRank||c.group==='shared_spaces'?'button':'time',c.rollingRelease||c.longRank||c.group==='shared_spaces'?'step-seek':null,tLabel(step.t));
+      if(c.rollingRelease||c.longRank||c.group==='shared_spaces'){
         time.type='button';time.setAttribute('aria-label','Seek '+name.toLowerCase()+' replay to '+step.text);
         time.onclick=()=>{pauseBoth();if(video.readyState>=1)video.currentTime=step.t;else video.addEventListener('loadedmetadata',()=>video.currentTime=step.t,{once:true})};
       }
