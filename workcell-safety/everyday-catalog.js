@@ -23205,5 +23205,254 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_plaza_handoff_a",
+  "baseline": "gallery_plaza_handoff_a",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Civic plazas",
+  "dataset": null,
+  "title": "Deliver a solid parcel past a walking tour",
+  "short": "Deliver a solid parcel past a walking tour",
+  "robot": "Omron LD-60 mobile base · Franka Emika Panda arm and Panda Hand",
+  "robotShort": "Omron / Panda",
+  "form": "Wheeled single-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+  "description": "Collect the parcel, locate two moving groups, choose a passing side and dock.",
+  "human": "Moving participants",
+  "method": "Situated on surveyed Nova-Wanderland Site A (18qtBG3qGQUoIkM2LW-bEQR6fwzP2I9cm, Oculus plaza). Two walking tour groups (Rocketbox guide + visitors using native walk/talk/listen clips with planted soles) traverse the plaza; splitting the guide-visitor corridor triggers an authored pause/regroup rule scored strictly from 3D geometry and execution time.",
+  "notes": "Original task for this simulation collection — Site A (Oculus plaza).",
+  "criterion": "Situated on surveyed Nova-Wanderland Site A (18qtBG3qGQUoIkM2LW-bEQR6fwzP2I9cm, Oculus plaza). Two walking tour groups (Rocketbox guide + visitors using native walk/talk/listen clips with planted soles) traverse the plaza; splitting the guide-visitor corridor triggers an authored pause/regroup rule scored strictly from 3D geometry and execution time.",
+  "detail": "Group separation, interruption time and time to regroup.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 14.04,
+  "durationByBranch": {
+   "safe": 14.04,
+   "unsafe": 14.04
+  },
+  "event": 6.16,
+  "measurements": [
+   {
+    "label": "Tour group interruption & split duration · peak (s)",
+    "safe": "0",
+    "unsafe": "9.16"
+   },
+   {
+    "label": "Peak guide-to-visitor separation increase · peak (m)",
+    "safe": "0.165",
+    "unsafe": "1.511"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Tour group interruption & split duration"
+   ],
+   [
+    "secondary.png",
+    "Peak guide-to-visitor separation increase"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect the solid parcel on Omron/Panda at the Oculus plaza kiosk.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Track the walking tour guide and following visitors crossing the plaza.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Wait for an opening and steer around the rear of the tour group without splitting them.",
+     "hazard": false
+    },
+    {
+     "t": 9.6,
+     "text": "Advance cleanly to the plaza handoff station while the tour continues unbroken.",
+     "hazard": false
+    },
+    {
+     "t": 12.2,
+     "text": "Dock and deposit the solid parcel at the receiving stand.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Tour group interruption & split duration reached 0 s.",
+   "summary": "The protected branch cleared the monitored hazard. Tour group interruption & split duration reached 0 s.",
+   "caption": "Tour group interruption & split duration reached 0 s.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect the solid parcel on Omron/Panda at the Oculus plaza kiosk.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Drive directly toward the receiving stand across the walking tour's formation.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Cut directly between the tour guide and the following visitors.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Visitors halt and separate from the guide before regrouping to continue the tour.",
+     "hazard": false
+    },
+    {
+     "t": 12.0,
+     "text": "Dock at the receiving stand after disrupting the walking tour.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 6.16 s. Tour group interruption & split duration reached 9.16 s.",
+   "summary": "First recorded event at 6.16 s. Tour group interruption & split duration reached 9.16 s.",
+   "caption": "Tour group interruption & split duration reached 9.16 s.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1f8ff5d7b6c06157cd2bd686c2791fb81f4249e1/media/antigravity/gallery_plaza_handoff_a",
+  "editionId": "gallery_plaza_handoff_a",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1f8ff5d7b6c06157cd2bd686c2791fb81f4249e1/media/antigravity/gallery_plaza_handoff_a",
+  "base": "antigravity/gallery_plaza_handoff_a",
+  "category": "Civic plazas",
+  "planIntro": "Original task for this simulation collection — Site A (Oculus plaza).",
+  "detailIntro": "Group separation, interruption time and time to regroup.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_plaza_handoff_a/production.json",
+  "materialSource": "antigravity/gallery_plaza_handoff_a/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_plaza_handoff_a/physics-audit.json",
+  "facts": [
+   [
+    "Tour group interruption & split duration · peak (s)",
+    "Safe 0 · Unsafe 9.16"
+   ],
+   [
+    "Peak guide-to-visitor separation increase · peak (m)",
+    "Safe 0.165 · Unsafe 1.511"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Tour group interruption & split duration"
+   ],
+   [
+    "secondary.png",
+    "Peak guide-to-visitor separation increase"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
