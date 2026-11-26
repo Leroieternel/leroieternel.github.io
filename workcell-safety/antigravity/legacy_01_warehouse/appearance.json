@@ -2,7 +2,21 @@
  "renderer": "Blender Cycles (photographs), Blender Eevee Next (motion)",
  "source_maps": [
   "985307.hdr",
+  "T_CardBoxA_D.jpg",
+  "T_CardBoxA_N.jpg",
+  "T_body_Alb.png",
+  "T_body_Met.png",
+  "T_body_Nor.png",
+  "T_body_Rgh.png",
   "atlas.png",
+  "benchmark_strage_box_005_Alb.jpg",
+  "benchmark_strage_box_005_Met.jpg",
+  "benchmark_strage_box_005_Nor.jpg",
+  "benchmark_strage_box_005_Rgh.jpg",
+  "benchmark_supermarket_shelf_011_Alb.jpg",
+  "benchmark_supermarket_shelf_011_Met.jpg",
+  "benchmark_supermarket_shelf_011_Nor.jpg",
+  "benchmark_supermarket_shelf_011_Rgh.jpg",
   "charcoal.png",
   "floor01.png",
   "floor_00_Alb.png",
@@ -351,55 +365,14 @@
  },
  "native_asset_revision": {
   "task": "legacy_01_warehouse",
-  "new_native_models": {
-   "ag_ba6fafad2d4b": {
-    "id": "benchmark_roller_shutter_000",
-    "source": "objects/benchmark/roller_shutter/benchmark_roller_shutter_000/Aligned.usd",
-    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
-    "sha256": "99bdb13bd92048c7e285c2ce64218de8e0f8afaddc9b3e2c5bcdd3734b71b45c",
-    "size_m": [
-     0.3809,
-     4.43393,
-     3.84768
-    ],
-    "bound_images": {
-     "roller_shutter_Alb.jpg": {
-      "channel": "Base Color",
-      "pixels": [
-       2048,
-       2048
-      ],
-      "sha256": "511e1c2efb2501fc4d2dfcedc6e864c9082ac6eed2001a8190a08c41b1ad6c28"
-     },
-     "roller_shutter_Rgh.jpg": {
-      "channel": "Roughness",
-      "pixels": [
-       2048,
-       2048
-      ],
-      "sha256": "d7a9607e94f632f4a3e38ad274c5a9040d58e46c782b0f1958dc0af9a158487c"
-     },
-     "roller_shutter_Met.jpg": {
-      "channel": "Metallic",
-      "pixels": [
-       2048,
-       2048
-      ],
-      "sha256": "bde0eed517a387334f84d795d5fb231540bfa2eb312adf8a68e3f02f850b709e"
-     },
-     "roller_shutter_Nor.png": {
-      "channel": "Normal",
-      "pixels": [
-       2048,
-       2048
-      ],
-      "sha256": "8ff7b5fe5cf5dfd840391d8cf62b20a465ce0ec0c97de47e748035d90da4d0c7"
-     }
-    },
-    "provider": "Genie Sim",
-    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/roller_shutter/benchmark_roller_shutter_000/Aligned.usd"
-   }
-  },
+  "family": "legacy",
+  "setting": "Warehouse",
+  "simulation": "MuJoCo",
+  "renderer": "Blender 4.5 EEVEE Next (headless)",
+  "suppressed_collision_proxies": [
+   "amr/fab_01_amr_estop_collar",
+   "operator_panel_kiosk/panel_pedestal_column"
+  ],
   "bindings": [
    {
     "role": "corrugated_shutter",
@@ -460,20 +433,326 @@
       1.0
      ]
     ]
+   },
+   {
+    "role": "warehouse_rack_left",
+    "native_key": "ag_d79cab4b617e",
+    "model_id": "benchmark_supermarket_shelf_011",
+    "xyz": [
+     -2.95,
+     1.62,
+     0.0
+    ],
+    "yaw_deg": 90.0,
+    "height_m": 1.72,
+    "measured_clearance_to_dynamic_envelope_m": 0.4129,
+    "placed": true,
+    "notes": "Warehouse shelving outside AMR aisle."
+   },
+   {
+    "role": "warehouse_carton_stack",
+    "native_key": "ag_25c14f216817",
+    "model_id": "benchmark_carton_002",
+    "xyz": [
+     2.1,
+     1.55,
+     0.0
+    ],
+    "yaw_deg": -12.0,
+    "height_m": null,
+    "measured_clearance_to_dynamic_envelope_m": 1.6414,
+    "placed": true,
+    "notes": "Palletized shipping carton clear of crossing."
+   },
+   {
+    "role": "warehouse_storage_bin",
+    "native_key": "bin",
+    "model_id": "benchmark_storage_box_000",
+    "xyz": [
+     2.52,
+     1.58,
+     0.0
+    ],
+    "yaw_deg": 8.0,
+    "height_m": null,
+    "measured_clearance_to_dynamic_envelope_m": 2.1803,
+    "placed": true,
+    "notes": "Parts storage bin in rear bay."
+   },
+   {
+    "role": "warehouse_waste_bin",
+    "native_key": "ag_335191873f24",
+    "model_id": "benchmark_trash_can_000",
+    "xyz": [
+     2.88,
+     1.48,
+     0.0
+    ],
+    "yaw_deg": 0.0,
+    "height_m": null,
+    "measured_clearance_to_dynamic_envelope_m": 2.4181,
+    "placed": true,
+    "notes": "Facility bin grounded on floor."
    }
   ],
-  "authoring": {
-   "industrial_rooms": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "ce6c1fe93c92227bac5361371c25fb10ac85a40acbc29994d51c21f9e480b583",
-    "brief_sha256": "bfbd3ad7a18477b690be76bed2d8dcbeb842b2f6895f52f6e87acdb271397761"
+  "new_native_models": {
+   "ag_ba6fafad2d4b": {
+    "id": "benchmark_roller_shutter_000",
+    "source": "objects/benchmark/roller_shutter/benchmark_roller_shutter_000/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "99bdb13bd92048c7e285c2ce64218de8e0f8afaddc9b3e2c5bcdd3734b71b45c",
+    "size_m": [
+     0.3809,
+     4.43393,
+     3.84768
+    ],
+    "bound_images": {
+     "roller_shutter_Alb.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "511e1c2efb2501fc4d2dfcedc6e864c9082ac6eed2001a8190a08c41b1ad6c28"
+     },
+     "roller_shutter_Rgh.jpg": {
+      "channel": "Roughness",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "d7a9607e94f632f4a3e38ad274c5a9040d58e46c782b0f1958dc0af9a158487c"
+     },
+     "roller_shutter_Met.jpg": {
+      "channel": "Metallic",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "bde0eed517a387334f84d795d5fb231540bfa2eb312adf8a68e3f02f850b709e"
+     },
+     "roller_shutter_Nor.png": {
+      "channel": "Normal",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "8ff7b5fe5cf5dfd840391d8cf62b20a465ce0ec0c97de47e748035d90da4d0c7"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/roller_shutter/benchmark_roller_shutter_000/Aligned.usd"
+   },
+   "ag_d79cab4b617e": {
+    "id": "benchmark_supermarket_shelf_011",
+    "source": "objects/benchmark/supermarket_shelf/benchmark_supermarket_shelf_011/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "88aa54b0232f1136bffb431a1a4b55f038af2088ea296e239949d86d7cb64351",
+    "size_m": [
+     0.34692,
+     1.26039,
+     1.7088
+    ],
+    "bound_images": {
+     "benchmark_supermarket_shelf_011_Alb.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "e4fe0cffef012a8934ef2d72ac606429884c6f637e2d95a1a2843a606b42c8ab"
+     },
+     "benchmark_supermarket_shelf_011_Rgh.jpg": {
+      "channel": "Roughness",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "ae64908f4f027635045974632e677a2d9754fc14d9556520b051bfcbcd98da82"
+     },
+     "benchmark_supermarket_shelf_011_Met.jpg": {
+      "channel": "Metallic",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "908d16fdc53e9075859dafed3dbeb734c6251f5d058a359e4d1da6ca368a5ad8"
+     },
+     "benchmark_supermarket_shelf_011_Nor.jpg": {
+      "channel": "Normal",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "718af3237bd6e831393a393817d56ecb6aaab25fcde39f458a3f19704a7bce7f"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/supermarket_shelf/benchmark_supermarket_shelf_011/Aligned.usd"
+   },
+   "ag_25c14f216817": {
+    "id": "benchmark_carton_002",
+    "source": "objects/benchmark/carton/benchmark_carton_002/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "f05ca4cbbda4c7410c36e9ff025359bfcf16e1b53103841c3a0f33d2e93eb797",
+    "size_m": [
+     0.29399,
+     0.53279,
+     0.36559
+    ],
+    "bound_images": {
+     "T_CardBoxA_D.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "5413c46441282c1ddac51fd2ecbf9090147ccc86637d16b79429cf8dbe885dbf"
+     },
+     "T_CardBoxA_N.jpg": {
+      "channel": "Normal",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "3ed756c367c363500e0a72b7656d799099faa3bb32cbd5cc0697cebad9d07e5a"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/carton/benchmark_carton_002/Aligned.usd"
+   },
+   "bin": {
+    "id": "benchmark_storage_box_000",
+    "source": "objects/benchmark/storage_box/benchmark_storage_box_000/Aligned.usd",
+    "revision": "12f41e388a953cc2aeb0fe5b8eb516750c8321d9",
+    "sha256": "4ff73cad3813e10eea87f065f9bc03133c4a3dfeeb94c12b9138cb17f95d5a2b",
+    "size_m": [
+     0.23986,
+     0.31986,
+     0.09915
+    ],
+    "bound_images": {
+     "benchmark_strage_box_005_Alb.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "f240d182f02b83cd53cd56ebe94cf378f2568d8fcc25e6268f8cf9b9b19a2d02"
+     },
+     "benchmark_strage_box_005_Rgh.jpg": {
+      "channel": "Roughness",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "2556c1c01433ff5486da117bd9d58d85da5b74b27ed53f62f229a0d39952b439"
+     },
+     "benchmark_strage_box_005_Met.jpg": {
+      "channel": "Metallic",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "58c51eac7c0b4e0c18de0a8cb303bceb98b6ff4e297acf791833c9fd50fdfcdf"
+     },
+     "benchmark_strage_box_005_Nor.jpg": {
+      "channel": "Normal",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "3a1bcf1f83a97bda9d7c2276fce097f74140d4bdc713794650481baf0ffb40dd"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/12f41e388a953cc2aeb0fe5b8eb516750c8321d9/objects/benchmark/storage_box/benchmark_storage_box_000/Aligned.usd"
+   },
+   "ag_335191873f24": {
+    "id": "benchmark_trash_can_000",
+    "source": "objects/benchmark/trash_can/benchmark_trash_can_000/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "2b92fff700892108b686781dbd7ab20be69bb9fa5f83652abc0a241eb9a0fa3d",
+    "size_m": [
+     0.42753,
+     0.43593,
+     0.50004
+    ],
+    "bound_images": {
+     "T_body_Alb.png": {
+      "channel": "Base Color",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "81e07d58e82bb165afaa2b12989946fc78c2af997d2cd0ec73ec5c3eef6ca3cd"
+     },
+     "T_body_Rgh.png": {
+      "channel": "Roughness",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "928d483c38c38f063f4517199d85f296318d64c22fc7486132c418a8c91ab40c"
+     },
+     "T_body_Met.png": {
+      "channel": "Metallic",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "f790625c24510389aba626a3b4ea80806ad5012b1f838bfbee3b69dd87e3a70e"
+     },
+     "T_body_Nor.png": {
+      "channel": "Normal",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "7abce2411e657238f855b2d5dca0871d883f159596280ab8f17f24a0742949d3"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/trash_can/benchmark_trash_can_000/Aligned.usd"
    }
   },
-  "simulation": "MuJoCo",
-  "renderer": "Blender EEVEE Next and Cycles"
- },
- "encoded_video": {
-  "safe": "a243a1b78828b31721be106cd5d7fd8c3b71c453c4d202d5533e7d68ebcf7ef1",
-  "unsafe": "3cc672ed3cb314aeff9557943cb02a615181c1e1082054ebb0135c64437d7269"
+  "unmatched_elements": [
+   {
+    "body": "amr",
+    "classification": "preserved_industrial_jig",
+    "genie_live_path": null,
+    "behavior_category": null,
+    "reason": "Active autonomous mobile robot chassis with differential drive and casters whose contact timing defines the crossing safety event."
+   },
+   {
+    "body": "tool",
+    "classification": "preserved_control_fixture",
+    "genie_live_path": null,
+    "behavior_category": null,
+    "reason": "End-effector key-probe shank and pad actuating physical preflight/cycle switch strokes."
+   },
+   {
+    "body": "preflight_key_body",
+    "classification": "preserved_control_fixture",
+    "genie_live_path": null,
+    "behavior_category": "electric_switch",
+    "reason": "Sliding preflight interlock key body with measured stroke force; must not be disguised as a prop."
+   },
+   {
+    "body": "cycle_key_body",
+    "classification": "preserved_control_fixture",
+    "genie_live_path": null,
+    "behavior_category": "electric_switch",
+    "reason": "Sliding cycle-start interlock key body with measured stroke force; must not be disguised as a prop."
+   },
+   {
+    "body": "operator_panel_kiosk",
+    "classification": "preserved_control_fixture",
+    "genie_live_path": null,
+    "behavior_category": null,
+    "reason": "Machined industrial control pedestal housing the preflight and cycle interlock switches."
+   }
+  ],
+  "physics_source": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/workcells/outputs/physics/factory-legacy/runs/01_warehouse"
  }
 }

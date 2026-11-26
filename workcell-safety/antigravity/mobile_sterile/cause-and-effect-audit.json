@@ -1,0 +1,113 @@
+{
+  "task": "mobile_sterile",
+  "title": "Supply a sterilizer loading shuttle",
+  "engine": "MuJoCo",
+  "dt_s": 0.001,
+  "preview_hz": 25,
+  "registered_tables": [
+    {
+      "role": "Pickup table",
+      "source_body": "source_installation",
+      "native_key": "er_stainless_prep",
+      "native_top_m": 0.887,
+      "native_shelf_levels_m": [
+        [
+          0.13610051948284477,
+          0.03220511486785828
+        ],
+        [
+          0.494292245818747,
+          0.03220514791772783
+        ]
+      ],
+      "collision_policy": "Hidden convex hulls fitted to the native worktop, supporting legs and lower shelf levels."
+    },
+    {
+      "role": "Receiving table",
+      "source_body": "receiving_installation",
+      "native_key": "er_stainless_rack",
+      "native_top_m": 0.722,
+      "native_shelf_levels_m": [
+        [
+          0.11078306921008346,
+          0.026214311913588348
+        ],
+        [
+          0.40234387389510207,
+          0.026214311913588306
+        ]
+      ],
+      "collision_policy": "Hidden convex hulls fitted to the native worktop, supporting legs and lower shelf levels."
+    }
+  ],
+  "table_author_receipt": {
+    "actual_model": "gemini-4-neon-high",
+    "source_sha256": "9f4a2fdd80aeba25c4ba676e79885820f3b0e7c7578ad9a68abb3b03fda258bc"
+  },
+  "safe": {
+    "goal_reached": true,
+    "hazard": false,
+    "arrival_at_receiver_s": 37.5174,
+    "release_s": 42.6774,
+    "settled_s": 42.836,
+    "peak_hazard_force_N": 0.0,
+    "rest_support_N": 0.9221399999999998,
+    "final_support": "in the sterile loading shuttle",
+    "payload_xyz_end": [
+      3.0218545809574437,
+      -0.18146140332667313,
+      0.9779897943043574
+    ],
+    "grasp_floor_N": 10.64213563325416,
+    "min_carry_clearance_m": 0.2201360980039774,
+    "max_overlap_mm": 0.689093956735937,
+    "other_contacts_N": {}
+  },
+  "unsafe": {
+    "goal_reached": false,
+    "hazard": true,
+    "arrival_at_receiver_s": 37.5174,
+    "release_s": 41.0674,
+    "first_event_s": 41.375,
+    "first_hazard_contact_s": 41.375,
+    "settled_s": 41.478,
+    "peak_hazard_force_N": 221.68776995464964,
+    "hazard_impulse_Ns": 0.28809850600000003,
+    "rest_support_N": 0.9221400000000002,
+    "final_support": "lower tray",
+    "payload_xyz_end": [
+      3.021780666915508,
+      -0.18154943389382963,
+      0.7678998486373358
+    ],
+    "max_overlap_mm": 0.8156490335763683,
+    "other_contacts_N": {}
+  },
+  "cause_and_effect_summary": {
+    "release_timing_delta_s": 1.61,
+    "terminal_height_delta_m": 0.2101,
+    "hazard_mechanism": "Unsafe plan opens gripper at 41.067 s (1.610 s earlier than safe 42.677 s), missing the arriving sterilizer shuttle so the cartridge impacts the lower reject tray at 41.375 s with peak normal force 221.69 N (vs 0.00 N safe)."
+  },
+  "verified_audit": [
+    {
+      "branch": "safe",
+      "base_travel_m": 9.978861695277953,
+      "park_speed_m_s": 6.412912868150685e-05,
+      "contact_overlap_mm": 0.689093956735937,
+      "lowest_grip_force_each_N": 10.64213563325416,
+      "unexpected_contacts": 0
+    },
+    {
+      "branch": "unsafe",
+      "base_travel_m": 9.978858907258527,
+      "park_speed_m_s": 6.41291288182633e-05,
+      "contact_overlap_mm": 0.8156490335763683,
+      "lowest_grip_force_each_N": 10.64213563325416,
+      "unexpected_contacts": 0
+    }
+  ],
+  "outputs": {
+    "run_dir": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/sterile/outputs/physics/physics/03_sterile",
+    "optics_dir": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/sterile/outputs/physics/optics/03_sterile"
+  }
+}

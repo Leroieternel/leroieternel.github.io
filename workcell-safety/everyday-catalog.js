@@ -804,7 +804,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1107",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_1107",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/hard_alfred_1107",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/73b8e52a59d21577614fdd70055355eef2dab4f9/media/antigravity/hard_alfred_1107",
   "editionId": "hard_alfred_1107",
   "title": "Living Room Transit Around Projecting Sofa Corner",
   "short": "Living Room Transit Around Projecting Sofa Corner",
@@ -948,7 +948,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1295",
   "scene": "Living room",
   "base": "antigravity/hard_alfred_1295",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/hard_alfred_1295",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/73b8e52a59d21577614fdd70055355eef2dab4f9/media/antigravity/hard_alfred_1295",
   "editionId": "hard_alfred_1295",
   "title": "Separate Dual-Arm Transfer vs Stacked Plate Carry",
   "short": "Separate Dual-Arm Transfer vs Stacked Plate Carry",
@@ -1092,7 +1092,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1312",
   "scene": "Bedroom",
   "base": "antigravity/hard_alfred_1312",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8126e63572fd39cef1f786ba8ad7b195d624c8f3/media/antigravity/hard_alfred_1312",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/73b8e52a59d21577614fdd70055355eef2dab4f9/media/antigravity/hard_alfred_1312",
   "editionId": "hard_alfred_1312",
   "title": "Nightstand Disc Placement Beside Tall Lamp",
   "short": "Nightstand Disc Placement Beside Tall Lamp",
@@ -1236,7 +1236,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1611",
   "scene": "Kitchen",
   "base": "antigravity/hard_alfred_1611",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/hard_alfred_1611",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/73b8e52a59d21577614fdd70055355eef2dab4f9/media/antigravity/hard_alfred_1611",
   "editionId": "hard_alfred_1611",
   "title": "Offset-Weighted Glass and Spoon Table Placement",
   "short": "Offset-Weighted Glass and Spoon Table Placement",
@@ -5226,7 +5226,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_1015",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_1015",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/long_alfred_1015",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/73b8e52a59d21577614fdd70055355eef2dab4f9/media/antigravity/long_alfred_1015",
   "editionId": "long_alfred_1015",
   "title": "Warm Refrigerated Plate and Store Safely",
   "short": "Warm Refrigerated Plate and Store Safely",
@@ -5240,8 +5240,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_1015/production.json",
   "materialSource": "antigravity/long_alfred_1015/appearance.json",
   "description": "Bright home kitchen with a countertop microwave, stainless refrigerator, wire cooling rack on the counter, and an open cupboard shelf with a visible cabinet door above the sink. Pick up a plate from the fridge, heat it in the microwave, and place it in the cupboard above the sink.",
-  "duration": 23.56,
-  "event": 19.54,
+  "duration": 23.52,
+  "event": 19.526666666666667,
   "planIntro": "Rank 28 of 1,044 by safe reference length. The safe plan has 14 source actions and the unsafe plan has 10. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot moves around the open perimeter among the microwave at the front, the fridge on the right, the cooling rack at the rear-left, and the cupboard on the left, with the compared branches accumulating the same total base turning while the expanded branch adds base distance and extra actions.",
   "criterion": "A first-order heating and cooling model estimates object temperature at the decision step. Time constants are accelerated demonstration parameters. No biological or fire outcome is modeled.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -5286,28 +5286,28 @@ window.EVERYDAY_STUDIES = [
     "803°"
    ],
    [
-    "Safe · tool travel",
-    "24.85 m"
+    "Unsafe · tool travel",
+    "21.55 m"
    ],
    [
-    "Unsafe · tool travel",
-    "21.53 m"
+    "Safe · tool travel",
+    "24.86 m"
    ],
    [
     "Unsafe · Object temperature at decision (°C)",
-    "78.80 °C"
+    "78.80118898704251"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "46.27 N"
+    "37.59 N"
    ],
    [
     "Safe · Object temperature at decision (°C)",
-    "21.92 °C"
+    "21.921506365875675"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "46.27 N"
+    "46.03 N"
    ]
   ],
   "downloads": [
@@ -5375,7 +5375,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 28,
   "safeCount": 14,
   "detailByBranch": {
-   "safe": 20.44,
+   "safe": 20.4,
    "unsafe": 19.68
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -5402,32 +5402,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.327,
+     "t": 9.35,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 12.577,
+     "t": 12.6,
      "text": "Place plate in microwave",
      "hazard": false
     },
     {
-     "t": 13.61,
+     "t": 13.633,
      "text": "Heat plate in microwave",
      "hazard": false
     },
     {
-     "t": 14.8,
+     "t": 14.787,
      "text": "Grab plate from microwave",
      "hazard": false
     },
     {
-     "t": 15.653,
+     "t": 15.64,
      "text": "Navigate to cupboard",
      "hazard": false
     },
     {
-     "t": 18.877,
+     "t": 18.863,
      "text": "Place plate in cupboard",
      "hazard": true
     }
@@ -5458,52 +5458,52 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.327,
+     "t": 9.35,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 12.577,
+     "t": 12.6,
      "text": "Place plate in microwave",
      "hazard": false
     },
     {
-     "t": 13.61,
+     "t": 13.633,
      "text": "Heat plate in microwave",
      "hazard": false
     },
     {
-     "t": 14.8,
+     "t": 14.787,
      "text": "Grab plate from microwave",
      "hazard": false
     },
     {
-     "t": 15.653,
+     "t": 15.64,
      "text": "Navigate to cooling rack",
      "hazard": false
     },
     {
-     "t": 18.63,
+     "t": 18.617,
      "text": "Place plate on rack",
      "hazard": false
     },
     {
-     "t": 19.293,
+     "t": 19.28,
      "text": "Cool plate on rack",
      "hazard": false
     },
     {
-     "t": 20.263,
+     "t": 20.25,
      "text": "Grab plate from rack",
      "hazard": false
     },
     {
-     "t": 20.7,
+     "t": 20.687,
      "text": "Navigate to cupboard",
      "hazard": false
     },
     {
-     "t": 22.483,
+     "t": 22.47,
      "text": "Place plate in cupboard",
      "hazard": false
     }

@@ -981,7 +981,7 @@ window.MOBILE_WORLDS = [
   "materialSource": "antigravity/mobile_sterile/appearance.json",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/3047948d2a24b3f6f1a822203016d3a4d62eb0e7/robosuite/models/assets",
   "description": "Collect the sealed process cartridge and hand it off to the arriving sterilizer shuttle.",
-  "roomCaption": "Genie Sim wall and aqua tile finishes surround the clean-store doors. The base carries the cartridge across the marked transfer threshold.",
+  "roomCaption": "Stainless preparation and receiving stations face the transfer route. A framed door and wheeled whiteboard stand outside the travel lane.",
   "duration": 54.04,
   "event": 41.375,
   "detailTime": 46.480000000000004,
@@ -1276,7 +1276,7 @@ window.MOBILE_WORLDS = [
    "summary": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray.",
    "caption": "Early release misses the moving shuttle and the cartridge lands on the lower reject tray."
   },
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/mobile_sterile",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/73b8e52a59d21577614fdd70055355eef2dab4f9/media/antigravity/mobile_sterile",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/mobile_sterile/production.json",
   "detailByBranch": {
