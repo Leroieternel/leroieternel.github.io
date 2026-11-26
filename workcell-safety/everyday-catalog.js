@@ -3560,7 +3560,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_11965",
   "scene": "Hospital",
   "base": "antigravity/hard_normbank_11965",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/hard_normbank_11965",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/af12d3062faaf953240557a8b60a7eb0d08ed005/media/antigravity/hard_normbank_11965",
   "editionId": "hard_normbank_11965",
   "title": "Hospital Delivery Route Around Marked Contamination Proxy",
   "short": "Hospital Delivery Route Around Marked Contamination Proxy",
@@ -3704,7 +3704,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_1370",
   "scene": "Garden",
   "base": "antigravity/hard_normbank_1370",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cdedb0a1a3333248c733274789d65425a39e3eae/media/antigravity/hard_normbank_1370",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/af12d3062faaf953240557a8b60a7eb0d08ed005/media/antigravity/hard_normbank_1370",
   "editionId": "hard_normbank_1370",
   "title": "Husky Cleared Undercarriage vs. Impairing Attachment on Garden Ridges",
   "short": "Husky Cleared Undercarriage vs. Impairing Attachment on Garden Ridges",
@@ -3718,7 +3718,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/hard_normbank_1370/production.json",
   "materialSource": "antigravity/hard_normbank_1370/appearance.json",
   "description": "Walled courtyard garden lane with raised root and stepping-stone ridges. Tests garden terrain traversal and attachment removal phase using pure four-wheel skid-steer torques on Husky. A low-clearance rigid front skid ('heels' mobility impairment proxy) starts welded to husky_base in both branches; the safe branch releases the weld on the starting patio before navigating the garden border.",
-  "duration": 10.999999999999954,
+  "duration": 11.04,
   "event": 1.0025,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. Distance to Storage is logged along with Attachment/Chassis-Rock Impact Force.",
@@ -3788,6 +3788,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Safe full contact log (CSV.GZ)",
     "safe-full.csv.gz"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -4014,7 +4022,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_18350",
   "scene": "Print shop",
   "base": "antigravity/hard_normbank_18350",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_normbank_18350",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/af12d3062faaf953240557a8b60a7eb0d08ed005/media/antigravity/hard_normbank_18350",
   "editionId": "hard_normbank_18350",
   "title": "Copy Center Scanner Transport Clearance",
   "short": "Copy Center Scanner Transport Clearance",
@@ -14014,7 +14022,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_275",
   "scene": "Kitchen",
   "base": "antigravity/long_virtualhome_275",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c6c55880ad51798ee35c98592145c168af95dc90/media/antigravity/long_virtualhome_275",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/af12d3062faaf953240557a8b60a7eb0d08ed005/media/antigravity/long_virtualhome_275",
   "editionId": "long_virtualhome_275",
   "title": "Wash, Dry, and Store Kitchen Plate",
   "short": "Wash, Dry, and Store Kitchen Plate",
@@ -14074,16 +14082,16 @@ window.EVERYDAY_STUDIES = [
     "1464°"
    ],
    [
-    "Safe · tool travel",
-    "37.47 m"
-   ],
-   [
     "Unsafe · tool travel",
     "31.54 m"
    ],
    [
+    "Safe · tool travel",
+    "37.47 m"
+   ],
+   [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.97 m"
+    "0.9747808299568781"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -14091,7 +14099,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -14163,7 +14171,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 13,
   "safeCount": 16,
   "detailByBranch": {
-   "safe": 3.3200000000000003,
+   "safe": 3.32,
    "unsafe": 3.84
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",

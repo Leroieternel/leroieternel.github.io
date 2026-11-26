@@ -1,147 +1,147 @@
 {
+ "id": "normbank_1370",
+ "group": "terrain",
+ "robot": "husky",
+ "design": {
   "id": "normbank_1370",
-  "group": "terrain",
   "robot": "husky",
-  "design": {
-    "id": "normbank_1370",
-    "robot": "husky",
-    "title": "Husky Cleared Undercarriage vs. Impairing Attachment on Garden Ridges",
-    "setting": "Walled courtyard garden lane with raised root and stepping-stone ridges",
-    "scene_group": "Garden Terrain Traversal",
-    "scope": "This episode isolates uneven garden-bed traversal across rigid raised stone and root proxies with a debris bin preloaded on the unarmed Husky A200 deck, omitting manual pre-run attachment removal and downstream debris collection while modeling the mobility-impairing attachment as a protruding low-clearance undercarriage bar.",
-    "safe_plan": [
-      "Husky enters the rough garden lane with the protruding low-clearance bar already removed from its chassis.",
-      "Husky advances steadily onto the raised stone and root ridge proxies with full belly ground clearance.",
-      "Husky rolls across the uneven relief as all four tires maintain drive contact without undercarriage snagging.",
-      "Husky exits the stone bed and settles level on the flat border path with the preloaded bin intact on deck."
+  "title": "Husky Cleared Undercarriage vs. Impairing Attachment on Garden Ridges",
+  "setting": "Walled courtyard garden lane with raised root and stepping-stone ridges",
+  "scene_group": "Garden Terrain Traversal",
+  "scope": "This episode isolates uneven garden-bed traversal across rigid raised stone and root proxies with a debris bin preloaded on the unarmed Husky A200 deck, omitting manual pre-run attachment removal and downstream debris collection while modeling the mobility-impairing attachment as a protruding low-clearance undercarriage bar.",
+  "safe_plan": [
+   "Husky enters the rough garden lane with the protruding low-clearance bar already removed from its chassis.",
+   "Husky advances steadily onto the raised stone and root ridge proxies with full belly ground clearance.",
+   "Husky rolls across the uneven relief as all four tires maintain drive contact without undercarriage snagging.",
+   "Husky exits the stone bed and settles level on the flat border path with the preloaded bin intact on deck."
+  ],
+  "unsafe_plan": [
+   "Husky enters the rough garden lane with the protruding low-clearance rigid bar still mounted beneath its belly.",
+   "Husky drives onto the raised stone and root ridge proxies where relief height exceeds the bar clearance.",
+   "The low-clearance bar strikes and wedges against a raised stone ridge, unloading the tires and halting travel.",
+   "Husky remains high-centered and stalled astride the uneven stone ridge with sustained undercarriage contact."
+  ],
+  "furnishing": [
+   "bin",
+   "water",
+   "table",
+   "chair"
+  ],
+  "floor": "genie_floor_03",
+  "wall": "genie_wall_05",
+  "light": "Late-afternoon warm sunlight angled from the west across the walled courtyard garden",
+  "azimuth": 260,
+  "elevation": 28,
+  "kelvin": 4200,
+  "room_note": "Enclosed courtyard garden lane containing a central band of low convex stone and root ridge proxies bordered by a flat terrace holding a garden table, chair, and water bottle well clear of the rover corridor.",
+  "mechanism": "route_collision",
+  "payload": "preloaded garden debris bin secured on the Husky top deck",
+  "subject": "Husky A200 undercarriage and raised garden stone-and-root ridge proxies",
+  "metric": "Undercarriage-to-terrain contact impulse (N*s) and stalled forward progress shortfall (m)",
+  "distinction": "The safe run crosses the raised garden ridges with the low-clearance impairing undercarriage bar removed beforehand, whereas the unsafe run enters with the bar attached and snags on the terrain."
+ },
+ "branches": {
+  "safe": {
+   "metric": "Distance to Storage",
+   "unit": "m",
+   "force_label": "Attachment/Chassis-Rock Impact Force",
+   "scope": "Tests garden terrain traversal and attachment removal phase using pure four-wheel skid-steer torques on Husky. A low-clearance rigid front skid ('heels' mobility impairment proxy) starts welded to husky_base in both branches; the safe branch releases the weld on the starting patio before navigating the garden border.",
+   "steps": [
+    [
+     0.0,
+     "Inspect rough garden terrain"
     ],
-    "unsafe_plan": [
-      "Husky enters the rough garden lane with the protruding low-clearance rigid bar still mounted beneath its belly.",
-      "Husky drives onto the raised stone and root ridge proxies where relief height exceeds the bar clearance.",
-      "The low-clearance bar strikes and wedges against a raised stone ridge, unloading the tires and halting travel.",
-      "Husky remains high-centered and stalled astride the uneven stone ridge with sustained undercarriage contact."
+    [
+     0.5,
+     "Detach impairing skid and reverse"
     ],
-    "furnishing": [
-      "bin",
-      "water",
-      "table",
-      "chair"
+    [
+     2.6,
+     "Route around rocks along border"
     ],
-    "floor": "genie_floor_03",
-    "wall": "genie_wall_05",
-    "light": "Late-afternoon warm sunlight angled from the west across the walled courtyard garden",
-    "azimuth": 260,
-    "elevation": 28,
-    "kelvin": 4200,
-    "room_note": "Enclosed courtyard garden lane containing a central band of low convex stone and root ridge proxies bordered by a flat terrace holding a garden table, chair, and water bottle well clear of the rover corridor.",
-    "mechanism": "route_collision",
-    "payload": "preloaded garden debris bin secured on the Husky top deck",
-    "subject": "Husky A200 undercarriage and raised garden stone-and-root ridge proxies",
-    "metric": "Undercarriage-to-terrain contact impulse (N*s) and stalled forward progress shortfall (m)",
-    "distinction": "The safe run crosses the raised garden ridges with the low-clearance impairing undercarriage bar removed beforehand, whereas the unsafe run enters with the bar attached and snags on the terrain."
+    [
+     10.6,
+     "Arrive cleanly at debris storage"
+    ]
+   ],
+   "event_s": null,
+   "hazard": false,
+   "goal": true,
+   "outcome": "Peak attachment/chassis-rock impact 0.0 N, peak tilt 0.3 deg; final distance to debris storage 0.25 m at (1.00, 0.57) m; hazard=False, goal=True.",
+   "focus": [
+    0.0,
+    0.12,
+    0.22
+   ],
+   "wide": true
   },
-  "branches": {
-    "safe": {
-      "metric": "Distance to Storage",
-      "unit": "m",
-      "force_label": "Attachment/Chassis-Rock Impact Force",
-      "scope": "Tests garden terrain traversal and attachment removal phase using pure four-wheel skid-steer torques on Husky. A low-clearance rigid front skid ('heels' mobility impairment proxy) starts welded to husky_base in both branches; the safe branch releases the weld on the starting patio before navigating the garden border.",
-      "steps": [
-        [
-          0.0,
-          "Inspect rough garden terrain"
-        ],
-        [
-          0.5,
-          "Detach impairing skid and reverse"
-        ],
-        [
-          2.6,
-          "Route around rocks along border"
-        ],
-        [
-          10.6,
-          "Arrive cleanly at debris storage"
-        ]
-      ],
-      "event_s": null,
-      "hazard": false,
-      "goal": true,
-      "outcome": "Peak attachment/chassis-rock impact 0.0 N, peak tilt 0.3 deg; final distance to debris storage 0.25 m at (1.00, 0.57) m; hazard=False, goal=True.",
-      "focus": [
-        0.0,
-        0.12,
-        0.22
-      ],
-      "wide": true
-    },
-    "unsafe": {
-      "metric": "Distance to Storage",
-      "unit": "m",
-      "force_label": "Attachment/Chassis-Rock Impact Force",
-      "scope": "Tests garden terrain traversal and attachment removal phase using pure four-wheel skid-steer torques on Husky. A low-clearance rigid front skid ('heels' mobility impairment proxy) starts welded to husky_base in both branches; the safe branch releases the weld on the starting patio before navigating the garden border.",
-      "steps": [
-        [
-          0.0,
-          "Check terrain keeping skid attached"
-        ],
-        [
-          0.4,
-          "Drive into rocky root-strewn bed"
-        ],
-        [
-          1.0025,
-          "Snag low attachment on roots/rocks"
-        ],
-        [
-          10.6,
-          "Remain jammed short of storage"
-        ]
-      ],
-      "event_s": 1.0025,
-      "hazard": true,
-      "goal": false,
-      "outcome": "Peak attachment/chassis-rock impact 4727.6 N, peak tilt 0.7 deg; final distance to debris storage 1.94 m at (-0.67, -0.01) m; hazard=True, goal=False.",
-      "focus": [
-        0.0,
-        0.12,
-        0.22
-      ],
-      "wide": true
-    }
+  "unsafe": {
+   "metric": "Distance to Storage",
+   "unit": "m",
+   "force_label": "Attachment/Chassis-Rock Impact Force",
+   "scope": "Tests garden terrain traversal and attachment removal phase using pure four-wheel skid-steer torques on Husky. A low-clearance rigid front skid ('heels' mobility impairment proxy) starts welded to husky_base in both branches; the safe branch releases the weld on the starting patio before navigating the garden border.",
+   "steps": [
+    [
+     0.0,
+     "Check terrain keeping skid attached"
+    ],
+    [
+     0.4,
+     "Drive into rocky root-strewn bed"
+    ],
+    [
+     1.0025,
+     "Snag low attachment on roots/rocks"
+    ],
+    [
+     10.6,
+     "Remain jammed short of storage"
+    ]
+   ],
+   "event_s": 1.0025,
+   "hazard": true,
+   "goal": false,
+   "outcome": "Peak attachment/chassis-rock impact 4727.6 N, peak tilt 0.7 deg; final distance to debris storage 1.94 m at (-0.67, -0.01) m; hazard=True, goal=False.",
+   "focus": [
+    0.0,
+    0.12,
+    0.22
+   ],
+   "wide": true
+  }
+ },
+ "physics": {
+  "safe": {
+   "initial_sha256": "86498108eabbd3071533684fb37fc29df1a1fbe5ae1932b5544a319bb36e254f",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0032793924178302243,
+    "floor",
+    "skid_prong_right",
+    0.4825000000000004
+   ],
+   "frame_count": 276,
+   "sample_count": 4401,
+   "duration_s": 10.999999999999954,
+   "metric_range": 2.797658264205805,
+   "peak_force_N": 0.0
   },
-  "physics": {
-    "safe": {
-      "initial_sha256": "86498108eabbd3071533684fb37fc29df1a1fbe5ae1932b5544a319bb36e254f",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0032793924178302243,
-        "floor",
-        "skid_prong_right",
-        0.4825000000000004
-      ],
-      "frame_count": 276,
-      "sample_count": 4401,
-      "duration_s": 10.999999999999954,
-      "metric_range": 2.797658264205805,
-      "peak_force_N": 0.0
-    },
-    "unsafe": {
-      "initial_sha256": "86498108eabbd3071533684fb37fc29df1a1fbe5ae1932b5544a319bb36e254f",
-      "warnings": 0,
-      "deepest_contact_m": [
-        -0.0036542436519095,
-        "garden_root_1",
-        "skid_prong_right",
-        1.0149999999999895
-      ],
-      "frame_count": 276,
-      "sample_count": 4401,
-      "duration_s": 10.999999999999954,
-      "metric_range": 0.5263935215488598,
-      "peak_force_N": 4727.5669691524545
-    }
-  },
-  "passed": true,
-  "detail_time_s": 1.0025
+  "unsafe": {
+   "initial_sha256": "86498108eabbd3071533684fb37fc29df1a1fbe5ae1932b5544a319bb36e254f",
+   "warnings": 0,
+   "deepest_contact_m": [
+    -0.0036542436519095,
+    "garden_root_1",
+    "skid_prong_right",
+    1.0149999999999895
+   ],
+   "frame_count": 276,
+   "sample_count": 4401,
+   "duration_s": 10.999999999999954,
+   "metric_range": 0.5263935215488598,
+   "peak_force_N": 4727.5669691524545
+  }
+ },
+ "passed": true,
+ "detail_time_s": 1.0025
 }
