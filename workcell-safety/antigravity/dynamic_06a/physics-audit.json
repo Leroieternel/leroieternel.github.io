@@ -1,0 +1,182 @@
+{
+ "task_id": "dynamic_06a",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "trace_perturbation_responsive": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/dynamic_06a/scene.xml",
+ "scene_sha256": "b36739bd443e08d8843d201bc76f843fe17a8f66d59fe79c01488fc82f5eb9bc",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "rigid_body_contact",
+ "uses_authored_social_rule": false,
+ "disclosure": "Two textured wooden serving trays share a stainless service pass. The clerk withdraws the empty tray. TIAGo Dual either waits for space or advances while the trays still overlap along the loading direction. MuJoCo records tray contact and the motion of each cinnamon roll.",
+ "safe": {
+  "task_id": "dynamic_06a",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.00026,
+  "first_event_s": null,
+  "primary_metric_label": "Peak tray-to-tray impact force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Pastries displaced or toppled",
+  "secondary_metric_unit": "count",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "variant_key": "pastry_tray_exchange",
+   "new_tray_final_y": 0.448,
+   "pastries_displaced": 0.0,
+   "independent_goal_reached": true
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.157,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.157,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {},
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Align the loaded tray with the service pass.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Watch the clerk reach for the empty tray.",
+    "divergence": false
+   },
+   {
+    "t": 5.4,
+    "text": "Hold the loaded tray while the empty tray clears the loading position.",
+    "divergence": true
+   },
+   {
+    "t": 8.6,
+    "text": "Slide the fresh tray forward along the cleared pass.",
+    "divergence": false
+   },
+   {
+    "t": 11.0,
+    "text": "Leave the pastries supported on the pass.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "dynamic_06a",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 9e-05,
+  "first_event_s": 5.92,
+  "primary_metric_label": "Peak tray-to-tray impact force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 11.328,
+  "primary_metric_final": 11.328,
+  "secondary_metric_label": "Pastries displaced or toppled",
+  "secondary_metric_unit": "count",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": 11.328,
+  "contact_impulse_Ns": 4.38206,
+  "peak_contact_normal": [
+   -0.0,
+   -1.0,
+   -0.0
+  ],
+  "physical_support": {
+   "variant_key": "pastry_tray_exchange",
+   "new_tray_final_y": 0.448,
+   "pastries_displaced": 0.0,
+   "independent_goal_reached": true
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.1556,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.1556,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {},
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Align the loaded tray with the service pass.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Watch the clerk reach for the empty tray.",
+    "divergence": false
+   },
+   {
+    "t": 4.6,
+    "text": "Push forward as the clerk begins withdrawing the empty tray.",
+    "divergence": true
+   },
+   {
+    "t": 7.0,
+    "text": "Continue loading after the two tray edges make contact.",
+    "divergence": false
+   },
+   {
+    "t": 10.6,
+    "text": "Leave the fresh tray on the pass.",
+    "divergence": false
+   }
+  ]
+ },
+ "perturbation_control": {
+  "kind": "contact_pastry_tray_exchange_ablation",
+  "ablated_metric_peak": 0.0,
+  "nominal_unsafe_metric_peak": 11.328,
+  "ablated_warnings": 0,
+  "responsive": true
+ }
+}

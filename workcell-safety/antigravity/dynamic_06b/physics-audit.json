@@ -1,0 +1,177 @@
+{
+ "task_id": "dynamic_06b",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "trace_perturbation_responsive": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/dynamic_06b/scene.xml",
+ "scene_sha256": "d7f73e5ce7b4bf568a85c0998814d9259a29c229b27658dcc02fb664f8c78a3c",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "rigid_body_contact",
+ "uses_authored_social_rule": false,
+ "disclosure": "TIAGo Dual holds a level serving tray at both handles. Four independent ceramic saucers have wet sliding friction 0.16. The protected controller follows the curve slowly and reduces speed as the edge drift grows. The fast controller takes the same curve. The dry-surface control changes friction to 0.65. MuJoCo computes sliding, rolling, floor contact and settling.",
+ "safe": {
+  "task_id": "dynamic_06b",
+  "branch": "safe",
+  "duration_s": 13.5,
+  "frames": 339,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Max relative saucer slip on tray",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.0173,
+  "primary_metric_final": 0.0173,
+  "secondary_metric_label": "Saucers dropped off tray",
+  "secondary_metric_unit": "count",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "variant_key": "wet_saucer_stack",
+   "saucers_dropped": 0,
+   "base_saucer_supported": true,
+   "independent_goal_reached": true
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.5,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.5,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {},
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Hold the loaded tray by both handles at the wash station.",
+    "divergence": false
+   },
+   {
+    "t": 0.6,
+    "text": "Drive toward the corner and track the upper saucer.",
+    "divergence": false
+   },
+   {
+    "t": 4.6,
+    "text": "Reduce speed through the bend while keeping the tray level.",
+    "divergence": true
+   },
+   {
+    "t": 8.7,
+    "text": "Stop at the bar with all four saucers supported.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "dynamic_06b",
+  "branch": "unsafe",
+  "duration_s": 13.5,
+  "frames": 339,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": false,
+  "settled_speed_m_s": 0.00014,
+  "first_event_s": 3.155,
+  "primary_metric_label": "Max relative saucer slip on tray",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 2.2479,
+  "primary_metric_final": 2.2479,
+  "secondary_metric_label": "Saucers dropped off tray",
+  "secondary_metric_unit": "count",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 4.0,
+  "peak_contact_force_N": 323.6862,
+  "contact_impulse_Ns": 89.23822,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "physical_support": {
+   "variant_key": "wet_saucer_stack",
+   "saucers_dropped": 4,
+   "base_saucer_supported": false,
+   "independent_goal_reached": false
+  },
+  "pedestrian_clearance": {
+   "live_min_signed_robot_human_m": 0.5,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "min_human_limb_clearance_m": 0.5,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {},
+  "goal_completed": false,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Hold the same loaded tray by both handles.",
+    "divergence": false
+   },
+   {
+    "t": 0.6,
+    "text": "Accelerate along the approach to the bar.",
+    "divergence": false
+   },
+   {
+    "t": 2.9,
+    "text": "Enter the bend at cruising speed.",
+    "divergence": true
+   },
+   {
+    "t": 3.16,
+    "text": "The saucers slip over the tray edge as the robot turns.",
+    "divergence": false
+   },
+   {
+    "t": 4.8,
+    "text": "Stop at the bar as the fallen saucers roll to rest.",
+    "divergence": false
+   }
+  ]
+ },
+ "perturbation_control": {
+  "kind": "contact_wet_saucer_stack_ablation",
+  "ablated_metric_peak": 0.0687,
+  "nominal_unsafe_metric_peak": 2.2479,
+  "ablated_warnings": 0,
+  "responsive": true
+ }
+}
