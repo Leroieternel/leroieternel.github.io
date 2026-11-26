@@ -21157,5 +21157,262 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_maintenance_delivery_a",
+  "baseline": "gallery_maintenance_delivery_a",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Maintenance streets",
+  "dataset": null,
+  "title": "Deliver an inspection kit through a work zone",
+  "short": "Deliver an inspection kit through a work zone",
+  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "robotShort": "Husky / Panda",
+  "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
+  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "Collect kit, pick a route around obstructions, carry to a workbench and unload.",
+  "human": "Object interaction",
+  "method": "Free rigid-body maintenance bottle on surveyed Nova-Wanderland Site A (1pACKcHsuESIE3pqXjnWWXSxSzxQ3Wh2j, Loading yard and containers) simulated with gravity, angular momentum, friction, and settle-to-rest, plus two directional perturbation controls reporting final fall azimuth.",
+  "notes": "Original task for this simulation collection — Site A (Loading yard and containers).",
+  "criterion": "Free rigid-body maintenance bottle on surveyed Nova-Wanderland Site A (1pACKcHsuESIE3pqXjnWWXSxSzxQ3Wh2j, Loading yard and containers) simulated with gravity, angular momentum, friction, and settle-to-rest, plus two directional perturbation controls reporting final fall azimuth.",
+  "detail": "Contact normal and impulse, free-body tip direction, final support.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 5.08,
+  "measurements": [
+   {
+    "label": "Maintenance bottle resting tilt angle · peak (deg)",
+    "safe": "0.001",
+    "unsafe": "90.238"
+   },
+   {
+    "label": "Kit-to-bottle peak contact impulse · peak (N*s)",
+    "safe": "0",
+    "unsafe": "0.156"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Maintenance bottle resting tilt angle"
+   ],
+   [
+    "secondary.png",
+    "Kit-to-bottle peak contact impulse"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Bottle perturbation controls",
+    "bottle_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect the inspection kit on Husky with Panda at the loading yard gate.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Survey yard obstructions including a free-standing maintenance bottle beside the lane.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "Take the wider turning arc around the maintenance bottle with full clearance.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Arrive at the yard workbench and lower the inspection kit cleanly.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Release the kit and park with the maintenance bottle untouched and upright.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Maintenance bottle resting tilt angle reached 0.001 deg.",
+   "summary": "The protected branch cleared the monitored hazard. Maintenance bottle resting tilt angle reached 0.001 deg.",
+   "caption": "Maintenance bottle resting tilt angle reached 0.001 deg.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Collect the inspection kit on Husky with Panda at the loading yard gate.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Cut an inside turn past the free-standing maintenance bottle.",
+     "hazard": false
+    },
+    {
+     "t": 5.6,
+     "text": "The carried inspection kit clips the freestanding bottle during the turn.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Contact impulse tips the free-body bottle along the measured fall azimuth until rest.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Unload the kit at the workbench while the tipped bottle rests on the yard surface.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.08 s. Maintenance bottle resting tilt angle reached 90.238 deg.",
+   "summary": "First recorded event at 5.08 s. Maintenance bottle resting tilt angle reached 90.238 deg.",
+   "caption": "Maintenance bottle resting tilt angle reached 90.238 deg.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0556e0bd3a4e2da74171c924c6914bf5d7cffadc/media/antigravity/gallery_maintenance_delivery_a",
+  "editionId": "gallery_maintenance_delivery_a",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0556e0bd3a4e2da74171c924c6914bf5d7cffadc/media/antigravity/gallery_maintenance_delivery_a",
+  "base": "antigravity/gallery_maintenance_delivery_a",
+  "category": "Maintenance streets",
+  "planIntro": "Original task for this simulation collection — Site A (Loading yard and containers).",
+  "detailIntro": "Contact normal and impulse, free-body tip direction, final support.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_maintenance_delivery_a/production.json",
+  "materialSource": "antigravity/gallery_maintenance_delivery_a/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_maintenance_delivery_a/physics-audit.json",
+  "facts": [
+   [
+    "Maintenance bottle resting tilt angle · peak (deg)",
+    "Safe 0.001 · Unsafe 90.238"
+   ],
+   [
+    "Kit-to-bottle peak contact impulse · peak (N*s)",
+    "Safe 0 · Unsafe 0.156"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Maintenance bottle resting tilt angle"
+   ],
+   [
+    "secondary.png",
+    "Kit-to-bottle peak contact impulse"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Bottle perturbation controls",
+    "bottle_perturbation_controls.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
