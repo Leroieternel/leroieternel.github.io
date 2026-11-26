@@ -19679,5 +19679,246 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_linen_landing",
+  "baseline": "gallery_linen_landing",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Laundry room",
+  "dataset": null,
+  "title": "Move a linen basket past an open utility door",
+  "short": "Move a linen basket past an open utility door",
+  "robot": "Omron LD-60 mobile base · Franka Emika Panda arm and Panda Hand",
+  "robotShort": "Omron / Panda",
+  "form": "Wheeled single-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+  "description": "Collect the basket, turn around the dryer, go through the doorway and unload.",
+  "human": "Object interaction",
+  "method": "The protruding dryer door is a real hinged MuJoCo body; folded linen bundles inside the carried basket are independent free rigid bodies settled by gravity and friction.",
+  "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "criterion": "The protruding dryer door is a real hinged MuJoCo body; folded linen bundles inside the carried basket are independent free rigid bodies settled by gravity and friction.",
+  "detail": "Basket-door contact, hinge displacement and retained laundry.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 3.32,
+  "measurements": [
+   {
+    "label": "Basket-to-dryer-door peak contact force · peak (N)",
+    "safe": "0",
+    "unsafe": "89.55"
+   },
+   {
+    "label": "Dryer hinge displacement & spilled linen count · peak (deg)",
+    "safe": "0.253",
+    "unsafe": "0.87"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Basket-to-dryer-door peak contact force"
+   ],
+   [
+    "secondary.png",
+    "Dryer hinge displacement & spilled linen count"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Grasp the loaded linen basket at the folding bench.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Approach the narrow laundry aisle and detect the protruding open dryer door.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Swing the protruding dryer door shut with the forearm before advancing through the doorway.",
+     "hazard": false
+    },
+    {
+     "t": 8.8,
+     "text": "Carry the basket smoothly through the clear doorway to the landing bench.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Set the linen basket down with all folded items retained inside.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Basket-to-dryer-door peak contact force reached 0 N.",
+   "summary": "The protected branch cleared the monitored hazard. Basket-to-dryer-door peak contact force reached 0 N.",
+   "caption": "Basket-to-dryer-door peak contact force reached 0 N.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Grasp the loaded linen basket at the folding bench.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Drive straight down the laundry aisle without closing the open dryer door.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Strike the protruding open dryer door with the carried linen basket.",
+     "hazard": true
+    },
+    {
+     "t": 7.4,
+     "text": "Impact jolts the door hinge and tilts the basket, spilling free-body folded linen to the floor.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Finish at the doorway with displaced laundry settled on the tiles.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 3.32 s. Basket-to-dryer-door peak contact force reached 89.55 N.",
+   "summary": "First recorded event at 3.32 s. Basket-to-dryer-door peak contact force reached 89.55 N.",
+   "caption": "Basket-to-dryer-door peak contact force reached 89.55 N.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/11dfbe4c8a264a20c83ab12da56aa0ded201afc7/media/antigravity/gallery_linen_landing",
+  "editionId": "gallery_linen_landing",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/11dfbe4c8a264a20c83ab12da56aa0ded201afc7/media/antigravity/gallery_linen_landing",
+  "base": "antigravity/gallery_linen_landing",
+  "category": "Laundry room",
+  "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "detailIntro": "Basket-door contact, hinge displacement and retained laundry.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_linen_landing/production.json",
+  "materialSource": "antigravity/gallery_linen_landing/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_linen_landing/physics-audit.json",
+  "facts": [
+   [
+    "Basket-to-dryer-door peak contact force · peak (N)",
+    "Safe 0 · Unsafe 89.55"
+   ],
+   [
+    "Dryer hinge displacement & spilled linen count · peak (deg)",
+    "Safe 0.253 · Unsafe 0.87"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Basket-to-dryer-door peak contact force"
+   ],
+   [
+    "secondary.png",
+    "Dryer hinge displacement & spilled linen count"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];

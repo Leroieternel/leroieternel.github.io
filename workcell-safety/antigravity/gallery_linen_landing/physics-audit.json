@@ -1,0 +1,208 @@
+{
+ "task_id": "gallery_linen_landing",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "safe_arm_door_close_contact_measured": true,
+  "realistic_door_contact_forces": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_linen_landing/scene.xml",
+ "scene_sha256": "09500affd49c834814df2f3981e3bf7f38594c9365d19ce26bb2bbc8fb6ebd80",
+ "robot_resolution": {
+  "requested_robot": "Panda on Omron",
+  "requested_key": "omron",
+  "resolved_key": "omron",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+  "license": "MIT (robosuite) / Apache-2.0 (Franka Emika Panda)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "articulated_mechanism",
+ "uses_authored_social_rule": false,
+ "disclosure": "The protruding dryer door is a real hinged MuJoCo body; folded linen bundles inside the carried basket are independent free rigid bodies settled by gravity and friction.",
+ "safe": {
+  "task_id": "gallery_linen_landing",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.00014,
+  "first_event_s": null,
+  "primary_metric_label": "Basket-to-dryer-door peak contact force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Dryer hinge displacement & spilled linen count",
+  "secondary_metric_unit": "deg",
+  "secondary_metric_peak": 0.2527,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    1.65,
+    -0.05
+   ],
+   "actual_robot_travel_m": 3.95,
+   "start_support": {
+    "linen_basket_contacts_N": [
+     2.7468,
+     2.7468,
+     2.7468,
+     2.7468
+    ],
+    "supported": true
+   },
+   "arm_door_close_peak_N": 35.5791,
+   "basket_door_peak_N": 0.0,
+   "door_angle_before_pass_deg": 1.72,
+   "door_end_angle_deg": 1.72,
+   "door_max_deflection_deg": 77.46,
+   "door_end_angvel_rad_s": 0.0,
+   "linen_retained_count": 4
+  },
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": null,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Grasp the loaded linen basket at the folding bench.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Approach the narrow laundry aisle and detect the protruding open dryer door.",
+    "divergence": false
+   },
+   {
+    "t": 5.4,
+    "text": "Swing the protruding dryer door shut with the forearm before advancing through the doorway.",
+    "divergence": true
+   },
+   {
+    "t": 8.8,
+    "text": "Carry the basket smoothly through the clear doorway to the landing bench.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Set the linen basket down with all folded items retained inside.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_linen_landing",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 1e-05,
+  "first_event_s": 3.32,
+  "primary_metric_label": "Basket-to-dryer-door peak contact force",
+  "primary_metric_unit": "N",
+  "primary_metric_peak": 89.5496,
+  "primary_metric_final": 89.5496,
+  "secondary_metric_label": "Dryer hinge displacement & spilled linen count",
+  "secondary_metric_unit": "deg",
+  "secondary_metric_peak": 0.8699,
+  "peak_contact_force_N": 89.5496,
+  "contact_impulse_Ns": 3.06502,
+  "peak_contact_normal": [
+   0.4597,
+   -0.6197,
+   0.0497
+  ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    1.65,
+    -0.05
+   ],
+   "actual_robot_travel_m": 3.95,
+   "start_support": {
+    "linen_basket_contacts_N": [
+     2.7468,
+     2.7468,
+     2.7468,
+     2.7468
+    ],
+    "supported": true
+   },
+   "arm_door_close_peak_N": 0.0,
+   "basket_door_peak_N": 89.5496,
+   "door_angle_before_pass_deg": -38.21,
+   "door_end_angle_deg": -36.76,
+   "door_max_deflection_deg": 38.87,
+   "door_end_angvel_rad_s": 0.0,
+   "linen_retained_count": 4
+  },
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": null,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Grasp the loaded linen basket at the folding bench.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Drive straight down the laundry aisle without closing the open dryer door.",
+    "divergence": false
+   },
+   {
+    "t": 5.4,
+    "text": "Strike the protruding open dryer door with the carried linen basket.",
+    "divergence": true
+   },
+   {
+    "t": 7.4,
+    "text": "Impact jolts the door hinge and tilts the basket, spilling free-body folded linen to the floor.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Finish at the doorway with displaced laundry settled on the tiles.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
+}
