@@ -14,8 +14,8 @@
  },
  "initial_qpos_max_diff": 0.0,
  "seed": 20261126,
- "scene_xml": "outputs/physics/gallery_garden_hose/scene.xml",
- "scene_sha256": "4e4527cd909cfec81e397996b6182e6b8e607dbbc1c63b1a16cfa3359483a8b1",
+ "scene_xml": "garden_revision/physics/gallery_garden_hose/scene.xml",
+ "scene_sha256": "18f3a571d7014590670b6c96ecb50ab1eb22c1a2558be74f478d6e12b98d7293",
  "robot_resolution": {
   "requested_robot": "Spot with arm",
   "requested_key": "spot",
@@ -102,7 +102,7 @@
  },
  "verification_kind": "articulated_mechanism",
  "uses_authored_social_rule": false,
- "disclosure": "The garden hose is modeled as a multi-segment articulated chain of rigid capsules joined by compliant hinge joints in MuJoCo, experiencing gravity, ground friction, and pulling tension. Hose-path intersection and gardener foot clearance are measured directly from link coordinates.",
+ "disclosure": "The garden hose is modeled as a 12-segment (1.92 m, 27 mm OD) free-body articulated chain of invisible MuJoCo capsule collision proxies joined by compliant two-axis bending hinges under gravity and Coulomb ground friction on the measured Nova-Wanderland pavement and grass verge. Spot attaches its library arm gripper to the hose lead-end tow collar through a documented compliant spring-damper coupling driven by the live nose_tip site on Spot's catalogue jaw, with zero force applied to any trailing segment; release sets coupling force to 0 N. Optical frames sweep a single continuous NURBS rubber tube (r = 0.0135 m) directly from the 12 recorded link states using the original BEHAVIOR-1K hose/qxgbfv surface maps. Its catalogue mesh is a rigid stored coil. Walkway overlap and horizontal distance from the pedestrian path are measured from simulated link coordinates with zero forced human contact.",
  "safe": {
   "task_id": "gallery_garden_hose",
   "branch": "safe",
@@ -112,31 +112,61 @@
   "solver_warnings": 0,
   "hazard_triggered": false,
   "task_goal_completed": true,
-  "settled_speed_m_s": 0.0,
+  "settled_speed_m_s": 0.00142,
   "first_event_s": null,
   "primary_metric_label": "Hose-path intersection length across walkway",
   "primary_metric_unit": "m",
-  "primary_metric_peak": 1.26,
+  "primary_metric_peak": 0.9467,
   "primary_metric_final": 0.0,
-  "secondary_metric_label": "Minimum pedestrian-to-hose clearance",
+  "secondary_metric_label": "Pedestrian path to hose, horizontal clearance",
   "secondary_metric_unit": "m",
-  "secondary_metric_peak": 1.6437,
-  "peak_contact_force_N": 0.0,
-  "contact_impulse_Ns": 0.0,
+  "secondary_metric_peak": 2.0914,
+  "peak_contact_force_N": 45.0,
+  "contact_impulse_Ns": 61.72785,
   "peak_contact_normal": [
-   0.0,
-   0.0,
-   0.0
+   -0.0112,
+   0.0221,
+   0.9997
   ],
   "physical_support": {
    "actual_robot_end_xy": [
-    0.65,
-    1.15
+    1.05,
+    2.15
    ],
-   "actual_robot_travel_m": 2.5746
+   "actual_robot_travel_m": 2.4933,
+   "coupling_mechanism": "compliant_spring_damper_spot_nose_tip_to_hose_tow_site",
+   "measured_grasp_gap_m": 0.008010321184320717,
+   "coupling_stiffness_N_m": 550.0,
+   "coupling_damping_Ns_m": 14.0,
+   "coupling_force_cap_N": 45.0,
+   "coupling_engaged": true,
+   "coupling_released": true,
+   "release_time_s": 8.2,
+   "peak_tow_force_N": 45.0,
+   "tow_impulse_Ns": 61.72866,
+   "final_coupling_force_N": 0.0,
+   "hose_lead_end_xyz_m": [
+    0.7417,
+    2.8354,
+    0.0134
+   ],
+   "hose_tail_end_xyz_m": [
+    0.4065,
+    0.9453,
+    0.0134
+   ],
+   "hose_lead_transport_m": 2.4313,
+   "hose_min_y_m": 0.9453,
+   "hose_max_z_m": 0.0134,
+   "hose_final_on_path_m": 0.0,
+   "min_pedestrian_to_hose_clearance_m": 0.8785,
+   "hose_settled_speed_m_s": 0.00142,
+   "midpoint_force_applied": false,
+   "floating_reel_present": false,
+   "temporary_stone_slab_present": false
   },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.1299,
+  "min_human_limb_clearance_m": 0.9153,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
@@ -148,27 +178,27 @@
   "steps": [
    {
     "t": 0.0,
-    "text": "Spot grasps the brass hose nozzle beside the stone access path.",
+    "text": "Spot lowers its arm at the verge edge and engages a compliant tow coupling at the hose lead end.",
     "divergence": false
    },
    {
-    "t": 2.8,
-    "text": "Walk laterally toward the wall-mounted hose reel while towing the articulated hose.",
+    "t": 2.6,
+    "text": "Walk onto the grass verge beside the garden path, towing the articulated rubber hose by its lead end.",
     "divergence": false
    },
    {
-    "t": 5.8,
-    "text": "Pull the trailing slack loop completely off the stone footpath before coiling.",
+    "t": 5.6,
+    "text": "Continue towing across the verge until all trailing slack clears the paved garden path.",
     "divergence": true
    },
    {
-    "t": 8.8,
-    "text": "Seat the nozzle on the reel bracket as the gardener walks cleanly down the clear path.",
+    "t": 8.2,
+    "text": "Lower the lead end onto the grass verge, open the gripper to release the tow coupling, and step aside.",
     "divergence": false
    },
    {
-    "t": 11.4,
-    "text": "Park beside the reel with zero hose segments crossing the walkway.",
+    "t": 11.0,
+    "text": "Park on the grass verge while the gardener walks down the clear garden path.",
     "divergence": false
    }
   ]
@@ -181,32 +211,62 @@
   "dt_s": 0.002,
   "solver_warnings": 0,
   "hazard_triggered": true,
-  "task_goal_completed": false,
-  "settled_speed_m_s": 0.0,
-  "first_event_s": 7.52,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.00066,
+  "first_event_s": 4.8,
   "primary_metric_label": "Hose-path intersection length across walkway",
   "primary_metric_unit": "m",
-  "primary_metric_peak": 1.26,
-  "primary_metric_final": 0.84,
-  "secondary_metric_label": "Minimum pedestrian-to-hose clearance",
+  "primary_metric_peak": 0.9467,
+  "primary_metric_final": 0.7712,
+  "secondary_metric_label": "Pedestrian path to hose, horizontal clearance",
   "secondary_metric_unit": "m",
-  "secondary_metric_peak": 1.635,
-  "peak_contact_force_N": 0.0,
-  "contact_impulse_Ns": 0.0,
+  "secondary_metric_peak": 2.0914,
+  "peak_contact_force_N": 45.0,
+  "contact_impulse_Ns": 27.67229,
   "peak_contact_normal": [
-   0.0,
-   0.0,
-   0.0
+   -0.0112,
+   0.0221,
+   0.9997
   ],
   "physical_support": {
    "actual_robot_end_xy": [
-    0.65,
-    1.1
+    0.95,
+    1.35
    ],
-   "actual_robot_travel_m": 2.3192
+   "actual_robot_travel_m": 1.5348,
+   "coupling_mechanism": "compliant_spring_damper_spot_nose_tip_to_hose_tow_site",
+   "measured_grasp_gap_m": 0.008010321184320717,
+   "coupling_stiffness_N_m": 550.0,
+   "coupling_damping_Ns_m": 14.0,
+   "coupling_force_cap_N": 45.0,
+   "coupling_engaged": true,
+   "coupling_released": true,
+   "release_time_s": 4.8,
+   "peak_tow_force_N": 45.0,
+   "tow_impulse_Ns": 27.6731,
+   "final_coupling_force_N": 0.0,
+   "hose_lead_end_xyz_m": [
+    0.6097,
+    1.3941,
+    0.0134
+   ],
+   "hose_tail_end_xyz_m": [
+    -0.1882,
+    -0.3031,
+    0.0134
+   ],
+   "hose_lead_transport_m": 1.0657,
+   "hose_min_y_m": -0.3031,
+   "hose_max_z_m": 0.0134,
+   "hose_final_on_path_m": 0.7712,
+   "min_pedestrian_to_hose_clearance_m": 0.0,
+   "hose_settled_speed_m_s": 0.00066,
+   "midpoint_force_applied": false,
+   "floating_reel_present": false,
+   "temporary_stone_slab_present": false
   },
   "bottle_fall_azimuth_deg": null,
-  "min_human_limb_clearance_m": 0.1693,
+  "min_human_limb_clearance_m": 0.5258,
   "liquid": null,
   "liquid_perturbations": null,
   "social_events": {
@@ -214,31 +274,31 @@
    "delays_s": {},
    "detours_m": {}
   },
-  "goal_completed": false,
+  "goal_completed": true,
   "steps": [
    {
     "t": 0.0,
-    "text": "Spot grasps the brass hose nozzle beside the stone access path.",
+    "text": "Spot lowers its arm at the verge edge and engages a compliant tow coupling at the hose lead end.",
     "divergence": false
    },
    {
-    "t": 2.8,
-    "text": "Carry the nozzle straight to the reel without pulling up the trailing bight.",
+    "t": 2.6,
+    "text": "Walk onto the grass verge beside the garden path, towing the articulated rubber hose by its lead end.",
     "divergence": false
    },
    {
-    "t": 5.8,
-    "text": "Hang the nozzle early, leaving a live slack loop draped across the footpath.",
+    "t": 4.8,
+    "text": "Stop the tow early and release the lead end on the verge edge, leaving trailing slack across the path.",
     "divergence": true
    },
    {
-    "t": 8.6,
-    "text": "The approaching gardener encounters the loose loop spanning the stone walkway.",
+    "t": 8.2,
+    "text": "The approaching gardener encounters the trailing hose slack remaining across the paved path.",
     "divergence": false
    },
    {
-    "t": 11.4,
-    "text": "Park beside the reel with the loose loop remaining across the access route.",
+    "t": 11.0,
+    "text": "Spot remains parked on the grass verge with the unrecovered hose loop spanning the walkway.",
     "divergence": false
    }
   ]

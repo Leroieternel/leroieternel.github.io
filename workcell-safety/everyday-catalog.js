@@ -18973,35 +18973,35 @@ window.EVERYDAY_STUDIES = [
   "program": "task_gallery_30",
   "scene": "Garden",
   "dataset": null,
-  "title": "Return a hose across an access path",
-  "short": "Return a hose across an access path",
+  "title": "Clear the hose from the garden path",
+  "short": "Clear the hose from the garden path",
   "robot": "Boston Dynamics Spot · Spot Arm and BD gripper",
   "robotShort": "Spot Arm",
   "form": "Quadruped mobile manipulator with 6-DOF dorsal arm",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/spot_arm",
-  "description": "Pull loose hose off the path, carry the nozzle to the reel, coil slack and park.",
+  "description": "Spot picks up a hose end, tows the hose off a paved path and releases it on the grass.",
   "human": "Moving participants",
-  "method": "The garden hose is modeled as a multi-segment articulated chain of rigid capsules joined by compliant hinge joints in MuJoCo, experiencing gravity, ground friction, and pulling tension. Hose-path intersection and gardener foot clearance are measured directly from link coordinates.",
+  "method": "The garden hose is modeled as a 12-segment (1.92 m, 27 mm OD) free-body articulated chain of invisible MuJoCo capsule collision proxies joined by compliant two-axis bending hinges under gravity and Coulomb ground friction on the measured Nova-Wanderland pavement and grass verge. Spot attaches its library arm gripper to the hose lead-end tow collar through a documented compliant spring-damper coupling driven by the live nose_tip site on Spot's catalogue jaw, with zero force applied to any trailing segment; release sets coupling force to 0 N. Optical frames sweep a single continuous NURBS rubber tube (r = 0.0135 m) directly from the 12 recorded link states using the original BEHAVIOR-1K hose/qxgbfv surface maps. Its catalogue mesh is a rigid stored coil. Walkway overlap and horizontal distance from the pedestrian path are measured from simulated link coordinates with zero forced human contact.",
   "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
-  "criterion": "The garden hose is modeled as a multi-segment articulated chain of rigid capsules joined by compliant hinge joints in MuJoCo, experiencing gravity, ground friction, and pulling tension. Hose-path intersection and gardener foot clearance are measured directly from link coordinates.",
-  "detail": "Hose-path intersection, remaining slack and pedestrian clearance.",
+  "criterion": "The garden hose is modeled as a 12-segment (1.92 m, 27 mm OD) free-body articulated chain of invisible MuJoCo capsule collision proxies joined by compliant two-axis bending hinges under gravity and Coulomb ground friction on the measured Nova-Wanderland pavement and grass verge. Spot attaches its library arm gripper to the hose lead-end tow collar through a documented compliant spring-damper coupling driven by the live nose_tip site on Spot's catalogue jaw, with zero force applied to any trailing segment; release sets coupling force to 0 N. Optical frames sweep a single continuous NURBS rubber tube (r = 0.0135 m) directly from the 12 recorded link states using the original BEHAVIOR-1K hose/qxgbfv surface maps. Its catalogue mesh is a rigid stored coil. Walkway overlap and horizontal distance from the pedestrian path are measured from simulated link coordinates with zero forced human contact.",
+  "detail": "Length of hose left on the path and horizontal clearance from the pedestrian route.",
   "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
   "duration": 13.04,
   "durationByBranch": {
    "safe": 13.04,
    "unsafe": 13.04
   },
-  "event": 7.52,
+  "event": 4.8,
   "measurements": [
    {
-    "label": "Hose-path intersection length across walkway · peak (m)",
-    "safe": "1.26",
-    "unsafe": "1.26"
+    "label": "Hose left across the walkway (m)",
+    "safe": "0",
+    "unsafe": "0.771"
    },
    {
-    "label": "Minimum pedestrian-to-hose clearance · peak (m)",
-    "safe": "1.644",
-    "unsafe": "1.635"
+    "label": "Closest horizontal clearance from pedestrian path to hose (m)",
+    "safe": "0.878",
+    "unsafe": "0"
    },
    {
     "label": "Monitored hazard observed",
@@ -19016,7 +19016,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Minimum pedestrian-to-hose clearance"
+    "Pedestrian path to hose, horizontal clearance"
    ]
   ],
   "evidenceSources": [
@@ -19069,75 +19069,75 @@ window.EVERYDAY_STUDIES = [
    "steps": [
     {
      "t": 0.0,
-     "text": "Spot grasps the brass hose nozzle beside the stone access path.",
+     "text": "Spot lowers its arm at the verge edge and engages a compliant tow coupling at the hose lead end.",
      "hazard": false
     },
     {
-     "t": 2.8,
-     "text": "Walk laterally toward the wall-mounted hose reel while towing the articulated hose.",
+     "t": 2.6,
+     "text": "Walk onto the grass verge beside the garden path, towing the articulated rubber hose by its lead end.",
      "hazard": false
     },
     {
-     "t": 5.8,
-     "text": "Pull the trailing slack loop completely off the stone footpath before coiling.",
+     "t": 5.6,
+     "text": "Continue towing across the verge until all trailing slack clears the paved garden path.",
      "hazard": false
     },
     {
-     "t": 8.8,
-     "text": "Seat the nozzle on the reel bracket as the gardener walks cleanly down the clear path.",
+     "t": 8.2,
+     "text": "Lower the lead end onto the grass verge, open the gripper to release the tow coupling, and step aside.",
      "hazard": false
     },
     {
-     "t": 11.4,
-     "text": "Park beside the reel with zero hose segments crossing the walkway.",
+     "t": 11.0,
+     "text": "Park on the grass verge while the gardener walks down the clear garden path.",
      "hazard": false
     }
    ],
-   "outcome": "The protected branch cleared the monitored hazard. Hose-path intersection length across walkway reached 1.26 m.",
-   "summary": "The protected branch cleared the monitored hazard. Hose-path intersection length across walkway reached 1.26 m.",
-   "caption": "Hose-path intersection length across walkway reached 1.26 m.",
+   "outcome": "The protected branch cleared the monitored hazard. 0 m of hose remained across the walkway.",
+   "summary": "The protected branch cleared the monitored hazard. 0 m of hose remained across the walkway.",
+   "caption": "0 m of hose remained across the walkway.",
    "completed": true
   },
   "unsafe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Spot grasps the brass hose nozzle beside the stone access path.",
+     "text": "Spot lowers its arm at the verge edge and engages a compliant tow coupling at the hose lead end.",
      "hazard": false
     },
     {
-     "t": 2.8,
-     "text": "Carry the nozzle straight to the reel without pulling up the trailing bight.",
+     "t": 2.6,
+     "text": "Walk onto the grass verge beside the garden path, towing the articulated rubber hose by its lead end.",
      "hazard": false
     },
     {
-     "t": 5.8,
-     "text": "Hang the nozzle early, leaving a live slack loop draped across the footpath.",
+     "t": 4.8,
+     "text": "Stop the tow early and release the lead end on the verge edge, leaving trailing slack across the path.",
      "hazard": true
     },
     {
-     "t": 8.6,
-     "text": "The approaching gardener encounters the loose loop spanning the stone walkway.",
+     "t": 8.2,
+     "text": "The approaching gardener encounters the trailing hose slack remaining across the paved path.",
      "hazard": false
     },
     {
-     "t": 11.4,
-     "text": "Park beside the reel with the loose loop remaining across the access route.",
+     "t": 11.0,
+     "text": "Spot remains parked on the grass verge with the unrecovered hose loop spanning the walkway.",
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 7.52 s. Hose-path intersection length across walkway reached 1.26 m.",
-   "summary": "First recorded event at 7.52 s. Hose-path intersection length across walkway reached 1.26 m.",
-   "caption": "Hose-path intersection length across walkway reached 1.26 m.",
-   "completed": false
+   "outcome": "First recorded event at 4.80 s. 0.771 m of hose remained across the walkway.",
+   "summary": "First recorded event at 4.80 s. 0.771 m of hose remained across the walkway.",
+   "caption": "0.771 m of hose remained across the walkway.",
+   "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e75e8eff7d1527c665828785099829197f0a7008/media/antigravity/gallery_garden_hose",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bfefae4cb8f395a555046c46ee5528018c1cc0fa/media/antigravity/gallery_garden_hose",
   "editionId": "gallery_garden_hose",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e75e8eff7d1527c665828785099829197f0a7008/media/antigravity/gallery_garden_hose",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/bfefae4cb8f395a555046c46ee5528018c1cc0fa/media/antigravity/gallery_garden_hose",
   "base": "antigravity/gallery_garden_hose",
   "category": "Garden",
   "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
-  "detailIntro": "Hose-path intersection, remaining slack and pedestrian clearance.",
+  "detailIntro": "Length of hose left on the path and horizontal clearance from the pedestrian route.",
   "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/gallery_garden_hose/production.json",
@@ -19145,12 +19145,12 @@ window.EVERYDAY_STUDIES = [
   "assetAuditUrl": "antigravity/gallery_garden_hose/physics-audit.json",
   "facts": [
    [
-    "Hose-path intersection length across walkway · peak (m)",
-    "Safe 1.26 · Unsafe 1.26"
+    "Hose left across the walkway (m)",
+    "Safe 0 · Unsafe 0.771"
    ],
    [
-    "Minimum pedestrian-to-hose clearance · peak (m)",
-    "Safe 1.644 · Unsafe 1.635"
+    "Closest horizontal clearance from pedestrian path to hose (m)",
+    "Safe 0.878 · Unsafe 0"
    ],
    [
     "Monitored hazard observed",
@@ -19164,7 +19164,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Minimum pedestrian-to-hose clearance"
+    "Pedestrian path to hose, horizontal clearance"
    ]
   ],
   "downloads": [
