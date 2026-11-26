@@ -1,0 +1,200 @@
+{
+ "task_id": "gallery_gallery_audio",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true,
+  "safe_zero_human_overlap_gt_2cm": true,
+  "unsafe_zero_human_overlap_gt_2cm": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "crowd_revision/physics/gallery_gallery_audio/scene.xml",
+ "scene_sha256": "84562bcec2028ead1dc02d88117256c9732d3c97a9c2db2a40f992d46333fe90",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "social_geometry_rule",
+ "uses_authored_social_rule": true,
+ "disclosure": "Acoustic disturbance uses a disclosed point-source inverse-square sound-level model: L_p(r) = L_p0 - 20*log10(max(r, 0.35) / 1.0), with L_p0 = 74 dB(A) for loudspeaker speech versus silent screen mode (ambient 42 dB(A)). Visitor group interruption is an authored social rule triggered when L_p > 60 dB(A) while the guide is speaking.",
+ "safe": {
+  "task_id": "gallery_gallery_audio",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": null,
+  "primary_metric_label": "Audio-cue overlap inside quiet exhibition zone",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 0.0,
+  "primary_metric_final": 0.0,
+  "secondary_metric_label": "Modeled SPL at visitor group (inverse-square)",
+  "secondary_metric_unit": "dB",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 42.0,
+  "secondary_metric_peak": 42.0,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.2,
+    0.2
+   ],
+   "actual_robot_travel_m": 4.6144
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_gallery_audio",
+   "branch": "safe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.3181,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 0,
+   "min_inter_person_m": 1.0296,
+   "max_pedestrian_speed_m_s": 0.0,
+   "max_sole_slip_mm": 0.0,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.7995,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.7995,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Pick up the exhibition guide card at the gallery desk.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Navigate smoothly around the quiet visitor group listening to the docent.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Switch to silent chest-screen display mode while passing beside the quiet group.",
+    "divergence": true
+   },
+   {
+    "t": 9.0,
+    "text": "Reach the designated audio alcove and point visitors to the next exhibit.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Park cleanly at the alcove mark without interrupting the tour.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_gallery_audio",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 0.0,
+  "first_event_s": 5.52,
+  "primary_metric_label": "Audio-cue overlap inside quiet exhibition zone",
+  "primary_metric_unit": "s",
+  "primary_metric_peak": 3.0,
+  "primary_metric_final": 3.0,
+  "secondary_metric_label": "Modeled SPL at visitor group (inverse-square)",
+  "secondary_metric_unit": "dB",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 42.0,
+  "secondary_metric_peak": 68.751,
+  "peak_contact_force_N": null,
+  "contact_impulse_Ns": null,
+  "peak_contact_normal": null,
+  "physical_support": {
+   "actual_robot_end_xy": [
+    2.1,
+    0.15
+   ],
+   "actual_robot_travel_m": 4.4209
+  },
+  "pedestrian_clearance": {
+   "task_id": "gallery_gallery_audio",
+   "branch": "unsafe",
+   "planner": "pedestrian_clearance.plan_cleared_crowd_traces",
+   "min_signed_robot_human_m": 0.1424,
+   "overlap_frames_gt_2cm": 0,
+   "refinement_passes": 1,
+   "min_inter_person_m": 0.9957,
+   "max_pedestrian_speed_m_s": 0.066,
+   "max_sole_slip_mm": 1.2,
+   "actor_count": 3,
+   "live_min_signed_robot_human_m": 0.4859,
+   "live_overlap_frames_gt_2cm": 0
+  },
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": 0.4859,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Pick up the exhibition guide card at the gallery desk.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Roll right beside the quiet visitor group clustered around the docent.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Trigger loudspeaker audio playback at 74 dB(A) @ 1 m directly next to the quiet group.",
+    "divergence": true
+   },
+   {
+    "t": 7.4,
+    "text": "The docent pauses their explanation and visitors turn toward the noisy robot.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Continue to the next exhibit after disrupting the quiet gallery tour.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
+}
