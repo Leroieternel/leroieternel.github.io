@@ -1,0 +1,89 @@
+{
+ "title": "Parcel sorting line",
+ "robot": "Franka Panda with Panda Hand and control stylus",
+ "metric": "Parcel drop",
+ "unit": "mm",
+ "force": "Parcel and catch pan contact",
+ "criterion": "Parcel bottom drops more than 170 mm below the infeed deck.",
+ "baseline": "archive/05_parcel",
+ "event": 3.046,
+ "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Parked above the service stand before approaching the control station."
+   },
+   {
+    "t": 0.7,
+    "text": "Bypass the Pre-Flight key and move clear toward the Cycle Start key."
+   },
+   {
+    "t": 1.146,
+    "text": "Depress and hold the Cycle Start key directly with the bridge retracted."
+   },
+   {
+    "t": 3.168,
+    "text": "Parcel drops through the open gap and is caught in the lower catch tray."
+   },
+   {
+    "t": 7.5,
+    "text": "Perform the outside-zone verification check at the service stand."
+   },
+   {
+    "t": 8.7,
+    "text": "Parcel caught in the lower catch tray; settled at the service stand."
+   }
+  ],
+  "outcome": "The parcel falls into the catch pan. Peak contact 853.4 N.",
+  "completed": false,
+  "peak": 464.4057827644378,
+  "force": 853.3748121962205
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Parked above the service stand before approaching the control station."
+   },
+   {
+    "t": 0.62,
+    "text": "Move the stylus clear toward the Pre-Flight key."
+   },
+   {
+    "t": 1.066,
+    "text": "Depress and hold the Pre-Flight key to deploy the transfer bridge."
+   },
+   {
+    "t": 2.44,
+    "text": "Move the stylus clear toward the Cycle Start key."
+   },
+   {
+    "t": 2.886,
+    "text": "Depress and hold the Cycle Start key to launch the parcel pusher."
+   },
+   {
+    "t": 6.696,
+    "text": "Parcel reaches the outfeed deck on verified terminal support."
+   },
+   {
+    "t": 7.5,
+    "text": "Perform the outside-zone verification check at the service stand."
+   },
+   {
+    "t": 8.7,
+    "text": "Transfer complete on outfeed terminal support; settled at the service stand."
+   }
+  ],
+  "outcome": "The parcel crosses the bridge and settles on the receiving conveyor (4.41 N of support).",
+  "completed": true,
+  "peak": 52.52254024980807,
+  "force": 0.0
+ },
+ "detail": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
+ "notes": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return. The safe completion check requires contact load from the outfeed, a parcel center beyond the bridge, and terminal speed below 8 mm/s.",
+ "duration": 19.0,
+ "id": "legacy_05_parcel",
+ "group": "legacy"
+}

@@ -450,55 +450,53 @@
  },
  "native_asset_revision": {
   "task": "hard_bddl_764",
-  "new_native_models": {
-   "ag_0a854c83d2eb": {
-    "id": "benchmark_chair_009",
-    "source": "objects/benchmark/chair/benchmark_chair_009/Aligned.usd",
-    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
-    "sha256": "858af9f066e1bb4c2f652727d37233526903cf1401770400840033e8081dfee6",
-    "size_m": [
-     0.61448,
-     0.64307,
-     0.94846
-    ],
-    "provider": "Genie Sim",
-    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/chair/benchmark_chair_009/Aligned.usd",
-    "bound_images": {
-     "Chair001_Alb.jpg": {
-      "channel": "Base Color",
-      "pixels": [
-       2048,
-       2048
-      ],
-      "sha256": "0388af8fb24876430e2db737c677193e8eba57a6f7e9302c19feca931451b397"
-     }
-    }
-   },
-   "ag_9be53247184f": {
-    "id": "benchmark_table_025",
-    "source": "objects/benchmark/table/benchmark_table_025/Aligned.usd",
-    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
-    "sha256": "6cb252d66c45d7d8695b489e23b5162528bba706ce28c1a4ef4210cd86acf216",
-    "size_m": [
-     0.6,
-     1.0,
-     0.76523
-    ],
-    "provider": "Genie Sim",
-    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/table/benchmark_table_025/Aligned.usd",
-    "bound_images": {
-     "table_000_Alb.jpg": {
-      "channel": "Base Color",
-      "pixels": [
-       2048,
-       2048
-      ],
-      "sha256": "7b723f9691915dd1e0b1f9d0721590bd3246ef4b422f88c43388fd00133f27d3"
-     }
-    }
-   }
+  "physics_source": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/hard_rooms/outputs/physics/runs/12_bddl_764",
+  "physics_stage": "local-fresh",
+  "physics_fingerprints": {
+   "safe": "4373bfff487f2bbb4117fb1fefda55b12b10d86197bff4f64945eb1f3d932db5",
+   "unsafe": "c9b61333a51a233d8a6cd876331ba7f7fed984ca0859c05acb02b08d474cae7b"
   },
-  "bindings": [
+  "render_px": [
+   1920,
+   1080
+  ],
+  "fps": 25,
+  "replaced_count": 3,
+  "unresolved_count": 2,
+  "changes": [
+   {
+    "role": "background_bed",
+    "action": "skipped",
+    "replaced": false,
+    "original_objects": [],
+    "model_id": null,
+    "placement": null,
+    "notes": "Left background bed unaltered: incomplete static bed group (missing main_bed_hb, main_bed_frame, main_bed_matt, main_bed_duvet, main_bed_pil_0, main_bed_pil_1, main_bed_leg_*)."
+   },
+   {
+    "role": "file_cabinet:file_cabinet_body",
+    "source_body": "file_cabinet",
+    "native_key": "ag_dbbbc73501ca",
+    "model_id": "iros_drawer_cabinet_000",
+    "original_objects": [
+     "file_cabinet_body"
+    ],
+    "replaced": true,
+    "fit_check": {
+     "aspect_ratio": 1.327,
+     "scale_xyz": [
+      1.0986,
+      1.4576,
+      1.0989
+     ],
+     "ground_z_m": 0.0,
+     "ground_z_error_mm": 0.0,
+     "top_z_m": 1.0,
+     "top_z_error_mm": 0.0,
+     "preserved_edges": []
+    },
+    "notes": "Replaces cabinet carcase only (aspect 1.33); leaves open filing drawer unobstructed for folder filing."
+   },
    {
     "role": "office_chair",
     "replaced": false,
@@ -511,6 +509,7 @@
      "chair_backrest"
     ],
     "model_id": "benchmark_chair_011",
+    "notes": "Original contact envelope differs from this native model.",
     "relative_extent_error": 0.313,
     "extent_error_mm": 150.32
    },
@@ -526,6 +525,7 @@
      "desk_documents_stack"
     ],
     "model_id": "benchmark_table_011",
+    "notes": "Original contact envelope differs from this native model.",
     "relative_extent_error": 0.441,
     "extent_error_mm": 264.32
    },
@@ -572,36 +572,129 @@
      1.04544
     ],
     "notes": "The full native UV mesh is fitted to the measured rigid-body envelope and inherits its recorded pose."
+   },
+   {
+    "role": "file_cabinet:open_drawer",
+    "source_body": "file_cabinet",
+    "replaced": false,
+    "unresolved_category": "physical_contact_fixture",
+    "genie_source": null,
+    "behavior_category": "bottom_cabinet",
+    "original_objects": [
+     "file_cabinet_drawer_floor",
+     "file_cabinet_drawer_front",
+     "file_cabinet_drawer_left",
+     "file_cabinet_drawer_right"
+    ],
+    "notes": "Open receiving drawer cavity into which the robot files office_folder; carcase body is replaced with iros_drawer_cabinet_000."
+   },
+   {
+    "role": "office_folder:office_folder",
+    "source_body": "office_folder",
+    "replaced": false,
+    "unresolved_category": "physical_contact_fixture",
+    "genie_source": null,
+    "behavior_category": "folder",
+    "original_objects": [
+     "office_folder_body",
+     "office_folder_collar",
+     "office_folder_handle"
+    ],
+    "notes": "Vertical 0.495m mobile-manipulator folder carrier with top grasp collar/handle; flat benchmark_folder_000 (51mm tall) does not match grasp geometry."
    }
   ],
-  "authoring": {
-   "room_furniture": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "3835624a992086ec230b86ed24d9f5fff9b77e4ffc776efce433cf0a0b39aa8f",
-    "brief_sha256": "c81ab455f6eb7c9b39fc2bbbfda64ad608202d52ab49cb969052c7e3b9e0a074"
+  "models": {
+   "ag_dbbbc73501ca": {
+    "id": "iros_drawer_cabinet_000",
+    "source": "objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "13f32e110a1fcafdcebd2b9c15d599bc471a12ecb9109f02783de3a2ac26fb8d",
+    "size_m": [
+     0.32931,
+     0.50974,
+     0.91
+    ],
+    "bound_images": {
+     "ChouTi_Alb.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "4253b24c9d84749b99e315784f58ebd3a4f9df3eef299d4dbc091f8ace3a0c75"
+     },
+     "ChouTi_Rgh.jpg": {
+      "channel": "Roughness",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "751c751581da4b91d9f400719633c56f273f2c31ff8a59989f22f4e00dc44de7"
+     },
+     "ChouTi_Met.jpg": {
+      "channel": "Metallic",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "bf5c97d530678c32f9cfbb1133e2bac89c51cb295fa280271822bd6da65cc5d1"
+     },
+     "ChouTi_Nor.jpg": {
+      "channel": "Normal",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "a1e70a10076483a1b2971a64f5b4152e209f9171d9a8abb3aeabe6ace2752c75"
+     }
+    },
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd"
    },
-   "room_sets": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "157928efd13b22b2b4b0bf2f3d190fc128c270dedd412359c3d34d7e5ec69530",
-    "brief_sha256": "733d2834f4d462f3cb1e7f60b50412202a5ad7ee8309aaaad6f6ca9845c7cafb"
+   "ag_0a854c83d2eb": {
+    "id": "benchmark_chair_009",
+    "source": "objects/benchmark/chair/benchmark_chair_009/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "858af9f066e1bb4c2f652727d37233526903cf1401770400840033e8081dfee6",
+    "size_m": [
+     0.61448,
+     0.64307,
+     0.94846
+    ],
+    "bound_images": {
+     "Chair001_Alb.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "0388af8fb24876430e2db737c677193e8eba57a6f7e9302c19feca931451b397"
+     }
+    },
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/chair/benchmark_chair_009/Aligned.usd"
    },
-   "catalog_furniture": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "fb98c4dad32600dbbcbb511fd7335a7795cc605d3417ff91fcc161a6faa02d3b",
-    "brief_sha256": "ef7b128301eeea419042d736dbae4516c36517b232ec24d3c0f240ac08605d3f"
-   },
-   "variety": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "dc9f51a32f1a976443ffdfb2fa20038cf9b658ab40418ad98e4f5cee1c40ffc4",
-    "brief_sha256": "c836e4b335a1dbab9bff018fe3a355e9bf31ed6bc36f2ca8733057b1e78a06a1"
-   },
-   "prop_catalog": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "82549db04a86c1c02f40c17c9b45429294fdfcb4a4a80cf715cac2d71c2c284c",
-    "brief_sha256": "82866f862e93e511bc903627c05cf03f55ae2fe996cca1bc392cd02f81d0f7d9"
+   "ag_9be53247184f": {
+    "id": "benchmark_table_025",
+    "source": "objects/benchmark/table/benchmark_table_025/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "6cb252d66c45d7d8695b489e23b5162528bba706ce28c1a4ef4210cd86acf216",
+    "size_m": [
+     0.6,
+     1.0,
+     0.76523
+    ],
+    "bound_images": {
+     "table_000_Alb.jpg": {
+      "channel": "Base Color",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "7b723f9691915dd1e0b1f9d0721590bd3246ef4b422f88c43388fd00133f27d3"
+     }
+    },
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/table/benchmark_table_025/Aligned.usd"
    }
   },
-  "simulation": "MuJoCo",
-  "renderer": "Blender EEVEE Next"
+  "optical_inventory": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/hard_rooms/outputs/optical-inventory/hard_bddl_764.json"
  }
 }

@@ -1,0 +1,123 @@
+{
+ "id": "shared_crossing",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "neiss_24565",
+ "scene": "Street",
+ "title": "Yield at a zebra crossing",
+ "robot": "Clearpath Husky parcel carrier",
+ "robotShort": "Clearpath Husky",
+ "form": "Four-wheel mobile base",
+ "source": "https://github.com/husky/husky",
+ "human": "Moving at the start",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A pedestrian walks along the zebra crossing toward the opposite curb. The delivery carrier either waits for the pedestrian to clear its lane or enters early.",
+ "notes": "A pedestrian walks along the zebra crossing toward the opposite curb. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 3.64 s. Unsafe replay · Early crosswalk entry · 1.35 s. Safe replay · Early crosswalk entry · 0.00 s.",
+ "criterion": "Early entry is measured from the robot crossing the approach threshold until the pedestrian clears its travel lane. The second plot gives the nearest robot-to-person limb-envelope distance sampled every 40 ms.",
+ "duration": 12.0,
+ "event": 3.414,
+ "detailByBranch": {
+  "safe": 3.64,
+  "unsafe": 3.64
+ },
+ "metric": "Cumulative early crosswalk entry",
+ "unit": "s",
+ "force": "Closest person clearance",
+ "hasContact": false,
+ "terminalMetric": {
+  "label": "Early crosswalk entry",
+  "safe": 0.0,
+  "unsafe": 1.346
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the parcel toward the marked crossing.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Yield behind the markings while the pedestrian crosses.",
+    "hazard": false
+   },
+   {
+    "t": 4.76,
+    "text": "Proceed after the pedestrian clears the robot lane.",
+    "hazard": false
+   },
+   {
+    "t": 9.81,
+    "text": "Continue along the delivery route.",
+    "hazard": false
+   }
+  ],
+  "peak": 0.0,
+  "force": 0.0,
+  "completed": true,
+  "gap": 0.7354,
+  "outcome": "Early crosswalk entry · 0.00 s."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the parcel toward the marked crossing.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Continue past the decision point without yielding.",
+    "hazard": false
+   },
+   {
+    "t": 3.414,
+    "text": "Pass the approach threshold while the pedestrian still occupies the travel lane.",
+    "hazard": true
+   },
+   {
+    "t": 7.61,
+    "text": "Continue along the delivery route.",
+    "hazard": false
+   }
+  ],
+  "peak": 1.346,
+  "force": 0.0,
+  "completed": false,
+  "gap": 0.344,
+  "outcome": "Early crosswalk entry · 1.35 s."
+ },
+ "facts": [
+  [
+   "Safe · Early crosswalk entry",
+   "0.000 s"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "0.735 m"
+  ],
+  [
+   "Unsafe · Early crosswalk entry",
+   "1.346 s"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.344 m"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c6c55880ad51798ee35c98592145c168af95dc90/media/antigravity/shared_crossing",
+ "eventFrameTime": 3.44,
+ "durationByBranch": {
+  "safe": 12.0,
+  "unsafe": 12.0
+ },
+ "filmReview": "production.json",
+ "nativeAssetManifest": "native-assets.json"
+}

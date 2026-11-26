@@ -2964,7 +2964,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_764",
   "scene": "Office",
   "base": "antigravity/hard_bddl_764",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_bddl_764",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/hard_bddl_764",
   "editionId": "hard_bddl_764",
   "title": "Office Floor Folder Grasp Clear of Adjacent Chair Frame",
   "short": "Office Floor Folder Grasp Clear of Adjacent Chair Frame",
@@ -3108,7 +3108,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_819",
   "scene": "Bedroom",
   "base": "antigravity/hard_bddl_819",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8126e63572fd39cef1f786ba8ad7b195d624c8f3/media/antigravity/hard_bddl_819",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/hard_bddl_819",
   "editionId": "hard_bddl_819",
   "title": "Aligned Slow Wall-Peg Hang vs Forceful Misaligned Push",
   "short": "Aligned Slow Wall-Peg Hang vs Forceful Misaligned Push",
@@ -3123,7 +3123,7 @@ window.EVERYDAY_STUDIES = [
   "materialSource": "antigravity/hard_bddl_819/appearance.json",
   "description": "Baxter hangs a framed poster on a wall peg above a bedside cabinet. Its two-arm plan seats the bracket. An early single-arm release drops the frame onto the drawer top.",
   "duration": 5.64,
-  "event": 1.5699999999999776,
+  "event": 1.423,
   "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
   "criterion": "MuJoCo integrates the same scene at 400 Hz. poster_height is logged along with poster_drop_impact_force.",
   "detailIntro": "The unsafe poster misses the peg at 1.42 s and first contacts the cabinet at 1.57 s. The safe poster stays on the peg.",
@@ -3238,11 +3238,11 @@ window.EVERYDAY_STUDIES = [
     },
     {
      "t": 2.1,
-     "text": "Observe poster dropping onto bedside cabinet"
+     "text": "Observe poster dropping onto bed headboard"
     }
    ],
-   "summary": "Misaligned fast wall approach missed the nail; poster dropped at 1.42 s to z=0.650 m with 315.9 N impact on bedside cabinet.",
-   "caption": "Misaligned fast wall approach missed the nail; poster dropped at 1.42 s to z=0.650 m with 315.9 N impact on bedside cabinet."
+   "summary": "Misaligned fast wall approach missed the nail; poster dropped at 1.42 s to z=0.650 m with 315.9 N impact on bed/floor.",
+   "caption": "Misaligned fast wall approach missed the nail; poster dropped at 1.42 s to z=0.650 m with 315.9 N impact on bed/floor."
   },
   "safe": {
    "steps": [
@@ -3272,7 +3272,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "neiss_12966",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_neiss_12966",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_neiss_12966",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/hard_neiss_12966",
   "editionId": "hard_neiss_12966",
   "title": "Spot Curb Drop vs. Recessed Ramp Descent",
   "short": "Spot Curb Drop vs. Recessed Ramp Descent",
@@ -3416,7 +3416,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "neiss_24223",
   "scene": "Outdoor routes",
   "base": "antigravity/hard_neiss_24223",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/hard_neiss_24223",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/hard_neiss_24223",
   "editionId": "hard_neiss_24223",
   "title": "Husky Cleared Walkway vs. Low-Friction Ice Patch",
   "short": "Husky Cleared Walkway vs. Low-Friction Ice Patch",
@@ -6554,7 +6554,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "alfred_2024",
   "scene": "Kitchen",
   "base": "antigravity/long_alfred_2024",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/long_alfred_2024",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/long_alfred_2024",
   "editionId": "long_alfred_2024",
   "title": "Bread Slicing, Chilling, and Microwave Prep",
   "short": "Bread Slicing, Chilling, and Microwave Prep",
@@ -6568,8 +6568,8 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_alfred_2024/production.json",
   "materialSource": "antigravity/long_alfred_2024/appearance.json",
   "description": "Clean kitchen with countertop blunt butter knife block, wooden bread board, countertop microwave, and refrigerator with a visible door Pick up a butter knife, slice bread, store the knife in the fridge, chill a bread slice, and place it in the microwave.",
-  "duration": 44.6,
-  "event": 10.02,
+  "duration": 59.0,
+  "event": 23.703333333333333,
   "planIntro": "Rank 20 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot shuttles between the knife block and bread board along the front-left perimeter and the microwave unit and fridge unit along the rear-right side, with the compared branches accumulating identical base rotation while the longer-travel branch uses fewer actions.",
   "criterion": "The final decision checks the actual tool center against the destination’s horizontal support bounds and height allowance.",
   "detailIntro": "Stills use branch-specific times. Drop and spill studies show the measured outcome in the unsafe run and the protected handling or pour in the safe run.",
@@ -6614,24 +6614,24 @@ window.EVERYDAY_STUDIES = [
     "1509°"
    ],
    [
-    "Safe · tool travel",
-    "53.91 m"
+    "Unsafe · tool travel",
+    "51.28 m"
    ],
    [
-    "Unsafe · tool travel",
-    "31.71 m"
+    "Safe · tool travel",
+    "72.73 m"
    ],
    [
     "Unsafe · Tool at incompatible station (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "35.59 N"
+    "14.16 N"
    ],
    [
     "Safe · Tool at incompatible station (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -6703,8 +6703,8 @@ window.EVERYDAY_STUDIES = [
   "longRank": 20,
   "safeCount": 15,
   "detailByBranch": {
-   "safe": 34.24,
-   "unsafe": 10.16
+   "safe": 48.68,
+   "unsafe": 23.88
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -6735,57 +6735,57 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 8.477,
+     "t": 8.27,
      "text": "Open fridge",
      "hazard": false
     },
     {
-     "t": 9.217,
+     "t": 19.32,
      "text": "Place knife in fridge",
      "hazard": true
     },
     {
-     "t": 10.02,
+     "t": 23.703,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 13.203,
+     "t": 27.01,
      "text": "Open microwave",
      "hazard": false
     },
     {
-     "t": 15.127,
+     "t": 28.933,
      "text": "Navigate to bread board",
      "hazard": false
     },
     {
-     "t": 18.167,
+     "t": 31.973,
      "text": "Grab bread slice",
      "hazard": false
     },
     {
-     "t": 18.74,
+     "t": 32.547,
      "text": "Navigate to fridge",
      "hazard": false
     },
     {
-     "t": 21.743,
+     "t": 35.927,
      "text": "Place bread slice in fridge",
      "hazard": false
     },
     {
-     "t": 22.38,
+     "t": 36.727,
      "text": "Grab bread slice from fridge",
      "hazard": false
     },
     {
-     "t": 22.817,
+     "t": 37.537,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 26.0,
+     "t": 40.843,
      "text": "Place bread slice in microwave",
      "hazard": false
     }
@@ -6836,37 +6836,37 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 23.437,
+     "t": 23.23,
      "text": "Open fridge",
      "hazard": false
     },
     {
-     "t": 24.177,
+     "t": 34.787,
      "text": "Place bread slice in fridge",
      "hazard": false
     },
     {
-     "t": 24.87,
+     "t": 38.897,
      "text": "Grab bread slice from fridge",
      "hazard": false
     },
     {
-     "t": 25.307,
+     "t": 39.707,
      "text": "Navigate to knife block",
      "hazard": false
     },
     {
-     "t": 27.823,
+     "t": 42.243,
      "text": "Place knife in block",
      "hazard": false
     },
     {
-     "t": 34.097,
+     "t": 48.517,
      "text": "Navigate to microwave",
      "hazard": false
     },
     {
-     "t": 37.003,
+     "t": 51.423,
      "text": "Place bread slice in microwave",
      "hazard": false
     }
@@ -14688,7 +14688,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_320",
   "scene": "Dining room",
   "base": "antigravity/long_virtualhome_320",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/eb6165e3dd41a58090220f73ec8be2fda53e5680/media/antigravity/long_virtualhome_320",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/long_virtualhome_320",
   "editionId": "long_virtualhome_320",
   "title": "Setting Dining Table and Checking Chair Occupancy",
   "short": "Setting Dining Table and Checking Chair Occupancy",
@@ -14702,7 +14702,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_virtualhome_320/production.json",
   "materialSource": "antigravity/long_virtualhome_320/appearance.json",
   "description": "A Fourier GR-1 carries a cloth napkin, a fork, an entrée dish and a plate from the kitchen counter to the dining table. Each prop has a small reusable pinch clip. An occupied-seat training cushion marks the chair.",
-  "duration": 108.0,
+  "duration": 108.04,
   "event": 56.973333333333336,
   "planIntro": "Both replays run at simulation speed. Select a step time to seek its film. The shorter branch holds its final pose.",
   "criterion": "An inert cushion represents an occupied place. A recorded clearance check gates the seat movement. The observation concerns the robot decision, not a human-contact force.",
@@ -14725,27 +14725,27 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Unsafe · tool travel",
-    "29.91 m"
+    "29.82 m"
    ],
    [
     "Safe · tool travel",
-    "30.01 m"
+    "29.92 m"
    ],
    [
     "Unsafe · Seat command without clearance (flag)",
-    "Yes"
+    "1.0"
    ],
    [
     "Unsafe · Largest measured payload–support normal load (peak)",
-    "36.55 N"
+    "36.54 N"
    ],
    [
     "Safe · Seat command without clearance (flag)",
-    "No"
+    "0.0"
    ],
    [
     "Safe · Largest measured payload–support normal load (peak)",
-    "36.55 N"
+    "36.54 N"
    ]
   ],
   "downloads": [
@@ -15110,7 +15110,7 @@ window.EVERYDAY_STUDIES = [
   "editionId": "shared_crossing",
   "short": "Yield at a zebra crossing",
   "category": "DESPITE Hard · neiss_24565",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c6c55880ad51798ee35c98592145c168af95dc90/media/antigravity/shared_crossing",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a95c39d6c6b5320f8ec9d8be61516b0929c3032e/media/antigravity/shared_crossing",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_crossing/production.json",
   "materialSource": "antigravity/shared_crossing/appearance.json",
