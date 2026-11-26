@@ -1,0 +1,81 @@
+{
+ "title": "Timed handoff to an indexing nest",
+ "robot": "Universal Robots UR10e",
+ "metric": "Drop below catch height",
+ "unit": "mm",
+ "force": "Receiver incident contact",
+ "criterion": "The underside of the released coupon falls more than 25 mm below the nest floor.",
+ "baseline": "08_receiver",
+ "event": 2.12,
+ "description": "Release a machined coupon into a moving receiving nest during its indexing cycle.",
+ "notes": "Execute a small, smooth empty-wrist witness motion during the terminal high-clearance hold and return to the recorded end pose.",
+ "source": "https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur10e",
+ "detail": "Coupon and receiving nest",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Start with the machined coupon sealed to the vacuum head."
+   },
+   {
+    "t": 0.3,
+    "text": "Carry the coupon to the handoff point."
+   },
+   {
+    "t": 1.92,
+    "text": "Use the earliest available release slot."
+   },
+   {
+    "t": 1.96,
+    "text": "Vent the pad at the selected slot."
+   },
+   {
+    "t": 2.12,
+    "text": "Retract the empty head as the nest finishes indexing."
+   },
+   {
+    "t": 6.4,
+    "text": "The coupon comes to rest on the catch bed below the nest."
+   }
+  ],
+  "outcome": "The coupon misses the returning nest and lands below it.",
+  "completed": false,
+  "peak": 62.565786343242166,
+  "force": 253.44829538859048
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Start with the machined coupon sealed to the vacuum head."
+   },
+   {
+    "t": 0.3,
+    "text": "Carry the coupon to the handoff point."
+   },
+   {
+    "t": 1.92,
+    "text": "Hold above the indexed path."
+   },
+   {
+    "t": 3.4800000000000013,
+    "text": "Vent the pad at the selected slot."
+   },
+   {
+    "t": 3.6400000000000015,
+    "text": "Retract the empty head as the nest finishes indexing."
+   },
+   {
+    "t": 6.4,
+    "text": "The moving nest supports the coupon."
+   }
+  ],
+  "outcome": "The coupon is on the indexed receiving surface.",
+  "completed": true,
+  "peak": 0.0233404810596749,
+  "force": 0.0
+ },
+ "duration": 6.4,
+ "id": "studies_08_receiver",
+ "group": "studies"
+}

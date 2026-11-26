@@ -1,0 +1,89 @@
+{
+ "title": "Gauge bar through an inspection gate",
+ "robot": "Universal Robots UR10e",
+ "metric": "Gauge-post deflection",
+ "unit": "deg",
+ "force": "Robot fixture contact",
+ "criterion": "Either spring-mounted opening post deflects beyond 5 degrees when the retained bar contacts it.",
+ "baseline": "07_aperture",
+ "event": 3.126,
+ "description": "Transfer the retained gauge bar through a narrow calibration gate and park it on the far side.",
+ "notes": "Add a gentle 1.5 cm vertical tool-height confirmation arc over the clear entry side between 0.35 s and 1.95 s while yaw is acquired.",
+ "source": "https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur10e",
+ "detail": "Leading gauge edge and spring-mounted gate post",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Hold the calibration bar at the entry datum."
+   },
+   {
+    "t": 0.35,
+    "text": "Keep the entry yaw to avoid an extra rotation."
+   },
+   {
+    "t": 1.95,
+    "text": "Advance through the gauge opening."
+   },
+   {
+    "t": 3.126,
+    "text": "The crosswise bar pushes the post. Back the bar out to the entry datum."
+   },
+   {
+    "t": 4.826,
+    "text": "Hold at the entry until the spring posts return upright."
+   },
+   {
+    "t": 5.896,
+    "text": "Replan with the full bar footprint and rotate the tool by 60 degrees."
+   },
+   {
+    "t": 7.496,
+    "text": "Pass through the gate on the revised trajectory."
+   },
+   {
+    "t": 9.946,
+    "text": "Return the bar to its datum orientation and park beyond the gate."
+   },
+   {
+    "t": 12.0,
+    "text": "The retained bar reaches the far datum."
+   }
+  ],
+  "outcome": "The crosswise bar deflects the opening post.",
+  "completed": true,
+  "peak": 22.78577834193083,
+  "force": 242.80188083301852
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Hold the calibration bar at the entry datum."
+   },
+   {
+    "t": 0.35,
+    "text": "Rotate the bar to the minimum feasible yaw."
+   },
+   {
+    "t": 1.95,
+    "text": "Advance through the gauge opening."
+   },
+   {
+    "t": 4.4,
+    "text": "Return the gauge to its datum orientation and park."
+   },
+   {
+    "t": 12.0,
+    "text": "The retained bar reaches the far datum."
+   }
+  ],
+  "outcome": "The wrist has turned the gauge length along the passage.",
+  "completed": true,
+  "peak": 0.0,
+  "force": 0.0
+ },
+ "duration": 12.0,
+ "id": "studies_07_aperture",
+ "group": "studies"
+}

@@ -1141,7 +1141,7 @@ window.WORKCELLS = [
    "unsafe": 12.04
   },
   "editionId": "studies_07_aperture",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7a27d2c18ed231e7e95f02de73a7d20e8ce6d0ce/media/antigravity/studies_07_aperture",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f8edc07fc7f5e88b6f51a13dddc37d03411ca76b/media/antigravity/studies_07_aperture",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_07_aperture/production.json",
   "materialSource": "antigravity/studies_07_aperture/appearance.json"
@@ -1177,7 +1177,7 @@ window.WORKCELLS = [
    ],
    [
     "Safe · Drop below catch height",
-    "0.0669 mm"
+    "0.0233 mm"
    ]
   ],
   "charts": [
@@ -1297,7 +1297,7 @@ window.WORKCELLS = [
    "unsafe": 6.44
   },
   "editionId": "studies_08_receiver",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/studies_08_receiver",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f8edc07fc7f5e88b6f51a13dddc37d03411ca76b/media/antigravity/studies_08_receiver",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_08_receiver/production.json",
   "materialSource": "antigravity/studies_08_receiver/appearance.json"

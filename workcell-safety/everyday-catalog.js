@@ -386,7 +386,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_86671",
   "scene": "Café",
   "base": "antigravity/people_cafe",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/people_cafe",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f8edc07fc7f5e88b6f51a13dddc37d03411ca76b/media/antigravity/people_cafe",
   "editionId": "people_cafe",
   "title": "Clean the tables during espresso service",
   "short": "Clean the tables during espresso service",
@@ -588,8 +588,8 @@ window.EVERYDAY_STUDIES = [
    "caption": "Dry-wiped occupied Table 1 (1.0 N) and empty Table 2 (7.5 N) with 0 wet hits on diner placemat."
   },
   "detailByBranch": {
-   "unsafe": 6.2,
-   "safe": 6.2
+   "unsafe": 4.4,
+   "safe": 4.4
   },
   "terminalMetric": {
    "label": "Drops resting on the placemat at the end",
