@@ -1,0 +1,81 @@
+{
+ "title": "Print shop dispatch",
+ "robot": "Franka Panda with Panda Hand and control stylus",
+ "metric": "Paper slip",
+ "unit": "mm",
+ "force": "Paper and carriage friction",
+ "criterion": "Paper pack center moves over 80 mm from carriage center along travel direction.",
+ "baseline": "archive/08_print",
+ "event": 2.104,
+ "description": "A Franka arm operates two physical keys beside the machine. Key travel selects the preparation sequence and starts the equipment. The machine and its load then move under MuJoCo dynamics.",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 0.62,
+    "text": "Approach the cycle key directly while the preparation key remains open."
+   },
+   {
+    "t": 1.248,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 1.948,
+    "text": "Drive the loaded carriage."
+   },
+   {
+    "t": 7.5,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.7,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The stack slides along the carriage. Its center moves 170.7 mm from the carrier center.",
+  "completed": false,
+  "peak": 170.65889256748068,
+  "force": 118.6546860931446
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Move the stylus from park toward the control station."
+   },
+   {
+    "t": 1.168,
+    "text": "The preparation key reaches its sustained stroke. Arm the guarded equipment program."
+   },
+   {
+    "t": 3.028,
+    "text": "The cycle key reaches its sustained stroke. Start the machine sequence."
+   },
+   {
+    "t": 3.478,
+    "text": "Drive the loaded carriage."
+   },
+   {
+    "t": 7.5,
+    "text": "Return the unloaded stylus to the verification area."
+   },
+   {
+    "t": 8.7,
+    "text": "Finish the wrist check and settle at park."
+   }
+  ],
+  "outcome": "The paper stack stays centered. Maximum travel relative to the carriage is 0.1 mm.",
+  "completed": true,
+  "peak": 0.05569835734826195,
+  "force": 0.38140202077194213
+ },
+ "detail": "The same simulation instant in each branch, with the evidence camera centered on the affected part.",
+ "notes": "Machine timing starts from measured key displacement. The original machine program drives the mechanism after the robot starts it. Both keys have spring return.",
+ "duration": 19.0,
+ "id": "legacy_08_print",
+ "group": "legacy"
+}

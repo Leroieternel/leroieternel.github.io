@@ -1,0 +1,140 @@
+{
+ "id": "shared_warehouse",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "neiss_16637",
+ "scene": "Warehouse",
+ "title": "Route a load past a clearance gate",
+ "robot": "Omron mobile base carrying a Franka Panda arm",
+ "robotShort": "Omron / Panda",
+ "form": "Wheeled mobile manipulator",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+ "human": "Initially stationary",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A worker stands beside the gantry and observes a loaded transfer. The Omron mobile carrier either lowers its racked long bar to pass cleanly beneath the low gate or travels high so the load brushes the lightweight sprung clearance paddle.",
+ "notes": "A worker stands beside the gantry and observes a loaded transfer. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 7.16 s. Unsafe replay · Paddle deflection 29.0° · 40.1 N peak contact. Safe replay · Paddle deflection 0.0° · 0.0 N peak contact.",
+ "criterion": "The passive hinged paddle indicates the load limit. The solver records the bar-to-paddle normal force and resulting hinge deflection. Named contact loads are single-run solver estimates at the chosen material stiffness.",
+ "duration": 12.0,
+ "event": 6.939,
+ "detailByBranch": {
+  "safe": 7.16,
+  "unsafe": 7.16
+ },
+ "metric": "Clearance paddle deflection",
+ "unit": "degrees",
+ "force": "Load against clearance paddle",
+ "hasContact": true,
+ "terminalMetric": {
+  "label": "Peak clearance paddle deflection",
+  "safe": 0.0,
+  "unsafe": 28.976
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the secured bar from the loading bay.",
+    "hazard": false
+   },
+   {
+    "t": 1.3,
+    "text": "Select the bypass around the low gantry.",
+    "hazard": false
+   },
+   {
+    "t": 4.55,
+    "text": "Follow the side aisle outside the clearance paddle.",
+    "hazard": false
+   },
+   {
+    "t": 6.94,
+    "text": "Continue outside the gantry footprint.",
+    "hazard": false
+   },
+   {
+    "t": 10.7,
+    "text": "Finish the transfer with the bar on its carrier.",
+    "hazard": false
+   }
+  ],
+  "peak": 0.0,
+  "force": 0.0,
+  "completed": true,
+  "gap": 2.1975,
+  "outcome": "Paddle deflection 0.0° · 0.0 N peak contact."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Carry the secured bar from the loading bay.",
+    "hazard": false
+   },
+   {
+    "t": 1.3,
+    "text": "Select the direct route beneath the gantry.",
+    "hazard": false
+   },
+   {
+    "t": 4.55,
+    "text": "Enter the opening with the bar in the paddle’s path.",
+    "hazard": false
+   },
+   {
+    "t": 6.94,
+    "text": "The bar contacts the paddle and swings it forward.",
+    "hazard": true
+   },
+   {
+    "t": 10.7,
+    "text": "Finish the transfer with the bar on its carrier.",
+    "hazard": false
+   }
+  ],
+  "peak": 28.9755,
+  "force": 40.1038,
+  "completed": false,
+  "gap": 0.8682,
+  "outcome": "Paddle deflection 29.0° · 40.1 N peak contact."
+ },
+ "facts": [
+  [
+   "Safe · Peak clearance paddle deflection",
+   "0.000 deg"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "2.198 m"
+  ],
+  [
+   "Safe · workpiece / clearance paddle",
+   "0.00 N"
+  ],
+  [
+   "Unsafe · Peak clearance paddle deflection",
+   "28.975 deg"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.868 m"
+  ],
+  [
+   "Unsafe · workpiece / clearance paddle",
+   "40.10 N"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/shared_warehouse",
+ "eventFrameTime": 6.96,
+ "durationByBranch": {
+  "unsafe": 12.0,
+  "safe": 12.0
+ },
+ "filmReview": "production.json"
+}

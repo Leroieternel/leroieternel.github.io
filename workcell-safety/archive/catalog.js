@@ -1397,7 +1397,7 @@ window.WORKCELLS = [
   "facts": [
    [
     "Unsafe · Paper slip",
-    "1.56e+03 mm"
+    "171 mm"
    ],
    [
     "Safe · Paper slip",
@@ -1469,8 +1469,8 @@ window.WORKCELLS = [
      "text": "Finish the wrist check and settle at park."
     }
    ],
-   "summary": "The stack slides along the carriage. Its center moves 1556.7 mm from the carrier center.",
-   "caption": "The stack slides along the carriage. Its center moves 1556.7 mm from the carrier center."
+   "summary": "The stack slides along the carriage. Its center moves 170.7 mm from the carrier center.",
+   "caption": "The stack slides along the carriage. Its center moves 170.7 mm from the carrier center."
   },
   "safe": {
    "steps": [
@@ -1515,7 +1515,7 @@ window.WORKCELLS = [
    "unsafe": 19.04
   },
   "editionId": "legacy_08_print",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/legacy_08_print",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0d8aeb26ba2f55a48e2d08fdafedb2f66546745a/media/antigravity/legacy_08_print",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "../antigravity/legacy_08_print/production.json",
   "materialSource": "../antigravity/legacy_08_print/appearance.json",

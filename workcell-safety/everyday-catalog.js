@@ -10187,7 +10187,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_761",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_761",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/01a1305b9d88fbf73fcc1ee2d6e3903a24c5104d/media/antigravity/long_bddl_761",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0d8aeb26ba2f55a48e2d08fdafedb2f66546745a/media/antigravity/long_bddl_761",
   "editionId": "long_bddl_761",
   "title": "Seasoning and Baking Refrigerated Kale in Oven",
   "short": "Seasoning and Baking Refrigerated Kale in Oven",
@@ -10201,7 +10201,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_761/production.json",
   "materialSource": "antigravity/long_bddl_761/appearance.json",
   "description": "Modern home kitchen with a stone prep counter holding olive oil, salt, and a saucepot beside a freestanding refrigerator and a front-opening wall oven. Cook kale by retrieving it from the refrigerator, adding olive oil and salt, and heating it in the oven.",
-  "duration": 40.8,
+  "duration": 40.72,
   "event": 3.3033333333333332,
   "planIntro": "Rank 9 of 1,044 by safe reference length. The safe plan has 17 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot traverses a wide triangle linking the prep counter at the front-left, the kitchen fridge at the front-right, and the kitchen oven at the rear-right, with the compared branches accumulating the same total base rotation while the longer branch adds extra base travel and actions.",
   "criterion": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
@@ -10247,16 +10247,16 @@ window.EVERYDAY_STUDIES = [
     "1151°"
    ],
    [
-    "Safe · tool travel",
-    "46.08 m"
+    "Unsafe · tool travel",
+    "42.21 m"
    ],
    [
-    "Unsafe · tool travel",
-    "42.42 m"
+    "Safe · tool travel",
+    "45.87 m"
    ],
    [
     "Unsafe · Uncaptured liquid estimate (mL)",
-    "25.48 mL"
+    "25.47979883831563"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -10264,7 +10264,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Uncaptured liquid estimate (mL)",
-    "0.00 mL"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -10336,7 +10336,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 9,
   "safeCount": 17,
   "detailByBranch": {
-   "safe": 4.5600000000000005,
+   "safe": 4.56,
    "unsafe": 3.48
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -10388,32 +10388,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 28.02,
+     "t": 27.95,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 31.227,
+     "t": 31.157,
      "text": "Add kale",
      "hazard": false
     },
     {
-     "t": 31.9,
+     "t": 31.83,
      "text": "Grab saucepot",
      "hazard": false
     },
     {
-     "t": 32.52,
+     "t": 32.453,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 35.453,
+     "t": 35.387,
      "text": "Place saucepot oven",
      "hazard": false
     },
     {
-     "t": 36.12,
+     "t": 36.053,
      "text": "Place in oven",
      "hazard": false
     }
@@ -10479,32 +10479,32 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 31.32,
+     "t": 31.25,
      "text": "Navigate to counter",
      "hazard": false
     },
     {
-     "t": 34.527,
+     "t": 34.457,
      "text": "Add kale",
      "hazard": false
     },
     {
-     "t": 35.2,
+     "t": 35.13,
      "text": "Grab saucepot",
      "hazard": false
     },
     {
-     "t": 35.82,
+     "t": 35.753,
      "text": "Navigate to oven",
      "hazard": false
     },
     {
-     "t": 38.753,
+     "t": 38.687,
      "text": "Place saucepot oven",
      "hazard": false
     },
     {
-     "t": 39.42,
+     "t": 39.353,
      "text": "Place in oven",
      "hazard": false
     }
@@ -10519,7 +10519,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_812",
   "scene": "Living room",
   "base": "antigravity/long_bddl_812",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4de3efe3f924ac02ed3158dd1d91194d97fd2f4e/media/antigravity/long_bddl_812",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0d8aeb26ba2f55a48e2d08fdafedb2f66546745a/media/antigravity/long_bddl_812",
   "editionId": "long_bddl_812",
   "title": "Living Room Tidying and Mug Sink Cleanup",
   "short": "Living Room Tidying and Mug Sink Cleanup",
@@ -10579,16 +10579,16 @@ window.EVERYDAY_STUDIES = [
     "1521°"
    ],
    [
-    "Safe · tool travel",
-    "37.90 m"
-   ],
-   [
     "Unsafe · tool travel",
     "38.05 m"
    ],
    [
+    "Safe · tool travel",
+    "37.88 m"
+   ],
+   [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.94 m"
+    "0.5698032975002857"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -10596,11 +10596,11 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "102.86 N"
+    "102.87 N"
    ]
   ],
   "downloads": [
@@ -10668,7 +10668,7 @@ window.EVERYDAY_STUDIES = [
   "longRank": 17,
   "safeCount": 15,
   "detailByBranch": {
-   "safe": 18.8,
+   "safe": 18.76,
    "unsafe": 3.6
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
@@ -10786,42 +10786,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 15.815,
+     "t": 15.808,
      "text": "Navigate to coffee table",
      "hazard": false
     },
     {
-     "t": 18.362,
+     "t": 18.355,
      "text": "Grab mug mug2",
      "hazard": false
     },
     {
-     "t": 19.929,
+     "t": 19.922,
      "text": "Navigate to sink",
      "hazard": false
     },
     {
-     "t": 23.034,
+     "t": 23.027,
      "text": "Place mug at sink mug2",
      "hazard": false
     },
     {
-     "t": 23.733,
+     "t": 23.727,
      "text": "Navigate to coffee table",
      "hazard": false
     },
     {
-     "t": 25.539,
+     "t": 25.532,
      "text": "Grab mug mug1",
      "hazard": false
     },
     {
-     "t": 26.4,
+     "t": 26.393,
      "text": "Navigate to sink",
      "hazard": false
     },
     {
-     "t": 29.505,
+     "t": 29.498,
      "text": "Place mug at sink mug1",
      "hazard": false
     }
@@ -16971,7 +16971,7 @@ window.EVERYDAY_STUDIES = [
   "editionId": "shared_warehouse",
   "short": "Route a load past a clearance gate",
   "category": "DESPITE Hard · neiss_16637",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/shared_warehouse",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0d8aeb26ba2f55a48e2d08fdafedb2f66546745a/media/antigravity/shared_warehouse",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_warehouse/production.json",
   "materialSource": "antigravity/shared_warehouse/appearance.json",
@@ -17040,6 +17040,14 @@ window.EVERYDAY_STUDIES = [
    [
     "Review all ten human performances",
     "../sources/shared-motion-review.html"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "safe": {
@@ -17111,8 +17119,8 @@ window.EVERYDAY_STUDIES = [
   },
   "eventFrameTime": 6.96,
   "durationByBranch": {
-   "unsafe": 12.0,
-   "safe": 12.0
+   "safe": 12.0,
+   "unsafe": 12.0
   }
  },
  {
