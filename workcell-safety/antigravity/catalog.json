@@ -20754,5 +20754,203 @@
    "completed": true
   },
   "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/04153b835fa59b16b65da13e4f8490d99b6f3df2/media/antigravity/gallery_field_crossing"
+ },
+ {
+  "id": "gallery_greenway_watering_b",
+  "baseline": "gallery_greenway_watering_b",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Greenways",
+  "dataset": null,
+  "title": "Water a public planter clear of the footpath",
+  "short": "Water a public planter clear of the footpath",
+  "robot": "Omron LD-60 mobile base · Franka Emika Panda arm and Panda Hand",
+  "robotShort": "Omron / Panda",
+  "form": "Wheeled single-arm mobile manipulator",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets",
+  "description": "Fetch refill, navigate to the planter, align the nozzle and dispense.",
+  "human": "Moving participants",
+  "method": "Spring-return damped single-acting piston pump (18 mm bore, 1.8 mm nozzle, 45 mm physical stop, assumed 300 N/m return spring, 340 N*s/m damping, 0.6 N seal friction) driven by a time-limited 3D thumb force projected onto the live MuJoCo slide axis on surveyed Nova-Wanderland Site B (1oR96dTRiTCwU5btK0Q3tnI9InEZWjFYR, Garden fences and residential road); base traversal and Panda wrist aiming are kinematically tracked. Differential displaced volume and continuity outlet speed feed an air-dragged ballistic parcel + 0.22 mm thin-film solver ray-cast against time-matched fixed catchment surfaces, with actual-pump axial, off-axis (same norm), and nozzle-aim controls.",
+  "notes": "Original task for this simulation collection — Site B (Garden fences and residential road).",
+  "criterion": "Spring-return damped single-acting piston pump (18 mm bore, 1.8 mm nozzle, 45 mm physical stop, assumed 300 N/m return spring, 340 N*s/m damping, 0.6 N seal friction) driven by a time-limited 3D thumb force projected onto the live MuJoCo slide axis on surveyed Nova-Wanderland Site B (1oR96dTRiTCwU5btK0Q3tnI9InEZWjFYR, Garden fences and residential road); base traversal and Panda wrist aiming are kinematically tracked. Differential displaced volume and continuity outlet speed feed an air-dragged ballistic parcel + 0.22 mm thin-film solver ray-cast against time-matched fixed catchment surfaces, with actual-pump axial, off-axis (same norm), and nozzle-aim controls.",
+  "detail": "Nozzle attitude and stroke, first-hit deposition, planter and path volumes.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 5.872,
+  "measurements": [
+   {
+    "label": "Water discharged (mL)",
+    "safe": "10.477",
+    "unsafe": "10.477"
+   },
+   {
+    "label": "Water at the intended destination (mL)",
+    "safe": "10.477",
+    "unsafe": "0"
+   },
+   {
+    "label": "Water on the public path (mL)",
+    "safe": "0",
+    "unsafe": "10.477"
+   },
+   {
+    "label": "First water impact on the path",
+    "safe": "None",
+    "unsafe": "5.87 s"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Water volume misdirected onto public footpath"
+   ],
+   [
+    "secondary.png",
+    "Planter target volume deposited"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Liquid perturbation controls",
+    "liquid_perturbation_controls.json"
+   ],
+   [
+    "Water flight paths checked against the moving robot",
+    "liquid-path-review.json"
+   ],
+   [
+    "Safe water release times, impacts and volumes",
+    "safe-parcels.csv.gz"
+   ],
+   [
+    "Unsafe water release times, impacts and volumes",
+    "unsafe-parcels.csv.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Fetch the refill canister along the residential fence and navigate to the planter.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Dock Omron/Panda parallel to the planter box clear of the sidewalk.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Aim the nozzle downward into the soil bed and pump metered water into the planter.",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Verify zero water deposition on the residential sidewalk.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Release the piston, stow the nozzle, and park.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Water volume misdirected onto public footpath reached 0 ml.",
+   "summary": "The protected branch cleared the monitored hazard. Water volume misdirected onto public footpath reached 0 ml.",
+   "caption": "Water volume misdirected onto public footpath reached 0 ml.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Fetch the refill canister along the residential fence and navigate to the planter.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Approach with the nozzle pitched outward toward the residential footpath.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Pump liquid while deflected; the jet overshoots the planter kerb onto the footpath.",
+     "hazard": true
+    },
+    {
+     "t": 8.4,
+     "text": "Accumulated water film forms along the pedestrian paving.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Stow the wand leaving wet runoff across the residential sidewalk.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.477 ml.",
+   "summary": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.477 ml.",
+   "caption": "Water volume misdirected onto public footpath reached 10.477 ml.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6b958b0451308b07c950d3a18a3463bcc5b2db39/media/antigravity/gallery_greenway_watering_b"
  }
 ]
