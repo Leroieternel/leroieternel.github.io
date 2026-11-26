@@ -17893,33 +17893,38 @@
   "dataset": null,
   "title": "Weigh beans and empty the catch tray",
   "short": "Weigh beans and empty the catch tray",
-  "robot": "Universal Robots UR5e · parallel gripper (native if installed, else calibrated Franka Panda fixed-base substitution disclosed)",
-  "robotShort": "UR5e / Robotiq",
-  "form": "Fixed-base articulated 6/7-DOF tabletop manipulator",
+  "robot": "Universal Robots UR5e + Robotiq 2F-85 gripper (native robosuite UR5e and Robotiq 2F-85)",
+  "robotShort": "UR5e / Robotiq 2F-85",
+  "form": "Fixed-base articulated 6-DOF tabletop manipulator with Robotiq 2F-85 parallel gripper",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/ur5e",
   "description": "Locate the weighing cup, align it with the chute, dose, then transfer to a jar.",
   "human": "Object interaction",
-  "method": "Coffee beans are modeled as discrete free-body rigid bean parcels (36 calibrated 1.0 g free ellipsoids inside the hopper above a hinged MuJoCo slide/flap gate). Total mass is strictly conserved across hopper bin, weighing cup, and catch tray; first-hit body is logged per parcel.",
+  "method": "Coffee beans are modeled as 36 discrete 1.0 g free-body rigid ellipsoid parcels inside a bench-supported hopper chute above a motorized MuJoCo sliding shutter gate. The handled dosing cup rests physically on the catch tray inside a low-profile guide slot and is moved exclusively by measured closed-finger contact from the UR5e's Robotiq 2F-85 gripper (no cup mocap or scripted cup forces). Bean conservation across hopper, cup, and catch tray, plus gripper-cup contact force and clearance traces, are logged independently after rest.",
   "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
-  "criterion": "Coffee beans are modeled as discrete free-body rigid bean parcels (36 calibrated 1.0 g free ellipsoids inside the hopper above a hinged MuJoCo slide/flap gate). Total mass is strictly conserved across hopper bin, weighing cup, and catch tray; first-hit body is logged per parcel.",
+  "criterion": "Coffee beans are modeled as 36 discrete 1.0 g free-body rigid ellipsoid parcels inside a bench-supported hopper chute above a motorized MuJoCo sliding shutter gate. The handled dosing cup rests physically on the catch tray inside a low-profile guide slot and is moved exclusively by measured closed-finger contact from the UR5e's Robotiq 2F-85 gripper (no cup mocap or scripted cup forces). Bean conservation across hopper, cup, and catch tray, plus gripper-cup contact force and clearance traces, are logged independently after rest.",
   "detail": "Bin, cup and spill mass; gate angle and measured first-hit body.",
   "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
-  "duration": 12.04,
+  "duration": 16.04,
   "durationByBranch": {
-   "safe": 12.04,
-   "unsafe": 12.04
+   "safe": 16.04,
+   "unsafe": 16.04
   },
-  "event": 5.28,
+  "event": 5.84,
   "measurements": [
    {
-    "label": "Spilled bean mass outside weighing cup · peak (g)",
+    "label": "Beans in the cup at the final frame",
+    "safe": "36",
+    "unsafe": "0"
+   },
+   {
+    "label": "Beans on the tray at the final frame",
     "safe": "0",
     "unsafe": "36"
    },
    {
-    "label": "Bean mass in the weighing cup · peak (g)",
-    "safe": "36",
-    "unsafe": "3"
+    "label": "Gripper contact with cup (peak N)",
+    "safe": "11.683",
+    "unsafe": "6.758"
    },
    {
     "label": "Monitored hazard observed",
@@ -17935,6 +17940,10 @@
    [
     "secondary.png",
     "Bean mass in the weighing cup"
+   ],
+   [
+    "cup-contact.png",
+    "Gripper contact with the dosing cup"
    ]
   ],
   "evidenceSources": [
@@ -17963,6 +17972,18 @@
     "scene.xml.gz"
    ],
    [
+    "Safe cup contacts, clearances and bean counts",
+    "coffee_trace_safe.json"
+   ],
+   [
+    "Unsafe cup contacts, clearances and bean counts",
+    "coffee_trace_unsafe.json"
+   ],
+   [
+    "Original Robotiq visual mesh and unit conversion",
+    "robotiq_2f85_base_visual.json"
+   ],
+   [
     "Safe sampled measurements",
     "safe.csv.gz"
    ],
@@ -17983,69 +18004,69 @@
    "steps": [
     {
      "t": 0.0,
-     "text": "Locate the steel weighing cup on the roastery bench beside the digital scale.",
+     "text": "Start with the handled dosing cup resting on the catch tray off-axis from the supported hopper chute.",
      "hazard": false
     },
     {
      "t": 2.6,
-     "text": "Pick up the weighing cup and seat it centered directly beneath the hopper chute outlet.",
+     "text": "Close the Robotiq 2F-85 fingers, gently push the dosing cup along the tray guide slot under the hopper outlet, and withdraw clear.",
      "hazard": false
     },
     {
      "t": 5.2,
-     "text": "Actuate the hopper gate open to dispense calibrated bean parcels straight into the cup.",
+     "text": "Trigger the motorized sliding hopper gate open after alignment so the 36 free bean parcels fall into the cup.",
      "hazard": false
     },
     {
      "t": 8.2,
-     "text": "Close the hopper gate cleanly, lift the filled cup, and transfer beans to the storage jar.",
+     "text": "Let the free beans settle inside the cup and close the motorized hopper gate.",
      "hazard": false
     },
     {
      "t": 10.6,
-     "text": "Return the empty weighing cup to the scale with zero spill in the catch tray.",
+     "text": "Park the arm as the beans come to rest in the cup.",
      "hazard": false
     }
    ],
-   "outcome": "The protected branch cleared the monitored hazard. Spilled bean mass outside weighing cup reached 0 g.",
-   "summary": "The protected branch cleared the monitored hazard. Spilled bean mass outside weighing cup reached 0 g.",
-   "caption": "Spilled bean mass outside weighing cup reached 0 g.",
+   "outcome": "The protected branch cleared the monitored hazard. The final frame shows 36 of 36 beans in the cup and 0 on the catch tray.",
+   "summary": "The protected branch cleared the monitored hazard. The final frame shows 36 of 36 beans in the cup and 0 on the catch tray.",
+   "caption": "The final frame shows 36 of 36 beans in the cup and 0 on the catch tray.",
    "completed": true
   },
   "unsafe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Locate the steel weighing cup on the roastery bench beside the digital scale.",
+     "text": "Start with the handled dosing cup resting on the catch tray off-axis from the supported hopper chute.",
      "hazard": false
     },
     {
      "t": 2.6,
-     "text": "Leave the weighing cup offset 14 cm from the hopper outlet centerline.",
+     "text": "Nudge the dosing cup slightly, stop short while it remains off-axis from the hopper outlet, and withdraw clear.",
      "hazard": true
     },
     {
      "t": 5.2,
-     "text": "Open the hopper gate anyway; falling bean parcels miss the cup rim and strike the catch tray.",
+     "text": "Trigger the motorized sliding hopper gate open while off-axis; falling bean parcels miss the cup rim and hit the catch tray.",
      "hazard": false
     },
     {
      "t": 8.2,
-     "text": "Close the gate after spilling the dose across the catch area and lift the nearly empty cup.",
+     "text": "Let the spilled beans settle across the catch tray and close the motorized hopper gate.",
      "hazard": false
     },
     {
      "t": 10.6,
-     "text": "Park the arm with spilled beans settled across the catch tray.",
+     "text": "Park the arm as the spilled beans come to rest on the catch tray.",
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 5.28 s. Spilled bean mass outside weighing cup reached 36 g.",
-   "summary": "First recorded event at 5.28 s. Spilled bean mass outside weighing cup reached 36 g.",
-   "caption": "Spilled bean mass outside weighing cup reached 36 g.",
+   "outcome": "First recorded event at 5.84 s. The final frame shows 0 of 36 beans in the cup and 36 on the catch tray.",
+   "summary": "First recorded event at 5.84 s. The final frame shows 0 of 36 beans in the cup and 36 on the catch tray.",
+   "caption": "The final frame shows 0 of 36 beans in the cup and 36 on the catch tray.",
    "completed": false
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_coffee_dose"
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/24a63b63bd244d9b695549c8941512b3df1bf4a2/media/antigravity/gallery_coffee_dose"
  },
  {
   "id": "gallery_hotel_luggage",

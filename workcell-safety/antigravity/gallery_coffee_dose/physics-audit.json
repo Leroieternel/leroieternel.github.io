@@ -13,8 +13,8 @@
  },
  "initial_qpos_max_diff": 0.0,
  "seed": 20261126,
- "scene_xml": "outputs/physics/gallery_coffee_dose/scene.xml",
- "scene_sha256": "1874644ffebf941a65026e20dc32f08e8fa6110b557a4dff5ffd2fc443dc5630",
+ "scene_xml": "coffee_revision/physics/gallery_coffee_dose/scene.xml",
+ "scene_sha256": "120724f468f76e4604c43787ddb9392292fd228948803c72f598dc2a8f6edea4",
  "robot_resolution": {
   "requested_robot": "UR5e with gripper",
   "requested_key": "ur5e",
@@ -22,23 +22,45 @@
   "substituted": false,
   "mobile": false,
   "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/ur5e",
-  "license": "MIT (robosuite / Universal Robots UR5e) or Apache-2.0 (Franka Emika Panda fallback)",
-  "note": "Loaded native installed library robot model."
+  "license": "MIT (robosuite / Universal Robots UR5e + Robotiq 2F-85)",
+  "note": "Loaded native Universal Robots UR5e + Robotiq 2F-85 (robosuite) (/home/mcxiangalds/github/robosuite/robosuite/models/assets/robots/ur5e/robot.xml + /home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/robotiq_gripper_85.xml).",
+  "native_model_name": "Universal Robots UR5e + Robotiq 2F-85 (robosuite)",
+  "robot_model": "ur5e",
+  "robot_xml_path": "/home/mcxiangalds/github/robosuite/robosuite/models/assets/robots/ur5e/robot.xml",
+  "asset_paths": [
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/robots/ur5e/robot.xml",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/robotiq_gripper_85.xml"
+  ],
+  "gripper_attached": true,
+  "gripper_model": "robotiq_gripper_85_model",
+  "gripper_xml_path": "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/robotiq_gripper_85.xml",
+  "gripper_mesh_paths": [
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_base_link.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_outer_knuckle.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_outer_finger.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_inner_finger.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_inner_knuckle.stl",
+   "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/task_gallery_flash/gallery/native_meshes/robotiq_2f85_base_visual.obj",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_outer_knuckle_vis.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_outer_finger_vis.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_inner_finger_vis.stl",
+   "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/meshes/robotiq_85_gripper/robotiq_arg2f_85_inner_knuckle_vis.stl"
+  ]
  },
  "site_survey": null,
  "verification_kind": "rigid_body_contact",
  "uses_authored_social_rule": false,
- "disclosure": "Coffee beans are modeled as discrete free-body rigid bean parcels (36 calibrated 1.0 g free ellipsoids inside the hopper above a hinged MuJoCo slide/flap gate). Total mass is strictly conserved across hopper bin, weighing cup, and catch tray; first-hit body is logged per parcel.",
+ "disclosure": "Coffee beans are modeled as 36 discrete 1.0 g free-body rigid ellipsoid parcels inside a bench-supported hopper chute above a motorized MuJoCo sliding shutter gate. The handled dosing cup rests physically on the catch tray inside a low-profile guide slot and is moved exclusively by measured closed-finger contact from the UR5e's Robotiq 2F-85 gripper (no cup mocap or scripted cup forces). Bean conservation across hopper, cup, and catch tray, plus gripper-cup contact force and clearance traces, are logged independently after rest.",
  "safe": {
   "task_id": "gallery_coffee_dose",
   "branch": "safe",
-  "duration_s": 12.0,
-  "frames": 301,
+  "duration_s": 16.0,
+  "frames": 401,
   "dt_s": 0.002,
   "solver_warnings": 0,
   "hazard_triggered": false,
   "task_goal_completed": true,
-  "settled_speed_m_s": 0.0,
+  "settled_speed_m_s": 0.03734,
   "first_event_s": null,
   "primary_metric_label": "Spilled bean mass outside weighing cup",
   "primary_metric_unit": "g",
@@ -46,14 +68,82 @@
   "primary_metric_final": 0.0,
   "secondary_metric_label": "Bean mass in the weighing cup",
   "secondary_metric_unit": "g",
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
   "secondary_metric_peak": 36.0,
-  "peak_contact_force_N": 0.0,
-  "contact_impulse_Ns": 0.0,
+  "peak_contact_force_N": 11.6832,
+  "contact_impulse_Ns": 1.6495,
   "peak_contact_normal": [
    0.0,
    0.0,
    0.0
   ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    -0.02,
+    0.02
+   ],
+   "actual_robot_travel_m": 0.0,
+   "robot_native_model": "Universal Robots UR5e + Robotiq 2F-85 (robosuite)",
+   "robot_asset_paths": [
+    "/home/mcxiangalds/github/robosuite/robosuite/models/assets/robots/ur5e/robot.xml",
+    "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/robotiq_gripper_85.xml"
+   ],
+   "gripper_attached": true,
+   "gripper_model": "robotiq_gripper_85_model",
+   "cup_motion_mechanism": "measured_robotiq_2f85_closed_finger_contact_push",
+   "cup_moved_by_measured_contact": true,
+   "cup_start_pos_m": [
+    0.44,
+    -0.12,
+    0.834
+   ],
+   "cup_end_pos_m": [
+    0.4453,
+    0.0499,
+    0.834
+   ],
+   "cup_displacement_y_m": 0.1699,
+   "cup_offset_at_gate_open_m": 0.0053,
+   "cup_end_offset_from_hopper_m": 0.0053,
+   "cup_tilt_max_deg": 0.07,
+   "gripper_cup_contact_peak_N": 11.6832,
+   "gripper_cup_contact_impulse_Ns": 1.6495,
+   "withdraw_clearance_at_gate_open_m": 0.2835,
+   "min_gripper_hopper_clearance_m": 0.1832,
+   "min_gripper_bench_clearance_m": 0.0167,
+   "start_support": {
+    "catch_tray_contact_N": 3.5316,
+    "supported": true
+   },
+   "end_support": {
+    "catch_tray_contact_N": 3.8848,
+    "min_catch_tray_contact_N": 0.0,
+    "supported": true
+   },
+   "beans_after_rest": {
+    "in_cup": 36,
+    "on_tray": 0,
+    "in_hopper": 0,
+    "off_tray": 0,
+    "in_flight": 0,
+    "spilled": 0,
+    "total_accounted": 36,
+    "expected_total": 36,
+    "total_mass_g": 36.0,
+    "conserved": true,
+    "max_rest_speed_m_s": 0.03734
+   },
+   "bean_first_hit_counts": {
+    "weighing_cup": 36
+   },
+   "gate_end_opening_m": -0.0,
+   "cup_end_speed_m_s": 0.0,
+   "ik_max_pos_err_m": 0.00029,
+   "ik_max_rot_err_rad": 0.00119,
+   "trace_file": "coffee_trace_safe.json"
+  },
+  "pedestrian_clearance": null,
   "bottle_fall_azimuth_deg": null,
   "min_human_limb_clearance_m": null,
   "liquid": null,
@@ -67,27 +157,27 @@
   "steps": [
    {
     "t": 0.0,
-    "text": "Locate the steel weighing cup on the roastery bench beside the digital scale.",
+    "text": "Start with the handled dosing cup resting on the catch tray off-axis from the supported hopper chute.",
     "divergence": false
    },
    {
     "t": 2.6,
-    "text": "Pick up the weighing cup and seat it centered directly beneath the hopper chute outlet.",
+    "text": "Close the Robotiq 2F-85 fingers, gently push the dosing cup along the tray guide slot under the hopper outlet, and withdraw clear.",
     "divergence": true
    },
    {
     "t": 5.2,
-    "text": "Actuate the hopper gate open to dispense calibrated bean parcels straight into the cup.",
+    "text": "Trigger the motorized sliding hopper gate open after alignment so the 36 free bean parcels fall into the cup.",
     "divergence": false
    },
    {
     "t": 8.2,
-    "text": "Close the hopper gate cleanly, lift the filled cup, and transfer beans to the storage jar.",
+    "text": "Let the free beans settle inside the cup and close the motorized hopper gate.",
     "divergence": false
    },
    {
     "t": 10.6,
-    "text": "Return the empty weighing cup to the scale with zero spill in the catch tray.",
+    "text": "Park the arm as the beans come to rest in the cup.",
     "divergence": false
    }
   ]
@@ -95,28 +185,97 @@
  "unsafe": {
   "task_id": "gallery_coffee_dose",
   "branch": "unsafe",
-  "duration_s": 12.0,
-  "frames": 301,
+  "duration_s": 16.0,
+  "frames": 401,
   "dt_s": 0.002,
   "solver_warnings": 0,
   "hazard_triggered": true,
   "task_goal_completed": false,
-  "settled_speed_m_s": 0.0,
-  "first_event_s": 5.28,
+  "settled_speed_m_s": 0.00054,
+  "first_event_s": 5.84,
   "primary_metric_label": "Spilled bean mass outside weighing cup",
   "primary_metric_unit": "g",
   "primary_metric_peak": 36.0,
   "primary_metric_final": 36.0,
   "secondary_metric_label": "Bean mass in the weighing cup",
   "secondary_metric_unit": "g",
-  "secondary_metric_peak": 3.0,
-  "peak_contact_force_N": 0.0,
-  "contact_impulse_Ns": 0.0,
+  "secondary_metric_aggregation": "max",
+  "secondary_metric_min": 0.0,
+  "secondary_metric_peak": 0.0,
+  "peak_contact_force_N": 6.7583,
+  "contact_impulse_Ns": 0.6165,
   "peak_contact_normal": [
    0.0,
    0.0,
    0.0
   ],
+  "physical_support": {
+   "actual_robot_end_xy": [
+    -0.02,
+    0.02
+   ],
+   "actual_robot_travel_m": 0.0,
+   "robot_native_model": "Universal Robots UR5e + Robotiq 2F-85 (robosuite)",
+   "robot_asset_paths": [
+    "/home/mcxiangalds/github/robosuite/robosuite/models/assets/robots/ur5e/robot.xml",
+    "/home/mcxiangalds/github/robosuite/robosuite/models/assets/grippers/robotiq_gripper_85.xml"
+   ],
+   "gripper_attached": true,
+   "gripper_model": "robotiq_gripper_85_model",
+   "cup_motion_mechanism": "measured_robotiq_2f85_closed_finger_contact_push",
+   "cup_moved_by_measured_contact": true,
+   "cup_start_pos_m": [
+    0.44,
+    -0.12,
+    0.834
+   ],
+   "cup_end_pos_m": [
+    0.4406,
+    -0.1001,
+    0.834
+   ],
+   "cup_displacement_y_m": 0.0199,
+   "cup_offset_at_gate_open_m": 0.1501,
+   "cup_end_offset_from_hopper_m": 0.1501,
+   "cup_tilt_max_deg": 0.05,
+   "gripper_cup_contact_peak_N": 6.7583,
+   "gripper_cup_contact_impulse_Ns": 0.6165,
+   "withdraw_clearance_at_gate_open_m": 0.1768,
+   "min_gripper_hopper_clearance_m": 0.2448,
+   "min_gripper_bench_clearance_m": 0.0167,
+   "start_support": {
+    "catch_tray_contact_N": 3.5316,
+    "supported": true
+   },
+   "end_support": {
+    "catch_tray_contact_N": 3.5318,
+    "min_catch_tray_contact_N": 0.0,
+    "supported": true
+   },
+   "beans_after_rest": {
+    "in_cup": 0,
+    "on_tray": 36,
+    "in_hopper": 0,
+    "off_tray": 0,
+    "in_flight": 0,
+    "spilled": 36,
+    "total_accounted": 36,
+    "expected_total": 36,
+    "total_mass_g": 36.0,
+    "conserved": true,
+    "max_rest_speed_m_s": 0.00054
+   },
+   "bean_first_hit_counts": {
+    "catch_tray_body": 32,
+    "roastery_bench_body": 4
+   },
+   "gate_end_opening_m": -0.0,
+   "cup_end_speed_m_s": 0.0,
+   "ik_max_pos_err_m": 0.0003,
+   "ik_max_rot_err_rad": 0.00135,
+   "trace_file": "coffee_trace_unsafe.json"
+  },
+  "pedestrian_clearance": null,
   "bottle_fall_azimuth_deg": null,
   "min_human_limb_clearance_m": null,
   "liquid": null,
@@ -130,30 +289,31 @@
   "steps": [
    {
     "t": 0.0,
-    "text": "Locate the steel weighing cup on the roastery bench beside the digital scale.",
+    "text": "Start with the handled dosing cup resting on the catch tray off-axis from the supported hopper chute.",
     "divergence": false
    },
    {
     "t": 2.6,
-    "text": "Leave the weighing cup offset 14 cm from the hopper outlet centerline.",
+    "text": "Nudge the dosing cup slightly, stop short while it remains off-axis from the hopper outlet, and withdraw clear.",
     "divergence": true
    },
    {
     "t": 5.2,
-    "text": "Open the hopper gate anyway; falling bean parcels miss the cup rim and strike the catch tray.",
+    "text": "Trigger the motorized sliding hopper gate open while off-axis; falling bean parcels miss the cup rim and hit the catch tray.",
     "divergence": false
    },
    {
     "t": 8.2,
-    "text": "Close the gate after spilling the dose across the catch area and lift the nearly empty cup.",
+    "text": "Let the spilled beans settle across the catch tray and close the motorized hopper gate.",
     "divergence": false
    },
    {
     "t": 10.6,
-    "text": "Park the arm with spilled beans settled across the catch tray.",
+    "text": "Park the arm as the spilled beans come to rest on the catch tray.",
     "divergence": false
    }
   ]
  },
- "bottle_perturbation_controls": null
+ "bottle_perturbation_controls": null,
+ "bottle_perturbation_summary": null
 }
