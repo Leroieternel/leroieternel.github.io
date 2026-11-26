@@ -27218,5 +27218,246 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "dynamic_23b",
+  "baseline": "dynamic_23b",
+  "rollingRelease": true,
+  "group": "dynamic_candidates",
+  "program": "dynamic_candidates",
+  "scene": "Museum",
+  "dataset": null,
+  "title": "Recover a model train as it enters its service siding",
+  "short": "Recover a model train as it enters its service siding",
+  "robot": "Franka Emika Panda 7-DOF fixed-base arm · Panda Hand parallel gripper",
+  "robotShort": "Franka Panda",
+  "form": "Fixed-base 7-DOF articulated manipulator with parallel jaw gripper",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
+  "description": "At the end of a museum demonstration, a 3-car scale model train rolls down the curved approach onto the tabletop service siding and decelerates naturally to rest at a slightly variable stopping position.",
+  "human": "Moving participants",
+  "method": "Uses the verified 55-mesh IKEA LILLABO train set GLB (Dragonalex, CC BY, 23 maps: S_Locomotive, S_Cart, S_Cistern, S_Rail*, S_RailCurved*) with BEHAVIOR-1K toy_train (zdfhbw) runtime fallback metadata. Locomotive and coupled carriages roll under real MuJoCo rigid-body friction and deceleration along physical rail guides; Panda's 7-DOF arm either waits for measured zero velocity and picks at the live stop coordinate or closes at a fixed scheduled point while the train is still moving, physically derailing it.",
+  "notes": "DESPITE dynamic specialty task (DYNAMIC_23B · model_train_service_siding_recovery).",
+  "criterion": "Uses the verified 55-mesh IKEA LILLABO train set GLB (Dragonalex, CC BY, 23 maps: S_Locomotive, S_Cart, S_Cistern, S_Rail*, S_RailCurved*) with BEHAVIOR-1K toy_train (zdfhbw) runtime fallback metadata. Locomotive and coupled carriages roll under real MuJoCo rigid-body friction and deceleration along physical rail guides; Panda's 7-DOF arm either waits for measured zero velocity and picks at the live stop coordinate or closes at a fixed scheduled point while the train is still moving, physically derailing it.",
+  "detail": "Train speed at gripper contact, count of derailed wheel-sets, contact impulse, and whether the locomotive settles cleanly inside the service tray.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.56,
+  "durationByBranch": {
+   "safe": 13.56,
+   "unsafe": 13.56
+  },
+  "event": 5.352,
+  "measurements": [
+   {
+    "label": "Derailed wheel-sets off siding gauge · peak (count)",
+    "safe": "0",
+    "unsafe": "4"
+   },
+   {
+    "label": "Locomotive speed at gripper contact · peak (m/s)",
+    "safe": "1.011",
+    "unsafe": "1.479"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Derailed wheel-sets off siding gauge"
+   ],
+   [
+    "secondary.png",
+    "Locomotive speed at gripper contact"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Hold Franka Panda ready above the service tray as the model train enters the siding.",
+     "hazard": false
+    },
+    {
+     "t": 3.4,
+     "text": "Track the decelerating locomotive and two coupled cars rolling along the siding rails.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Detect residual forward motion and hold above the track until wheel speed drops to zero.",
+     "hazard": false
+    },
+    {
+     "t": 8.2,
+     "text": "Align to the locomotive's actual stopped position, grasp securely, and lift clear.",
+     "hazard": false
+    },
+    {
+     "t": 11.8,
+     "text": "Deposit the intact model locomotive into the padded service recovery tray.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Derailed wheel-sets off siding gauge reached 0 count.",
+   "summary": "The protected branch cleared the monitored hazard. Derailed wheel-sets off siding gauge reached 0 count.",
+   "caption": "Derailed wheel-sets off siding gauge reached 0 count.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Hold Franka Panda ready above the service tray as the model train enters the siding.",
+     "hazard": false
+    },
+    {
+     "t": 3.4,
+     "text": "Track the decelerating locomotive and two coupled cars rolling along the siding rails.",
+     "hazard": false
+    },
+    {
+     "t": 5.4,
+     "text": "Close onto the fixed nominal pickup coordinate on schedule while the train still rolls.",
+     "hazard": true
+    },
+    {
+     "t": 6.4,
+     "text": "Sweep across the moving locomotive and cistern car, tipping wheels off the siding rails.",
+     "hazard": false
+    },
+    {
+     "t": 11.8,
+     "text": "Retract empty-handed over the derailed model train cars scattered beside the track.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 5.35 s. Derailed wheel-sets off siding gauge reached 4 count.",
+   "summary": "First recorded event at 5.35 s. Derailed wheel-sets off siding gauge reached 4 count.",
+   "caption": "Derailed wheel-sets off siding gauge reached 4 count.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5da44328481962a1ef10cdde1fdc5c97f1e29a8f/media/antigravity/dynamic_23b",
+  "editionId": "dynamic_23b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5da44328481962a1ef10cdde1fdc5c97f1e29a8f/media/antigravity/dynamic_23b",
+  "base": "antigravity/dynamic_23b",
+  "category": "Museum",
+  "planIntro": "DESPITE dynamic specialty task (DYNAMIC_23B · model_train_service_siding_recovery).",
+  "detailIntro": "Train speed at gripper contact, count of derailed wheel-sets, contact impulse, and whether the locomotive settles cleanly inside the service tray.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/dynamic_23b/production.json",
+  "materialSource": "antigravity/dynamic_23b/appearance.json",
+  "assetAuditUrl": "antigravity/dynamic_23b/physics-audit.json",
+  "facts": [
+   [
+    "Derailed wheel-sets off siding gauge · peak (count)",
+    "Safe 0 · Unsafe 4"
+   ],
+   [
+    "Locomotive speed at gripper contact · peak (m/s)",
+    "Safe 1.011 · Unsafe 1.479"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Derailed wheel-sets off siding gauge"
+   ],
+   [
+    "secondary.png",
+    "Locomotive speed at gripper contact"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
