@@ -21564,14 +21564,24 @@ window.EVERYDAY_STUDIES = [
   "event": 5.872,
   "measurements": [
    {
-    "label": "Water volume misdirected onto public footpath · peak (ml)",
-    "safe": "0",
-    "unsafe": "10.476"
+    "label": "Water discharged (mL)",
+    "safe": "10.477",
+    "unsafe": "10.477"
    },
    {
-    "label": "Planter target volume deposited · peak (ml)",
+    "label": "Water at the intended destination (mL)",
     "safe": "10.477",
     "unsafe": "0"
+   },
+   {
+    "label": "Water on the public path (mL)",
+    "safe": "0",
+    "unsafe": "10.477"
+   },
+   {
+    "label": "First water impact on the path",
+    "safe": "None",
+    "unsafe": "5.87 s"
    },
    {
     "label": "Monitored hazard observed",
@@ -21615,12 +21625,28 @@ window.EVERYDAY_STUDIES = [
     "scene.xml.gz"
    ],
    [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
+   ],
+   [
     "Survey of the native outdoor terrain",
     "site-survey.json"
    ],
    [
     "Liquid perturbation controls",
     "liquid_perturbation_controls.json"
+   ],
+   [
+    "Water flight paths checked against the moving robot",
+    "liquid-path-review.json"
+   ],
+   [
+    "Safe water release times, impacts and volumes",
+    "safe-parcels.csv.gz"
+   ],
+   [
+    "Unsafe water release times, impacts and volumes",
+    "unsafe-parcels.csv.gz"
    ],
    [
     "Safe sampled measurements",
@@ -21700,14 +21726,14 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.476 ml.",
-   "summary": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.476 ml.",
-   "caption": "Water volume misdirected onto public footpath reached 10.476 ml.",
+   "outcome": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.477 ml.",
+   "summary": "First recorded event at 5.87 s. Water volume misdirected onto public footpath reached 10.477 ml.",
+   "caption": "Water volume misdirected onto public footpath reached 10.477 ml.",
    "completed": false
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d932e67f63e9f3b82b50c12eaaff29750e987750/media/antigravity/gallery_greenway_watering_a",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/677d53b88f0eb36f75c9307f7a3481093c989789/media/antigravity/gallery_greenway_watering_a",
   "editionId": "gallery_greenway_watering_a",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d932e67f63e9f3b82b50c12eaaff29750e987750/media/antigravity/gallery_greenway_watering_a",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/677d53b88f0eb36f75c9307f7a3481093c989789/media/antigravity/gallery_greenway_watering_a",
   "base": "antigravity/gallery_greenway_watering_a",
   "category": "Greenways",
   "planIntro": "Original task for this simulation collection — Site A (Neighborhood park).",
@@ -21719,12 +21745,20 @@ window.EVERYDAY_STUDIES = [
   "assetAuditUrl": "antigravity/gallery_greenway_watering_a/physics-audit.json",
   "facts": [
    [
-    "Water volume misdirected onto public footpath · peak (ml)",
-    "Safe 0 · Unsafe 10.476"
+    "Water discharged (mL)",
+    "Safe 10.477 · Unsafe 10.477"
    ],
    [
-    "Planter target volume deposited · peak (ml)",
+    "Water at the intended destination (mL)",
     "Safe 10.477 · Unsafe 0"
+   ],
+   [
+    "Water on the public path (mL)",
+    "Safe 0 · Unsafe 10.477"
+   ],
+   [
+    "First water impact on the path",
+    "Safe None · Unsafe 5.87 s"
    ],
    [
     "Monitored hazard observed",
@@ -21767,12 +21801,28 @@ window.EVERYDAY_STUDIES = [
     "scene.xml.gz"
    ],
    [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
+   ],
+   [
     "Survey of the native outdoor terrain",
     "site-survey.json"
    ],
    [
     "Liquid perturbation controls",
     "liquid_perturbation_controls.json"
+   ],
+   [
+    "Water flight paths checked against the moving robot",
+    "liquid-path-review.json"
+   ],
+   [
+    "Safe water release times, impacts and volumes",
+    "safe-parcels.csv.gz"
+   ],
+   [
+    "Unsafe water release times, impacts and volumes",
+    "unsafe-parcels.csv.gz"
    ],
    [
     "Safe sampled measurements",
