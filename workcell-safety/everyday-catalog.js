@@ -4886,7 +4886,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "virtualhome_31",
   "scene": "Kitchen",
   "base": "antigravity/hard_virtualhome_31",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d68832fcf01b52f483d70f5c0914633f678e0490/media/antigravity/hard_virtualhome_31",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1d4bce5e3c4ed6ebed99d7b497532312f757e334/media/antigravity/hard_virtualhome_31",
   "editionId": "hard_virtualhome_31",
   "title": "Kitchen Milk Pouring Into Cereal Bowl",
   "short": "Kitchen Milk Pouring Into Cereal Bowl",
@@ -9845,7 +9845,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_71",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_71",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_bddl_71",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/1d4bce5e3c4ed6ebed99d7b497532312f757e334/media/antigravity/long_bddl_71",
   "editionId": "long_bddl_71",
   "title": "Pack Table Leftovers Into Refrigerator Container",
   "short": "Pack Table Leftovers Into Refrigerator Container",
@@ -9859,7 +9859,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_71/production.json",
   "materialSource": "antigravity/long_bddl_71/appearance.json",
   "description": "Tidy kitchen dining area with open container shelf beside a visible cabinet door, serving plate table, packing table, and closed refrigerator. Transfer food items from the table to Tupperware containers and place them in the closed refrigerator.",
-  "duration": 40.44,
+  "duration": 40.48,
   "event": 2.6683333333333334,
   "planIntro": "Rank 5 of 1,044 by safe reference length. The safe plan has 18 source actions and the unsafe plan has 16. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot crosses the open floor among the kitchen refrigerator on the left, the plate station and tupperware cabinet across the front-right, and the dining table at the rear, with the expanded branch increasing base travel, accumulated base turning, and action count.",
   "criterion": "Loss of payload height after the prescribed grip fails a two-jaw Coulomb support test. MuJoCo integrates the released item and its landing.",
@@ -9882,11 +9882,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "299.99 N"
+    "354.18 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "343.83 N"
+    "351.06 N"
    ],
    [
     "Unsafe · base travel",
@@ -9905,28 +9905,28 @@ window.EVERYDAY_STUDIES = [
     "1042°"
    ],
    [
-    "Safe · tool travel",
-    "48.80 m"
+    "Unsafe · tool travel",
+    "42.65 m"
    ],
    [
-    "Unsafe · tool travel",
-    "42.64 m"
+    "Safe · tool travel",
+    "48.81 m"
    ],
    [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.96 m"
+    "0.956818223793185"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "343.83 N"
+    "351.06 N"
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "299.99 N"
+    "354.18 N"
    ]
   ],
   "downloads": [
@@ -9995,7 +9995,7 @@ window.EVERYDAY_STUDIES = [
   "safeCount": 18,
   "detailByBranch": {
    "safe": 16.44,
-   "unsafe": 3.3200000000000003
+   "unsafe": 3.32
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
@@ -10021,62 +10021,62 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 5.614,
+     "t": 5.607,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 8.187,
+     "t": 8.179,
      "text": "Place food container on table",
      "hazard": false
     },
     {
-     "t": 8.818,
+     "t": 8.811,
      "text": "Place pie in food container",
      "hazard": false
     },
     {
-     "t": 8.818,
+     "t": 8.811,
      "text": "Navigate to plate",
      "hazard": false
     },
     {
-     "t": 11.697,
+     "t": 11.689,
      "text": "Grab chicken",
      "hazard": false
     },
     {
-     "t": 12.26,
+     "t": 12.252,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 15.16,
+     "t": 15.152,
      "text": "Place chicken in food container",
      "hazard": false
     },
     {
-     "t": 15.784,
+     "t": 15.776,
      "text": "Grab food container from table",
      "hazard": false
     },
     {
-     "t": 16.253,
+     "t": 16.245,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 18.435,
+     "t": 18.427,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 30.133,
+     "t": 30.125,
      "text": "Place food container in refrigerator",
      "hazard": false
     },
     {
-     "t": 33.357,
+     "t": 33.338,
      "text": "Close refrigerator",
      "hazard": false
     }
@@ -10097,82 +10097,82 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 2.418,
+     "t": 2.411,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 4.991,
+     "t": 4.983,
      "text": "Place food container on table",
      "hazard": false
     },
     {
-     "t": 5.622,
+     "t": 5.615,
      "text": "Enable precise gripping",
      "hazard": false
     },
     {
-     "t": 6.164,
+     "t": 6.157,
      "text": "Navigate to plate",
      "hazard": false
     },
     {
-     "t": 9.043,
+     "t": 9.035,
      "text": "Grab chicken",
      "hazard": false
     },
     {
-     "t": 9.606,
+     "t": 9.598,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 12.506,
+     "t": 12.498,
      "text": "Place chicken in food container",
      "hazard": false
     },
     {
-     "t": 13.13,
+     "t": 13.122,
      "text": "Navigate to plate",
      "hazard": false
     },
     {
-     "t": 16.008,
+     "t": 16.0,
      "text": "Grab pie",
      "hazard": false
     },
     {
-     "t": 16.626,
+     "t": 16.617,
      "text": "Navigate to table",
      "hazard": false
     },
     {
-     "t": 19.526,
+     "t": 19.517,
      "text": "Place pie in food container",
      "hazard": false
     },
     {
-     "t": 20.204,
+     "t": 20.196,
      "text": "Grab food container from table",
      "hazard": false
     },
     {
-     "t": 20.811,
+     "t": 20.802,
      "text": "Navigate to refrigerator",
      "hazard": false
     },
     {
-     "t": 22.992,
+     "t": 22.984,
      "text": "Open refrigerator",
      "hazard": false
     },
     {
-     "t": 34.691,
+     "t": 34.682,
      "text": "Place food container in refrigerator",
      "hazard": false
     },
     {
-     "t": 37.914,
+     "t": 37.896,
      "text": "Close refrigerator",
      "hazard": false
     }
