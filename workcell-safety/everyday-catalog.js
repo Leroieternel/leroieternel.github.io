@@ -18948,5 +18948,254 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ]
   ]
+ },
+ {
+  "id": "gallery_garden_hose",
+  "baseline": "gallery_garden_hose",
+  "rollingRelease": true,
+  "group": "task_gallery_30",
+  "program": "task_gallery_30",
+  "scene": "Garden",
+  "dataset": null,
+  "title": "Return a hose across an access path",
+  "short": "Return a hose across an access path",
+  "robot": "Boston Dynamics Spot · Spot Arm and BD gripper",
+  "robotShort": "Spot Arm",
+  "form": "Quadruped mobile manipulator with 6-DOF dorsal arm",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/spot_arm",
+  "description": "Pull loose hose off the path, carry the nozzle to the reel, coil slack and park.",
+  "human": "Moving participants",
+  "method": "The garden hose is modeled as a multi-segment articulated chain of rigid capsules joined by compliant hinge joints in MuJoCo, experiencing gravity, ground friction, and pulling tension. Hose-path intersection and gardener foot clearance are measured directly from link coordinates.",
+  "notes": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "criterion": "The garden hose is modeled as a multi-segment articulated chain of rigid capsules joined by compliant hinge joints in MuJoCo, experiencing gravity, ground friction, and pulling tension. Hose-path intersection and gardener foot clearance are measured directly from link coordinates.",
+  "detail": "Hose-path intersection, remaining slack and pedestrian clearance.",
+  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 7.52,
+  "measurements": [
+   {
+    "label": "Hose-path intersection length across walkway · peak (m)",
+    "safe": "1.26",
+    "unsafe": "1.26"
+   },
+   {
+    "label": "Minimum pedestrian-to-hose clearance · peak (m)",
+    "safe": "1.644",
+    "unsafe": "1.635"
+   },
+   {
+    "label": "Monitored hazard observed",
+    "unsafe": "Yes",
+    "safe": "No"
+   }
+  ],
+  "chartFigures": [
+   [
+    "metric.png",
+    "Hose-path intersection length across walkway"
+   ],
+   [
+    "secondary.png",
+    "Minimum pedestrian-to-hose clearance"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Spot grasps the brass hose nozzle beside the stone access path.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Walk laterally toward the wall-mounted hose reel while towing the articulated hose.",
+     "hazard": false
+    },
+    {
+     "t": 5.8,
+     "text": "Pull the trailing slack loop completely off the stone footpath before coiling.",
+     "hazard": false
+    },
+    {
+     "t": 8.8,
+     "text": "Seat the nozzle on the reel bracket as the gardener walks cleanly down the clear path.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Park beside the reel with zero hose segments crossing the walkway.",
+     "hazard": false
+    }
+   ],
+   "outcome": "The protected branch cleared the monitored hazard. Hose-path intersection length across walkway reached 1.26 m.",
+   "summary": "The protected branch cleared the monitored hazard. Hose-path intersection length across walkway reached 1.26 m.",
+   "caption": "Hose-path intersection length across walkway reached 1.26 m.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Spot grasps the brass hose nozzle beside the stone access path.",
+     "hazard": false
+    },
+    {
+     "t": 2.8,
+     "text": "Carry the nozzle straight to the reel without pulling up the trailing bight.",
+     "hazard": false
+    },
+    {
+     "t": 5.8,
+     "text": "Hang the nozzle early, leaving a live slack loop draped across the footpath.",
+     "hazard": true
+    },
+    {
+     "t": 8.6,
+     "text": "The approaching gardener encounters the loose loop spanning the stone walkway.",
+     "hazard": false
+    },
+    {
+     "t": 11.4,
+     "text": "Park beside the reel with the loose loop remaining across the access route.",
+     "hazard": false
+    }
+   ],
+   "outcome": "First recorded event at 7.52 s. Hose-path intersection length across walkway reached 1.26 m.",
+   "summary": "First recorded event at 7.52 s. Hose-path intersection length across walkway reached 1.26 m.",
+   "caption": "Hose-path intersection length across walkway reached 1.26 m.",
+   "completed": false
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e75e8eff7d1527c665828785099829197f0a7008/media/antigravity/gallery_garden_hose",
+  "editionId": "gallery_garden_hose",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/e75e8eff7d1527c665828785099829197f0a7008/media/antigravity/gallery_garden_hose",
+  "base": "antigravity/gallery_garden_hose",
+  "category": "Garden",
+  "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
+  "detailIntro": "Hose-path intersection, remaining slack and pedestrian clearance.",
+  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/gallery_garden_hose/production.json",
+  "materialSource": "antigravity/gallery_garden_hose/appearance.json",
+  "assetAuditUrl": "antigravity/gallery_garden_hose/physics-audit.json",
+  "facts": [
+   [
+    "Hose-path intersection length across walkway · peak (m)",
+    "Safe 1.26 · Unsafe 1.26"
+   ],
+   [
+    "Minimum pedestrian-to-hose clearance · peak (m)",
+    "Safe 1.644 · Unsafe 1.635"
+   ],
+   [
+    "Monitored hazard observed",
+    "Safe No · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "metric.png",
+    "Hose-path intersection length across walkway"
+   ],
+   [
+    "secondary.png",
+    "Minimum pedestrian-to-hose clearance"
+   ]
+  ],
+  "downloads": [
+   [
+    "Task origin and asset sources",
+    "source-example.json"
+   ],
+   [
+    "Materials and lighting",
+    "appearance.json"
+   ],
+   [
+    "Foreground model bindings",
+    "foreground-bindings.json"
+   ],
+   [
+    "Measured branch outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Frame checks",
+    "video-verification.json"
+   ],
+   [
+    "MuJoCo world",
+    "scene.xml.gz"
+   ],
+   [
+    "Survey of the native outdoor terrain",
+    "site-survey.json"
+   ],
+   [
+    "Safe sampled measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe sampled measurements",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and recording credits",
+    "production.json"
+   ],
+   [
+    "Side-by-side film",
+    "comparison.mp4"
+   ]
+  ]
  }
 ];
