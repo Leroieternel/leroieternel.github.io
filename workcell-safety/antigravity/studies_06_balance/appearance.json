@@ -10,6 +10,20 @@
   "ChouTi_Nor.jpg",
   "ChouTi_Rgh.jpg",
   "b1761ea96c21_benchmark_refrigerator_000_Rgh.png",
+  "benchmark_balance_000_Alb.jpg",
+  "benchmark_balance_000_Nor.jpg",
+  "benchmark_ball_000_Met.jpg",
+  "benchmark_ball_000_Nor.jpg",
+  "benchmark_ball_000_Rgh.jpg",
+  "benchmark_ball_002_Alb.jpg",
+  "benchmark_shelf_007_Alb_01.jpg",
+  "benchmark_shelf_007_Met.jpg",
+  "benchmark_shelf_007_Nor.jpg",
+  "benchmark_shelf_007_Rgh.jpg",
+  "benchmark_whiteboard_000_Alb.jpg",
+  "benchmark_whiteboard_000_Met.jpg",
+  "benchmark_whiteboard_000_Nor.jpg",
+  "benchmark_whiteboard_000_Rgh.jpg",
   "floor04.png",
   "floor_tile_03_Alb.jpg",
   "floor_tile_03_Nor.jpg",
@@ -215,10 +229,10 @@
  "surface_maps": [],
  "as_filmed": {
   "motion_engine": "Blender Eevee Next",
-  "motion_samples": 16,
+  "motion_samples": 8,
   "motion_px": [
-   2560,
-   1440
+   1920,
+   1080
   ],
   "stills_engine": "Blender Cycles",
   "stills_max_samples": 36,
@@ -255,56 +269,35 @@
  },
  "native_asset_revision": {
   "task": "studies_06_balance",
-  "new_native_models": {
-   "ag_dbbbc73501ca": {
-    "id": "iros_drawer_cabinet_000",
-    "source": "objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd",
-    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
-    "sha256": "13f32e110a1fcafdcebd2b9c15d599bc471a12ecb9109f02783de3a2ac26fb8d",
-    "size_m": [
-     0.32931,
-     0.50974,
-     0.91
-    ],
-    "bound_images": {
-     "ChouTi_Alb.jpg": {
-      "channel": "Base Color",
-      "pixels": [
-       4096,
-       4096
-      ],
-      "sha256": "4253b24c9d84749b99e315784f58ebd3a4f9df3eef299d4dbc091f8ace3a0c75"
-     },
-     "ChouTi_Rgh.jpg": {
-      "channel": "Roughness",
-      "pixels": [
-       4096,
-       4096
-      ],
-      "sha256": "751c751581da4b91d9f400719633c56f273f2c31ff8a59989f22f4e00dc44de7"
-     },
-     "ChouTi_Met.jpg": {
-      "channel": "Metallic",
-      "pixels": [
-       4096,
-       4096
-      ],
-      "sha256": "bf5c97d530678c32f9cfbb1133e2bac89c51cb295fa280271822bd6da65cc5d1"
-     },
-     "ChouTi_Nor.jpg": {
-      "channel": "Normal",
-      "pixels": [
-       4096,
-       4096
-      ],
-      "sha256": "a1e70a10076483a1b2971a64f5b4152e209f9171d9a8abb3aeabe6ace2752c75"
-     }
-    },
-    "provider": "Genie Sim",
-    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd"
-   }
-  },
+  "family": "studies",
+  "setting": "Laboratory",
+  "simulation": "MuJoCo",
+  "renderer": "Blender 4.5 EEVEE Next (headless)",
+  "suppressed_collision_proxies": [],
   "bindings": [
+   {
+    "role": "Calibration transfer sphere",
+    "source_body": "ball",
+    "native_key": "er_golf_ball",
+    "model_id": "benchmark_ball_002",
+    "mode": "sphere_iso",
+    "replaced": true,
+    "notes": "Isotropic spherical fit of native Genie benchmark_ball_002 preserving exact 53 mm diameter and roll radius.",
+    "original_objects": [
+     "ball_shell"
+    ],
+    "scale_in_body_axes": [
+     0.17746,
+     0.17746,
+     0.17746
+    ],
+    "aspect_distortion": 1.0,
+    "target_extent_m": [
+     0.053,
+     0.053,
+     0.053
+    ]
+   },
    {
     "role": "storage_cabinet",
     "replaced": true,
@@ -317,7 +310,7 @@
      "interior_27",
      "interior_28"
     ],
-    "placement": "ground_wall",
+    "placement": "support",
     "extent_m": [
      0.62,
      0.664,
@@ -350,20 +343,301 @@
       1.0
      ]
     ]
+   },
+   {
+    "role": "lab_balance_whiteboard",
+    "native_key": "er_whiteboard",
+    "model_id": "benchmark_whiteboard_000",
+    "xyz": [
+     2.15,
+     1.6,
+     0.0
+    ],
+    "yaw_deg": -90.0,
+    "height_m": null,
+    "measured_clearance_to_dynamic_envelope_m": 1.1129,
+    "placed": true,
+    "notes": "Calibration chart whiteboard."
+   },
+   {
+    "role": "lab_balance_shelf",
+    "native_key": "ag_25134749dd15",
+    "model_id": "benchmark_shelf_008",
+    "xyz": [
+     -1.6,
+     1.72,
+     0.0
+    ],
+    "yaw_deg": -90.0,
+    "height_m": null,
+    "measured_clearance_to_dynamic_envelope_m": 1.3824,
+    "placed": true,
+    "notes": "Laboratory shelf."
+   },
+   {
+    "role": "lab_reference_balance",
+    "native_key": "ag_541d10647400",
+    "model_id": "benchmark_balance_000",
+    "xyz": [
+     -2.42,
+     1.56,
+     0.91
+    ],
+    "yaw_deg": 0.0,
+    "height_m": null,
+    "measured_clearance_to_dynamic_envelope_m": 2.27,
+    "placed": true,
+    "notes": "Native Genie benchmark_balance_000 on rear lab cabinet for laboratory context."
    }
   ],
-  "authoring": {
-   "industrial_rooms": {
-    "actual_model": "gemini-4-neon-high",
-    "source_sha256": "ce6c1fe93c92227bac5361371c25fb10ac85a40acbc29994d51c21f9e480b583",
-    "brief_sha256": "bfbd3ad7a18477b690be76bed2d8dcbeb842b2f6895f52f6e87acdb271397761"
+  "new_native_models": {
+   "er_golf_ball": {
+    "id": "benchmark_ball_002",
+    "source": "objects/benchmark/ball/benchmark_ball_002/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "9796dd5f33a860421ccb1156ef2b9cbdff777bffbde4033e48c33ead9248359a",
+    "size_m": [
+     0.2996,
+     0.29819,
+     0.29819
+    ],
+    "bound_images": {
+     "benchmark_ball_002_Alb.jpg": {
+      "channel": "Base Color",
+      "file": "benchmark_ball_002_Alb.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "b39358472b205fe685ccf2a5ce52c80b68ccc4c0bc8a23fe178c0d0d0f87aa82"
+     },
+     "benchmark_ball_000_Rgh.jpg": {
+      "channel": "Roughness",
+      "file": "benchmark_ball_000_Rgh.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "0250e5e1a112cd8ea0e8508e12ac345affe8b3b8d80769e6622f3b822a66b2f2"
+     },
+     "benchmark_ball_000_Met.jpg": {
+      "channel": "Metallic",
+      "file": "benchmark_ball_000_Met.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "d2971c5a2c0df327d35e7cc3ac75c24d0bfadeaaac3c1c163b1da07829331512"
+     },
+     "benchmark_ball_000_Nor.jpg": {
+      "channel": "Normal",
+      "file": "benchmark_ball_000_Nor.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "13797e0faa240bceba9e20f428929c6decc2f6429586380a5a95f71eed77673e"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/ball/benchmark_ball_002/Aligned.usd"
+   },
+   "ag_dbbbc73501ca": {
+    "id": "iros_drawer_cabinet_000",
+    "source": "objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "13f32e110a1fcafdcebd2b9c15d599bc471a12ecb9109f02783de3a2ac26fb8d",
+    "size_m": [
+     0.32931,
+     0.50974,
+     0.91
+    ],
+    "bound_images": {
+     "ChouTi_Alb.jpg": {
+      "channel": "Base Color",
+      "file": "ChouTi_Alb.jpg",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "4253b24c9d84749b99e315784f58ebd3a4f9df3eef299d4dbc091f8ace3a0c75"
+     },
+     "ChouTi_Rgh.jpg": {
+      "channel": "Roughness",
+      "file": "ChouTi_Rgh.jpg",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "751c751581da4b91d9f400719633c56f273f2c31ff8a59989f22f4e00dc44de7"
+     },
+     "ChouTi_Met.jpg": {
+      "channel": "Metallic",
+      "file": "ChouTi_Met.jpg",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "bf5c97d530678c32f9cfbb1133e2bac89c51cb295fa280271822bd6da65cc5d1"
+     },
+     "ChouTi_Nor.jpg": {
+      "channel": "Normal",
+      "file": "ChouTi_Nor.jpg",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "a1e70a10076483a1b2971a64f5b4152e209f9171d9a8abb3aeabe6ace2752c75"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd"
+   },
+   "er_whiteboard": {
+    "id": "benchmark_whiteboard_000",
+    "source": "objects/benchmark/whiteboard/benchmark_whiteboard_000/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "ed24bc254edae70020680c59d706db8ad634c70027c7a0d0a8c6cafd2c3ecce5",
+    "size_m": [
+     0.6016,
+     1.2744,
+     1.7396
+    ],
+    "bound_images": {
+     "benchmark_whiteboard_000_Alb.jpg": {
+      "channel": "Base Color",
+      "file": "benchmark_whiteboard_000_Alb.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "819989c6cd92fe2957011de790d879f831c44b5869fe01b8505e1ea4f3710b7d"
+     },
+     "benchmark_whiteboard_000_Rgh.jpg": {
+      "channel": "Roughness",
+      "file": "benchmark_whiteboard_000_Rgh.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "d8145ba86893278702ae53a8f5e0389421866d5e54d8f4a21adcb1a3b5715be1"
+     },
+     "benchmark_whiteboard_000_Met.jpg": {
+      "channel": "Metallic",
+      "file": "benchmark_whiteboard_000_Met.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "932fd271b40fb35a64066900ee9f44cd928b87aab2e122aae479cd82bc7f0012"
+     },
+     "benchmark_whiteboard_000_Nor.jpg": {
+      "channel": "Normal",
+      "file": "benchmark_whiteboard_000_Nor.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "4c318d7be82c40a8b96a13cd7454af89b11361de40e2297703a2c84746d48ded"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/whiteboard/benchmark_whiteboard_000/Aligned.usd"
+   },
+   "ag_25134749dd15": {
+    "id": "benchmark_shelf_008",
+    "source": "objects/benchmark/shelf/benchmark_shelf_008/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "d5479dce491a66709fc6e0c6b3ee1f5bdd729626371a259df2abf8920524e17b",
+    "size_m": [
+     0.32,
+     0.8,
+     1.6
+    ],
+    "bound_images": {
+     "benchmark_shelf_007_Alb_01.jpg": {
+      "channel": "Base Color",
+      "file": "benchmark_shelf_007_Alb_01.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "ae06b7a9d766529d98fd5b2ffa2c728bee929d99356aeaff90e40241759989c1"
+     },
+     "benchmark_shelf_007_Rgh.jpg": {
+      "channel": "Roughness",
+      "file": "benchmark_shelf_007_Rgh.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "b3d4ef6a3535fff4648acf301def3e0e0d103d8e08ec6182d8b0386243001beb"
+     },
+     "benchmark_shelf_007_Met.jpg": {
+      "channel": "Metallic",
+      "file": "benchmark_shelf_007_Met.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "7293d7102a0cc13ff7054ba4a35be3ce99adf7965bfeeab97b03ae055917d825"
+     },
+     "benchmark_shelf_007_Nor.jpg": {
+      "channel": "Normal",
+      "file": "benchmark_shelf_007_Nor.jpg",
+      "pixels": [
+       2048,
+       2048
+      ],
+      "sha256": "f8a27e62d21024bc442c16cdd97dbb1074a217079cc23c4c19d24172c7c0eec9"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/shelf/benchmark_shelf_008/Aligned.usd"
+   },
+   "ag_541d10647400": {
+    "id": "benchmark_balance_000",
+    "source": "objects/benchmark/balance/benchmark_balance_000/Aligned.usd",
+    "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+    "sha256": "c4cab616d299016d990a5ddfadb44cc34f08b7093b5a4a559fecbac0df7446f7",
+    "size_m": [
+     0.3274,
+     0.1274,
+     0.24166
+    ],
+    "bound_images": {
+     "benchmark_balance_000_Alb.jpg": {
+      "channel": "Base Color",
+      "file": "benchmark_balance_000_Alb.jpg",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "1bbf2a91ab4fbdaff02aecc2c00b87bff104b6d846e54a9cc142f0cb606148f8"
+     },
+     "benchmark_balance_000_Nor.jpg": {
+      "channel": "Normal",
+      "file": "benchmark_balance_000_Nor.jpg",
+      "pixels": [
+       4096,
+       4096
+      ],
+      "sha256": "3ce79f0952d9fa25c1fc4894a11df025677ed125f3e2a7fccffa96d4c116f4e1"
+     }
+    },
+    "provider": "Genie Sim",
+    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/balance/benchmark_balance_000/Aligned.usd"
    }
   },
-  "simulation": "MuJoCo",
-  "renderer": "Blender EEVEE Next and Cycles"
- },
- "encoded_video": {
-  "safe": "0970a8d6e632fb128ce4e332d3f812af3a8b60c8ad0dac4279fdcc92f78d08da",
-  "unsafe": "b83045a5d2d8fcfa136a6841d4afb876e714f1fc443769ab2a892b45ba725c46"
+  "unmatched_elements": [
+   {
+    "body": "balance",
+    "classification": "preserved_industrial_jig",
+    "genie_live_path": null,
+    "behavior_category": "digital_scale",
+    "reason": "Hinged 17 mm calibration tilt-pan (pan_pitch joint) with 17 contact seats; replacing the moving flat pan with a rigid tall scale housing would destroy the measured tipping kinematics."
+   }
+  ],
+  "physics_source": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/workcells/outputs/physics/factory-studies/runs/06_balance"
  }
 }

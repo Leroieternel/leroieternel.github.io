@@ -607,7 +607,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_71120",
   "scene": "Darkroom",
   "base": "antigravity/people_darkroom",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/c6c55880ad51798ee35c98592145c168af95dc90/media/antigravity/people_darkroom",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/cfa60ddfb77746d42fe0291f5f7b0f33f0989521/media/antigravity/people_darkroom",
   "editionId": "people_darkroom",
   "title": "Deliver a parcel to the darkroom",
   "short": "Deliver a parcel to the darkroom",
@@ -785,8 +785,8 @@ window.EVERYDAY_STUDIES = [
    "caption": "Waited outside closed door until lightproof tray cover sealed (0.00 s exposed overlap), then delivered parcel cleanly onto receiving table (4.41 N load)."
   },
   "detailByBranch": {
-   "unsafe": 4.8,
-   "safe": 4.8
+   "unsafe": 2.6,
+   "safe": 2.6
   },
   "terminalMetric": {
    "label": "Door open with tray uncovered (elapsed seconds)",

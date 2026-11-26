@@ -1,22 +1,101 @@
 {
  "task": "people_darkroom",
+ "family": "people",
+ "setting": "Darkroom",
+ "simulation": "MuJoCo",
+ "renderer": "Blender 4.5 EEVEE Next (headless)",
+ "suppressed_collision_proxies": [
+  "fixed_support/fixed_support",
+  "support/support"
+ ],
  "bindings": [
   {
-   "role": "parcel",
-   "replaced": true,
-   "model_id": "benchmark_carton_007",
+   "role": "Darkroom delivery parcel",
+   "source_body": "parcel",
    "native_key": "review_sealed_shipping_carton",
+   "model_id": "benchmark_carton_007",
+   "mode": "body_fit",
+   "replaced": true,
+   "notes": "Native Genie benchmark_carton_007 rigidly tracked to delivered parcel.",
    "original_objects": [
     "parcel_box",
     "parcel_label",
     "parcel_strap"
    ],
-   "source_body": "parcel",
    "scale_in_body_axes": [
-    0.4346442814816965,
-    0.48875856025269265,
-    0.42793821089679124
+    0.43464,
+    0.48876,
+    0.42794
+   ],
+   "aspect_distortion": 1.1421,
+   "target_extent_m": [
+    0.15,
+    0.11,
+    0.084
    ]
+  },
+  {
+   "role": "Darkroom sliding pocket door",
+   "source_body": "pocket_door",
+   "native_key": "er_door",
+   "model_id": "benchmark_door_000",
+   "mode": "door_leaf",
+   "replaced": false,
+   "notes": "Replaces box pocket door with native Genie benchmark_door_000 mounted to door_slide joint preserving performer hand clearance.",
+   "skipped_reason": "Measured aspect distortion or scale exceeded conservative bounds",
+   "measured_distortion": 2.232,
+   "measured_scale": [
+    0.4689,
+    1.0181,
+    1.0468
+   ]
+  },
+  {
+   "role": "darkroom_supply_cabinet",
+   "native_key": "ag_dbbbc73501ca",
+   "model_id": "iros_drawer_cabinet_000",
+   "xyz": [
+    -2.15,
+    2.05,
+    0.0
+   ],
+   "yaw_deg": -90.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.3621,
+   "placed": true,
+   "notes": "Vestibule supply cabinet clear of robot and door slide."
+  },
+  {
+   "role": "darkroom_shelf",
+   "native_key": "ag_25134749dd15",
+   "model_id": "benchmark_shelf_008",
+   "xyz": [
+    2.15,
+    2.05,
+    0.0
+   ],
+   "yaw_deg": -90.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.2556,
+   "placed": false,
+   "notes": "Darkroom archival shelving.",
+   "skipped_reason": "Clearance 0.256 m < required 0.350 m"
+  },
+  {
+   "role": "darkroom_bin",
+   "native_key": "ag_335191873f24",
+   "model_id": "benchmark_trash_can_000",
+   "xyz": [
+    -2.25,
+    1.2,
+    0.0
+   ],
+   "yaw_deg": 0.0,
+   "height_m": null,
+   "measured_clearance_to_dynamic_envelope_m": 0.0,
+   "placed": false,
+   "notes": "Vestibule bin.",
+   "skipped_reason": "Clearance 0.000 m < required 0.350 m"
   }
  ],
  "new_native_models": {
@@ -33,6 +112,7 @@
    "bound_images": {
     "benchmark_carton_007_Alb.jpg": {
      "channel": "Base Color",
+     "file": "benchmark_carton_007_Alb.jpg",
      "pixels": [
       2048,
       2048
@@ -41,6 +121,7 @@
     },
     "benchmark_carton_006_Rgh.jpg": {
      "channel": "Roughness",
+     "file": "benchmark_carton_006_Rgh.jpg",
      "pixels": [
       2048,
       2048
@@ -49,6 +130,7 @@
     },
     "benchmark_billiards_000_Met.jpg": {
      "channel": "Metallic",
+     "file": "benchmark_billiards_000_Met.jpg",
      "pixels": [
       2048,
       2048
@@ -57,6 +139,7 @@
     },
     "benchmark_popcorn_machine_Nor.jpg": {
      "channel": "Normal",
+     "file": "benchmark_popcorn_machine_Nor.jpg",
      "pixels": [
       2048,
       2048
@@ -66,15 +149,81 @@
    },
    "provider": "Genie Sim",
    "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/carton/benchmark_carton_007/Aligned.usd"
+  },
+  "ag_dbbbc73501ca": {
+   "id": "iros_drawer_cabinet_000",
+   "source": "objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd",
+   "revision": "34e5a838eaf4a1fa69d947c395bc8f44bc0cda56",
+   "sha256": "13f32e110a1fcafdcebd2b9c15d599bc471a12ecb9109f02783de3a2ac26fb8d",
+   "size_m": [
+    0.32931,
+    0.50974,
+    0.91
+   ],
+   "bound_images": {
+    "ChouTi_Alb.jpg": {
+     "channel": "Base Color",
+     "file": "ChouTi_Alb.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "4253b24c9d84749b99e315784f58ebd3a4f9df3eef299d4dbc091f8ace3a0c75"
+    },
+    "ChouTi_Rgh.jpg": {
+     "channel": "Roughness",
+     "file": "ChouTi_Rgh.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "751c751581da4b91d9f400719633c56f273f2c31ff8a59989f22f4e00dc44de7"
+    },
+    "ChouTi_Met.jpg": {
+     "channel": "Metallic",
+     "file": "ChouTi_Met.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "bf5c97d530678c32f9cfbb1133e2bac89c51cb295fa280271822bd6da65cc5d1"
+    },
+    "ChouTi_Nor.jpg": {
+     "channel": "Normal",
+     "file": "ChouTi_Nor.jpg",
+     "pixels": [
+      4096,
+      4096
+     ],
+     "sha256": "a1e70a10076483a1b2971a64f5b4152e209f9171d9a8abb3aeabe6ace2752c75"
+    }
+   },
+   "provider": "Genie Sim",
+   "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/iros/drawer_cabinet/iros_drawer_cabinet_000/Aligned.usd"
   }
  },
- "authoring": {
-  "industrial_rooms": {
-   "actual_model": "gemini-4-neon-high",
-   "source_sha256": "f16028c757b39cc6f5e01eaeef5d2aeb32e16f760ca6f68b6aee47e2708cd53a",
-   "brief_sha256": "4d9c73390e4303ee33a8dc51e03c9175f0e05bafc4340b286f3832f10d5e4f8e"
+ "unmatched_elements": [
+  {
+   "body": "staging_nest",
+   "classification": "preserved_industrial_jig",
+   "genie_live_path": null,
+   "behavior_category": null,
+   "reason": "Parcel staging nest bracket and deck on vestibule pass-through."
+  },
+  {
+   "body": "tray_cover",
+   "classification": "preserved_industrial_jig",
+   "genie_live_path": null,
+   "behavior_category": null,
+   "reason": "Sliding light-tight developing-tray cover (cover_slide joint)."
+  },
+  {
+   "body": "print_tongs",
+   "classification": "behavior_og_only",
+   "genie_live_path": null,
+   "behavior_category": "tongs",
+   "reason": "Darkroom print tongs; BEHAVIOR tongs applies in OmniGibson runtime only."
   }
- },
- "simulation": "MuJoCo",
- "renderer": "Blender EEVEE Next"
+ ],
+ "physics_source": "/home/mcxiangalds/github/DESPITE/outputs/antigravity_revision/environment_mesh_review/production/workcells/outputs/physics/people/02_darkroom"
 }
