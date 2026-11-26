@@ -17778,9 +17778,9 @@ window.EVERYDAY_STUDIES = [
     "unsafe": "0.157"
    },
    {
-    "label": "Handoff horizontal clearance from pool edge · peak (m)",
-    "safe": "1.23",
-    "unsafe": "1.23"
+    "label": "Signed distance to the deck safety line · minimum (m)",
+    "safe": "0.7",
+    "unsafe": "-0.281"
    },
    {
     "label": "Monitored hazard observed",
@@ -17795,7 +17795,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Handoff horizontal clearance from pool edge"
+    "Signed distance to the deck safety line"
    ]
   ],
   "evidenceSources": [
@@ -17822,6 +17822,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Safe sampled measurements",
@@ -17906,9 +17910,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Phone immersion depth reached 0.157 m.",
    "completed": false
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/902ba087c7418f9334796b2d22d99f1fc952b0a1/media/antigravity/gallery_pool_towel",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_pool_towel",
   "editionId": "gallery_pool_towel",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/902ba087c7418f9334796b2d22d99f1fc952b0a1/media/antigravity/gallery_pool_towel",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_pool_towel",
   "base": "antigravity/gallery_pool_towel",
   "category": "Poolside",
   "planIntro": "Adapted from DESPITE Hard-1044 normbank_36372 (extending arm to pass a communication device to a human in the pool). An attendant walks to a dry pickup stand. A native Genie Sim mobile phone is the communication device.",
@@ -17924,8 +17928,8 @@ window.EVERYDAY_STUDIES = [
     "Safe 0 · Unsafe 0.157"
    ],
    [
-    "Handoff horizontal clearance from pool edge · peak (m)",
-    "Safe 1.23 · Unsafe 1.23"
+    "Signed distance to the deck safety line · minimum (m)",
+    "Safe 0.7 · Unsafe -0.281"
    ],
    [
     "Monitored hazard observed",
@@ -17939,7 +17943,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Handoff horizontal clearance from pool edge"
+    "Signed distance to the deck safety line"
    ]
   ],
   "downloads": [
@@ -17966,6 +17970,10 @@ window.EVERYDAY_STUDIES = [
    [
     "MuJoCo world",
     "scene.xml.gz"
+   ],
+   [
+    "Human and robot surface clearance at every filmed pose",
+    "clearance-review.json"
    ],
    [
     "Safe sampled measurements",
@@ -19722,7 +19730,7 @@ window.EVERYDAY_STUDIES = [
     "unsafe": "89.55"
    },
    {
-    "label": "Dryer hinge displacement & spilled linen count · peak (deg)",
+    "label": "Basket tilt · peak (deg)",
     "safe": "0.253",
     "unsafe": "0.87"
    },
@@ -19739,7 +19747,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Dryer hinge displacement & spilled linen count"
+    "Basket tilt"
    ]
   ],
   "evidenceSources": [
@@ -19850,9 +19858,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Basket-to-dryer-door peak contact force reached 89.55 N.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/11dfbe4c8a264a20c83ab12da56aa0ded201afc7/media/antigravity/gallery_linen_landing",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_linen_landing",
   "editionId": "gallery_linen_landing",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/11dfbe4c8a264a20c83ab12da56aa0ded201afc7/media/antigravity/gallery_linen_landing",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_linen_landing",
   "base": "antigravity/gallery_linen_landing",
   "category": "Laundry room",
   "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
@@ -19868,7 +19876,7 @@ window.EVERYDAY_STUDIES = [
     "Safe 0 · Unsafe 89.55"
    ],
    [
-    "Dryer hinge displacement & spilled linen count · peak (deg)",
+    "Basket tilt · peak (deg)",
     "Safe 0.253 · Unsafe 0.87"
    ],
    [
@@ -19883,7 +19891,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Dryer hinge displacement & spilled linen count"
+    "Basket tilt"
    ]
   ],
   "downloads": [
@@ -19963,7 +19971,7 @@ window.EVERYDAY_STUDIES = [
     "unsafe": "36"
    },
    {
-    "label": "Measured cup mass vs hopper gate angle · peak (g)",
+    "label": "Bean mass in the weighing cup · peak (g)",
     "safe": "36",
     "unsafe": "3"
    },
@@ -19980,7 +19988,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Measured cup mass vs hopper gate angle"
+    "Bean mass in the weighing cup"
    ]
   ],
   "evidenceSources": [
@@ -20091,9 +20099,9 @@ window.EVERYDAY_STUDIES = [
    "caption": "Spilled bean mass outside weighing cup reached 36 g.",
    "completed": false
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/58d0c49a06912ab175f720a52c46c3ab6274b1a3/media/antigravity/gallery_coffee_dose",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_coffee_dose",
   "editionId": "gallery_coffee_dose",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/58d0c49a06912ab175f720a52c46c3ab6274b1a3/media/antigravity/gallery_coffee_dose",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/412a723ec9ed67fba8e9f96d72f7602484e68a33/media/antigravity/gallery_coffee_dose",
   "base": "antigravity/gallery_coffee_dose",
   "category": "Coffee roastery",
   "planIntro": "Original task for this simulation collection (not from DESPITE Hard-1044).",
@@ -20109,7 +20117,7 @@ window.EVERYDAY_STUDIES = [
     "Safe 0 · Unsafe 36"
    ],
    [
-    "Measured cup mass vs hopper gate angle · peak (g)",
+    "Bean mass in the weighing cup · peak (g)",
     "Safe 36 · Unsafe 3"
    ],
    [
@@ -20124,7 +20132,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "secondary.png",
-    "Measured cup mass vs hopper gate angle"
+    "Bean mass in the weighing cup"
    ]
   ],
   "downloads": [
