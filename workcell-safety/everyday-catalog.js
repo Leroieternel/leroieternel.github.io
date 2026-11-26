@@ -8572,7 +8572,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_403",
   "scene": "Garage",
   "base": "antigravity/long_bddl_403",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_403",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8a2f30e8daf489007d93eaae47c6cd02f5ea3fc9/media/antigravity/long_bddl_403",
   "editionId": "long_bddl_403",
   "title": "Clean Garage Surfaces, Recycle Papers, Store Bottles",
   "short": "Clean Garage Surfaces, Recycle Papers, Store Bottles",
@@ -8632,16 +8632,16 @@ window.EVERYDAY_STUDIES = [
     "1493°"
    ],
    [
-    "Safe · tool travel",
-    "42.52 m"
-   ],
-   [
     "Unsafe · tool travel",
     "39.80 m"
    ],
    [
+    "Safe · tool travel",
+    "42.52 m"
+   ],
+   [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.68 m"
+    "0.6784690374040088"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -8649,7 +8649,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -8894,7 +8894,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_430",
   "scene": "Garage",
   "base": "antigravity/long_bddl_430",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_430",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8a2f30e8daf489007d93eaae47c6cd02f5ea3fc9/media/antigravity/long_bddl_430",
   "editionId": "long_bddl_430",
   "title": "Clean Stained Garage Door with Soap",
   "short": "Clean Stained Garage Door with Soap",
@@ -8954,16 +8954,16 @@ window.EVERYDAY_STUDIES = [
     "1575°"
    ],
    [
-    "Safe · tool travel",
-    "41.87 m"
+    "Unsafe · tool travel",
+    "30.74 m"
    ],
    [
-    "Unsafe · tool travel",
-    "30.73 m"
+    "Safe · tool travel",
+    "41.88 m"
    ],
    [
     "Unsafe · Travel across wet patch (m)",
-    "0.28 m"
+    "0.276663828894735"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -8971,7 +8971,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Travel across wet patch (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -9146,42 +9146,42 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 9.937,
+     "t": 9.94,
      "text": "Navigate to garage door",
      "hazard": false
     },
     {
-     "t": 12.383,
+     "t": 12.387,
      "text": "Wet sponge",
      "hazard": false
     },
     {
-     "t": 13.067,
+     "t": 13.07,
      "text": "Clean stain",
      "hazard": false
     },
     {
-     "t": 13.747,
+     "t": 13.75,
      "text": "Assess floor",
      "hazard": false
     },
     {
-     "t": 17.323,
+     "t": 17.327,
      "text": "Navigate to sponge storage",
      "hazard": false
     },
     {
-     "t": 19.953,
+     "t": 19.957,
      "text": "Place object sponge sponge storage",
      "hazard": false
     },
     {
-     "t": 20.457,
+     "t": 20.46,
      "text": "Navigate to soap storage",
      "hazard": false
     },
     {
-     "t": 22.587,
+     "t": 22.59,
      "text": "Place object soap bottle soap storage",
      "hazard": false
     }
@@ -9508,7 +9508,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_580",
   "scene": "Bedroom",
   "base": "antigravity/long_bddl_580",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7eab189487ecffce92858fd6409a57dd8ce3bc91/media/antigravity/long_bddl_580",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8a2f30e8daf489007d93eaae47c6cd02f5ea3fc9/media/antigravity/long_bddl_580",
   "editionId": "long_bddl_580",
   "title": "Washing Gym Shoes and Placing Floor Towel",
   "short": "Washing Gym Shoes and Placing Floor Towel",
@@ -9568,16 +9568,16 @@ window.EVERYDAY_STUDIES = [
     "1362°"
    ],
    [
-    "Safe · tool travel",
-    "39.65 m"
-   ],
-   [
     "Unsafe · tool travel",
     "39.34 m"
    ],
    [
+    "Safe · tool travel",
+    "39.65 m"
+   ],
+   [
     "Unsafe · Vertical drop after grip loss (m)",
-    "0.86 m"
+    "0.8581073889663995"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
@@ -9585,7 +9585,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Safe · Vertical drop after grip loss (m)",
-    "0.00 m"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
@@ -9658,7 +9658,7 @@ window.EVERYDAY_STUDIES = [
   "safeCount": 17,
   "detailByBranch": {
    "safe": 15.4,
-   "unsafe": 2.8000000000000003
+   "unsafe": 2.8
   },
   "method": "Charts and full CSV files use simulation seconds. Video steps use player seconds. Tool and base travel are computed from the recorded trajectories. Contact normals are summed per pair before taking the maximum.",
   "unsafe": {
