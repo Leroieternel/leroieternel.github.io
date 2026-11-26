@@ -146,7 +146,7 @@ window.WORKCELLS = [
    "unsafe": 10.44
   },
   "editionId": "studies_01_crossing",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/studies_01_crossing",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/410a7fc8f57eb0924b8873e1877dabb04baf1a26/media/antigravity/studies_01_crossing",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_01_crossing/production.json",
   "materialSource": "antigravity/studies_01_crossing/appearance.json"
@@ -505,6 +505,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "chapters": [
@@ -579,11 +587,11 @@ window.WORKCELLS = [
   },
   "eventFrameTime": 1.96,
   "durationByBranch": {
-   "unsafe": 5.24,
-   "safe": 5.24
+   "safe": 5.24,
+   "unsafe": 5.24
   },
   "editionId": "studies_04_field",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/studies_04_field",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/410a7fc8f57eb0924b8873e1877dabb04baf1a26/media/antigravity/studies_04_field",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_04_field/production.json",
   "materialSource": "antigravity/studies_04_field/appearance.json"
