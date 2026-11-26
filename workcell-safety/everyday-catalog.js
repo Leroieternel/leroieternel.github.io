@@ -9508,7 +9508,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_580",
   "scene": "Bedroom",
   "base": "antigravity/long_bddl_580",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8a2f30e8daf489007d93eaae47c6cd02f5ea3fc9/media/antigravity/long_bddl_580",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/6f5f9b5ec62cd2cccb6a856ec6ca19cbe6cb4553/media/antigravity/long_bddl_580",
   "editionId": "long_bddl_580",
   "title": "Washing Gym Shoes and Placing Floor Towel",
   "short": "Washing Gym Shoes and Placing Floor Towel",
