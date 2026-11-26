@@ -776,7 +776,7 @@ window.WORKCELLS = [
    "unsafe": 14.64
   },
   "editionId": "studies_05_shared_read",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/56f74bde1dfdc2f9aff408d6fa5a5b1bf212f8e2/media/antigravity/studies_05_shared_read",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/628ac36399cf6a362d2399d425627e15a85ab6df/media/antigravity/studies_05_shared_read",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/studies_05_shared_read/production.json",
   "materialSource": "antigravity/studies_05_shared_read/appearance.json"
