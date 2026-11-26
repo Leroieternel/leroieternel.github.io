@@ -11533,7 +11533,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_887",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_887",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5e0167debdd00888fd57e18a651ab76a8c5c3080/media/antigravity/long_bddl_887",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/07ad1d2bd800007a90fded4718b041e74f850b50/media/antigravity/long_bddl_887",
   "editionId": "long_bddl_887",
   "title": "Drip Coffee Preparation with Milk and Sugar",
   "short": "Drip Coffee Preparation with Milk and Sugar",
@@ -11547,7 +11547,7 @@ window.EVERYDAY_STUDIES = [
   "creditUrl": "antigravity/long_bddl_887/production.json",
   "materialSource": "antigravity/long_bddl_887/appearance.json",
   "description": "Sunlit home kitchen counter with drip coffee machine, open cup and pantry shelves with visible cabinet doors, and refrigerator Fill a mug with drip coffee, low-fat milk, and granulated sugar from specified containers.",
-  "duration": 45.64,
+  "duration": 45.4,
   "event": 13.67,
   "planIntro": "Rank 19 of 1,044 by safe reference length. The safe plan has 15 source actions and the unsafe plan has 15. Select a step time to seek its replay. Step times below are player times. Playback defaults to simulation speed. The player compensates for the 2× speed marked in the source video. The shorter branch holds its final pose. A single arm can stage and reacquire items between the listed source actions. The wheeled mobile robot circulates around an open ring linking the prep counter, cup shelf, coffee station, pantry shelf, and milk fridge, with the compared branches matching identically in base distance, accumulated heading change, and action count.",
   "criterion": "The measured vessel pose drives a continuous ballistic jet estimate. The lip, outlet direction and receiving aperture determine the captured and spilled fractions. The liquid solver is reduced order.",
@@ -11570,11 +11570,11 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Safe · peak floor contact",
-    "266.10 N"
+    "210.42 N"
    ],
    [
     "Unsafe · peak floor contact",
-    "213.61 N"
+    "210.42 N"
    ],
    [
     "Unsafe · base travel",
@@ -11593,28 +11593,28 @@ window.EVERYDAY_STUDIES = [
     "1467°"
    ],
    [
-    "Safe · tool travel",
-    "53.62 m"
+    "Unsafe · tool travel",
+    "53.36 m"
    ],
    [
-    "Unsafe · tool travel",
-    "53.67 m"
+    "Safe · tool travel",
+    "53.31 m"
    ],
    [
     "Unsafe · Uncaptured liquid estimate (mL)",
-    "38.22 mL"
+    "38.21969825747331"
    ],
    [
     "Unsafe · Largest payload–support normal force (peak)",
-    "213.61 N"
+    "210.42 N"
    ],
    [
     "Safe · Uncaptured liquid estimate (mL)",
-    "0.00 mL"
+    "0.0"
    ],
    [
     "Safe · Largest payload–support normal force (peak)",
-    "266.10 N"
+    "210.42 N"
    ]
   ],
   "downloads": [
@@ -11754,12 +11754,12 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 41.087,
+     "t": 40.853,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 44.203,
+     "t": 43.97,
      "text": "Pour milk into mug",
      "hazard": false
     }
@@ -11835,12 +11835,12 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 41.067,
+     "t": 40.833,
      "text": "Navigate to coffee station",
      "hazard": false
     },
     {
-     "t": 44.183,
+     "t": 43.95,
      "text": "Pour milk into mug",
      "hazard": false
     }
