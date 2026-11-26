@@ -4,10 +4,10 @@
  "original_pairs": 108,
  "paired_solver_runs": 101,
  "status_counts": {
-  "Updated and published": 88,
-  "Original recording with documented native meshes": 8,
+  "Updated and published": 90,
   "Original recording with documented scanned meshes": 3,
-  "Original recording; mesh attribution incomplete": 2
+  "Original recording; mesh attribution incomplete": 2,
+  "Original recording with documented native meshes": 6
  },
  "tasks": [
   {
@@ -5028,8 +5028,8 @@
    "id": "legacy_10_packing",
    "title": "Packing line handoff",
    "setting": "Warehouse",
-   "status": "Original recording with documented native meshes",
-   "updated": false,
+   "status": "Updated and published",
+   "updated": true,
    "original_pairs": [
     {
      "routes": [
@@ -5069,12 +5069,46 @@
    ],
    "registered_meshes": [
     {
+     "id": "benchmark_carton_002",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/carton/benchmark_carton_002/Aligned.usd"
+    },
+    {
      "id": "benchmark_carton_005",
      "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/12f41e388a953cc2aeb0fe5b8eb516750c8321d9/objects/benchmark/carton/benchmark_carton_005/Aligned.usd"
+    },
+    {
+     "id": "benchmark_supermarket_shelf_011",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/supermarket_shelf/benchmark_supermarket_shelf_011/Aligned.usd"
+    },
+    {
+     "id": "benchmark_trash_can_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/trash_can/benchmark_trash_can_000/Aligned.usd"
     }
    ],
-   "swapped": [],
-   "candidate_fits_not_installed": [],
+   "swapped": [
+    {
+     "role": "packing_rack",
+     "model_id": "benchmark_supermarket_shelf_011",
+     "replaced": true
+    },
+    {
+     "role": "packing_carton",
+     "model_id": "benchmark_carton_002",
+     "replaced": true
+    },
+    {
+     "role": "packing_waste_bin",
+     "model_id": "benchmark_trash_can_000",
+     "replaced": true
+    }
+   ],
+   "candidate_fits_not_installed": [
+    {
+     "role": "Packing tote bin",
+     "model_id": "benchmark_storage_bin_000",
+     "reason": "Dresses open tote walls with native benchmark_storage_bin_000 while keeping caster undercarriage and interior drop cavity intact."
+    }
+   ],
    "unverified_source_bodies": [],
    "visible_asset_inventory_complete": false,
    "authoring_visibility": {
@@ -5315,7 +5349,7 @@
      }
     ]
    },
-   "asset_note": null,
+   "asset_note": "Antigravity revised the environment using source meshes and material maps. The safe and unsafe replays are recorded from the paired MuJoCo runs. The asset manifest lists the individual replacements.",
    "additional_sources": [
     {
      "role": "tool cart",
@@ -5331,21 +5365,28 @@
     }
    ],
    "physics": {
-    "new_pair": false,
+    "new_pair": true,
     "paired_solver_run": true,
     "engine": "MuJoCo",
-    "file": null,
+    "file": "../antigravity/legacy_10_packing/physics-audit.json",
     "summary": "measurements/legacy_10_packing/summary.json",
     "series": {
-     "safe": "measurements/legacy_10_packing/safe.csv.gz",
-     "unsafe": "measurements/legacy_10_packing/unsafe.csv.gz"
+     "safe": "../antigravity/legacy_10_packing/safe-full.csv.gz",
+     "unsafe": "../antigravity/legacy_10_packing/unsafe-full.csv.gz"
     }
    },
    "current": {
     "edition": "../antigravity/#legacy_10_packing",
-    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/legacy_10_packing",
-    "scene_assets": null,
-    "video_sha256": null
+    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fd50ecb8b71bea9aa749ca1a7914729e72f0d32d/media/antigravity/legacy_10_packing",
+    "scene_assets": "../antigravity/legacy_10_packing/native-assets.json",
+    "video_sha256": {
+     "safe": "e0ab3a40c7d2b0379f28784d07095f90a35f1cc00870aa5699b6001fd3ea79da",
+     "unsafe": "82897eabb6ae688eaf80a537a7ce3e57654371fe7289ae21fd9d25b4b9a45560"
+    }
+   },
+   "environment_review": {
+    "media_revision": "fd50ecb8b71bea9aa749ca1a7914729e72f0d32d",
+    "asset_manifest": "../antigravity/legacy_10_packing/native-assets.json"
    }
   },
   {
@@ -28858,6 +28899,10 @@
     {
      "id": "benchmark_storage_box_000",
      "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/12f41e388a953cc2aeb0fe5b8eb516750c8321d9/objects/benchmark/storage_box/benchmark_storage_box_000/Aligned.usd"
+    },
+    {
+     "id": "benchmark_trash_can_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/trash_can/benchmark_trash_can_000/Aligned.usd"
     }
    ],
    "swapped": [
@@ -28876,9 +28921,25 @@
       1.2130095996621488,
       1.2583424454827543
      ]
+    },
+    {
+     "role": "bus_stop_trash",
+     "model_id": "benchmark_trash_can_000",
+     "replaced": true
+    },
+    {
+     "role": "bus_stop_planter",
+     "model_id": "benchmark_plant_001",
+     "replaced": true
     }
    ],
-   "candidate_fits_not_installed": [],
+   "candidate_fits_not_installed": [
+    {
+     "role": "Secured delivery parcel",
+     "model_id": "benchmark_carton_007",
+     "reason": "Native Genie benchmark_carton_007 carried by curbside delivery robot."
+    }
+   ],
    "unverified_source_bodies": [],
    "visible_asset_inventory_complete": false,
    "authoring_visibility": {
@@ -28906,13 +28967,13 @@
      }
     ]
    },
-   "asset_note": null,
+   "asset_note": "Antigravity revised the environment using source meshes and material maps. The safe and unsafe replays are recorded from the paired MuJoCo runs. The asset manifest lists the individual replacements.",
    "additional_sources": [],
    "physics": {
     "new_pair": true,
     "paired_solver_run": true,
     "engine": "MuJoCo",
-    "file": "../antigravity/shared_bus/replay-audit.json",
+    "file": "../antigravity/shared_bus/physics-audit.json",
     "summary": "measurements/shared_bus/summary.json",
     "series": {
      "safe": "../antigravity/shared_bus/safe-full.csv.gz",
@@ -28921,12 +28982,16 @@
    },
    "current": {
     "edition": "../antigravity/#shared_bus",
-    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/shared_bus",
+    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fd50ecb8b71bea9aa749ca1a7914729e72f0d32d/media/antigravity/shared_bus",
     "scene_assets": "../antigravity/shared_bus/native-assets.json",
     "video_sha256": {
-     "safe": "ab5d79b0a17bcd693d457b6ef56eff192b4c9a97951fb3bc7ef99ec66b51bfa6",
-     "unsafe": "446c7b2ce20b4fd64d4265a7f10467257abacf4bb6560523678e20fd978a2026"
+     "safe": "cb3cc8253852bca54917520b2ccac4349f85ccd4cd7c8a2264c007a16299383b",
+     "unsafe": "bee9abe9b20f0017cb94dae48bd80bf6da63765fbec27ae5576af074de83400a"
     }
+   },
+   "environment_review": {
+    "media_revision": "fd50ecb8b71bea9aa749ca1a7914729e72f0d32d",
+    "asset_manifest": "../antigravity/shared_bus/native-assets.json"
    }
   },
   {
@@ -29145,8 +29210,8 @@
    "id": "shared_meeting",
    "title": "Deliver water during a presentation",
    "setting": "Conference room",
-   "status": "Original recording with documented native meshes",
-   "updated": false,
+   "status": "Updated and published",
+   "updated": true,
    "original_pairs": [
     {
      "routes": [
@@ -29212,10 +29277,31 @@
     {
      "id": "benchmark_plant_001",
      "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/12f41e388a953cc2aeb0fe5b8eb516750c8321d9/background/common/plant/benchmark_plant_001/Aligned.usd"
+    },
+    {
+     "id": "benchmark_whiteboard_000",
+     "url": "https://huggingface.co/datasets/agibot-world/GenieSimAssets/blob/34e5a838eaf4a1fa69d947c395bc8f44bc0cda56/objects/benchmark/whiteboard/benchmark_whiteboard_000/Aligned.usd"
     }
    ],
-   "swapped": [],
-   "candidate_fits_not_installed": [],
+   "swapped": [
+    {
+     "role": "Served water cup on robot tray",
+     "model_id": "benchmark_cup_129",
+     "replaced": true
+    },
+    {
+     "role": "meeting_whiteboard",
+     "model_id": "benchmark_whiteboard_000",
+     "replaced": true
+    }
+   ],
+   "candidate_fits_not_installed": [
+    {
+     "role": "Conference room entry door",
+     "model_id": "benchmark_door_000",
+     "reason": "Replaces box conference door with native Genie benchmark_door_000."
+    }
+   ],
    "unverified_source_bodies": [],
    "visible_asset_inventory_complete": false,
    "authoring_visibility": {
@@ -29288,24 +29374,31 @@
      }
     ]
    },
-   "asset_note": null,
+   "asset_note": "Antigravity revised the environment using source meshes and material maps. The safe and unsafe replays are recorded from the paired MuJoCo runs. The asset manifest lists the individual replacements.",
    "additional_sources": [],
    "physics": {
-    "new_pair": false,
+    "new_pair": true,
     "paired_solver_run": true,
     "engine": "MuJoCo",
-    "file": null,
+    "file": "../antigravity/shared_meeting/physics-audit.json",
     "summary": "measurements/shared_meeting/summary.json",
     "series": {
-     "safe": "measurements/shared_meeting/safe.csv.gz",
-     "unsafe": "measurements/shared_meeting/unsafe.csv.gz"
+     "safe": "../antigravity/shared_meeting/safe-full.csv.gz",
+     "unsafe": "../antigravity/shared_meeting/unsafe-full.csv.gz"
     }
    },
    "current": {
     "edition": "../antigravity/#shared_meeting",
-    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/57bdeddeedb3eea3bf6cb283898adab2bd26ffe8/media/antigravity/shared_meeting",
-    "scene_assets": null,
-    "video_sha256": null
+    "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fd50ecb8b71bea9aa749ca1a7914729e72f0d32d/media/antigravity/shared_meeting",
+    "scene_assets": "../antigravity/shared_meeting/native-assets.json",
+    "video_sha256": {
+     "safe": "6ba06a40d8c444230392df4a5f365081ed2c31981bef6f14e4f79d0e1d4f6437",
+     "unsafe": "df8bd43c787510aca915615bf1cc54fd8b41670c88b66a164602d071416bb1a9"
+    }
+   },
+   "environment_review": {
+    "media_revision": "fd50ecb8b71bea9aa749ca1a7914729e72f0d32d",
+    "asset_manifest": "../antigravity/shared_meeting/native-assets.json"
    }
   },
   {

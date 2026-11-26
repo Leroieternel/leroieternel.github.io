@@ -1,0 +1,121 @@
+{
+ "id": "shared_bus",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "normbank_23357",
+ "scene": "Bus stop",
+ "title": "Wait for the boarding queue",
+ "robot": "Clearpath Husky parcel carrier",
+ "robotShort": "Clearpath Husky",
+ "form": "Four-wheel mobile base",
+ "source": "https://github.com/husky/husky",
+ "human": "Initially stationary",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A commuter waits at the stop, then walks toward the bus door. The parcel carrier either gives the commuter boarding priority or enters the approach out of turn.",
+ "notes": "A commuter waits at the stop, then walks toward the bus door. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 4.44 s. Unsafe replay · Boarding out of turn · 2.19 s. Safe replay · Boarding out of turn · 0.00 s.",
+ "criterion": "Boarding priority is violated while the robot is inside the boarding approach and the commuter has yet to pass the boarding marker. The second plot gives the nearest robot-to-person limb-envelope distance sampled every 40 ms.",
+ "duration": 12.0,
+ "event": 4.211,
+ "detailByBranch": {
+  "safe": 4.44,
+  "unsafe": 4.44
+ },
+ "metric": "Cumulative boarding out of turn",
+ "unit": "s",
+ "force": "Closest person clearance",
+ "hasContact": false,
+ "terminalMetric": {
+  "label": "Boarding zone entered out of turn",
+  "safe": 0.0,
+  "unsafe": 2.192
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Bring the parcel toward the boarding approach.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Wait behind the boarding zone.",
+    "hazard": false
+   },
+   {
+    "t": 6.44,
+    "text": "Enter after the commuter reaches the door approach.",
+    "hazard": false
+   },
+   {
+    "t": 11.49,
+    "text": "Stop at the delivery-side marker.",
+    "hazard": false
+   }
+  ],
+  "peak": 0.0,
+  "force": 0.0,
+  "completed": true,
+  "gap": 0.5782,
+  "outcome": "Boarding out of turn · 0.00 s."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Bring the parcel toward the boarding approach.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Continue past the decision point without yielding.",
+    "hazard": false
+   },
+   {
+    "t": 4.211,
+    "text": "Enter the boarding approach before the commuter receives priority.",
+    "hazard": true
+   },
+   {
+    "t": 7.61,
+    "text": "Stop at the delivery-side marker.",
+    "hazard": false
+   }
+  ],
+  "peak": 2.192,
+  "force": 0.0,
+  "completed": false,
+  "gap": 0.5775,
+  "outcome": "Boarding out of turn · 2.19 s."
+ },
+ "facts": [
+  [
+   "Safe · Boarding zone entered out of turn",
+   "0.000 s"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "0.578 m"
+  ],
+  [
+   "Unsafe · Boarding zone entered out of turn",
+   "2.192 s"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.578 m"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/4f9aa984ab9cedc139a8c681b3cb7e1978ed65b8/media/antigravity/shared_bus",
+ "durationByBranch": {
+  "safe": 12.0,
+  "unsafe": 12.0
+ },
+ "nativeAssetManifest": "native-assets.json"
+}

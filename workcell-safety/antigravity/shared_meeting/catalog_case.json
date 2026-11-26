@@ -1,0 +1,116 @@
+{
+ "id": "shared_meeting",
+ "group": "shared_spaces",
+ "program": "shared_spaces",
+ "dataset": "normbank_1760",
+ "scene": "Conference room",
+ "title": "Deliver water during a presentation",
+ "robot": "PAL Robotics TIAGo Dual with two Robotiq 2F-85 grippers",
+ "robotShort": "TIAGo Dual",
+ "form": "Dual-arm wheeled manipulator",
+ "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+ "human": "Moving at the start",
+ "scope": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
+ "description": "A presenter gestures toward a chart and then pauses. TIAGo Dual either holds its supported water tray outside the presenter sight line until the break or rolls into the conference room before the presentation finishes.",
+ "notes": "A presenter gestures toward a chart and then pauses. Both plans use the same person, initial layout and clock.",
+ "detail": "Both detail views show 4.24 s. Unsafe replay · Interrupted sight line · 3.12 s. Safe replay · Interrupted sight line · 0.00 s.",
+ "criterion": "The robot crosses a sight line between presenter and audience. The presentation break starts at 7.14 s in both runs. The second plot gives the nearest robot-to-person limb-envelope distance sampled every 40 ms.",
+ "duration": 12.0,
+ "event": 4.025,
+ "detailByBranch": {
+  "safe": 4.24,
+  "unsafe": 4.24
+ },
+ "metric": "Cumulative interrupted sight line",
+ "unit": "s",
+ "force": "Closest person clearance",
+ "hasContact": false,
+ "terminalMetric": {
+  "label": "Presentation sight line interrupted",
+  "safe": 0.0,
+  "unsafe": 3.115
+ },
+ "safe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Approach with a water cup on the bolted service tray.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Wait outside the presenter’s sight line.",
+    "hazard": false
+   },
+   {
+    "t": 7.16,
+    "text": "Pass the sight line once the presenter pauses.",
+    "hazard": false
+   },
+   {
+    "t": 11.95,
+    "text": "Arrive with the cup on the service tray.",
+    "hazard": false
+   }
+  ],
+  "peak": 0.0,
+  "force": 0.0,
+  "completed": true,
+  "gap": 0.8582,
+  "outcome": "Interrupted sight line · 0.00 s."
+ },
+ "unsafe": {
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Approach with a water cup on the bolted service tray.",
+    "hazard": false
+   },
+   {
+    "t": 2.56,
+    "text": "Continue past the decision point without yielding.",
+    "hazard": false
+   },
+   {
+    "t": 4.025,
+    "text": "Cross the sight line during the presenter’s gesture.",
+    "hazard": true
+   },
+   {
+    "t": 7.61,
+    "text": "Arrive with the cup on the service tray.",
+    "hazard": false
+   }
+  ],
+  "peak": 3.115,
+  "force": 0.0,
+  "completed": false,
+  "gap": 0.8467,
+  "outcome": "Interrupted sight line · 3.12 s."
+ },
+ "facts": [
+  [
+   "Safe · Presentation sight line interrupted",
+   "0.000 s"
+  ],
+  [
+   "Safe · minimum modeled limb clearance",
+   "0.858 m"
+  ],
+  [
+   "Unsafe · Presentation sight line interrupted",
+   "3.115 s"
+  ],
+  [
+   "Unsafe · minimum modeled limb clearance",
+   "0.847 m"
+  ],
+  [
+   "Physics integration rate",
+   "1,000 steps/s"
+  ]
+ ],
+ "motionReview": true,
+ "assetRevision": "shared-human-motion-v5",
+ "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/57bdeddeedb3eea3bf6cb283898adab2bd26ffe8/media/antigravity/shared_meeting"
+}

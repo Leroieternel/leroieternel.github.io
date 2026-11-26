@@ -1746,6 +1746,14 @@ window.WORKCELLS = [
    [
     "Materials used",
     "appearance.json"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
+   ],
+   [
+    "MuJoCo model for this recording",
+    "scene.xml.gz"
    ]
   ],
   "unsafe": {
@@ -1821,11 +1829,11 @@ window.WORKCELLS = [
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
   "eventFrameTime": 2.72,
   "durationByBranch": {
-   "unsafe": 19.04,
-   "safe": 19.04
+   "safe": 19.04,
+   "unsafe": 19.04
   },
   "editionId": "legacy_10_packing",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/legacy_10_packing",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fd50ecb8b71bea9aa749ca1a7914729e72f0d32d/media/antigravity/legacy_10_packing",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "../antigravity/legacy_10_packing/production.json",
   "materialSource": "../antigravity/legacy_10_packing/appearance.json",
