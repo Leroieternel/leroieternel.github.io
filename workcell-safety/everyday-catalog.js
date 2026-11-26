@@ -10195,7 +10195,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "bddl_761",
   "scene": "Kitchen",
   "base": "antigravity/long_bddl_761",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/0d8aeb26ba2f55a48e2d08fdafedb2f66546745a/media/antigravity/long_bddl_761",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/7d7a1376ce484cce997900c36c9e020a8c3e9cab/media/antigravity/long_bddl_761",
   "editionId": "long_bddl_761",
   "title": "Seasoning and Baking Refrigerated Kale in Oven",
   "short": "Seasoning and Baking Refrigerated Kale in Oven",
