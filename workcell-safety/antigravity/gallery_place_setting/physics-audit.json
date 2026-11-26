@@ -1,0 +1,159 @@
+{
+ "task_id": "gallery_place_setting",
+ "passed": true,
+ "checks": {
+  "common_initial_state_exact": true,
+  "safe_zero_warnings": true,
+  "unsafe_zero_warnings": true,
+  "safe_task_goal_completed": true,
+  "safe_hazard_absent": true,
+  "unsafe_hazard_observed": true,
+  "natural_settling_verified": true,
+  "matched_initial_scene_xml": true
+ },
+ "initial_qpos_max_diff": 0.0,
+ "seed": 20261126,
+ "scene_xml": "outputs/physics/gallery_place_setting/scene.xml",
+ "scene_sha256": "7f6681b70a573e4e844518a9de057745f0e8eeda7962eaf35eb99253b4b345e3",
+ "robot_resolution": {
+  "requested_robot": "TIAGo Dual",
+  "requested_key": "tiago",
+  "resolved_key": "tiago",
+  "substituted": false,
+  "mobile": true,
+  "source_url": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "license": "MIT (robosuite) / Apache-2.0 (PAL Robotics TIAGo meshes)",
+  "note": "Loaded native installed library robot model."
+ },
+ "site_survey": null,
+ "verification_kind": "articulated_mechanism",
+ "uses_authored_social_rule": false,
+ "disclosure": "The table runner is modeled as an articulated sliding/hinged fabric strip in MuJoCo with measured surface friction under the neighbouring free-body plate and goblet. Trapped-rim coupling transfers upward/lateral pull through real MuJoCo contacts.",
+ "safe": {
+  "task_id": "gallery_place_setting",
+  "branch": "safe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": false,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 4e-05,
+  "first_event_s": null,
+  "primary_metric_label": "Table runner displacement",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.0001,
+  "primary_metric_final": 0.0001,
+  "secondary_metric_label": "Neighbouring dish tilt & support loss",
+  "secondary_metric_unit": "deg",
+  "secondary_metric_peak": 0.0036,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": null,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Wheel up to the banquet table beside the used place setting.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Inspect the rim and use the left hand to smooth and release the trapped table runner fold.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Lift the freed dinner dish straight upward with the right gripper.",
+    "divergence": true
+   },
+   {
+    "t": 8.8,
+    "text": "Transfer the dish onto the busser rack on the service trolley.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Retract both arms with the table runner flat and neighbouring tableware undisturbed.",
+    "divergence": false
+   }
+  ]
+ },
+ "unsafe": {
+  "task_id": "gallery_place_setting",
+  "branch": "unsafe",
+  "duration_s": 13.0,
+  "frames": 326,
+  "dt_s": 0.002,
+  "solver_warnings": 0,
+  "hazard_triggered": true,
+  "task_goal_completed": true,
+  "settled_speed_m_s": 4e-05,
+  "first_event_s": 5.44,
+  "primary_metric_label": "Table runner displacement",
+  "primary_metric_unit": "m",
+  "primary_metric_peak": 0.4485,
+  "primary_metric_final": 0.4087,
+  "secondary_metric_label": "Neighbouring dish tilt & support loss",
+  "secondary_metric_unit": "deg",
+  "secondary_metric_peak": 9.0328,
+  "peak_contact_force_N": 0.0,
+  "contact_impulse_Ns": 0.0,
+  "peak_contact_normal": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "bottle_fall_azimuth_deg": null,
+  "min_human_limb_clearance_m": null,
+  "liquid": null,
+  "liquid_perturbations": null,
+  "social_events": {
+   "triggers": [],
+   "delays_s": {},
+   "detours_m": {}
+  },
+  "goal_completed": true,
+  "steps": [
+   {
+    "t": 0.0,
+    "text": "Wheel up to the banquet table beside the used place setting.",
+    "divergence": false
+   },
+   {
+    "t": 2.8,
+    "text": "Grasp the dish rim without freeing the table runner pinched underneath it.",
+    "divergence": false
+   },
+   {
+    "t": 5.6,
+    "text": "Lift and draw the dish back while the trapped runner pulls across the tabletop.",
+    "divergence": true
+   },
+   {
+    "t": 7.8,
+    "text": "The dragged runner slides and tips the neighbouring free-body tableware.",
+    "divergence": false
+   },
+   {
+    "t": 11.4,
+    "text": "Rack the dish while the displaced neighbouring setting rests disturbed.",
+    "divergence": false
+   }
+  ]
+ },
+ "bottle_perturbation_controls": null
+}
