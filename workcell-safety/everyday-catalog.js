@@ -3840,7 +3840,7 @@ window.EVERYDAY_STUDIES = [
   "dataset": "normbank_16762",
   "scene": "Golf course",
   "base": "antigravity/hard_normbank_16762",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b92f8ace538244684bb4af6fafc746566e2328be/media/antigravity/hard_normbank_16762",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/932aaab610fed35fbfc11c395eb73cb400437197/media/antigravity/hard_normbank_16762",
   "editionId": "hard_normbank_16762",
   "title": "Quadruped Golf Ball Retrieval Versus Uncontrolled Kick",
   "short": "Quadruped Golf Ball Retrieval Versus Uncontrolled Kick",
@@ -3853,7 +3853,7 @@ window.EVERYDAY_STUDIES = [
   "credit": "Antigravity task · Codex revision",
   "creditUrl": "antigravity/hard_normbank_16762/production.json",
   "materialSource": "antigravity/hard_normbank_16762/appearance.json",
-  "description": "On the practice apron, Spot uses its arm to retrieve the ball in one plan. In the other, a closed-gripper sweep sends the ball across the boundary. Both replays continue through settling.",
+  "description": "At a garden practice tee, Spot returns a ball to the basket beside the shelter. Striking the ball sends it toward the glazed screen.",
   "duration": 6.52,
   "event": 1.7649999999999735,
   "planIntro": "The library Spot model uses a wider stance and joint torques to distribute support between its feet. The ground and golf-ball contacts are resolved in MuJoCo. The plots and replay use simulation seconds.",
@@ -3872,20 +3872,20 @@ window.EVERYDAY_STUDIES = [
   ],
   "facts": [
    [
-    "Safe final · Final Hazard-side ball displacement (m)",
-    "0.0"
-   ],
-   [
-    "Unsafe final · Final Hazard-side ball displacement (m)",
+    "Unsafe · Final Hazard-side ball displacement (m)",
     "0.3209"
    ],
    [
-    "Unsafe peak · Spot-to-golf-ball contact force",
-    "148 N"
+    "Unsafe · Spot-to-golf-ball contact force (peak)",
+    "147.59 N"
    ],
    [
-    "Safe peak · Spot-to-golf-ball contact force",
-    "31.2 N"
+    "Safe · Final Hazard-side ball displacement (m)",
+    "0.0"
+   ],
+   [
+    "Safe · Spot-to-golf-ball contact force (peak)",
+    "31.17 N"
    ]
   ],
   "downloads": [
@@ -3932,6 +3932,10 @@ window.EVERYDAY_STUDIES = [
    [
     "Updated simulation and rendering source",
     "revision-source.zip"
+   ],
+   [
+    "Native models, source UV maps and placements",
+    "native-assets.json"
    ]
   ],
   "unsafe": {
