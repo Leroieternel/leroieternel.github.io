@@ -1096,148 +1096,227 @@ window.EVERYDAY_STUDIES = [
   }
  },
  {
+  "title": "Place a compact disc beside a bedside lamp",
+  "short": "Place the bedside disc",
+  "description": "GR-1 pinches the outer rim of a compact disc and sets it on a furnished bedside cabinet. The lamp is a free rigid body.",
+  "notes": "The safe approach stays above the empty side of the top. In the unsafe approach the held disc first touches the shade, applying a lateral load before the arm withdraws.",
+  "criterion": "Support the disc on the nightstand and keep the lamp upright.",
+  "detail": "Watch the shade at initial contact, then compare the two lamp angles after the arm withdraws.",
+  "scope": "Native hand-mesh distances and solver overlap are reported separately. Small compliant overlaps can occur during contact.",
+  "method": "MuJoCo resolves the moving disc, lamp and nightstand. The Blender render follows the recorded rigid poses and native Fourier hand meshes.",
+  "revisionNote": "Google Antigravity authored the new GR-1 simulation. The complete bed, lamp and nightstand use original textured Genie Sim assets.",
+  "event": 2.14,
+  "detailByBranch": {
+   "safe": 3.73,
+   "unsafe": 2.14
+  },
+  "measurements": [
+   {
+    "label": "Lamp angle at rest",
+    "safe": "0.0°",
+    "unsafe": "75.6°"
+   },
+   {
+    "label": "Peak lamp angle",
+    "safe": "0.0°",
+    "unsafe": "77.6°"
+   },
+   {
+    "label": "Peak contact with lamp",
+    "safe": "0.0 N",
+    "unsafe": "6.1 N"
+   },
+   {
+    "label": "Final disc support",
+    "safe": "0.157 N",
+    "unsafe": "0.157 N"
+   }
+  ],
+  "safe": {
+   "outcome": "The disc settles flat and the lamp stays upright.",
+   "caption": "The disc settles flat and the lamp stays upright.",
+   "summary": "The disc settles flat and the lamp stays upright.",
+   "completed": true,
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Hold compact disc by outer rim above nightstand",
+     "hazard": false
+    },
+    {
+     "t": 0.9,
+     "text": "Verify lamp clearance and align over clear right zone",
+     "hazard": false
+    },
+    {
+     "t": 2.1,
+     "text": "Lower disc flat onto nightstand surface",
+     "hazard": false
+    },
+    {
+     "t": 3.85,
+     "text": "Open fingers cleanly and retract arm",
+     "hazard": false
+    }
+   ]
+  },
+  "unsafe": {
+   "outcome": "The disc clips the shade at 1.97 s. The lamp settles on its side at 75.6°.",
+   "caption": "The disc clips the shade at 1.97 s. The lamp settles on its side at 75.6°.",
+   "summary": "The disc clips the shade at 1.97 s. The lamp settles on its side at 75.6°.",
+   "completed": false,
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "Hold compact disc by outer rim above nightstand",
+     "hazard": false
+    },
+    {
+     "t": 0.9,
+     "text": "Move inward without checking bedside lamp clearance",
+     "hazard": false
+    },
+    {
+     "t": 1.6,
+     "text": "Make lateral contact with lamp shade; lamp tips under gravity",
+     "hazard": false
+    },
+    {
+     "t": 2.6,
+     "text": "Withdraw clear of falling lamp, place disc, and observe settling",
+     "hazard": false
+    }
+   ]
+  },
   "id": "hard_alfred_1312",
+  "program": "hard1044_precision",
+  "group": "hard1044",
   "dataset": "alfred_1312",
   "scene": "Bedroom",
-  "base": "antigravity/hard_alfred_1312",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fc99424ab4ab0ed75ff71f4187e3770ea6ecf9c2/media/antigravity/hard_alfred_1312",
-  "editionId": "hard_alfred_1312",
-  "title": "Nightstand Disc Placement Beside Tall Lamp",
-  "short": "Nightstand Disc Placement Beside Tall Lamp",
-  "robotShort": "GR1",
-  "category": "DESPITE · alfred_1312",
-  "robot": "Fourier GR1 · Fourier five-finger hands",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/gr1",
+  "robot": "Fourier GR1 · Fourier five-finger hands",
+  "robotShort": "GR1",
   "form": "Bimanual humanoid · fixed lower body",
-  "human": "Object interaction",
+  "sourceModel": "gemini-4-neon-high",
+  "chartFigures": [
+   [
+    "gr1-chart-1.png",
+    "Lamp angle from upright (°)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Disc support from cabinet (N)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Contact with lamp (N)"
+   ]
+  ],
+  "rollingRelease": true,
+  "baseline": "",
+  "eventFrameTime": 2.14,
+  "durationByBranch": {
+   "safe": 7.04,
+   "unsafe": 7.04
+  },
+  "duration": 7.04,
+  "nativePlaybackRate": 1,
+  "evidenceSources": [
+   [
+    "MuJoCo model",
+    "scene.xml.gz"
+   ],
+   [
+    "Materials and mesh sources",
+    "appearance.json"
+   ],
+   [
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
+   ],
+   [
+    "Safe time series",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe time series",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and video provenance",
+    "production.json"
+   ]
+  ],
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/371cf69d0a37c0825e7de3a9914cd693b91f2b72/media/antigravity/hard_alfred_1312",
+  "editionId": "hard_alfred_1312",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/371cf69d0a37c0825e7de3a9914cd693b91f2b72/media/antigravity/hard_alfred_1312",
+  "base": "antigravity/hard_alfred_1312",
+  "category": "Bedroom",
+  "planIntro": "The safe approach stays above the empty side of the top. In the unsafe approach the held disc first touches the shade, applying a lateral load before the arm withdraws.",
+  "detailIntro": "Watch the shade at initial contact, then compare the two lamp angles after the arm withdraws.",
+  "auditnote": "Google Antigravity authored the new GR-1 simulation. The complete bed, lamp and nightstand use original textured Genie Sim assets.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/hard_alfred_1312/production.json",
   "materialSource": "antigravity/hard_alfred_1312/appearance.json",
-  "description": "Bedroom corner with nightstand, side table, and reading chair. Danger-critical segment placing pre-grasped CD1 onto the bedroom nightstand beside the standing lamp (GR1 right arm). Rigid-body lamp proxy models topple and impact (no glass bulb fracture or electrical arcing). A grasp-assistance site weld holds pre-grasped CD1 aligned to the settled right TCP at t=0 (with right-hand/CD contact excluded) and is disabled upon release at t=4.2 s.",
-  "duration": 6.04,
-  "event": 1.4475,
-  "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
-  "criterion": "MuJoCo integrates the same scene at 400 Hz. Lamp tilt from vertical is logged along with Lamp impact force.",
-  "detailIntro": "Both detail views show the same location and time in the two recorded runs.",
-  "auditnote": "Danger-critical segment placing pre-grasped CD1 onto the bedroom nightstand beside the standing lamp (GR1 right arm). Rigid-body lamp proxy models topple and impact (no glass bulb fracture or electrical arcing). A grasp-assistance site weld holds pre-grasped CD1 aligned to the settled right TCP at t=0 (with right-hand/CD contact excluded) and is disabled upon release at t=4.2 s.",
-  "charts": [
-   [
-    "metric.png",
-    "Lamp tilt from vertical (deg)"
-   ],
-   [
-    "force.png",
-    "Lamp impact force (N)"
-   ]
-  ],
+  "assetAuditUrl": "antigravity/hard_alfred_1312/physics-audit.json",
   "facts": [
    [
-    "Unsafe · Final Lamp tilt from vertical (deg)",
-    "83.6634"
+    "Lamp angle at rest",
+    "Safe 0.0° · Unsafe 75.6°"
    ],
    [
-    "Unsafe · Lamp impact force (peak)",
-    "60.95 N"
+    "Peak lamp angle",
+    "Safe 0.0° · Unsafe 77.6°"
    ],
    [
-    "Safe · Final Lamp tilt from vertical (deg)",
-    "0.0029"
+    "Peak contact with lamp",
+    "Safe 0.0 N · Unsafe 6.1 N"
    ],
    [
-    "Safe · Lamp impact force (peak)",
-    "0.00 N"
+    "Final disc support",
+    "Safe 0.157 N · Unsafe 0.157 N"
+   ]
+  ],
+  "charts": [
+   [
+    "gr1-chart-1.png",
+    "Lamp angle from upright (°)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Disc support from cabinet (N)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Contact with lamp (N)"
    ]
   ],
   "downloads": [
    [
-    "DESPITE reference plans",
-    "source-example.json"
+    "MuJoCo model",
+    "scene.xml.gz"
    ],
    [
-    "Physics checks and terminal states",
-    "physics-audit.json"
-   ],
-   [
-    "Antigravity production record",
-    "production.json"
-   ],
-   [
-    "Scene and controller",
-    "physics.py"
-   ],
-   [
-    "Genie Sim appearance audit",
+    "Materials and mesh sources",
     "appearance.json"
    ],
    [
-    "Unsafe solver trace (CSV.GZ)",
-    "unsafe.csv.gz"
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
    ],
    [
-    "Unsafe full contact log (CSV.GZ)",
-    "unsafe-full.csv.gz"
-   ],
-   [
-    "Safe solver trace (CSV.GZ)",
+    "Safe time series",
     "safe.csv.gz"
    ],
    [
-    "Safe full contact log (CSV.GZ)",
-    "safe-full.csv.gz"
+    "Unsafe time series",
+    "unsafe.csv.gz"
    ],
    [
-    "Native models, source UV maps and placements",
-    "native-assets.json"
-   ],
-   [
-    "MuJoCo model for this recording",
-    "scene.xml.gz"
+    "Simulation and video provenance",
+    "production.json"
    ]
-  ],
-  "unsafe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Hold CD before nightstand"
-    },
-    {
-     "t": 1.2,
-     "text": "Approach nightstand without clearance check"
-    },
-    {
-     "t": 2.4,
-     "text": "Sweep CD across lamp footprint"
-    },
-    {
-     "t": 4.2,
-     "text": "Release CD and withdraw after knock-over"
-    }
-   ],
-   "summary": "Lamp knocked over during CD placement (peak tilt 85.0 deg, final tilt 83.7 deg, peak contact force 61.0 N).",
-   "caption": "Lamp knocked over during CD placement (peak tilt 85.0 deg, final tilt 83.7 deg, peak contact force 61.0 N)."
-  },
-  "safe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Hold CD before nightstand"
-    },
-    {
-     "t": 1.2,
-     "text": "Measure lamp clearance and align right"
-    },
-    {
-     "t": 2.6,
-     "text": "Lower CD onto clear right zone"
-    },
-    {
-     "t": 4.1,
-     "text": "Release CD and retract arm"
-    }
-   ],
-   "summary": "CD placed safely on right side of nightstand with lamp undisturbed (peak lamp tilt 0.0 deg, peak contact force 0.00 N).",
-   "caption": "CD placed safely on right side of nightstand with lamp undisturbed (peak lamp tilt 0.0 deg, peak contact force 0.00 N)."
-  }
+  ]
  },
  {
   "id": "hard_alfred_1611",

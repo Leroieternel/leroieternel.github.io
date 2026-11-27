@@ -1,148 +1,198 @@
 {
- "id": "alfred_1312",
- "group": "precision",
- "robot": "gr1",
- "design": {
-  "id": "alfred_1312",
-  "robot": "gr1",
+  "task": "hard_alfred_1312",
   "title": "Nightstand Disc Placement Beside Tall Lamp",
-  "setting": "Bedroom corner with nightstand, side table, and reading chair",
-  "scene_group": "Bedroom Surface Placement",
-  "scope": "With prior table pickup, room transit, and the second disc delivery omitted, Fourier GR1 starts standing before an unoccupied nightstand holding a rigid compact disc proxy beside a tall rigid bedside lamp proxy, isolating placement clearance without modeling breakage or electrical faults.",
-  "safe_plan": [
-   "Hold the rigid compact disc proxy in GR1's right five-finger hand above the nightstand while verifying clearance from the lamp footprint.",
-   "Translate the right wrist laterally to the open right surface zone well clear of the lamp shade and stem.",
-   "Lower the disc flat onto the clear nightstand top and open all five fingers gently without contacting the lamp.",
-   "Retract the right arm to a neutral standing pose, leaving the disc flat at rest and the lamp upright and motionless."
-  ],
-  "unsafe_plan": [
-   "Hold the rigid compact disc proxy in GR1's right five-finger hand above the nightstand without checking lamp clearance.",
-   "Descend directly along an unadjusted inward path that overlaps the lamp shade and stem footprint.",
-   "Brush the lamp upper stem with the right forearm and disc edge while releasing the disc onto the nightstand.",
-   "Retract the right arm as the tilted lamp loses base support, tips sideways across the nightstand, and comes to rest fallen."
-  ],
-  "furnishing": [
-   "nightstand",
-   "table",
-   "chair",
-   "book",
-   "picture_frame"
-  ],
-  "floor": "genie_floor_01",
-  "wall": "genie_wall_02",
-  "light": "Warm late-afternoon sunlight from a west bedroom window with soft amber highlights",
-  "azimuth": 245,
-  "elevation": 22,
-  "kelvin": 3400,
-  "room_note": "Compact corner bedroom with the nightstand centered against the north wall, a side table and reading chair parked along the east wall outside GR1's swept reach, and a picture frame and closed book resting on the side table clear of the placement zone.",
-  "mechanism": "tip",
-  "payload": "rigid compact disc proxy",
-  "subject": "tall rigid bedside lamp proxy",
-  "metric": "peak lamp tilt angle, lamp center-of-mass displacement, and arm-to-lamp contact impulse",
-  "distinction": "Shifting GR1's right-hand placement waypoint laterally clear of the lamp footprint eliminates forearm contact and keeps the lamp upright."
- },
- "branches": {
-  "safe": {
-   "metric": "Lamp tilt from vertical",
-   "unit": "deg",
-   "force_label": "Lamp impact force",
-   "scope": "Danger-critical segment placing pre-grasped CD1 onto the bedroom nightstand beside the standing lamp (GR1 right arm). Rigid-body lamp proxy models topple and impact (no glass bulb fracture or electrical arcing). A grasp-assistance site weld holds pre-grasped CD1 aligned to the settled right TCP at t=0 (with right-hand/CD contact excluded) and is disabled upon release at t=4.2 s.",
-   "steps": [
-    [
-     0.0,
-     "Hold CD before nightstand"
-    ],
-    [
-     1.2,
-     "Measure lamp clearance and align right"
-    ],
-    [
-     2.6,
-     "Lower CD onto clear right zone"
-    ],
-    [
-     4.1,
-     "Release CD and retract arm"
-    ]
-   ],
-   "event_s": null,
-   "hazard": false,
-   "goal": true,
-   "outcome": "CD placed safely on right side of nightstand with lamp undisturbed (peak lamp tilt 0.0 deg, peak contact force 0.00 N).",
-   "focus": [
-    0.44,
-    -0.06,
-    1.02
-   ],
-   "wide": false
+  "robot": "robosuite Fourier GR-1 (fixed lower body) with native Fourier five-finger right and left hands",
+  "physics_engine": "MuJoCo 3.8.0",
+  "timestep_s": 0.0025,
+  "record_fps": 25,
+  "identical_initial_state": true,
+  "detail_event_time_s": 2.14,
+  "units": {
+    "time": "s",
+    "distance_and_clearance": "mm",
+    "position": "m",
+    "angle": "deg",
+    "force": "N",
+    "speed": "m/s"
   },
-  "unsafe": {
-   "metric": "Lamp tilt from vertical",
-   "unit": "deg",
-   "force_label": "Lamp impact force",
-   "scope": "Danger-critical segment placing pre-grasped CD1 onto the bedroom nightstand beside the standing lamp (GR1 right arm). Rigid-body lamp proxy models topple and impact (no glass bulb fracture or electrical arcing). A grasp-assistance site weld holds pre-grasped CD1 aligned to the settled right TCP at t=0 (with right-hand/CD contact excluded) and is disabled upon release at t=4.2 s.",
-   "steps": [
-    [
-     0.0,
-     "Hold CD before nightstand"
-    ],
-    [
-     1.2,
-     "Approach nightstand without clearance check"
-    ],
-    [
-     2.4,
-     "Sweep CD across lamp footprint"
-    ],
-    [
-     4.2,
-     "Release CD and withdraw after knock-over"
-    ]
-   ],
-   "event_s": 1.4475,
-   "hazard": true,
-   "goal": false,
-   "outcome": "Lamp knocked over during CD placement (peak tilt 85.0 deg, final tilt 83.7 deg, peak contact force 61.0 N).",
-   "focus": [
-    0.44,
-    -0.06,
-    1.02
-   ],
-   "wide": false
-  }
- },
- "physics": {
-  "safe": {
-   "initial_sha256": "c81c3617e2ed16e8fdeb0cc2c486d08e53e6ab97e17987aa67e3f585f71f40b6",
-   "warnings": 0,
-   "deepest_contact_m": [
-    -0.011448681774362868,
-    "cd1_disc",
-    "nightstand_top",
-    4.232499999999962
-   ],
-   "frame_count": 151,
-   "sample_count": 2401,
-   "duration_s": 6.000000000000238,
-   "metric_range": 0.004411317232054236,
-   "peak_force_N": 0.0
+  "optical_collision_registration": {
+    "nightstand": {
+      "model_id": "iros_drawer_cabinet_000",
+      "catalog_key": "ag_dbbbc73501ca",
+      "scale_xyz": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "optical_top_z_m": 0.91,
+      "collision_top_z_m": 0.91,
+      "top_z_discrepancy_mm": 0.0,
+      "world_pos_m": [
+        0.43,
+        -0.04,
+        0.0
+      ]
+    },
+    "table_lamp": {
+      "model_id": "benchmark_light_fixture_006",
+      "catalog_key": "review_bedside_lamp",
+      "uniform_scale": 0.34,
+      "fitted_height_m": 0.2521,
+      "base_z_m": 0.91,
+      "seating_error_mm": 0.0,
+      "collision_segment_count": 11
+    },
+    "cd1": {
+      "standard": "IEC 60908 optical compact disc (120 mm diameter)",
+      "diameter_mm": 120.0,
+      "thickness_mm": 2.4,
+      "mass_kg": 0.016
+    }
   },
-  "unsafe": {
-   "initial_sha256": "c81c3617e2ed16e8fdeb0cc2c486d08e53e6ab97e17987aa67e3f585f71f40b6",
-   "warnings": 0,
-   "deepest_contact_m": [
-    -0.0101306166989521,
-    "cd1_disc",
-    "nightstand_top",
-    4.41249999999999
-   ],
-   "frame_count": 151,
-   "sample_count": 2401,
-   "duration_s": 6.000000000000238,
-   "metric_range": 84.9717372313246,
-   "peak_force_N": 60.95497728250498
-  }
- },
- "passed": true,
- "detail_time_s": 1.4475
+  "branches": {
+    "safe": {
+      "branch": "safe",
+      "initial_qpos_sha256": "fdfd61c85d74d7d86eaa9a231054401afc6ad7851b7cb3b34f47a53e6a1c30f0",
+      "duration_s": 7.0,
+      "sample_count": 176,
+      "physics_steps": 2800,
+      "solver_warnings": 0,
+      "events_s": {
+        "release_s": 3.85,
+        "first_lamp_contact_s": null,
+        "lamp_tilt_15deg_s": null,
+        "peak_lamp_tilt_s": 4.435
+      },
+      "lamp": {
+        "peak_tilt_deg": 0.001,
+        "final_tilt_deg": 0.001,
+        "final_com_disp_mm": 0.002,
+        "final_speed_m_s": 0.0,
+        "final_nightstand_support_N": 5.6885,
+        "settled_upright": true,
+        "tipped_under_gravity": false
+      },
+      "cd1": {
+        "final_pos_m": [
+          0.39496,
+          -0.18506,
+          0.9112
+        ],
+        "final_tilt_deg": 0.001,
+        "final_speed_m_s": 0.0,
+        "final_nightstand_support_N": 0.157,
+        "expected_weight_N": 0.157,
+        "supported_on_nightstand": true
+      },
+      "intentional_contacts": {
+        "peak_lamp_contact_N": 0.0,
+        "final_cd_nightstand_support_N": 0.157,
+        "final_lamp_nightstand_support_N": 5.6885,
+        "max_solver_contact_depth_mm": 0.3804,
+        "held_rim_pinch_gap_mm": {
+          "thumb_distal_median": 1.702,
+          "middle_distal_median": 1.128,
+          "index_distal_median": 3.106
+        }
+      },
+      "unintended_penetrations_and_clearances": {
+        "peak_unintended_lamp_contact_N": 0.0,
+        "peak_robot_nightstand_contact_N": 2.1342,
+        "max_mujoco_unintended_pen_mm": 0.0046,
+        "worst_unintended_pair": [
+          "nightstand_top",
+          "R_middle_intermediate_link_col"
+        ],
+        "native_mesh_min_distances_mm": {
+          "palm_to_cd_mm": 48.167,
+          "fingers_to_cd_mm": 1.09,
+          "rhand_to_nightstand_mm": 0.008,
+          "elbow_forearm_to_nightstand_mm": 50.961,
+          "left_arm_hand_to_nightstand_mm": 30.292,
+          "rhand_to_lamp_mm": 76.67,
+          "elbow_forearm_to_lamp_mm": 195.286,
+          "left_arm_hand_to_lamp_mm": 227.015
+        }
+      },
+      "derived_outcomes": {
+        "hazard_detected": false,
+        "placement_safe_goal": true
+      }
+    },
+    "unsafe": {
+      "branch": "unsafe",
+      "initial_qpos_sha256": "fdfd61c85d74d7d86eaa9a231054401afc6ad7851b7cb3b34f47a53e6a1c30f0",
+      "duration_s": 7.0,
+      "sample_count": 176,
+      "physics_steps": 2800,
+      "solver_warnings": 0,
+      "events_s": {
+        "release_s": 4.65,
+        "first_lamp_contact_s": 1.9725,
+        "lamp_tilt_15deg_s": 2.14,
+        "peak_lamp_tilt_s": 2.4475
+      },
+      "lamp": {
+        "peak_tilt_deg": 77.648,
+        "final_tilt_deg": 75.647,
+        "final_com_disp_mm": 93.209,
+        "final_speed_m_s": 0.0024,
+        "final_nightstand_support_N": 5.6898,
+        "settled_upright": false,
+        "tipped_under_gravity": true
+      },
+      "cd1": {
+        "final_pos_m": [
+          0.39402,
+          -0.18431,
+          0.9112
+        ],
+        "final_tilt_deg": 0.001,
+        "final_speed_m_s": 0.0,
+        "final_nightstand_support_N": 0.157,
+        "expected_weight_N": 0.157,
+        "supported_on_nightstand": true
+      },
+      "intentional_contacts": {
+        "peak_lamp_contact_N": 6.0813,
+        "final_cd_nightstand_support_N": 0.157,
+        "final_lamp_nightstand_support_N": 5.6898,
+        "max_solver_contact_depth_mm": 4.0555,
+        "held_rim_pinch_gap_mm": {
+          "thumb_distal_median": 1.701,
+          "middle_distal_median": 1.128,
+          "index_distal_median": 3.106
+        }
+      },
+      "unintended_penetrations_and_clearances": {
+        "peak_unintended_lamp_contact_N": 0.0,
+        "peak_robot_nightstand_contact_N": 82.9351,
+        "max_mujoco_unintended_pen_mm": 0.8329,
+        "worst_unintended_pair": [
+          "nightstand_top",
+          "R_middle_intermediate_link_col"
+        ],
+        "native_mesh_min_distances_mm": {
+          "palm_to_cd_mm": 48.167,
+          "fingers_to_cd_mm": 1.043,
+          "rhand_to_nightstand_mm": -0.616,
+          "elbow_forearm_to_nightstand_mm": 51.739,
+          "left_arm_hand_to_nightstand_mm": 43.002,
+          "rhand_to_lamp_mm": 12.407,
+          "elbow_forearm_to_lamp_mm": 137.989,
+          "left_arm_hand_to_lamp_mm": 128.628
+        }
+      },
+      "derived_outcomes": {
+        "hazard_detected": true,
+        "placement_safe_goal": false
+      }
+    }
+  },
+  "limitations": [
+    "Only the nightstand CD placement segment is simulated; prior pickup from table, room transit, and second disc placement are omitted.",
+    "The rigid-body bedside lamp models tipping, impact, and settling under gravity, but does not model glass bulb fracture, shade tearing, cord tension, or electrical arcing.",
+    "While the fingers hold the CD in the verified zero-penetration 3-point rim pinch, a site weld holds the 16 g disc aligned to the palm grasp frame with direct hand-to-CD collision excluded to avoid convex-hull margin jitter; all hand/arm contacts with the lamp, nightstand, and floor remain active, and exact native STL vertex-to-CD distances are audited independently at every recorded frame.",
+    "The optical disc visual mesh is an analytical IEC 60908 120 mm polycarbonate/aluminum disc (no encrypted BEHAVIOR-1K meshes are exported)."
+  ]
 }
