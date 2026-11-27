@@ -20576,8 +20576,8 @@ window.EVERYDAY_STUDIES = [
   "method": "Situated on surveyed traversable ground of Nova-Wanderland scene 1giQzzRD71Qih-D0Kg-107HJX1KjjKZx5 (Brick homes and crosswalk, Z-up metres), an independent full 3D reconstruction distinct from Site A.",
   "notes": "Both plans serve the same sidewalk table. The safe plan waits for the group to pass. In the unsafe plan, the base enters early and the group pauses.",
   "criterion": "Situated on surveyed traversable ground of Nova-Wanderland scene 1giQzzRD71Qih-D0Kg-107HJX1KjjKZx5 (Brick homes and crosswalk, Z-up metres), an independent full 3D reconstruction distinct from Site A.",
-  "detail": "The first close view shows the arm mount and rear load. The second shows the carton transferred to a table on the native concrete sidewalk.",
-  "revisionNote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
+  "detail": "The wide camera follows the full crossing and delivery from one position. The event photograph shows the robot and its load up close.",
+  "revisionNote": "Antigravity used Gemini 4 Neon High to revise the pedestrian and signal motion. MuJoCo recorded both plans. The main videos use a fixed camera throughout.",
   "duration": 21.04,
   "durationByBranch": {
    "safe": 21.04,
@@ -20592,8 +20592,8 @@ window.EVERYDAY_STUDIES = [
    },
    {
     "label": "Lower-leg to chassis clearance · minimum (m)",
-    "safe": "0.454",
-    "unsafe": "0.371"
+    "safe": "0.095",
+    "unsafe": "0.588"
    },
    {
     "label": "Monitored hazard observed",
@@ -20616,14 +20616,24 @@ window.EVERYDAY_STUDIES = [
     "unsafe": "0.417"
    },
    {
-    "label": "Opposed finger contact (s)",
-    "safe": "14.524",
-    "unsafe": "14.524"
+    "label": "Opposed gripper contact (s)",
+    "safe": "14.52",
+    "unsafe": "14.52"
    },
    {
-    "label": "Carton released on table (s)",
-    "safe": "19.104",
-    "unsafe": "19.104"
+    "label": "Release on support (s)",
+    "safe": "19.10",
+    "unsafe": "19.10"
+   },
+   {
+    "label": "Stationary frames with a swinging foot",
+    "safe": "0",
+    "unsafe": "0"
+   },
+   {
+    "label": "Frames with a dressed-person mesh intersection",
+    "safe": "0",
+    "unsafe": "0"
    }
   ],
   "chartFigures": [
@@ -20686,16 +20696,24 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ],
    [
-    "Robot model sources and grasp method",
+    "Robot models and grasp method",
     "robot-assembly.json"
    ],
    [
-    "Signed clearances for both recordings",
+    "Robot and object clearance in both films",
     "geometry-audit.json"
    ],
    [
-    "Previous and corrected recorded views",
-    "geometry-comparison.jpg"
+    "Safe at 2 to 3 seconds, previous and corrected recordings",
+    "sidewalk-walk.mp4"
+   ],
+   [
+    "Three matching instants in the Safe recording",
+    "sidewalk-frames.jpg"
+   ],
+   [
+    "Foot placement, dressed-body checks and camera setup",
+    "motion-audit.json"
    ]
   ],
   "safe": {
@@ -20736,9 +20754,9 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     }
    ],
-   "outcome": "The protected branch cleared the monitored hazard. Early crosswalk occupancy while pedestrians cross reached 0 s.",
-   "summary": "The protected branch cleared the monitored hazard. Early crosswalk occupancy while pedestrians cross reached 0 s.",
-   "caption": "Early crosswalk occupancy while pedestrians cross reached 0 s.",
+   "outcome": "The robot waited for the school group to pass, then delivered the carton.",
+   "summary": "The robot waited for the school group to pass, then delivered the carton.",
+   "caption": "The robot waited for the school group to pass, then delivered the carton.",
    "completed": true
   },
   "unsafe": {
@@ -20779,19 +20797,19 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 4 s.",
-   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 4 s.",
-   "caption": "Early crosswalk occupancy while pedestrians cross reached 4 s.",
+   "outcome": "The robot entered the protected approach at 3.80 s. The school group waited before continuing.",
+   "summary": "The robot entered the protected approach at 3.80 s. The school group waited before continuing.",
+   "caption": "The robot entered the protected approach at 3.80 s. The school group waited before continuing.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9faaf5c34cf9e2566170539aa116e62897509992/media/antigravity/gallery_school_crossing_b",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/886b30ee3a9ddfc6fee1be96639e2f06cbeb6d84/media/antigravity/gallery_school_crossing_b",
   "editionId": "gallery_school_crossing_b",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9faaf5c34cf9e2566170539aa116e62897509992/media/antigravity/gallery_school_crossing_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/886b30ee3a9ddfc6fee1be96639e2f06cbeb6d84/media/antigravity/gallery_school_crossing_b",
   "base": "antigravity/gallery_school_crossing_b",
   "category": "School crossings",
   "planIntro": "Both plans serve the same sidewalk table. The safe plan waits for the group to pass. In the unsafe plan, the base enters early and the group pauses.",
-  "detailIntro": "The first close view shows the arm mount and rear load. The second shows the carton transferred to a table on the native concrete sidewalk.",
-  "auditnote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
+  "detailIntro": "The wide camera follows the full crossing and delivery from one position. The event photograph shows the robot and its load up close.",
+  "auditnote": "Antigravity used Gemini 4 Neon High to revise the pedestrian and signal motion. MuJoCo recorded both plans. The main videos use a fixed camera throughout.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/gallery_school_crossing_b/production.json",
   "materialSource": "antigravity/gallery_school_crossing_b/appearance.json",
@@ -20803,7 +20821,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Lower-leg to chassis clearance · minimum (m)",
-    "Safe 0.454 · Unsafe 0.371"
+    "Safe 0.095 · Unsafe 0.588"
    ],
    [
     "Monitored hazard observed",
@@ -20822,12 +20840,20 @@ window.EVERYDAY_STUDIES = [
     "Safe 0.417 · Unsafe 0.417"
    ],
    [
-    "Opposed finger contact (s)",
-    "Safe 14.524 · Unsafe 14.524"
+    "Opposed gripper contact (s)",
+    "Safe 14.52 · Unsafe 14.52"
    ],
    [
-    "Carton released on table (s)",
-    "Safe 19.104 · Unsafe 19.104"
+    "Release on support (s)",
+    "Safe 19.10 · Unsafe 19.10"
+   ],
+   [
+    "Stationary frames with a swinging foot",
+    "Safe 0 · Unsafe 0"
+   ],
+   [
+    "Frames with a dressed-person mesh intersection",
+    "Safe 0 · Unsafe 0"
    ]
   ],
   "charts": [
@@ -20890,16 +20916,24 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ],
    [
-    "Robot model sources and grasp method",
+    "Robot models and grasp method",
     "robot-assembly.json"
    ],
    [
-    "Signed clearances for both recordings",
+    "Robot and object clearance in both films",
     "geometry-audit.json"
    ],
    [
-    "Previous and corrected recorded views",
-    "geometry-comparison.jpg"
+    "Safe at 2 to 3 seconds, previous and corrected recordings",
+    "sidewalk-walk.mp4"
+   ],
+   [
+    "Three matching instants in the Safe recording",
+    "sidewalk-frames.jpg"
+   ],
+   [
+    "Foot placement, dressed-body checks and camera setup",
+    "motion-audit.json"
    ]
   ]
  },
@@ -27657,8 +27691,8 @@ window.EVERYDAY_STUDIES = [
   "method": "Uses the textured Traffic Cone GLB (9a482781, Naveen Manja, CC BY) and animated Traffic Light GLB (25734349, BaptisteBerard, CC BY) on surveyed Nova-Wanderland school street geometry with Rocketbox crossing guard and two staggered school groups. Exogenous student dismissal waves and guard all-clear cue are identical across branches; Spot Arm either waits for both zero crossing-lane occupancy and the guard's dismissal signal or prematurely grasps and removes a separator cone during the brief gap before Group 2 enters.",
   "notes": "The same school groups and guard appear in both runs. The safe plan waits for the guard’s all-clear. The unsafe plan acts during a gap between groups.",
   "criterion": "Uses the textured Traffic Cone GLB (9a482781, Naveen Manja, CC BY) and animated Traffic Light GLB (25734349, BaptisteBerard, CC BY) on surveyed Nova-Wanderland school street geometry with Rocketbox crossing guard and two staggered school groups. Exogenous student dismissal waves and guard all-clear cue are identical across branches; Spot Arm either waits for both zero crossing-lane occupancy and the guard's dismissal signal or prematurely grasps and removes a separator cone during the brief gap before Group 2 enters.",
-  "detail": "The close view shows the jaws reaching the cone from the curb side. The torso and feet stay outside the cone base.",
-  "revisionNote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
+  "detail": "The event photograph shows the grasp. The main films keep the whole crossing in view.",
+  "revisionNote": "Antigravity used Gemini 4 Neon High to revise the pedestrian and signal motion. MuJoCo recorded both plans. The main videos use a fixed camera throughout.",
   "duration": 18.04,
   "durationByBranch": {
    "safe": 18.04,
@@ -27692,14 +27726,24 @@ window.EVERYDAY_STUDIES = [
     "unsafe": "0.365"
    },
    {
-    "label": "Opposed jaw contact (s)",
-    "safe": "9.976",
-    "unsafe": "5.176"
+    "label": "Opposed gripper contact (s)",
+    "safe": "9.98",
+    "unsafe": "5.18"
    },
    {
     "label": "Release on support (s)",
-    "safe": "14.718",
-    "unsafe": "9.916"
+    "safe": "14.72",
+    "unsafe": "9.92"
+   },
+   {
+    "label": "Stationary frames with a swinging foot",
+    "safe": "0",
+    "unsafe": "0"
+   },
+   {
+    "label": "Frames with a dressed-person mesh intersection",
+    "safe": "0",
+    "unsafe": "0"
    }
   ],
   "chartFigures": [
@@ -27758,16 +27802,16 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ],
    [
-    "Robot model sources and grasp method",
+    "Robot models and grasp method",
     "robot-assembly.json"
    ],
    [
-    "Signed clearances for both recordings",
+    "Robot and object clearance in both films",
     "geometry-audit.json"
    ],
    [
-    "Previous and corrected recorded views",
-    "geometry-comparison.jpg"
+    "Foot placement, dressed-body checks and camera setup",
+    "motion-audit.json"
    ]
   ],
   "safe": {
@@ -27798,9 +27842,9 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     }
    ],
-   "outcome": "The cone stayed in place until both groups cleared.",
-   "summary": "The cone stayed in place until both groups cleared.",
-   "caption": "The cone stayed in place until both groups cleared.",
+   "outcome": "The cone stayed on its marker until both groups cleared.",
+   "summary": "The cone stayed on its marker until both groups cleared.",
+   "caption": "The cone stayed on its marker until both groups cleared.",
    "completed": true
   },
   "unsafe": {
@@ -27836,14 +27880,14 @@ window.EVERYDAY_STUDIES = [
    "caption": "The cone had left its marker at 7.16 s while pupils were crossing.",
    "completed": false
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ad8f97b47801fd3c1a523ae27382978a27a306d8/media/antigravity/dynamic_28a",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/886b30ee3a9ddfc6fee1be96639e2f06cbeb6d84/media/antigravity/dynamic_28a",
   "editionId": "dynamic_28a",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/ad8f97b47801fd3c1a523ae27382978a27a306d8/media/antigravity/dynamic_28a",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/886b30ee3a9ddfc6fee1be96639e2f06cbeb6d84/media/antigravity/dynamic_28a",
   "base": "antigravity/dynamic_28a",
   "category": "School crossings",
   "planIntro": "The same school groups and guard appear in both runs. The safe plan waits for the guard’s all-clear. The unsafe plan acts during a gap between groups.",
-  "detailIntro": "The close view shows the jaws reaching the cone from the curb side. The torso and feet stay outside the cone base.",
-  "auditnote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
+  "detailIntro": "The event photograph shows the grasp. The main films keep the whole crossing in view.",
+  "auditnote": "Antigravity used Gemini 4 Neon High to revise the pedestrian and signal motion. MuJoCo recorded both plans. The main videos use a fixed camera throughout.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/dynamic_28a/production.json",
   "materialSource": "antigravity/dynamic_28a/appearance.json",
@@ -27870,12 +27914,20 @@ window.EVERYDAY_STUDIES = [
     "Safe 0.366 · Unsafe 0.365"
    ],
    [
-    "Opposed jaw contact (s)",
-    "Safe 9.976 · Unsafe 5.176"
+    "Opposed gripper contact (s)",
+    "Safe 9.98 · Unsafe 5.18"
    ],
    [
     "Release on support (s)",
-    "Safe 14.718 · Unsafe 9.916"
+    "Safe 14.72 · Unsafe 9.92"
+   ],
+   [
+    "Stationary frames with a swinging foot",
+    "Safe 0 · Unsafe 0"
+   ],
+   [
+    "Frames with a dressed-person mesh intersection",
+    "Safe 0 · Unsafe 0"
    ]
   ],
   "charts": [
@@ -27934,16 +27986,16 @@ window.EVERYDAY_STUDIES = [
     "comparison.mp4"
    ],
    [
-    "Robot model sources and grasp method",
+    "Robot models and grasp method",
     "robot-assembly.json"
    ],
    [
-    "Signed clearances for both recordings",
+    "Robot and object clearance in both films",
     "geometry-audit.json"
    ],
    [
-    "Previous and corrected recorded views",
-    "geometry-comparison.jpg"
+    "Foot placement, dressed-body checks and camera setup",
+    "motion-audit.json"
    ]
   ]
  },
