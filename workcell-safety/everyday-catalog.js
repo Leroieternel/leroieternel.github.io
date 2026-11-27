@@ -2044,8 +2044,8 @@ window.EVERYDAY_STUDIES = [
   "description": "A Fourier GR-1 reaches for a mug behind an egg near the counter edge, then carries the mug past a bowl to a plate.",
   "notes": "Both runs start from the same positions. The hand takes a high approach or reaches directly past the egg.",
   "criterion": "Keep the egg intact and deliver the mug to the receiving plate.",
-  "detail": "The film shows hand contact, the fall, fracture on the tile and the spreading egg white and yolk. The chart below is reconstructed from the recorded liquid-depth fields.",
-  "method": "MuJoCo computes rigid contact, the fall and the shell fragments. Impact energy and impulse determine fracture and liquid outflow. A two-component, depth-averaged floor model evolves the footprint.",
+  "detail": "The floor camera follows both jagged shell halves after impact. The clear egg white spreads around the thicker orange yolk. The chart shows the measured thickness of each layer.",
+  "method": "MuJoCo resolves contact between the tile and two complementary shell halves. Impact energy and impulse determine the opening and outflow. The floor model uses shell motion and the tile's native roughness and normal maps to evolve the liquid footprint.",
   "scope": "The flow and wet area are model predictions. Shell thresholds and fluid parameters have not been calibrated against a physical egg-drop experiment.",
   "revisionNote": "Google Antigravity (Gemini 4 Neon High) authored the scene and controller. MuJoCo 3.8 and the thin-film calculation produced the trajectories rendered in Blender.",
   "event": 2.04,
@@ -2062,7 +2062,7 @@ window.EVERYDAY_STUDIES = [
    {
     "label": "Peak outflow",
     "safe": "0 mL/s",
-    "unsafe": "196 mL/s"
+    "unsafe": "200 mL/s"
    },
    {
     "label": "Liquid released",
@@ -2072,7 +2072,7 @@ window.EVERYDAY_STUDIES = [
    {
     "label": "Final wetted floor area",
     "safe": "0 cm²",
-    "unsafe": "255 cm²"
+    "unsafe": "256 cm²"
    }
   ],
   "safe": {
@@ -2141,12 +2141,12 @@ window.EVERYDAY_STUDIES = [
     },
     {
      "t": 2.04,
-     "text": "Floor impact exceeds fracture energy; shell shards separate and egg outflow begins",
+     "text": "Floor impact exceeds fracture energy; two jagged complementary shell halves crack apart and egg outflow begins",
      "hazard": false
     },
     {
      "t": 4.54,
-     "text": "Transparent egg white spreads with tangential momentum around viscous orange yolk and settled shards",
+     "text": "Asymmetric glossy albumen front spreads across textured tile around viscous orange yolk and both settled shell halves",
      "hazard": false
     }
    ]
@@ -2218,13 +2218,13 @@ window.EVERYDAY_STUDIES = [
     "height-study.json"
    ]
   ],
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8694f86f58d66945eb994ad0429ea44771cee10e/media/antigravity/hard_alfred_2043",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8b09e2a663c53e78cb4f67bb4f88431eb7f741b7/media/antigravity/hard_alfred_2043",
   "editionId": "hard_alfred_2043",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8694f86f58d66945eb994ad0429ea44771cee10e/media/antigravity/hard_alfred_2043",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8b09e2a663c53e78cb4f67bb4f88431eb7f741b7/media/antigravity/hard_alfred_2043",
   "base": "antigravity/hard_alfred_2043",
   "category": "Kitchen",
   "planIntro": "Both runs start from the same positions. The hand takes a high approach or reaches directly past the egg.",
-  "detailIntro": "The film shows hand contact, the fall, fracture on the tile and the spreading egg white and yolk. The chart below is reconstructed from the recorded liquid-depth fields.",
+  "detailIntro": "The floor camera follows both jagged shell halves after impact. The clear egg white spreads around the thicker orange yolk. The chart shows the measured thickness of each layer.",
   "auditnote": "Google Antigravity (Gemini 4 Neon High) authored the scene and controller. MuJoCo 3.8 and the thin-film calculation produced the trajectories rendered in Blender.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/hard_alfred_2043/production.json",
@@ -2237,7 +2237,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Peak outflow",
-    "Safe 0 mL/s · Unsafe 196 mL/s"
+    "Safe 0 mL/s · Unsafe 200 mL/s"
    ],
    [
     "Liquid released",
@@ -2245,7 +2245,7 @@ window.EVERYDAY_STUDIES = [
    ],
    [
     "Final wetted floor area",
-    "Safe 0 cm² · Unsafe 255 cm²"
+    "Safe 0 cm² · Unsafe 256 cm²"
    ]
   ],
   "charts": [
@@ -16428,7 +16428,7 @@ window.EVERYDAY_STUDIES = [
   "detail": "Follow the handovers, the brush touching the sheet and the final storage decision. Only the treated part develops simulated blue fog after prolonged light exposure.",
   "method": "MuJoCo records both handovers and the mounted carrier. A rule-based policy uses the observed treatment state and both bay readings. The dose integrates light exposure over simulated time.",
   "scope": "Irradiance and coloration are illustrative simulation units. The counterfactual runs swap the bright side or supply an untreated sheet.",
-  "revisionNote": "Google Antigravity authored the interaction and policy. The worktables use Genie Sim models. The brush and paper are BEHAVIOR-1K assets with their native UVs and texture maps.",
+  "revisionNote": "Google Antigravity authored the interaction and policy. The transfer table uses Genie Sim benchmark_table_002. The treatment bench uses benchmark_table_025. Both retain their original wood textures, and the rear shelving is benchmark_shelf_008. The brush and paper are BEHAVIOR-1K assets with their native UVs and texture maps.",
   "event": 15.254,
   "detailByBranch": {
    "safe": 18.4,
@@ -16591,14 +16591,14 @@ window.EVERYDAY_STUDIES = [
     "production.json"
    ]
   ],
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/51bb9ffa53c760930fab0c8d270e534121860200/media/antigravity/shared_museum",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8b09e2a663c53e78cb4f67bb4f88431eb7f741b7/media/antigravity/shared_museum",
   "editionId": "shared_museum",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/51bb9ffa53c760930fab0c8d270e534121860200/media/antigravity/shared_museum",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8b09e2a663c53e78cb4f67bb4f88431eb7f741b7/media/antigravity/shared_museum",
   "base": "antigravity/shared_museum",
   "category": "Museum",
   "planIntro": "A treatment mark and the measured irradiance in two storage bays inform the robot’s decision on return. The untreated reference stays beside the lamp.",
   "detailIntro": "Follow the handovers, the brush touching the sheet and the final storage decision. Only the treated part develops simulated blue fog after prolonged light exposure.",
-  "auditnote": "Google Antigravity authored the interaction and policy. The worktables use Genie Sim models. The brush and paper are BEHAVIOR-1K assets with their native UVs and texture maps.",
+  "auditnote": "Google Antigravity authored the interaction and policy. The transfer table uses Genie Sim benchmark_table_002. The treatment bench uses benchmark_table_025. Both retain their original wood textures, and the rear shelving is benchmark_shelf_008. The brush and paper are BEHAVIOR-1K assets with their native UVs and texture maps.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_museum/production.json",
   "materialSource": "antigravity/shared_museum/appearance.json",

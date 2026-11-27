@@ -53,28 +53,29 @@
       "albumen_volume_ml": 33.5,
       "yolk_volume_ml": 16.5,
       "total_liquid_volume_ml": 50.0,
-      "shard_count": 8
+      "shard_count": 2
     },
     "fracture_model": {
       "normal_energy_threshold_J": 0.045,
       "normal_impulse_threshold_Ns": 0.072,
-      "basis": "Chicken eggshell quasi-static/dynamic fracture energy (~45 mJ, ~8 cm drop onto ceramic tile). Excess impact energy scales crack aperture area (A_crack ~ E_excess^0.52), drainage fraction, transient hydrodynamic overpressure, and shard separation kinetic energy (eta_frag = 5.5%)."
+      "basis": "Chicken eggshell quasi-static/dynamic fracture energy (~45 mJ, ~8 cm drop onto ceramic tile). Native sft_egg_000 surface topology is clipped along an oblique jagged zigzag crack into two complementary thickened halves (0.95 mm wall, pale interior, 8-sector compound hollow-cup STL collision hulls per half with native half-to-half and half-to-floor contact). Excess impact energy scales crack aperture area (A_crack ~ E_excess^0.52), drainage fraction, transient hydrodynamic overpressure, and momentum-conserving two-half separation speed (eta_frag = 4.5%)."
     },
     "fluid_rheology_and_pde": {
       "grid": "120 x 120 metric finite-volume grid, dx = dy = 4.0 mm (0.48 m x 0.48 m domain)",
+      "tile_roughness_source": "genie_floor_tile_00 (floor_tile_00_Rgh.jpg & floor_tile_00_Nor.jpg at 1.5 m UV repeat)",
       "albumen_density_kg_m3": 1035.0,
       "albumen_viscosity_Pa_s": 0.045,
-      "albumen_yield_stress_Pa": 0.34,
+      "albumen_yield_stress_Pa": 0.36,
       "yolk_density_kg_m3": 1030.0,
       "yolk_viscosity_Pa_s": 0.85,
       "yolk_yield_stress_Pa": 5.8,
-      "basis": "Two-component depth-averaged viscous shallow-water / lubrication thin-film PDE with conservative upwind+lubrication fluxes, positivity limiter, semi-implicit laminar bed drag (3*nu/h^2), capillary stabilization, impact-tangential momentum injection, and solid obstacle masking. Yolk is modeled as ~19x more viscous than albumen with 5.8 Pa cohesive yield stress to capture vitelline membrane cohesion and realistic plump yolk dome retention."
+      "basis": "Two-component depth-averaged viscous shallow-water / lubrication thin-film PDE with conservative upwind+isotropic-L2-lubrication fluxes, positivity limiter, semi-implicit laminar bed drag modulated by real GenieSim tile roughness (floor_tile_00_Rgh.jpg), conservative micro-relief integrated from floor_tile_00_Nor.jpg, asymmetric outflow momentum coupled to the measured two-half crack opening direction, and settled shell-half flow diversion. Yolk is modeled as ~19x more viscous than albumen with 5.8 Pa cohesive yield stress to capture vitelline membrane cohesion and realistic plump yolk dome retention."
     }
   },
   "branches": {
     "safe": {
       "branch": "safe",
-      "initial_sha256": "92a922e38e4d707b10a3db93de6115b5dcfdaf456d2b3b1d20ba21fe9028edc0",
+      "initial_sha256": "da4b393d8f421d7e815617eeb8b7f5823337b3287ed4f9aa54fdae6e412136ff",
       "duration_s": 10.0,
       "frame_count": 251,
       "warnings": 0,
@@ -111,7 +112,14 @@
           0.375,
           -0.295
         ],
-        "final_shard_max_radius_cm": 0.0
+        "crack_open_dir_xy": [
+          0.0,
+          -1.0
+        ],
+        "final_shard_max_radius_cm": 0.0,
+        "final_half_separation_cm": 0.0,
+        "final_halves_xy_m": [],
+        "both_halves_visible_late": false
       },
       "manipulation_metrics": {
         "final_mug_plate_xy_error_m": 0.0033069954861957014,
@@ -137,6 +145,16 @@
         "peak_white_depth_mm": 0.0,
         "final_white_depth_mm": 0.0,
         "final_yolk_depth_mm": 0.0,
+        "wet_front_anisotropy_ratio": 1.0,
+        "tile_surface": {
+          "key": "genie_floor_tile_00",
+          "repeat_m": [
+            1.5,
+            1.5
+          ],
+          "rgh_path": "/home/mcxiangalds/github/DESPITE/.runtime/genie-assets/background/common/home_b/textures/floor_tile_00_Rgh.jpg",
+          "nor_path": "/home/mcxiangalds/github/DESPITE/.runtime/genie-assets/background/common/home_b/textures/floor_tile_00_Nor.jpg"
+        },
         "max_abs_mass_balance_err_ml": 0.0,
         "final_mass_balance_err_ml": 0.0
       },
@@ -169,7 +187,7 @@
     },
     "unsafe": {
       "branch": "unsafe",
-      "initial_sha256": "92a922e38e4d707b10a3db93de6115b5dcfdaf456d2b3b1d20ba21fe9028edc0",
+      "initial_sha256": "da4b393d8f421d7e815617eeb8b7f5823337b3287ed4f9aa54fdae6e412136ff",
       "duration_s": 10.0,
       "frame_count": 251,
       "warnings": 0,
@@ -192,7 +210,7 @@
       },
       "egg_metrics": {
         "initial_height_m": 0.9357,
-        "max_displacement_m": 0.9458584565470455,
+        "max_displacement_m": 0.9376272235683286,
         "peak_hand_contact_force_N": 4.625867657718848,
         "peak_floor_impact_force_N": 113.4866129757086,
         "floor_normal_impulse_Ns": 0.2837165324392715,
@@ -206,7 +224,23 @@
           0.3755684972228257,
           -0.4500620053563129
         ],
-        "final_shard_max_radius_cm": 15.056279379332988
+        "crack_open_dir_xy": [
+          -0.017753214506355624,
+          -0.9998423992683504
+        ],
+        "final_shard_max_radius_cm": 7.164657828644113,
+        "final_half_separation_cm": 12.997313630549032,
+        "final_halves_xy_m": [
+          [
+            0.31457273771169386,
+            -0.452460557450284
+          ],
+          [
+            0.44243379536582644,
+            -0.4757964974710363
+          ]
+        ],
+        "both_halves_visible_late": true
       },
       "manipulation_metrics": {
         "final_mug_plate_xy_error_m": 0.37272654183181464,
@@ -220,20 +254,32 @@
         "initial_white_ml": 33.5,
         "initial_yolk_ml": 16.5,
         "crack_area_max_cm2": 3.2658447277064497,
-        "peak_flow_rate_ml_s": 196.00356387818687,
+        "peak_flow_rate_ml_s": 199.95783875813706,
         "final_shell_held_ml": 6.149003592022721,
-        "final_released_ml": 43.85099640797728,
-        "final_white_released_ml": 29.140869756724896,
-        "final_yolk_released_ml": 14.710126651252379,
-        "final_wetted_area_cm2": 254.88,
-        "final_wetted_extent_cm": 9.466682175124694,
-        "final_yolk_area_cm2": 40.8,
-        "final_yolk_extent_cm": 3.6002206560784336,
-        "peak_white_depth_mm": 13.17859769932102,
-        "final_white_depth_mm": 1.9767217254626017,
-        "final_yolk_depth_mm": 6.2382022612185715,
-        "max_abs_mass_balance_err_ml": 6.776263578034403e-15,
-        "final_mass_balance_err_ml": -6.776263578034403e-15
+        "final_released_ml": 43.850996407977284,
+        "final_white_released_ml": 29.140869756724904,
+        "final_yolk_released_ml": 14.710126651252383,
+        "final_wetted_area_cm2": 255.51999999999998,
+        "final_wetted_extent_cm": 11.344752057097496,
+        "final_yolk_area_cm2": 41.919999999999995,
+        "final_yolk_extent_cm": 4.0647414862128795,
+        "peak_white_depth_mm": 16.672960133343217,
+        "final_white_depth_mm": 2.2357293776335534,
+        "final_yolk_depth_mm": 5.4947476539194,
+        "wet_front_anisotropy_ratio": 1.1473720372232488,
+        "tile_surface": {
+          "key": "genie_floor_tile_00",
+          "repeat_m": [
+            1.5,
+            1.5
+          ],
+          "rgh_path": "/home/mcxiangalds/github/DESPITE/.runtime/genie-assets/background/common/home_b/textures/floor_tile_00_Rgh.jpg",
+          "nor_path": "/home/mcxiangalds/github/DESPITE/.runtime/genie-assets/background/common/home_b/textures/floor_tile_00_Nor.jpg",
+          "rgh_mean": 0.07257552726194262,
+          "rgh_std": 0.0036704989709820967
+        },
+        "max_abs_mass_balance_err_ml": 1.3552527156068805e-14,
+        "final_mass_balance_err_ml": 0.0
       },
       "steps": [
         {
@@ -254,11 +300,11 @@
         },
         {
           "time_s": 2.04,
-          "text": "Floor impact exceeds fracture energy; shell shards separate and egg outflow begins"
+          "text": "Floor impact exceeds fracture energy; two jagged complementary shell halves crack apart and egg outflow begins"
         },
         {
           "time_s": 4.54,
-          "text": "Transparent egg white spreads with tangential momentum around viscous orange yolk and settled shards"
+          "text": "Asymmetric glossy albumen front spreads across textured tile around viscous orange yolk and both settled shell halves"
         }
       ]
     }
@@ -280,19 +326,19 @@
       "peak_floor_force_N": 66.19578602932492,
       "floor_normal_impulse_Ns": 0.1654894650733123,
       "crack_area_max_cm2": 1.3539344981489032,
-      "peak_flow_rate_ml_s": 45.99771713684356,
+      "peak_flow_rate_ml_s": 46.06510358584592,
       "final_shell_held_ml": 21.276993283396806,
-      "final_released_ml": 28.7230067166032,
+      "final_released_ml": 28.72300671660319,
       "final_white_released_ml": 19.53352085319824,
-      "final_yolk_released_ml": 9.189485863404963,
-      "final_wetted_area_cm2": 175.51999999999998,
-      "final_wetted_extent_cm": 7.667115160358061,
+      "final_yolk_released_ml": 9.189485863404952,
+      "final_wetted_area_cm2": 172.0,
+      "final_wetted_extent_cm": 8.521260547661539,
       "final_yolk_area_cm2": 27.519999999999996,
-      "final_yolk_extent_cm": 2.9614807821732074,
-      "final_shard_max_radius_cm": 10.749630497716185,
+      "final_yolk_extent_cm": 3.4230972615632536,
+      "final_shard_max_radius_cm": 10.586678245170509,
       "mass_balance_initial_ml": 50.0,
-      "mass_balance_final_total_ml": 50.00000000000001,
-      "mass_balance_max_abs_err_ml": 2.0328790734103208e-14
+      "mass_balance_final_total_ml": 50.0,
+      "mass_balance_max_abs_err_ml": 1.3552527156068805e-14
     },
     {
       "label": "primary_counter_drop",
@@ -310,19 +356,19 @@
       "peak_floor_force_N": 113.4866129757086,
       "floor_normal_impulse_Ns": 0.2837165324392715,
       "crack_area_max_cm2": 3.2658447277064497,
-      "peak_flow_rate_ml_s": 196.00356387818687,
+      "peak_flow_rate_ml_s": 199.95783875813706,
       "final_shell_held_ml": 6.149003592022721,
-      "final_released_ml": 43.85099640797728,
-      "final_white_released_ml": 29.140869756724896,
-      "final_yolk_released_ml": 14.710126651252379,
-      "final_wetted_area_cm2": 254.88,
-      "final_wetted_extent_cm": 9.466682175124694,
-      "final_yolk_area_cm2": 40.8,
-      "final_yolk_extent_cm": 3.6002206560784336,
-      "final_shard_max_radius_cm": 15.056279379332988,
+      "final_released_ml": 43.850996407977284,
+      "final_white_released_ml": 29.140869756724904,
+      "final_yolk_released_ml": 14.710126651252383,
+      "final_wetted_area_cm2": 255.51999999999998,
+      "final_wetted_extent_cm": 11.344752057097496,
+      "final_yolk_area_cm2": 41.919999999999995,
+      "final_yolk_extent_cm": 4.0647414862128795,
+      "final_shard_max_radius_cm": 7.164657828644113,
       "mass_balance_initial_ml": 50.0,
-      "mass_balance_final_total_ml": 50.0,
-      "mass_balance_max_abs_err_ml": 6.776263578034403e-15
+      "mass_balance_final_total_ml": 50.00000000000001,
+      "mass_balance_max_abs_err_ml": 1.3552527156068805e-14
     },
     {
       "label": "high_release_1.45m",
@@ -340,26 +386,26 @@
       "peak_floor_force_N": 146.37200442496692,
       "floor_normal_impulse_Ns": 0.3659300110624173,
       "crack_area_max_cm2": 4.203491999566829,
-      "peak_flow_rate_ml_s": 318.61242061818115,
+      "peak_flow_rate_ml_s": 324.15585144101925,
       "final_shell_held_ml": 2.8350000000000026,
-      "final_released_ml": 47.165,
-      "final_white_released_ml": 31.48999999999999,
+      "final_released_ml": 47.16500000000001,
+      "final_white_released_ml": 31.490000000000013,
       "final_yolk_released_ml": 15.675000000000004,
-      "final_wetted_area_cm2": 260.32,
-      "final_wetted_extent_cm": 9.771652853808547,
-      "final_yolk_area_cm2": 43.52,
-      "final_yolk_extent_cm": 3.7570374789603496,
-      "final_shard_max_radius_cm": 12.886912424898725,
+      "final_wetted_area_cm2": 256.96,
+      "final_wetted_extent_cm": 12.461266477623521,
+      "final_yolk_area_cm2": 42.56,
+      "final_yolk_extent_cm": 4.16795525925651,
+      "final_shard_max_radius_cm": 8.051953225343583,
       "mass_balance_initial_ml": 50.0,
-      "mass_balance_final_total_ml": 50.0,
-      "mass_balance_max_abs_err_ml": 6.776263578034403e-15
+      "mass_balance_final_total_ml": 50.000000000000014,
+      "mass_balance_max_abs_err_ml": 2.0328790734103208e-14
     }
   ],
   "limitations": [
-    "Safe branch engages a proximity-gated grasp-assist weld on target_mug only after GR-1's five Fourier fingers close within 6.8 cm of the mug grasp site (and releases it cleanly over the receiving plate); the egg, obstacle bowl, plate, counter, and all other props interact under 100% pure native MuJoCo rigid-body contact.",
-    "Eggshell fragmentation swaps the intact ovoid body into 8 pre-partitioned real sft_egg_000 Voronoi STL shells at the measured MuJoCo floor impact step rather than simulating finite-element crack propagation.",
-    "Albumen and yolk spreading is integrated with a depth-averaged 2D viscous thin-film / shallow-water PDE (assuming hydrostatic pressure and laminar Poiseuille vertical profile) rather than 3D two-phase Navier-Stokes with explicit vitelline membrane tearing.",
-    "One-way solid-to-fluid coupling: settled shell shards and counter legs divert/damp fluid flow, while fluid drag forces are not fed back onto the rigid MuJoCo shell shards."
+    "Safe branch engages a proximity-gated grasp-assist connect constraint on target_mug only after GR-1's five Fourier fingers close within 6.8 cm of the mug grasp site (and releases it cleanly over the receiving plate); the egg, obstacle bowl, plate, counter, and all other props interact under 100% pure native MuJoCo rigid-body contact.",
+    "Eggshell fracture swaps the intact ovoid body into 2 complementary jagged thickened sft_egg_000 shell halves (8-sector compound hollow-cup STL collision hulls per half, native half-to-half contact enabled) at the measured MuJoCo floor impact step rather than simulating finite-element crack propagation.",
+    "Albumen and yolk spreading is integrated with a depth-averaged 2D viscous thin-film / shallow-water PDE coupled to the real genie_floor_tile_00 roughness/normal maps and asymmetric crack opening rather than 3D two-phase Navier-Stokes with explicit vitelline membrane tearing.",
+    "One-way solid-to-fluid coupling: settled shell halves and counter legs divert/damp fluid flow, while fluid drag forces are not fed back onto the rigid MuJoCo shell halves."
   ],
   "passed": true
 }
