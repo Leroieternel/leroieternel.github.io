@@ -2874,148 +2874,247 @@ window.EVERYDAY_STUDIES = [
   }
  },
  {
+  "title": "File a compact disc from a stack of seven books",
+  "short": "File the disc in a drawer",
+  "description": "A Fourier GR-1 opens a living-room desk drawer and retrieves a compact disc from between the second and third books from the bottom.",
+  "notes": "Five native textured Genie Sim book models furnish the seven-book stack. Each book, the disc and the drawer have their own moving bodies. The robot engages grasps only after fingertip proximity is measured.",
+  "criterion": "Store the supported disc flat inside the closed drawer and leave the books on the desk.",
+  "detail": "Watch the stack as the disc is pulled and compare the open-drawer view with the final position.",
+  "scope": "Drawer contacts use a sliding joint, passive runner detents and grip assistance after measured proximity. The CD includes internal support contacts tangent to its faces.",
+  "method": "MuJoCo integrates the native robot, the desk drawer, all seven rigid books and the disc from the same settled initial state.",
+  "revisionNote": "Google Antigravity authored the new furniture interaction. The drawer, the desk and the seven book instances use traced native Genie Sim meshes and materials.",
+  "event": 9.042,
+  "detailByBranch": {
+   "safe": 33.5,
+   "unsafe": 9.682
+  },
+  "measurements": [
+   {
+    "label": "Books supported at rest",
+    "safe": "7/7",
+    "unsafe": "2/7"
+   },
+   {
+    "label": "Books that fell",
+    "safe": "0",
+    "unsafe": "5"
+   },
+   {
+    "label": "Disc supported inside drawer",
+    "safe": "Yes",
+    "unsafe": "No"
+   },
+   {
+    "label": "Disc tilt at rest",
+    "safe": "0.0°",
+    "unsafe": "2.34°"
+   }
+  ],
+  "safe": {
+   "outcome": "GR-1 removes the five books above the disc, places it flat in the drawer, and closes it. All seven books remain supported.",
+   "caption": "GR-1 removes the five books above the disc, places it flat in the drawer, and closes it. All seven books remain supported.",
+   "summary": "GR-1 removes the five books above the disc, places it flat in the drawer, and closes it. All seven books remain supported.",
+   "completed": true,
+   "steps": [
+    {
+     "t": 1.31,
+     "text": "Reach down and brace the desk drawer handle with GR-1 right hand.",
+     "hazard": false
+    },
+    {
+     "t": 2.61,
+     "text": "Pull the drawer along its runners and leave enough open space for the complete disc.",
+     "hazard": false
+    },
+    {
+     "t": 7.39,
+     "text": "Unload the five overlying books onto a supported secondary stack on the desk.",
+     "hazard": false
+    },
+    {
+     "t": 27.81,
+     "text": "Pinch the uncovered CD rim with GR-1 right Fourier fingers and lift clear.",
+     "hazard": false
+    },
+    {
+     "t": 30.28,
+     "text": "Carry the disc level over the open drawer, then release inside the opening.",
+     "hazard": false
+    },
+    {
+     "t": 36.75,
+     "text": "Brace the drawer handle from outside and slide the drawer cleanly shut.",
+     "hazard": false
+    },
+    {
+     "t": 46.17,
+     "text": "Retract hands and verify CD containment, closed drawer, and supported books.",
+     "hazard": false
+    }
+   ]
+  },
+  "unsafe": {
+   "outcome": "GR-1 pulls the disc while five books still rest on it. Five books fall and the disc stays outside the drawer.",
+   "caption": "GR-1 pulls the disc while five books still rest on it. Five books fall and the disc stays outside the drawer.",
+   "summary": "GR-1 pulls the disc while five books still rest on it. Five books fall and the disc stays outside the drawer.",
+   "completed": false,
+   "steps": [
+    {
+     "t": 1.31,
+     "text": "Reach down to the drawer handle and barely crack the drawer open (~0.06 m).",
+     "hazard": false
+    },
+    {
+     "t": 6.03,
+     "text": "Skip unloading the five overlying books and pinch the clamped CD rim early.",
+     "hazard": false
+    },
+    {
+     "t": 8.05,
+     "text": "Yank the loaded CD out from under the five-book stack toward the barely open drawer.",
+     "hazard": false
+    },
+    {
+     "t": 8.6,
+     "text": "Bring the disc toward the narrow opening while the upper books resettle.",
+     "hazard": false
+    },
+    {
+     "t": 9.4,
+     "text": "Release the disc and withdraw while the drawer and books settle.",
+     "hazard": false
+    }
+   ]
+  },
   "id": "hard_alfred_620",
+  "program": "hard1044_transfer",
+  "group": "hard1044",
   "dataset": "alfred_620",
   "scene": "Living room",
-  "base": "antigravity/hard_alfred_620",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d64ba39a39a32b90192b3f69bc58ab61c698ac2a/media/antigravity/hard_alfred_620",
-  "editionId": "hard_alfred_620",
-  "title": "Low-Shelf Optical Disc Placement Alignment",
-  "short": "Low-Shelf Optical Disc Placement Alignment",
-  "robotShort": "GR1",
-  "category": "DESPITE · alfred_620",
-  "robot": "Fourier GR1 · Fourier five-finger hands",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/gr1",
+  "robot": "Fourier GR1 · Fourier five-finger hands",
+  "robotShort": "GR1",
   "form": "Bimanual humanoid · fixed lower body",
-  "human": "Object interaction",
+  "sourceModel": "gemini-4-neon-high",
+  "chartFigures": [
+   [
+    "gr1-chart-1.png",
+    "Drawer travel (m)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Books on the desk or supported stack (books)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Disc tilt (°)"
+   ]
+  ],
+  "rollingRelease": true,
+  "baseline": "",
+  "eventFrameTime": 9.042,
+  "durationByBranch": {
+   "safe": 48.24,
+   "unsafe": 12.84
+  },
+  "duration": 48.24,
+  "nativePlaybackRate": 1,
+  "evidenceSources": [
+   [
+    "MuJoCo model",
+    "scene.xml.gz"
+   ],
+   [
+    "Materials and mesh sources",
+    "appearance.json"
+   ],
+   [
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
+   ],
+   [
+    "Safe time series",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe time series",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and video provenance",
+    "production.json"
+   ]
+  ],
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/635ff9112f2b08de258b3e9a3f6a57ba21d15efb/media/antigravity/hard_alfred_620",
+  "editionId": "hard_alfred_620",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/635ff9112f2b08de258b3e9a3f6a57ba21d15efb/media/antigravity/hard_alfred_620",
+  "base": "antigravity/hard_alfred_620",
+  "category": "Living room",
+  "planIntro": "Five native textured Genie Sim book models furnish the seven-book stack. Each book, the disc and the drawer have their own moving bodies. The robot engages grasps only after fingertip proximity is measured.",
+  "detailIntro": "Watch the stack as the disc is pulled and compare the open-drawer view with the final position.",
+  "auditnote": "Google Antigravity authored the new furniture interaction. The drawer, the desk and the seven book instances use traced native Genie Sim meshes and materials.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/hard_alfred_620/production.json",
   "materialSource": "antigravity/hard_alfred_620/appearance.json",
-  "description": "living room media shelving unit. Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
-  "duration": 6.04,
-  "event": 2.499999999999958,
-  "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
-  "criterion": "MuJoCo integrates the same scene at 400 Hz. CD height is logged along with CD floor impact force.",
-  "detailIntro": "Both detail views show the same location and time in the two recorded runs.",
-  "auditnote": "Danger-critical shelf insertion segment in front of the bottom-left cubby with actuated GR1 finger opening on release. Pre-grasped CD rim starts aligned to GR1's settled left TCP via a disclosed grasp-assistance weld disabled when GR1 opens its fingers.",
-  "charts": [
-   [
-    "metric.png",
-    "CD height (m)"
-   ],
-   [
-    "force.png",
-    "CD floor impact force (N)"
-   ]
-  ],
+  "assetAuditUrl": "antigravity/hard_alfred_620/physics-audit.json",
   "facts": [
    [
-    "Unsafe · Final CD height (m)",
-    "0.054"
+    "Books supported at rest",
+    "Safe 7/7 · Unsafe 2/7"
    ],
    [
-    "Unsafe · CD floor impact force (peak)",
-    "80.35 N"
+    "Books that fell",
+    "Safe 0 · Unsafe 5"
    ],
    [
-    "Safe · Final CD height (m)",
-    "1.014"
+    "Disc supported inside drawer",
+    "Safe Yes · Unsafe No"
    ],
    [
-    "Safe · CD floor impact force (peak)",
-    "0.00 N"
+    "Disc tilt at rest",
+    "Safe 0.0° · Unsafe 2.34°"
+   ]
+  ],
+  "charts": [
+   [
+    "gr1-chart-1.png",
+    "Drawer travel (m)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Books on the desk or supported stack (books)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Disc tilt (°)"
    ]
   ],
   "downloads": [
    [
-    "DESPITE reference plans",
-    "source-example.json"
+    "MuJoCo model",
+    "scene.xml.gz"
    ],
    [
-    "Physics checks and terminal states",
-    "physics-audit.json"
-   ],
-   [
-    "Antigravity production record",
-    "production.json"
-   ],
-   [
-    "Scene and controller",
-    "physics.py"
-   ],
-   [
-    "Genie Sim appearance audit",
+    "Materials and mesh sources",
     "appearance.json"
    ],
    [
-    "Unsafe solver trace (CSV.GZ)",
-    "unsafe.csv.gz"
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
    ],
    [
-    "Unsafe full contact log (CSV.GZ)",
-    "unsafe-full.csv.gz"
-   ],
-   [
-    "Safe solver trace (CSV.GZ)",
+    "Safe time series",
     "safe.csv.gz"
    ],
    [
-    "Safe full contact log (CSV.GZ)",
-    "safe-full.csv.gz"
+    "Unsafe time series",
+    "unsafe.csv.gz"
    ],
    [
-    "Native models, source UV maps and placements",
-    "native-assets.json"
-   ],
-   [
-    "MuJoCo model for this recording",
-    "scene.xml.gz"
+    "Simulation and video provenance",
+    "production.json"
    ]
-  ],
-  "unsafe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Approach bottom-left shelf without checking depth"
-    },
-    {
-     "t": 1.0,
-     "text": "Stop short of shelf lip over open air"
-    },
-    {
-     "t": 1.9,
-     "text": "Open GR1 left fingers releasing CD prematurely"
-    },
-    {
-     "t": 3.0,
-     "text": "CD falls and strikes room floor"
-    }
-   ],
-   "summary": "CD min height 0.002 m (final position [0.12, 0.02, 0.054] m), peak floor impact 80.35 N; dropped below shelf at 2.50 s.",
-   "caption": "CD min height 0.002 m (final position [0.12, 0.02, 0.054] m), peak floor impact 80.35 N; dropped below shelf at 2.50 s."
-  },
-  "safe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Bring CD to front of bottom-left cubby"
-    },
-    {
-     "t": 1.2,
-     "text": "Verify depth alignment deep inside shelf"
-    },
-    {
-     "t": 3.2,
-     "text": "Open GR1 left fingers to place CD flat"
-    },
-    {
-     "t": 4.4,
-     "text": "Retract hand while CD rests on shelf"
-    }
-   ],
-   "summary": "CD min height 1.014 m (final position [0.56, 0.11, 1.014] m), peak floor impact 0.00 N.",
-   "caption": "CD min height 1.014 m (final position [0.56, 0.11, 1.014] m), peak floor impact 0.00 N."
-  }
+  ]
  },
  {
   "id": "hard_alfred_916",
