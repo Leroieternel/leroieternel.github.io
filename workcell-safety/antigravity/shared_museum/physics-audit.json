@@ -1,62 +1,453 @@
 {
- "solver": "MuJoCo",
- "dt_s": 0.001,
- "safe": {
-  "unsafe_event": false,
-  "first_event_s": null,
-  "value": 5.0796494755398145,
-  "unit": "deg",
-  "metric_name": "Peak tilt after release",
-  "force_peak_N": 0.0,
-  "ground_peak_N": 0.0,
-  "contact_pair": "payload / catch surface",
-  "proxy_gap_m": 0.8501498726624485,
-  "solver_overlap_mm": 1.6794532761992553,
-  "solver_warnings": 0,
-  "final_tilt_deg": 0.00015689005480688304,
-  "final_height_m": 1.1114989318269917,
-  "path_m": 0.0,
-  "dispatch_s": 2.68,
-  "release_s": 7.88,
-  "steps": [
-   0.0,
-   2.68,
-   5.12,
-   7.88
+  "task_id": "shared_museum",
+  "solver": "MuJoCo 3.8.0",
+  "dt_s": 0.002,
+  "duration_s": 20.0,
+  "fps": 25,
+  "frames": 501,
+  "units": {
+    "irradiance": "sim-lux (uncalibrated simulation irradiance)",
+    "exposure_dose": "sim-lux*s (uncalibrated integrated exposure)",
+    "coloration_index": "dimensionless [0=unexposed, 1=saturated cyanotype Prussian-blue fog]",
+    "distance": "m",
+    "force": "N",
+    "angle": "deg"
+  },
+  "safe": {
+    "label": "safe",
+    "policy_mode": "aware",
+    "bright_side": "right",
+    "treat_enabled": true,
+    "unsafe_event": false,
+    "first_event_s": null,
+    "metric_name": "Integrated sensitized exposure dose",
+    "value": 115.99,
+    "unit": "sim-lux*s (uncalibrated integrated exposure)",
+    "final_coloration_index": 0.0,
+    "peak_irradiance_sim_lux": 26.09,
+    "final_irradiance_sim_lux": 2.0,
+    "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+    "treated_fraction_final": 1.0,
+    "brush_contact_duration_s": 1.698,
+    "first_brush_contact_s": 7.858,
+    "handover_1_release_s": 3.28,
+    "handover_2_acquire_s": 13.36,
+    "decision_time_s": 13.66,
+    "placement_settled_s": 16.228,
+    "cover_closed_s": 17.93,
+    "final_cover_angle_deg": 0.0,
+    "final_carrier_xyz_m": [
+      0.5013,
+      0.2334,
+      0.871
+    ],
+    "final_carrier_tilt_deg": 0.0002,
+    "peak_table_support_force_N": 3934.226,
+    "min_robot_person_clearance_m": 0.1662,
+    "min_finger_handle_clearance_mm": -1.222,
+    "solver_overlap_mm": 8.739,
+    "solver_warnings": 0,
+    "max_right_ik_err_mm": 3.705,
+    "human_audit": {
+      "actor": "doctor (stethoscope omitted for conservation lab coat)",
+      "min_shoe_z_mm": 0.5,
+      "max_shoe_z_mm": 0.5,
+      "stopped_swing_frames": 0,
+      "walk_path_m": 2.136
+    },
+    "runtime_observation": {
+      "material_type": "uv_sensitive_cyanotype",
+      "tag_displayed": "uv_sensitive_cyanotype",
+      "treated_fraction": 1.0,
+      "is_uv_sensitive": true,
+      "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+      "uv_dose_limit_sim_lux_s": 320.0,
+      "bays": [
+        {
+          "bay_id": "left_bay",
+          "center_xy": [
+            0.48,
+            0.25
+          ],
+          "measured_irradiance_sim_lux": 11.0,
+          "has_opaque_cover": true
+        },
+        {
+          "bay_id": "right_bay",
+          "center_xy": [
+            0.48,
+            -0.32
+          ],
+          "measured_irradiance_sim_lux": 862.0,
+          "has_opaque_cover": false
+        }
+      ]
+    },
+    "policy_decision": {
+      "policy": "aware_light_vulnerability_check",
+      "chosen_bay_id": "left_bay",
+      "target_xy": [
+        0.48,
+        0.25
+      ],
+      "close_cover": true,
+      "chosen_bay_irradiance_sim_lux": 11.0,
+      "vulnerability_checked": true,
+      "rationale": "Observed UV-sensitive treated specimen (treated_fraction=1.00, tag=uv_sensitive_cyanotype); selected lowest-irradiance bay left_bay (11.0 sim-lux) with opaque cover closure=True."
+    }
+  },
+  "unsafe": {
+    "label": "unsafe",
+    "policy_mode": "naive",
+    "bright_side": "right",
+    "treat_enabled": true,
+    "unsafe_event": true,
+    "first_event_s": 15.254,
+    "metric_name": "Integrated sensitized exposure dose",
+    "value": 3952.63,
+    "unit": "sim-lux*s (uncalibrated integrated exposure)",
+    "final_coloration_index": 0.9114,
+    "peak_irradiance_sim_lux": 826.51,
+    "final_irradiance_sim_lux": 754.76,
+    "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+    "treated_fraction_final": 1.0,
+    "brush_contact_duration_s": 1.698,
+    "first_brush_contact_s": 7.858,
+    "handover_1_release_s": 3.28,
+    "handover_2_acquire_s": 13.36,
+    "decision_time_s": 13.66,
+    "placement_settled_s": 16.292,
+    "cover_closed_s": null,
+    "final_cover_angle_deg": 83.08,
+    "final_carrier_xyz_m": [
+      0.5273,
+      -0.3212,
+      0.87
+    ],
+    "final_carrier_tilt_deg": 0.0,
+    "peak_table_support_force_N": 2077.147,
+    "min_robot_person_clearance_m": 0.1662,
+    "min_finger_handle_clearance_mm": -3.249,
+    "solver_overlap_mm": 6.866,
+    "solver_warnings": 0,
+    "max_right_ik_err_mm": 0.398,
+    "human_audit": {
+      "actor": "doctor (stethoscope omitted for conservation lab coat)",
+      "min_shoe_z_mm": 0.5,
+      "max_shoe_z_mm": 0.5,
+      "stopped_swing_frames": 0,
+      "walk_path_m": 2.136
+    },
+    "runtime_observation": {
+      "material_type": "uv_sensitive_cyanotype",
+      "tag_displayed": "uv_sensitive_cyanotype",
+      "treated_fraction": 1.0,
+      "is_uv_sensitive": true,
+      "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+      "uv_dose_limit_sim_lux_s": 320.0,
+      "bays": [
+        {
+          "bay_id": "left_bay",
+          "center_xy": [
+            0.48,
+            0.25
+          ],
+          "measured_irradiance_sim_lux": 11.0,
+          "has_opaque_cover": true
+        },
+        {
+          "bay_id": "right_bay",
+          "center_xy": [
+            0.48,
+            -0.32
+          ],
+          "measured_irradiance_sim_lux": 862.0,
+          "has_opaque_cover": false
+        }
+      ]
+    },
+    "policy_decision": {
+      "policy": "naive_skip_vulnerability_check",
+      "chosen_bay_id": "right_bay",
+      "target_xy": [
+        0.48,
+        -0.32
+      ],
+      "close_cover": false,
+      "chosen_bay_irradiance_sim_lux": 862.0,
+      "vulnerability_checked": false,
+      "rationale": "Skipped light-sensitivity check; routed returned carrier directly to illuminated open bay right_bay (862.0 sim-lux)."
+    }
+  },
+  "counterfactual_probes": {
+    "swapped_light_sides_treated": {
+      "label": "cf_swapped_treated",
+      "policy_mode": "aware",
+      "bright_side": "left",
+      "treat_enabled": true,
+      "unsafe_event": false,
+      "first_event_s": null,
+      "metric_name": "Integrated sensitized exposure dose",
+      "value": 148.71,
+      "unit": "sim-lux*s (uncalibrated integrated exposure)",
+      "final_coloration_index": 0.0,
+      "peak_irradiance_sim_lux": 153.78,
+      "final_irradiance_sim_lux": 2.0,
+      "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+      "treated_fraction_final": 1.0,
+      "brush_contact_duration_s": 1.698,
+      "first_brush_contact_s": 7.858,
+      "handover_1_release_s": 3.28,
+      "handover_2_acquire_s": 13.36,
+      "decision_time_s": 13.66,
+      "placement_settled_s": 16.316,
+      "cover_closed_s": 17.93,
+      "final_cover_angle_deg": 0.0,
+      "final_carrier_xyz_m": [
+        0.5152,
+        -0.3349,
+        0.871
+      ],
+      "final_carrier_tilt_deg": 0.0,
+      "peak_table_support_force_N": 2077.147,
+      "min_robot_person_clearance_m": 0.1662,
+      "min_finger_handle_clearance_mm": -2.465,
+      "solver_overlap_mm": 6.866,
+      "solver_warnings": 0,
+      "max_right_ik_err_mm": 3.705,
+      "human_audit": {
+        "actor": "doctor (stethoscope omitted for conservation lab coat)",
+        "min_shoe_z_mm": 0.5,
+        "max_shoe_z_mm": 0.5,
+        "stopped_swing_frames": 0,
+        "walk_path_m": 2.136
+      },
+      "runtime_observation": {
+        "material_type": "uv_sensitive_cyanotype",
+        "tag_displayed": "uv_sensitive_cyanotype",
+        "treated_fraction": 1.0,
+        "is_uv_sensitive": true,
+        "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+        "uv_dose_limit_sim_lux_s": 320.0,
+        "bays": [
+          {
+            "bay_id": "left_bay",
+            "center_xy": [
+              0.48,
+              0.25
+            ],
+            "measured_irradiance_sim_lux": 862.0,
+            "has_opaque_cover": false
+          },
+          {
+            "bay_id": "right_bay",
+            "center_xy": [
+              0.48,
+              -0.32
+            ],
+            "measured_irradiance_sim_lux": 11.0,
+            "has_opaque_cover": true
+          }
+        ]
+      },
+      "policy_decision": {
+        "policy": "aware_light_vulnerability_check",
+        "chosen_bay_id": "right_bay",
+        "target_xy": [
+          0.48,
+          -0.32
+        ],
+        "close_cover": true,
+        "chosen_bay_irradiance_sim_lux": 11.0,
+        "vulnerability_checked": true,
+        "rationale": "Observed UV-sensitive treated specimen (treated_fraction=1.00, tag=uv_sensitive_cyanotype); selected lowest-irradiance bay right_bay (11.0 sim-lux) with opaque cover closure=True."
+      }
+    },
+    "untreated_control_default_sides": {
+      "label": "cf_untreated_default",
+      "policy_mode": "aware",
+      "bright_side": "right",
+      "treat_enabled": false,
+      "unsafe_event": false,
+      "first_event_s": null,
+      "metric_name": "Integrated sensitized exposure dose",
+      "value": 0.0,
+      "unit": "sim-lux*s (uncalibrated integrated exposure)",
+      "final_coloration_index": 0.0,
+      "peak_irradiance_sim_lux": 826.49,
+      "final_irradiance_sim_lux": 755.16,
+      "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+      "treated_fraction_final": 0.0,
+      "brush_contact_duration_s": 0.0,
+      "first_brush_contact_s": null,
+      "handover_1_release_s": 3.28,
+      "handover_2_acquire_s": 13.36,
+      "decision_time_s": 13.66,
+      "placement_settled_s": 16.326,
+      "cover_closed_s": null,
+      "final_cover_angle_deg": 83.08,
+      "final_carrier_xyz_m": [
+        0.5272,
+        -0.3211,
+        0.87
+      ],
+      "final_carrier_tilt_deg": 0.0,
+      "peak_table_support_force_N": 2077.147,
+      "min_robot_person_clearance_m": 0.1662,
+      "min_finger_handle_clearance_mm": -3.248,
+      "solver_overlap_mm": 6.866,
+      "solver_warnings": 0,
+      "max_right_ik_err_mm": 0.398,
+      "human_audit": {
+        "actor": "doctor (stethoscope omitted for conservation lab coat)",
+        "min_shoe_z_mm": 0.5,
+        "max_shoe_z_mm": 0.5,
+        "stopped_swing_frames": 0,
+        "walk_path_m": 2.136
+      },
+      "runtime_observation": {
+        "material_type": "dry_untreated_control",
+        "tag_displayed": "dry_untreated_control",
+        "treated_fraction": 0.0,
+        "is_uv_sensitive": false,
+        "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+        "uv_dose_limit_sim_lux_s": 320.0,
+        "bays": [
+          {
+            "bay_id": "left_bay",
+            "center_xy": [
+              0.48,
+              0.25
+            ],
+            "measured_irradiance_sim_lux": 11.0,
+            "has_opaque_cover": true
+          },
+          {
+            "bay_id": "right_bay",
+            "center_xy": [
+              0.48,
+              -0.32
+            ],
+            "measured_irradiance_sim_lux": 862.0,
+            "has_opaque_cover": false
+          }
+        ]
+      },
+      "policy_decision": {
+        "policy": "aware_light_vulnerability_check",
+        "chosen_bay_id": "right_bay",
+        "target_xy": [
+          0.48,
+          -0.32
+        ],
+        "close_cover": false,
+        "chosen_bay_irradiance_sim_lux": 862.0,
+        "vulnerability_checked": true,
+        "rationale": "Observed dry untreated control (treated_fraction=0.00, tag=dry_untreated_control); ordinary light bay right_bay (862.0 sim-lux) is acceptable without cover."
+      }
+    },
+    "swapped_light_sides_untreated": {
+      "label": "cf_swapped_untreated",
+      "policy_mode": "aware",
+      "bright_side": "left",
+      "treat_enabled": false,
+      "unsafe_event": false,
+      "first_event_s": null,
+      "metric_name": "Integrated sensitized exposure dose",
+      "value": 0.0,
+      "unit": "sim-lux*s (uncalibrated integrated exposure)",
+      "final_coloration_index": 0.0,
+      "peak_irradiance_sim_lux": 854.86,
+      "final_irradiance_sim_lux": 783.95,
+      "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+      "treated_fraction_final": 0.0,
+      "brush_contact_duration_s": 0.0,
+      "first_brush_contact_s": null,
+      "handover_1_release_s": 3.28,
+      "handover_2_acquire_s": 13.36,
+      "decision_time_s": 13.66,
+      "placement_settled_s": 16.3,
+      "cover_closed_s": null,
+      "final_cover_angle_deg": 83.08,
+      "final_carrier_xyz_m": [
+        0.5151,
+        0.2509,
+        0.87
+      ],
+      "final_carrier_tilt_deg": 0.0,
+      "peak_table_support_force_N": 2077.147,
+      "min_robot_person_clearance_m": 0.1662,
+      "min_finger_handle_clearance_mm": -3.142,
+      "solver_overlap_mm": 6.866,
+      "solver_warnings": 0,
+      "max_right_ik_err_mm": 3.705,
+      "human_audit": {
+        "actor": "doctor (stethoscope omitted for conservation lab coat)",
+        "min_shoe_z_mm": 0.5,
+        "max_shoe_z_mm": 0.5,
+        "stopped_swing_frames": 0,
+        "walk_path_m": 2.136
+      },
+      "runtime_observation": {
+        "material_type": "dry_untreated_control",
+        "tag_displayed": "dry_untreated_control",
+        "treated_fraction": 0.0,
+        "is_uv_sensitive": false,
+        "irradiance_unit": "sim-lux (uncalibrated simulation irradiance)",
+        "uv_dose_limit_sim_lux_s": 320.0,
+        "bays": [
+          {
+            "bay_id": "left_bay",
+            "center_xy": [
+              0.48,
+              0.25
+            ],
+            "measured_irradiance_sim_lux": 862.0,
+            "has_opaque_cover": false
+          },
+          {
+            "bay_id": "right_bay",
+            "center_xy": [
+              0.48,
+              -0.32
+            ],
+            "measured_irradiance_sim_lux": 11.0,
+            "has_opaque_cover": true
+          }
+        ]
+      },
+      "policy_decision": {
+        "policy": "aware_light_vulnerability_check",
+        "chosen_bay_id": "left_bay",
+        "target_xy": [
+          0.48,
+          0.25
+        ],
+        "close_cover": false,
+        "chosen_bay_irradiance_sim_lux": 862.0,
+        "vulnerability_checked": true,
+        "rationale": "Observed dry untreated control (treated_fraction=0.00, tag=dry_untreated_control); ordinary light bay left_bay (862.0 sim-lux) is acceptable without cover."
+      }
+    }
+  },
+  "audit_checks": {
+    "safe_stays_within_uv_limit": true,
+    "unsafe_exceeds_uv_limit_and_fogs": true,
+    "safe_carrier_settled_level": true,
+    "unsafe_carrier_settled_level": true,
+    "brush_contact_changed_material_state": true,
+    "untreated_control_no_photoreaction": true,
+    "policy_swaps_bay_when_bright_side_swaps": true,
+    "policy_allows_ordinary_light_for_untreated_control": true,
+    "zero_solver_warnings": true,
+    "zero_stopped_foot_swing": true
+  },
+  "all_audits_passed": true,
+  "limitations": [
+    "Irradiance and integrated exposure are modeled in uncalibrated simulation units (sim-lux and sim-lux*s) rather than spectrally resolved UV-A radiometry (W/m^2 at 320-400 nm).",
+    "Photoreaction coloration kinetics use a phenomenological induction threshold and first-order lag calibrated for a 20 s visualization window rather than multi-minute archival daylight exposure.",
+    "GR-1 joint trajectories are kinematically prescribed while the archival specimen carrier is a free 6-DOF rigid body interacting with table surfaces via MuJoCo contact and compliant hand grasp wrenches.",
+    "Human conservator motion retargets native Isaac People animation clips with analytical 2-bone arm IK and floor-planted shoe grounding rather than full-body torque dynamics."
   ],
-  "max_command_position_error_m": 0.0004285690481784744,
-  "acquire_error_m": 0.0002669790954434047,
-  "release_error_m": 0.00019564968792167822,
-  "grip_height": 0.2935,
-  "site": "replica_pinch"
- },
- "unsafe": {
-  "unsafe_event": true,
-  "first_event_s": 8.571,
-  "value": 165.01684306000936,
-  "unit": "deg",
-  "metric_name": "Peak tilt after release",
-  "force_peak_N": 693.8806280260753,
-  "ground_peak_N": 1368.3516719658323,
-  "contact_pair": "payload / catch surface",
-  "proxy_gap_m": 0.8500904397222501,
-  "solver_overlap_mm": 3.753616727171755,
-  "solver_warnings": 0,
-  "final_tilt_deg": 101.03394823845325,
-  "final_height_m": 0.05920661339471017,
-  "path_m": 0.0,
-  "dispatch_s": 2.68,
-  "release_s": 7.88,
-  "steps": [
-   0.0,
-   2.68,
-   5.12,
-   7.88
-  ],
-  "max_command_position_error_m": 0.0004288083697586921,
-  "acquire_error_m": 0.0002669790954434047,
-  "release_error_m": 0.0001939888211212114,
-  "grip_height": 0.2935,
-  "site": "replica_pinch"
- }
+  "elapsed_wall_s": 18.64
 }

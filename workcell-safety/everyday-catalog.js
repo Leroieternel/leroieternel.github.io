@@ -16310,213 +16310,247 @@ window.EVERYDAY_STUDIES = [
   "method": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a shared skinned animation, with limb proxies used to measure clearance. Frames are sampled at 25 Hz."
  },
  {
+  "title": "Exchange and store a light-sensitive museum sample",
+  "short": "Conservation handover",
+  "description": "GR-1 hands a mounted paper sample to a conservator. The conservator carries it to a workbench, brushes one area, marks its treatment state and returns it to GR-1.",
+  "notes": "A treatment mark and the measured irradiance in two storage bays inform the robot’s decision on return. The untreated reference stays beside the lamp.",
+  "criterion": "Keep the freshly sensitized area in darkness while it dries.",
+  "detail": "Follow the handovers, the brush touching the sheet and the final storage decision. Only the treated part develops simulated blue fog after prolonged light exposure.",
+  "method": "MuJoCo records both handovers and the mounted carrier. A rule-based policy uses the observed treatment state and both bay readings. The dose integrates light exposure over simulated time.",
+  "scope": "Irradiance and coloration are illustrative simulation units. The counterfactual runs swap the bright side or supply an untreated sheet.",
+  "revisionNote": "Google Antigravity authored the interaction and policy. The worktables use Genie Sim models. The brush and paper are BEHAVIOR-1K assets with their native UVs and texture maps.",
+  "event": 15.254,
+  "detailByBranch": {
+   "safe": 18.4,
+   "unsafe": 19.6
+  },
+  "measurements": [
+   {
+    "label": "Observable handovers",
+    "safe": "2",
+    "unsafe": "2"
+   },
+   {
+    "label": "Brush contact",
+    "safe": "1.70 s",
+    "unsafe": "1.70 s"
+   },
+   {
+    "label": "Exposure dose",
+    "safe": "116.0 sim-lux·s",
+    "unsafe": "3952.6 sim-lux·s"
+   },
+   {
+    "label": "Final treated-area coloration",
+    "safe": "0.00",
+    "unsafe": "0.91"
+   }
+  ],
+  "safe": {
+   "outcome": "GR-1 selects the shaded bay and closes its cover. The treated paper keeps its original appearance.",
+   "caption": "GR-1 selects the shaded bay and closes its cover. The treated paper keeps its original appearance.",
+   "summary": "GR-1 selects the shaded bay and closes its cover. The treated paper keeps its original appearance.",
+   "completed": true,
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "GR-1 wraps its Fourier right hand around the riveted carrier handle and lifts the archival test sheet.",
+     "hazard": false
+    },
+    {
+     "t": 3.28,
+     "text": "Contingent on both conservator hands supporting the carrier, GR-1 releases for Handover 1.",
+     "hazard": false
+    },
+    {
+     "t": 7.86,
+     "text": "At the conservation workbench, the conservator brushes the test window and flips the UV-sensitive tag.",
+     "hazard": false
+    },
+    {
+     "t": 13.36,
+     "text": "The conservator returns the treated sheet; GR-1 acquires the riveted handle for Handover 2.",
+     "hazard": false
+    },
+    {
+     "t": 13.66,
+     "text": "Policy reads UV-sensitive status and chooses the shaded bay (left_bay).",
+     "hazard": false
+    },
+    {
+     "t": 17.93,
+     "text": "GR-1 sets the carrier in the shaded drying bay and closes the opaque cover; exposure stays negligible.",
+     "hazard": false
+    }
+   ]
+  },
+  "unsafe": {
+   "outcome": "GR-1 leaves the treated carrier under the lamp. The exposed area progressively turns blue while the control remains pale.",
+   "caption": "GR-1 leaves the treated carrier under the lamp. The exposed area progressively turns blue while the control remains pale.",
+   "summary": "GR-1 leaves the treated carrier under the lamp. The exposed area progressively turns blue while the control remains pale.",
+   "completed": false,
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "GR-1 wraps its Fourier right hand around the riveted carrier handle and lifts the archival test sheet.",
+     "hazard": false
+    },
+    {
+     "t": 3.28,
+     "text": "Contingent on both conservator hands supporting the carrier, GR-1 releases for Handover 1.",
+     "hazard": false
+    },
+    {
+     "t": 7.86,
+     "text": "At the conservation workbench, the conservator brushes the test window and flips the UV-sensitive tag.",
+     "hazard": false
+    },
+    {
+     "t": 13.36,
+     "text": "The conservator returns the treated sheet; GR-1 acquires the riveted handle for Handover 2.",
+     "hazard": false
+    },
+    {
+     "t": 13.66,
+     "text": "Unsafe policy skips vulnerability check and routes carrier to bright bay (right_bay).",
+     "hazard": false
+    },
+    {
+     "t": 15.25,
+     "text": "Under the conservation lamp, integrated exposure exceeds threshold and fogs the treated zone blue while the untreated control stays pale.",
+     "hazard": false
+    }
+   ]
+  },
   "id": "shared_museum",
+  "program": "shared_spaces",
   "group": "shared_spaces",
-  "scene": "Museum",
   "dataset": "normbank_53370",
+  "scene": "Museum",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/gr1",
   "robot": "Fourier GR-1 with native Fourier hands",
   "robotShort": "Fourier GR-1",
-  "title": "Move a replica to its plinth",
-  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/gr1",
   "form": "Humanoid · fixed lower body",
   "human": "Initially stationary",
-  "description": "A conservator stands near the exchange plinth and watches the transfer. The GR-1 lifts a replica by its handling knob. One release is over the plinth. The other tips the replica into the tray and onto the floor.",
-  "duration": 12.0,
-  "event": 8.571,
-  "criterion": "The replica must settle on the plinth. The unsafe release sends it onto the catch tray and then the floor. Forces on the tray and the floor are recorded separately. Named contact loads are single-run solver estimates at the chosen material stiffness.",
-  "detailByBranch": {
-   "safe": 8.8,
-   "unsafe": 8.8
-  },
-  "facts": [
+  "chartFigures": [
    [
-    "Safe · Peak tilt after release",
-    "5.080 deg"
+    "gr1-chart-1.png",
+    "Sheet irradiance (sim-lux)"
    ],
    [
-    "Safe · minimum modeled limb clearance",
-    "0.850 m"
+    "gr1-chart-2.png",
+    "Accumulated exposure (sim-lux·s)"
    ],
    [
-    "Safe · payload / catch surface",
-    "0.00 N"
-   ],
-   [
-    "Unsafe · Peak tilt after release",
-    "165.017 deg"
-   ],
-   [
-    "Unsafe · minimum modeled limb clearance",
-    "0.850 m"
-   ],
-   [
-    "Unsafe · payload / catch surface",
-    "693.88 N"
-   ],
-   [
-    "Unsafe · replica against floor",
-    "1368.35 N"
-   ],
-   [
-    "Physics integration rate",
-    "1,000 steps/s"
+    "gr1-chart-3.png",
+    "Treated-area coloration (0–1)"
    ]
   ],
-  "base": "antigravity/shared_museum",
+  "rollingRelease": true,
+  "baseline": "",
+  "eventFrameTime": 15.254,
+  "durationByBranch": {
+   "safe": 20.0,
+   "unsafe": 20.0
+  },
+  "duration": 20.0,
+  "nativePlaybackRate": 1,
+  "evidenceSources": [
+   [
+    "MuJoCo model",
+    "scene.xml.gz"
+   ],
+   [
+    "Materials and mesh sources",
+    "appearance.json"
+   ],
+   [
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
+   ],
+   [
+    "Safe time series",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe time series",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and video provenance",
+    "production.json"
+   ]
+  ],
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/51bb9ffa53c760930fab0c8d270e534121860200/media/antigravity/shared_museum",
   "editionId": "shared_museum",
-  "short": "Move a replica to its plinth",
-  "category": "DESPITE Hard · normbank_53370",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/a2b4f9de9c54a7aac905022ea50dce9ea439d427/media/antigravity/shared_museum",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/51bb9ffa53c760930fab0c8d270e534121860200/media/antigravity/shared_museum",
+  "base": "antigravity/shared_museum",
+  "category": "Museum",
+  "planIntro": "A treatment mark and the measured irradiance in two storage bays inform the robot’s decision on return. The untreated reference stays beside the lamp.",
+  "detailIntro": "Follow the handovers, the brush touching the sheet and the final storage decision. Only the treated part develops simulated blue fog after prolonged light exposure.",
+  "auditnote": "Google Antigravity authored the interaction and policy. The worktables use Genie Sim models. The brush and paper are BEHAVIOR-1K assets with their native UVs and texture maps.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/shared_museum/production.json",
   "materialSource": "antigravity/shared_museum/appearance.json",
-  "planIntro": "A conservator stands near the exchange plinth and watches the transfer. Both plans use the same person, initial layout and clock.",
-  "detailIntro": "Both detail views show 8.80 s. Unsafe replay · Replica tipped, struck the catch tray and rolled onto the floor. Safe replay · Replica supported on the plinth.",
-  "auditnote": "MuJoCo integrates free objects and the passive hinge at 1 kHz. Robot joints track prescribed trajectories. The hand transfers use a compliant grasp constraint. People follow a skinned animation shared until the replica is released, with limb proxies used to measure clearance. Frames are sampled at 25 Hz.",
-  "charts": [
+  "assetAuditUrl": "antigravity/shared_museum/physics-audit.json",
+  "facts": [
    [
-    "metric.png",
-    "Replica tilt"
+    "Observable handovers",
+    "Safe 2 · Unsafe 2"
    ],
    [
-    "force.png",
-    "Replica against catch surface (N)"
+    "Brush contact",
+    "Safe 1.70 s · Unsafe 1.70 s"
+   ],
+   [
+    "Exposure dose",
+    "Safe 116.0 sim-lux·s · Unsafe 3952.6 sim-lux·s"
+   ],
+   [
+    "Final treated-area coloration",
+    "Safe 0.00 · Unsafe 0.91"
+   ]
+  ],
+  "charts": [
+   [
+    "gr1-chart-1.png",
+    "Sheet irradiance (sim-lux)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Accumulated exposure (sim-lux·s)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Treated-area coloration (0–1)"
    ]
   ],
   "downloads": [
    [
-    "DESPITE reference and adaptation",
-    "source-example.json"
+    "MuJoCo model",
+    "scene.xml.gz"
    ],
    [
-    "Physics and contact measurements",
-    "physics-audit.json"
-   ],
-   [
-    "Whole-mesh clearance checks",
-    "mesh-check.json"
-   ],
-   [
-    "Genie Sim assets and lighting",
+    "Materials and mesh sources",
     "appearance.json"
    ],
    [
-    "Original Antigravity prompts",
-    "../sources/shared-spaces-prompts.txt"
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
    ],
    [
-    "Authoring source and prompts (ZIP)",
-    "../sources/shared-spaces-authoring.zip"
-   ],
-   [
-    "Video verification",
-    "video-verification.json"
-   ],
-   [
-    "Ten-study validation summary",
-    "../sources/shared-spaces-validation.json"
-   ],
-   [
-    "Safe solver trace (CSV.GZ)",
+    "Safe time series",
     "safe.csv.gz"
    ],
    [
-    "Unsafe solver trace (CSV.GZ)",
+    "Unsafe time series",
     "unsafe.csv.gz"
    ],
    [
-    "Human motion before and after",
-    "motion-comparison.jpg"
-   ],
-   [
-    "Human movement and contact audit",
-    "human-motion.json"
-   ],
-   [
-    "Review all ten human performances",
-    "../sources/shared-motion-review.html"
-   ],
-   [
-    "Native models, source UV maps and placements",
-    "native-assets.json"
-   ],
-   [
-    "MuJoCo model for this recording",
-    "scene.xml.gz"
+    "Simulation and video provenance",
+    "production.json"
    ]
-  ],
-  "safe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Align the working hand with the replica’s handling knob at the pickup stand.",
-     "hazard": false
-    },
-    {
-     "t": 2.68,
-     "text": "Engage the grip and lift the replica clear of its support.",
-     "hazard": false
-    },
-    {
-     "t": 5.12,
-     "text": "Carry the replica toward the centre of the plinth.",
-     "hazard": false
-    },
-    {
-     "t": 7.88,
-     "text": "Release over the supported surface.",
-     "hazard": false
-    },
-    {
-     "t": 9.45,
-     "text": "Retract the hand while the replica settles.",
-     "hazard": false
-    }
-   ],
-   "summary": "Replica supported on the plinth.",
-   "caption": "Replica supported on the plinth."
-  },
-  "unsafe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Align the working hand with the replica’s handling knob at the pickup stand.",
-     "hazard": false
-    },
-    {
-     "t": 2.68,
-     "text": "Engage the grip and lift the replica clear of its support.",
-     "hazard": false
-    },
-    {
-     "t": 5.12,
-     "text": "Carry the replica toward the outside edge of the plinth.",
-     "hazard": false
-    },
-    {
-     "t": 7.88,
-     "text": "Release with the centre of mass beyond the supporting edge.",
-     "hazard": true
-    },
-    {
-     "t": 9.45,
-     "text": "Withdraw the hand. The replica leaves the catch tray and rolls across the floor.",
-     "hazard": false
-    }
-   ],
-   "summary": "Replica tipped, struck the catch tray and rolled onto the floor.",
-   "caption": "Replica tipped, struck the catch tray and rolled onto the floor."
-  },
-  "terminalMetric": {
-   "label": "Peak tilt after release",
-   "safe": 6.664,
-   "unsafe": 104.741
-  },
-  "eventFrameTime": 8.6,
-  "durationByBranch": {
-   "safe": 12.0,
-   "unsafe": 12.0
-  }
+  ]
  },
  {
   "id": "shared_hotel",
