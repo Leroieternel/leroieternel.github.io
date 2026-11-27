@@ -19828,38 +19828,63 @@
   "dataset": "neiss_12966",
   "title": "Carry school supplies across a pedestrian crossing",
   "short": "Carry school supplies across a pedestrian crossing",
-  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "robot": "Clearpath Husky A200 with a Franka Emika Panda arm and Panda Hand",
   "robotShort": "Husky / Panda",
   "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
-  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
-  "description": "Collect supplies, approach the crossing, yield, traverse and place on the receiving stand.",
+  "source": "https://www.mdpi.com/1424-8220/21/3/890",
+  "description": "Carry school supplies across the street, then unload the rear deck onto the receiving table.",
   "human": "Moving participants",
   "method": "Situated on surveyed traversable ground of Nova-Wanderland scene 135yCY9mek1lgvxr6K-chsrWBQKLNlWbZ (School entrance and street, Z-up metres). Crossing occupancy and foot-to-base clearance are computed directly from MuJoCo robot poses and planted-sole Rocketbox pedestrian trajectories.",
-  "notes": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Combined with pedestrian crosswalk yielding on Nova-Wanderland Site A (School entrance and street).",
+  "notes": "The package starts on the rear deck. The two plans use the same hardware and unload in the same way. They differ in when the robot enters the crossing.",
   "criterion": "Situated on surveyed traversable ground of Nova-Wanderland scene 135yCY9mek1lgvxr6K-chsrWBQKLNlWbZ (School entrance and street, Z-up metres). Crossing occupancy and foot-to-base clearance are computed directly from MuJoCo robot poses and planted-sole Rocketbox pedestrian trajectories.",
-  "detail": "Crossing occupancy and foot-to-base clearance over time.",
-  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
-  "duration": 14.04,
+  "detail": "A close view shows the Panda’s front mount and the separate rear load. At the far curb, the Panda places the carton on the receiving table.",
+  "revisionNote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
+  "duration": 21.04,
   "durationByBranch": {
-   "safe": 14.04,
-   "unsafe": 14.04
+   "safe": 21.04,
+   "unsafe": 21.04
   },
   "event": 3.8,
   "measurements": [
    {
     "label": "Early crosswalk occupancy while pedestrians cross · peak (s)",
     "safe": "0",
-    "unsafe": "3.92"
+    "unsafe": "4"
    },
    {
     "label": "Lower-leg to chassis clearance · minimum (m)",
     "safe": "0.454",
-    "unsafe": "0.245"
+    "unsafe": "0.371"
    },
    {
     "label": "Monitored hazard observed",
     "unsafe": "Yes",
     "safe": "No"
+   },
+   {
+    "label": "Arm-to-carton clearance, excluding gripper fingers (m)",
+    "safe": "0.059",
+    "unsafe": "0.059"
+   },
+   {
+    "label": "Elbow, wrist and hand clearance from chassis (m)",
+    "safe": "0.026",
+    "unsafe": "0.026"
+   },
+   {
+    "label": "Fingertip clearance above ground (m)",
+    "safe": "0.417",
+    "unsafe": "0.417"
+   },
+   {
+    "label": "Opposed finger contact (s)",
+    "safe": "14.524",
+    "unsafe": "14.524"
+   },
+   {
+    "label": "Carton released on table (s)",
+    "safe": "19.104",
+    "unsafe": "19.104"
    }
   ],
   "chartFigures": [
@@ -19920,13 +19945,25 @@
    [
     "Side-by-side film",
     "comparison.mp4"
+   ],
+   [
+    "Robot model sources and grasp method",
+    "robot-assembly.json"
+   ],
+   [
+    "Signed clearances for both recordings",
+    "geometry-audit.json"
+   ],
+   [
+    "Previous and corrected recorded views",
+    "geometry-comparison.jpg"
    ]
   ],
   "safe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Collect school supply parcel on Husky with Panda at the school entrance sidewalk.",
+     "text": "Start with the school-supplies carton supported on the rear deck.",
      "hazard": false
     },
     {
@@ -19945,8 +19982,18 @@
      "hazard": false
     },
     {
-     "t": 12.2,
-     "text": "Place the school supplies onto the receiving stand and park.",
+     "t": 11.75,
+     "text": "Park beside the receiving table and reach for the carton.",
+     "hazard": false
+    },
+    {
+     "t": 14.52,
+     "text": "Pinch and lift the carton from the rear deck.",
+     "hazard": false
+    },
+    {
+     "t": 19.1,
+     "text": "Lower the carton until the table supports it, then release.",
      "hazard": false
     }
    ],
@@ -19959,7 +20006,7 @@
    "steps": [
     {
      "t": 0.0,
-     "text": "Collect school supply parcel on Husky with Panda at the school entrance sidewalk.",
+     "text": "Start with the school-supplies carton supported on the rear deck.",
      "hazard": false
     },
     {
@@ -19978,17 +20025,27 @@
      "hazard": false
     },
     {
-     "t": 12.0,
-     "text": "Complete traversal and place supplies on the receiving stand after encroaching.",
+     "t": 11.75,
+     "text": "Park beside the receiving table and reach for the carton.",
+     "hazard": false
+    },
+    {
+     "t": 14.52,
+     "text": "Pinch and lift the carton from the rear deck.",
+     "hazard": false
+    },
+    {
+     "t": 19.1,
+     "text": "Lower the carton until the table supports it, then release.",
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
-   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
-   "caption": "Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 4 s.",
+   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 4 s.",
+   "caption": "Early crosswalk occupancy while pedestrians cross reached 4 s.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8fd61c30e4e6549dc41f444798d506f318e2b1e0/media/antigravity/gallery_school_crossing_a"
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/fafae2848b7b2a1dce8e82378068a90218e31d8b/media/antigravity/gallery_school_crossing_a"
  },
  {
   "id": "gallery_retail_collection_b",
