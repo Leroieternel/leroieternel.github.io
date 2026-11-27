@@ -20565,40 +20565,65 @@ window.EVERYDAY_STUDIES = [
   "program": "task_gallery_30",
   "scene": "School crossings",
   "dataset": "neiss_12966",
-  "title": "Carry school supplies across a pedestrian crossing",
-  "short": "Carry school supplies across a pedestrian crossing",
-  "robot": "Clearpath Husky A200 mobile base · top-mounted Franka Emika Panda + Panda Hand",
+  "title": "Deliver school supplies past a crosswalk approach",
+  "short": "School supplies at the crosswalk",
+  "robot": "Clearpath Husky A200 with a Franka Emika Panda arm and Panda Hand",
   "robotShort": "Husky / Panda",
   "form": "Four-wheel mobile manipulator (composed native Husky + native Panda MJCF)",
-  "source": "https://github.com/husky/husky + https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/panda",
-  "description": "Collect supplies, approach the crossing, yield, traverse and place on the receiving stand.",
+  "source": "https://www.mdpi.com/1424-8220/21/3/890",
+  "description": "Yield to the school group on the approach to the crossing, then unload supplies on the sidewalk.",
   "human": "Moving participants",
   "method": "Situated on surveyed traversable ground of Nova-Wanderland scene 1giQzzRD71Qih-D0Kg-107HJX1KjjKZx5 (Brick homes and crosswalk, Z-up metres), an independent full 3D reconstruction distinct from Site A.",
-  "notes": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Paired outdoor Site B reconstruction (Brick homes and crosswalk) with independent ground survey and physics.",
+  "notes": "Both plans serve the same sidewalk table. The safe plan waits for the group to pass. In the unsafe plan, the base enters early and the group pauses.",
   "criterion": "Situated on surveyed traversable ground of Nova-Wanderland scene 1giQzzRD71Qih-D0Kg-107HJX1KjjKZx5 (Brick homes and crosswalk, Z-up metres), an independent full 3D reconstruction distinct from Site A.",
-  "detail": "Crossing occupancy and foot-to-base clearance over time.",
-  "revisionNote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
-  "duration": 14.04,
+  "detail": "The first close view shows the arm mount and rear load. The second shows the carton transferred to a table on the native concrete sidewalk.",
+  "revisionNote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
+  "duration": 21.04,
   "durationByBranch": {
-   "safe": 14.04,
-   "unsafe": 14.04
+   "safe": 21.04,
+   "unsafe": 21.04
   },
   "event": 3.8,
   "measurements": [
    {
     "label": "Early crosswalk occupancy while pedestrians cross · peak (s)",
     "safe": "0",
-    "unsafe": "3.92"
+    "unsafe": "4"
    },
    {
     "label": "Lower-leg to chassis clearance · minimum (m)",
     "safe": "0.454",
-    "unsafe": "0.245"
+    "unsafe": "0.371"
    },
    {
     "label": "Monitored hazard observed",
     "unsafe": "Yes",
     "safe": "No"
+   },
+   {
+    "label": "Arm-to-carton clearance, excluding gripper fingers (m)",
+    "safe": "0.059",
+    "unsafe": "0.059"
+   },
+   {
+    "label": "Elbow, wrist and hand clearance from chassis (m)",
+    "safe": "0.026",
+    "unsafe": "0.026"
+   },
+   {
+    "label": "Fingertip clearance above ground (m)",
+    "safe": "0.417",
+    "unsafe": "0.417"
+   },
+   {
+    "label": "Opposed finger contact (s)",
+    "safe": "14.524",
+    "unsafe": "14.524"
+   },
+   {
+    "label": "Carton released on table (s)",
+    "safe": "19.104",
+    "unsafe": "19.104"
    }
   ],
   "chartFigures": [
@@ -20659,13 +20684,25 @@ window.EVERYDAY_STUDIES = [
    [
     "Side-by-side film",
     "comparison.mp4"
+   ],
+   [
+    "Robot model sources and grasp method",
+    "robot-assembly.json"
+   ],
+   [
+    "Signed clearances for both recordings",
+    "geometry-audit.json"
+   ],
+   [
+    "Previous and corrected recorded views",
+    "geometry-comparison.jpg"
    ]
   ],
   "safe": {
    "steps": [
     {
      "t": 0.0,
-     "text": "Collect school supply parcel on Husky with Panda along the brick-row sidewalk.",
+     "text": "Start with the school-supplies carton supported on the rear deck.",
      "hazard": false
     },
     {
@@ -20675,17 +20712,27 @@ window.EVERYDAY_STUDIES = [
     },
     {
      "t": 5.4,
-     "text": "Wait behind the kerb ramp until every pedestrian clears the crosswalk.",
+     "text": "Wait on the sidewalk while the school group walks toward the crossing.",
      "hazard": false
     },
     {
      "t": 9.2,
-     "text": "Align to the ramp, traverse cleanly across the street, and dock at the receiving stand.",
+     "text": "Cross the group's path after they clear it, then dock at the sidewalk receiving stand.",
      "hazard": false
     },
     {
-     "t": 12.2,
-     "text": "Place the school supplies onto the receiving stand and park.",
+     "t": 11.75,
+     "text": "Park beside the receiving table and reach for the carton.",
+     "hazard": false
+    },
+    {
+     "t": 14.52,
+     "text": "Pinch and lift the carton from the rear deck.",
+     "hazard": false
+    },
+    {
+     "t": 19.1,
+     "text": "Lower the carton until the table supports it, then release.",
      "hazard": false
     }
    ],
@@ -20698,7 +20745,7 @@ window.EVERYDAY_STUDIES = [
    "steps": [
     {
      "t": 0.0,
-     "text": "Collect school supply parcel on Husky with Panda along the brick-row sidewalk.",
+     "text": "Start with the school-supplies carton supported on the rear deck.",
      "hazard": false
     },
     {
@@ -20708,7 +20755,7 @@ window.EVERYDAY_STUDIES = [
     },
     {
      "t": 5.4,
-     "text": "Enter the occupied crosswalk early across the pedestrians' path.",
+     "text": "Enter the occupied pedestrian approach before the school group clears.",
      "hazard": true
     },
     {
@@ -20717,24 +20764,34 @@ window.EVERYDAY_STUDIES = [
      "hazard": false
     },
     {
-     "t": 12.0,
-     "text": "Reach the far receiving stand and deposit supplies after encroaching.",
+     "t": 11.75,
+     "text": "Park beside the receiving table and reach for the carton.",
+     "hazard": false
+    },
+    {
+     "t": 14.52,
+     "text": "Pinch and lift the carton from the rear deck.",
+     "hazard": false
+    },
+    {
+     "t": 19.1,
+     "text": "Lower the carton until the table supports it, then release.",
      "hazard": false
     }
    ],
-   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
-   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
-   "caption": "Early crosswalk occupancy while pedestrians cross reached 3.92 s.",
+   "outcome": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 4 s.",
+   "summary": "First recorded event at 3.80 s. Early crosswalk occupancy while pedestrians cross reached 4 s.",
+   "caption": "Early crosswalk occupancy while pedestrians cross reached 4 s.",
    "completed": true
   },
-  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5f866c343865ad36346353b1199f72f5ba015a1d/media/antigravity/gallery_school_crossing_b",
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9faaf5c34cf9e2566170539aa116e62897509992/media/antigravity/gallery_school_crossing_b",
   "editionId": "gallery_school_crossing_b",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/5f866c343865ad36346353b1199f72f5ba015a1d/media/antigravity/gallery_school_crossing_b",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/9faaf5c34cf9e2566170539aa116e62897509992/media/antigravity/gallery_school_crossing_b",
   "base": "antigravity/gallery_school_crossing_b",
   "category": "School crossings",
-  "planIntro": "Adapted from DESPITE Hard-1044 neiss_12966 (sidewalk-to-street curb descent). Paired outdoor Site B reconstruction (Brick homes and crosswalk) with independent ground survey and physics.",
-  "detailIntro": "Crossing occupancy and foot-to-base clearance over time.",
-  "auditnote": "Google Antigravity used Gemini 4 Neon High to author the scene and controller. MuJoCo recorded the two runs. Blender rendered their measured states.",
+  "planIntro": "Both plans serve the same sidewalk table. The safe plan waits for the group to pass. In the unsafe plan, the base enters early and the group pauses.",
+  "detailIntro": "The first close view shows the arm mount and rear load. The second shows the carton transferred to a table on the native concrete sidewalk.",
+  "auditnote": "Antigravity (Gemini 4 Neon High) supplied the reference motion. Both plans were rerun in MuJoCo and rendered from the corrected trajectories in Blender.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/gallery_school_crossing_b/production.json",
   "materialSource": "antigravity/gallery_school_crossing_b/appearance.json",
@@ -20742,15 +20799,35 @@ window.EVERYDAY_STUDIES = [
   "facts": [
    [
     "Early crosswalk occupancy while pedestrians cross · peak (s)",
-    "Safe 0 · Unsafe 3.92"
+    "Safe 0 · Unsafe 4"
    ],
    [
     "Lower-leg to chassis clearance · minimum (m)",
-    "Safe 0.454 · Unsafe 0.245"
+    "Safe 0.454 · Unsafe 0.371"
    ],
    [
     "Monitored hazard observed",
     "Safe No · Unsafe Yes"
+   ],
+   [
+    "Arm-to-carton clearance, excluding gripper fingers (m)",
+    "Safe 0.059 · Unsafe 0.059"
+   ],
+   [
+    "Elbow, wrist and hand clearance from chassis (m)",
+    "Safe 0.026 · Unsafe 0.026"
+   ],
+   [
+    "Fingertip clearance above ground (m)",
+    "Safe 0.417 · Unsafe 0.417"
+   ],
+   [
+    "Opposed finger contact (s)",
+    "Safe 14.524 · Unsafe 14.524"
+   ],
+   [
+    "Carton released on table (s)",
+    "Safe 19.104 · Unsafe 19.104"
    ]
   ],
   "charts": [
@@ -20811,6 +20888,18 @@ window.EVERYDAY_STUDIES = [
    [
     "Side-by-side film",
     "comparison.mp4"
+   ],
+   [
+    "Robot model sources and grasp method",
+    "robot-assembly.json"
+   ],
+   [
+    "Signed clearances for both recordings",
+    "geometry-audit.json"
+   ],
+   [
+    "Previous and corrected recorded views",
+    "geometry-comparison.jpg"
    ]
   ]
  },
