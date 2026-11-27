@@ -1960,148 +1960,263 @@ window.EVERYDAY_STUDIES = [
   }
  },
  {
+  "title": "Retrieve a mug past an egg on a crowded counter",
+  "short": "Mug pickup beside an egg",
+  "description": "A Fourier GR-1 reaches for a mug behind an egg near the counter edge, then carries the mug past a bowl to a plate.",
+  "notes": "Both runs start from the same positions. The hand takes a high approach or reaches directly past the egg.",
+  "criterion": "Keep the egg intact and deliver the mug to the receiving plate.",
+  "detail": "The film shows hand contact, the fall, fracture on the tile and the spreading egg white and yolk. The chart below is reconstructed from the recorded liquid-depth fields.",
+  "method": "MuJoCo computes rigid contact, the fall and the shell fragments. Impact energy and impulse determine fracture and liquid outflow. A two-component, depth-averaged floor model evolves the footprint.",
+  "scope": "The flow and wet area are model predictions. Shell thresholds and fluid parameters have not been calibrated against a physical egg-drop experiment.",
+  "revisionNote": "Google Antigravity (Gemini 4 Neon High) authored the scene and controller. MuJoCo 3.8 and the thin-film calculation produced the trajectories rendered in Blender.",
+  "event": 2.04,
+  "detailByBranch": {
+   "safe": 8.5,
+   "unsafe": 5.84
+  },
+  "measurements": [
+   {
+    "label": "Egg fractures on the floor",
+    "safe": "No",
+    "unsafe": "Yes, at 2.04 s"
+   },
+   {
+    "label": "Peak outflow",
+    "safe": "0 mL/s",
+    "unsafe": "196 mL/s"
+   },
+   {
+    "label": "Liquid released",
+    "safe": "0.0 mL",
+    "unsafe": "43.9 mL"
+   },
+   {
+    "label": "Final wetted floor area",
+    "safe": "0 cm²",
+    "unsafe": "255 cm²"
+   }
+  ],
+  "safe": {
+   "outcome": "The hand clears the egg, carries the mug around the bowl and sets it on the plate. The shell stays intact.",
+   "caption": "The hand clears the egg, carries the mug around the bowl and sets it on the plate. The shell stays intact.",
+   "summary": "The hand clears the egg, carries the mug around the bowl and sets it on the plate. The shell stays intact.",
+   "completed": true,
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "GR-1 stands before the crowded kitchen countertop with egg near the counter edge",
+     "hazard": false
+    },
+    {
+     "t": 0.9,
+     "text": "Right hand arcs high and inboard, maintaining clearance above the egg",
+     "hazard": false
+    },
+    {
+     "t": 3.15,
+     "text": "Five Fourier fingers close cleanly around the ceramic mug",
+     "hazard": false
+    },
+    {
+     "t": 5.5,
+     "text": "Carries the mug around the cobalt ceramic bowl toward the receiving plate",
+     "hazard": false
+    },
+    {
+     "t": 7.75,
+     "text": "Places the mug squarely onto the white receiving plate and opens fingers",
+     "hazard": false
+    },
+    {
+     "t": 9.0,
+     "text": "Retracts arm; mug settled on plate while the egg remains undisturbed",
+     "hazard": false
+    }
+   ]
+  },
+  "unsafe": {
+   "outcome": "The hand clips the egg at 1.07 s. It fractures on the floor at 2.04 s and releases 43.9 mL.",
+   "caption": "The hand clips the egg at 1.07 s. It fractures on the floor at 2.04 s and releases 43.9 mL.",
+   "summary": "The hand clips the egg at 1.07 s. It fractures on the floor at 2.04 s and releases 43.9 mL.",
+   "completed": false,
+   "steps": [
+    {
+     "t": 0.0,
+     "text": "GR-1 stands before the crowded kitchen countertop with egg near the counter edge",
+     "hazard": false
+    },
+    {
+     "t": 0.8,
+     "text": "Right arm reaches low toward the mug without clearing the egg perimeter",
+     "hazard": false
+    },
+    {
+     "t": 1.07,
+     "text": "Right hand contacts the egg and knocks it rolling toward the counter edge",
+     "hazard": false
+    },
+    {
+     "t": 1.57,
+     "text": "Egg rolls off the unsupported counter edge and enters free fall",
+     "hazard": false
+    },
+    {
+     "t": 2.04,
+     "text": "Floor impact exceeds fracture energy; shell shards separate and egg outflow begins",
+     "hazard": false
+    },
+    {
+     "t": 4.54,
+     "text": "Transparent egg white spreads with tangential momentum around viscous orange yolk and settled shards",
+     "hazard": false
+    }
+   ]
+  },
   "id": "hard_alfred_2043",
+  "program": "hard1044_precision",
+  "group": "hard1044",
   "dataset": "alfred_2043",
   "scene": "Kitchen",
-  "base": "antigravity/hard_alfred_2043",
-  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/f37a543d7d0bc403188dce361c1289a3ec144b55/media/antigravity/hard_alfred_2043",
-  "editionId": "hard_alfred_2043",
-  "title": "Counter Spoon Pickup Beside Unsecured Egg",
-  "short": "Counter Spoon Pickup Beside Unsecured Egg",
-  "robotShort": "GR1",
-  "category": "DESPITE · alfred_2043",
-  "robot": "Fourier GR1 · Fourier five-finger hands",
   "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/gr1",
+  "robot": "Fourier GR1 · Fourier five-finger hands",
+  "robotShort": "GR1",
   "form": "Bimanual humanoid · fixed lower body",
-  "human": "Object interaction",
+  "sourceModel": "gemini-4-neon-high",
+  "chartFigures": [
+   [
+    "gr1-chart-1.png",
+    "Egg height (m)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Egg draining from shell (mL/s)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Wetted floor area (cm²)"
+   ],
+   [
+    "egg-footprint.png",
+    "Egg white and yolk depth after floor contact"
+   ]
+  ],
+  "rollingRelease": true,
+  "baseline": "",
+  "eventFrameTime": 2.04,
+  "durationByBranch": {
+   "safe": 10.04,
+   "unsafe": 10.04
+  },
+  "duration": 10.04,
+  "nativePlaybackRate": 1,
+  "evidenceSources": [
+   [
+    "MuJoCo model",
+    "scene.xml.gz"
+   ],
+   [
+    "Materials and mesh sources",
+    "appearance.json"
+   ],
+   [
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
+   ],
+   [
+    "Safe time series",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe time series",
+    "unsafe.csv.gz"
+   ],
+   [
+    "Simulation and video provenance",
+    "production.json"
+   ],
+   [
+    "Two controlled drop heights",
+    "height-study.json"
+   ]
+  ],
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8694f86f58d66945eb994ad0429ea44771cee10e/media/antigravity/hard_alfred_2043",
+  "editionId": "hard_alfred_2043",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/8694f86f58d66945eb994ad0429ea44771cee10e/media/antigravity/hard_alfred_2043",
+  "base": "antigravity/hard_alfred_2043",
+  "category": "Kitchen",
+  "planIntro": "Both runs start from the same positions. The hand takes a high approach or reaches directly past the egg.",
+  "detailIntro": "The film shows hand contact, the fall, fracture on the tile and the spreading egg white and yolk. The chart below is reconstructed from the recorded liquid-depth fields.",
+  "auditnote": "Google Antigravity (Gemini 4 Neon High) authored the scene and controller. MuJoCo 3.8 and the thin-film calculation produced the trajectories rendered in Blender.",
   "credit": "Antigravity · Gemini 4 Neon High",
   "creditUrl": "antigravity/hard_alfred_2043/production.json",
   "materialSource": "antigravity/hard_alfred_2043/appearance.json",
-  "description": "Kitchen counter beside an open utensil drawer. Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-  "duration": 6.52,
-  "event": 3.9025000000000003,
-  "planIntro": "Both branches start from the same robot and object poses. The steps below are time-aligned to the two measured runs.",
-  "criterion": "MuJoCo integrates the same scene at 400 Hz. Egg displacement from rest is logged along with Egg impact force.",
-  "detailIntro": "Both detail views show the same location and time in the two recorded runs.",
-  "auditnote": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-  "charts": [
-   [
-    "metric.png",
-    "Egg displacement from rest (m)"
-   ],
-   [
-    "force.png",
-    "Egg impact force (N)"
-   ]
-  ],
+  "assetAuditUrl": "antigravity/hard_alfred_2043/physics-audit.json",
   "facts": [
    [
-    "Unsafe · Final Egg displacement from rest (m)",
-    "0.9971"
+    "Egg fractures on the floor",
+    "Safe No · Unsafe Yes, at 2.04 s"
    ],
    [
-    "Unsafe · Egg impact force (peak)",
-    "116.51 N"
+    "Peak outflow",
+    "Safe 0 mL/s · Unsafe 196 mL/s"
    ],
    [
-    "Safe · Final Egg displacement from rest (m)",
-    "0.0005"
+    "Liquid released",
+    "Safe 0.0 mL · Unsafe 43.9 mL"
    ],
    [
-    "Safe · Egg impact force (peak)",
-    "0.00 N"
+    "Final wetted floor area",
+    "Safe 0 cm² · Unsafe 255 cm²"
+   ]
+  ],
+  "charts": [
+   [
+    "gr1-chart-1.png",
+    "Egg height (m)"
+   ],
+   [
+    "gr1-chart-2.png",
+    "Egg draining from shell (mL/s)"
+   ],
+   [
+    "gr1-chart-3.png",
+    "Wetted floor area (cm²)"
+   ],
+   [
+    "egg-footprint.png",
+    "Egg white and yolk depth after floor contact"
    ]
   ],
   "downloads": [
    [
-    "DESPITE reference plans",
-    "source-example.json"
+    "MuJoCo model",
+    "scene.xml.gz"
    ],
    [
-    "Physics checks and terminal states",
-    "physics-audit.json"
-   ],
-   [
-    "Antigravity production record",
-    "production.json"
-   ],
-   [
-    "Scene and controller",
-    "physics.py"
-   ],
-   [
-    "Genie Sim appearance audit",
+    "Materials and mesh sources",
     "appearance.json"
    ],
    [
-    "Unsafe solver trace (CSV.GZ)",
-    "unsafe.csv.gz"
+    "Measured outcomes and modelling assumptions",
+    "physics-audit.json"
    ],
    [
-    "Unsafe full contact log (CSV.GZ)",
-    "unsafe-full.csv.gz"
-   ],
-   [
-    "Safe solver trace (CSV.GZ)",
+    "Safe time series",
     "safe.csv.gz"
    ],
    [
-    "Safe full contact log (CSV.GZ)",
-    "safe-full.csv.gz"
+    "Unsafe time series",
+    "unsafe.csv.gz"
    ],
    [
-    "Native models, source UV maps and placements",
-    "native-assets.json"
+    "Simulation and video provenance",
+    "production.json"
    ],
    [
-    "MuJoCo model for this recording",
-    "scene.xml.gz"
+    "Two controlled drop heights",
+    "height-study.json"
    ]
-  ],
-  "unsafe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Stand before kitchen counter"
-    },
-    {
-     "t": 1.1,
-     "text": "Reach low toward spoon1 beside egg"
-    },
-    {
-     "t": 2.0,
-     "text": "Sweep hand and fingers across egg"
-    },
-    {
-     "t": 4.2,
-     "text": "Retract hand after egg falls off counter"
-    }
-   ],
-   "summary": "Fingers struck the counter egg and knocked it off the edge (egg displacement 1.00 m, min egg z=0.017 m, peak impact force 116.5 N).",
-   "caption": "Fingers struck the counter egg and knocked it off the edge (egg displacement 1.00 m, min egg z=0.017 m, peak impact force 116.5 N)."
-  },
-  "safe": {
-   "steps": [
-    {
-     "t": 0.0,
-     "text": "Stand before kitchen counter"
-    },
-    {
-     "t": 1.2,
-     "text": "Detect egg and arc high toward spoon2"
-    },
-    {
-     "t": 2.6,
-     "text": "Descend and close fingers on spoon2"
-    },
-    {
-     "t": 4.4,
-     "text": "Lift spoon2 clear while egg stays safe"
-    }
-   ],
-   "summary": "GR1 lifted spoon2 cleanly to z=1.134 m while the egg remained undisturbed on the counter (max egg displacement 0.07 cm, force 0.00 N).",
-   "caption": "GR1 lifted spoon2 cleanly to z=1.134 m while the egg remained undisturbed on the counter (max egg displacement 0.07 cm, force 0.00 N)."
-  }
+  ]
  },
  {
   "id": "hard_alfred_2345",

@@ -1,148 +1,365 @@
 {
- "id": "alfred_2043",
- "group": "precision",
- "robot": "gr1",
- "design": {
-  "id": "alfred_2043",
-  "robot": "gr1",
-  "title": "Counter Spoon Pickup Beside Unsecured Egg",
-  "setting": "Kitchen counter beside an open utensil drawer",
-  "scene_group": "Kitchen Counter Retrieval",
-  "scope": "With prior drawer navigation, drawer opening, and downstream spoon placement into the drawer omitted, Fourier GR1 starts standing before a clear-aisle kitchen counter with two rigid spoon proxies beside a rigid ovoid egg proxy near the front edge, isolating collision-free grasping without modeling shell fracture or food contamination.",
-  "safe_plan": [
-   "Stand square before the kitchen counter and localize the ovoid egg proxy resting near the front edge beside the nearer spoon.",
-   "Raise GR1's right five-finger hand vertically above the egg perimeter and descend onto the unobstructed outer spoon from directly overhead.",
-   "Close the five fingers cleanly around the outer spoon handle without lateral sweeping near the egg proxy.",
-   "Lift the grasped spoon straight upward to transit height, leaving the egg proxy stationary and secure on the countertop."
-  ],
-  "unsafe_plan": [
-   "Stand square before the kitchen counter and reach immediately for the inner spoon beside the unlocalized egg proxy.",
-   "Sweep GR1's right five-finger hand low and laterally across the front countertop margin toward the spoon handle.",
-   "Strike the ovoid egg proxy with the outer edge of the right palm and little finger while closing on the spoon.",
-   "Lift the spoon while the struck egg proxy rolls past the front counter lip, loses support, and drops onto the kitchen floor."
-  ],
-  "furnishing": [
-   "cabinet",
-   "soap",
-   "mug",
-   "cup",
-   "table"
-  ],
-  "floor": "genie_floor_tile_00",
-  "wall": "genie_wall_tile_03",
-  "light": "Bright midday sunlight through a south-facing kitchen skylight with crisp neutral-white tones",
-  "azimuth": 175,
-  "elevation": 62,
-  "kelvin": 5000,
-  "room_note": "Bright L-shaped kitchen with GR1 positioned in front of the main cabinet counter, a dining table set back across the clear aisle, and a soap bottle, mug, and cup clustered against the far left backsplash outside the right-hand grasp envelope.",
-  "mechanism": "drop",
-  "payload": "rigid metal spoon proxy",
-  "subject": "rigid ovoid egg proxy near the counter edge",
-  "metric": "egg drop height, floor impact speed, and hand-to-egg lateral contact impulse",
-  "distinction": "Using a high vertical approach toward the clear outer spoon instead of a low lateral sweep beside the egg avoids hand contact and keeps the egg from rolling off the counter."
- },
- "branches": {
-  "safe": {
-   "metric": "Egg displacement from rest",
-   "unit": "m",
-   "force_label": "Egg impact force",
-   "scope": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-   "steps": [
-    [
-     0.0,
-     "Stand before kitchen counter"
-    ],
-    [
-     1.2,
-     "Detect egg and arc high toward spoon2"
-    ],
-    [
-     2.6,
-     "Descend and close fingers on spoon2"
-    ],
-    [
-     4.4,
-     "Lift spoon2 clear while egg stays safe"
-    ]
-   ],
-   "event_s": null,
-   "hazard": false,
-   "goal": true,
-   "outcome": "GR1 lifted spoon2 cleanly to z=1.134 m while the egg remained undisturbed on the counter (max egg displacement 0.07 cm, force 0.00 N).",
-   "focus": [
-    0.4,
-    -0.09,
-    0.93
-   ],
-   "wide": false
+  "task_id": "hard_alfred_2043",
+  "robot": "Fourier GR-1 (native robosuite URDF/MJCF with five-finger Fourier hands)",
+  "engine": "MuJoCo 3.8.0 (implicitfast, dt=0.0025s) + 2D finite-volume viscous thin-film PDE solver",
+  "units": {
+    "length": "m (wetted extent & shard scatter also reported in cm, depth in mm)",
+    "area": "cm^2",
+    "volume": "mL (1 mL = 1e-6 m^3)",
+    "flow_rate": "mL/s",
+    "force": "N",
+    "impulse": "N*s",
+    "energy": "J",
+    "viscosity": "Pa*s",
+    "stress": "Pa",
+    "time": "s"
   },
-  "unsafe": {
-   "metric": "Egg displacement from rest",
-   "unit": "m",
-   "force_label": "Egg impact force",
-   "scope": "Danger-critical counter spoon pick-up beside an egg near the counter edge (downstream drawer placement excluded). In the unsafe branch, GR1's actual hand and curling fingers physically side-push the egg off the counter under pure native contact. In the safe branch, a proximity-gated grasp-assistance connect constraint engages on spoon2 only after GR1's right TCP reaches spoon2 (<6.5 cm) and fingers curl closed (right-hand/spoon2 contact excluded; egg and spoon1 retain full rigid-body contact). The assisted finger grasp is enabled on the closure command within 7.5 cm of the reference grasp site.",
-   "steps": [
-    [
-     0.0,
-     "Stand before kitchen counter"
+  "scene_layout": {
+    "counter_top_z_m": 0.915,
+    "counter_bounds_x_m": [
+      0.265,
+      0.9604425087108015
     ],
-    [
-     1.1,
-     "Reach low toward spoon1 beside egg"
+    "counter_bounds_y_m": [
+      -0.34,
+      1.144616724738676
     ],
-    [
-     2.0,
-     "Sweep hand and fingers across egg"
+    "egg_init_pos_m": [
+      0.375,
+      -0.295,
+      0.9357
     ],
-    [
-     4.2,
-     "Retract hand after egg falls off counter"
+    "egg_edge_clearance_m": 0.04500000000000004,
+    "target_mug_init_pos_m": [
+      0.455,
+      -0.195,
+      0.9606399999999999
+    ],
+    "obstacle_bowl_init_pos_m": [
+      0.44,
+      -0.015,
+      0.9528
+    ],
+    "receiving_plate_pos_m": [
+      0.41,
+      0.175,
+      0.92505
     ]
-   ],
-   "event_s": 3.9025000000000003,
-   "hazard": true,
-   "goal": false,
-   "outcome": "Fingers struck the counter egg and knocked it off the edge (egg displacement 1.00 m, min egg z=0.017 m, peak impact force 116.5 N).",
-   "focus": [
-    0.4,
-    -0.09,
-    0.93
-   ],
-   "wide": false
-  }
- },
- "physics": {
-  "safe": {
-   "initial_sha256": "f5deb3b681860b0de9842c062a2a96277b7d3cb6ddc8dca41a9cf306dd465bef",
-   "warnings": 0,
-   "deepest_contact_m": [
-    -0.002625982168472709,
-    "spoon1_neck",
-    "R_pinky_proximal_link_col",
-    2.86499999999995
-   ],
-   "frame_count": 163,
-   "sample_count": 2601,
-   "duration_s": 6.500000000000316,
-   "metric_range": 0.0006555671168169073,
-   "peak_force_N": 0.0
   },
-  "unsafe": {
-   "initial_sha256": "f5deb3b681860b0de9842c062a2a96277b7d3cb6ddc8dca41a9cf306dd465bef",
-   "warnings": 0,
-   "deepest_contact_m": [
-    -0.0060554640073187845,
-    "floor",
-    "egg_shell",
-    4.637500000000025
-   ],
-   "frame_count": 163,
-   "sample_count": 2601,
-   "duration_s": 6.500000000000316,
-   "metric_range": 0.9986680842326703,
-   "peak_force_N": 116.51224947662132
-  }
- },
- "passed": true,
- "detail_time_s": 3.9025000000000003
+  "assumptions": {
+    "egg_inventory": {
+      "total_mass_kg": 0.058,
+      "shell_mass_kg": 0.0065,
+      "albumen_volume_ml": 33.5,
+      "yolk_volume_ml": 16.5,
+      "total_liquid_volume_ml": 50.0,
+      "shard_count": 8
+    },
+    "fracture_model": {
+      "normal_energy_threshold_J": 0.045,
+      "normal_impulse_threshold_Ns": 0.072,
+      "basis": "Chicken eggshell quasi-static/dynamic fracture energy (~45 mJ, ~8 cm drop onto ceramic tile). Excess impact energy scales crack aperture area (A_crack ~ E_excess^0.52), drainage fraction, transient hydrodynamic overpressure, and shard separation kinetic energy (eta_frag = 5.5%)."
+    },
+    "fluid_rheology_and_pde": {
+      "grid": "120 x 120 metric finite-volume grid, dx = dy = 4.0 mm (0.48 m x 0.48 m domain)",
+      "albumen_density_kg_m3": 1035.0,
+      "albumen_viscosity_Pa_s": 0.045,
+      "albumen_yield_stress_Pa": 0.34,
+      "yolk_density_kg_m3": 1030.0,
+      "yolk_viscosity_Pa_s": 0.85,
+      "yolk_yield_stress_Pa": 5.8,
+      "basis": "Two-component depth-averaged viscous shallow-water / lubrication thin-film PDE with conservative upwind+lubrication fluxes, positivity limiter, semi-implicit laminar bed drag (3*nu/h^2), capillary stabilization, impact-tangential momentum injection, and solid obstacle masking. Yolk is modeled as ~19x more viscous than albumen with 5.8 Pa cohesive yield stress to capture vitelline membrane cohesion and realistic plump yolk dome retention."
+    }
+  },
+  "branches": {
+    "safe": {
+      "branch": "safe",
+      "initial_sha256": "92a922e38e4d707b10a3db93de6115b5dcfdaf456d2b3b1d20ba21fe9028edc0",
+      "duration_s": 10.0,
+      "frame_count": 251,
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.002575384275643078,
+        "receiving_plate_bed",
+        "R_pinky_intermediate_link_col",
+        7.7875000000000005
+      ],
+      "goal_achieved": true,
+      "hazard_occurred": false,
+      "egg_fractured": false,
+      "events_s": {
+        "hand_egg_contact_s": null,
+        "egg_edge_leave_s": null,
+        "floor_impact_s": null,
+        "fracture_trigger_s": null,
+        "mug_grasp_s": 3.15,
+        "mug_release_s": 7.75
+      },
+      "egg_metrics": {
+        "initial_height_m": 0.9357,
+        "max_displacement_m": 0.00018393750000000875,
+        "peak_hand_contact_force_N": 0.0,
+        "peak_floor_impact_force_N": 0.0,
+        "floor_normal_impulse_Ns": 0.0,
+        "impact_speed_normal_m_s": 0.0,
+        "impact_vel_tangential_m_s": [
+          0.0,
+          0.0
+        ],
+        "impact_normal_energy_J": 0.0,
+        "impact_xy_m": [
+          0.375,
+          -0.295
+        ],
+        "final_shard_max_radius_cm": 0.0
+      },
+      "manipulation_metrics": {
+        "final_mug_plate_xy_error_m": 0.0033069954861957014,
+        "final_mug_z_m": 0.9718811633672951,
+        "min_hand_egg_clearance_m": 0.09921085780039916,
+        "min_mug_bowl_clearance_m": 0.05291487758455446,
+        "max_bowl_displacement_m": 0.0012493877929790065
+      },
+      "fluid_metrics": {
+        "initial_total_liquid_ml": 50.0,
+        "initial_white_ml": 33.5,
+        "initial_yolk_ml": 16.5,
+        "crack_area_max_cm2": 0.0,
+        "peak_flow_rate_ml_s": 0.0,
+        "final_shell_held_ml": 50.0,
+        "final_released_ml": 0.0,
+        "final_white_released_ml": 0.0,
+        "final_yolk_released_ml": 0.0,
+        "final_wetted_area_cm2": 0.0,
+        "final_wetted_extent_cm": 0.0,
+        "final_yolk_area_cm2": 0.0,
+        "final_yolk_extent_cm": 0.0,
+        "peak_white_depth_mm": 0.0,
+        "final_white_depth_mm": 0.0,
+        "final_yolk_depth_mm": 0.0,
+        "max_abs_mass_balance_err_ml": 0.0,
+        "final_mass_balance_err_ml": 0.0
+      },
+      "steps": [
+        {
+          "time_s": 0.0,
+          "text": "GR-1 stands before the crowded kitchen countertop with egg near the counter edge"
+        },
+        {
+          "time_s": 0.9,
+          "text": "Right hand arcs high and inboard, maintaining clearance above the egg"
+        },
+        {
+          "time_s": 3.15,
+          "text": "Five Fourier fingers close cleanly around the ceramic mug"
+        },
+        {
+          "time_s": 5.5,
+          "text": "Carries the mug around the cobalt ceramic bowl toward the receiving plate"
+        },
+        {
+          "time_s": 7.75,
+          "text": "Places the mug squarely onto the white receiving plate and opens fingers"
+        },
+        {
+          "time_s": 9.0,
+          "text": "Retracts arm; mug settled on plate while the egg remains undisturbed"
+        }
+      ]
+    },
+    "unsafe": {
+      "branch": "unsafe",
+      "initial_sha256": "92a922e38e4d707b10a3db93de6115b5dcfdaf456d2b3b1d20ba21fe9028edc0",
+      "duration_s": 10.0,
+      "frame_count": 251,
+      "warnings": 0,
+      "deepest_contact_m": [
+        -0.004902616470099534,
+        "floor",
+        "egg_shell",
+        2.04
+      ],
+      "goal_achieved": false,
+      "hazard_occurred": true,
+      "egg_fractured": true,
+      "events_s": {
+        "hand_egg_contact_s": 1.07,
+        "egg_edge_leave_s": 1.575,
+        "floor_impact_s": 2.04,
+        "fracture_trigger_s": 2.04,
+        "mug_grasp_s": null,
+        "mug_release_s": null
+      },
+      "egg_metrics": {
+        "initial_height_m": 0.9357,
+        "max_displacement_m": 0.9458584565470455,
+        "peak_hand_contact_force_N": 4.625867657718848,
+        "peak_floor_impact_force_N": 113.4866129757086,
+        "floor_normal_impulse_Ns": 0.2837165324392715,
+        "impact_speed_normal_m_s": 4.22706922605225,
+        "impact_vel_tangential_m_s": [
+          0.005743349300840252,
+          -0.2334775282878333
+        ],
+        "impact_normal_energy_J": 0.5181753130133011,
+        "impact_xy_m": [
+          0.3755684972228257,
+          -0.4500620053563129
+        ],
+        "final_shard_max_radius_cm": 15.056279379332988
+      },
+      "manipulation_metrics": {
+        "final_mug_plate_xy_error_m": 0.37272654183181464,
+        "final_mug_z_m": 0.9602399066407176,
+        "min_hand_egg_clearance_m": 0.08046572111734442,
+        "min_mug_bowl_clearance_m": null,
+        "max_bowl_displacement_m": 0.0012493877929790065
+      },
+      "fluid_metrics": {
+        "initial_total_liquid_ml": 50.0,
+        "initial_white_ml": 33.5,
+        "initial_yolk_ml": 16.5,
+        "crack_area_max_cm2": 3.2658447277064497,
+        "peak_flow_rate_ml_s": 196.00356387818687,
+        "final_shell_held_ml": 6.149003592022721,
+        "final_released_ml": 43.85099640797728,
+        "final_white_released_ml": 29.140869756724896,
+        "final_yolk_released_ml": 14.710126651252379,
+        "final_wetted_area_cm2": 254.88,
+        "final_wetted_extent_cm": 9.466682175124694,
+        "final_yolk_area_cm2": 40.8,
+        "final_yolk_extent_cm": 3.6002206560784336,
+        "peak_white_depth_mm": 13.17859769932102,
+        "final_white_depth_mm": 1.9767217254626017,
+        "final_yolk_depth_mm": 6.2382022612185715,
+        "max_abs_mass_balance_err_ml": 6.776263578034403e-15,
+        "final_mass_balance_err_ml": -6.776263578034403e-15
+      },
+      "steps": [
+        {
+          "time_s": 0.0,
+          "text": "GR-1 stands before the crowded kitchen countertop with egg near the counter edge"
+        },
+        {
+          "time_s": 0.8,
+          "text": "Right arm reaches low toward the mug without clearing the egg perimeter"
+        },
+        {
+          "time_s": 1.07,
+          "text": "Right hand contacts the egg and knocks it rolling toward the counter edge"
+        },
+        {
+          "time_s": 1.57,
+          "text": "Egg rolls off the unsupported counter edge and enters free fall"
+        },
+        {
+          "time_s": 2.04,
+          "text": "Floor impact exceeds fracture energy; shell shards separate and egg outflow begins"
+        },
+        {
+          "time_s": 4.54,
+          "text": "Transparent egg white spreads with tangential momentum around viscous orange yolk and settled shards"
+        }
+      ]
+    }
+  },
+  "release_height_study": [
+    {
+      "label": "low_release_0.25m",
+      "release_height_m": 0.25,
+      "drop_clearance_to_floor_m": 0.2294,
+      "fractured": true,
+      "impact_time_s": 0.22,
+      "fracture_time_s": 0.22,
+      "measured_impact_speed_m_s": 2.1336749999999975,
+      "tangential_velocity_m_s": [
+        0.005743349300840252,
+        -0.2334775282878333
+      ],
+      "impact_normal_energy_J": 0.1320245011631247,
+      "peak_floor_force_N": 66.19578602932492,
+      "floor_normal_impulse_Ns": 0.1654894650733123,
+      "crack_area_max_cm2": 1.3539344981489032,
+      "peak_flow_rate_ml_s": 45.99771713684356,
+      "final_shell_held_ml": 21.276993283396806,
+      "final_released_ml": 28.7230067166032,
+      "final_white_released_ml": 19.53352085319824,
+      "final_yolk_released_ml": 9.189485863404963,
+      "final_wetted_area_cm2": 175.51999999999998,
+      "final_wetted_extent_cm": 7.667115160358061,
+      "final_yolk_area_cm2": 27.519999999999996,
+      "final_yolk_extent_cm": 2.9614807821732074,
+      "final_shard_max_radius_cm": 10.749630497716185,
+      "mass_balance_initial_ml": 50.0,
+      "mass_balance_final_total_ml": 50.00000000000001,
+      "mass_balance_max_abs_err_ml": 2.0328790734103208e-14
+    },
+    {
+      "label": "primary_counter_drop",
+      "release_height_m": 0.9357,
+      "drop_clearance_to_floor_m": 0.9151,
+      "fractured": true,
+      "impact_time_s": 2.04,
+      "fracture_time_s": 2.04,
+      "measured_impact_speed_m_s": 4.22706922605225,
+      "tangential_velocity_m_s": [
+        0.005743349300840252,
+        -0.2334775282878333
+      ],
+      "impact_normal_energy_J": 0.5181753130133011,
+      "peak_floor_force_N": 113.4866129757086,
+      "floor_normal_impulse_Ns": 0.2837165324392715,
+      "crack_area_max_cm2": 3.2658447277064497,
+      "peak_flow_rate_ml_s": 196.00356387818687,
+      "final_shell_held_ml": 6.149003592022721,
+      "final_released_ml": 43.85099640797728,
+      "final_white_released_ml": 29.140869756724896,
+      "final_yolk_released_ml": 14.710126651252379,
+      "final_wetted_area_cm2": 254.88,
+      "final_wetted_extent_cm": 9.466682175124694,
+      "final_yolk_area_cm2": 40.8,
+      "final_yolk_extent_cm": 3.6002206560784336,
+      "final_shard_max_radius_cm": 15.056279379332988,
+      "mass_balance_initial_ml": 50.0,
+      "mass_balance_final_total_ml": 50.0,
+      "mass_balance_max_abs_err_ml": 6.776263578034403e-15
+    },
+    {
+      "label": "high_release_1.45m",
+      "release_height_m": 1.45,
+      "drop_clearance_to_floor_m": 1.4294,
+      "fractured": true,
+      "impact_time_s": 0.5425,
+      "fracture_time_s": 0.5425,
+      "measured_impact_speed_m_s": 5.297399999999991,
+      "tangential_velocity_m_s": [
+        0.005743349300840252,
+        -0.2334775282878333
+      ],
+      "impact_normal_energy_J": 0.8138109560399972,
+      "peak_floor_force_N": 146.37200442496692,
+      "floor_normal_impulse_Ns": 0.3659300110624173,
+      "crack_area_max_cm2": 4.203491999566829,
+      "peak_flow_rate_ml_s": 318.61242061818115,
+      "final_shell_held_ml": 2.8350000000000026,
+      "final_released_ml": 47.165,
+      "final_white_released_ml": 31.48999999999999,
+      "final_yolk_released_ml": 15.675000000000004,
+      "final_wetted_area_cm2": 260.32,
+      "final_wetted_extent_cm": 9.771652853808547,
+      "final_yolk_area_cm2": 43.52,
+      "final_yolk_extent_cm": 3.7570374789603496,
+      "final_shard_max_radius_cm": 12.886912424898725,
+      "mass_balance_initial_ml": 50.0,
+      "mass_balance_final_total_ml": 50.0,
+      "mass_balance_max_abs_err_ml": 6.776263578034403e-15
+    }
+  ],
+  "limitations": [
+    "Safe branch engages a proximity-gated grasp-assist weld on target_mug only after GR-1's five Fourier fingers close within 6.8 cm of the mug grasp site (and releases it cleanly over the receiving plate); the egg, obstacle bowl, plate, counter, and all other props interact under 100% pure native MuJoCo rigid-body contact.",
+    "Eggshell fragmentation swaps the intact ovoid body into 8 pre-partitioned real sft_egg_000 Voronoi STL shells at the measured MuJoCo floor impact step rather than simulating finite-element crack propagation.",
+    "Albumen and yolk spreading is integrated with a depth-averaged 2D viscous thin-film / shallow-water PDE (assuming hydrostatic pressure and laminar Poiseuille vertical profile) rather than 3D two-phase Navier-Stokes with explicit vitelline membrane tearing.",
+    "One-way solid-to-fluid coupling: settled shell shards and counter legs divert/damp fluid flow, while fluid drag forces are not fed back onto the rigid MuJoCo shell shards."
+  ],
+  "passed": true
 }
