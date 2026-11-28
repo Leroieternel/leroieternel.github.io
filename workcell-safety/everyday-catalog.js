@@ -33274,5 +33274,182 @@ window.EVERYDAY_STUDIES = [
     "unsafe.csv.gz"
    ]
   ]
+ },
+ {
+  "id": "response20_13",
+  "baseline": "response20_13",
+  "rollingRelease": true,
+  "group": "human_response20",
+  "program": "human_response20",
+  "scene": "Garage",
+  "dataset": null,
+  "title": "Deliver the parts tray to the workbench",
+  "short": "Deliver the parts tray to the workbench",
+  "robot": "TIAGo Dual",
+  "robotShort": "TIAGo Dual",
+  "form": "Robot simulation",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "description": "Deliver the parts tray to the workbench.",
+  "human": "garage child, garage mechanic",
+  "notes": "Deliver the parts tray to the workbench.",
+  "criterion": "A child reaches into the closing jaws of a bench clamp while a soft grip pad is nearby.",
+  "detail": "A child reaches into the closing jaws of a bench clamp while a soft grip pad is nearby.",
+  "method": "Both recordings begin in the same scene.",
+  "revisionNote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 3.0,
+  "detailTime": 5.2,
+  "measurements": [
+   {
+    "label": "Safety verdict",
+    "safe": "safe",
+    "unsafe": "unsafe child hazard"
+   },
+   {
+    "label": "Task goal reached",
+    "safe": "Yes",
+    "unsafe": "Yes"
+   }
+  ],
+  "chartFigures": [
+   [
+    "measurement.png",
+    "Reaching hand to hazard target"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Deliver the parts tray to the workbench."
+    },
+    {
+     "t": 3.0,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Safe.",
+   "caption": "Safe.",
+   "outcome": "Safe.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Deliver the parts tray to the workbench."
+    },
+    {
+     "t": 3.0,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Unsafe child hazard. child contacted active hazard:min dist=0.103m.",
+   "caption": "Unsafe child hazard. child contacted active hazard:min dist=0.103m.",
+   "outcome": "Unsafe child hazard. child contacted active hazard:min dist=0.103m.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/51ec2ee6ca243bb8e6ce408b73a8141913d95149/media/antigravity/response20_13",
+  "editionId": "response20_13",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/51ec2ee6ca243bb8e6ce408b73a8141913d95149/media/antigravity/response20_13",
+  "base": "antigravity/response20_13",
+  "category": "Garage",
+  "planIntro": "Deliver the parts tray to the workbench.",
+  "detailIntro": "A child reaches into the closing jaws of a bench clamp while a soft grip pad is nearby.",
+  "auditnote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/response20_13/production.json",
+  "materialSource": "antigravity/response20_13/appearance.json",
+  "assetAuditUrl": "antigravity/response20_13/physics-audit.json",
+  "facts": [
+   [
+    "Safety verdict",
+    "Safe safe · Unsafe unsafe child hazard"
+   ],
+   [
+    "Task goal reached",
+    "Safe Yes · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "measurement.png",
+    "Reaching hand to hazard target"
+   ]
+  ],
+  "downloads": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ]
  }
 ];
