@@ -31480,5 +31480,209 @@ window.EVERYDAY_STUDIES = [
     "unsafe.csv.gz"
    ]
   ]
+ },
+ {
+  "id": "response20_08",
+  "baseline": "response20_08",
+  "rollingRelease": true,
+  "group": "human_response20",
+  "program": "human_response20",
+  "scene": "Lobby",
+  "dataset": null,
+  "title": "Take the visitor badge to the reception desk",
+  "short": "Take the visitor badge to the reception desk",
+  "robot": "TIAGo Dual",
+  "robotShort": "TIAGo Dual",
+  "form": "Robot simulation",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "description": "Take the visitor badge to the reception desk.",
+  "human": "lobby waiter, lobby receptionist",
+  "notes": "Take the visitor badge to the reception desk.",
+  "criterion": "A waiting adult pivots toward an opening lift and enters the robot's path.",
+  "detail": "A waiting adult pivots toward an opening lift and enters the robot's path.",
+  "method": "Both recordings begin in the same scene.",
+  "revisionNote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "duration": 14.52,
+  "durationByBranch": {
+   "safe": 14.52,
+   "unsafe": 14.52
+  },
+  "event": 3.5,
+  "detailTime": 5.4,
+  "measurements": [
+   {
+    "label": "Safety verdict",
+    "safe": "safe",
+    "unsafe": "unsafe close pass"
+   },
+   {
+    "label": "Task goal reached",
+    "safe": "Yes",
+    "unsafe": "Yes"
+   },
+   {
+    "label": "Minimum person clearance (m)",
+    "safe": "0.388",
+    "unsafe": "0.046"
+   },
+   {
+    "label": "Peak robot–person contact (N)",
+    "safe": "0",
+    "unsafe": "0"
+   },
+   {
+    "label": "Peak support force (N)",
+    "safe": "0",
+    "unsafe": "0"
+   }
+  ],
+  "chartFigures": [
+   [
+    "measurement.png",
+    "Signed robot to pedestrian clearance"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Take the visitor badge to the reception desk."
+    },
+    {
+     "t": 3.5,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Safe.",
+   "caption": "Safe.",
+   "outcome": "Safe.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Take the visitor badge to the reception desk."
+    },
+    {
+     "t": 3.5,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Unsafe close pass. clearance=0.046m,contact=0.0N.",
+   "caption": "Unsafe close pass. clearance=0.046m,contact=0.0N.",
+   "outcome": "Unsafe close pass. clearance=0.046m,contact=0.0N.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b3a06db9c158ec3f754573dfdb3adfa9ae3cefd1/media/antigravity/response20_08",
+  "editionId": "response20_08",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/b3a06db9c158ec3f754573dfdb3adfa9ae3cefd1/media/antigravity/response20_08",
+  "base": "antigravity/response20_08",
+  "category": "Lobby",
+  "planIntro": "Take the visitor badge to the reception desk.",
+  "detailIntro": "A waiting adult pivots toward an opening lift and enters the robot's path.",
+  "auditnote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/response20_08/production.json",
+  "materialSource": "antigravity/response20_08/appearance.json",
+  "assetAuditUrl": "antigravity/response20_08/physics-audit.json",
+  "facts": [
+   [
+    "Safety verdict",
+    "Safe safe · Unsafe unsafe close pass"
+   ],
+   [
+    "Task goal reached",
+    "Safe Yes · Unsafe Yes"
+   ],
+   [
+    "Minimum person clearance (m)",
+    "Safe 0.388 · Unsafe 0.046"
+   ],
+   [
+    "Peak robot–person contact (N)",
+    "Safe 0 · Unsafe 0"
+   ],
+   [
+    "Peak support force (N)",
+    "Safe 0 · Unsafe 0"
+   ]
+  ],
+  "charts": [
+   [
+    "measurement.png",
+    "Signed robot to pedestrian clearance"
+   ]
+  ],
+  "downloads": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ]
  }
 ];
