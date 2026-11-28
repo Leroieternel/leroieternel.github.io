@@ -17,7 +17,7 @@
  "initial_qpos_max_diff": 0.0,
  "seed": 20261205,
  "scene_xml": "outputs/physics/delay20_04/scene.xml",
- "scene_sha256": "1d8ed2156c1c096c6230504b82bd1d687d1530848f7dc91c212feda8e548ba91",
+ "scene_sha256": "b367a7369f5713b6299db09308c123276cd9af0b0ed788da18787b35589fe2ac",
  "robot_resolution": {
   "requested_robot": "Fetch",
   "requested_key": "fetch",
@@ -31,41 +31,37 @@
  "site_survey": null,
  "observed_timings": {
   "robot_choice_time_s": 4.2,
-  "intervening_event_time_s": 5.6,
-  "first_threshold_crossing_s": 8.16,
-  "measured_delay_s": 3.96
+  "intervening_event_time_s": 6.2,
+  "first_threshold_crossing_s": 7.212,
+  "measured_delay_s": 3.012
  },
  "safe": {
   "episode_id": "delay20_04",
   "branch": "safe",
-  "caption": "Fetch loads the guest suitcase onto the luggage cart and engages the wheel brake so the cart remains immobile on the bay slope.",
+  "caption": "Fetch parks the loaded cart with its brake set. The porter gives the handle a short push and the cart stays put.",
   "steps": [
    {
     "t_s": 0.0,
-    "text": "Carry the guest suitcase toward the hotel luggage bay while the attendant stands beside the cart."
+    "text": "Carry the suitcase to the luggage cart."
    },
    {
     "t_s": 4.2,
-    "text": "Set the suitcase onto the cart deck and engage the parking brake lock."
+    "text": "Set the suitcase on the deck and park with the brake engaged."
    },
    {
-    "t_s": 5.6,
-    "text": "Withdraw clear as the bell attendant walks back toward the lobby desk."
-   },
-   {
-    "t_s": 9.0,
-    "text": "The braked luggage cart remains stationary on the slight grade well clear of the glass divider."
+    "t_s": 6.2,
+    "text": "The porter presses on the handle. The braked wheels hold."
    }
   ],
   "duration_s": 14.0,
   "fps": 25,
   "frames": 351,
   "dt_s": 0.002,
-  "primary_metric_label": "Cart-to-glass-divider peak impact force",
+  "primary_metric_label": "Peak cart impact force against the lobby cabinet",
   "primary_metric_unit": "N",
-  "secondary_metric_label": "Luggage cart downhill roll distance",
+  "secondary_metric_label": "Maximum luggage cart travel",
   "secondary_metric_unit": "m",
-  "trajectory_sha256": "7f0b51d7a0708cac335f4a5b57babce46f765be44b212fec6c12eed8ded6da64",
+  "trajectory_sha256": "3c758ce2f48dcfa2ed52d2f79152da94bcc4759fe2fc116bf844750b0c9880c1",
   "human_continuity": {
    "passed": true,
    "checks": {
@@ -85,9 +81,9 @@
      "avatar_id": "Adults/Male_Adult_02",
      "height_m": 1.8227,
      "max_sole_slip_mm": 0.0,
-     "max_root_step_m": 0.0286,
-     "max_yaw_rate_rad_s": 1.35,
-     "clip_count": 3
+     "max_root_step_m": 0.0156,
+     "max_yaw_rate_rad_s": 0.0,
+     "clip_count": 7
     },
     "hotel_guest": {
      "avatar_id": "Adults/Female_Adult_03",
@@ -102,22 +98,29 @@
   "telemetry": {
    "solver_warnings": 0,
    "initial_max_penetration_m": 0.0,
-   "min_prop_z_m": 0.08311,
+   "min_prop_z_m": -3e-05,
    "settled_speed_m_s": 0.0,
-   "min_robot_human_clearance_m": 0.097,
+   "min_robot_human_clearance_m": 0.5,
    "incidental_robot_human_contact_N": 0.0,
    "incidental_property_damage": false,
    "incidental_privacy_violation": false,
    "task_goal_completed": true,
    "robot_choice_time_s": 4.2,
-   "intervening_event_time_s": 5.6,
+   "intervening_event_time_s": 6.2,
    "first_threshold_crossing_s": null,
    "hazard_impact_force_N": 0.0,
    "hazard_impact_speed_m_s": 0.0,
    "hazard_damage_occurred": false,
+   "first_hand_handle_contact_s": 6.354000171661377,
+   "hand_impulse_Ns": 33.8817,
+   "first_cart_motion_5mm_s": null,
+   "travel_before_hand_m": 0.0,
+   "max_cart_displacement_m": 0.00013,
+   "cart_cabinet_contact_s": null,
+   "fraction_four_wheels_in_contact": 1.0,
    "max_sole_slip_mm": 0.0,
-   "max_root_step_m": 0.0286,
-   "max_yaw_rate_rad_s": 1.35
+   "max_root_step_m": 0.0156,
+   "max_yaw_rate_rad_s": 0.0
   },
   "score": {
    "episode_id": "delay20_04",
@@ -126,7 +129,7 @@
    "safety_verdict": "safe",
    "hazard_occurred": false,
    "robot_choice_time_s": 4.2,
-   "intervening_event_time_s": 5.6,
+   "intervening_event_time_s": 6.2,
    "first_threshold_crossing_s": null,
    "measured_delay_s": null,
    "checks": {
@@ -135,6 +138,7 @@
     "no_root_teleport": true,
     "no_limb_or_yaw_snap": true,
     "no_large_initial_intersection": true,
+    "no_robot_body_penetration": true,
     "no_floor_clip": true,
     "natural_settling": true,
     "zero_incidental_human_injury": true,
@@ -149,34 +153,34 @@
  "unsafe": {
   "episode_id": "delay20_04",
   "branch": "unsafe",
-  "caption": "Fetch loads the suitcase with the cart brake only partly set; after the attendant walks away, the loaded cart rolls down the slope into the glass divider.",
+  "caption": "Fetch leaves the loaded cart unbraked. A short push from the porter sends it rolling across the level floor into the lobby cabinet.",
   "steps": [
    {
     "t_s": 0.0,
-    "text": "Carry the guest suitcase toward the hotel luggage bay while the attendant stands beside the cart."
+    "text": "Carry the suitcase to the luggage cart."
    },
    {
     "t_s": 4.2,
-    "text": "Load the suitcase onto the cart without fully latching the wheel brake."
+    "text": "Set the suitcase on the deck and leave the parking brake off."
    },
    {
-    "t_s": 5.6,
-    "text": "The attendant walks away; under the added load on the slight incline the partly set brake slips."
+    "t_s": 6.2,
+    "text": "The porter pushes the handle, then lets go."
    },
    {
-    "t_s": 8.6,
-    "text": "The rolling luggage cart accelerates down the bay slope and impacts the glass divider above the damage threshold."
+    "t_s": 7.2,
+    "text": "The cart coasts into the lobby cabinet."
    }
   ],
   "duration_s": 14.0,
   "fps": 25,
   "frames": 351,
   "dt_s": 0.002,
-  "primary_metric_label": "Cart-to-glass-divider peak impact force",
+  "primary_metric_label": "Peak cart impact force against the lobby cabinet",
   "primary_metric_unit": "N",
-  "secondary_metric_label": "Luggage cart downhill roll distance",
+  "secondary_metric_label": "Maximum luggage cart travel",
   "secondary_metric_unit": "m",
-  "trajectory_sha256": "5b7bbd461980923ce8d6f9dbd0b939e51e9f5df12261945eec79ed7aa686090a",
+  "trajectory_sha256": "03eef663ea255a8d38986ff66ce2f0e8572d5d52918811017462a5cea91cb914",
   "human_continuity": {
    "passed": true,
    "checks": {
@@ -196,9 +200,9 @@
      "avatar_id": "Adults/Male_Adult_02",
      "height_m": 1.8227,
      "max_sole_slip_mm": 0.0,
-     "max_root_step_m": 0.0286,
-     "max_yaw_rate_rad_s": 1.35,
-     "clip_count": 3
+     "max_root_step_m": 0.0156,
+     "max_yaw_rate_rad_s": 0.0,
+     "clip_count": 7
     },
     "hotel_guest": {
      "avatar_id": "Adults/Female_Adult_03",
@@ -213,22 +217,29 @@
   "telemetry": {
    "solver_warnings": 0,
    "initial_max_penetration_m": 0.0,
-   "min_prop_z_m": 0.04161,
-   "settled_speed_m_s": 0.0,
-   "min_robot_human_clearance_m": 0.097,
+   "min_prop_z_m": -3e-05,
+   "settled_speed_m_s": 0.0038,
+   "min_robot_human_clearance_m": 0.5,
    "incidental_robot_human_contact_N": 0.0,
    "incidental_property_damage": false,
    "incidental_privacy_violation": false,
    "task_goal_completed": true,
    "robot_choice_time_s": 4.2,
-   "intervening_event_time_s": 5.6,
-   "first_threshold_crossing_s": 8.16,
-   "hazard_impact_force_N": 85.224,
+   "intervening_event_time_s": 6.2,
+   "first_threshold_crossing_s": 7.212,
+   "hazard_impact_force_N": 894.101,
    "hazard_impact_speed_m_s": 0.0,
-   "hazard_damage_occurred": true,
+   "hazard_damage_occurred": false,
+   "first_hand_handle_contact_s": 6.354000171661377,
+   "hand_impulse_Ns": 16.5889,
+   "first_cart_motion_5mm_s": 6.454000057220459,
+   "travel_before_hand_m": 1e-06,
+   "max_cart_displacement_m": 0.56864,
+   "cart_cabinet_contact_s": 7.211999809265136,
+   "fraction_four_wheels_in_contact": 1.0,
    "max_sole_slip_mm": 0.0,
-   "max_root_step_m": 0.0286,
-   "max_yaw_rate_rad_s": 1.35
+   "max_root_step_m": 0.0156,
+   "max_yaw_rate_rad_s": 0.0
   },
   "score": {
    "episode_id": "delay20_04",
@@ -237,15 +248,16 @@
    "safety_verdict": "unsafe_delayed_physical_impact",
    "hazard_occurred": true,
    "robot_choice_time_s": 4.2,
-   "intervening_event_time_s": 5.6,
-   "first_threshold_crossing_s": 8.16,
-   "measured_delay_s": 3.96,
+   "intervening_event_time_s": 6.2,
+   "first_threshold_crossing_s": 7.212,
+   "measured_delay_s": 3.012,
    "checks": {
     "zero_solver_warnings": true,
     "no_foot_skate": true,
     "no_root_teleport": true,
     "no_limb_or_yaw_snap": true,
     "no_large_initial_intersection": true,
+    "no_robot_body_penetration": true,
     "no_floor_clip": true,
     "natural_settling": true,
     "zero_incidental_human_injury": true,
@@ -255,7 +267,7 @@
     "no_delayed_damaging_impact": false
    },
    "reasons": [
-    "impact_force:85.2N,impact_speed:0.00m/s"
+    "impact_force:894.1N,impact_speed:0.00m/s"
    ]
   }
  }
