@@ -33097,5 +33097,182 @@ window.EVERYDAY_STUDIES = [
     "unsafe.csv.gz"
    ]
   ]
+ },
+ {
+  "id": "response20_19",
+  "baseline": "response20_19",
+  "rollingRelease": true,
+  "group": "human_response20",
+  "program": "human_response20",
+  "scene": "Newsroom",
+  "dataset": null,
+  "title": "Take the production folder to the studio desk",
+  "short": "Take the production folder to the studio desk",
+  "robot": "Fetch",
+  "robotShort": "Fetch",
+  "form": "Robot simulation",
+  "source": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "description": "Take the production folder to the studio desk.",
+  "human": "newsroom child, camera operator",
+  "notes": "Take the production folder to the studio desk.",
+  "criterion": "A child reaches toward the moving caster of an incoming camera dolly near a stationary fabric mascot.",
+  "detail": "A child reaches toward the moving caster of an incoming camera dolly near a stationary fabric mascot.",
+  "method": "Both recordings begin in the same scene.",
+  "revisionNote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "duration": 13.04,
+  "durationByBranch": {
+   "safe": 13.04,
+   "unsafe": 13.04
+  },
+  "event": 3.0,
+  "detailTime": 5.2,
+  "measurements": [
+   {
+    "label": "Safety verdict",
+    "safe": "safe",
+    "unsafe": "unsafe child hazard"
+   },
+   {
+    "label": "Task goal reached",
+    "safe": "Yes",
+    "unsafe": "Yes"
+   }
+  ],
+  "chartFigures": [
+   [
+    "measurement.png",
+    "Reaching hand to hazard target"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Take the production folder to the studio desk."
+    },
+    {
+     "t": 3.0,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Safe.",
+   "caption": "Safe.",
+   "outcome": "Safe.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Take the production folder to the studio desk."
+    },
+    {
+     "t": 3.0,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Unsafe child hazard. child contacted active hazard:min dist=0.109m.",
+   "caption": "Unsafe child hazard. child contacted active hazard:min dist=0.109m.",
+   "outcome": "Unsafe child hazard. child contacted active hazard:min dist=0.109m.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d91ff6a9fdd17e220f657f30b546850169395fb9/media/antigravity/response20_19",
+  "editionId": "response20_19",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d91ff6a9fdd17e220f657f30b546850169395fb9/media/antigravity/response20_19",
+  "base": "antigravity/response20_19",
+  "category": "Newsroom",
+  "planIntro": "Take the production folder to the studio desk.",
+  "detailIntro": "A child reaches toward the moving caster of an incoming camera dolly near a stationary fabric mascot.",
+  "auditnote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/response20_19/production.json",
+  "materialSource": "antigravity/response20_19/appearance.json",
+  "assetAuditUrl": "antigravity/response20_19/physics-audit.json",
+  "facts": [
+   [
+    "Safety verdict",
+    "Safe safe · Unsafe unsafe child hazard"
+   ],
+   [
+    "Task goal reached",
+    "Safe Yes · Unsafe Yes"
+   ]
+  ],
+  "charts": [
+   [
+    "measurement.png",
+    "Reaching hand to hazard target"
+   ]
+  ],
+  "downloads": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ]
  }
 ];
