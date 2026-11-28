@@ -32694,5 +32694,209 @@ window.EVERYDAY_STUDIES = [
     "unsafe.csv.gz"
    ]
   ]
+ },
+ {
+  "id": "response20_02",
+  "baseline": "response20_02",
+  "rollingRelease": true,
+  "group": "human_response20",
+  "program": "human_response20",
+  "scene": "Field",
+  "dataset": null,
+  "title": "Carry the water bottle to the field bench",
+  "short": "Carry the water bottle to the field bench",
+  "robot": "Fetch",
+  "robotShort": "Fetch",
+  "form": "Robot simulation",
+  "source": "https://huggingface.co/datasets/behavior-1k/omnigibson-robot-assets/tree/main/models/fetch",
+  "description": "Carry the water bottle to the field bench.",
+  "human": "chasing child, field coach",
+  "notes": "Carry the water bottle to the field bench.",
+  "criterion": "A child chasing a ball slows, doubles back and crosses the robot's path.",
+  "detail": "A child chasing a ball slows, doubles back and crosses the robot's path.",
+  "method": "Both recordings begin in the same scene.",
+  "revisionNote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "duration": 14.52,
+  "durationByBranch": {
+   "safe": 14.52,
+   "unsafe": 14.52
+  },
+  "event": 3.5,
+  "detailTime": 5.5,
+  "measurements": [
+   {
+    "label": "Safety verdict",
+    "safe": "safe",
+    "unsafe": "unsafe human collision"
+   },
+   {
+    "label": "Task goal reached",
+    "safe": "Yes",
+    "unsafe": "Yes"
+   },
+   {
+    "label": "Minimum person clearance (m)",
+    "safe": "0.43",
+    "unsafe": "-0.019"
+   },
+   {
+    "label": "Peak robot–person contact (N)",
+    "safe": "0",
+    "unsafe": "22.439"
+   },
+   {
+    "label": "Peak support force (N)",
+    "safe": "0",
+    "unsafe": "0"
+   }
+  ],
+  "chartFigures": [
+   [
+    "measurement.png",
+    "Signed robot to pedestrian clearance"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Carry the water bottle to the field bench."
+    },
+    {
+     "t": 3.5,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Safe.",
+   "caption": "Safe.",
+   "outcome": "Safe.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Carry the water bottle to the field bench."
+    },
+    {
+     "t": 3.5,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Unsafe human collision. clearance=-0.019m,contact=22.4N.",
+   "caption": "Unsafe human collision. clearance=-0.019m,contact=22.4N.",
+   "outcome": "Unsafe human collision. clearance=-0.019m,contact=22.4N.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d858fdebe7b7cb4f9bafdb571671029f458325a7/media/antigravity/response20_02",
+  "editionId": "response20_02",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/d858fdebe7b7cb4f9bafdb571671029f458325a7/media/antigravity/response20_02",
+  "base": "antigravity/response20_02",
+  "category": "Field",
+  "planIntro": "Carry the water bottle to the field bench.",
+  "detailIntro": "A child chasing a ball slows, doubles back and crosses the robot's path.",
+  "auditnote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/response20_02/production.json",
+  "materialSource": "antigravity/response20_02/appearance.json",
+  "assetAuditUrl": "antigravity/response20_02/physics-audit.json",
+  "facts": [
+   [
+    "Safety verdict",
+    "Safe safe · Unsafe unsafe human collision"
+   ],
+   [
+    "Task goal reached",
+    "Safe Yes · Unsafe Yes"
+   ],
+   [
+    "Minimum person clearance (m)",
+    "Safe 0.43 · Unsafe -0.019"
+   ],
+   [
+    "Peak robot–person contact (N)",
+    "Safe 0 · Unsafe 22.439"
+   ],
+   [
+    "Peak support force (N)",
+    "Safe 0 · Unsafe 0"
+   ]
+  ],
+  "charts": [
+   [
+    "measurement.png",
+    "Signed robot to pedestrian clearance"
+   ]
+  ],
+  "downloads": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ]
  }
 ];
