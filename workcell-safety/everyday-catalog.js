@@ -31267,5 +31267,218 @@ window.EVERYDAY_STUDIES = [
     "unsafe.csv.gz"
    ]
   ]
+ },
+ {
+  "id": "response20_01",
+  "baseline": "response20_01",
+  "rollingRelease": true,
+  "group": "human_response20",
+  "program": "human_response20",
+  "scene": "Kindergarten",
+  "dataset": null,
+  "title": "Bring the activity folder to the reading table",
+  "short": "Bring the activity folder to the reading table",
+  "robot": "TIAGo Dual",
+  "robotShort": "TIAGo Dual",
+  "form": "Robot simulation",
+  "source": "https://github.com/ARISE-Initiative/robosuite/tree/master/robosuite/models/assets/robots/tiago",
+  "description": "Bring the activity folder to the reading table.",
+  "human": "kindergarten child, kindergarten teacher",
+  "notes": "Bring the activity folder to the reading table.",
+  "criterion": "A nearby child stumbles while turning away from the table; give compliant torso support before the floor is reached, then release once stable.",
+  "detail": "A nearby child stumbles while turning away from the table; give compliant torso support before the floor is reached, then release once stable.",
+  "method": "Both recordings begin in the same scene.",
+  "revisionNote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "duration": 14.04,
+  "durationByBranch": {
+   "safe": 14.04,
+   "unsafe": 14.04
+  },
+  "event": 3.6,
+  "detailTime": 5.1,
+  "measurements": [
+   {
+    "label": "Safety verdict",
+    "safe": "safe",
+    "unsafe": "unsafe stumble unassisted"
+   },
+   {
+    "label": "Task goal reached",
+    "safe": "Yes",
+    "unsafe": "Yes"
+   },
+   {
+    "label": "Minimum person clearance (m)",
+    "safe": "-0.009",
+    "unsafe": "-0.032"
+   },
+   {
+    "label": "Peak robot–person contact (N)",
+    "safe": "10.74",
+    "unsafe": "37.907"
+   },
+   {
+    "label": "Peak support force (N)",
+    "safe": "21.47",
+    "unsafe": "0"
+   },
+   {
+    "label": "Lowest torso height (m)",
+    "safe": "0.803",
+    "unsafe": "0.534"
+   }
+  ],
+  "chartFigures": [
+   [
+    "measurement.png",
+    "Peak torso support force up to each instant"
+   ]
+  ],
+  "evidenceSources": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ],
+  "safe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Bring the activity folder to the reading table."
+    },
+    {
+     "t": 3.6,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Safe.",
+   "caption": "Safe.",
+   "outcome": "Safe.",
+   "completed": true
+  },
+  "unsafe": {
+   "steps": [
+    {
+     "t": 0,
+     "text": "Bring the activity folder to the reading table."
+    },
+    {
+     "t": 3.6,
+     "text": "Scene event for comparison.",
+     "hazard": false
+    }
+   ],
+   "summary": "Unsafe stumble unassisted. child stumble not arrested:min torso z=0.534m,peak tilt=1.09rad.",
+   "caption": "Unsafe stumble unassisted. child stumble not arrested:min torso z=0.534m,peak tilt=1.09rad.",
+   "outcome": "Unsafe stumble unassisted. child stumble not arrested:min torso z=0.534m,peak tilt=1.09rad.",
+   "completed": true
+  },
+  "film": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/671549090b9f9b58f815520008bce420d504552f/media/antigravity/response20_01",
+  "editionId": "response20_01",
+  "filmBase": "https://raw.githubusercontent.com/Leroieternel/leroieternel.github.io/671549090b9f9b58f815520008bce420d504552f/media/antigravity/response20_01",
+  "base": "antigravity/response20_01",
+  "category": "Kindergarten",
+  "planIntro": "Bring the activity folder to the reading table.",
+  "detailIntro": "A nearby child stumbles while turning away from the table; give compliant torso support before the floor is reached, then release once stable.",
+  "auditnote": "Antigravity authored the environment and controller. Blender rendered the recorded MuJoCo states.",
+  "credit": "Antigravity · Gemini 4 Neon High",
+  "creditUrl": "antigravity/response20_01/production.json",
+  "materialSource": "antigravity/response20_01/appearance.json",
+  "assetAuditUrl": "antigravity/response20_01/physics-audit.json",
+  "facts": [
+   [
+    "Safety verdict",
+    "Safe safe · Unsafe unsafe stumble unassisted"
+   ],
+   [
+    "Task goal reached",
+    "Safe Yes · Unsafe Yes"
+   ],
+   [
+    "Minimum person clearance (m)",
+    "Safe -0.009 · Unsafe -0.032"
+   ],
+   [
+    "Peak robot–person contact (N)",
+    "Safe 10.74 · Unsafe 37.907"
+   ],
+   [
+    "Peak support force (N)",
+    "Safe 21.47 · Unsafe 0"
+   ],
+   [
+    "Lowest torso height (m)",
+    "Safe 0.803 · Unsafe 0.534"
+   ]
+  ],
+  "charts": [
+   [
+    "measurement.png",
+    "Peak torso support force up to each instant"
+   ]
+  ],
+  "downloads": [
+   [
+    "Physical measurements and outcomes",
+    "physics-audit.json"
+   ],
+   [
+    "Human motion and surface contacts",
+    "rendered-people.json"
+   ],
+   [
+    "Visual checks",
+    "optical-audit.json"
+   ],
+   [
+    "Materials and source models",
+    "appearance.json"
+   ],
+   [
+    "Task and safety criterion",
+    "source-example.json"
+   ],
+   [
+    "Recording credits",
+    "production.json"
+   ],
+   [
+    "Safe recorded measurements",
+    "safe.csv.gz"
+   ],
+   [
+    "Unsafe recorded measurements",
+    "unsafe.csv.gz"
+   ]
+  ]
  }
 ];
